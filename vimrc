@@ -1,252 +1,302 @@
 "-----------------
-" プラグイン
+" Sets
 "-----------------
-" 初期化
-set nocompatible
-filetype plugin on
+set ambiwidth=double
+set autoindent
+set autoread
+set background=dark
+set backspace=indent,eol,start
+set clipboard=unnamed,autoselect
+set cursorline
+set display=lastline
+set encoding=utf-8
+set expandtab
+set fenc=utf-8
+set fileencoding=utf-8
+set fileencodings=utf-8
+set formatoptions=tcqmMj1
+set helplang=ja
+set hidden
+set history=200
+set hlsearch
+set ignorecase
+set incsearch
+set infercase
+set laststatus=2
+set lazyredraw
+set linebreak
+set list
+set listchars=tab:^-,trail:~ " nbspとか追加する？
+set matchtime=1
+set nobackup
+set nomodeline
+set noshowmode
+set noswapfile
+set nowritebackup
+set nrformats=
+set number
+set ruler
+set scrolloff=5
+set shiftround
+set shiftwidth=2
+set showcmd
+set showmatch
+set showtabline=2
+set smartcase
+set smartindent
+set softtabstop=2
+set splitbelow
+set splitright
+set switchbuf=usetab
+set t_Co=256
+set tabstop=2
+set textwidth=0 " 自動改行しない
+" set termguicolors これが付いているとカラースキームの反映がおかしくなる
+set title
+set ttyfast
+set whichwrap=b,s,h,l,<,>,[,],~
+set wildmenu
+set wildmode=list:longest,full
+set wrap
+set wrapscan
+" if executable('rg')
+"   set grepprg=rg\ --vimgrep\ --no-heading
+"   set grepformat=%f:%l:%c:%m,%f:%l:%m
+" endif
 
-" matchit.vim
+"-----------------
+" Plugins
+"-----------------
+filetype plugin indent on
 runtime macros/matchit.vim
 
-" netrw: tree view
-let g:netrw_liststyle=3
-" netrw: ヘッダ非表示
-let g:netrw_banner=0
-" netrw: 左右分割を右側に
-let g:netrw_altv=1
-" netrw: 分割サイズを85%に
-let g:netrw_winsize=85
-
-" vim-plugここから
-" :PlugInstall でインストール
 call plug#begin('~/.vim/plugged')
 
-" Ruby用 endを自動挿入
-Plug 'tpope/vim-endwise'
-
-" <C-_><C-_>でコメントアウトON/OFF
-Plug 'tomtom/tcomment_vim'
-
-" インデント可視化
-Plug 'nathanaelkane/vim-indent-guides'
-" vim起動時に自動で有効化
-let g:indent_guides_enable_on_vim_startup = 1
-
-" :AnsiEscでカラーデータを含むファイルを色づけ
-Plug 'vim-scripts/AnsiEsc.vim'
-
-" :FixWhitespaceで行末の半角スペースを削除
+Plug 'airblade/vim-gitgutter'
+Plug 'alvan/vim-closetag'
 Plug 'bronson/vim-trailing-whitespace'
-
-" markdownファイルのシンタックスハイライト
-Plug 'plasticboy/vim-markdown'
-let g:vim_markdown_folding_disabled = 1
-let g:vim_markdown_auto_insert_bullets = 0
-let g:vim_markdown_new_list_item_indent = 0
-
-" :PrevimOpenでmarkdownファイルをブラウザで表示、HMRつき
-Plug 'previm/previm'
-autocmd BufRead,BufNewFile *.md set filetype=markdown
-
-" ノーマルモードでカーソル下の単語、ビジュアルモードで選択範囲をブラウザで開くか検索する
-Plug 'tyru/open-browser.vim'
-" netrwではopen-browserを無効化
-let g:netrw_nogx = 1
-" キーマップはgx
-nmap gx <Plug>(openbrowser-smart-search)
-vmap gx <Plug>(openbrowser-smart-search)
-
-" markを可視化
+Plug 'dense-analysis/ale'
+Plug 'ervandew/supertab'
+Plug 'haya14busa/is.vim'
+Plug 'haya14busa/incsearch-fuzzy.vim'
+Plug 'haya14busa/vim-asterisk'
+Plug 'itchyny/lightline.vim'
+Plug 'itchyny/vim-gitbranch'
 Plug 'jacquesbh/vim-showmarks'
+Plug 'jesseleite/vim-agriculture'
+Plug 'jiangmiao/auto-pairs'
+Plug 'junegunn/goyo.vim'
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'markonm/traces.vim'
+Plug 'mhinz/vim-startify'
+Plug 'morhetz/gruvbox'
+Plug 'nelstrom/vim-qargs'
+Plug 'sheerun/vim-polyglot'
+Plug 'osyo-manga/vim-anzu'
+Plug 'plasticboy/vim-markdown'
+Plug 'previm/previm' " :PrevimOpenでmarkdownファイルをブラウザで表示、HMRつき
+" Plug 'sheerun/vim-polyglot'
+Plug 'simeji/winresizer' " C-eで起動、hjklでカレントウィンドウのサイズを変更
+Plug 'tomtom/tcomment_vim'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+Plug 'tyru/open-browser.vim' " カーソル下の単語か選択範囲をブラウザで検索
+Plug 'vim-jp/vimdoc-ja'
+Plug 'vim-scripts/AnsiEsc.vim' " :AnsiEscでカラーデータを含むログファイルを色づけ
+Plug 'Yggdroot/indentLine'
+
+" Plug 'altercation/solarized'
+" Plug 'cocopon/iceberg.vim'
+" Plug 'cocopon/lightline-hybrid.vim'
+" Plug 'freeo/vim-kalisi'
+" Plug 'jacoborus/tender.vim'
+" Plug 'nanotech/jellybeans.vim'
+" Plug 'romainl/Apprentice'
+" Plug 'sainnhe/sonokai'
+" Plug 'sjl/badwolf'
+" Plug 'tomasr/molokai'
+" Plug 'volment/vim-colorblind-colorscheme'
+" Plug 'w0ng/vim-hybrid'
+
+call plug#end()
+
+let g:closetag_filenames='*.html,*.vue'
+let g:fzf_buffers_jump=1
+let g:indentLine_leadingSpaceEnabled=1
+let g:netrw_alto=1
+let g:netrw_altv=1
+let g:netrw_banner=0
+let g:netrw_list_hide='^\.[^\.]'
+let g:netrw_liststyle=3
+let g:netrw_nogx=1 " netrwではopen-browserを無効化
+let g:netrw_preview=1
+let g:netrw_winsize=85
+let g:vim_json_syntax_conceal=0
+let g:vim_markdown_auto_insert_bullets=0
+let g:vim_markdown_folding_disabled=1
+let g:vim_markdown_new_list_item_indent=0
+
+let $FZF_DEFAULT_COMMAND='rg --files --follow --glob "!{.git,node_modules}/*" 2> /dev/null'
+command! -bang -nargs=* Rg
+      \ call fzf#vim#grep(
+      \   'rg --column --line-number --no-heading --color=always --smart-case -g "!{*.lock,*-lock.json}"'.shellescape(<q-args>), 1,
+      \   <bang>0 ? fzf#vim#with_preview('up:40%')
+      \           : fzf#vim#with_preview('right:50%:hidden','?'),
+      \   <bang>0)
+
 augroup show_marks_sync
   autocmd!
   autocmd BufReadPost * silent! DoShowMarks
 augroup END
 
-" C-d/C-u/C-f/C-b でのページ送りをスムーズにスクロールする
-Plug 'yuttie/comfortable-motion.vim'
-let g:comfortable_motion_interval = 2400.0 / 60
-let g:comfortable_motion_friction = 100.0
-let g:comfortable_motion_air_drag = 3.0
-
-" :Goyo で Zen Mode
-Plug 'junegunn/goyo.vim'
-
-" tabキーで補完
-Plug 'ervandew/supertab'
-
-" 括弧を補完
-Plug 'jiangmiao/auto-pairs'
-
-" クォートなどの囲みの編集を強化
-Plug 'tpope/vim-surround'
-
-" C-eで起動、hjklでカレントウィンドウのサイズを変更、CRで確定
-Plug 'simeji/winresizer'
-
-" 閉じタグを自動補完
-Plug 'alvan/vim-closetag'
-let g:closetag_filenames = '*.html,*.vue'
-
-" ステータスライン増強
-Plug 'itchyny/lightline.vim'
-
-" カラーテーマ
-" Plug 'cocopon/iceberg.vim'
-Plug 'w0ng/vim-hybrid'
-
-call plug#end()
-" vim-plugここまで
-
-" カラーテーマ適用
-colorscheme hybrid
-" let g:lightline = {
-"   \ 'colorscheme': 'hybrid',
-"   \ }
-
 "-----------------
-" 練習用設定 矢印キーを無効にする 慣れたら「無効にする」のではなく別のキーにマッピングしよう！
+" Key mappings
+" :map  ノーマル、ビジュアル、選択、オペレータ待機
+" :nmap ノーマル
+" :vmap ビジュアル、選択
+" :smap 選択
+" :xmap ビジュアル
+" :omap オペレータ待機
+" :map! 挿入、コマンドライン
+" :imap 挿入
+" :lmap 挿入、コマンドライン、Lang-Arg
+" :cmap コマンドライン
+" :tmap 端末ジョブ
 "-----------------
-noremap <Up> <Nop>
-noremap <Down> <Nop>
-noremap <Left> <Nop>
-noremap <Right> <Nop>
-inoremap <Up> <Nop>
-inoremap <Down> <Nop>
-inoremap <Left> <Nop>
-inoremap <Right> <Nop>
+" その他マッピングについて
+" s: デフォルトの挙動はclかxiで代用可能、押しやすい位置にあるので別機能にマッピングしたほうが良い
+" t: オペレータ待機モードでは重要だがノーマルモードではf->hで補えるので潰しても良い
+" m: a-zA-Zのマークを付けられるがそんなに大量に使えない、mmやmkなど押しやすいいくつかのマークのみを使うと決めそれ以外のmwとかmeとかを別の機能にマッピングしよう
+let mapleader="\<space>"
 
-"-----------------
-" 基本設定
-"-----------------
-" 文字コードをUTF8に
-set fenc=utf-8
-set encoding=utf-8
-set fileencoding=utf-8
-set fileencodings=utf-8
-set ttyfast
+" disable arrow keys
+noremap <up> <nop>
+noremap <down> <nop>
+noremap <left> <nop>
+noremap <right> <nop>
+inoremap <up> <nop>
+inoremap <down> <nop>
+inoremap <left> <nop>
+inoremap <right> <nop>
 
-" 中間ファイルを作らない
-set nobackup
-set noswapfile
+" global
+" map g/ <plug>(incsearch-stay)
+map z/ <plug>(incsearch-fuzzy-/)
+map z? <plug>(incsearch-fuzzy-?)
+map zg/ <plug>(incsearch-fuzzy-stay)
+noremap j gj
+noremap k gk
+noremap gj j
+noremap gk k
+noremap H ^
+noremap L $
+noremap M %
 
-" 編集中のファイルが変更されたら自動で読み直す
-set autoread
+" normal
+nmap gx <plug>(openbrowser-smart-search)
+" n/Nを使えば#は不要、*だけで事足りる
+nmap n <plug>(is-nohl)<plug>(anzu-n)zz
+nmap N <plug>(is-nohl)<plug>(anzu-N)zz
+map s <plug>(asterisk-z*)<plug>(is-nohl-1)<plug>(anzu-update-search-status)zz
+" nmap S <plug>(asterisk-z#)<plug>(is-nohl-1)<plug>(anzu-update-search-status)zz
+nmap S :%s/<c-r>///g<left><left>
+map gs <plug>(asterisk-gz*)<plug>(is-nohl-1)<plug>(anzu-update-search-status)zz
+" nmap gS <plug>(asterisk-gz#)<plug>(is-nohl-1)<plug>(anzu-update-search-status)zz
+" nmap gS gs:%s/<c-r>///g<left><left>
+nnoremap x "_x
+" q to recode, Q to play
+nnoremap Q @
+" ? to search help
+nnoremap ? K
+nnoremap == gg=G''
+nnoremap <silent> <c-l> :<c-u>nohlsearch<cr><c-l>
+" nnoremap <silent> p p`]
+" nnoremap <silent> P P`]
+" leader-s to repeat substitution
+nnoremap <leader>s :&&<cr>
+nnoremap <leader>r :registers<cr>
+nnoremap <leader>w :write<cr>
 
-" 現在のバッファが編集中でも他のファイルを開けるようにする
-set hidden
+nnoremap <c-k> "zdd<up>"zP
+nnoremap <c-j> "zdd"zp
 
-" vimからファイルを開くときにリストを表示
-set wildmenu wildmode=list:full
+nnoremap [fzf] <nop>
+nmap <leader>f [fzf]
+nnoremap [fzf]f :Files<cr>
+nnoremap [fzf]b :Buffers<cr>
+nnoremap [fzf]m :Marks<cr>
+nnoremap [fzf]r :Rg<cr>
 
-"-----------------
-" 入力補助
-"-----------------
-" C-p/C-nで履歴確認
-cnoremap <C-p> <Up>
-cnoremap <C-n> <Down>
 
-" バッファ移動 like as unimpaired.vim
-nnoremap <silent> [b :bprevious<CR>
-nnoremap <silent> ]b :bnext<CR>
-nnoremap <silent> [B :bfirst<CR>
-nnoremap <silent> ]B :blast<CR>
-
-" パス入力時に%%でカレントディレクトリを展開
+" command
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
+cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
+cnoremap <expr> ? getcmdtype() == '?' ? '\?' : '?'
+cnoremap <c-p> <up>
+cnoremap <c-n> <down>
+cnoremap <c-b> <left>
+cnoremap <c-f> <right>
+cnoremap <c-a> <home>
+cnoremap <c-e> <end>
+cnoremap <c-d> <del>
+
+" insert
+" このあたり改善の余地あり
+" imap <c-x><c-k> <plug>(fzf-complete-word)
+" imap <c-x><c-f> <plug>(fzf-complete-path)
+" imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+" imap <c-x><c-l> <plug>(fzf-complete-line)
+inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
+inoremap <c-]> <esc><right>
+inoremap <c-t> <esc><left>"zx"pa
+
+" visual
+vmap gx <plug>(openbrowser-smart-search)
+vnoremap <silent> y y`]
+nnoremap x "_x
+" vnoremap <silent> p pgvy`]
+" vnoremap <silent> P Pgvy`]
+" xnoremap <expr> p 'pgv"'.v:register.'y`>'
+
+vnoremap <c-k> "zd<up>"zP`[V`]
+vnoremap <c-j> "zd"zp`[V`]
 
 "-----------------
-" 検索関連
+" Appearances
 "-----------------
+syntax enable
 
-" 検索がファイル末尾まで行ったら最初に戻る
-set wrapscan
+" augroup MyVimAppearances
+"   autocmd!
+"   autocmd ColorScheme * highlight LineNr ctermfg=darkyellow
+" augroup END
 
-" インクリメンタルサーチ
-set incsearch
+" colorscheme elflord
+colorscheme gruvbox
 
-" 検索結果をハイライト
-set hlsearch
+let g:lightline={
+      \ 'colorscheme': 'gruvbox',
+      \ 'active': {
+      \   'left': [['mode', 'paste'], ['readonly', 'filename', 'modified']],
+      \   'right': [['lineinfo', 'anzu'], ['percent'], ['fileformat', 'fileencoding', 'filetype']]
+      \ },
+      \ 'tabline': {
+      \  'left': [['tabs']],
+      \  'right': [['gitbranch']],
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'gitbranch#name',
+      \   'anzu': 'anzu#search_status'
+      \ },
+      \ }
 
-" 検索文字列が小文字のみのときは大文字小文字を区別しない
-set ignorecase
-
-" 検索文字列に大文字があれば区別する
-set smartcase
-
-" ESC連打で検索ハイライトを解除する
-nnoremap <Esc><Esc> :nohlsearch<CR><Esc>
-
-"-----------------
-"表示関連
-"-----------------
-" 対応する括弧を表示
-set showmatch matchtime=1
-
-" ステータスバーを常に表示
-set laststatus=2
-
-" --Insert-- などのモード表示をしない(プラグインに任せる)
-set noshowmode
-
-" 入力中のコマンドを表示
-set showcmd
-
-" 行を省略しない
-set display=lastline
-
-" ホワイトスペース可視化
-set list
-set listchars=tab:^\ ,trail:~
-
-" 入力時Tabキーで半角スペース2つ
-set expandtab
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
-
-" 改行時に自動でインデント調整
-set autoindent
-set smartindent
-
-" .pyファイルのみtab幅を4に
-augroup fileTypeIndent
-  autocmd!
-  autocmd BufNewFile,BufRead *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4
-augroup END
-
-" タイトル表示
-set title
-set titleold="Terminal"
-set titlestring=%F
-
-" 行番号表示
-set number
-" highlight LineNr ctermfg=darkyellow
-
-" 現在位置を強調
-set ruler
-set cursorline
-"set cursorcolumn
-
-" 行末までカーソルを動かせるようにする
-set virtualedit=onemore
-
-" ヤンクでシステムのクリップボードにコピー
-set clipboard=unnamed,autoselect
-
-" シンタックスハイライト
-syntax on
-
-" 数を10進数として扱う(<C-a><C-x>で計算するときに効く)
-set nrformats=
-
-" 行をまたいで移動できるようにする
-set whichwrap=b,s,h,l,<,>,[,],~
-
-" 全角スペースの可視化
+" 全角スペースの可視化 colorscheme以降に記述する
 function! ZenkakuSpace()
-  highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=darkgray
+  highlight ZenkakuSpace cterm=reverse ctermfg=darkmagenta
 endfunction
 if has('syntax')
   augroup ZenkakuSpace
@@ -256,3 +306,57 @@ if has('syntax')
   augroup END
   call ZenkakuSpace()
 endif
+
+"-----------------
+" Auto Commands
+"-----------------
+augroup fileTypeSettings
+  autocmd!
+  autocmd BufNewFile,BufRead *.md set filetype=markdown
+  autocmd BufNewFile,BufRead *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4
+augroup END
+
+"-----------------
+" Commands and Functions
+"-----------------
+command! Evimrc edit $MYVIMRC
+command! Svimrc source $MYVIMRC
+
+" [:SyntaxInfoでカラースキーム確認](http://cohama.hateblo.jp/entry/2013/08/11/020849)
+function! s:get_syn_attr(synid)
+  return "name: " . synIDattr(a:synid, "name") .
+        \ ", ctermfg: " . synIDattr(a:synid, "fg", "cterm") .
+        \ ", ctermbg: " . synIDattr(a:synid, "bg", "cterm") .
+        \ ", guifg: " . synIDattr(a:synid, "fg", "gui") .
+        \ ", guibg: " . synIDattr(a:synid, "bg", "gui")
+endfunction
+function! s:get_syn_info()
+  let currentSyn = synID(line("."), col("."), 1)
+  echo s:get_syn_attr(currentSyn)
+  echo "link to"
+  echo s:get_syn_attr(synIDtrans(currentSyn))
+endfunction
+command! SyntaxInfo call s:get_syn_info()
+
+" [lightline.vimとvim-anzuで検索ヒット数を表示する - Qiita](https://qiita.com/shiena/items/f53959d62085b7980cb5)
+augroup vim_anzu
+  autocmd!
+  autocmd CursorHold,CursorHoldI,WinLeave,TabLeave * call anzu#clear_search_status()
+augroup END
+
+augroup vim_auto_reload
+  autocmd!
+  autocmd BufReadPost $MYVIMRC source $MYVIMRC
+augroup END
+
+" [Vimの生産性を高める12の方法 | POSTD](https://postd.cc/how-to-boost-your-vim-productivity/)
+" vp doesn't replace paste buffer
+function! RestoreRegister()
+  let @" = s:restore_reg
+  return ''
+endfunction
+function! s:Repl()
+  let s:restore_reg = @"
+  return "p@=RestoreRegister()\<cr>"
+endfunction
+vmap <silent> <expr> p <sid>Repl()
