@@ -171,6 +171,7 @@ augroup END
 " s: デフォルトの挙動はclかxiで代用可能、押しやすい位置にあるので別機能にマッピングしたほうが良い
 " t: オペレータ待機モードでは重要だがノーマルモードではf->hで補えるので潰しても良い
 " m: a-zA-Zのマークを付けられるがそんなに大量に使えない、mmやmkなど押しやすいいくつかのマークのみを使うと決めそれ以外のmwとかmeとかを別の機能にマッピングしよう
+" #,?: *,/とNで事足りるのでデフォルトの挙動は潰しても良い
 let mapleader="\<space>"
 
 " disable arrow keys
@@ -198,20 +199,19 @@ noremap M %
 
 " normal
 nmap gx <plug>(openbrowser-smart-search)
-" n/Nを使えば#は不要、*だけで事足りる
 nmap n <plug>(is-nohl)<plug>(anzu-n)zz
 nmap N <plug>(is-nohl)<plug>(anzu-N)zz
 map s <plug>(asterisk-z*)<plug>(is-nohl-1)<plug>(anzu-update-search-status)zz
 " nmap S <plug>(asterisk-z#)<plug>(is-nohl-1)<plug>(anzu-update-search-status)zz
-nmap S :%s/<c-r>///g<left><left>
+nnoremap S :%s/\V<c-r>///g<left><left>
 map gs <plug>(asterisk-gz*)<plug>(is-nohl-1)<plug>(anzu-update-search-status)zz
 " nmap gS <plug>(asterisk-gz#)<plug>(is-nohl-1)<plug>(anzu-update-search-status)zz
 " nmap gS gs:%s/<c-r>///g<left><left>
 nnoremap x "_x
+nnoremap X "_X
 " q to recode, Q to play
 nnoremap Q @
-" ? to search help
-nnoremap ? K
+nnoremap ? /\v
 nnoremap == gg=G''
 nnoremap <silent> <c-l> :<c-u>nohlsearch<cr><c-l>
 " nnoremap <silent> p p`]
@@ -231,11 +231,10 @@ nnoremap [fzf]b :Buffers<cr>
 nnoremap [fzf]m :Marks<cr>
 nnoremap [fzf]r :Rg<cr>
 
-
 " command
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
-cnoremap <expr> ? getcmdtype() == '?' ? '\?' : '?'
+" cnoremap <expr> ? getcmdtype() == '?' ? '\?' : '?'
 cnoremap <c-p> <up>
 cnoremap <c-n> <down>
 cnoremap <c-b> <left>
@@ -257,7 +256,7 @@ inoremap <c-t> <esc><left>"zx"pa
 " visual
 vmap gx <plug>(openbrowser-smart-search)
 vnoremap <silent> y y`]
-nnoremap x "_x
+vnoremap x "_x
 " vnoremap <silent> p pgvy`]
 " vnoremap <silent> P Pgvy`]
 " xnoremap <expr> p 'pgv"'.v:register.'y`>'
