@@ -26,7 +26,7 @@ set laststatus=2
 set lazyredraw
 set linebreak
 set list
-set listchars=tab:^-,trail:~ " nbspとか追加する？
+set listchars=tab:^-,trail:~,extends:»,precedes:«,nbsp:%
 set matchtime=1
 set nobackup
 set nomodeline
@@ -51,7 +51,6 @@ set switchbuf=usetab
 set t_Co=256
 set tabstop=2
 set textwidth=0 " 自動改行しない
-" set termguicolors これが付いているとカラースキームの反映がおかしくなる
 set title
 set ttyfast
 set whichwrap=b,s,h,l,<,>,[,],~
@@ -81,13 +80,15 @@ Plug 'haya14busa/is.vim'
 Plug 'haya14busa/incsearch-fuzzy.vim'
 Plug 'haya14busa/vim-asterisk'
 Plug 'itchyny/lightline.vim'
-Plug 'itchyny/vim-gitbranch'
+" Plug 'itchyny/vim-gitbranch'
 Plug 'jacquesbh/vim-showmarks'
 Plug 'jesseleite/vim-agriculture'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/goyo.vim'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
+Plug 'kana/vim-textobj-entire'
+Plug 'lifepillar/vim-gruvbox8'
 Plug 'markonm/traces.vim'
 Plug 'mhinz/vim-startify'
 Plug 'morhetz/gruvbox'
@@ -96,11 +97,13 @@ Plug 'sheerun/vim-polyglot'
 Plug 'osyo-manga/vim-anzu'
 Plug 'plasticboy/vim-markdown'
 Plug 'previm/previm' " :PrevimOpenでmarkdownファイルをブラウザで表示、HMRつき
-" Plug 'sheerun/vim-polyglot'
+Plug 'sheerun/vim-polyglot'
 Plug 'simeji/winresizer' " C-eで起動、hjklでカレントウィンドウのサイズを変更
+Plug 'terryma/vim-expand-region'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
@@ -126,6 +129,8 @@ call plug#end()
 
 let g:closetag_filenames='*.html,*.vue'
 let g:fzf_buffers_jump=1
+let g:gruvbox_italics = 0
+let g:gruvbox_italicize_strings = 0
 let g:indentLine_leadingSpaceEnabled=1
 let g:netrw_alto=1
 let g:netrw_altv=1
@@ -147,7 +152,7 @@ command! -bang -nargs=* Rg
       \   <bang>0 ? fzf#vim#with_preview('up:40%')
       \           : fzf#vim#with_preview('right:50%:hidden','?'),
       \   <bang>0)
-
+" avoid to search file name: fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'up:40%')
 augroup show_marks_sync
   autocmd!
   autocmd BufReadPost * silent! DoShowMarks
@@ -275,10 +280,10 @@ syntax enable
 " augroup END
 
 " colorscheme elflord
-colorscheme gruvbox
+colorscheme gruvbox8
 
 let g:lightline={
-      \ 'colorscheme': 'gruvbox',
+      \ 'colorscheme': 'gruvbox8',
       \ 'active': {
       \   'left': [['mode', 'paste'], ['readonly', 'filename', 'modified']],
       \   'right': [['lineinfo', 'anzu'], ['percent'], ['fileformat', 'fileencoding', 'filetype']]
@@ -288,7 +293,7 @@ let g:lightline={
       \  'right': [['gitbranch']],
       \ },
       \ 'component_function': {
-      \   'gitbranch': 'gitbranch#name',
+      \   'gitbranch': 'FugitiveHead',
       \   'anzu': 'anzu#search_status'
       \ },
       \ }
