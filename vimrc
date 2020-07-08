@@ -146,7 +146,7 @@ let g:vim_markdown_auto_insert_bullets=0
 let g:vim_markdown_folding_disabled=1
 let g:vim_markdown_new_list_item_indent=0
 
-let $FZF_DEFAULT_COMMAND='rg --files --follow --glob "!{.git,node_modules}/*" 2> /dev/null'
+let $FZF_DEFAULT_COMMAND='rg --files --follow --glob "!**/{vendor,images,fonts,node_modules}/*" 2> /dev/null'
 command! -bang -nargs=* Rg
       \ call fzf#vim#grep(
       \   'rg --column --line-number --no-heading --color=always --smart-case -g "!{*.lock,*-lock.json}"'.shellescape(<q-args>), 1,
