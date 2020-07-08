@@ -178,23 +178,21 @@ augroup END
 " t: オペレータ待機モードでは重要だがノーマルモードではf->hで補えるので潰しても良い
 " m: a-zA-Zのマークを付けられるがそんなに大量に使えない、mmやmkなど押しやすいいくつかのマークのみを使うと決めそれ以外のmwとかmeとかを別の機能にマッピングしよう
 " #,?: *,/とNで事足りるのでデフォルトの挙動は潰しても良い
-let mapleader="\<space>"
+" leader: let mapleader="\<Space>"していたけど<Space>をそのまま書くようにして<Space>はデフォルトの\のままにしておこう
 
 " disable arrow keys
-noremap <up> <nop>
-noremap <down> <nop>
-noremap <left> <nop>
-noremap <right> <nop>
-inoremap <up> <nop>
-inoremap <down> <nop>
-inoremap <left> <nop>
-inoremap <right> <nop>
+noremap <Up> <Nop>
+noremap <Down> <Nop>
+noremap <Left> <Nop>
+noremap <Right> <Nop>
+inoremap <Up> <Nop>
+inoremap <Down> <Nop>
+inoremap <Left> <Nop>
+inoremap <Right> <Nop>
 
 " global
-" map g/ <plug>(incsearch-stay)
-map z/ <plug>(incsearch-fuzzy-/)
-map z? <plug>(incsearch-fuzzy-?)
-map zg/ <plug>(incsearch-fuzzy-stay)
+" map g/ <Plug>(incsearch-stay)
+map q: :q
 noremap j gj
 noremap k gk
 noremap gj j
@@ -204,71 +202,76 @@ noremap L $
 noremap M %
 
 " normal
-nmap gx <plug>(openbrowser-smart-search)
-nmap n <plug>(is-nohl)<plug>(anzu-n)zz
-nmap N <plug>(is-nohl)<plug>(anzu-N)zz
-map s <plug>(asterisk-z*)<plug>(is-nohl-1)<plug>(anzu-update-search-status)zz
-" nmap S <plug>(asterisk-z#)<plug>(is-nohl-1)<plug>(anzu-update-search-status)zz
-nnoremap S :%s/\V<c-r>///g<left><left>
-map gs <plug>(asterisk-gz*)<plug>(is-nohl-1)<plug>(anzu-update-search-status)zz
-" nmap gS <plug>(asterisk-gz#)<plug>(is-nohl-1)<plug>(anzu-update-search-status)zz
-" nmap gS gs:%s/<c-r>///g<left><left>
+nmap gx <Plug>(openbrowser-smart-search)
+nmap n <Plug>(is-nohl)<Plug>(anzu-n)zz
+nmap N <Plug>(is-nohl)<Plug>(anzu-N)zz
+map s <Plug>(asterisk-z*)<Plug>(is-nohl-1)<Plug>(anzu-update-search-status)zz
+map gs <Plug>(asterisk-gz*)<Plug>(is-nohl-1)<Plug>(anzu-update-search-status)zz
+nnoremap S :%s/\V<C-r>///g<Left><Left>
 nnoremap x "_x
 nnoremap X "_X
-" q to recode, Q to play
 nnoremap Q @
 nnoremap ? /\v
 nnoremap == gg=G''
-nnoremap <silent> <c-l> :<c-u>nohlsearch<cr><c-l>
-" nnoremap <silent> p p`]
-" nnoremap <silent> P P`]
-" leader-s to repeat substitution
-nnoremap <leader>s :&&<cr>
-nnoremap <leader>r :registers<cr>
-nnoremap <leader>w :write<cr>
+nnoremap <Silent> <C-l> :<C-u>nohlsearch<CR><C-l>
+" nnoremap <Silent> p p`]
+" nnoremap <Silent> P P`]
+nnoremap <Space>r :registers<CR>
+nnoremap <Space>s :&&<CR>
+nnoremap <Space>w :write<CR>
+nmap <Space>/ <Plug>RgRawSearch
+nmap <Space>? <Plug>RgRawWordUnderCursor
 
-nnoremap <c-k> "zdd<up>"zP
-nnoremap <c-j> "zdd"zp
-
-nnoremap [fzf] <nop>
-nmap <leader>f [fzf]
-nnoremap [fzf]f :Files<cr>
-nnoremap [fzf]b :Buffers<cr>
-nnoremap [fzf]m :Marks<cr>
-nnoremap [fzf]r :Rg<cr>
+nnoremap [fzf] <Nop>
+nmap <Space>f [fzf]
+nnoremap [fzf]f :Files<CR>
+nnoremap [fzf]b :Buffers<CR>
+nnoremap [fzf]m :Marks<CR>
+nnoremap <C-k> "zdd<Up>"zP
+nnoremap <C-j> "zdd"zp
+nnoremap <C-w><C-q> <C-w>c
+nnoremap <C-w><C-h> <C-w>h
+nnoremap <C-w><C-j> <C-w>j
+nnoremap <C-w><C-k> <C-w>k
+nnoremap <C-w><C-l> <C-w>l
+" terminal normal mode
+nnoremap <C-w><C-n> <C-w>N
 
 " command
-cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
-cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
-" cnoremap <expr> ? getcmdtype() == '?' ? '\?' : '?'
-cnoremap <c-p> <up>
-cnoremap <c-n> <down>
-cnoremap <c-b> <left>
-cnoremap <c-f> <right>
-cnoremap <c-a> <home>
-cnoremap <c-e> <end>
-cnoremap <c-d> <del>
+cnoremap <Expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
+cnoremap <Expr> / getcmdtype() == '/' ? '\/' : '/'
+" cnoremap <Expr> ? getcmdtype() == '?' ? '\?' : '?'
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
+cnoremap <C-b> <Left>
+cnoremap <C-f> <Right>
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+cnoremap <C-d> <Del>
 
 " insert
 " このあたり改善の余地あり
-" imap <c-x><c-k> <plug>(fzf-complete-word)
-" imap <c-x><c-f> <plug>(fzf-complete-path)
-" imap <c-x><c-j> <plug>(fzf-complete-file-ag)
-" imap <c-x><c-l> <plug>(fzf-complete-line)
-inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
-inoremap <c-]> <esc><right>
-inoremap <c-t> <esc><left>"zx"pa
+" imap <C-x><C-k> <Plug>(fzf-complete-word)
+" imap <C-x><C-f> <Plug>(fzf-complete-path)
+" imap <C-x><C-j> <Plug>(fzf-complete-file-ag)
+" imap <C-x><C-l> <Plug>(fzf-complete-line)
+inoremap <Expr> <C-x><C-k> fzf#vim#complete#word({'left': '15%'})
+inoremap <C-]> <Esc><Right>
+inoremap <C-t> <Esc><Left>"zx"pa
 
 " visual
-vmap gx <plug>(openbrowser-smart-search)
-vnoremap <silent> y y`]
+vmap gx <Plug>(openbrowser-smart-search)
+vmap v <Plug>(expand_region_expand)
+vmap <C-v> <Plug>(expand_region_shrink)
+vnoremap <Silent> y y`]
 vnoremap x "_x
-" vnoremap <silent> p pgvy`]
-" vnoremap <silent> P Pgvy`]
-" xnoremap <expr> p 'pgv"'.v:register.'y`>'
+" vnoremap <Silent> p pgvy`]
+" vnoremap <Silent> P Pgvy`]
+" xnoremap <Expr> p 'pgv"'.v:register.'y`>'
 
-vnoremap <c-k> "zd<up>"zP`[V`]
-vnoremap <c-j> "zd"zp`[V`]
+vnoremap <C-k> "zd<Up>"zP`[V`]
+vnoremap <C-j> "zd"zp`[V`]
+vmap <Space>/ <Plug>RgRawVisualSelection
 
 "-----------------
 " Appearances
@@ -284,7 +287,7 @@ syntax enable
 colorscheme gruvbox8
 
 let g:lightline={
-      \ 'colorscheme': 'gruvbox8',
+      \ 'colorscheme': 'wombat',
       \ 'active': {
       \   'left': [['mode', 'paste'], ['readonly', 'filename', 'modified']],
       \   'right': [['lineinfo', 'anzu'], ['percent'], ['fileformat', 'fileencoding', 'filetype']]
@@ -362,6 +365,6 @@ function! RestoreRegister()
 endfunction
 function! s:Repl()
   let s:restore_reg = @"
-  return "p@=RestoreRegister()\<cr>"
+  return "p@=RestoreRegister()\<CR>"
 endfunction
-vmap <silent> <expr> p <sid>Repl()
+vmap <Silent> <Expr> p <Sid>Repl()
