@@ -1,7 +1,8 @@
 "-----------------
 " Sets
 "-----------------
-set ambiwidth=double
+" set ambiwidth=double
+set ambiwidth=single
 set autoindent
 set autoread
 set background=dark
@@ -329,6 +330,9 @@ augroup END
 "-----------------
 command! Evimrc edit $MYVIMRC
 command! Svimrc source $MYVIMRC
+command! Terminal terminal ++rows=12
+command! LazyGit tab terminal ++close lazygit
+command! FmtTabTrail retab | FixWhitespace
 
 " [:SyntaxInfoでカラースキーム確認](http://cohama.hateblo.jp/entry/2013/08/11/020849)
 function! s:get_syn_attr(synid)
