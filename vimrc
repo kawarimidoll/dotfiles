@@ -217,17 +217,18 @@ nnoremap == gg=G''
 nnoremap <Silent> <C-l> :<C-u>nohlsearch<CR><C-l>
 " nnoremap <Silent> p p`]
 " nnoremap <Silent> P P`]
+nnoremap <Space>b :Buffers<CR>
+nnoremap <Space>f :Files<CR>
+nnoremap <Space>l :BLines
+nnoremap <Space>m :Marks<CR>
 nnoremap <Space>r :registers<CR>
 nnoremap <Space>s :&&<CR>
 nnoremap <Space>w :write<CR>
 nmap <Space>/ <Plug>RgRawSearch
 nmap <Space>? <Plug>RgRawWordUnderCursor
+" nnoremap <Space>/ :RgRaw
+" nnoremap <Space>? :RgRaw -F -- $'<C-r><C-w>'
 
-nnoremap [fzf] <Nop>
-nmap <Space>f [fzf]
-nnoremap [fzf]f :Files<CR>
-nnoremap [fzf]b :Buffers<CR>
-nnoremap [fzf]m :Marks<CR>
 nnoremap <C-k> "zdd<Up>"zP
 nnoremap <C-j> "zdd"zp
 nnoremap <C-w><C-q> <C-w>c
