@@ -190,8 +190,7 @@ inoremap <Left> <Nop>
 inoremap <Right> <Nop>
 
 " global
-" map g/ <Plug>(incsearch-stay)
-map q: :q
+noremap q: :q
 noremap j gj
 noremap k gk
 noremap gj j
@@ -199,22 +198,22 @@ noremap gk k
 noremap H ^
 noremap L $
 noremap M %
+map n <Plug>(is-nohl)<Plug>(anzu-n)zz
+map N <Plug>(is-nohl)<Plug>(anzu-N)zz
+map s <Plug>(asterisk-z*)<Plug>(is-nohl-1)<Plug>(anzu-update-search-status)zz
+map gs <Plug>(asterisk-gz*)<Plug>(is-nohl-1)<Plug>(anzu-update-search-status)zz
 
 " normal
 nmap gx <Plug>(openbrowser-smart-search)
-nmap n <Plug>(is-nohl)<Plug>(anzu-n)zz
-nmap N <Plug>(is-nohl)<Plug>(anzu-N)zz
-map s <Plug>(asterisk-z*)<Plug>(is-nohl-1)<Plug>(anzu-update-search-status)zz
-map gs <Plug>(asterisk-gz*)<Plug>(is-nohl-1)<Plug>(anzu-update-search-status)zz
 nnoremap S :%s/\V<C-r>///g<Left><Left>
 nnoremap x "_x
 nnoremap X "_X
 nnoremap Q @
 nnoremap ? /\v
 nnoremap == gg=G''
-nnoremap <Silent> <C-l> :<C-u>nohlsearch<CR><C-l>
-" nnoremap <Silent> p p`]
-" nnoremap <Silent> P P`]
+nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
+" nnoremap <silent> p p`]
+" nnoremap <silent> P P`]
 nnoremap <Space>b :Buffers<CR>
 nnoremap <Space>f :Files<CR>
 nnoremap <Space>l :BLines
@@ -222,10 +221,8 @@ nnoremap <Space>m :Marks<CR>
 nnoremap <Space>r :registers<CR>
 nnoremap <Space>s :&&<CR>
 nnoremap <Space>w :write<CR>
-nmap <Space>/ <Plug>RgRawSearch
-nmap <Space>? <Plug>RgRawWordUnderCursor
-" nnoremap <Space>/ :RgRaw
-" nnoremap <Space>? :RgRaw -F -- $'<C-r><C-w>'
+nnoremap <Space>/ :RgRaw
+nnoremap <Space>? :RgRaw -F -- $'<C-r><C-w>'
 
 nnoremap <C-k> "zdd<Up>"zP
 nnoremap <C-j> "zdd"zp
@@ -234,13 +231,14 @@ nnoremap <C-w><C-h> <C-w>h
 nnoremap <C-w><C-j> <C-w>j
 nnoremap <C-w><C-k> <C-w>k
 nnoremap <C-w><C-l> <C-w>l
-" terminal normal mode
-nnoremap <C-w><C-n> <C-w>N
+nnoremap <C-w><C-s> :<C-u>split<CR>
+nnoremap <C-w><C-v> :<C-u>vsplit<CR>
+
 
 " command
-cnoremap <Expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
-cnoremap <Expr> / getcmdtype() == '/' ? '\/' : '/'
-" cnoremap <Expr> ? getcmdtype() == '?' ? '\?' : '?'
+cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
+cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
+" cnoremap <expr> ? getcmdtype() == '?' ? '\?' : '?'
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 cnoremap <C-b> <Left>
@@ -255,7 +253,7 @@ cnoremap <C-d> <Del>
 " imap <C-x><C-f> <Plug>(fzf-complete-path)
 " imap <C-x><C-j> <Plug>(fzf-complete-file-ag)
 " imap <C-x><C-l> <Plug>(fzf-complete-line)
-inoremap <Expr> <C-x><C-k> fzf#vim#complete#word({'left': '15%'})
+inoremap <expr> <C-x><C-k> fzf#vim#complete#word({'left': '15%'})
 inoremap <C-]> <Esc><Right>
 inoremap <C-t> <Esc><Left>"zx"pa
 
@@ -263,15 +261,18 @@ inoremap <C-t> <Esc><Left>"zx"pa
 vmap gx <Plug>(openbrowser-smart-search)
 vmap v <Plug>(expand_region_expand)
 vmap <C-v> <Plug>(expand_region_shrink)
-vnoremap <Silent> y y`]
+vnoremap <silent> y y`]
 vnoremap x "_x
-" vnoremap <Silent> p pgvy`]
-" vnoremap <Silent> P Pgvy`]
-" xnoremap <Expr> p 'pgv"'.v:register.'y`>'
+" vnoremap <silent> p pgvy`]
+" vnoremap <silent> P Pgvy`]
+" xnoremap <expr> p 'pgv"'.v:register.'y`>'
 
 vnoremap <C-k> "zd<Up>"zP`[V`]
 vnoremap <C-j> "zd"zp`[V`]
-vmap <Space>/ <Plug>RgRawVisualSelection
+vnoremap <Space>/ :<C-u>RgRaw -F -- $'<C-r><C-w>'
+
+" terminal
+nnoremap <C-w><C-n> <C-w>N
 
 "-----------------
 " Appearances
