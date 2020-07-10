@@ -1,7 +1,6 @@
 "-----------------
 " Sets
 "-----------------
-" set ambiwidth=double
 set ambiwidth=single
 set autoindent
 set autoread
@@ -374,7 +373,7 @@ augroup END
 " Commands and Functions
 "-----------------
 command! Evimrc edit $MYVIMRC
-command! Svimrc source $MYVIMRC
+command! Svimrc source $MYVIMRC | nohlsearch
 command! Terminal terminal ++rows=12
 command! LazyGit tab terminal ++close lazygit
 command! FmtTabTrail retab | FixWhitespace
@@ -416,4 +415,4 @@ function! s:Repl()
   let s:restore_reg = @"
   return "p@=RestoreRegister()\<CR>"
 endfunction
-vmap <Silent> <Expr> p <Sid>Repl()
+vmap <silent> <expr> p <sid>Repl()
