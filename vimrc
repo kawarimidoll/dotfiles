@@ -78,10 +78,8 @@ Plug 'bronson/vim-trailing-whitespace'
 Plug 'dense-analysis/ale'
 Plug 'ervandew/supertab'
 Plug 'haya14busa/is.vim'
-Plug 'haya14busa/incsearch-fuzzy.vim'
 Plug 'haya14busa/vim-asterisk'
 Plug 'itchyny/lightline.vim'
-" Plug 'itchyny/vim-gitbranch'
 Plug 'jacquesbh/vim-showmarks'
 Plug 'jesseleite/vim-agriculture'
 Plug 'jiangmiao/auto-pairs'
@@ -93,9 +91,7 @@ Plug 'kana/vim-textobj-user'
 Plug 'lifepillar/vim-gruvbox8'
 Plug 'markonm/traces.vim'
 Plug 'mhinz/vim-startify'
-Plug 'morhetz/gruvbox'
 Plug 'nelstrom/vim-qargs'
-Plug 'sheerun/vim-polyglot'
 Plug 'osyo-manga/vim-anzu'
 Plug 'plasticboy/vim-markdown'
 Plug 'previm/previm' " :PrevimOpenでmarkdownファイルをブラウザで表示、HMRつき
@@ -119,6 +115,7 @@ Plug 'Yggdroot/indentLine'
 " Plug 'cocopon/lightline-hybrid.vim'
 " Plug 'freeo/vim-kalisi'
 " Plug 'jacoborus/tender.vim'
+" Plug 'morhetz/gruvbox'
 " Plug 'nanotech/jellybeans.vim'
 " Plug 'romainl/Apprentice'
 " Plug 'sainnhe/sonokai'
@@ -142,6 +139,7 @@ let g:netrw_liststyle=3
 let g:netrw_nogx=1 " netrwではopen-browserを無効化
 let g:netrw_preview=1
 let g:netrw_winsize=85
+let g:tcomment#replacements_xml={}
 let g:vim_json_syntax_conceal=0
 let g:vim_markdown_auto_insert_bullets=0
 let g:vim_markdown_folding_disabled=1
