@@ -288,9 +288,10 @@ syntax enable
 colorscheme gruvbox8
 
 let g:lightline={
-      \ 'colorscheme': 'wombat',
+      \ 'colorscheme': 'Tomorrow_Night_Eighties',
+      \ 'mode_map': { 'c': 'SEARCH' },
       \ 'active': {
-      \   'left': [['mode', 'paste'], ['readonly', 'filename', 'modified']],
+      \   'left': [['mode', 'paste'], ['gitgutter', 'filename', 'modified']],
       \   'right': [['lineinfo', 'anzu'], ['percent'], ['fileformat', 'fileencoding', 'filetype']]
       \ },
       \ 'tabline': {
@@ -298,10 +299,54 @@ let g:lightline={
       \  'right': [['gitbranch']],
       \ },
       \ 'component_function': {
+      \   'anzu': 'anzu#search_status',
+      \   'fileencoding': 'LightlineFileencoding',
+      \   'fileformat': 'LightlineFileformat',
+      \   'filetype': 'LightlineFiletype',
       \   'gitbranch': 'FugitiveHead',
-      \   'anzu': 'anzu#search_status'
+      \   'gitgutter': 'LightlineGitGutter',
+      \   'mode': 'LightlineMode',
+      \   'modified': 'LightlineModified'
       \ },
       \ }
+
+" [lightline.vim に乗り換えた - すぱぶろ](http://superbrothers.hatenablog.com/entry/2013/08/29/001326)
+function! LightlineGitGutter()
+  if !exists('*GitGutterGetHunkSummary')
+        \ || !get(g:, 'gitgutter_enabled', 0)
+        \ || winwidth(0) < 90
+    return ''
+  endif
+  let symbols=[
+        \ g:gitgutter_sign_added,
+        \ g:gitgutter_sign_modified,
+        \ g:gitgutter_sign_removed
+        \ ]
+  let hunks=GitGutterGetHunkSummary()
+  let ret=[]
+  for i in range(3)
+    if hunks[i] > 0
+      call add(ret, symbols[i] . hunks[i])
+    endif
+  endfor
+  return join(ret, ' ')
+endfunction
+function! LightlineModified()
+  " !&modifiableと&readonlyが競合することってあるんだろうか
+  return !&modifiable ? 'RO' : &modified ? '+' : ''
+endfunction
+function! LightlineFileformat()
+  return winwidth(0) > 70 ? &fileformat : ''
+endfunction
+function! LightlineFiletype()
+  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+endfunction
+function! LightlineFileencoding()
+  return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+endfunction
+function! LightlineMode()
+  return winwidth(0) > 60 ? lightline#mode() : lightline#mode()[0]
+endfunction
 
 " 全角スペースの可視化 colorscheme以降に記述する
 function! ZenkakuSpace()
