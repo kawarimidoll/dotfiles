@@ -50,7 +50,7 @@ set splitright
 set switchbuf=usetab
 set t_Co=256
 set tabstop=2
-set textwidth=0 " 自動改行しない
+set textwidth=0
 set title
 set ttyfast
 set whichwrap=b,s,h,l,<,>,[,],~
@@ -175,8 +175,9 @@ augroup END
 " s: デフォルトの挙動はclかxiで代用可能、押しやすい位置にあるので別機能にマッピングしたほうが良い
 " t: オペレータ待機モードでは重要だがノーマルモードではf->hで補えるので潰しても良い
 " m: a-zA-Zのマークを付けられるがそんなに大量に使えない、mmやmkなど押しやすいいくつかのマークのみを使うと決めそれ以外のmwとかmeとかを別の機能にマッピングしよう
+" q: mと同様に使うキーを絞る
 " #,?: *,/とNで事足りるのでデフォルトの挙動は潰しても良い
-" leader: let mapleader="\<Space>"していたけど<Space>をそのまま書くようにして<Space>はデフォルトの\のままにしておこう
+" leader: let mapleader="\<Space>"していたけど<Space>をそのまま書くようにして<Leader>はデフォルトの\のままにしておこう
 
 " disable arrow keys
 noremap <Up> <Nop>
@@ -232,7 +233,6 @@ nnoremap <C-w><C-k> <C-w>k
 nnoremap <C-w><C-l> <C-w>l
 nnoremap <C-w><C-s> :<C-u>split<CR>
 nnoremap <C-w><C-v> :<C-u>vsplit<CR>
-
 
 " command
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
@@ -356,8 +356,7 @@ function! LightlineGitGutter()
     return ''
   endif
   let [a,m,r]=GitGutterGetHunkSummary()
-  let ret='' .
-        \ ( a ? g:gitgutter_sign_added . a . ' ' : '' ) .
+  let ret=( a ? g:gitgutter_sign_added . a . ' ' : '' ) .
         \ ( m ? g:gitgutter_sign_modified . m . ' ' : '' ) .
         \ ( r ? g:gitgutter_sign_removed . r : '' )
   return substitute(ret, " $", "", "")
