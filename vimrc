@@ -316,29 +316,18 @@ function! LightlineGitGutter()
     return ''
   endif
   let [a,m,r]=GitGutterGetHunkSummary()
-  let ret=[
-        \ a ? g:gitgutter_sign_added . a : '',
-        \ m ? g:gitgutter_sign_modified . m : '',
-        \ r ? g:gitgutter_sign_removed . r : ''
-        \ ]
-  return join(filter(ret, {idx, val -> !empty(val)}), ' ')
+  let ret='' .
+        \ ( a ? g:gitgutter_sign_added . a . ' ' : '' ) .
+        \ ( m ? g:gitgutter_sign_modified . m . ' ' : '' ) .
+        \ ( r ? g:gitgutter_sign_removed . r : '' )
+  return substitute(ret, " $", "", "")
 endfunction
-function! LightlineModified()
-  " !&modifiableと&readonlyが競合することってあるんだろうか
-  return !&modifiable ? 'RO' : &modified ? '+' : ''
-endfunction
-function! LightlineFileformat()
-  return winwidth(0) > 70 ? &fileformat : ''
-endfunction
-function! LightlineFiletype()
-  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
-endfunction
-function! LightlineFileencoding()
-  return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
-endfunction
-function! LightlineMode()
-  return winwidth(0) > 60 ? lightline#mode() : lightline#mode()[0]
-endfunction
+" !&modifiableと&readonlyが競合することってあるんだろうか
+let LightlineModified={-> !&modifiable ? 'RO' : &modified ? '+' : ''}
+let LightlineFileformat={-> winwidth(0) > 70 ? &fileformat : ''}
+let LightlineFiletype={-> winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''}
+let LightlineFileencoding={-> winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''}
+let LightlineMode={-> winwidth(0) > 60 ? lightline#mode() : lightline#mode()[0]}
 
 " 全角スペースの可視化 colorscheme以降に記述する
 function! ZenkakuSpace()
