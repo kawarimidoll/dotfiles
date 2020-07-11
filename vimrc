@@ -364,16 +364,14 @@ function! LightlineGitGutter()
 endfunction
 
 " 全角スペースの可視化 colorscheme以降に記述する
-function! ZenkakuSpace()
-  highlight ZenkakuSpace cterm=reverse ctermfg=darkmagenta
-endfunction
 if has('syntax')
+  let HighlightZenkakuSpace={-> execute("highlight ZenkakuSpace cterm=reverse ctermfg=darkmagenta") }
   augroup ZenkakuSpace
     autocmd!
-    autocmd ColorScheme * call ZenkakuSpace()
+    autocmd ColorScheme * call call( HighlightZenkakuSpace, [] )
     autocmd VimEnter,WinEnter,BufRead * let w:m1=matchadd('ZenkakuSpace', '　')
   augroup END
-  call ZenkakuSpace()
+  call call( HighlightZenkakuSpace, [] )
 endif
 
 "-----------------
