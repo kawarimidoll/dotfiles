@@ -283,7 +283,6 @@ syntax enable
 "   autocmd ColorScheme * highlight LineNr ctermfg=darkyellow
 " augroup END
 
-" colorscheme elflord
 colorscheme gruvbox8
 
 let g:lightline={
@@ -316,19 +315,13 @@ function! LightlineGitGutter()
         \ || winwidth(0) < 90
     return ''
   endif
-  let symbols=[
-        \ g:gitgutter_sign_added,
-        \ g:gitgutter_sign_modified,
-        \ g:gitgutter_sign_removed
+  let [a,m,r]=GitGutterGetHunkSummary()
+  let ret=[
+        \ a ? g:gitgutter_sign_added . a : '',
+        \ m ? g:gitgutter_sign_modified . m : '',
+        \ r ? g:gitgutter_sign_removed . r : ''
         \ ]
-  let hunks=GitGutterGetHunkSummary()
-  let ret=[]
-  for i in range(3)
-    if hunks[i] > 0
-      call add(ret, symbols[i] . hunks[i])
-    endif
-  endfor
-  return join(ret, ' ')
+  return join(filter(ret, {idx, val -> !empty(val)}), ' ')
 endfunction
 function! LightlineModified()
   " !&modifiableと&readonlyが競合することってあるんだろうか
