@@ -294,20 +294,23 @@ let g:lightline={
       \ },
       \ 'tabline': {
       \  'left': [['tabs']],
-      \  'right': [['gitbranch']],
+      \  'right': [['pwd', 'gitbranch']],
+      \ },
+      \ 'component': {
+      \   'pwd': '%.35(%{fnamemodify(getcwd(), ":~")}%)',
+      \   'fileencoding': '%{winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ""}',
+      \   'fileformat': '%{winwidth(0) > 70 ? &fileformat : ""}',
+      \   'filetype': '%{winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : "no ft") : ""}',
+      \   'mode': '%{winwidth(0) > 60 ? lightline#mode() : lightline#mode()[0]}',
+      \   'modified': '%{!&modifiable ? "RO" : &modified ? "+" : ""}'
       \ },
       \ 'component_function': {
       \   'anzu': 'anzu#search_status',
-      \   'fileencoding': 'LightlineFileencoding',
-      \   'fileformat': 'LightlineFileformat',
-      \   'filetype': 'LightlineFiletype',
       \   'gitbranch': 'FugitiveHead',
       \   'gitgutter': 'LightlineGitGutter',
-      \   'mode': 'LightlineMode',
-      \   'modified': 'LightlineModified'
       \ },
       \ }
-
+" [lightline.vimをカスタマイズする - cafegale(LeafCage備忘録)](http://leafcage.hateblo.jp/entry/2013/10/21/lightlinevim-customize)
 " [lightline.vim に乗り換えた - すぱぶろ](http://superbrothers.hatenablog.com/entry/2013/08/29/001326)
 function! LightlineGitGutter()
   if !exists('*GitGutterGetHunkSummary')
@@ -322,12 +325,6 @@ function! LightlineGitGutter()
         \ ( r ? g:gitgutter_sign_removed . r : '' )
   return substitute(ret, " $", "", "")
 endfunction
-" !&modifiableと&readonlyが競合することってあるんだろうか
-let LightlineModified={-> !&modifiable ? 'RO' : &modified ? '+' : ''}
-let LightlineFileformat={-> winwidth(0) > 70 ? &fileformat : ''}
-let LightlineFiletype={-> winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''}
-let LightlineFileencoding={-> winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''}
-let LightlineMode={-> winwidth(0) > 60 ? lightline#mode() : lightline#mode()[0]}
 
 " 全角スペースの可視化 colorscheme以降に記述する
 function! ZenkakuSpace()
