@@ -273,7 +273,7 @@ vnoremap <C-j> "zd"zp`[V`]
 vnoremap <Space>/ :<C-u>RgRaw -F -- $'<C-r><C-w>'
 
 " terminal
-nnoremap <C-w><C-n> <C-w>N
+tnoremap <C-w><C-n> <C-w>N
 
 "-----------------
 " Appearances
@@ -417,7 +417,7 @@ augroup END
 
 augroup vim_auto_reload
   autocmd!
-  autocmd BufReadPost $MYVIMRC source $MYVIMRC
+  autocmd BufWritePost $MYVIMRC source $MYVIMRC
 augroup END
 
 " [Vimの生産性を高める12の方法 | POSTD](https://postd.cc/how-to-boost-your-vim-productivity/)
