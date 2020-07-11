@@ -7,6 +7,7 @@ set autoread
 set background=dark
 set backspace=indent,eol,start
 set clipboard=unnamed,autoselect
+set completeopt=longest,menuone,popup
 set cursorline
 set display=lastline
 set encoding=utf-8
@@ -42,6 +43,7 @@ set shiftwidth=2
 set showcmd
 set showmatch
 set showtabline=2
+set signcolumn=yes
 set smartcase
 set smartindent
 set softtabstop=2
