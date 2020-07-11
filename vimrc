@@ -395,18 +395,18 @@ command! LazyGit tab terminal ++close lazygit
 command! FmtTabTrail retab | FixWhitespace
 
 " [:SyntaxInfoでカラースキーム確認](http://cohama.hateblo.jp/entry/2013/08/11/020849)
-function! s:get_syn_attr(synid)
-  return "name: " . synIDattr(a:synid, "name") .
-        \ ", ctermfg: " . synIDattr(a:synid, "fg", "cterm") .
-        \ ", ctermbg: " . synIDattr(a:synid, "bg", "cterm") .
-        \ ", guifg: " . synIDattr(a:synid, "fg", "gui") .
-        \ ", guibg: " . synIDattr(a:synid, "bg", "gui")
-endfunction
 function! s:get_syn_info()
+  let GetCollorAttr={synid ->
+        \ "name: " . synIDattr(synid, "name") .
+        \ ", ctermfg: " . synIDattr(synid, "fg", "cterm") .
+        \ ", ctermbg: " . synIDattr(synid, "bg", "cterm") .
+        \ ", guifg: " . synIDattr(synid, "fg", "gui") .
+        \ ", guibg: " . synIDattr(synid, "bg", "gui")
+        \ }
   let currentSyn = synID(line("."), col("."), 1)
-  echo s:get_syn_attr(currentSyn)
+  echo GetCollorAttr(currentSyn)
   echo "link to"
-  echo s:get_syn_attr(synIDtrans(currentSyn))
+  echo GetCollorAttr(synIDtrans(currentSyn))
 endfunction
 command! SyntaxInfo call s:get_syn_info()
 
