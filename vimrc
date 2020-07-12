@@ -271,9 +271,16 @@ vmap v <Plug>(expand_region_expand)
 vmap <C-v> <Plug>(expand_region_shrink)
 vnoremap <silent> y y`]
 vnoremap x "_x
-" vnoremap <silent> p pgvy`]
-" vnoremap <silent> P Pgvy`]
-" xnoremap <expr> p 'pgv"'.v:register.'y`>'
+" [Vimの生産性を高める12の方法 | POSTD](https://postd.cc/how-to-boost-your-vim-productivity/)
+function! RestoreRegister()
+  let @" = s:restore_reg
+  return ''
+endfunction
+function! s:Repl()
+  let s:restore_reg = @"
+  return "p@=RestoreRegister()\<CR>"
+endfunction
+vmap <silent> <expr> p <sid>Repl()
 
 vnoremap <C-k> "zd<Up>"zP`[V`]
 vnoremap <C-j> "zd"zp`[V`]
@@ -423,15 +430,3 @@ command! SyntaxInfo call s:get_syn_info()
 "   autocmd!
 "   autocmd BufWritePost $MYVIMRC source $MYVIMRC
 " augroup END
-
-" [Vimの生産性を高める12の方法 | POSTD](https://postd.cc/how-to-boost-your-vim-productivity/)
-" vp doesn't replace paste buffer
-" function! RestoreRegister()
-"   let @" = s:restore_reg
-"   return ''
-" endfunction
-" function! s:Repl()
-"   let s:restore_reg = @"
-"   return "p@=RestoreRegister()\<CR>"
-" endfunction
-" vmap <silent> <expr> p <sid>Repl()
