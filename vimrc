@@ -333,18 +333,19 @@ let g:lightline={
       \ },
       \ 'tabline': {
       \  'left': [['tabs']],
-      \  'right': [['pwd', 'gitbranch']],
+      \  'right': [['clock', 'pwd', 'gitbranch']],
       \ },
       \ 'component': {
-      \   'pwd': '%.35(%{fnamemodify(getcwd(), ":~")}%)',
       \   'fileencoding': '%{winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ""}',
       \   'fileformat': '%{winwidth(0) > 70 ? &fileformat : ""}',
       \   'filetype': '%{winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : "no ft") : ""}',
       \   'mode': '%{winwidth(0) > 60 ? lightline#mode() : lightline#mode()[0]}',
-      \   'modified': '%{!&modifiable ? "RO" : &modified ? "+" : ""}'
+      \   'modified': '%{!&modifiable ? "RO" : &modified ? "+" : ""}',
+      \   'pwd': '%.35(%{fnamemodify(getcwd(), ":~")}%)',
       \ },
       \ 'component_function': {
       \   'anzu': 'anzu#search_status',
+      \   'clock': 'LightlineClock',
       \   'gitbranch': 'FugitiveHead',
       \   'gitgutter': 'LightlineGitGutter',
       \ },
@@ -363,6 +364,7 @@ function! LightlineGitGutter()
         \ ( r ? g:gitgutter_sign_removed . r : '' )
   return substitute(ret, " $", "", "")
 endfunction
+let LightlineClock={-> strftime("%x %H:%M")}
 
 " 全角スペースの可視化 colorscheme以降に記述する
 if has('syntax')
