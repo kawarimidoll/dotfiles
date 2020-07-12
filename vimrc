@@ -338,6 +338,7 @@ let s:p.tabline.tabsel = [ [ s:bg0, s:fg4 ] ]
 let s:p.normal.error   = [ [ s:bg0, s:orange ] ]
 let s:p.normal.warning = [ [ s:bg2, s:yellow ] ]
 let g:lightline#colorscheme#gruvbox8#palette = lightline#colorscheme#flatten(s:p)
+" tablineの項目はwinwidthを気にしなくて良い
 let g:lightline={
       \ 'colorscheme': 'gruvbox8',
       \ 'mode_map': { 'c': 'SEARCH' },
@@ -350,6 +351,7 @@ let g:lightline={
       \  'right': [['clock', 'pwd', 'gitbranch']],
       \ },
       \ 'component': {
+      \   'clock': '%{strftime("%x %H:%M")}',
       \   'fileencoding': '%{winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ""}',
       \   'fileformat': '%{winwidth(0) > 70 ? &fileformat : ""}',
       \   'filetype': '%{winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : "no ft") : ""}',
@@ -359,7 +361,6 @@ let g:lightline={
       \ },
       \ 'component_function': {
       \   'anzu': 'anzu#search_status',
-      \   'clock': 'LightlineClock',
       \   'gitbranch': 'FugitiveHead',
       \   'gitgutter': 'LightlineGitGutter',
       \ },
@@ -369,7 +370,6 @@ let g:lightline={
 function! LightlineGitGutter()
   if !exists('*GitGutterGetHunkSummary')
         \ || !get(g:, 'gitgutter_enabled', 0)
-        \ || winwidth(0) < 90
     return ''
   endif
   let [a,m,r]=GitGutterGetHunkSummary()
@@ -378,7 +378,6 @@ function! LightlineGitGutter()
         \ ( r ? g:gitgutter_sign_removed . r : '' )
   return substitute(ret, " $", "", "")
 endfunction
-let LightlineClock={-> strftime("%x %H:%M")}
 
 " 全角スペースの可視化 colorscheme以降に記述する
 if has('syntax')
