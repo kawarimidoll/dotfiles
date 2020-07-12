@@ -6,7 +6,7 @@ set autoindent
 set autoread
 set background=dark
 set backspace=indent,eol,start
-set clipboard=unnamed,autoselect
+set clipboard=unnamed
 set completeopt=longest,menuone
 set cursorline
 set display=lastline
@@ -159,6 +159,12 @@ augroup show_marks_sync
   autocmd BufReadPost * silent! DoShowMarks
 augroup END
 
+" [lightline.vimとvim-anzuで検索ヒット数を表示する - Qiita](https://qiita.com/shiena/items/f53959d62085b7980cb5)
+augroup vim_anzu
+  autocmd!
+  autocmd CursorHold,CursorHoldI,WinLeave,TabLeave * call anzu#clear_search_status()
+augroup END
+
 "-----------------
 " Key mappings
 " :map  ノーマル、ビジュアル、選択、オペレータ待機
@@ -257,6 +263,7 @@ inoremap <expr> <C-x><C-f> fzf#vim#complete#path('rg --files')
 inoremap <expr> <C-x><C-x> fzf#vim#complete#line()
 inoremap <C-]> <Esc><Right>
 inoremap <C-t> <Esc><Left>"zx"pa
+" inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>" vim-endwiseと相性が悪いのでオフ
 
 " visual
 vmap gx <Plug>(openbrowser-smart-search)
@@ -411,25 +418,20 @@ function! s:get_syn_info()
 endfunction
 command! SyntaxInfo call s:get_syn_info()
 
-" [lightline.vimとvim-anzuで検索ヒット数を表示する - Qiita](https://qiita.com/shiena/items/f53959d62085b7980cb5)
-augroup vim_anzu
-  autocmd!
-  autocmd CursorHold,CursorHoldI,WinLeave,TabLeave * call anzu#clear_search_status()
-augroup END
-
-augroup vim_auto_reload
-  autocmd!
-  autocmd BufWritePost $MYVIMRC source $MYVIMRC
-augroup END
+" うごかない
+" augroup vim_auto_reload
+"   autocmd!
+"   autocmd BufWritePost $MYVIMRC source $MYVIMRC
+" augroup END
 
 " [Vimの生産性を高める12の方法 | POSTD](https://postd.cc/how-to-boost-your-vim-productivity/)
 " vp doesn't replace paste buffer
-function! RestoreRegister()
-  let @" = s:restore_reg
-  return ''
-endfunction
-function! s:Repl()
-  let s:restore_reg = @"
-  return "p@=RestoreRegister()\<CR>"
-endfunction
-vmap <silent> <expr> p <sid>Repl()
+" function! RestoreRegister()
+"   let @" = s:restore_reg
+"   return ''
+" endfunction
+" function! s:Repl()
+"   let s:restore_reg = @"
+"   return "p@=RestoreRegister()\<CR>"
+" endfunction
+" vmap <silent> <expr> p <sid>Repl()
