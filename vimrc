@@ -7,7 +7,7 @@ set autoread
 set background=dark
 set backspace=indent,eol,start
 set clipboard=unnamed,autoselect
-set completeopt=longest,menuone,popup
+set completeopt=longest,menuone
 set cursorline
 set display=lastline
 set encoding=utf-8
@@ -214,10 +214,13 @@ nnoremap Q @
 nnoremap ? /\v
 nnoremap == gg=G''
 nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
-" nnoremap <silent> p p`]
-" nnoremap <silent> P P`]
+nnoremap p ]p`]
+nnoremap P ]P`]
+nnoremap ]p p
+nnoremap ]P P
 nnoremap <Space>b :Buffers<CR>
 nnoremap <Space>f :Files<CR>
+nnoremap <Space>h :History<CR>
 nnoremap <Space>l :BLines
 nnoremap <Space>m :Marks<CR>
 nnoremap <Space>r :registers<CR>
@@ -249,12 +252,9 @@ cnoremap <C-e> <End>
 cnoremap <C-d> <Del>
 
 " insert
-" このあたり改善の余地あり
-" imap <C-x><C-k> <Plug>(fzf-complete-word)
-" imap <C-x><C-f> <Plug>(fzf-complete-path)
-" imap <C-x><C-j> <Plug>(fzf-complete-file-ag)
-" imap <C-x><C-l> <Plug>(fzf-complete-line)
 inoremap <expr> <C-x><C-k> fzf#vim#complete#word({'left': '15%'})
+inoremap <expr> <C-x><C-f> fzf#vim#complete#path('rg --files')
+inoremap <expr> <C-x><C-x> fzf#vim#complete#line()
 inoremap <C-]> <Esc><Right>
 inoremap <C-t> <Esc><Left>"zx"pa
 

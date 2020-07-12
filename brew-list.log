@@ -1,9 +1,10 @@
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-2020年 7月11日 土曜日 09時08分42秒 JST
+2020年 7月12日 日曜日 08時25分08秒 JST
 avr-binutils
 avr-gcc@7
 avrdude
 bat
+bdw-gc
 clisp
 ctags
 deno
@@ -65,6 +66,7 @@ tree
 unibilium
 utf8proc
 vim
+w3m
 webp
 xz
 yarn
