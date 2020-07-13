@@ -272,15 +272,27 @@ vmap <C-v> <Plug>(expand_region_shrink)
 vnoremap <silent> y y`]
 vnoremap x "_x
 " [Vimの生産性を高める12の方法 | POSTD](https://postd.cc/how-to-boost-your-vim-productivity/)
-function! RestoreRegister()
-  let @" = s:restore_reg
-  return ''
-endfunction
-function! s:Repl()
-  let s:restore_reg = @"
+function! s:VisualPaste()
+  if &clipboard ==# "unnamed"
+    let s:restore_reg = @*
+  elseif &clipboard ==# "unnamedplus"
+    let s:restore_reg = @+
+  else
+    let s:restore_reg = @"
+  endif
+  function! RestoreRegister() closure
+    if &clipboard ==# "unnamed"
+      let @* = s:restore_reg
+    elseif &clipboard ==# "unnamedplus"
+      let @+ = s:restore_reg
+    else
+      let @" = s:restore_reg
+    endif
+    return ''
+  endfunction
   return "p@=RestoreRegister()\<CR>"
 endfunction
-vmap <silent> <expr> p <sid>Repl()
+vmap <silent> <expr> p <sid>VisualPaste()
 
 vnoremap <C-k> "zd<Up>"zP`[V`]
 vnoremap <C-j> "zd"zp`[V`]
