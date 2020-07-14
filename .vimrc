@@ -131,7 +131,7 @@ Plug 'Yggdroot/indentLine'
 
 call plug#end()
 
-let g:closetag_filenames='*.html,*.vue'
+let g:closetag_filenames='*.html,*.vue,*.html.erb'
 let g:fzf_buffers_jump=1
 let g:gruvbox_italics = 0
 let g:gruvbox_italicize_strings = 0
@@ -231,7 +231,7 @@ nnoremap ]P P
 nnoremap <Space>b :Buffers<CR>
 nnoremap <Space>f :Files<CR>
 nnoremap <Space>h :History<CR>
-nnoremap <Space>l :BLines
+nnoremap <Space>l :BLines<CR>
 nnoremap <Space>m :Marks<CR>
 nnoremap <Space>r :registers<CR>
 nnoremap <Space>s :&&<CR>
@@ -367,7 +367,7 @@ let g:lightline={
       \  'right': [['clock', 'pwd', 'gitbranch']],
       \ },
       \ 'component': {
-      \   'clock': '%{strftime("%x %H:%M")}',
+      \   'clock': '%{strftime("%F %R")}',
       \   'fileencoding': '%{winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ""}',
       \   'fileformat': '%{winwidth(0) > 70 ? &fileformat : ""}',
       \   'filetype': '%{winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : "no ft") : ""}',
