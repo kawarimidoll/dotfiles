@@ -85,7 +85,11 @@ Plug 'jacquesbh/vim-showmarks'
 Plug 'jesseleite/vim-agriculture'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/goyo.vim'
-Plug '/usr/local/opt/fzf'
+if getftype('/usr/local/opt/fzf') != ''
+  Plug '/usr/local/opt/fzf'
+else
+  Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install -all'}
+endif
 Plug 'junegunn/fzf.vim'
 Plug 'kana/vim-textobj-entire'
 Plug 'kana/vim-textobj-user'
