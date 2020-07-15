@@ -297,8 +297,8 @@ nnoremap <Space>m :Marks<CR>
 nnoremap <Space>r :registers<CR>
 nnoremap <Space>s :&&<CR>
 nnoremap <Space>w :write<CR>
-nnoremap <Space>/ :RgRaw
-nnoremap <Space>? :RgRaw -F -- $'<C-r><C-w>'
+nnoremap <Space>/ :RgRaw -F -- $''<Left>
+nnoremap <Space>? :RgRaw
 
 nnoremap <C-k> "zdd<Up>"zP
 nnoremap <C-j> "zdd"zp
