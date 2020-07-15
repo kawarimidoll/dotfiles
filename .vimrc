@@ -1,5 +1,5 @@
 "-----------------
-" Sets
+" Options
 "-----------------
 set ambiwidth=single
 set autoindent
@@ -440,8 +440,37 @@ function! s:get_syn_info()
 endfunction
 command! SyntaxInfo call s:get_syn_info()
 
-" うごかない
-" augroup vim_auto_reload
-"   autocmd!
-"   autocmd BufWritePost $MYVIMRC source $MYVIMRC
-" augroup END
+let s:Snake = {str -> tolower(substitute(substitute(expand(str), "\\W", "_", "g"), ".\\zs\\u\\ze\\l", "_\\l\\0", "g"))}
+let s:Camel = {str -> substitute(substitute(s:Snake(str), "_\\l", "\\U\\0", "g"), "_", "", "g")}
+let s:Pascal = {str -> substitute(s:Camel(str), "^\\l", "\\u\\0", "")}
+let s:Kebab = {str -> substitute(s:Snake(str), "_", "-", "g")}
+let s:Dot = {str -> substitute(s:Snake(str), "_", ".", "g")}
+function! s:ChangeCase(str, type) abort
+  let @z = a:type == "snake" ? s:Snake(a:str) :
+        \ a:type == "camel" ? s:Camel(a:str) :
+        \ a:type == "pascal" ? s:Pascal(a:str) :
+        \ a:type == "kebab" ? s:Kebab(a:str) :
+        \ a:type == "dot" ? s:Dot(a:str) :
+        \ a:str
+  normal! "_diw"zP
+endfunction
+function! ToggleCase() abort
+  " let tmp = @@
+  " silent normal gvy
+  " let selected = @@
+  " let @@ = tmp
+  " echo selected
+
+  let str = expand("<cword>")
+  let type = stridx(str, "_") >= 0 ? "camel" :
+        \ match(str, "^\\u") == 0 ? "snake" :
+        \ "pascal"
+  call s:ChangeCase(str, type)
+endfunction
+nnoremap <silent> <Space>c :call ToggleCase()<CR>
+" 補完しやすいようCaseTo...で統一する
+command! CaseToSnake call s:ChangeCase(expand("<cword>"), "snake")
+command! CaseToCamel call s:ChangeCase(expand("<cword>"), "camel")
+command! CaseToPascal call s:ChangeCase(expand("<cword>"), "pascal")
+command! CaseToKebab call s:ChangeCase(expand("<cword>"), "kebab")
+command! CaseToDot call s:ChangeCase(expand("<cword>"), "dot")
