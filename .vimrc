@@ -170,6 +170,66 @@ augroup vim_anzu
 augroup END
 
 "-----------------
+" Commands and Functions
+"-----------------
+command! Evimrc edit $MYVIMRC
+command! Svimrc source $MYVIMRC | nohlsearch
+command! Terminal terminal ++rows=12
+command! LazyGit tab terminal ++close lazygit
+command! FmtTabTrail retab | FixWhitespace
+
+" [:SyntaxInfoでカラースキーム確認](http://cohama.hateblo.jp/entry/2013/08/11/020849)
+function! s:get_syn_info()
+  let GetCollorAttr={synid ->
+        \ "name: " . synIDattr(synid, "name") .
+        \ ", ctermfg: " . synIDattr(synid, "fg", "cterm") .
+        \ ", ctermbg: " . synIDattr(synid, "bg", "cterm") .
+        \ ", guifg: " . synIDattr(synid, "fg", "gui") .
+        \ ", guibg: " . synIDattr(synid, "bg", "gui")
+        \ }
+  let currentSyn = synID(line("."), col("."), 1)
+  echo GetCollorAttr(currentSyn)
+  echo "link to"
+  echo GetCollorAttr(synIDtrans(currentSyn))
+endfunction
+command! SyntaxInfo call s:get_syn_info()
+
+" [JavaScript で snake_case とか camelCase とか変換する | 忘れていくかわりに](https://kawarimidoll.netlify.app/2020/04/19/)
+let s:Snake = {str -> tolower(substitute(substitute(expand(str), "\\W", "_", "g"), ".\\zs\\u\\ze\\l", "_\\l\\0", "g"))}
+let s:Camel = {str -> substitute(substitute(s:Snake(str), "_\\l", "\\U\\0", "g"), "_", "", "g")}
+let s:Pascal = {str -> substitute(s:Camel(str), "^\\l", "\\u\\0", "")}
+let s:Kebab = {str -> substitute(s:Snake(str), "_", "-", "g")}
+let s:Dot = {str -> substitute(s:Snake(str), "_", ".", "g")}
+function! s:ChangeCase(str, type) abort
+  let @z = a:type == "snake" ? s:Snake(a:str) :
+        \ a:type == "camel" ? s:Camel(a:str) :
+        \ a:type == "pascal" ? s:Pascal(a:str) :
+        \ a:type == "kebab" ? s:Kebab(a:str) :
+        \ a:type == "dot" ? s:Dot(a:str) :
+        \ a:str
+  normal! "_diw"zP
+endfunction
+function! ToggleCase() abort
+  " let tmp = @@
+  " silent normal gvy
+  " let selected = @@
+  " let @@ = tmp
+  " echo selected
+
+  let str = expand("<cword>")
+  let type = stridx(str, "_") >= 0 ? "camel" :
+        \ match(str, "^\\u") == 0 ? "snake" :
+        \ "pascal"
+  call s:ChangeCase(str, type)
+endfunction
+" 補完しやすいようCaseTo...で統一する
+command! CaseToSnake call s:ChangeCase(expand("<cword>"), "snake")
+command! CaseToCamel call s:ChangeCase(expand("<cword>"), "camel")
+command! CaseToPascal call s:ChangeCase(expand("<cword>"), "pascal")
+command! CaseToKebab call s:ChangeCase(expand("<cword>"), "kebab")
+command! CaseToDot call s:ChangeCase(expand("<cword>"), "dot")
+
+"-----------------
 " Key mappings
 " :map  ノーマル、ビジュアル、選択、オペレータ待機
 " :nmap ノーマル
@@ -229,6 +289,7 @@ nnoremap P ]P`]
 nnoremap ]p p
 nnoremap ]P P
 nnoremap <Space>b :Buffers<CR>
+nnoremap <silent> <Space>c :call ToggleCase()<CR>
 nnoremap <Space>f :Files<CR>
 nnoremap <Space>h :History<CR>
 nnoremap <Space>l :BLines<CR>
@@ -414,63 +475,3 @@ augroup fileTypeSettings
   autocmd BufNewFile,BufRead *.md set filetype=markdown
   autocmd BufNewFile,BufRead *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4
 augroup END
-
-"-----------------
-" Commands and Functions
-"-----------------
-command! Evimrc edit $MYVIMRC
-command! Svimrc source $MYVIMRC | nohlsearch
-command! Terminal terminal ++rows=12
-command! LazyGit tab terminal ++close lazygit
-command! FmtTabTrail retab | FixWhitespace
-
-" [:SyntaxInfoでカラースキーム確認](http://cohama.hateblo.jp/entry/2013/08/11/020849)
-function! s:get_syn_info()
-  let GetCollorAttr={synid ->
-        \ "name: " . synIDattr(synid, "name") .
-        \ ", ctermfg: " . synIDattr(synid, "fg", "cterm") .
-        \ ", ctermbg: " . synIDattr(synid, "bg", "cterm") .
-        \ ", guifg: " . synIDattr(synid, "fg", "gui") .
-        \ ", guibg: " . synIDattr(synid, "bg", "gui")
-        \ }
-  let currentSyn = synID(line("."), col("."), 1)
-  echo GetCollorAttr(currentSyn)
-  echo "link to"
-  echo GetCollorAttr(synIDtrans(currentSyn))
-endfunction
-command! SyntaxInfo call s:get_syn_info()
-
-let s:Snake = {str -> tolower(substitute(substitute(expand(str), "\\W", "_", "g"), ".\\zs\\u\\ze\\l", "_\\l\\0", "g"))}
-let s:Camel = {str -> substitute(substitute(s:Snake(str), "_\\l", "\\U\\0", "g"), "_", "", "g")}
-let s:Pascal = {str -> substitute(s:Camel(str), "^\\l", "\\u\\0", "")}
-let s:Kebab = {str -> substitute(s:Snake(str), "_", "-", "g")}
-let s:Dot = {str -> substitute(s:Snake(str), "_", ".", "g")}
-function! s:ChangeCase(str, type) abort
-  let @z = a:type == "snake" ? s:Snake(a:str) :
-        \ a:type == "camel" ? s:Camel(a:str) :
-        \ a:type == "pascal" ? s:Pascal(a:str) :
-        \ a:type == "kebab" ? s:Kebab(a:str) :
-        \ a:type == "dot" ? s:Dot(a:str) :
-        \ a:str
-  normal! "_diw"zP
-endfunction
-function! ToggleCase() abort
-  " let tmp = @@
-  " silent normal gvy
-  " let selected = @@
-  " let @@ = tmp
-  " echo selected
-
-  let str = expand("<cword>")
-  let type = stridx(str, "_") >= 0 ? "camel" :
-        \ match(str, "^\\u") == 0 ? "snake" :
-        \ "pascal"
-  call s:ChangeCase(str, type)
-endfunction
-nnoremap <silent> <Space>c :call ToggleCase()<CR>
-" 補完しやすいようCaseTo...で統一する
-command! CaseToSnake call s:ChangeCase(expand("<cword>"), "snake")
-command! CaseToCamel call s:ChangeCase(expand("<cword>"), "camel")
-command! CaseToPascal call s:ChangeCase(expand("<cword>"), "pascal")
-command! CaseToKebab call s:ChangeCase(expand("<cword>"), "kebab")
-command! CaseToDot call s:ChangeCase(expand("<cword>"), "dot")
