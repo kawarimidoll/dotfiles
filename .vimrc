@@ -100,6 +100,7 @@ Plug 'nelstrom/vim-qargs'
 Plug 'osyo-manga/vim-anzu'
 Plug 'plasticboy/vim-markdown'
 Plug 'previm/previm' " :PrevimOpenでmarkdownファイルをブラウザで表示、HMRつき
+Plug 'qpkorr/vim-bufkill'
 Plug 'sheerun/vim-polyglot'
 Plug 'simeji/winresizer' " C-eで起動、hjklでカレントウィンドウのサイズを変更
 Plug 'terryma/vim-expand-region'
