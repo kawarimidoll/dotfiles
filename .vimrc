@@ -229,6 +229,24 @@ command! CaseToPascal call s:ChangeCase(expand("<cword>"), "pascal")
 command! CaseToKebab call s:ChangeCase(expand("<cword>"), "kebab")
 command! CaseToDot call s:ChangeCase(expand("<cword>"), "dot")
 
+" [Vimの生産性を高める12の方法 | POSTD](https://postd.cc/how-to-boost-your-vim-productivity/)
+function! s:VisualPaste()
+  let s:clipboardops = split(&clipboard, ",")
+  let s:restore_reg = index(s:clipboardops, "unnamed") >= 0 ? @* : @"
+  function! RestoreRegister()
+    if index(s:clipboardops, "unnamed") >= 0
+      let @* = s:restore_reg
+      if index(s:clipboardops, "unnamedplus") >= 0
+        let @+ = s:restore_reg
+      endif
+    else
+      let @" = s:restore_reg
+    endif
+    return ''
+  endfunction
+  return "p@=RestoreRegister()\<CR>"
+endfunction
+
 "-----------------
 " Key mappings
 " :map  ノーマル、ビジュアル、選択、オペレータ待機
@@ -338,30 +356,10 @@ inoremap <C-t> <Esc><Left>"zx"pa
 vmap gx <Plug>(openbrowser-smart-search)
 vmap v <Plug>(expand_region_expand)
 vmap <C-v> <Plug>(expand_region_shrink)
+vmap <silent> <expr> p <sid>VisualPaste()
 vnoremap <silent> y y`]
 vnoremap x "_x
-" [Vimの生産性を高める12の方法 | POSTD](https://postd.cc/how-to-boost-your-vim-productivity/)
-function! s:VisualPaste()
-  if &clipboard ==# "unnamed"
-    let s:restore_reg = @*
-  elseif &clipboard ==# "unnamedplus"
-    let s:restore_reg = @+
-  else
-    let s:restore_reg = @"
-  endif
-  function! RestoreRegister() closure
-    if &clipboard ==# "unnamed"
-      let @* = s:restore_reg
-    elseif &clipboard ==# "unnamedplus"
-      let @+ = s:restore_reg
-    else
-      let @" = s:restore_reg
-    endif
-    return ''
-  endfunction
-  return "p@=RestoreRegister()\<CR>"
-endfunction
-vmap <silent> <expr> p <sid>VisualPaste()
+vnoremap z zf
 
 vnoremap <C-k> "zd<Up>"zP`[V`]
 vnoremap <C-j> "zd"zp`[V`]
