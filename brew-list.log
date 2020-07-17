@@ -1,5 +1,5 @@
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-2020年 7月17日 金曜日 09時31分34秒 JST
+2020年 7月17日 金曜日 20時53分16秒 JST
 avr-binutils
 avr-gcc@7
 avrdude
@@ -59,6 +59,7 @@ ruby
 sbcl
 sl
 sqlite
+starship
 the_platinum_searcher
 tig
 tmux
@@ -91,6 +92,7 @@ dynalist
 evernote
 firefox
 flux
+font-roboto-mono-for-powerline
 gimp
 gitup
 google-chrome
