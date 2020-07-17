@@ -281,6 +281,7 @@ nnoremap S :%s/\V<C-r>///g<Left><Left>
 nnoremap x "_x
 nnoremap X "_X
 nnoremap Q @
+nnoremap ' `
 nnoremap ? /\v
 nnoremap == gg=G''
 nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
@@ -290,13 +291,16 @@ nnoremap ]p p
 nnoremap ]P P
 nnoremap <Space>b :Buffers<CR>
 nnoremap <silent> <Space>c :call ToggleCase()<CR>
+nnoremap <Space>d :bdelete<CR>
 nnoremap <Space>f :Files<CR>
 nnoremap <Space>h :History<CR>
 nnoremap <Space>l :BLines<CR>
 nnoremap <Space>m :Marks<CR>
 nnoremap <Space>r :registers<CR>
+nnoremap <Space>q :quit<CR>
 nnoremap <Space>s :&&<CR>
 nnoremap <Space>w :write<CR>
+nnoremap <Space>z :za<CR>
 nnoremap <Space>/ :RgRaw -F -- $''<Left>
 nnoremap <Space>? :RgRaw
 
