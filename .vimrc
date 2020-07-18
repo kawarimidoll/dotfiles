@@ -323,8 +323,8 @@ nnoremap <Space>z :za<CR>
 nnoremap <Space>/ :RgRaw -F -- $''<Left>
 nnoremap <Space>? :RgRaw
 
-nnoremap <C-k> "zdd<Up>"zP
-nnoremap <C-j> "zdd"zp
+nnoremap <C-k> "zdd<Up>"zP==
+nnoremap <C-j> "zdd"zp==
 nnoremap <C-w><C-q> <C-w>c
 nnoremap <C-w><C-h> <C-w>h
 nnoremap <C-w><C-j> <C-w>j
@@ -362,8 +362,8 @@ vnoremap <silent> y y`]
 vnoremap x "_x
 vnoremap z zf
 
-vnoremap <C-k> "zd<Up>"zP`[V`]
-vnoremap <C-j> "zd"zp`[V`]
+vnoremap <C-k> "zd<Up>"z]P`[V`]
+vnoremap <C-j> "zd"z]p`[V`]
 vnoremap <Space>/ :<C-u>RgRaw -F -- $'<C-r><C-w>'
 
 " terminal
