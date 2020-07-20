@@ -83,6 +83,22 @@ export FZF_CTRL_T_OPTS='--preview "bat --color=always --style=header,grid --line
 [[ -e "$HOME/.fzf-extras/fzf-extras.sh" ]] && source "$HOME/.fzf-extras/fzf-extras.sh"
 
 # -----------------
+#  Functions
+# -----------------
+# [Terminalの現在行をエディタで編集して実行する - ハイパーマッスルエンジニアになりたい](https://www.rasukarusan.com/entry/2020/04/20/083000)
+edit_current_line() {
+  local tmpfile=$(mktemp)
+  echo "$BUFFER" > $tmpfile
+  vim $tmpfile -c "normal $" -c "set filetype=zsh"
+  BUFFER="$(cat $tmpfile)"
+  CURSOR=${#BUFFER}
+  rm $tmpfile
+  zle reset-prompt
+}
+zle -N edit_current_line
+bindkey '^w' edit_current_line
+
+# -----------------
 #  starship🚀
 # -----------------
 eval "$(starship init zsh)"
