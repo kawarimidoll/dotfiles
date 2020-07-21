@@ -16,6 +16,7 @@ set autoread
 set background=dark
 set backspace=indent,eol,start
 set clipboard=unnamed
+set cmdheight=2
 set completeopt=longest,menuone
 set cursorline
 set display=lastline
