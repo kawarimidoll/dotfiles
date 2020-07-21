@@ -142,6 +142,7 @@ Plug 'Yggdroot/indentLine'
 
 call plug#end()
 
+let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
 let g:closetag_filenames='*.html,*.vue,*.html.erb'
 let g:fzf_buffers_jump=1
 let g:gruvbox_italics = 0
@@ -434,7 +435,7 @@ let g:lightline={
       \ 'mode_map': { 'c': 'SEARCH' },
       \ 'active': {
       \   'left': [['mode', 'paste'], ['gitgutter', 'filename', 'modified']],
-      \   'right': [['lineinfo', 'anzu'], ['percent'], ['fileformat', 'fileencoding', 'filetype']]
+      \   'right': [['lineinfo', 'anzu', 'ale'], ['percent'], ['fileformat', 'fileencoding', 'filetype']]
       \ },
       \ 'tabline': {
       \  'left': [['tabs']],
@@ -450,6 +451,7 @@ let g:lightline={
       \   'pwd': '%.35(%{fnamemodify(getcwd(), ":~")}%)',
       \ },
       \ 'component_function': {
+      \   'ale': 'ALEGetStatuLine',
       \   'anzu': 'anzu#search_status',
       \   'gitbranch': 'FugitiveHead',
       \   'gitgutter': 'LightlineGitGutter',
