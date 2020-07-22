@@ -226,7 +226,8 @@ function! s:ChangeCase(str, type) abort
         \ a:str
   normal! "_diw"zP
 endfunction
-function! ToggleCase() abort
+function! s:ToggleCase() abort
+  " TODO Visual modeから呼び出したときへの対応
   " let tmp = @@
   " silent normal gvy
   " let selected = @@
@@ -239,6 +240,7 @@ function! ToggleCase() abort
         \ "pascal"
   call s:ChangeCase(str, type)
 endfunction
+command! ToggleCase call s:ToggleCase()
 " 補完しやすいようCaseTo...で統一する
 command! CaseToSnake call s:ChangeCase(expand("<cword>"), "snake")
 command! CaseToCamel call s:ChangeCase(expand("<cword>"), "camel")
@@ -325,7 +327,7 @@ nnoremap P ]P`]
 nnoremap ]p p
 nnoremap ]P P
 nnoremap <Space>b :Buffers<CR>
-nnoremap <silent> <Space>c :call ToggleCase()<CR>
+nnoremap <Space>c :ToggleCase<CR>
 nnoremap <Space>d :bdelete<CR>
 nnoremap <Space>f :Files<CR>
 nnoremap <Space>h :History<CR>
