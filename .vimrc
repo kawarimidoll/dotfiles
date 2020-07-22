@@ -334,6 +334,7 @@ nnoremap <Space>h :History<CR>
 nnoremap <Space>l :BLines<CR>
 nnoremap <Space>m :Marks<CR>
 nnoremap <Space>r :registers<CR>
+nnoremap <Space>t :edit #<CR>
 nnoremap <Space>q :quit<CR>
 nnoremap <Space>s :&&<CR>
 nnoremap <Space>w :write<CR>
