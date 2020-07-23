@@ -7,7 +7,8 @@ scriptencoding utf-8
 " (_)_/ |_|_| |_| |_|_|  \___|
 "
 " @kawarimidoll
-" logo:[Text to ASCII Art Generator (TAAG)](http://www.patorjk.com/software/taag/)
+" https://twitter.com/kawarimidoll
+" https://github.com/kawarimidoll
 
 "-----------------
 " Options
@@ -71,10 +72,6 @@ set wildmenu
 set wildmode=list:longest,full
 set wrap
 set wrapscan
-" if executable('rg')
-"   set grepprg=rg\ --vimgrep\ --no-heading
-"   set grepformat=%f:%l:%c:%m,%f:%l:%m
-" endif
 
 "-----------------
 " Plugins
@@ -176,6 +173,7 @@ command! -bang -nargs=* Rg
       \           : fzf#vim#with_preview('right:50%:hidden','?'),
       \   <bang>0)
 " avoid to search file name: fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'up:40%')
+
 augroup show_marks_sync
   autocmd!
   autocmd BufReadPost * silent! DoShowMarks
