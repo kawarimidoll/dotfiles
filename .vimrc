@@ -220,7 +220,8 @@ function! s:ChangeCase(str, type) abort
         \ a:type == "kebab" ? s:Kebab(a:str) :
         \ a:type == "dot" ? s:Dot(a:str) :
         \ a:str
-  normal! "_diw"zP
+  " TODO レジスタを退避させないと汚染されてしまう
+  normal! viw"zp
 endfunction
 function! s:ToggleCase() abort
   " TODO Visual modeから呼び出したときへの対応
