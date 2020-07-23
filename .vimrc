@@ -365,17 +365,18 @@ inoremap <C-t> <Esc><Left>"zx"pa
 " inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>" vim-endwiseと相性が悪いのでオフ
 
 " visual
-vmap gx <Plug>(openbrowser-smart-search)
-vmap v <Plug>(expand_region_expand)
-vmap <C-v> <Plug>(expand_region_shrink)
-vmap <silent> <expr> p <sid>VisualPaste()
-vnoremap <silent> y y`]
-vnoremap x "_x
-vnoremap z zf
+xmap gx <Plug>(openbrowser-smart-search)
+xmap v <Plug>(expand_region_expand)
+xmap <C-v> <Plug>(expand_region_shrink)
+xmap <silent> <expr> p <sid>VisualPaste()
+xnoremap <silent> y y`]
+xnoremap x "_x
+xnoremap z zf
 
-vnoremap <C-k> "zd<Up>"z]P`[V`]
-vnoremap <C-j> "zd"z]p`[V`]
-vnoremap <Space>/ :<C-u>RgRaw -F -- $'<C-r><C-w>'
+xnoremap <C-k> "zd<Up>"z]P`[V`]
+xnoremap <C-j> "zd"z]p`[V`]
+xnoremap <Space>/ :<C-u>RgRaw -F -- $'<C-r><C-w>'
+xnoremap <silent> <expr> t <sid>GetVisualSelection()
 
 " terminal
 tnoremap <C-w><C-n> <C-w>N
