@@ -174,14 +174,11 @@ command! -bang -nargs=* Rg
       \   <bang>0)
 " avoid to search file name: fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'up:40%')
 
-augroup show_marks_sync
+augroup PluginsAutoCommands
   autocmd!
   autocmd BufReadPost * silent! DoShowMarks
-augroup END
 
-" [lightline.vimとvim-anzuで検索ヒット数を表示する - Qiita](https://qiita.com/shiena/items/f53959d62085b7980cb5)
-augroup vim_anzu
-  autocmd!
+  " [lightline.vimとvim-anzuで検索ヒット数を表示する - Qiita](https://qiita.com/shiena/items/f53959d62085b7980cb5)
   autocmd CursorHold,CursorHoldI,WinLeave,TabLeave * call anzu#clear_search_status()
 augroup END
 
@@ -487,7 +484,7 @@ endif
 "-----------------
 " Auto Commands
 "-----------------
-augroup fileTypeSettings
+augroup FileTypeSettings
   autocmd!
   autocmd BufNewFile,BufRead *.md set filetype=markdown
   autocmd BufNewFile,BufRead *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4
