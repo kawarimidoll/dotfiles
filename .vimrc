@@ -1,3 +1,5 @@
+set encoding=utf-8
+scriptencoding utf-8
 "        _
 " __   _(_)_ __ ___  _ __ ___
 " \ \ / / | '_ ` _ \| '__/ __|
@@ -20,7 +22,6 @@ set cmdheight=2
 set completeopt=longest,menuone
 set cursorline
 set display=lastline
-set encoding=utf-8
 set expandtab
 set fenc=utf-8
 set fileencoding=utf-8
