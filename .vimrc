@@ -224,13 +224,6 @@ function! s:ChangeCase(str, type) abort
   normal! viw"zp
 endfunction
 function! s:ToggleCase() abort
-  " TODO Visual modeから呼び出したときへの対応
-  " let tmp = @@
-  " silent normal gvy
-  " let selected = @@
-  " let @@ = tmp
-  " echo selected
-
   let str = expand("<cword>")
   let type = stridx(str, "_") >= 0 ? "camel" :
         \ match(str, "^\\u") == 0 ? "snake" :
@@ -385,11 +378,6 @@ tnoremap <C-w><C-n> <C-w>N
 " Appearances
 "-----------------
 syntax enable
-
-" augroup MyVimAppearances
-"   autocmd!
-"   autocmd ColorScheme * highlight LineNr ctermfg=darkyellow
-" augroup END
 
 colorscheme gruvbox8
 " [Add Lightline support. by zlianon · Pull Request #16 · lifepillar/vim-gruvbox8](https://github.com/lifepillar/vim-gruvbox8/pull/16)
