@@ -247,16 +247,16 @@ command! CaseToDot call s:ChangeCase(expand("<cword>"), "dot")
 
 " [Vimの生産性を高める12の方法 | POSTD](https://postd.cc/how-to-boost-your-vim-productivity/)
 function! s:VisualPaste()
-  let s:clipboardops = split(&clipboard, ",")
-  let s:restore_reg = index(s:clipboardops, "unnamed") >= 0 ? @* : @"
-  function! RestoreRegister()
-    if index(s:clipboardops, "unnamed") >= 0
-      let @* = s:restore_reg
-      if index(s:clipboardops, "unnamedplus") >= 0
-        let @+ = s:restore_reg
+  let clipboard_options = split(&clipboard, ",")
+  let restore_reg = index(clipboard_options, "unnamed") >= 0 ? @* : @"
+  function! RestoreRegister() closure
+    if index(clipboard_options, "unnamed") >= 0
+      let @* = restore_reg
+      if index(clipboard_options, "unnamedplus") >= 0
+        let @+ = restore_reg
       endif
     else
-      let @" = s:restore_reg
+      let @" = restore_reg
     endif
     return ''
   endfunction
