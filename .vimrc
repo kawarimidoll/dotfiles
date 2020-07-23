@@ -325,6 +325,7 @@ nnoremap p ]p`]
 nnoremap P ]P`]
 nnoremap ]p p
 nnoremap ]P P
+nnoremap <Space>a <C-w><C-w>
 nnoremap <Space>b :<C-u>Buffers<CR>
 nnoremap <Space>c :<C-u>ToggleCase<CR>
 nnoremap <Space>d :<C-u>bdelete<CR>
@@ -344,12 +345,6 @@ nnoremap <Space>? :<C-u>RgRaw
 nnoremap <C-k> "zdd<Up>"zP==
 nnoremap <C-j> "zdd"zp==
 nnoremap <C-w><C-q> <C-w>c
-nnoremap <C-w><C-h> <C-w>h
-nnoremap <C-w><C-j> <C-w>j
-nnoremap <C-w><C-k> <C-w>k
-nnoremap <C-w><C-l> <C-w>l
-nnoremap <C-w><C-s> :<C-u>split<CR>
-nnoremap <C-w><C-v> :<C-u>vsplit<CR>
 
 " command
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
