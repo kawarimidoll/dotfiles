@@ -474,13 +474,13 @@ endfunction
 
 " 全角スペースの可視化 colorscheme以降に記述する
 if has('syntax')
-  let HighlightZenkakuSpace = {-> execute("highlight ZenkakuSpace cterm=reverse ctermfg=darkmagenta") }
+  let s:HighlightZenkakuSpace = {-> execute("highlight ZenkakuSpace cterm=reverse ctermfg=darkmagenta") }
   augroup ZenkakuSpace
     autocmd!
-    autocmd ColorScheme * call call( HighlightZenkakuSpace, [] )
+    autocmd ColorScheme * call call( s:HighlightZenkakuSpace, [] )
     autocmd VimEnter,WinEnter,BufRead * let w:m1=matchadd('ZenkakuSpace', '　')
   augroup END
-  call call( HighlightZenkakuSpace, [] )
+  call call( s:HighlightZenkakuSpace, [] )
 endif
 
 "-----------------
