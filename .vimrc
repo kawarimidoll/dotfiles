@@ -375,8 +375,8 @@ xnoremap z zf
 
 xnoremap <C-k> "zd<Up>"z]P`[V`]
 xnoremap <C-j> "zd"z]p`[V`]
-xnoremap <Space>/ :<C-u>RgRaw -F -- $'<C-r><C-w>'
-xnoremap <silent> <expr> t <sid>GetVisualSelection()
+xnoremap <Space>/ "zy:<C-u>RgRaw -F -- $'<C-r>z'<CR>
+" xnoremap <Space>c :<C-u>ToggleCase<CR> popup使って選択式にしよう
 
 " terminal
 tnoremap <C-w><C-n> <C-w>N
