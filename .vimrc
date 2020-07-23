@@ -327,21 +327,21 @@ nnoremap p ]p`]
 nnoremap P ]P`]
 nnoremap ]p p
 nnoremap ]P P
-nnoremap <Space>b :Buffers<CR>
-nnoremap <Space>c :ToggleCase<CR>
-nnoremap <Space>d :bdelete<CR>
-nnoremap <Space>f :Files<CR>
-nnoremap <Space>h :History<CR>
-nnoremap <Space>l :BLines<CR>
-nnoremap <Space>m :Marks<CR>
-nnoremap <Space>r :registers<CR>
-nnoremap <Space>t :edit #<CR>
-nnoremap <Space>q :quit<CR>
-nnoremap <Space>s :&&<CR>
-nnoremap <Space>w :write<CR>
-nnoremap <Space>z :za<CR>
-nnoremap <Space>/ :RgRaw -F -- $''<Left>
-nnoremap <Space>? :RgRaw
+nnoremap <Space>b :<C-u>Buffers<CR>
+nnoremap <Space>c :<C-u>ToggleCase<CR>
+nnoremap <Space>d :<C-u>bdelete<CR>
+nnoremap <Space>f :<C-u>Files<CR>
+nnoremap <Space>h :<C-u>History<CR>
+nnoremap <Space>l :<C-u>BLines<CR>
+nnoremap <Space>m :<C-u>Marks<CR>
+nnoremap <Space>r :<C-u>registers<CR>
+nnoremap <Space>t :<C-u>edit #<CR>
+nnoremap <Space>q :<C-u>quit<CR>
+nnoremap <Space>s :<C-u>&&<CR>
+nnoremap <Space>w :<C-u>write<CR>
+nnoremap <Space>z :<C-u>za<CR>
+nnoremap <Space>/ :<C-u>RgRaw -F -- $''<Left>
+nnoremap <Space>? :<C-u>RgRaw
 
 nnoremap <C-k> "zdd<Up>"zP==
 nnoremap <C-j> "zdd"zp==
