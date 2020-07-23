@@ -146,26 +146,26 @@ Plug 'Yggdroot/indentLine'
 call plug#end()
 
 let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
-let g:closetag_filenames='*.html,*.vue,*.html.erb'
-let g:fzf_buffers_jump=1
+let g:closetag_filenames = '*.html,*.vue,*.html.erb'
+let g:fzf_buffers_jump = 1
 let g:gruvbox_italics = 0
 let g:gruvbox_italicize_strings = 0
-let g:indentLine_leadingSpaceEnabled=1
-let g:netrw_alto=1
-let g:netrw_altv=1
-let g:netrw_banner=0
-let g:netrw_list_hide='^\.[^\.]'
-let g:netrw_liststyle=3
-let g:netrw_nogx=1 " netrwではopen-browserを無効化
-let g:netrw_preview=1
-let g:netrw_winsize=85
-let g:tcomment#replacements_xml={}
-let g:vim_json_syntax_conceal=0
-let g:vim_markdown_auto_insert_bullets=0
-let g:vim_markdown_folding_disabled=1
-let g:vim_markdown_new_list_item_indent=0
+let g:indentLine_leadingSpaceEnabled = 1
+let g:netrw_alto = 1
+let g:netrw_altv = 1
+let g:netrw_banner = 0
+let g:netrw_list_hide = '^\.[^\.]'
+let g:netrw_liststyle = 3
+let g:netrw_nogx = 1 " netrwではopen-browserを無効化
+let g:netrw_preview = 1
+let g:netrw_winsize = 85
+let g:tcomment#replacements_xml = {}
+let g:vim_json_syntax_conceal = 0
+let g:vim_markdown_auto_insert_bullets = 0
+let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_new_list_item_indent = 0
 
-let $FZF_DEFAULT_COMMAND='rg --files --follow --glob "!**/{vendor,images,fonts,node_modules}/*" 2> /dev/null'
+let $FZF_DEFAULT_COMMAND = 'rg --files --follow --glob "!**/{vendor,images,fonts,node_modules}/*" 2> /dev/null'
 command! -bang -nargs=* Rg
       \ call fzf#vim#grep(
       \   'rg --column --line-number --no-heading --color=always --smart-case -g "!{*.lock,*-lock.json}"'.shellescape(<q-args>), 1,
@@ -193,7 +193,7 @@ command! FmtTabTrail retab | FixWhitespace
 
 " [:SyntaxInfoでカラースキーム確認](http://cohama.hateblo.jp/entry/2013/08/11/020849)
 function! s:get_syn_info()
-  let GetCollorAttr={synid ->
+  let GetCollorAttr = {synid ->
         \ "name: " . synIDattr(synid, "name") .
         \ ", ctermfg: " . synIDattr(synid, "fg", "cterm") .
         \ ", ctermbg: " . synIDattr(synid, "bg", "cterm") .
@@ -430,7 +430,7 @@ let s:p.normal.error   = [ [ s:bg0, s:orange ] ]
 let s:p.normal.warning = [ [ s:bg2, s:yellow ] ]
 let g:lightline#colorscheme#gruvbox8#palette = lightline#colorscheme#flatten(s:p)
 " tablineの項目はwinwidthを気にしなくて良い
-let g:lightline={
+let g:lightline = {
       \ 'colorscheme': 'gruvbox8',
       \ 'mode_map': { 'c': 'SEARCH' },
       \ 'active': {
@@ -464,8 +464,8 @@ function! LightlineGitGutter()
         \ || !get(g:, 'gitgutter_enabled', 0)
     return ''
   endif
-  let [a,m,r]=GitGutterGetHunkSummary()
-  let ret=( a ? g:gitgutter_sign_added . a . ' ' : '' ) .
+  let [a,m,r] = GitGutterGetHunkSummary()
+  let ret = ( a ? g:gitgutter_sign_added . a . ' ' : '' ) .
         \ ( m ? g:gitgutter_sign_modified . m . ' ' : '' ) .
         \ ( r ? g:gitgutter_sign_removed . r : '' )
   return substitute(ret, " $", "", "")
@@ -473,7 +473,7 @@ endfunction
 
 " 全角スペースの可視化 colorscheme以降に記述する
 if has('syntax')
-  let HighlightZenkakuSpace={-> execute("highlight ZenkakuSpace cterm=reverse ctermfg=darkmagenta") }
+  let HighlightZenkakuSpace = {-> execute("highlight ZenkakuSpace cterm=reverse ctermfg=darkmagenta") }
   augroup ZenkakuSpace
     autocmd!
     autocmd ColorScheme * call call( HighlightZenkakuSpace, [] )
