@@ -1,5 +1,5 @@
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-2020-07-23 09:14:01 JST
+2020-07-24 09:11:43 JST
 avr-binutils
 avr-gcc@7
 avrdude

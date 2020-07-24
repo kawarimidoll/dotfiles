@@ -174,13 +174,6 @@ command! -bang -nargs=* Rg
       \   <bang>0)
 " avoid to search file name: fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'up:40%')
 
-augroup PluginsAutoCommands
-  autocmd!
-  autocmd BufReadPost * silent! DoShowMarks
-
-  " [lightline.vimとvim-anzuで検索ヒット数を表示する - Qiita](https://qiita.com/shiena/items/f53959d62085b7980cb5)
-  autocmd CursorHold,CursorHoldI,WinLeave,TabLeave * call anzu#clear_search_status()
-augroup END
 
 "-----------------
 " Commands and Functions
@@ -463,7 +456,7 @@ endfunction
 " 全角スペースの可視化 colorscheme以降に記述する
 if has('syntax')
   let s:HighlightZenkakuSpace = {-> execute("highlight ZenkakuSpace cterm=reverse ctermfg=darkmagenta") }
-  augroup ZenkakuSpace
+  augroup vimrc_appearances
     autocmd!
     autocmd ColorScheme * call call( s:HighlightZenkakuSpace, [] )
     autocmd VimEnter,WinEnter,BufRead * let w:m1=matchadd('ZenkakuSpace', '　')
@@ -474,8 +467,14 @@ endif
 "-----------------
 " Auto Commands
 "-----------------
-augroup FileTypeSettings
+augroup vimrc
   autocmd!
+  " plugin settings
+  autocmd BufReadPost * silent! DoShowMarks
+  " [lightline.vimとvim-anzuで検索ヒット数を表示する - Qiita](https://qiita.com/shiena/items/f53959d62085b7980cb5)
+  autocmd CursorHold,CursorHoldI,WinLeave,TabLeave * call anzu#clear_search_status()
+
+  " file type settings
   autocmd BufNewFile,BufRead *.md set filetype=markdown
   autocmd BufNewFile,BufRead *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4
   autocmd BufNewFile,BufRead *.java setlocal tabstop=4 softtabstop=4 shiftwidth=4
