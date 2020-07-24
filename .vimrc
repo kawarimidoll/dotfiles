@@ -228,7 +228,19 @@ command! CaseToPascal call s:ChangeCase(expand("<cword>"), "pascal")
 command! CaseToKebab call s:ChangeCase(expand("<cword>"), "kebab")
 command! CaseToDot call s:ChangeCase(expand("<cword>"), "dot")
 
-let s:case_menu = ['1 snake_case', '2 camelCase', '3 PascalCase', '4 kebab-case', '5 dot.case']
+function! s:SelectorWithNum(list, options = {})
+  function! NumKeyFilter(id, key)
+    if str2nr(a:key) > 0
+      call popup_close(a:id, str2nr(a:key))
+      return 1
+    endif
+    return popup_filter_menu(a:id, a:key)
+  endfunction
+  let a:options.filter = 'NumKeyFilter'
+  call popup_menu(map(copy(a:list), {key,val -> (key + 1) . ' ' . val }), a:options)
+endfunction
+
+let s:case_menu = ['snake_case', 'camelCase', 'PascalCase', 'kebab-case', 'dot.case']
 function! CaseToSelected(id, result)
   if a:result == -1
     echo 'canceled.'
@@ -246,14 +258,7 @@ function! CaseToSelected(id, result)
         \ str
   normal! gv"zp
 endfunction
-function! NumKeyFilter(id, key)
-  if str2nr(a:key) > 0
-    call popup_close(a:id, str2nr(a:key))
-    return 1
-  endif
-  return popup_filter_menu(a:id, a:key)
-endfunction
-command! CaseToSelected call popup_menu(s:case_menu, #{ title: ' Change to... ', callback: 'CaseToSelected', filter: 'NumKeyFilter'} )
+command! CaseToSelected call s:SelectorWithNum(s:case_menu, #{ title: ' Change to... ', callback: 'CaseToSelected'} )
 
 " [Vimの生産性を高める12の方法 | POSTD](https://postd.cc/how-to-boost-your-vim-productivity/)
 function! s:VisualPaste()
