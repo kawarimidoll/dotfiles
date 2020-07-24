@@ -212,14 +212,25 @@ function! s:SelectorWithNum(list, options = {})
 endfunction
 
 " [JavaScript で snake_case とか camelCase とか変換する | 忘れていくかわりに](https://kawarimidoll.netlify.app/2020/04/19/)
-let s:Snake = {str -> tolower(substitute(substitute(expand(str), "\\W", "_", "g"), ".\\zs\\u\\ze\\l", "_\\l\\0", "g"))}
-let s:Camel = {str -> substitute(substitute(s:Snake(str), "_\\l", "\\U\\0", "g"), "_", "", "g")}
-let s:Pascal = {str -> substitute(s:Camel(str), "^\\l", "\\u\\0", "")}
-let s:Kebab = {str -> substitute(s:Snake(str), "_", "-", "g")}
-let s:Dot = {str -> substitute(s:Snake(str), "_", ".", "g")}
+let s:cases = ['Snake', 'Camel', 'Pascal', 'Kebab', 'Dot', 'Slash']
+function! s:CaseToSelectedV(key = 0) abort
+  let Snake = {str -> tolower(substitute(substitute(str, "\\W", "_", "g"), ".\\zs\\u\\ze\\l", "_\\l\\0", "g"))}
+  let Camel = {str -> substitute(substitute(Snake(str), "_\\l", "\\U\\0", "g"), "_", "", "g")}
+  let Pascal = {str -> substitute(Camel(str), "^\\l", "\\u\\0", "")}
+  let Kebab = {str -> substitute(Snake(str), "_", "-", "g")}
+  let Dot = {str -> substitute(Snake(str), "_", ".", "g")}
+  let Slash = {str -> substitute(Snake(str), "_", "/", "g")}
+  let CaseTo = {type, str ->
+        \ type ==? 'Snake' ? Snake(str) :
+        \ type ==? 'Camel' ? Camel(str) :
+        \ type ==? 'Pascal' ? Pascal(str) :
+        \ type ==? 'Kebab' ? Kebab(str) :
+        \ type ==? 'Dot' ? Dot(str) :
+        \ type ==? 'Slash' ? Slash(str) :
+        \ str
+        \ }
 
-function! s:CaseToSelected(key = 0)
-  let case_menu = ['snake_case', 'camelCase', 'PascalCase', 'kebab-case', 'dot.case']
+  let case_menu = map(copy(s:cases), {_, val -> CaseTo(val, val . "Case")})
 
   function! ChangeCase(id, selection) closure
     if a:selection == -1
@@ -227,18 +238,11 @@ function! s:CaseToSelected(key = 0)
       return
     endif
     echo case_menu[a:selection - 1]
-    if mode() == 'n'
-      normal! viw"zy
-    endif
     normal! gv"zy
-    let str = @z
-    let @z = a:selection == 1 ? s:Snake(str) :
-          \ a:selection == 2 ? s:Camel(str) :
-          \ a:selection == 3 ? s:Pascal(str) :
-          \ a:selection == 4 ? s:Kebab(str) :
-          \ a:selection == 5 ? s:Dot(str) :
-          \ str
+    let @z = CaseTo(s:cases[a:selection - 1], @z)
+    " let @z = call(s:cases[a:selection - 1], [@z]) 本当はこうしたいが…
     normal! gv"zp
+    let @z = ''
   endfunction
 
   if a:key == 0
@@ -247,12 +251,17 @@ function! s:CaseToSelected(key = 0)
     call ChangeCase(0, a:key)
   endif
 endfunction
+function! s:CaseToSelected(key = 0) abort
+  normal! viw"zy
+  call s:CaseToSelectedV(a:key)
+endfunction
+command! CaseToSelectedV call s:CaseToSelectedV()
 command! CaseToSelected call s:CaseToSelected()
-command! CaseToSnake call s:CaseToSelected(1)
-command! CaseToCamel call s:CaseToSelected(2)
-command! CaseToPascal call s:CaseToSelected(3)
-command! CaseToKebab call s:CaseToSelected(4)
-command! CaseToDot call s:CaseToSelected(5)
+let s:idx = 1
+for s:case_name in s:cases
+  execute "command! CaseTo" . s:case_name . " call s:CaseToSelected(" . s:idx . ")"
+  let s:idx = s:idx + 1
+endfor
 
 function! s:ToggleCase() abort
   let str = expand('<cword>')
@@ -394,7 +403,7 @@ xnoremap z zf
 xnoremap <C-k> "zd<Up>"z]P`[V`]
 xnoremap <C-j> "zd"z]p`[V`]
 xnoremap <Space>/ "zy:<C-u>RgRaw -F -- $'<C-r>z'<CR>
-xnoremap <Space>c :<C-u>CaseToSelected<CR>
+xnoremap <Space>c :<C-u>CaseToSelectedV<CR>
 
 " terminal
 tnoremap <C-w><C-n> <C-w>N
