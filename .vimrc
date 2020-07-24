@@ -198,36 +198,6 @@ function! s:get_syn_info()
 endfunction
 command! SyntaxInfo call s:get_syn_info()
 
-" [JavaScript で snake_case とか camelCase とか変換する | 忘れていくかわりに](https://kawarimidoll.netlify.app/2020/04/19/)
-let s:Snake = {str -> tolower(substitute(substitute(expand(str), "\\W", "_", "g"), ".\\zs\\u\\ze\\l", "_\\l\\0", "g"))}
-let s:Camel = {str -> substitute(substitute(s:Snake(str), "_\\l", "\\U\\0", "g"), "_", "", "g")}
-let s:Pascal = {str -> substitute(s:Camel(str), "^\\l", "\\u\\0", "")}
-let s:Kebab = {str -> substitute(s:Snake(str), "_", "-", "g")}
-let s:Dot = {str -> substitute(s:Snake(str), "_", ".", "g")}
-function! s:ChangeCase(str, type) abort
-  let @z = a:type == "snake" ? s:Snake(a:str) :
-        \ a:type == "camel" ? s:Camel(a:str) :
-        \ a:type == "pascal" ? s:Pascal(a:str) :
-        \ a:type == "kebab" ? s:Kebab(a:str) :
-        \ a:type == "dot" ? s:Dot(a:str) :
-        \ a:str
-  normal! viw"zp
-endfunction
-function! s:ToggleCase() abort
-  let str = expand("<cword>")
-  let type = stridx(str, "_") >= 0 ? "camel" :
-        \ match(str, "^\\u") == 0 ? "snake" :
-        \ "pascal"
-  call s:ChangeCase(str, type)
-endfunction
-command! ToggleCase call s:ToggleCase()
-" 補完しやすいようCaseTo...で統一する
-command! CaseToSnake call s:ChangeCase(expand("<cword>"), "snake")
-command! CaseToCamel call s:ChangeCase(expand("<cword>"), "camel")
-command! CaseToPascal call s:ChangeCase(expand("<cword>"), "pascal")
-command! CaseToKebab call s:ChangeCase(expand("<cword>"), "kebab")
-command! CaseToDot call s:ChangeCase(expand("<cword>"), "dot")
-
 function! s:SelectorWithNum(list, options = {})
   function! NumKeyFilter(id, key)
     if str2nr(a:key) > 0
@@ -240,30 +210,57 @@ function! s:SelectorWithNum(list, options = {})
   call popup_menu(map(copy(a:list), {key,val -> (key + 1) . ' ' . val }), a:options)
 endfunction
 
-function! s:CaseToSelected()
+" [JavaScript で snake_case とか camelCase とか変換する | 忘れていくかわりに](https://kawarimidoll.netlify.app/2020/04/19/)
+let s:Snake = {str -> tolower(substitute(substitute(expand(str), "\\W", "_", "g"), ".\\zs\\u\\ze\\l", "_\\l\\0", "g"))}
+let s:Camel = {str -> substitute(substitute(s:Snake(str), "_\\l", "\\U\\0", "g"), "_", "", "g")}
+let s:Pascal = {str -> substitute(s:Camel(str), "^\\l", "\\u\\0", "")}
+let s:Kebab = {str -> substitute(s:Snake(str), "_", "-", "g")}
+let s:Dot = {str -> substitute(s:Snake(str), "_", ".", "g")}
+
+function! s:CaseToSelected(key = 0)
   let case_menu = ['snake_case', 'camelCase', 'PascalCase', 'kebab-case', 'dot.case']
-  function! ChangeCase(id, result) closure
-    if a:result == -1
+
+  function! ChangeCase(id, selection) closure
+    if a:selection == -1
       echo 'canceled.'
       return
     endif
-    echo case_menu[a:result - 1]
+    echo case_menu[a:selection - 1]
     if mode() == 'n'
       normal! viw"zy
     endif
     normal! gv"zy
     let str = @z
-    let @z = a:result == 1 ? s:Snake(str) :
-          \ a:result == 2 ? s:Camel(str) :
-          \ a:result == 3 ? s:Pascal(str) :
-          \ a:result == 4 ? s:Kebab(str) :
-          \ a:result == 5 ? s:Dot(str) :
+    let @z = a:selection == 1 ? s:Snake(str) :
+          \ a:selection == 2 ? s:Camel(str) :
+          \ a:selection == 3 ? s:Pascal(str) :
+          \ a:selection == 4 ? s:Kebab(str) :
+          \ a:selection == 5 ? s:Dot(str) :
           \ str
     normal! gv"zp
   endfunction
-  call s:SelectorWithNum(case_menu, #{ title: ' Change to... ', callback: 'ChangeCase'} )
+
+  if a:key == 0
+    call s:SelectorWithNum(case_menu, #{ title: ' Change to... ', callback: 'ChangeCase'} )
+  else
+    call ChangeCase(0, a:key)
+  endif
 endfunction
 command! CaseToSelected call s:CaseToSelected()
+command! CaseToSnake call s:CaseToSelected(1)
+command! CaseToCamel call s:CaseToSelected(2)
+command! CaseToPascal call s:CaseToSelected(3)
+command! CaseToKebab call s:CaseToSelected(4)
+command! CaseToDot call s:CaseToSelected(5)
+
+function! s:ToggleCase() abort
+  let str = expand('<cword>')
+  let type = stridx(str, "_") >= 0 ? 2 :
+        \ match(str, "^\\u") == 0 ? 1 :
+        \ 3
+  call s:CaseToSelected(type)
+endfunction
+command! ToggleCase call s:ToggleCase()
 
 " [Vimの生産性を高める12の方法 | POSTD](https://postd.cc/how-to-boost-your-vim-productivity/)
 function! s:VisualPaste()
