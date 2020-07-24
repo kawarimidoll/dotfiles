@@ -199,15 +199,16 @@ endfunction
 command! SyntaxInfo call s:get_syn_info()
 
 function! s:SelectorWithNum(list, options = {})
-  function! NumKeyFilter(id, key)
-    if str2nr(a:key) > 0
-      call popup_close(a:id, str2nr(a:key))
+  function! NumKeyFilter(id, key) closure
+    let idx = str2nr(a:key)
+    if 0 < idx && idx <= len(a:list)
+      call popup_close(a:id, idx)
       return 1
     endif
     return popup_filter_menu(a:id, a:key)
   endfunction
   let a:options.filter = 'NumKeyFilter'
-  call popup_menu(map(copy(a:list), {key,val -> (key + 1) . ' ' . val }), a:options)
+  call popup_menu(map(copy(a:list), {key, val -> (key < 9 ? key + 1 : ' ') . ' ' . val}), a:options)
 endfunction
 
 " [JavaScript で snake_case とか camelCase とか変換する | 忘れていくかわりに](https://kawarimidoll.netlify.app/2020/04/19/)
