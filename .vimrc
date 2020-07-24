@@ -174,7 +174,6 @@ command! -bang -nargs=* Rg
       \   <bang>0)
 " avoid to search file name: fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'up:40%')
 
-
 "-----------------
 " Commands and Functions
 "-----------------
@@ -212,7 +211,6 @@ function! s:ChangeCase(str, type) abort
         \ a:type == "kebab" ? s:Kebab(a:str) :
         \ a:type == "dot" ? s:Dot(a:str) :
         \ a:str
-  " TODO レジスタを退避させないと汚染されてしまう
   normal! viw"zp
 endfunction
 function! s:ToggleCase() abort
@@ -229,6 +227,26 @@ command! CaseToCamel call s:ChangeCase(expand("<cword>"), "camel")
 command! CaseToPascal call s:ChangeCase(expand("<cword>"), "pascal")
 command! CaseToKebab call s:ChangeCase(expand("<cword>"), "kebab")
 command! CaseToDot call s:ChangeCase(expand("<cword>"), "dot")
+
+" [What are the new "popup windows" in Vim 8.2?](https://vi.stackexchange.com/questions/24462/what-are-the-new-popup-windows-in-vim-8-2)
+let s:case_menu = ['snake_case', 'camelCase', 'PascalCase', 'kebab-case', 'dot.case']
+function! CaseToSelected(id, result)
+  if a:result == -1
+    echo 'canceled.'
+    return
+  endif
+  echo s:case_menu[a:result - 1]
+  normal! gv"zy
+  let str = @z
+  let @z = a:result == 1 ? s:Snake(str) :
+        \ a:result == 2 ? s:Camel(str) :
+        \ a:result == 3 ? s:Pascal(str) :
+        \ a:result == 4 ? s:Kebab(str) :
+        \ a:result == 5 ? s:Dot(str) :
+        \ str
+  normal! gv"zp
+endfunction
+command! CaseToSelected call popup_menu(s:case_menu, #{ title: ' Change to... ', callback: 'CaseToSelected'} )
 
 " [Vimの生産性を高める12の方法 | POSTD](https://postd.cc/how-to-boost-your-vim-productivity/)
 function! s:VisualPaste()
@@ -361,7 +379,7 @@ xnoremap z zf
 xnoremap <C-k> "zd<Up>"z]P`[V`]
 xnoremap <C-j> "zd"z]p`[V`]
 xnoremap <Space>/ "zy:<C-u>RgRaw -F -- $'<C-r>z'<CR>
-" xnoremap <Space>c :<C-u>ToggleCase<CR> popup使って選択式にしよう
+xnoremap <Space>c :<C-u>CaseToSelected<CR>
 
 " terminal
 tnoremap <C-w><C-n> <C-w>N
