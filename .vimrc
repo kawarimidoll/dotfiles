@@ -178,8 +178,7 @@ command! -bang -nargs=* Rg
 "-----------------
 " Commands and Functions
 "-----------------
-command! Evimrc edit $MYVIMRC
-command! Svimrc source $MYVIMRC | nohlsearch
+command! Vimrc edit $MYVIMRC | source $MYVIMRC | nohlsearch
 command! Terminal terminal ++rows=12
 command! LazyGit tab terminal ++close lazygit
 command! FmtTabTrail retab | FixWhitespace
