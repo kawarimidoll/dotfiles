@@ -333,7 +333,7 @@ map gs <Plug>(asterisk-gz*)<Plug>(is-nohl-1)<Plug>(anzu-update-search-status)zz
 nmap gx <Plug>(openbrowser-smart-search)
 nnoremap S :%s/\V<C-r>///g<Left><Left>
 nnoremap x "_x
-nnoremap X "_X
+nnoremap X V"_d
 nnoremap Q @
 nnoremap ' `
 nnoremap ? /\v
