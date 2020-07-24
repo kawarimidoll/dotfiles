@@ -240,25 +240,30 @@ function! s:SelectorWithNum(list, options = {})
   call popup_menu(map(copy(a:list), {key,val -> (key + 1) . ' ' . val }), a:options)
 endfunction
 
-let s:case_menu = ['snake_case', 'camelCase', 'PascalCase', 'kebab-case', 'dot.case']
-function! CaseToSelected(id, result)
-  if a:result == -1
-    echo 'canceled.'
-    return
-  endif
-  echo s:case_menu[a:result - 1]
-  " これノーマルモードにも対応させるべき？
-  normal! gv"zy
-  let str = @z
-  let @z = a:result == 1 ? s:Snake(str) :
-        \ a:result == 2 ? s:Camel(str) :
-        \ a:result == 3 ? s:Pascal(str) :
-        \ a:result == 4 ? s:Kebab(str) :
-        \ a:result == 5 ? s:Dot(str) :
-        \ str
-  normal! gv"zp
+function! s:CaseToSelected()
+  let case_menu = ['snake_case', 'camelCase', 'PascalCase', 'kebab-case', 'dot.case']
+  function! ChangeCase(id, result) closure
+    if a:result == -1
+      echo 'canceled.'
+      return
+    endif
+    echo case_menu[a:result - 1]
+    if mode() == 'n'
+      normal! viw"zy
+    endif
+    normal! gv"zy
+    let str = @z
+    let @z = a:result == 1 ? s:Snake(str) :
+          \ a:result == 2 ? s:Camel(str) :
+          \ a:result == 3 ? s:Pascal(str) :
+          \ a:result == 4 ? s:Kebab(str) :
+          \ a:result == 5 ? s:Dot(str) :
+          \ str
+    normal! gv"zp
+  endfunction
+  call s:SelectorWithNum(case_menu, #{ title: ' Change to... ', callback: 'ChangeCase'} )
 endfunction
-command! CaseToSelected call s:SelectorWithNum(s:case_menu, #{ title: ' Change to... ', callback: 'CaseToSelected'} )
+command! CaseToSelected call s:CaseToSelected()
 
 " [Vimの生産性を高める12の方法 | POSTD](https://postd.cc/how-to-boost-your-vim-productivity/)
 function! s:VisualPaste()
