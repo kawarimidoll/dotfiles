@@ -228,14 +228,14 @@ command! CaseToPascal call s:ChangeCase(expand("<cword>"), "pascal")
 command! CaseToKebab call s:ChangeCase(expand("<cword>"), "kebab")
 command! CaseToDot call s:ChangeCase(expand("<cword>"), "dot")
 
-" [What are the new "popup windows" in Vim 8.2?](https://vi.stackexchange.com/questions/24462/what-are-the-new-popup-windows-in-vim-8-2)
-let s:case_menu = ['snake_case', 'camelCase', 'PascalCase', 'kebab-case', 'dot.case']
+let s:case_menu = ['1 snake_case', '2 camelCase', '3 PascalCase', '4 kebab-case', '5 dot.case']
 function! CaseToSelected(id, result)
   if a:result == -1
     echo 'canceled.'
     return
   endif
   echo s:case_menu[a:result - 1]
+  " これノーマルモードにも対応させるべき？
   normal! gv"zy
   let str = @z
   let @z = a:result == 1 ? s:Snake(str) :
@@ -246,7 +246,14 @@ function! CaseToSelected(id, result)
         \ str
   normal! gv"zp
 endfunction
-command! CaseToSelected call popup_menu(s:case_menu, #{ title: ' Change to... ', callback: 'CaseToSelected'} )
+function! NumKeyFilter(id, key)
+  if str2nr(a:key) > 0
+    call popup_close(a:id, str2nr(a:key))
+    return 1
+  endif
+  return popup_filter_menu(a:id, a:key)
+endfunction
+command! CaseToSelected call popup_menu(s:case_menu, #{ title: ' Change to... ', callback: 'CaseToSelected', filter: 'NumKeyFilter'} )
 
 " [Vimの生産性を高める12の方法 | POSTD](https://postd.cc/how-to-boost-your-vim-productivity/)
 function! s:VisualPaste()
