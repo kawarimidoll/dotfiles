@@ -213,7 +213,7 @@ endfunction
 
 " [JavaScript で snake_case とか camelCase とか変換する | 忘れていくかわりに](https://kawarimidoll.netlify.app/2020/04/19/)
 let s:cases = ['Snake', 'Camel', 'Pascal', 'Kebab', 'Dot', 'Slash']
-function! s:CaseToSelectedV(key = 0) abort
+function! s:CaseToSelected(key = 0, mode = 'n') abort
   let Snake = {str -> tolower(substitute(substitute(str, "\\W", "_", "g"), ".\\zs\\u\\ze\\l", "_\\l\\0", "g"))}
   let Camel = {str -> substitute(substitute(Snake(str), "_\\l", "\\U\\0", "g"), "_", "", "g")}
   let Pascal = {str -> substitute(Camel(str), "^\\l", "\\u\\0", "")}
@@ -238,6 +238,9 @@ function! s:CaseToSelectedV(key = 0) abort
       return
     endif
     echo case_menu[a:selection - 1]
+    if a:mode == 'n'
+      normal! viw"zy
+    endif
     normal! gv"zy
     let @z = CaseTo(s:cases[a:selection - 1], @z)
     " let @z = call(s:cases[a:selection - 1], [@z]) 本当はこうしたいがlambdaはcallできない模様
@@ -251,11 +254,6 @@ function! s:CaseToSelectedV(key = 0) abort
     call ChangeCase(0, a:key)
   endif
 endfunction
-function! s:CaseToSelected(key = 0) abort
-  normal! viw"zy
-  call s:CaseToSelectedV(a:key)
-endfunction
-command! CaseToSelectedV call s:CaseToSelectedV()
 command! CaseToSelected call s:CaseToSelected()
 let s:idx = 1
 for s:case_name in s:cases
@@ -405,7 +403,7 @@ xnoremap z zf
 xnoremap <C-k> "zd<Up>"z]P`[V`]
 xnoremap <C-j> "zd"z]p`[V`]
 xnoremap <Space>/ "zy:<C-u>RgRaw -F -- $'<C-r>z'<CR>
-xnoremap <Space>c :<C-u>CaseToSelectedV<CR>
+xnoremap <expr> <Space>c <sid>CaseToSelected(0, 'v')
 
 " terminal
 tnoremap <C-w><C-n> <C-w>N
