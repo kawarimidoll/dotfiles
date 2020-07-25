@@ -353,6 +353,7 @@ nnoremap <Space>b :<C-u>Buffers<CR>
 nnoremap <Space>c :<C-u>ToggleCase<CR>
 nnoremap <Space>d :<C-u>bdelete<CR>
 nnoremap <Space>f :<C-u>Files<CR>
+nnoremap <Space>g :<C-u>copy .<CR>
 nnoremap <Space>h :<C-u>History<CR>
 nnoremap <Space>i mzviwbg~`z:<C-u>delmarks z<CR>
 nnoremap <Space>l :<C-u>BLines<CR>
