@@ -233,19 +233,19 @@ function! s:CaseToSelectedV(key = 0) abort
   let case_menu = map(copy(s:cases), {_, val -> CaseTo(val, val . "Case")})
 
   function! ChangeCase(id, selection) closure
-    if a:selection == -1
+    if a:selection < 1
       echo 'canceled.'
       return
     endif
     echo case_menu[a:selection - 1]
     normal! gv"zy
     let @z = CaseTo(s:cases[a:selection - 1], @z)
-    " let @z = call(s:cases[a:selection - 1], [@z]) 本当はこうしたいが…
+    " let @z = call(s:cases[a:selection - 1], [@z]) 本当はこうしたいがlambdaはcallできない模様
     normal! gv"zp
     let @z = ''
   endfunction
 
-  if a:key == 0
+  if a:key < 1
     call s:SelectorWithNum(case_menu, #{ title: ' Change to... ', callback: 'ChangeCase'} )
   else
     call ChangeCase(0, a:key)
