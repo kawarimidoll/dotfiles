@@ -356,12 +356,14 @@ nnoremap <Space>c :<C-u>ToggleCase<CR>
 nnoremap <Space>d :<C-u>bdelete<CR>
 nnoremap <Space>f :<C-u>Files<CR>
 nnoremap <Space>h :<C-u>History<CR>
+nnoremap <Space>i mzviwbg~`z:<C-u>delmarks z<CR>
 nnoremap <Space>l :<C-u>BLines<CR>
 nnoremap <Space>m :<C-u>Marks<CR>
 nnoremap <Space>r :<C-u>registers<CR>
 nnoremap <Space>t :<C-u>edit #<CR>
 nnoremap <Space>q :<C-u>quit<CR>
 nnoremap <Space>s :<C-u>&&<CR>
+nnoremap <Space>u mzviwg~`z:<C-u>delmarks z<CR>
 nnoremap <Space>w :<C-u>write<CR>
 nnoremap <Space>z :<C-u>za<CR>
 nnoremap <Space>/ :<C-u>RgRaw -F -- $''<Left>
