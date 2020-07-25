@@ -395,7 +395,7 @@ inoremap <C-t> <Esc><Left>"zx"pa
 xmap gx <Plug>(openbrowser-smart-search)
 xmap v <Plug>(expand_region_expand)
 xmap <C-v> <Plug>(expand_region_shrink)
-xmap <silent> <expr> p <sid>VisualPaste()
+xnoremap <silent> <expr> p <sid>VisualPaste()
 xnoremap <silent> y y`]
 xnoremap x "_x
 xnoremap z zf
