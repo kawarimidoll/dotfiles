@@ -238,18 +238,18 @@ function! s:CaseToSelected(key = 0, mode = 'n') abort
         \ ->substitute("^_\\+\\|_\\+$\\", "", "g")
         \ ->substitute("_\\+", separator, "g")
         \ }
-  let CaseTo = #{
-        \ Snake  : {str -> Snake(str, '_')},
-        \ Camel  : {str -> Snake(str, '_')->substitute("_\\(\\l\\)", "\\u\\1", "g")},
-        \ Pascal : {str -> Snake(str, '_')->substitute("\\(\\l\\+\\)_\\?", "\\u\\1", "g")},
-        \ Kebab  : {str -> Snake(str, '-')},
-        \ Dot    : {str -> Snake(str, '.')},
-        \ Slash  : {str -> Snake(str, '/')},
-        \ Words  : {str -> Snake(str, ' ')},
-        \ Header : {str -> Snake(str, '-')->substitute("\\w\\+", "\\u\\0", "g")},
-        \ }
+  let CaseTo = [
+        \ ['Snake' , {str -> Snake(str, '_')}],
+        \ ['Camel' , {str -> Snake(str, '_')->substitute("_\\(\\l\\)", "\\u\\1", "g")}],
+        \ ['Pascal', {str -> Snake(str, '_')->substitute("\\(\\l\\+\\)_\\?", "\\u\\1", "g")}],
+        \ ['Kebab' , {str -> Snake(str, '-')}],
+        \ ['Dot'   , {str -> Snake(str, '.')}],
+        \ ['Slash' , {str -> Snake(str, '/')}],
+        \ ['Words' , {str -> Snake(str, ' ')}],
+        \ ['Header', {str -> Snake(str, '-')->substitute("\\w\\+", "\\u\\0", "g")}],
+        \ ]
 
-  let case_menu = map(copy(s:cases), {_, val -> CaseTo[val](val . "Case")})
+  let case_menu = CaseTo->copy()->map({_, v -> v[1](v[0] . "Case")})
 
   function! ChangeCase(id, selection) closure
     if a:selection < 1
@@ -265,7 +265,7 @@ function! s:CaseToSelected(key = 0, mode = 'n') abort
     else
       normal! "zy
     endif
-    let @z = CaseTo[s:cases[a:selection - 1]](@z)
+    let @z = CaseTo[a:selection - 1][1](@z)
     normal! gv"zp
     let @z = ''
   endfunction
@@ -277,10 +277,8 @@ function! s:CaseToSelected(key = 0, mode = 'n') abort
   endif
 endfunction
 command! CaseToSelected call s:CaseToSelected()
-let s:idx = 1
-for s:case_name in s:cases
-  execute "command! CaseTo" . s:case_name . " call s:CaseToSelected(" . s:idx . ")"
-  let s:idx = s:idx + 1
+for [s:idx, s:elm] in s:cases->copy()->map({idx, elm -> [idx+1, elm]})
+  execute "command! CaseTo" . s:elm . " call s:CaseToSelected(" . s:idx . ")"
 endfor
 
 function! s:ToggleCase() abort
