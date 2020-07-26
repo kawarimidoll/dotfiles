@@ -186,12 +186,12 @@ if !exists('*s:ImproveVimrc')
   " [Function to source .vimrc and .gvimrc](https://stackoverflow.com/questions/7114744/function-to-source-vimrc-and-gvimrc)
   function! s:ImproveVimrc()
     if &filetype == 'vim'
-      source $MYVIMRC | nohlsearch | echo 'vimrc is reloaded.'
+      source $MYVIMRC
     else
       edit $MYVIMRC
     endif
   endfunction
-  command! Vimrc call s:ImproveVimrc()
+  command! Vimrc call s:ImproveVimrc() | nohlsearch | echo 'vimrc is loaded.'
 endif
 command! Terminal terminal ++rows=12
 command! LazyGit tab terminal ++close lazygit
