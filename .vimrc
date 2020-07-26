@@ -231,7 +231,7 @@ endfunction
 " [JavaScript で snake_case とか camelCase とか変換する | 忘れていくかわりに](https://kawarimidoll.netlify.app/2020/04/19/)
 let s:cases = ['Snake', 'Camel', 'Pascal', 'Kebab', 'Dot', 'Slash', 'Words', 'Header']
 function! s:CaseToSelected(key = 0, mode = 'n') abort
-  let Snake = {str, separator -> str
+  let WordsSeparate = {str, separator -> str
         \ ->substitute("\\W\\+", "_", "g")
         \ ->substitute("\\(\\u\\+\\)\\(\\u\\l\\)", "_\\L\\1_\\L\\2", "g")
         \ ->substitute("\\u\\+\\|\\d\\+", "_\\L\\0", "g")
@@ -239,14 +239,14 @@ function! s:CaseToSelected(key = 0, mode = 'n') abort
         \ ->substitute("_\\+", separator, "g")
         \ }
   let CaseTo = [
-        \ ['Snake' , {str -> Snake(str, '_')}],
-        \ ['Camel' , {str -> Snake(str, '_')->substitute("_\\(\\l\\)", "\\u\\1", "g")}],
-        \ ['Pascal', {str -> Snake(str, '_')->substitute("\\(\\l\\+\\)_\\?", "\\u\\1", "g")}],
-        \ ['Kebab' , {str -> Snake(str, '-')}],
-        \ ['Dot'   , {str -> Snake(str, '.')}],
-        \ ['Slash' , {str -> Snake(str, '/')}],
-        \ ['Words' , {str -> Snake(str, ' ')}],
-        \ ['Header', {str -> Snake(str, '-')->substitute("\\w\\+", "\\u\\0", "g")}],
+        \ ['Snake' , {str -> WordsSeparate(str, '_')}],
+        \ ['Camel' , {str -> WordsSeparate(str, '_')->substitute("_\\(\\l\\)", "\\u\\1", "g")}],
+        \ ['Pascal', {str -> WordsSeparate(str, '_')->substitute("\\(\\l\\+\\)_\\?", "\\u\\1", "g")}],
+        \ ['Kebab' , {str -> WordsSeparate(str, '-')}],
+        \ ['Dot'   , {str -> WordsSeparate(str, '.')}],
+        \ ['Slash' , {str -> WordsSeparate(str, '/')}],
+        \ ['Words' , {str -> WordsSeparate(str, ' ')}],
+        \ ['Header', {str -> WordsSeparate(str, '-')->substitute("\\w\\+", "\\u\\0", "g")}],
         \ ]
 
   let case_menu = CaseTo->copy()->map({_, v -> v[1](v[0] . "Case")})
