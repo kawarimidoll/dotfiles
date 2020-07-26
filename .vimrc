@@ -218,7 +218,7 @@ function! s:SelectorWithNum(list, options = {})
     return popup_filter_menu(a:id, a:key)
   endfunction
   let a:options.filter = 'NumKeyFilter'
-  call popup_menu(map(copy(a:list), {key, val -> (key < 9 ? key + 1 : ' ') . ' ' . val}), a:options)
+  call popup_menu(copy(a:list)->map({key, val -> (key < 9 ? key + 1 : ' ') . ' ' . val}), a:options)
 endfunction
 
 " [What are the new "popup windows" in Vim 8.2?](https://vi.stackexchange.com/questions/24462/what-are-the-new-popup-windows-in-vim-8-2)
@@ -351,7 +351,6 @@ inoremap <Left> <Nop>
 inoremap <Right> <Nop>
 
 " global
-noremap q: :q
 noremap j gj
 noremap k gk
 noremap gj j
@@ -374,11 +373,11 @@ nnoremap Q @
 nnoremap ' `
 nnoremap ? /\v
 nnoremap == gg=G''
-nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
 nnoremap p ]p`]
 nnoremap P ]P`]
 nnoremap ]p p
 nnoremap ]P P
+nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
 nnoremap <Space>a <C-w><C-w>
 nnoremap <Space>b :<C-u>Buffers<CR>
 nnoremap <Space>c :<C-u>ToggleCase<CR>
