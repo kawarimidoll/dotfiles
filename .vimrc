@@ -246,7 +246,7 @@ function! s:CaseToSelected(key = 0, mode = 'n') abort
         \ Dot    : {str -> Snake(str, '.')},
         \ Slash  : {str -> Snake(str, '/')},
         \ Words  : {str -> Snake(str, ' ')},
-        \ Header : {str -> Snake(str, '-')->substitute("^\\w\\|-\\w", "\\U\\0", "g")},
+        \ Header : {str -> Snake(str, '-')->substitute("\\w\\+", "\\u\\0", "g")},
         \ }
 
   let case_menu = map(copy(s:cases), {_, val -> CaseTo[val](val . "Case")})
