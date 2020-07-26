@@ -178,6 +178,7 @@ command! -bang -nargs=* Rg
 " Commands and Functions
 "-----------------
 if !exists('*s:ImproveVimrc')
+  " [Function to source .vimrc and .gvimrc](https://stackoverflow.com/questions/7114744/function-to-source-vimrc-and-gvimrc)
   function! s:ImproveVimrc()
     if &filetype == 'vim'
       source $MYVIMRC | nohlsearch | echo 'vimrc is reloaded.'
@@ -219,6 +220,8 @@ function! s:SelectorWithNum(list, options = {})
   let a:options.filter = 'NumKeyFilter'
   call popup_menu(map(copy(a:list), {key, val -> (key < 9 ? key + 1 : ' ') . ' ' . val}), a:options)
 endfunction
+
+" [What are the new "popup windows" in Vim 8.2?](https://vi.stackexchange.com/questions/24462/what-are-the-new-popup-windows-in-vim-8-2)
 
 " [JavaScript で snake_case とか camelCase とか変換する | 忘れていくかわりに](https://kawarimidoll.netlify.app/2020/04/19/)
 let s:cases = ['Snake', 'Camel', 'Pascal', 'Kebab', 'Dot', 'Slash', 'Words', 'Header']
