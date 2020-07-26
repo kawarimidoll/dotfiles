@@ -1,0 +1,4 @@
+# [Vim を一時停止しシェルに戻ったことをStarshipに表示する](https://oki2a24.com/2020/07/25/how-to-show-vim-shell-status-to-starship/)
+[custom.vim]
+command = "echo Vim"
+when = """ test -n "$VIMRUNTIME" """
