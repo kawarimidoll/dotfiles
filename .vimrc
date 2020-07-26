@@ -231,32 +231,25 @@ endfunction
 " [JavaScript で snake_case とか camelCase とか変換する | 忘れていくかわりに](https://kawarimidoll.netlify.app/2020/04/19/)
 let s:cases = ['Snake', 'Camel', 'Pascal', 'Kebab', 'Dot', 'Slash', 'Words', 'Header']
 function! s:CaseToSelected(key = 0, mode = 'n') abort
-  let Snake = {str -> str
+  let Snake = {str, separator -> str
         \ ->substitute("\\W\\+", "_", "g")
         \ ->substitute("\\(\\u\\+\\)\\(\\u\\l\\)", "_\\L\\1_\\L\\2", "g")
         \ ->substitute("\\u\\+\\|\\d\\+", "_\\L\\0", "g")
-        \ ->substitute("^_\\+\\|_\\+$\\|_\\zs_\\+\\ze", "", "g")
+        \ ->substitute("^_\\+\\|_\\+$\\", "", "g")
+        \ ->substitute("_\\+", separator, "g")
         \ }
-  let Camel  = {str -> Snake(str)->substitute("_\\(\\l\\)", "\\u\\1", "g")}
-  let Pascal = {str -> Camel(str)->substitute("^\\l", "\\u\\0", "")}
-  let Kebab  = {str -> Snake(str)->substitute("_", "-", "g")}
-  let Dot    = {str -> Snake(str)->substitute("_", ".", "g")}
-  let Slash  = {str -> Snake(str)->substitute("_", "/", "g")}
-  let Words  = {str -> Snake(str)->substitute("_", " ", "g")}
-  let Header = {str -> Kebab(str)->substitute("^\\w\\|-\\w", "\\U\\0", "g")}
-  let CaseTo = {type, str ->
-        \ type ==? 'Snake'  ? Snake(str)  :
-        \ type ==? 'Camel'  ? Camel(str)  :
-        \ type ==? 'Pascal' ? Pascal(str) :
-        \ type ==? 'Kebab'  ? Kebab(str)  :
-        \ type ==? 'Dot'    ? Dot(str)    :
-        \ type ==? 'Slash'  ? Slash(str)  :
-        \ type ==? 'Words'  ? Words(str)  :
-        \ type ==? 'Header' ? Header(str) :
-        \ str
+  let CaseTo = #{
+        \ Snake  : {str -> Snake(str, '_')},
+        \ Camel  : {str -> Snake(str, '_')->substitute("_\\(\\l\\)", "\\u\\1", "g")},
+        \ Pascal : {str -> Snake(str, '_')->substitute("\\(\\l\\+\\)_\\?", "\\u\\1", "g")},
+        \ Kebab  : {str -> Snake(str, '-')},
+        \ Dot    : {str -> Snake(str, '.')},
+        \ Slash  : {str -> Snake(str, '/')},
+        \ Words  : {str -> Snake(str, ' ')},
+        \ Header : {str -> Snake(str, '-')->substitute("^\\w\\|-\\w", "\\U\\0", "g")},
         \ }
 
-  let case_menu = map(copy(s:cases), {_, val -> CaseTo(val, val . "Case")})
+  let case_menu = map(copy(s:cases), {_, val -> CaseTo[val](val . "Case")})
 
   function! ChangeCase(id, selection) closure
     if a:selection < 1
@@ -272,8 +265,7 @@ function! s:CaseToSelected(key = 0, mode = 'n') abort
     else
       normal! "zy
     endif
-    let @z = CaseTo(s:cases[a:selection - 1], @z)
-    " let @z = call(s:cases[a:selection - 1], [@z]) 本当はこうしたいがlambdaはcallできない模様
+    let @z = CaseTo[s:cases[a:selection - 1]](@z)
     normal! gv"zp
     let @z = ''
   endfunction
