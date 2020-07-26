@@ -162,8 +162,13 @@ let g:netrw_winsize = 85
 let g:tcomment#replacements_xml = {}
 let g:vim_json_syntax_conceal = 0
 let g:vim_markdown_auto_insert_bullets = 0
+let g:vim_markdown_conceal_code_blocks = 0
 let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_frontmatter = 1
 let g:vim_markdown_new_list_item_indent = 0
+let g:vim_markdown_no_default_key_mappings = 1
+let g:vim_markdown_strikethrough = 1
+let g:vim_markdown_toc_autofit = 1
 
 let $FZF_DEFAULT_COMMAND = 'rg --files --follow --glob "!**/{vendor,images,fonts,node_modules}/*" 2> /dev/null'
 command! -bang -nargs=* Rg
