@@ -177,7 +177,16 @@ command! -bang -nargs=* Rg
 "-----------------
 " Commands and Functions
 "-----------------
-command! Vimrc edit $MYVIMRC | source $MYVIMRC | nohlsearch
+if !exists('*s:ImproveVimrc')
+  function! s:ImproveVimrc()
+    if &filetype == 'vim'
+      source $MYVIMRC | nohlsearch | echo 'vimrc is reloaded.'
+    else
+      edit $MYVIMRC
+    endif
+  endfunction
+  command! Vimrc call s:ImproveVimrc()
+endif
 command! Terminal terminal ++rows=12
 command! LazyGit tab terminal ++close lazygit
 command! FmtTabTrail retab | FixWhitespace
