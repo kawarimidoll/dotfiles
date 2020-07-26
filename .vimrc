@@ -221,21 +221,31 @@ function! s:SelectorWithNum(list, options = {})
 endfunction
 
 " [JavaScript で snake_case とか camelCase とか変換する | 忘れていくかわりに](https://kawarimidoll.netlify.app/2020/04/19/)
-let s:cases = ['Snake', 'Camel', 'Pascal', 'Kebab', 'Dot', 'Slash']
+let s:cases = ['Snake', 'Camel', 'Pascal', 'Kebab', 'Dot', 'Slash', 'Words', 'Header']
 function! s:CaseToSelected(key = 0, mode = 'n') abort
-  let Snake = {str -> tolower(substitute(substitute(str, "\\W", "_", "g"), ".\\zs\\u\\ze\\l", "_\\l\\0", "g"))}
-  let Camel = {str -> substitute(substitute(Snake(str), "_\\l", "\\U\\0", "g"), "_", "", "g")}
-  let Pascal = {str -> substitute(Camel(str), "^\\l", "\\u\\0", "")}
-  let Kebab = {str -> substitute(Snake(str), "_", "-", "g")}
-  let Dot = {str -> substitute(Snake(str), "_", ".", "g")}
-  let Slash = {str -> substitute(Snake(str), "_", "/", "g")}
+  let Snake = {str -> str
+        \ ->substitute("\\W\\+", "_", "g")
+        \ ->substitute("\\(\\u\\+\\)\\(\\u\\l\\)", "_\\L\\1_\\L\\2", "g")
+        \ ->substitute("\\u\\+\\|\\d\\+", "_\\L\\0", "g")
+        \ ->substitute("^_\\+\\|_\\+$", "", "g")
+        \ ->substitute("_\\+", "_", "g")
+        \ }
+  let Camel  = {str -> Snake(str)->substitute("_\\(\\l\\)", "\\u\\1", "g")}
+  let Pascal = {str -> Camel(str)->substitute("^\\l", "\\u\\0", "")}
+  let Kebab  = {str -> Snake(str)->substitute("_", "-", "g")}
+  let Dot    = {str -> Snake(str)->substitute("_", ".", "g")}
+  let Slash  = {str -> Snake(str)->substitute("_", "/", "g")}
+  let Words  = {str -> Snake(str)->substitute("_", " ", "g")}
+  let Header = {str -> Kebab(str)->substitute("^\\w\\|-\\w", "\\U\\0", "g")}
   let CaseTo = {type, str ->
-        \ type ==? 'Snake' ? Snake(str) :
-        \ type ==? 'Camel' ? Camel(str) :
+        \ type ==? 'Snake'  ? Snake(str)  :
+        \ type ==? 'Camel'  ? Camel(str)  :
         \ type ==? 'Pascal' ? Pascal(str) :
-        \ type ==? 'Kebab' ? Kebab(str) :
-        \ type ==? 'Dot' ? Dot(str) :
-        \ type ==? 'Slash' ? Slash(str) :
+        \ type ==? 'Kebab'  ? Kebab(str)  :
+        \ type ==? 'Dot'    ? Dot(str)    :
+        \ type ==? 'Slash'  ? Slash(str)  :
+        \ type ==? 'Words'  ? Words(str)  :
+        \ type ==? 'Header' ? Header(str) :
         \ str
         \ }
 
