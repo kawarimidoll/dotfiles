@@ -310,6 +310,14 @@ function! s:VisualPaste()
   return "p@=RestoreRegister()\<CR>"
 endfunction
 
+" [vimのマーク機能をできるだけ活用してみる - Make 鮫 noise](http://saihoooooooo.hatenablog.com/entry/2013/04/30/001908)
+let g:mark_chars = ['h', 'j', 'k', 'l'] "とりあえず4つあれば十分では…？
+function! s:AutoMark() abort
+  let b:mark_pos = exists('b:mark_pos') ? (b:mark_pos + 1) % len(g:mark_chars) : 0
+  execute 'normal! m' . g:mark_chars[b:mark_pos]
+  echo 'marked' g:mark_chars[b:mark_pos]
+endfunction
+
 "-----------------
 " Key mappings
 " :map  ノーマル、ビジュアル、選択、オペレータ待機
@@ -358,6 +366,7 @@ map gs <Plug>(asterisk-gz*)<Plug>(is-nohl-1)<Plug>(anzu-update-search-status)zz
 
 " normal
 nmap gx <Plug>(openbrowser-smart-search)
+nnoremap mm :<C-u>call <sid>AutoMark()<CR>
 nnoremap S :%s/\V<C-r>///g<Left><Left>
 nnoremap x "_x
 nnoremap X V"_d
@@ -542,4 +551,8 @@ augroup vimrc
   autocmd BufNewFile,BufRead *.md set filetype=markdown
   autocmd BufNewFile,BufRead *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4
   autocmd BufNewFile,BufRead *.java setlocal tabstop=4 softtabstop=4 shiftwidth=4
+
+  " 前回終了位置に移動
+  autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line('$') | execute 'normal g`"' | endif
+  autocmd BufReadPost * delmarks!
 augroup END
