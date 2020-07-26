@@ -235,8 +235,7 @@ function! s:CaseToSelected(key = 0, mode = 'n') abort
         \ ->substitute("\\W\\+", "_", "g")
         \ ->substitute("\\(\\u\\+\\)\\(\\u\\l\\)", "_\\L\\1_\\L\\2", "g")
         \ ->substitute("\\u\\+\\|\\d\\+", "_\\L\\0", "g")
-        \ ->substitute("^_\\+\\|_\\+$", "", "g")
-        \ ->substitute("_\\+", "_", "g")
+        \ ->substitute("^_\\+\\|_\\+$\\|_\\zs_\\+\\ze", "", "g")
         \ }
   let Camel  = {str -> Snake(str)->substitute("_\\(\\l\\)", "\\u\\1", "g")}
   let Pascal = {str -> Camel(str)->substitute("^\\l", "\\u\\0", "")}
@@ -265,10 +264,14 @@ function! s:CaseToSelected(key = 0, mode = 'n') abort
       return
     endif
     echo case_menu[a:selection - 1]
+    " visual modeから呼び出したときにnormalに戻ったり戻らなかったりするのでgvしたりしなかったりする必要がある
     if a:mode == 'n'
       normal! viw"zy
+    elseif mode() == 'n'
+      normal! gv"zy
+    else
+      normal! "zy
     endif
-    normal! gv"zy
     let @z = CaseTo(s:cases[a:selection - 1], @z)
     " let @z = call(s:cases[a:selection - 1], [@z]) 本当はこうしたいがlambdaはcallできない模様
     normal! gv"zp
