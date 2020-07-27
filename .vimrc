@@ -79,6 +79,17 @@ set wrapscan
 filetype plugin indent on
 runtime macros/matchit.vim
 
+" [vim-plug Wiki: Automatic installation](https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation)
+if empty(glob('~/.vim/autoload/plug.vim'))
+  if !executable('curl')
+    echoerr 'You have to install curl.'
+    execute 'quit!'
+  endif
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
 call plug#begin('~/.vim/plugged')
 
 Plug 'airblade/vim-gitgutter'
