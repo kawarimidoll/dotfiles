@@ -240,6 +240,7 @@ let s:CaseTo = [
       \ ['Snake' , {str -> s:WordsSeparate(str, '_')}],
       \ ['Camel' , {str -> s:WordsSeparate(str, '_')->substitute("_\\(\\l\\)", "\\u\\1", "g")}],
       \ ['Pascal', {str -> s:WordsSeparate(str, '_')->substitute("\\(\\l\\+\\)_\\?", "\\u\\1", "g")}],
+      \ ['Const' , {str -> s:WordsSeparate(str, '_')->toupper()}],
       \ ['Kebab' , {str -> s:WordsSeparate(str, '-')}],
       \ ['Dot'   , {str -> s:WordsSeparate(str, '.')}],
       \ ['Slash' , {str -> s:WordsSeparate(str, '/')}],
