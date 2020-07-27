@@ -229,27 +229,25 @@ endfunction
 " [What are the new "popup windows" in Vim 8.2?](https://vi.stackexchange.com/questions/24462/what-are-the-new-popup-windows-in-vim-8-2)
 
 " [JavaScript で snake_case とか camelCase とか変換する | 忘れていくかわりに](https://kawarimidoll.netlify.app/2020/04/19/)
-let s:cases = ['Snake', 'Camel', 'Pascal', 'Kebab', 'Dot', 'Slash', 'Words', 'Header']
+let s:WordsSeparate = {str, separator -> str
+      \ ->substitute("\\W\\+", "_", "g")
+      \ ->substitute("\\(\\u\\+\\)\\(\\u\\l\\)", "_\\L\\1_\\L\\2", "g")
+      \ ->substitute("\\u\\+\\|\\d\\+", "_\\L\\0", "g")
+      \ ->substitute("^_\\+\\|_\\+$\\", "", "g")
+      \ ->substitute("_\\+", separator, "g")
+      \ }
+let s:CaseTo = [
+      \ ['Snake' , {str -> s:WordsSeparate(str, '_')}],
+      \ ['Camel' , {str -> s:WordsSeparate(str, '_')->substitute("_\\(\\l\\)", "\\u\\1", "g")}],
+      \ ['Pascal', {str -> s:WordsSeparate(str, '_')->substitute("\\(\\l\\+\\)_\\?", "\\u\\1", "g")}],
+      \ ['Kebab' , {str -> s:WordsSeparate(str, '-')}],
+      \ ['Dot'   , {str -> s:WordsSeparate(str, '.')}],
+      \ ['Slash' , {str -> s:WordsSeparate(str, '/')}],
+      \ ['Words' , {str -> s:WordsSeparate(str, ' ')}],
+      \ ['Header', {str -> s:WordsSeparate(str, '-')->substitute("\\w\\+", "\\u\\0", "g")}],
+      \ ]
 function! s:CaseToSelected(key = 0, mode = 'n') abort
-  let WordsSeparate = {str, separator -> str
-        \ ->substitute("\\W\\+", "_", "g")
-        \ ->substitute("\\(\\u\\+\\)\\(\\u\\l\\)", "_\\L\\1_\\L\\2", "g")
-        \ ->substitute("\\u\\+\\|\\d\\+", "_\\L\\0", "g")
-        \ ->substitute("^_\\+\\|_\\+$\\", "", "g")
-        \ ->substitute("_\\+", separator, "g")
-        \ }
-  let CaseTo = [
-        \ ['Snake' , {str -> WordsSeparate(str, '_')}],
-        \ ['Camel' , {str -> WordsSeparate(str, '_')->substitute("_\\(\\l\\)", "\\u\\1", "g")}],
-        \ ['Pascal', {str -> WordsSeparate(str, '_')->substitute("\\(\\l\\+\\)_\\?", "\\u\\1", "g")}],
-        \ ['Kebab' , {str -> WordsSeparate(str, '-')}],
-        \ ['Dot'   , {str -> WordsSeparate(str, '.')}],
-        \ ['Slash' , {str -> WordsSeparate(str, '/')}],
-        \ ['Words' , {str -> WordsSeparate(str, ' ')}],
-        \ ['Header', {str -> WordsSeparate(str, '-')->substitute("\\w\\+", "\\u\\0", "g")}],
-        \ ]
-
-  let case_menu = CaseTo->copy()->map({_, v -> v[1](v[0] . "Case")})
+  let case_menu = s:CaseTo->copy()->map({_, v -> v[1](v[0] . "Case")})
 
   function! ChangeCase(id, selection) closure
     if a:selection < 1
@@ -265,20 +263,20 @@ function! s:CaseToSelected(key = 0, mode = 'n') abort
     else
       normal! "zy
     endif
-    let @z = CaseTo[a:selection - 1][1](@z)
+    let @z = s:CaseTo[a:selection - 1][1](@z)
     normal! gv"zp
     let @z = ''
   endfunction
 
   if a:key < 1
-    call s:SelectorWithNum(case_menu, #{ title: ' Change to... ', callback: 'ChangeCase'} )
+    call s:SelectorWithNum(case_menu, #{title: ' Change to... ', callback: 'ChangeCase'})
   else
     call ChangeCase(0, a:key)
   endif
 endfunction
 command! CaseToSelected call s:CaseToSelected()
-for [s:idx, s:elm] in s:cases->copy()->map({idx, elm -> [idx+1, elm]})
-  execute "command! CaseTo" . s:elm . " call s:CaseToSelected(" . s:idx . ")"
+for [s:key, s:name] in s:CaseTo->copy()->map({idx, elm -> [idx+1, elm[0]]})
+  execute "command! CaseTo" . s:name . " call s:CaseToSelected(" . s:key . ")"
 endfor
 
 function! s:ToggleCase() abort
