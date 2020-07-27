@@ -390,6 +390,7 @@ nnoremap <Space>q :<C-u>quit<CR>
 nnoremap <Space>s :<C-u>&&<CR>
 nnoremap <Space>u mzviwg~`z:<C-u>delmarks z<CR>
 nnoremap <Space>w :<C-u>write<CR>
+nnoremap <Space>wq :<C-u>wq<CR>
 nnoremap <Space>z :<C-u>za<CR>
 nnoremap <Space>/ :<C-u>RgRaw -F -- $''<Left>
 nnoremap <Space>? :<C-u>RgRaw
