@@ -413,6 +413,7 @@ map gs <Plug>(asterisk-gz*)<Plug>(is-nohl-1)<Plug>(anzu-update-search-status)zz
 " normal
 nmap gx <Plug>(openbrowser-smart-search)
 nnoremap mm :<C-u>call <sid>AutoMark()<CR>
+nnoremap m, :<C-u>call <sid>AutoJump()<CR>
 nnoremap S :%s/\V<C-r>///g<Left><Left>
 nnoremap x "_x
 nnoremap X V"_d
@@ -428,6 +429,7 @@ nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
 nnoremap <Space>a <C-w><C-w>
 nnoremap <Space>b :<C-u>Buffers<CR>
 nnoremap <Space>c :<C-u>ToggleCase<CR>
+nnoremap <Space>C :<C-u>CaseToSelected<CR>
 nnoremap <Space>d :<C-u>bdelete<CR>
 nnoremap <Space>f :<C-u>Files<CR>
 nnoremap <Space>g :<C-u>copy .<CR>
