@@ -88,6 +88,24 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
         \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+else
+  " [おい、NeoBundle もいいけど vim-plug 使えよ](https://qiita.com/b4b4r07/items/fa9c8cceb321edea5da0)
+  function! s:AutoPlugInstall() abort
+    let list = get(g:, 'plugs', {})->items()->copy()
+          \ ->filter({_,item->!isdirectory(item[1].dir)})
+          \ ->map({_,item->item[0]})
+    if empty(list)
+      return
+    endif
+    echo 'Not installed plugs: ' . list->string()
+    if confirm('Install plugs?', "yes\nno", 2) == 1
+      PlugInstall --sync | close
+    endif
+  endfunction
+  " command! AutoPlugInstall call s:AutoPlugInstall()
+  augroup vimrc_plug
+    autocmd VimEnter * call s:AutoPlugInstall()
+  augroup END
 endif
 
 call plug#begin('~/.vim/plugged')
