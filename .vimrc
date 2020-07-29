@@ -258,6 +258,19 @@ endfunction
 " [What are the new "popup windows" in Vim 8.2?](https://vi.stackexchange.com/questions/24462/what-are-the-new-popup-windows-in-vim-8-2)
 
 " [JavaScript で snake_case とか camelCase とか変換する | 忘れていくかわりに](https://kawarimidoll.netlify.app/2020/04/19/)
+" いずれはテストを足したい…
+" ['theString', 'the_string'],
+" ['the string', 'the_string'],
+" ['the/string', 'the_string'],
+" ['theSTRING', 'the_string'],
+" ['The-String', 'the_string'],
+" ['TheString', 'the_string'],
+" ['TheID', 'the_id'],
+" ['THE-ID', 'the_id'],
+" ['TheURLParser', 'the_url_parser'],
+" ['TheConf2020', 'the_conf_2020'],
+" ['TheHTML5', 'the_html_5'],
+" ['CSS3Designer', 'css_3_designer'],
 let s:WordsSeparate = {str, separator -> str
       \ ->substitute("\\W\\+", "_", "g")
       \ ->substitute("\\(\\u\\+\\)\\(\\u\\l\\)", "_\\L\\1_\\L\\2", "g")
