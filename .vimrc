@@ -354,7 +354,15 @@ let g:mark_chars = ['h', 'j', 'k', 'l'] "とりあえず4つあれば十分で�
 function! s:AutoMark() abort
   let b:mark_pos = exists('b:mark_pos') ? (b:mark_pos + 1) % len(g:mark_chars) : 0
   execute 'normal! m' . g:mark_chars[b:mark_pos]
-  echo 'marked' g:mark_chars[b:mark_pos]
+  echo 'auto-marked' g:mark_chars[b:mark_pos]
+endfunction
+function! s:AutoJump() abort
+  if !exists('b:mark_pos')
+    echo 'not auto-marked yet.'
+    return
+  endif
+  execute 'normal! `' . g:mark_chars[b:mark_pos]
+  echo 'jumped to mark' g:mark_chars[b:mark_pos]
 endfunction
 
 "-----------------
