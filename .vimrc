@@ -436,7 +436,6 @@ nnoremap m, :<C-u>call <sid>AutoJump()<CR>
 nnoremap S :%s/\V<C-r>///g<Left><Left>
 nnoremap x "_x
 nnoremap X "_dd
-nnoremap Q @
 " [Vim で q を prefix キーにする - 永遠に未完成](https://thinca.hatenablog.com/entry/q-as-prefix-key-in-vim)
 nnoremap <script> <expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
 nnoremap <sid>(q)q :<C-u>call <sid>AutoRec()<CR>
@@ -460,17 +459,16 @@ nnoremap <Space>h :<C-u>History<CR>
 nnoremap <Space>i mzviwbg~`z:<C-u>delmarks z<CR>
 nnoremap <Space>l :<C-u>BLines<CR>
 nnoremap <Space>m :<C-u>Marks<CR>
-nnoremap <Space>r :<C-u>registers<CR>
-" nnoremap <Space>t :<C-u>edit #<CR>
-nnoremap <Space>t <C-^>
 nnoremap <Space>q :<C-u>quit<CR>
+nnoremap <Space>r :<C-u>registers<CR>
 nnoremap <Space>s :<C-u>&&<CR>
+nnoremap <Space>t <C-^>
 nnoremap <Space>u mzviwg~`z:<C-u>delmarks z<CR>
 nnoremap <Space>w :<C-u>write<CR>
 nnoremap <Space>wq :<C-u>wq<CR>
 nnoremap <Space>z :<C-u>za<CR>
 nnoremap <Space>/ :<C-u>RgRaw -F -- $''<Left>
-nnoremap <Space>? :<C-u>RgRaw
+nnoremap <Space>? :<C-u>RgRaw -F -- $'<C-r><C-w>'
 
 nnoremap <C-k> "zdd<Up>"zP==
 nnoremap <C-j> "zdd"zp==
