@@ -20,7 +20,7 @@ set background=dark
 set backspace=indent,eol,start
 set clipboard=unnamed
 set cmdheight=2
-set completeopt=longest,menuone
+set completeopt=longest,menu
 set cursorline
 set display=lastline
 set expandtab
@@ -67,6 +67,7 @@ set tabstop=2
 set textwidth=0
 set title
 set ttyfast
+set updatetime=500
 set whichwrap=b,s,h,l,<,>,[,],~
 set wildmenu
 set wildmode=list:longest,full
