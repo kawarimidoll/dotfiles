@@ -368,6 +368,22 @@ function! s:AutoJump() abort
   echo 'jumped to mark' g:mark_chars[b:mark_pos]
 endfunction
 
+let g:reg_chars = ['q', 'w', 'e', 'r', 't', 'y']
+function! s:AutoRec() abort
+  let b:reg_pos = exists('b:reg_pos') ? (b:reg_pos + 1) % len(g:reg_chars) : 0
+  execute 'normal! q' . g:reg_chars[b:reg_pos]
+  echo 'auto-reged' g:reg_chars[b:reg_pos]
+endfunction
+function! s:AutoPlay() abort
+  " echo 'played reg' g:reg_chars[b:reg_pos]
+  return exists('b:reg_pos') ? '@' . g:reg_chars[b:reg_pos] : ''
+endfunction
+function! s:ClearAutoRec() abort
+  for reg_char in g:reg_chars
+    execute 'let @' . reg_char . " = ''"
+  endfor
+endfunction
+
 "-----------------
 " Key mappings
 " :map  ノーマル、ビジュアル、選択、オペレータ待機
@@ -421,6 +437,10 @@ nnoremap S :%s/\V<C-r>///g<Left><Left>
 nnoremap x "_x
 nnoremap X V"_d
 nnoremap Q @
+" [Vim で q を prefix キーにする - 永遠に未完成](https://thinca.hatenablog.com/entry/q-as-prefix-key-in-vim)
+nnoremap <script> <expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
+nnoremap <sid>(q)q :<C-u>call <sid>AutoRec()<CR>
+nnoremap <expr> Q <sid>AutoPlay()
 nnoremap ' `
 nnoremap ? /\v
 nnoremap == gg=G''
@@ -607,4 +627,6 @@ augroup vimrc
   " 前回終了位置に移動
   autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line('$') | execute 'normal g`"' | endif
   autocmd BufReadPost * delmarks!
+
+  autocmd VimLeavePre * call s:ClearAutoRec()
 augroup END
