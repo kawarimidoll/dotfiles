@@ -450,7 +450,7 @@ nnoremap p ]p`]
 nnoremap P ]P`]
 nnoremap ]p p
 nnoremap ]P P
-nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
+nnoremap Y y$
 nnoremap <Space>a <C-w><C-w>
 nnoremap <Space>b :<C-u>Buffers<CR>
 nnoremap <Space>c :<C-u>ToggleCase<CR>
@@ -484,6 +484,7 @@ nnoremap <Space>? :<C-u>RgRaw -F -- $'<C-r><C-w>'
 
 nnoremap <C-k> "zdd<Up>"zP==
 nnoremap <C-j> "zdd"zp==
+nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
 nnoremap <C-w><C-q> <C-w>c
 
 " command
