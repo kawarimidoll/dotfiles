@@ -133,6 +133,7 @@ Plug 'kana/vim-textobj-user'
 Plug 'lifepillar/vim-gruvbox8'
 Plug 'markonm/traces.vim'
 Plug 'mattn/vim-lsp-settings'
+" Plug 'mattn/webapi-vim'
 Plug 'mhinz/vim-startify'
 Plug 'nelstrom/vim-qargs'
 Plug 'osyo-manga/vim-anzu'
@@ -155,6 +156,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tyru/open-browser.vim' " カーソル下の単語か選択範囲をブラウザで検索
 Plug 'vim-jp/vimdoc-ja'
+" Plug 'vim-jp/vital.vim'
 Plug 'vim-scripts/AnsiEsc.vim' " :AnsiEscでカラーデータを含むログファイルを色づけ
 Plug 'Yggdroot/indentLine'
 
@@ -453,19 +455,28 @@ nnoremap <Space>b :<C-u>Buffers<CR>
 nnoremap <Space>c :<C-u>ToggleCase<CR>
 nnoremap <Space>C :<C-u>CaseToSelected<CR>
 nnoremap <Space>d :<C-u>bdelete<CR>
+" nnoremap <Space>e
 nnoremap <Space>f :<C-u>Files<CR>
 nnoremap <Space>g :<C-u>copy .<CR>
 nnoremap <Space>h :<C-u>History<CR>
 nnoremap <Space>i mzviwbg~`z:<C-u>delmarks z<CR>
+" nnoremap <Space>j
+" nnoremap <Space>k
 nnoremap <Space>l :<C-u>BLines<CR>
 nnoremap <Space>m :<C-u>Marks<CR>
+" nnoremap <Space>n
+" nnoremap <Space>o
+" nnoremap <Space>p
 nnoremap <Space>q :<C-u>quit<CR>
 nnoremap <Space>r :<C-u>registers<CR>
 nnoremap <Space>s :<C-u>&&<CR>
 nnoremap <Space>t <C-^>
 nnoremap <Space>u mzviwg~`z:<C-u>delmarks z<CR>
+" nnoremap <Space>v
 nnoremap <Space>w :<C-u>write<CR>
 nnoremap <Space>wq :<C-u>wq<CR>
+" nnoremap <Space>x
+" nnoremap <Space>y
 nnoremap <Space>z :<C-u>za<CR>
 nnoremap <Space>/ :<C-u>RgRaw -F -- $''<Left>
 nnoremap <Space>? :<C-u>RgRaw -F -- $'<C-r><C-w>'
