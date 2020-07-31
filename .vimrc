@@ -356,7 +356,7 @@ function! s:VisualPaste()
 endfunction
 
 " [vimのマーク機能をできるだけ活用してみる - Make 鮫 noise](http://saihoooooooo.hatenablog.com/entry/2013/04/30/001908)
-let g:mark_chars = ['h', 'j', 'k', 'l'] "とりあえず4つあれば十分では…？
+let g:mark_chars = ['h', 'j', 'k', 'l']
 function! s:AutoMark() abort
   let b:mark_pos = exists('b:mark_pos') ? (b:mark_pos + 1) % len(g:mark_chars) : 0
   execute 'normal! m' . g:mark_chars[b:mark_pos]
@@ -404,8 +404,7 @@ endfunction
 " その他マッピングについて
 " s: デフォルトの挙動はclかxiで代用可能、押しやすい位置にあるので別機能にマッピングしたほうが良い
 " t: オペレータ待機モードでは重要だがノーマルモードではf->hで補えるので潰しても良い
-" m: a-zA-Zのマークを付けられるがそんなに大量に使えない、mmやmkなど押しやすいいくつかのマークのみを使うと決めそれ以外のmwとかmeとかを別の機能にマッピングしよう
-" q: mと同様に使うキーを絞る
+" m,q: アルファベットすべての保存領域を使いこなすのは無理なので一部を自動マップして使おう
 " #,?: *,/とNで事足りるのでデフォルトの挙動は潰しても良い
 " leader: let mapleader="\<Space>"していたけど<Space>をそのまま書くようにして<Leader>はデフォルトの\のままにしておこう
 
