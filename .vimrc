@@ -480,6 +480,7 @@ nnoremap <Space>wq :<C-u>wq<CR>
 nnoremap <Space>z :<C-u>za<CR>
 nnoremap <Space>/ :<C-u>RgRaw -F -- $''<Left>
 nnoremap <Space>? :<C-u>RgRaw -F -- $'<C-r><C-w>'
+nnoremap <Space>: q:
 
 nnoremap <C-k> "zdd<Up>"zP==
 nnoremap <C-j> "zdd"zp==
