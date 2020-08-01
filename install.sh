@@ -14,20 +14,27 @@ die() {
   exit 1
 }
 
-if has "git"; then
-  git clone --recursive "$GITHUB_URL" "$DOTDIR"
-elif has "curl" || has "wget"; then
-  TARBALL_URL="${GITHUB_URL}/archive/master.tar.gz"
-  if has "curl"; then
-    curl -L "$TARBALL_URL"
-  else
-    wget -O - "$TARBALL_URL"
-  fi | tar xv
-  mv -f dotfiles-master "$DOTDIR"
+# download
+if [ -d "$DOTDIR" ]; then
+  echo "$DOTDIR is already exist"
 else
-  die "cannot download dotfiles."
+  if has "git"; then
+    git clone --recursive "$GITHUB_URL" "$DOTDIR"
+  elif has "curl" || has "wget"; then
+    local tarball_url="${GITHUB_URL}/archive/master.tar.gz"
+    if has "curl"; then
+      curl -L "$tarball_url"
+    else
+      wget -O - "$tarball_url"
+      fi | tar xv
+      mv -f dotfiles-master "$DOTDIR"
+    else
+      die "cannot download dotfiles."
+  fi
 fi
+# download
 
+# deploy
 cd "$DOTDIR"
 if [ $? -ne 0 ]; then
   die "cannot cd to $DOTDIR"
@@ -36,9 +43,10 @@ fi
 for f in .??*
 do
   [ "$f" = ".git" ] && continue
-  [ "$f" = ".gitconfig" ] && continue
+  [ "$f" = ".DS_Store" ] && continue
 
   ln -snfv "$DOTDIR/$f" "$HOME/$f"
 done
+# deploy
 
 echo "finished."
