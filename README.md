@@ -11,5 +11,6 @@ personal configuration files
 ## install
 
 ```
-curl -L raw.github.com/kawarimidoll/dotfiles/master/install.sh | bash
+bash -c "$(curl -L bit.ly/kawarimidotfiles)"
 ```
+This link leads to "https://raw.githubusercontent.com/kawarimidoll/dotfiles/master/install.sh"
