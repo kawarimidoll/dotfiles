@@ -9,14 +9,9 @@ brew cleanup
 set +x
 echo 'log list...'
 LOGFILE=brew-list.log
-echo 'logged:' > $LOGFILE
-date "+%F %T %Z" | tee -a $LOGFILE
-echo 'tap:' >> $LOGFILE
-brew tap >> $LOGFILE
-echo 'brew:' >> $LOGFILE
-brew leaves >> $LOGFILE
-echo 'cask:' >> $LOGFILE
-brew cask list >> $LOGFILE
-echo 'mas:' >> $LOGFILE
-mas list >> $LOGFILE
+date "+last updated: %F %T %Z" > $LOGFILE
+brew tap       | sed 's/^/tap: /'  >> $LOGFILE
+brew leaves    | sed 's/^/brew: /' >> $LOGFILE
+brew cask list | sed 's/^/cask: /' >> $LOGFILE
+mas list       | sed 's/^/mas: /'  >> $LOGFILE
 echo 'done.'

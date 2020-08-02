@@ -1,113 +1,108 @@
-logged:
-2020-08-02 17:32:02 JST
-tap:
-homebrew/bundle
-homebrew/cask
-homebrew/cask-fonts
-homebrew/core
-jesseduffield/lazygit
-osx-cross/avr
-px4/px4
-skanehira/docui
-brew:
-osx-cross/avr/avr-gcc@7
-avrdude
-bat
-clisp
-ctags
-deno
-dfu-programmer
-dfu-util
-skanehira/docui/docui
-fzf
-px4/px4/gcc-arm-none-eabi
-ghq
-git
-highlight
-jq
-jesseduffield/lazygit/lazygit
-mas
-neovim
-nodebrew
-ripgrep
-sbcl
-sl
-starship
-the_platinum_searcher
-tig
-tldr
-tmux
-tree
-vim
-w3m
-webp
-yarn
-zsh-completions
-cask:
-alfred
-amazon-music
-appcleaner
-arduino
-authy
-betterzip
-bitwarden
-blackhole
-brave-browser
-cheatsheet
-dash
-day-o
-deepl
-docker
-dropbox
-duet
-dynalist
-evernote
-firefox
-flux
-font-roboto-mono-for-powerline
-gimp
-gitup
-google-chrome
-google-japanese-ime
-hiddenbar
-hyperswitch
-iterm2
-joplin
-karabiner-elements
-kindle
-lyrics-master
-nautilus
-notion
-onepile
-openshot-video-editor
-processing
-provisionql
-qlcolorcode
-qlimagesize
-qlmarkdown
-qlstephen
-qlvideo
-quicklook-csv
-quicklook-json
-quicklookase
-racket
-scriptql
-shotcut
-slack
-sourcetree
-steam
-sublime-text
-suspicious-package
-table-tool
-visual-studio-code
-vnote
-webponize
-webpquicklook
-workflowy
-zappy
-mas:
-1278508951 Trello (2.11.7)
-490461369 Bandwidth+ (1.18)
-1348795218 TeraTime (1.0.3)
-495511246 CLCL Lite (1.2)
-497799835 Xcode (11.6)
+last updated: 2020-08-02 18:55:44 JST
+tap: homebrew/bundle
+tap: homebrew/cask
+tap: homebrew/cask-fonts
+tap: homebrew/core
+tap: jesseduffield/lazygit
+tap: osx-cross/avr
+tap: px4/px4
+tap: skanehira/docui
+brew: osx-cross/avr/avr-gcc@7
+brew: avrdude
+brew: bat
+brew: clisp
+brew: ctags
+brew: deno
+brew: dfu-programmer
+brew: dfu-util
+brew: skanehira/docui/docui
+brew: fzf
+brew: px4/px4/gcc-arm-none-eabi
+brew: ghq
+brew: git
+brew: highlight
+brew: jq
+brew: jesseduffield/lazygit/lazygit
+brew: mas
+brew: neovim
+brew: nodebrew
+brew: ripgrep
+brew: sbcl
+brew: sl
+brew: starship
+brew: the_platinum_searcher
+brew: tig
+brew: tldr
+brew: tmux
+brew: tree
+brew: vim
+brew: w3m
+brew: webp
+brew: yarn
+brew: zsh-completions
+cask: alfred
+cask: amazon-music
+cask: appcleaner
+cask: arduino
+cask: authy
+cask: betterzip
+cask: bitwarden
+cask: blackhole
+cask: brave-browser
+cask: cheatsheet
+cask: dash
+cask: day-o
+cask: deepl
+cask: docker
+cask: dropbox
+cask: duet
+cask: dynalist
+cask: evernote
+cask: firefox
+cask: flux
+cask: font-roboto-mono-for-powerline
+cask: gimp
+cask: gitup
+cask: google-chrome
+cask: google-japanese-ime
+cask: hiddenbar
+cask: hyperswitch
+cask: iterm2
+cask: joplin
+cask: karabiner-elements
+cask: kindle
+cask: lyrics-master
+cask: nautilus
+cask: notion
+cask: onepile
+cask: openshot-video-editor
+cask: processing
+cask: provisionql
+cask: qlcolorcode
+cask: qlimagesize
+cask: qlmarkdown
+cask: qlstephen
+cask: qlvideo
+cask: quicklook-csv
+cask: quicklook-json
+cask: quicklookase
+cask: racket
+cask: scriptql
+cask: shotcut
+cask: slack
+cask: sourcetree
+cask: steam
+cask: sublime-text
+cask: suspicious-package
+cask: table-tool
+cask: visual-studio-code
+cask: vnote
+cask: webponize
+cask: webpquicklook
+cask: workflowy
+cask: zappy
+mas: 1278508951 Trello (2.11.7)
+mas: 490461369 Bandwidth+ (1.18)
+mas: 1348795218 TeraTime (1.0.3)
+mas: 495511246 CLCL Lite (1.2)
+mas: 497799835 Xcode (11.6)
