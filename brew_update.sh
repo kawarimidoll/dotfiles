@@ -8,10 +8,15 @@ brew cask upgrade
 brew cleanup
 set +x
 echo 'log list...'
-LOGFILE=~/Desktop/brew-list.log
-echo '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"' > $LOGFILE
+LOGFILE=brew-list.log
+echo 'logged:' > $LOGFILE
 date "+%F %T %Z" | tee -a $LOGFILE
-brew list >> $LOGFILE
+echo 'tap:' >> $LOGFILE
+brew tap >> $LOGFILE
+echo 'brew:' >> $LOGFILE
+brew leaves >> $LOGFILE
+echo 'cask:' >> $LOGFILE
 brew cask list >> $LOGFILE
-cp $LOGFILE ./
+echo 'mas:' >> $LOGFILE
+mas list >> $LOGFILE
 echo 'done.'
