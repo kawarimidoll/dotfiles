@@ -91,6 +91,9 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 else
   " [おい、NeoBundle もいいけど vim-plug 使えよ](https://qiita.com/b4b4r07/items/fa9c8cceb321edea5da0)
+  " function! s:PlugInstalled(plug_name) abort
+  "   return get(g:, 'plugs', {})->has_key(a:plug_name) ? isdirectory(g:plugs[a:plug_name].dir) : 0
+  " endfunction
   function! s:AutoPlugInstall() abort
     let list = get(g:, 'plugs', {})->items()->copy()
           \ ->filter({_,item->!isdirectory(item[1].dir)})
@@ -118,6 +121,7 @@ Plug 'dense-analysis/ale'
 Plug 'ervandew/supertab'
 Plug 'haya14busa/is.vim'
 Plug 'haya14busa/vim-asterisk'
+" Plug 'iamcco/markdown-preview' " vim-markdownよりこっち？
 Plug 'itchyny/lightline.vim'
 Plug 'jacquesbh/vim-showmarks'
 Plug 'jesseleite/vim-agriculture'
@@ -159,6 +163,7 @@ Plug 'tyru/open-browser.vim' " カーソル下の単語か選択範囲をブラ�
 Plug 'vim-jp/vimdoc-ja'
 " Plug 'vim-jp/vital.vim'
 Plug 'vim-scripts/AnsiEsc.vim' " :AnsiEscでカラーデータを含むログファイルを色づけ
+" Plug 'yami-beta/asyncomplete-omni.vim'
 Plug 'Yggdroot/indentLine'
 
 " Plug 'altercation/solarized'
@@ -213,6 +218,14 @@ command! -bang -nargs=* Rg
       \           : fzf#vim#with_preview('right:50%:hidden','?'),
       \   <bang>0)
 " avoid to search file name: fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'up:40%')
+
+" call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
+"       \ 'name': 'omni',
+"       \ 'whitelist': ['*'],
+"       \ 'blacklist': ['c', 'cpp', 'html'],
+"       \ 'completor': function('asyncomplete#sources#omni#completor'),
+"       \ 'config': { 'show_source_kind': 1 }
+"       \ }))
 
 "-----------------
 " Commands and Functions
@@ -505,6 +518,7 @@ inoremap <expr> <C-x><C-f> fzf#vim#complete#path('rg --files')
 inoremap <expr> <C-x><C-x> fzf#vim#complete#line()
 inoremap <C-]> <Esc><Right>
 inoremap <C-t> <Esc><Left>"zx"pa
+" inoremap <C-f> <C-x><C-o>
 " inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>" vim-endwiseと相性が悪いのでオフ
 
 " visual
