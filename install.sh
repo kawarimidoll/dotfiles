@@ -61,7 +61,7 @@ link_dotfiles() {
   if [ $? -ne 0 ]; then
     echo "cannot cd to $DOTDIR"
   else
-    for f in `find . -not -path '*.git*' -not -path '*.DS_Store*' -path '*/.*' -type f -print | cut -b3-`
+    for f in `find . -not -path '*.git/*' -not -path '*.DS_Store' -path '*/.*' -type f -print | cut -b3-`
     do
       ln -sniv "$DOTDIR/$f" "$HOME/$f"
     done

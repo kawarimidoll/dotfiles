@@ -1,0 +1,7 @@
+[user]
+	name = kawarimidoll
+	email = kawarimidoll+git@gmail.com
+[color]
+	ui = auto
+[core]
+	excludesfile = /Users/kawarimidoll/.gitignore_global
