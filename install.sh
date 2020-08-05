@@ -32,6 +32,7 @@ has() {
 }
 die() {
   echo "$1"
+  echo "  terminated."
   exit 1
 }
 
@@ -78,7 +79,7 @@ setup_homebrew() {
   if !has "brew"; then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
   fi
-  brew doctor
+  brew doctor || die "brew doctor raised error."
   brew update
   brew tap $(brew_list tap)
   brew install $(brew_list brew)

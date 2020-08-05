@@ -1,7 +1,7 @@
 #!/bin/sh
 
 set -x
-brew doctor
+brew doctor || exit 1
 brew update
 brew upgrade
 brew cask upgrade
