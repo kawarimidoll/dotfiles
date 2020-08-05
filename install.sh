@@ -61,11 +61,8 @@ link_dotfiles() {
   if [ $? -ne 0 ]; then
     echo "cannot cd to $DOTDIR"
   else
-    for f in .??*
+    for f in `find . -not -path '*.git*' -not -path '*.DS_Store*' -path '*/.*' -type f -print | cut -b3-`
     do
-      [ "$f" = ".git" ] && continue
-      [ "$f" = ".DS_Store" ] && continue
-
       ln -sniv "$DOTDIR/$f" "$HOME/$f"
     done
   fi
@@ -81,31 +78,37 @@ setup_homebrew() {
   fi
   brew doctor || die "brew doctor raised error."
   brew update
-  brew tap $(brew_list tap)
-  brew install $(brew_list brew)
-  brew cask install $(brew_list cask)
-  brew_list brew | grep mas >> /dev/null || brew install mas
-  mas install $(brew_list mas)
+  if [ -e brew-list.log ]; then
+    brew tap $(brew_list tap)
+    brew install $(brew_list brew)
+    brew cask install $(brew_list cask)
+    brew_list brew | grep mas >> /dev/null || brew install mas
+    mas install $(brew_list mas)
+  else
+    echo "  brew-list.log is needed."
+  fi
   brew cleanup
 }
 
-echo "$LOGO"
-echo "$DIALOG"
+echo "$LOGO" "$DIALOG"
 read selection
 if [ $selection = "a" -o $selection = "d" ]; then
   echo "  begin download dotfiles."
   download_dotfiles
   echo "  end download dotfiles."
+  echo ""
 fi
 if [ $selection = "a" -o $selection = "l" ]; then
   echo "  begin link dotfiles."
   link_dotfiles
   echo "  end link dotfiles."
+  echo ""
 fi
 if [ $selection = "a" -o $selection = "s" ]; then
   echo "  begin setup homebrew."
   setup_homebrew
   echo "  end setup homebrew."
+  echo ""
 fi
 
 echo "  finished."
