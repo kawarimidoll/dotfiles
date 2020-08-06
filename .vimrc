@@ -241,7 +241,7 @@ if !exists('*s:ImproveVimrc')
   endfunction
   command! Vimrc call s:ImproveVimrc()
 endif
-command! Terminal terminal ++rows=12
+command! MyTerminal terminal ++rows=12
 command! LazyGit tab terminal ++close lazygit
 command! FmtTabTrail retab | FixWhitespace
 
