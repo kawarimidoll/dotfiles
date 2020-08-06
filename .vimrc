@@ -449,21 +449,21 @@ nmap gx <Plug>(openbrowser-smart-search)
 nnoremap mm :<C-u>call <sid>AutoMark()<CR>
 nnoremap m, :<C-u>call <sid>AutoJump()<CR>
 nnoremap S :%s/\V<C-r>///g<Left><Left>
-nnoremap x "_d
-nnoremap xx "_dd
-nnoremap X "_D
 " [Vim で q を prefix キーにする - 永遠に未完成](https://thinca.hatenablog.com/entry/q-as-prefix-key-in-vim)
 nnoremap <script> <expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
 nnoremap <sid>(q)q :<C-u>call <sid>AutoRec()<CR>
 nnoremap <expr> Q <sid>AutoPlay()
-nnoremap ' `
-nnoremap ? /\v
-nnoremap == gg=G''
 nnoremap p ]p`]
 nnoremap P ]P`]
 nnoremap ]p p
 nnoremap ]P P
+nnoremap x "_d
+nnoremap xx "_dd
+nnoremap X "_D
 nnoremap Y y$
+nnoremap ' `
+nnoremap ? /\v
+nnoremap == gg=G''
 nnoremap <Space>a <C-w><C-w>
 nnoremap <Space>b :<C-u>Buffers<CR>
 nnoremap <Space>c :<C-u>ToggleCase<CR>
