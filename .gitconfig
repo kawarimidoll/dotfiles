@@ -5,3 +5,5 @@
 	ui = auto
 [core]
 	excludesfile = /Users/kawarimidoll/.gitignore_global
+[ghq]
+	root = /Users/kawarimidoll/ghq
