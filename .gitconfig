@@ -4,6 +4,6 @@
 [color]
 	ui = auto
 [core]
-	excludesfile = /Users/kawarimidoll/.gitignore_global
+	excludesfile = ~/.gitignore_global
 [ghq]
-	root = /Users/kawarimidoll/ghq
+	root = ~/ghq
