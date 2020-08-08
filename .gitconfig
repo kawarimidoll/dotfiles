@@ -5,5 +5,18 @@
 	ui = auto
 [core]
 	excludesfile = ~/.gitignore_global
+	pager = diff-so-fancy | less --tabs=4 -RFX
 [ghq]
 	root = ~/ghq
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
+[color "diff"]
+	meta = 11
+	frag = magenta bold
+	commit = yellow bold
+	old = red bold
+	new = green bold
+	whitespace = red reverse
