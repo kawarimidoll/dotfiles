@@ -76,6 +76,7 @@ setup_homebrew() {
   if !has "brew"; then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
   fi
+  which brew >> /dev/null || die "brew is required."
   brew doctor || die "brew doctor raised error."
   brew update
   if [ -e brew-list.log ]; then
