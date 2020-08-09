@@ -191,7 +191,8 @@ let g:indentLine_leadingSpaceEnabled = 1
 let g:netrw_alto = 1
 let g:netrw_altv = 1
 let g:netrw_banner = 0
-let g:netrw_list_hide = '^\.[^\.]'
+let g:netrw_hide = 1 " デフォルトではdotfileを非表示
+let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+' " hideの有効化
 let g:netrw_liststyle = 3
 let g:netrw_nogx = 1 " netrwではopen-browserを無効化
 let g:netrw_preview = 1
@@ -645,6 +646,11 @@ augroup vimrc
   autocmd BufReadPost * silent! DoShowMarks
   " [lightline.vimとvim-anzuで検索ヒット数を表示する - Qiita](https://qiita.com/shiena/items/f53959d62085b7980cb5)
   autocmd CursorHold,CursorHoldI,WinLeave,TabLeave * call anzu#clear_search_status()
+
+  " [vaffle.vim から netrw にお試しで移行してみた - bamch0h’s diary](https://bamch0h.hatenablog.com/entry/2019/06/24/004104)
+  autocmd FileType netrw nnoremap <buffer> h -
+  autocmd FileType netrw nnoremap <buffer> l <CR>
+  autocmd FileType netrw nnoremap <buffer> . gh
 
   " file type settings
   autocmd BufNewFile,BufRead *.md set filetype=markdown
