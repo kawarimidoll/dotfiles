@@ -1,4 +1,4 @@
-timestamp: 2020-08-10 09:47:35 JST
+timestamp: 2020-08-12 09:02:01 JST
 tap: homebrew/bundle
 tap: homebrew/cask
 tap: homebrew/cask-fonts
@@ -10,17 +10,27 @@ tap: skanehira/docui
 brew: osx-cross/avr/avr-gcc@7
 brew: avrdude
 brew: bat
+brew: binutils
 brew: clisp
+brew: coreutils
 brew: ctags
 brew: deno
 brew: dfu-programmer
 brew: dfu-util
 brew: diff-so-fancy
+brew: diffutils
 brew: skanehira/docui/docui
+brew: ed
+brew: findutils
 brew: fzf
+brew: gawk
 brew: px4/px4/gcc-arm-none-eabi
 brew: ghq
 brew: git
+brew: gnu-sed
+brew: gnu-tar
+brew: grep
+brew: gzip
 brew: highlight
 brew: jq
 brew: jesseduffield/lazygit/lazygit
@@ -39,7 +49,9 @@ brew: tmux
 brew: tree
 brew: vim
 brew: w3m
+brew: wdiff
 brew: webp
+brew: wget
 brew: yarn
 brew: zsh-completions
 cask: alfred
