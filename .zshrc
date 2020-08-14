@@ -110,6 +110,7 @@ PATH="/usr/local/opt/findutils/libexec/gnubin:$PATH"
 PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
 PATH="/usr/local/opt/gnu-tar/libexec/gnubin:$PATH"
 PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
+PATH="/usr/local/opt/unzip/bin:$PATH"
 export LDFLAGS="-L/usr/local/opt/binutils/lib"
 export CPPFLAGS="-I/usr/local/opt/binutils/include"
 

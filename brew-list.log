@@ -1,4 +1,4 @@
-timestamp: 2020-08-12 09:02:01 JST
+timestamp: 2020-08-14 20:48:14 JST
 tap: homebrew/bundle
 tap: homebrew/cask
 tap: homebrew/cask-fonts
@@ -35,6 +35,7 @@ brew: highlight
 brew: jq
 brew: jesseduffield/lazygit/lazygit
 brew: mas
+brew: nano
 brew: neovim
 brew: nnn
 brew: nodebrew
@@ -47,6 +48,7 @@ brew: tig
 brew: tldr
 brew: tmux
 brew: tree
+brew: unzip
 brew: vim
 brew: w3m
 brew: wdiff
