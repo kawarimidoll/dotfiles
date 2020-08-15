@@ -82,9 +82,6 @@ export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
 export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 export FZF_CTRL_T_OPTS='--preview "bat --color=always --style=header,grid --line-range :100 {}"'
 
-# [atweiden/fzf-extras: Key bindings from fzf wiki](https://github.com/atweiden/fzf-extras)
-[[ -e "$HOME/.fzf-extras/fzf-extras.sh" ]] && source "$HOME/.fzf-extras/fzf-extras.sh"
-
 # -----------------
 #  Functions
 # -----------------
