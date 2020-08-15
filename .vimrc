@@ -663,3 +663,10 @@ augroup vimrc
 
   autocmd VimLeavePre * call s:ClearAutoRec()
 augroup END
+
+"-----------------
+" Local Settings
+"-----------------
+if filereadable(expand($HOME.'/.localsettings/vimrc'))
+  source $HOME/.localsettings/vimrc
+endif
