@@ -20,3 +20,8 @@
 	old = red bold
 	new = green bold
 	whitespace = red reverse
+[alias]
+	current-branch = rev-parse --abbrev-ref HEAD
+	new-branch = checkout -b
+	rename-branch = branch -m
+	uncommit = reset --soft HEAD^
