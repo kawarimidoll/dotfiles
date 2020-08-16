@@ -126,6 +126,26 @@ MANPATH="/usr/local/opt/grep/libexec/gnuman:$MANPATH"
 eval "$(starship init zsh)"
 
 # -----------------
+#  OS Setting
+# -----------------
+OS='unknown'
+if [[ "$(uname)" = "Darwin" ]]; then
+  OS='mac'
+elif [[ "$(expr substr $(uname -s) 1 5)" = "MINGW" ]]; then
+  OS='windows'
+elif [[ "$(expr substr $(uname -s) 1 5)" = "Linux" ]]; then
+  OS='linux'
+fi
+
+if [[ $OS = 'mac' && -e ./etc/mac/zshrc ]]; then
+  source ./etc/mac/zshrc
+elif [[ $OS = 'windows' && -e ./etc/windows/zshrc ]]; then
+  source ./etc/windows/zshrc
+elif [[ $OS = 'linux' && -e ./etc/linux/zshrc ]]; then
+  source ./etc/linux/zshrc
+fi
+
+# -----------------
 #  Local Setting
 # -----------------
 if [[ -e ~/.zshrc.local ]]; then
