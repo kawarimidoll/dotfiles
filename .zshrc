@@ -124,3 +124,10 @@ MANPATH="/usr/local/opt/grep/libexec/gnuman:$MANPATH"
 #  starship🚀
 # -----------------
 eval "$(starship init zsh)"
+
+# -----------------
+#  Local Setting
+# -----------------
+if [[ -e ~/.zshrc.local ]]; then
+  source ~/.zshrc.local
+fi

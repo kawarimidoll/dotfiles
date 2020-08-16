@@ -1,6 +1,5 @@
-[user]
-	name = kawarimidoll
-	email = kawarimidoll+git@gmail.com
+[include]
+	path = ~/.gitconfig.local
 [color]
 	ui = auto
 [core]

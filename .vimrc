@@ -667,6 +667,6 @@ augroup END
 "-----------------
 " Local Settings
 "-----------------
-if filereadable(expand($HOME.'/.localsettings/vimrc'))
-  source $HOME/.localsettings/vimrc
+if filereadable(expand($HOME.'/.vimrc.local'))
+  source $HOME/.vimrc.local
 endif
