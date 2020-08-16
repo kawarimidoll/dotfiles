@@ -10,24 +10,20 @@ compinit -u
 # -----------------
 #  Alias
 # -----------------
-alias brewer='sh ~/dotfiles/brew_update.sh'
 alias cdd='cd ..'
 alias cddd='cd ../..'
 alias cdddd='cd ../../..'
 alias cdf='cd -'
 alias cdh='cd ~'
 alias cp='cp -i'
-alias ctags='$(brew --prefix)/bin/ctags'
 alias d='docker'
 alias dc='docker container'
 alias di='docker image'
 alias dp='docker-compose'
 alias ds='docker system'
 alias dotfiles='cd ~/dotfiles'
-alias find='gfind'
 alias h='history'
-alias ls='gls --color=auto'
-alias lsf='ls -FGaogh --time-style="+%F %R"'
+alias lsf='ls -Faogh --time-style="+%F %R"'
 alias mkdir='mkdir -pv'
 alias mv='mv -i'
 alias she='vim ~/.zshrc'
@@ -103,24 +99,7 @@ bindkey '^w' edit_current_line
 # -----------------
 #  PATH
 # -----------------
-PATH="/usr/local/opt/binutils/bin:$PATH"
-# PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-PATH="/usr/local/opt/ed/bin:$PATH"
-PATH="/usr/local/opt/ed/libexec/gnubin:$PATH"
-# PATH="/usr/local/opt/findutils/libexec/gnubin:$PATH"
-PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
-PATH="/usr/local/opt/gnu-tar/libexec/gnubin:$PATH"
-PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
-PATH="/usr/local/opt/unzip/bin:$PATH"
-export LDFLAGS="-L/usr/local/opt/binutils/lib"
-export CPPFLAGS="-I/usr/local/opt/binutils/include"
-
-MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
-MANPATH="/usr/local/opt/ed/libexec/gnuman:$MANPATH"
-MANPATH="/usr/local/opt/findutils/libexec/gnuman:$MANPATH"
-MANPATH="/usr/local/opt/gnu-sed/libexec/gnuman:$MANPATH"
-MANPATH="/usr/local/opt/gnu-tar/libexec/gnuman:$MANPATH"
-MANPATH="/usr/local/opt/grep/libexec/gnuman:$MANPATH"
+# PATH="/path/to/the/directory:$PATH"
 
 # -----------------
 #  starship🚀
