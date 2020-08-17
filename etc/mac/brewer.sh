@@ -1,4 +1,5 @@
 #!/bin/sh
+# homebrew update script
 
 set -x
 brew doctor || exit 1

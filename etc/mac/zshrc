@@ -1,7 +1,7 @@
 # -----------------
 #  zshrc for mac
 # -----------------
-alias brewer='sh ~/dotfiles/brew_update.sh'
+alias brewer='sh ~/dotfiles/etc/mac/brewer.sh'
 alias ctags='$(brew --prefix)/bin/ctags'
 alias find='gfind'
 alias ls='gls --color=auto'
