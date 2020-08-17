@@ -26,8 +26,15 @@
 	whitespace = red reverse
 [alias]
 	current-branch = rev-parse --abbrev-ref HEAD
+	default-branch = !git symbolic-ref refs/remotes/origin/HEAD | awk -F '[/]' '{print $NF}'
+	graph = log --graph --decorate --oneline
 	new-branch = checkout -b
 	rename-branch = branch -m
 	uncommit = reset --soft HEAD^
+	unstage = reset --mixed HEAD
 [push]
 	default = current
+[pull]
+	rebase = true
+[fetch]
+	prune = true
