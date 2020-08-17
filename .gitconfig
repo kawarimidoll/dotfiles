@@ -3,8 +3,13 @@
 [color]
 	ui = auto
 [core]
+	autocrlf = false
 	excludesfile = ~/.gitignore_global
+	fscache = true
+	ignorecase = false
 	pager = diff-so-fancy | less --tabs=4 -RFX
+	preloadindex = true
+	quotepath = false
 [ghq]
 	root = ~/ghq
 [color "diff-highlight"]
@@ -24,3 +29,5 @@
 	new-branch = checkout -b
 	rename-branch = branch -m
 	uncommit = reset --soft HEAD^
+[push]
+	default = current
