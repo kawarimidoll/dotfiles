@@ -1,4 +1,4 @@
-timestamp: 2020-08-17 20:58:41 JST
+timestamp: 2020-08-18 08:57:05 JST
 tap: homebrew/bundle
 tap: homebrew/cask
 tap: homebrew/cask-fonts
@@ -111,6 +111,7 @@ cask: steam
 cask: sublime-text
 cask: suspicious-package
 cask: table-tool
+cask: virtualbox
 cask: visual-studio-code
 cask: vnote
 cask: webponize
