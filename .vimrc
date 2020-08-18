@@ -480,7 +480,8 @@ nnoremap <Space>i mzviwbg~`z:<C-u>delmarks z<CR>
 nnoremap <Space>l :<C-u>BLines<CR>
 nnoremap <Space>m :<C-u>Marks<CR>
 " nnoremap <Space>n
-" nnoremap <Space>o
+nnoremap <Space>o mzo<Esc>`z:<C-u>delmarks z<CR>
+nnoremap <Space>O mzO<Esc>`z:<C-u>delmarks z<CR>
 " nnoremap <Space>p
 nnoremap <Space>q :<C-u>quit<CR>
 nnoremap <Space>r :<C-u>registers<CR>
