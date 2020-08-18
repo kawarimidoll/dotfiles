@@ -1,0 +1,25 @@
+# -----------------
+#  Variable
+# -----------------
+DOTDIR="${HOME}/dotfiles"
+
+# -----------------
+#  Alias
+# -----------------
+alias cdd='cd ..'
+alias cddd='cd ../..'
+alias cdddd='cd ../../..'
+alias cdf='cd -'
+alias cdh='cd ~'
+alias cdot="cd ${HOME}/dotfiles"
+alias cp='cp -i'
+alias dc='docker container'
+alias di='docker image'
+alias dp='docker-compose'
+alias ds='docker system'
+alias lsf='ls -Faogh --time-style="+%F %R"'
+alias mkdir='mkdir -pv'
+alias mv='mv -i'
+alias rm='rm -i'
+alias vimrc='vim ~/.vimrc'
+alias vin='vim -u NONE -N'
