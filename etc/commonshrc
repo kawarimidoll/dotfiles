@@ -27,3 +27,11 @@ alias mv='mv -i'
 alias rm='rm -i'
 alias vimrc='vim ~/.vimrc'
 alias vin='vim -u NONE -N'
+
+# -----------------
+#  Functions
+# -----------------
+gcm() {
+  local msg="$@"
+  git commit --message="${msg}"
+}
