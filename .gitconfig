@@ -10,6 +10,7 @@
 	pager = diff-so-fancy | less --tabs=4 -RFX
 	preloadindex = true
 	quotepath = false
+	editor = vim
 [ghq]
 	root = ~/ghq
 [color "diff-highlight"]
@@ -27,11 +28,14 @@
 [alias]
 	current-branch = rev-parse --abbrev-ref HEAD
 	default-branch = !git symbolic-ref refs/remotes/origin/HEAD | awk -F '[/]' '{print $NF}'
+	discard = restore
 	graph = log --graph --decorate --oneline
-	new-branch = checkout -b
-	rename-branch = branch -m
+	new-branch = switch --create
+	previous-branch = switch -
+	rename-branch = branch --move
+	ss = status --short
 	uncommit = reset --soft HEAD^
-	unstage = reset --mixed HEAD
+	unstage = restore --staged
 [push]
 	default = current
 [pull]
