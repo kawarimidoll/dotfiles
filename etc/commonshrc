@@ -1,10 +1,10 @@
 # -----------------
-#  Variable
+#  Variables
 # -----------------
 DOTDIR="${HOME}/dotfiles"
 
 # -----------------
-#  Alias
+#  Aliases
 # -----------------
 alias cdd='cd ..'
 alias cddd='cd ../..'

@@ -79,7 +79,6 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 #  FZF
 # -----------------
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-# export FZF_DEFAULT_COMMAND='find . -mindepth 1 -type d \( -name "node_modules" -o -name ".*" \) -prune -o -type f -not -name ".*" -print -o -type d -print -o -type l -print 2> /dev/null'
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
 export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
 export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
