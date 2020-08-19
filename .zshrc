@@ -123,13 +123,10 @@ elif [[ "$(expr substr $(uname -s) 1 5)" = "MINGW" ]]; then
 elif [[ "$(expr substr $(uname -s) 1 5)" = "Linux" ]]; then
   OS='linux'
 fi
+OS_DIR="${DOT_DIR}/etc/${OS}"
 
-if [[ $OS = 'mac' && -e ./etc/mac/zshrc ]]; then
-  source ./etc/mac/zshrc
-elif [[ $OS = 'windows' && -e ./etc/windows/zshrc ]]; then
-  source ./etc/windows/zshrc
-elif [[ $OS = 'linux' && -e ./etc/linux/zshrc ]]; then
-  source ./etc/linux/zshrc
+if [[ -e "${OS_DIR}/zshrc" ]]; then
+  source "${OS_DIR}/zshrc"
 fi
 
 # -----------------
