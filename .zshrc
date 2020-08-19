@@ -60,6 +60,7 @@ yl () { docker container run --rm -it -v $(pwd):/data cytopia/yamllint . }
 # -----------------
 #  Options
 # -----------------
+setopt bsd_echo # echoをbash互換にする なおデフォルトはecho -eに相当
 setopt correct # コマンドのスペルミスを指摘
 setopt hist_ignore_all_dups # 同じコマンドをhistoryに残さない
 setopt hist_ignore_dups # 同じコマンドをhistoryに残さない
@@ -68,6 +69,7 @@ setopt hist_no_store # historyコマンドをhistoryに残さない
 setopt hist_reduce_blanks # historyに保存するときに余分なスペースを削除する
 setopt hist_save_no_dups # 同じコマンドをhistoryに残さない
 setopt hist_verify # historyを使用時に編集
+setopt ksh_arrays # 配列の添字を0から開始 むしろなんでzshは1から始まる設定なの…
 setopt nonomatch # 引数の#とかをファイル名として認識するのを防止
 setopt print_eight_bit # 日本語ファイル名を表示する
 setopt share_history # 同時に起動しているzshの間でhistoryを共有する
