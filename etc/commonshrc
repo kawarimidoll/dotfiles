@@ -1,9 +1,4 @@
 # -----------------
-#  Variables
-# -----------------
-DOTDIR="${HOME}/dotfiles"
-
-# -----------------
 #  Aliases
 # -----------------
 alias cdd='cd ..'
@@ -11,7 +6,7 @@ alias cddd='cd ../..'
 alias cdddd='cd ../../..'
 alias cdf='cd -'
 alias cdh='cd ~'
-alias cdot="cd ${HOME}/dotfiles"
+alias cdot="cd ${DOT_DIR}"
 alias cp='cp -i'
 alias dc='docker container'
 alias di='docker image'
