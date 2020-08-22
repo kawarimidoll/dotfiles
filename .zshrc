@@ -2,7 +2,7 @@
 #  Common setting
 # -----------------
 export DOT_DIR="${HOME}/dotfiles"
-source "${DOT_DIR}/etc/commonshrc"
+source "${DOT_DIR}/etc/commonrc.sh"
 
 # -----------------
 #  zsh-completions
