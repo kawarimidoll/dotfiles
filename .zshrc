@@ -41,6 +41,8 @@ yl () { docker container run --rm -it -v $(pwd):/data cytopia/yamllint . }
 # -----------------
 #  Options
 # -----------------
+setopt auto_list # 補完候補を一覧表示に
+setopt auto_menu # 補完候補をtabで選択
 setopt bsd_echo # echoをbash互換にする なおデフォルトはecho -eに相当
 setopt correct # コマンドのスペルミスを指摘
 setopt hist_ignore_all_dups # 同じコマンドをhistoryに残さない
