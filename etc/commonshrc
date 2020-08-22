@@ -4,7 +4,7 @@
 alias cdd='cd ..'
 alias cddd='cd ../..'
 alias cdddd='cd ../../..'
-alias cdf='cd -'
+alias cdf='cd $OLDPWD'
 alias cdh='cd ~'
 alias cdot="cd ${DOT_DIR}"
 alias cp='cp -i'
@@ -24,6 +24,7 @@ alias push='git push origin `git current-branch`'
 alias rm='rm -i'
 alias sudo='sudo '
 alias vimrc='vim ~/.vimrc'
+alias vimrclocal='vim ~/.vimrc.local'
 alias vin='vim -u NONE -N'
 
 # -----------------
