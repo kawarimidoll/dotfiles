@@ -19,8 +19,6 @@ alias ls='ls --color=auto'
 alias lsf='ls -Faogh --time-style="+%F %R"'
 alias mkdir='mkdir -pv'
 alias mv='mv -i'
-alias pull='git pull origin `git current-branch`'
-alias push='git push origin `git current-branch`'
 alias rm='rm -i'
 alias sudo='sudo '
 alias vimrc='vim ~/.vimrc'
@@ -33,4 +31,26 @@ alias vin='vim -u NONE -N'
 gcm() {
   local msg="$@"
   git commit --message="${msg}"
+}
+
+pull() {
+  local current=$(git current-branch)
+  [[ -z "$current" ]] && return 1
+
+  local branch="$1"
+  [[ -z "$branch" ]] && branch="$current"
+
+  echo "git pull origin ${branch}"
+  git pull origin ${branch}
+}
+
+push() {
+  local current=$(git current-branch)
+  [[ -z "$current" ]] && return 1
+
+  local branch="$1"
+  [[ -z "$branch" ]] && branch="$current"
+
+  echo "git push origin ${branch}"
+  git push origin ${branch}
 }
