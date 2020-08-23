@@ -1,8 +1,12 @@
 # -----------------
 #  Common setting
 # -----------------
+__source() {
+  [ -f $1 ] && source $1
+}
+
 export DOT_DIR="${HOME}/dotfiles"
-source "${DOT_DIR}/etc/commonrc.sh"
+__source "${DOT_DIR}/etc/commonrc.sh"
 
 # -----------------
 #  zsh-completions
@@ -63,7 +67,7 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 # -----------------
 #  FZF
 # -----------------
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+__source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
 export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
 export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
@@ -115,6 +119,4 @@ fi
 # -----------------
 #  Local Setting
 # -----------------
-if [[ -e ~/.zshrc.local ]]; then
-  source ~/.zshrc.local
-fi
+__source ~/.zshrc.local
