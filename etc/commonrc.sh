@@ -15,8 +15,9 @@ alias ds='docker system'
 alias egrep='egrep --color=auto'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
+alias lg='lazygit'
 alias ls='ls --color=auto'
-alias lsf='ls -Faogh --time-style="+%F %R"'
+alias lsf='ls -FAogh --time-style="+%F %R"'
 alias mkdir='mkdir -pv'
 alias mv='mv -i'
 alias rm='rm -i'
@@ -24,6 +25,7 @@ alias sudo='sudo '
 alias vimrc='vim ~/.vimrc'
 alias vimrclocal='vim ~/.vimrc.local'
 alias vin='vim -u NONE -N'
+alias vir='vim -c "edit #<1"'
 
 # -----------------
 #  Functions

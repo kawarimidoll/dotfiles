@@ -22,7 +22,6 @@ compinit -u
 # -----------------
 alias she='vim ~/.zshrc'
 alias shs='source ~/.zshrc'
-# alias vif=$'vim $(fzf --preview "bat --color=always --style=header,grid --line-range :100 {}")'
 
 alias -g F='| fzf'
 alias -g G='| grep'
