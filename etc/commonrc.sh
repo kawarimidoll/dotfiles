@@ -54,3 +54,26 @@ push() {
   echo "git push origin ${branch}"
   git push origin ${branch}
 }
+
+# -----------------
+#  fzf
+# -----------------
+export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
+export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
+export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
+export FZF_CTRL_T_OPTS='--preview "bat --color=always --style=header,grid --line-range :100 {}"'
+
+cgh() {
+  # local dir=$(ghq list --full-path | fzf +m --preview "ls -FA1 {}") && cd "$dir"
+  local dir
+  dir=$(ghq list | fzf +m --preview "ls -FA1 $(ghq root)/{}") && cd "$(ghq root)/$dir"
+}
+
+vif() {
+  local file
+  file=$(fzf -m --preview "bat --color=always --style=header,grid --line-range :100 {}") && vim "$file"
+}
+
+fcd() {
+  local dir=$(find -mindepth 1 -path '*/\.*' -prune -o -type d -print 2> /dev/null | cut -b3- | fzf +m) && cd "$dir"
+}
