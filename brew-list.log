@@ -1,4 +1,4 @@
-timestamp: 2020-08-21 09:33:33 JST
+timestamp: 2020-08-23 10:03:10 JST
 tap: homebrew/bundle
 tap: homebrew/cask
 tap: homebrew/cask-fonts
@@ -34,12 +34,15 @@ brew: gzip
 brew: highlight
 brew: jq
 brew: jesseduffield/lazygit/lazygit
+brew: llvm
 brew: mas
 brew: nano
 brew: neovim
+brew: ninja
 brew: nnn
 brew: nodebrew
 brew: ripgrep
+brew: rust
 brew: sbcl
 brew: sl
 brew: starship
@@ -78,6 +81,7 @@ cask: evernote
 cask: firefox
 cask: flux
 cask: font-roboto-mono-for-powerline
+cask: font-roboto-mono-nerd-font
 cask: gimp
 cask: gitup
 cask: google-chrome
