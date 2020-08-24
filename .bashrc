@@ -65,19 +65,23 @@ else
   }
   __ps_git_br() {
     local exit=$?
-    local branch=$(git rev-parse --abrev-ref HEAD 2>/dev/null)
+    local branch=$(git current-branch 2>/dev/null)
     [ -n "$branch" ] && __ps_color " $branch" 32
     return $exit
   }
   __ps_cmd_err() {
-    [ $? -ne 0 ] && __ps_color " x" 31
+    if [ $? -ne 0 ]; then
+      __ps_color " x" 31
+    fi
   }
   __ps_dir() {
+    local exit=$?
     if [ "$PWD" = "$HOME" ]; then
       printf '🏠'
     else
       printf "${PWD##*/}"
     fi
+    return $exit
   }
   # ネットではPS1_NEWLINE_LOGINを使って改行する方法が示されているが普通に先頭に\nを入れれば良さそう
   export PS1='\n$(__ps_dir)$(__ps_git_br)$(__ps_cmd_err)\n$ '
