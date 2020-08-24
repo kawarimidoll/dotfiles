@@ -52,7 +52,7 @@ fi
 # -----------------
 #  FZF
 # -----------------
-__source ~/.fzf.zsh
+__source ~/.fzf.bash
 
 # -----------------
 #  prompt
@@ -73,15 +73,14 @@ else
     [ $? -ne 0 ] && __ps_color " x" 31
   }
   __ps_dir() {
-    local pwd=$(pwd)
-    if [ "$pwd" = "$HOME" ]; then
+    if [ "$PWD" = "$HOME" ]; then
       printf '🏠'
     else
-      printf "$pwd"
+      printf "${PWD##*/}"
     fi
   }
   # ネットではPS1_NEWLINE_LOGINを使って改行する方法が示されているが普通に先頭に\nを入れれば良さそう
-  export PS1='n$(__ps_dir)$(__ps_git_br)$(__ps_cmd_err)n$ '
+  export PS1='\n$(__ps_dir)$(__ps_git_br)$(__ps_cmd_err)\n$ '
 fi
 
 # -----------------
