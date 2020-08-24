@@ -105,11 +105,7 @@ elif [[ "$(expr substr $(uname -s) 1 5)" = "MINGW" ]]; then
 elif [[ "$(expr substr $(uname -s) 1 5)" = "Linux" ]]; then
   OS='linux'
 fi
-OS_DIR="${DOT_DIR}/etc/${OS}"
-
-if [[ -e "${OS_DIR}/zshrc" ]]; then
-  source "${OS_DIR}/zshrc"
-fi
+__source "${DOT_DIR}/etc/${OS}/zshrc"
 
 # -----------------
 #  Local Setting
