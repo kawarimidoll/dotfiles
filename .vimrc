@@ -130,9 +130,9 @@ Plug 'junegunn/goyo.vim'
 if isdirectory('/usr/local/opt/fzf')
   Plug '/usr/local/opt/fzf'
 elseif isdirectory('~/.fzf')
-  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install -all' }
+  Plug '~/.fzf'
 else
-  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf'
 endif
 Plug 'junegunn/fzf.vim'
 Plug 'kana/vim-textobj-entire'
