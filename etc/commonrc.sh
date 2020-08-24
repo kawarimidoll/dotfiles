@@ -30,6 +30,10 @@ alias vir='vim -c "edit #<1"'
 # -----------------
 #  Functions
 # -----------------
+has() {
+  type "$1" > /dev/null 2>&1
+}
+
 gcm() {
   local msg="$@"
   git commit --message="${msg}"
