@@ -127,10 +127,12 @@ Plug 'jacquesbh/vim-showmarks'
 Plug 'jesseleite/vim-agriculture'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/goyo.vim'
-if empty(glob('/usr/local/opt/fzf'))
-  Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install -all'}
-else
+if isdirectory('/usr/local/opt/fzf')
   Plug '/usr/local/opt/fzf'
+elseif isdirectory('~/.fzf')
+  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install -all' }
+else
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 endif
 Plug 'junegunn/fzf.vim'
 Plug 'kana/vim-textobj-entire'
