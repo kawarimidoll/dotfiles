@@ -83,3 +83,19 @@ vif() {
 fcd() {
   local dir=$(find -mindepth 1 -path '*/\.*' -prune -o -type d -print 2> /dev/null | cut -b3- | fzf +m) && cd "$dir"
 }
+
+fadd() {
+  local out
+  while out=$(git status --short |
+    awk '{if (substr($0,2,1) != " ") print $2}' |
+    fzf --multi --exit-0 --expect=ctrl-d,ctrl-f \
+    --header 'Enter: add, Ctrl-f: patch add, Ctrl-d: show diff, Esc:quit'); do
+    local files=$(echo ${out} | tail -n+2)
+    [ -z "$files" ] && continue
+    case "$(echo ${out} | head -1)" in
+      ctrl-d ) git diff "$files" ;;
+      ctrl-f ) git add --patch "$files" ;;
+      * ) git add "$files" ;;
+    esac
+  done
+}
