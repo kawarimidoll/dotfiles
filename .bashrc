@@ -60,31 +60,20 @@ __source ~/.fzf.bash
 if has "starship"; then
   eval "$(starship init bash)"
 else
-  __ps_color() {
-    printf '\e[%dm%s\e[m' "$2" "$1"
-  }
   __ps_git_br() {
     local exit=$?
-    local branch=$(git current-branch 2>/dev/null)
-    [ -n "$branch" ] && __ps_color " $branch" 32
+    echo $(git current-branch 2>/dev/null)
     return $exit
   }
   __ps_cmd_err() {
     if [ $? -ne 0 ]; then
-      __ps_color " x" 31
-    fi
-  }
-  __ps_dir() {
-    local exit=$?
-    if [ "$PWD" = "$HOME" ]; then
-      printf '🏠'
+      echo 31
     else
-      printf "${PWD##*/}"
+      echo 36
     fi
-    return $exit
   }
   # ネットではPS1_NEWLINE_LOGINを使って改行する方法が示されているが普通に先頭に\nを入れれば良さそう
-  export PS1='\n$(__ps_dir)$(__ps_git_br)$(__ps_cmd_err)\n$ '
+  PS1='\n\W \e[32m$(__ps_git_br)\e[m\n\e[$(__ps_cmd_err)m\$\e[m '
 fi
 
 # -----------------
@@ -105,3 +94,5 @@ __source "${DOT_DIR}/etc/${OS}/bashrc"
 #  Local Setting
 # -----------------
 __source ~/.bashrc.local
+
+:
