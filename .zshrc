@@ -9,19 +9,22 @@ export DOT_DIR="${HOME}/dotfiles"
 __source "${DOT_DIR}/etc/commonrc.sh"
 
 # -----------------
-#  zsh-completions
+#  Modules
 # -----------------
 if [ -e /usr/local/share/zsh-completions ]; then
   fpath=(/usr/local/share/zsh-completions $fpath)
 fi
-autoload -U compinit
+autoload -Uz compinit
 compinit -u
+
+autoload -Uz zmv
 
 # -----------------
 #  Alias
 # -----------------
 alias she='vim ~/.zshrc'
 alias shs='source ~/.zshrc'
+alias zmv='noglob zmv -W'
 
 alias -g F='| fzf'
 alias -g G='| grep'
