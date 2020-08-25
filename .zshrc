@@ -60,8 +60,18 @@ setopt nonomatch # 引数の#とかをファイル名として認識するのを
 setopt print_eight_bit # 日本語ファイル名を表示する
 setopt share_history # 同時に起動しているzshの間でhistoryを共有する
 
+# -----------------
+#  Zstyles
+# -----------------
 # 補完時に大文字小文字を区別しない
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+
+# 現在のディレクトリを補完しない
+zstyle ':completion:*' ignore-parents parent pwd ..
+
+# sodoの後ろでコマンドを補完
+zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
+  /usr/sbin /usr/bin /sbin /bin
 
 # -----------------
 #  FZF
