@@ -107,6 +107,7 @@ bindkey '^w' edit_current_line
 #  prompt
 # -----------------
 if has "starship"; then
+  export STARSHIP_CONFIG="${DOT_DIR}/etc/starship.toml"
   eval "$(starship init zsh)"
 else
   __ps_git_br() {
