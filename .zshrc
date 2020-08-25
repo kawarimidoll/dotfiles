@@ -11,9 +11,14 @@ __source "${DOT_DIR}/etc/commonrc.sh"
 # -----------------
 #  Modules
 # -----------------
-if [ -e /usr/local/share/zsh-completions ]; then
-  fpath=(/usr/local/share/zsh-completions $fpath)
+__add_fpath() {
+  [ -e $1 ] && fpath=($1 $fpath)
+}
+if has "brew"; then
+  __add_fpath "$(brew --prefix)/share/zsh-completions"
+  __add_fpath "$(brew --prefix)/share/zsh/site-functions"
 fi
+__add_fpath "~/.zsh/completion"
 autoload -Uz compinit
 compinit -u
 
