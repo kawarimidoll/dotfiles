@@ -104,9 +104,19 @@ bindkey '^w' edit_current_line
 # PATH="/path/to/the/directory:$PATH"
 
 # -----------------
-#  starship🚀
+#  prompt
 # -----------------
-eval "$(starship init zsh)"
+if has "starship"; then
+  eval "$(starship init zsh)"
+else
+  __ps_git_br() {
+    local exit=$?
+    echo $(git current-branch 2>/dev/null)
+    return $exit
+  }
+  nl=$'\n'
+  PROMPT="${nl}%c %{${fg[green]}%}$(__ps_git_br)%{${reset_color}%}${nl}%{%(?.${fg[cyan]}.${fg[red]})%}%#%{${reset_color}%} "
+fi
 
 # -----------------
 #  OS Setting
@@ -125,3 +135,5 @@ __source "${DOT_DIR}/etc/${OS}/zshrc"
 #  Local Setting
 # -----------------
 __source ~/.zshrc.local
+
+:
