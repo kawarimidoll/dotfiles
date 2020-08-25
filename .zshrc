@@ -55,6 +55,7 @@ setopt hist_no_store # historyコマンドをhistoryに残さない
 setopt hist_reduce_blanks # historyに保存するときに余分なスペースを削除する
 setopt hist_save_no_dups # 同じコマンドをhistoryに残さない
 setopt hist_verify # historyを使用時に編集
+setopt interactive_comments # コンソールでも#をコメントと解釈
 # setopt ksh_arrays # 配列の添字を0から開始 むしろなんでzshは1から始まる設定なの…
 setopt nonomatch # 引数の#とかをファイル名として認識するのを防止
 setopt print_eight_bit # 日本語ファイル名を表示する
