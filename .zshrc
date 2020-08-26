@@ -23,6 +23,7 @@ autoload -Uz compinit
 compinit -u
 
 autoload -Uz zmv
+autoload -Uz colors && colors
 
 # -----------------
 #  Alias
