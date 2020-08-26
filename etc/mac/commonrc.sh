@@ -1,5 +1,5 @@
 # -----------------
-#  zshrc for mac
+#  commonshrc for mac
 # -----------------
 alias brewer='sh ~/dotfiles/etc/mac/brewer.sh'
 alias ctags='$(brew --prefix)/bin/ctags'
