@@ -9,10 +9,10 @@ brew cask upgrade
 brew cleanup
 set +x
 echo 'log list...'
-LOGFILE=brew-list.log
-date "+timestamp: %F %T %Z" > $LOGFILE
-brew tap       | sed 's/^/tap: /'  >> $LOGFILE
-brew leaves    | sed 's/^/brew: /' >> $LOGFILE
-brew cask list | sed 's/^/cask: /' >> $LOGFILE
-mas list       | sed 's/^/mas: /'  >> $LOGFILE
+logfile="${DOT_DIR}/etc/mac/brew-list.log"
+date "+timestamp: %F %T %Z" > $logfile
+brew tap       | sed 's/^/tap: /'  >> $logfile
+brew leaves    | sed 's/^/brew: /' >> $logfile
+brew cask list | sed 's/^/cask: /' >> $logfile
+mas list       | sed 's/^/mas: /'  >> $logfile
 echo 'done.'
