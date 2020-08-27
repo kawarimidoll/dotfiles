@@ -100,6 +100,44 @@ fadd() {
   done
 }
 
+fbr() {
+  [ -z $(git current-branch) ] && return 1
+  git branch "$@" | grep -v -e HEAD | \
+    fzf --no-multi --exit-0 --cycle --preview \
+    "cut -b3- <<< {} | xargs git log -30 --oneline --pretty=format:'[%ad] %s <%an>' --date=format:'%F'" | \
+    cut -b3- | sed 's#.*/##'
+}
+
+fsw() {
+  local branch=$(fbr $@)
+  if [ -n "$branch" ]; then
+    echo "Switching to branch '$branch'..."
+    git switch "$branch"
+  fi
+}
+
+fdel() {
+  local branch=$(fbr $@)
+  if [ -n "$branch" ]; then
+    echo -n "Delete branch '$branch'? [y/N]: "
+    read yn
+    case "${yn:0:1}" in
+      [yY]) git branch -d "$branch" ;;
+    esac
+  fi
+}
+
+fmer() {
+  local branch=$(fbr $@)
+  if [ -n "$branch" ]; then
+    echo -n "Merge branch '$branch' to curren branch? [y/N]: "
+    read yn
+    case "${yn:0:1}" in
+      [yY]) git merge "$branch" ;;
+    esac
+  fi
+}
+
 # -----------------
 #  OS Setting
 # -----------------
