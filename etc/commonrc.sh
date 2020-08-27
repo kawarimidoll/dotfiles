@@ -99,3 +99,16 @@ fadd() {
     esac
   done
 }
+
+# -----------------
+#  OS Setting
+# -----------------
+OS='unknown'
+if [ "$(uname)" = "Darwin" ]; then
+  OS='mac'
+elif [ "$(uname)" = "Linux" ]; then
+  OS='linux'
+elif [ "$(expr substr $(uname -s) 1 5)" = "MINGW" ]; then
+  OS='windows'
+fi
+__source "${DOT_DIR}/etc/${OS}/commonrc.sh"

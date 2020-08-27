@@ -126,19 +126,6 @@ else
 fi
 
 # -----------------
-#  OS Setting
-# -----------------
-OS='unknown'
-if [[ "$(uname)" = "Darwin" ]]; then
-  OS='mac'
-elif [[ "$(expr substr $(uname -s) 1 5)" = "MINGW" ]]; then
-  OS='windows'
-elif [[ "$(expr substr $(uname -s) 1 5)" = "Linux" ]]; then
-  OS='linux'
-fi
-__source "${DOT_DIR}/etc/${OS}/commonrc.sh"
-
-# -----------------
 #  Local Setting
 # -----------------
 __source ~/.zshrc.local
