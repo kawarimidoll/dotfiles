@@ -11,13 +11,14 @@ __source() {
 }
 
 export DOT_DIR="${HOME}/dotfiles"
+shell_rc="~/.bashrc"
 __source "${DOT_DIR}/etc/commonrc.sh"
 
 # -----------------
 #  Alias
 # -----------------
-alias she='vim ~/.bashrc'
-alias shs='source ~/.bashrc'
+# alias she='vim ~/.bashrc'
+# alias shs='source ~/.bashrc'
 
 # -----------------
 #  Options

@@ -9,6 +9,7 @@ __add_fpath() {
 }
 
 export DOT_DIR="${HOME}/dotfiles"
+shell_rc="~/.zshrc"
 __source "${DOT_DIR}/etc/commonrc.sh"
 
 # -----------------
@@ -24,8 +25,8 @@ autoload -Uz colors && colors
 # -----------------
 #  Alias
 # -----------------
-alias she='vim ~/.zshrc'
-alias shs='source ~/.zshrc'
+# alias she="vim ~/.zshrc"
+# alias shs="source ~/.zshrc"
 alias zmv='noglob zmv -W'
 
 alias -g F='| fzf'

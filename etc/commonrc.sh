@@ -21,6 +21,9 @@ alias lsf='ls -FAogh --time-style="+%F %R"'
 alias mkdir='mkdir -pv'
 alias mv='mv -i'
 alias rm='rm -i'
+alias she="vim ${shell_rc}"
+alias shl="vim ${shell_rc}.local"
+alias shs="source ${shell_rc}"
 alias sudo='sudo '
 alias vimrc='vim ~/.vimrc'
 alias vimrclocal='vim ~/.vimrc.local'
