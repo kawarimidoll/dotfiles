@@ -24,3 +24,6 @@ MANPATH="/usr/local/opt/findutils/libexec/gnuman:$MANPATH"
 MANPATH="/usr/local/opt/gnu-sed/libexec/gnuman:$MANPATH"
 MANPATH="/usr/local/opt/gnu-tar/libexec/gnuman:$MANPATH"
 MANPATH="/usr/local/opt/grep/libexec/gnuman:$MANPATH"
+
+__add_fpath "$(brew --prefix)/share/zsh-completions"
+__add_fpath "$(brew --prefix)/share/zsh/site-functions"

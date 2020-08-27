@@ -4,6 +4,9 @@
 __source() {
   [ -f $1 ] && source $1
 }
+__add_fpath() {
+  [ -e $1 ] && fpath=($1 $fpath)
+}
 
 export DOT_DIR="${HOME}/dotfiles"
 __source "${DOT_DIR}/etc/commonrc.sh"
@@ -11,13 +14,6 @@ __source "${DOT_DIR}/etc/commonrc.sh"
 # -----------------
 #  Modules
 # -----------------
-__add_fpath() {
-  [ -e $1 ] && fpath=($1 $fpath)
-}
-if has "brew"; then
-  __add_fpath "$(brew --prefix)/share/zsh-completions"
-  __add_fpath "$(brew --prefix)/share/zsh/site-functions"
-fi
 __add_fpath "~/.zsh/completion"
 autoload -Uz compinit
 compinit -u
