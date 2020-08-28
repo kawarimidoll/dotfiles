@@ -27,14 +27,14 @@
 	whitespace = red reverse
 [alias]
 	current-branch = rev-parse --abbrev-ref HEAD
-	default-branch = !git symbolic-ref refs/remotes/origin/HEAD | awk -F '[/]' '{print $NF}'
+	default-branch = !git symbolic-ref refs/remotes/origin/HEAD | sed 's!.*/!!'
 	discard = restore
 	graph = log --graph --decorate --oneline
 	git = !git
 	new-branch = switch --create
-	previous-branch = switch -
 	rename-branch = branch --move
 	ss = status --short
+	toggle-branch = switch -
 	uncommit = reset --soft HEAD^
 	unstage = restore --staged
 	upstream-branch = rev-parse --abbrev-ref --symbolic-full-name @{u}
