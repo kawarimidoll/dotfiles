@@ -141,6 +141,15 @@ fmer() {
   fi
 }
 
+fshow() {
+  local _binds="ctrl-y:toggle-preview,ctrl-u:preview-down,ctrl-i:preview-up"
+  git log --graph --color=always --format="%C(auto)%h%d %C(black bold)%cr %C(auto)%s" |
+    fzf --no-sort --no-multi --exit-0 --tiebreak=index --ansi --height 100% \
+    --preview "echo {} | grep -o '[a-f0-9]\{7\}' | xargs git show --color=always" \
+    --header "$_binds" --bind "$_binds" \
+    --preview-window=down:60% | grep -o '[a-f0-9]\{7\}'
+}
+
 # -----------------
 #  OS Setting
 # -----------------
