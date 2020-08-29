@@ -80,7 +80,7 @@ cgh() {
 
 vif() {
   local file
-  file=$(fzf -m --preview "bat --color=always --style=header,grid --line-range :100 {}") && vim "$file"
+  file=$(fzf --multi --exit-0 --query="$1" --preview "bat --color=always --style=header,grid --line-range :100 {}") && vim "$file"
 }
 
 fcd() {
