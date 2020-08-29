@@ -26,6 +26,7 @@
 	new = green bold
 	whitespace = red reverse
 [alias]
+	aliases = config --get-regexp alias
 	current-branch = rev-parse --abbrev-ref HEAD
 	default-branch = !git symbolic-ref refs/remotes/origin/HEAD | sed 's!.*/!!'
 	discard = restore
@@ -35,6 +36,7 @@
 	rename-branch = branch --move
 	ss = status --short
 	toggle-branch = switch -
+	whoami = config --get-regexp user
 	uncommit = reset --soft HEAD^
 	unstage = restore --staged
 	upstream-branch = rev-parse --abbrev-ref --symbolic-full-name @{u}
