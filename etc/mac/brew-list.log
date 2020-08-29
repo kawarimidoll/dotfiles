@@ -1,4 +1,4 @@
-timestamp: 2020-08-28 08:36:49 JST
+timestamp: 2020-08-29 10:23:06 JST
 tap: homebrew/bundle
 tap: homebrew/cask
 tap: homebrew/cask-fonts
@@ -21,6 +21,7 @@ brew: diff-so-fancy
 brew: diffutils
 brew: skanehira/docui/docui
 brew: ed
+brew: expect
 brew: findutils
 brew: fzf
 brew: gawk
