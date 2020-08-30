@@ -8,11 +8,15 @@ XD_LOG_LINES=10
 alias xdf='xd $OLDPWD'
 
 xd() {
-  local arg_dir="${@: -1}"
-  [ -d "$arg_dir" ] && cd "$arg_dir"
-  local dir=$(find -mindepth 1 -path '*/\.*' -prune -o -type d -print 2> /dev/null | \
-    cut -c3- | \
-    fzf --no-multi --exit-0 --query="$arg_dir" --preview "echo {} | xargs ls -FA1")
+  local arg_dir="${@: -1}" dir
+
+  if [ -d "$arg_dir" ]; then
+    dir="$arg_dir"
+  else
+    dir=$(find -mindepth 1 -path '*/\.*' -prune -o -type d -print 2> /dev/null | \
+      cut -c3- | \
+      fzf --no-multi --exit-0 --query="$arg_dir" --preview 'echo {} | xargs ls -FA1')
+  fi
 
   if [ -n "$dir" ]; then
     cd "$dir"
