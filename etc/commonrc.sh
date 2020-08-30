@@ -83,10 +83,6 @@ vif() {
   file=$(fzf --multi --exit-0 --query="$1" --preview "bat --color=always --style=header,grid --line-range :100 {}") && vim "$file"
 }
 
-fcd() {
-  local dir=$(find -mindepth 1 -path '*/\.*' -prune -o -type d -print 2> /dev/null | cut -b3- | fzf +m) && cd "$dir"
-}
-
 fadd() {
   local out
   while out=$(git status --short |
@@ -149,6 +145,11 @@ fshow() {
     --header "$_binds" --bind "$_binds" \
     --preview-window=down:60% | grep -o '[a-f0-9]\{7\}'
 }
+
+# -----------------
+#  xd - extended cd
+# -----------------
+__source "${DOT_DIR}/etc/xd.sh"
 
 # -----------------
 #  OS Setting
