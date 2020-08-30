@@ -83,6 +83,19 @@ vif() {
   file=$(fzf --multi --exit-0 --query="$1" --preview "bat --color=always --style=header,grid --line-range :100 {}") && vim "$file"
 }
 
+fgt() {
+  local list="fbr\nfsw\nfmer\nfdel\nfst\nfadd"
+  local cmd=$(echo -e "$list" | fzf --no-multi --preview "case {} in
+    fbr) echo 'select git branch' ;;
+    fsw) echo 'switch to selected git branch' ;;
+    fmer) echo 'merge selected git branch to current branch' ;;
+    fdel) echo 'delete selected git branch' ;;
+    fst) echo 'check current git status and manage staging' ;;
+    fadd) echo 'git add and show' ;;
+  esac")
+  [ -n "$cmd" ] && "$cmd"
+}
+
 fadd() {
   local out
   while out=$(git status --short |
