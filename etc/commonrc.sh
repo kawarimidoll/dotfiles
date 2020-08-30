@@ -99,6 +99,23 @@ fadd() {
   done
 }
 
+fst() {
+  local listup_command="git status --short"
+  if has "unbuffer"; then
+    local listup_command="unbuffer $listup_command"
+  fi
+  local prefix_git="cut -c4- <<< {} | xargs git"
+  eval $listup_command | fzf --ansi --exit-0 --no-multi \
+    --height 100% --preview-window=down:80% \
+    --preview "$prefix_git diff --color=always --;$prefix_git diff --staged --color=always --" \
+    --header "Enter: add, Ctrl-s: unstage, Ctrl-d: discard, Ctrl-u/i: scroll preview" \
+    --bind "ctrl-u:preview-down,ctrl-i:preview-up" \
+    --bind "enter:reload($prefix_git add;$listup_command)" \
+    --bind "ctrl-s:reload($prefix_git restore --staged;$listup_command)" \
+    --bind "ctrl-d:reload($prefix_git restore;$listup_command)" #\
+    # --bind "ctrl-f:reload($prefix_git add --patch;$listup_command)"
+}
+
 fbr() {
   [ -z $(git current-branch) ] && return 1
   git branch "$@" | grep -v -e HEAD | \
