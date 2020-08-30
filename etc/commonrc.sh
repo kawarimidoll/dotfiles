@@ -103,8 +103,8 @@ fbr() {
   [ -z $(git current-branch) ] && return 1
   git branch "$@" | grep -v -e HEAD | \
     fzf --no-multi --exit-0 --cycle --preview \
-    "cut -c4- <<< {} | xargs git log -30 --oneline --pretty=format:'[%ad] %s <%an>' --date=format:'%F'" | \
-    cut -c4- | sed 's#.*/##'
+    "cut -c3- <<< {} | xargs git log -30 --oneline --pretty=format:'[%ad] %s <%an>' --date=format:'%F'" | \
+    cut -c3- | sed 's#.*/##'
 }
 
 fsw() {
