@@ -35,35 +35,47 @@ xd() {
 
 xdd() {
   local parent=$(dirname "$PWD")
-  local cnt=1
-  local dirs="${cnt}: $parent"
+  local dirs="$parent"
   while [ "$parent" != "/" ]; do
-    cnt=$((cnt+1))
     parent=$(dirname "$parent")
-    dirs="${dirs}\n${cnt}: ${parent}"
+    dirs="${dirs}\n${parent}"
   done
-  local out=$(echo -e "$dirs" | \
+  local out=$(echo -e "$dirs" | nl -w3 -s": " | \
     fzf --no-multi --select-1 --query="$@" \
-    --preview "echo {} | awk '{print \$2}' | xargs ls -FA1" \
+    --preview 'echo {} | cut -c6- | xargs ls -FA1' \
     --header 'Enter to cd, Tab to cd and xd' \
     --expect=tab)
   local cmd="$(echo "$out" | head -1)"
-  local dir="$(echo "$out" | tail -1)"
-  [ -n "$dir" ] && xd $(echo "$dir" | awk '{print $2}')
-  [ "$cmd" = 'tab' ] && xd
+  local dir="$(echo "$out" | tail -1 | cut -c6- )"
+  if [ -n "$dir" ]; then
+    xd "$dir"
+    if [ $? -eq 0 -a "$cmd" = 'tab' ]; then
+      echo "xd from $PWD"
+      xd
+    else
+      :
+    fi
+  fi
 }
 
 xdr() {
   local logfile="${XD_LOG_DIR}/xd.log"
   [ ! -f "$logfile" ] && return
   local out=$(tail -n "$XD_LOG_LINES" "$logfile" | \
-    grep -v -e "^${PWD}\$" | \
+    grep -v -e "^${PWD}\$" | nl -w3 -s": " | \
     fzf --no-multi --exit-0 --query="$@" \
-    --preview "echo {} | xargs ls -FA1" \
+    --preview 'echo {} | cut -c6- | xargs ls -FA1' \
     --header 'Enter to cd, Tab to cd and xd' \
     --expect=tab)
   local cmd="$(echo "$out" | head -1)"
-  local dir="$(echo "$out" | tail -1)"
-  [ -n "$dir" ] && xd "$dir"
-  [ "$cmd" = 'tab' ] && xd
+  local dir="$(echo "$out" | tail -1 | cut -c6- )"
+  if [ -n "$dir" ]; then
+    xd "$dir"
+    if [ $? -eq 0 -a "$cmd" = 'tab' ]; then
+      echo "xd from $PWD"
+      xd
+    else
+      :
+    fi
+  fi
 }
