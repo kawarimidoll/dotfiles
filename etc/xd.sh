@@ -2,6 +2,9 @@
 #  xd - extended cd
 # -----------------
 
+XD_LOG_DIR="${HOME}/.kawarimidoll"
+XD_LOG_LINES=10
+
 alias xdf='xd $OLDPWD'
 
 xd() {
@@ -10,7 +13,20 @@ xd() {
   local dir=$(find -mindepth 1 -path '*/\.*' -prune -o -type d -print 2> /dev/null | \
     cut -c3- | \
     fzf --no-multi --exit-0 --query="$arg_dir" --preview "echo {} | xargs ls -FA1")
-  [ -n "$dir" ] && cd "$dir"
+
+  if [ -n "$dir" ]; then
+    cd "$dir"
+
+    if [ $? -eq 0 ]; then
+      [ ! -d "$XD_LOG_DIR" ] && mkdir -p "$XD_LOG_DIR"
+      local logfile="${XD_LOG_DIR}/xd.log"
+      grep -v -e "^${PWD}\$" "$logfile" 1> "${logfile}.tmp1" 2> /dev/null
+      echo "$PWD" >> "${logfile}.tmp1"
+      tail -n "$XD_LOG_LINES" "${logfile}.tmp1" >> "${logfile}.tmp2"
+      [ -f "${logfile}.tmp2" ] && mv -f "${logfile}.tmp2" "$logfile" 2> /dev/null
+      [ -f "${logfile}.tmp1" ] && rm -f "${logfile}.tmp1" 2> /dev/null
+    fi
+  fi
 }
 
 xdd() {
