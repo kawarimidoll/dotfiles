@@ -45,6 +45,21 @@ xdd() {
     --expect=tab)
   local cmd="$(echo "$out" | head -1)"
   local dir="$(echo "$out" | tail -1)"
-  [ -n "$dir" ] && cd $(echo "$dir" | awk '{print $2}')
+  [ -n "$dir" ] && xd $(echo "$dir" | awk '{print $2}')
+  [ "$cmd" = 'tab' ] && xd
+}
+
+xdr() {
+  local logfile="${XD_LOG_DIR}/xd.log"
+  [ ! -f "$logfile" ] && return
+  local out=$(tail -n "$XD_LOG_LINES" "$logfile" | \
+    grep -v -e "^${PWD}\$" | \
+    fzf --no-multi --exit-0 --query="$@" \
+    --preview "echo {} | xargs ls -FA1" \
+    --header 'Enter to cd, Tab to cd and xd' \
+    --expect=tab)
+  local cmd="$(echo "$out" | head -1)"
+  local dir="$(echo "$out" | tail -1)"
+  [ -n "$dir" ] && xd "$dir"
   [ "$cmd" = 'tab' ] && xd
 }
