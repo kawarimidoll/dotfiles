@@ -2,6 +2,8 @@
 #  xd - extended cd
 # -----------------
 
+alias xdf='xd $OLDPWD'
+
 xd() {
   local arg_dir="${@: -1}"
   [ -d "$arg_dir" ] && cd "$arg_dir"
