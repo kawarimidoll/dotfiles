@@ -24,11 +24,10 @@ xd() {
     if [ $? -eq 0 ]; then
       [ ! -d "$XD_LOG_DIR" ] && mkdir -p "$XD_LOG_DIR"
       local logfile="${XD_LOG_DIR}/xd.log"
-      grep -v -e "^${PWD}\$" "$logfile" 1> "${logfile}.tmp1" 2> /dev/null
-      echo "$PWD" >> "${logfile}.tmp1"
-      tail -n "$XD_LOG_LINES" "${logfile}.tmp1" >> "${logfile}.tmp2"
-      [ -f "${logfile}.tmp2" ] && mv -f "${logfile}.tmp2" "$logfile" 2> /dev/null
-      [ -f "${logfile}.tmp1" ] && rm -f "${logfile}.tmp1" 2> /dev/null
+      echo "$PWD" >> "${logfile}.tmp"
+      grep -v -e "^${PWD}\$" "$logfile" >> "${logfile}.tmp"
+      head -n "$XD_LOG_LINES" "${logfile}.tmp" > "$logfile"
+      [ -f "${logfile}.tmp" ] && rm -f "${logfile}.tmp"
     fi
   fi
 }
