@@ -542,6 +542,9 @@ xnoremap <C-j> "zd"z]p`[V`]
 xnoremap <Space>/ "zy:<C-u>RgRaw -F -- $'<C-r>z'<CR>
 xnoremap <expr> <Space>c <sid>CaseToSelected(0, 'v')
 
+" operator
+onoremap x d
+
 " terminal
 tnoremap <C-w><C-n> <C-w>N
 
