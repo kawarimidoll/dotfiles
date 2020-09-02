@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DOTDIR="${HOME}/dotfiles"
+DOT_DIR="${HOME}/dotfiles"
 GITHUB_URL="https://github.com/kawarimidoll/dotfiles"
 LOGO='
        _       _    __ _ _
@@ -16,13 +16,13 @@ DIALOG="
   This script includes:
   (1) download dotfiles
   (2) link dotfiles
-  (3) setup homebrew
+  (3) setup applications
 
   select:
   [a] run all above
   [d] only download dotfiles
   [l] only link dotfiles
-  [s] only setup homebrew
+  [s] only setup applications
 "
 # ref:
 # https://qiita.com/b4b4r07/items/24872cdcbec964ce2178
@@ -37,11 +37,11 @@ die() {
 }
 
 download_dotfiles() {
-  if [ -d "$DOTDIR" ]; then
-    echo "$DOTDIR is already exist"
+  if [ -d "$DOT_DIR" ]; then
+    echo "$DOT_DIR is already exist"
   else
     if has "git"; then
-      git clone --recursive "$GITHUB_URL" "$DOTDIR"
+      git clone --recursive "$GITHUB_URL" "$DOT_DIR"
     elif has "curl" || has "wget"; then
       local tarball_url="${GITHUB_URL}/archive/master.tar.gz"
       if has "curl"; then
@@ -49,7 +49,7 @@ download_dotfiles() {
       else
         wget -O - "$tarball_url"
       fi | tar xv
-      mv -f dotfiles-master "$DOTDIR"
+      mv -f dotfiles-master "$DOT_DIR"
     else
       die "cannot download dotfiles."
     fi
@@ -57,13 +57,13 @@ download_dotfiles() {
 }
 
 link_dotfiles() {
-  cd "$DOTDIR"
+  cd "$DOT_DIR"
   if [ $? -ne 0 ]; then
-    echo "cannot cd to $DOTDIR"
+    echo "cannot cd to $DOT_DIR"
   else
     for f in `find . -not -path '*.git/*' -not -path '*.DS_Store' -path '*/.*' -type f -print | cut -b3-`
     do
-      ln -sniv "$DOTDIR/$f" "$HOME/$f"
+      ln -sniv "$DOT_DIR/$f" "$HOME/$f"
     done
   fi
 }
@@ -106,9 +106,9 @@ if [ $selection = "a" -o $selection = "l" ]; then
   echo ""
 fi
 if [ $selection = "a" -o $selection = "s" ]; then
-  echo "  begin setup homebrew."
+  echo "  begin setup applications."
   setup_homebrew
-  echo "  end setup homebrew."
+  echo "  end setup applications."
   echo ""
 fi
 
