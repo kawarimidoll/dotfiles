@@ -36,6 +36,18 @@ die() {
   exit 1
 }
 
+__source() {
+  [ -f $1 ] && source $1
+}
+OS='unknown'
+if [ "$(uname)" = "Darwin" ]; then
+  OS='mac'
+elif [ "$(uname)" = "Linux" ]; then
+  OS='linux'
+elif [ "$(expr substr $(uname -s) 1 5)" = "MINGW" ]; then
+  OS='windows'
+fi
+
 download_dotfiles() {
   if [ -d "$DOT_DIR" ]; then
     echo "$DOT_DIR is already exist"
@@ -68,29 +80,6 @@ link_dotfiles() {
   fi
 }
 
-setup_homebrew() {
-  brew_list() {
-    cat brew-list.log | grep $1 | awk 'BEGIN{ORS=" "}{print $2}'
-  }
-  which curl >> /dev/null || die "curl is required."
-  if !has "brew"; then
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-  fi
-  which brew >> /dev/null || die "brew is required."
-  brew doctor || die "brew doctor raised error."
-  brew update
-  if [ -e brew-list.log ]; then
-    brew tap $(brew_list tap)
-    brew install $(brew_list brew)
-    brew cask install $(brew_list cask)
-    brew_list brew | grep mas >> /dev/null || brew install mas
-    mas install $(brew_list mas)
-  else
-    echo "  brew-list.log is needed."
-  fi
-  brew cleanup
-}
-
 echo "$LOGO" "$DIALOG"
 read selection
 if [ $selection = "a" -o $selection = "d" ]; then
@@ -107,7 +96,7 @@ if [ $selection = "a" -o $selection = "l" ]; then
 fi
 if [ $selection = "a" -o $selection = "s" ]; then
   echo "  begin setup applications."
-  setup_homebrew
+  __source "${DOT_DIR}/etc/${OS}/install.sh"
   echo "  end setup applications."
   echo ""
 fi
