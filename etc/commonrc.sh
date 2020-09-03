@@ -79,8 +79,15 @@ cgh() {
 }
 
 vif() {
-  local file
-  file=$(fzf --multi --exit-0 --query="$1" --preview "bat --color=always --style=header,grid --line-range :100 {}") && vim "$file"
+  local preview_cmd='head -100'
+  if has "bat"; then
+    preview_cmd='bat --color=always --style=header,grid --line-range :100 {}'
+  fi
+  local ignore_exts='png,jpg,jpeg,gif,webp,svg,ico,ttf,otf,keep'
+  local file=$(rg --files --hidden --follow \
+    --glob '!**/.git/*' --glob '!'"**/*.{$ignore_exts}" | \
+    fzf --multi --exit-0 --query="$@" --preview "$preview_cmd")
+  [ -n "$file" ] && vim $(echo "$file" | paste -s -d ' ' -)
 }
 
 fgt() {
