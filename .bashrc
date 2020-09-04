@@ -75,7 +75,7 @@ else
     fi
   }
   # ネットではPS1_NEWLINE_LOGINを使って改行する方法が示されているが普通に先頭に\nを入れれば良さそう
-  PS1='\n\W \e[32m$(__ps_git_br)\e[m\n\e[$(__ps_cmd_err)m\$\e[m '
+  PS1='\n\W \[\e[32m\]$(__ps_git_br)\[\e[m\]\n\[\e[$(__ps_cmd_err)m\]\$\[\e[m\] '
 fi
 
 # -----------------
