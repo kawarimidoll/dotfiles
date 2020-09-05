@@ -19,7 +19,7 @@ xd() {
   fi
 
   if [ -n "$dir" ]; then
-    cd "$dir"
+    builtin cd "$dir"
 
     if [ $? -eq 0 ]; then
       [ ! -d "$XD_LOG_DIR" ] && mkdir -p "$XD_LOG_DIR"
