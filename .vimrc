@@ -172,7 +172,7 @@ Plug 'vim-jp/vimdoc-ja'
 " Plug 'vim-jp/vital.vim'
 Plug 'vim-scripts/AnsiEsc.vim' " :AnsiEscでカラーデータを含むログファイルを色づけ
 " Plug 'yami-beta/asyncomplete-omni.vim'
-Plug 'Yggdroot/indentLine'
+" Plug 'Yggdroot/indentLine'
 
 " Plug 'altercation/solarized'
 " Plug 'cocopon/iceberg.vim'
@@ -195,7 +195,7 @@ let g:closetag_filenames = '*.html,*.vue,*.html.erb'
 let g:fzf_buffers_jump = 1
 let g:gruvbox_italics = 0
 let g:gruvbox_italicize_strings = 0
-let g:indentLine_leadingSpaceEnabled = 1
+" let g:indentLine_leadingSpaceEnabled = 1
 let g:netrw_alto = 1
 let g:netrw_altv = 1
 let g:netrw_banner = 0
