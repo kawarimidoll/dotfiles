@@ -143,6 +143,7 @@ Plug 'markonm/traces.vim'
 Plug 'mattn/vim-lsp-settings'
 " Plug 'mattn/webapi-vim'
 Plug 'mhinz/vim-startify'
+Plug 'nathanaelkane/vim-indent-guides'
 Plug 'nelstrom/vim-qargs'
 Plug 'osyo-manga/vim-anzu'
 Plug 'plasticboy/vim-markdown'
@@ -196,6 +197,10 @@ let g:fzf_buffers_jump = 1
 let g:gruvbox_italics = 0
 let g:gruvbox_italicize_strings = 0
 " let g:indentLine_leadingSpaceEnabled = 1
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_start_level = 2
+let g:indent_guides_guide_size = 1
+let g:indent_guides_exclude_filetypes = ['help']
 let g:netrw_alto = 1
 let g:netrw_altv = 1
 let g:netrw_banner = 0
