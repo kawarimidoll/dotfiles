@@ -150,6 +150,10 @@ Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'prabirshrestha/vim-lsp'
+Plug 'prettier/vim-prettier', {
+      \ 'do': 'yarn install',
+      \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json',
+      \        'graphql', 'markdown', 'vue', 'yaml', 'html']}
 Plug 'previm/previm' " :PrevimOpenでmarkdownファイルをブラウザで表示、HMRつき
 Plug 'qpkorr/vim-bufkill'
 Plug 'sheerun/vim-polyglot'
