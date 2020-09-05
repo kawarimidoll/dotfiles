@@ -2,10 +2,19 @@
 #  xd - extended cd
 # -----------------
 
-XD_LOG_DIR="${HOME}/.kawarimidoll"
-XD_LOG_LINES=10
-
 alias xdf='xd $OLDPWD'
+
+__xd_log_dir() {
+  echo ${XD_LOG_DIR:-"${HOME}/.kawarimidoll"}
+}
+
+__xd_log_file() {
+  echo "$(__xd_log_dir)/xd.log"
+}
+
+__xd_log_lines() {
+  echo ${XD_LOG_LINES:-10}
+}
 
 xd() {
   local arg_dir="${@: -1}" dir
@@ -22,11 +31,12 @@ xd() {
     builtin cd "$dir"
 
     if [ $? -eq 0 ]; then
-      [ ! -d "$XD_LOG_DIR" ] && mkdir -p "$XD_LOG_DIR"
-      local logfile="${XD_LOG_DIR}/xd.log"
+      [ ! -d "$(__xd_log_dir)" ] && mkdir -p "$(__xd_log_dir)"
+      local logfile="$(__xd_log_file)"
+      local loglines="$(__xd_log_lines)"
       echo "$PWD" >> "${logfile}.tmp"
       grep -v -e "^${PWD}\$" "$logfile" >> "${logfile}.tmp"
-      head -n "$XD_LOG_LINES" "${logfile}.tmp" > "$logfile"
+      head -n "$loglines" "${logfile}.tmp" > "$logfile"
       [ -f "${logfile}.tmp" ] && rm -f "${logfile}.tmp"
     fi
   fi
@@ -62,7 +72,8 @@ xdd() {
 }
 
 xdr() {
-  local logfile="${XD_LOG_DIR}/xd.log"
+  local logfile="$(__xd_log_file)"
+  local loglines="$(__xd_log_lines)"
   [ ! -f "$logfile" ] && return
-  __xd_tab_helper "tail -n $XD_LOG_LINES $logfile | grep -v -e '^${PWD}\$'" "$@"
+  __xd_tab_helper "tail -n $loglines $logfile | grep -v -e '^${PWD}\$'" "$@"
 }
