@@ -33,17 +33,18 @@ xd() {
     if [ $? -eq 0 ]; then
       [ ! -d "$(__xd_log_dir)" ] && mkdir -p "$(__xd_log_dir)"
       local logfile="$(__xd_log_file)"
+      local tmpfile="${logfile}.tmp"
       local loglines="$(__xd_log_lines)"
-      echo "$PWD" >> "${logfile}.tmp"
-      grep -v -e "^${PWD}\$" "$logfile" >> "${logfile}.tmp"
-      head -n "$loglines" "${logfile}.tmp" > "$logfile"
-      [ -f "${logfile}.tmp" ] && rm -f "${logfile}.tmp"
+      echo "$PWD" >> "$tmpfile"
+      grep -v -e "^${PWD}\$" "$logfile" >> "$tmpfile"
+      head -n "$loglines" "$tmpfile" > "$logfile"
+      [ -f "$tmpfile" ] && rm -f "$tmpfile"
     fi
   fi
 }
 
 __xd_tab_helper() {
-  local out=$(eval "$1" | nl -w3 -s": " | \
+  local out=$(eval "$1" | nl -w3 -s': ' | \
     fzf --no-multi --select-1 --query="${@:2}" \
     --preview 'echo {} | cut -c6- | xargs ls -FA1' \
     --header 'Enter to cd, Tab to cd and xd' \
@@ -64,7 +65,7 @@ __xd_tab_helper() {
 xdd() {
   local parent=$(dirname "$PWD")
   local dirs="$parent"
-  while [ "$parent" != "/" ]; do
+  while [ "$parent" != '/' ]; do
     parent=$(dirname "$parent")
     dirs="${dirs}\n${parent}"
   done
