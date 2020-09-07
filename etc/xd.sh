@@ -22,7 +22,9 @@ xd() {
   if [ -d "$arg_dir" ]; then
     dir="$arg_dir"
   else
-    dir=$(find -mindepth 1 -path '*/\.*' -prune -o -type d -print 2> /dev/null | \
+    dir=$(find -mindepth 1 -regextype posix-extended \
+      -not -regex '.*/(\.git|node_modules)(/.*)?$' \
+      -type d -print 2> /dev/null | \
       cut -c3- | \
       fzf --no-multi --exit-0 --query="$arg_dir" --preview 'echo {} | xargs ls -FA1')
   fi
