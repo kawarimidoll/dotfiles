@@ -493,8 +493,8 @@ nnoremap <Space>i mzviwbg~`z:<C-u>delmarks z<CR>
 nnoremap <Space>l :<C-u>BLines<CR>
 nnoremap <Space>m :<C-u>Marks<CR>
 " nnoremap <Space>n
-nnoremap <Space>o mzo<Esc>`z:<C-u>delmarks z<CR>
-nnoremap <Space>O mzO<Esc>`z:<C-u>delmarks z<CR>
+nnoremap <Space>o o<Esc>
+nnoremap <Space>O O<Esc>
 " nnoremap <Space>p
 nnoremap <Space>q :<C-u>quit<CR>
 nnoremap <Space>r :<C-u>registers<CR>
@@ -548,7 +548,7 @@ xnoremap z zf
 
 xnoremap <C-k> "zd<Up>"z]P`[V`]
 xnoremap <C-j> "zd"z]p`[V`]
-xnoremap <Space>/ "zy:<C-u>RgRaw -F -- $'<C-r>z'<CR>
+xnoremap <Space>/ "zy:<C-u>RgRaw -F -- $'<C-r>z'
 xnoremap <expr> <Space>c <sid>CaseToSelected(0, 'v')
 
 " operator
