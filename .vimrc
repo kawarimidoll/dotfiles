@@ -191,6 +191,8 @@ Plug 'vim-scripts/AnsiEsc.vim' " :AnsiEscでカラーデータを含むログフ
 
 call plug#end()
 
+let g:ale_linter_aliases = {'vue': ['vue', 'javascript']}
+let g:ale_linters = {'vue': ['eslint', 'vls']}
 let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
 let g:closetag_filenames = '*.html,*.vue,*.html.erb'
 let g:fzf_buffers_jump = 1
