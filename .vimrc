@@ -497,7 +497,7 @@ nnoremap <Space>m :<C-u>Marks<CR>
 " nnoremap <Space>n
 nnoremap <Space>o o<Esc>
 nnoremap <Space>O O<Esc>
-" nnoremap <Space>p
+nnoremap <Space>p :<C-u>Prettier<CR>
 nnoremap <Space>q :<C-u>quit<CR>
 nnoremap <Space>r :<C-u>registers<CR>
 nnoremap <Space>s :<C-u>&&<CR>
