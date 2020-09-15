@@ -142,6 +142,7 @@ Plug 'lifepillar/vim-gruvbox8'
 Plug 'markonm/traces.vim'
 Plug 'mattn/vim-lsp-settings'
 " Plug 'mattn/webapi-vim'
+Plug 'maximbaz/lightline-ale'
 Plug 'mhinz/vim-startify'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'nelstrom/vim-qargs'
@@ -609,7 +610,8 @@ let g:lightline = {
       \ 'mode_map': { 'c': 'SEARCH' },
       \ 'active': {
       \   'left': [['mode', 'paste'], ['gitgutter', 'filename', 'modified']],
-      \   'right': [['lineinfo', 'anzu', 'ale'], ['percent'], ['fileformat', 'fileencoding', 'filetype']]
+      \   'right': [['linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos', 'linter_ok'],
+      \       ['lineinfo', 'anzu'], ['percent'], ['fileformat', 'fileencoding', 'filetype']]
       \ },
       \ 'tabline': {
       \  'left': [['tabs']],
@@ -625,10 +627,23 @@ let g:lightline = {
       \   'pwd': '%.35(%{fnamemodify(getcwd(), ":~")}%)',
       \ },
       \ 'component_function': {
-      \   'ale': 'ALEGetStatuLine',
       \   'anzu': 'anzu#search_status',
       \   'gitbranch': 'FugitiveHead',
       \   'gitgutter': 'LightlineGitGutter',
+      \ },
+      \ 'component_expand': {
+      \  'linter_checking': 'lightline#ale#checking',
+      \  'linter_infos': 'lightline#ale#infos',
+      \  'linter_warnings': 'lightline#ale#warnings',
+      \  'linter_errors': 'lightline#ale#errors',
+      \  'linter_ok': 'lightline#ale#ok',
+      \ },
+      \ 'component_type': {
+      \  'linter_checking': 'right',
+      \  'linter_infos': 'right',
+      \  'linter_warnings': 'warning',
+      \  'linter_errors': 'error',
+      \  'linter_ok': 'right',
       \ },
       \ }
 " [lightline.vimをカスタマイズする - cafegale(LeafCage備忘録)](http://leafcage.hateblo.jp/entry/2013/10/21/lightlinevim-customize)
