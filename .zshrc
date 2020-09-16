@@ -25,8 +25,6 @@ autoload -Uz colors && colors
 # -----------------
 #  Alias
 # -----------------
-# alias she="vim ~/.zshrc"
-# alias shs="source ~/.zshrc"
 alias zmv='noglob zmv -W'
 
 alias -g F='| fzf'

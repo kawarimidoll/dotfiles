@@ -15,8 +15,6 @@ __source "${DOT_DIR}/etc/commonrc.sh"
 # -----------------
 #  Alias
 # -----------------
-# alias she='vim ~/.bashrc'
-# alias shs='source ~/.bashrc'
 
 # -----------------
 #  Options
