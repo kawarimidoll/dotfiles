@@ -487,10 +487,11 @@ nnoremap <Space>c :<C-u>ToggleCase<CR>
 nnoremap <Space>C :<C-u>CaseToSelected<CR>
 nnoremap <Space>d :<C-u>bdelete<CR>
 " nnoremap <Space>e
-nnoremap <Space>f :<C-u>Files<CR>
-nnoremap <Space>g :<C-u>copy .<CR>
+nnoremap <Space>f :<C-u>GFiles<CR>
+nnoremap <Space>F :<C-u>Files<CR>
+nnoremap <silent><Space>g :<C-u>copy.<CR>
 nnoremap <Space>h :<C-u>History<CR>
-nnoremap <Space>i mzviwbg~`z:<C-u>delmarks z<CR>
+nnoremap <silent><Space>i mzviwbg~`z:<C-u>delmarks z<CR>
 " nnoremap <Space>j
 " nnoremap <Space>k
 nnoremap <Space>l :<C-u>BLines<CR>
@@ -503,7 +504,7 @@ nnoremap <Space>q :<C-u>quit<CR>
 nnoremap <Space>r :<C-u>registers<CR>
 nnoremap <Space>s :<C-u>&&<CR>
 nnoremap <Space>t <C-^>
-nnoremap <Space>u mzviwg~`z:<C-u>delmarks z<CR>
+nnoremap <silent><Space>u mzviwg~`z:<C-u>delmarks z<CR>
 " nnoremap <Space>v
 nnoremap <Space>w :<C-u>write<CR>
 nnoremap <Space>wq :<C-u>wq<CR>
@@ -511,12 +512,13 @@ nnoremap <Space>wq :<C-u>wq<CR>
 " nnoremap <Space>y
 nnoremap <Space>z :<C-u>za<CR>
 nnoremap <Space>/ :<C-u>RgRaw -F -- $''<Left>
-nnoremap <Space>? :<C-u>RgRaw -F -- $'<C-r><C-w>'
-nnoremap <Space>: q:
+nnoremap <Space>? :<C-u>RgRaw -F -- $'<C-r><C-w>'<Left>
+nnoremap <Space>; :<C-u>History/<CR>
+nnoremap <Space>: :<C-u>History:<CR>
 
 nnoremap <C-k> "zdd<Up>"zP==
 nnoremap <C-j> "zdd"zp==
-nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
+nnoremap <silent><C-l> :<C-u>nohlsearch<CR><C-l>
 nnoremap <C-w><C-q> <C-w>c
 
 " command
@@ -551,7 +553,7 @@ xnoremap z zf
 
 xnoremap <C-k> "zd<Up>"z]P`[V`]
 xnoremap <C-j> "zd"z]p`[V`]
-xnoremap <Space>/ "zy:<C-u>RgRaw -F -- $'<C-r>z'
+xnoremap <Space>/ "zy:<C-u>RgRaw -F -- $'<C-r>z'<Left>
 xnoremap <expr> <Space>c <sid>CaseToSelected(0, 'v')
 
 " operator
