@@ -235,6 +235,7 @@ command! -bang -nargs=* Rg
       \           : fzf#vim#with_preview('right:50%:hidden','?'),
       \   <bang>0)
 " avoid to search file name: fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'up:40%')
+command! GitFilesExceptImages GFiles | grep -v -e '\.\(png\|jpg\|jpeg\|gif\|webp\|svg\|ico\|ttf\|otf\|woff\|woff2\|keep\|lock\)$'
 
 " call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
 "       \ 'name': 'omni',
@@ -487,7 +488,7 @@ nnoremap <Space>c :<C-u>ToggleCase<CR>
 nnoremap <Space>C :<C-u>CaseToSelected<CR>
 nnoremap <Space>d :<C-u>bdelete<CR>
 " nnoremap <Space>e
-nnoremap <Space>f :<C-u>GFiles<CR>
+nnoremap <Space>f :<C-u>GitFilesExceptImages<CR>
 nnoremap <Space>F :<C-u>Files<CR>
 nnoremap <silent><Space>g :<C-u>copy.<CR>
 nnoremap <Space>h :<C-u>History<CR>
