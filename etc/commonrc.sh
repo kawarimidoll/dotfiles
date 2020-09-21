@@ -183,6 +183,18 @@ fshow() {
     --preview-window=down:60% | grep -o '[a-f0-9]\{7\}'
 }
 
+fxup() {
+  local hash=$(fshow $@)
+  if [ -n "$hash" ]; then
+    git commit --fixup "$hash"
+    echo -n "Squash now? [y/N]: "
+    read yn
+    case "${yn:0:1}" in
+      [yY]) git rebase --interactive --autosquash;;
+    esac
+  fi
+}
+
 # -----------------
 #  xd - extended cd
 # -----------------
