@@ -37,11 +37,6 @@ has() {
   type "$1" > /dev/null 2>&1
 }
 
-gcm() {
-  local msg="$@"
-  git commit --message="${msg}"
-}
-
 pull() {
   local current=$(git current-branch)
   [[ -z "$current" ]] && return 1
@@ -134,6 +129,20 @@ fst() {
     --bind "ctrl-s:reload($prefix_git restore --staged;$listup_command)" \
     --bind "ctrl-d:reload($prefix_git restore;$listup_command)" #\
     # --bind "ctrl-f:reload($prefix_git add --patch;$listup_command)"
+}
+
+fcm() {
+  local _binds="ctrl-y:toggle-preview,ctrl-u:preview-down,ctrl-i:preview-up"
+  local message=$(git diff --staged --name-only | fzf --phony --exit-0 --no-multi \
+    --height 100% --preview-window=down:80% \
+    --preview "git diff --staged --color=always -- {}" \
+    --header "$_binds" --bind "$_binds" \
+    --prompt "commit message: " --print-query | head -1)
+  if [ -z "$message" ]; then
+    echo 'commit message is required.'
+    return 1
+  fi
+  git commit --message="$message"
 }
 
 fbr() {
