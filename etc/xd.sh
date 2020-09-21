@@ -22,6 +22,9 @@ xd() {
   if [ -d "$arg_dir" ]; then
     dir="$arg_dir"
   else
+    # .gitignore is not always existing even if it's git directory...
+    # grep '^[^#]' $(git rev-parse --show-toplevel)/.gitignore | \
+    #   sed 's#/$##' | sed 's/\./\\\./g' | sed 's/\*/\.\*/g'
     dir=$(find -mindepth 1 -regextype posix-extended \
       -not -regex '.*/(\.git|node_modules)(/.*)?$' \
       -type d -print 2> /dev/null | \
