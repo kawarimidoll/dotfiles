@@ -166,7 +166,7 @@ fdel() {
 fmer() {
   local branch=$(fbr $@)
   if [ -n "$branch" ]; then
-    echo -n "Merge branch '$branch' to curren branch? [y/N]: "
+    echo -n "Merge branch '$branch' to current branch? [y/N]: "
     read yn
     case "${yn:0:1}" in
       [yY]) git merge "$branch" ;;
