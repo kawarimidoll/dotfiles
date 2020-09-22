@@ -37,6 +37,15 @@ has() {
   type "$1" > /dev/null 2>&1
 }
 
+__yn() {
+  echo -n "$1 [y/N]: "
+  read yn
+  case "${yn:0:1}" in
+    [yY]) return 0;;
+  esac
+  return 1
+}
+
 pull() {
   local current=$(git current-branch)
   [[ -z "$current" ]] && return 1
@@ -165,22 +174,14 @@ fsw() {
 fdel() {
   local branch=$(fbr $@)
   if [ -n "$branch" ]; then
-    echo -n "Delete branch '$branch'? [y/N]: "
-    read yn
-    case "${yn:0:1}" in
-      [yY]) git branch -d "$branch" ;;
-    esac
+    __yn "Delete branch '$branch'?" && git branch -d "$branch"
   fi
 }
 
 fmer() {
   local branch=$(fbr $@)
   if [ -n "$branch" ]; then
-    echo -n "Merge branch '$branch' to current branch? [y/N]: "
-    read yn
-    case "${yn:0:1}" in
-      [yY]) git merge "$branch" ;;
-    esac
+    __yn "Merge branch '$branch' to current branch?" && git merge "$branch"
   fi
 }
 
@@ -199,11 +200,7 @@ fxup() {
   local hash=$(fshow $@)
   if [ -n "$hash" ]; then
     git commit --fixup "$hash"
-    echo -n "Squash now? [y/N]: "
-    read yn
-    case "${yn:0:1}" in
-      [yY]) git rebase --interactive --autosquash;;
-    esac
+    __yn "Squash now?" && git rebase --interactive --autosquash
   fi
 }
 
