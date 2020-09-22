@@ -94,6 +94,7 @@ fgt() {
     fdel) echo 'delete selected git branch' ;;
     fst) echo 'check current git status and manage staging' ;;
     fadd) echo 'git add and show' ;;
+    fcm) echo 'git commit with showing staged diff' ;;
   esac")
   [ -n "$cmd" ] && "$cmd"
 }
@@ -132,14 +133,14 @@ fst() {
 }
 
 fcm() {
-  local _binds="ctrl-y:toggle-preview,ctrl-u:preview-down,ctrl-i:preview-up"
-  local message=$(git diff --staged --name-only | fzf --phony --exit-0 --no-multi \
+  local _binds="ctrl-r:replace-query,ctrl-y:toggle-preview,ctrl-u:preview-down,ctrl-i:preview-up"
+  local message=$(git diff --staged --name-only | fzf --phony --exit-0 --no-multi --cycle \
     --height 100% --preview-window=down:80% \
     --preview "git diff --staged --color=always -- {}" \
     --header "$_binds" --bind "$_binds" \
     --prompt "commit message: " --print-query | head -1)
   if [ -z "$message" ]; then
-    echo 'commit message is required.'
+    echo 'commit is canceled.'
     return 1
   fi
   git commit --message="$message"
