@@ -221,3 +221,25 @@ elif [ "$(expr substr $(uname -s) 1 5)" = "MINGW" ]; then
   OS='windows'
 fi
 __source "${DOT_DIR}/etc/${OS}/commonrc.sh"
+
+browse() {
+  # [git-extras/git-browse](https://github.com/tj/git-extras/blob/master/bin/git-browse)
+  case "$OSTYPE" in
+  darwin*)
+    # MacOS
+    open $1 ;;
+  msys)
+    # Git-Bash on Windows
+    start $1 ;;
+  linux*)
+    # Handle WSL on Windows
+    if uname -a | grep -i -q Microsoft; then
+      powershell.exe -NoProfile start $1
+    else
+      xdg-open $1
+    fi ;;
+  *)
+    # fall back to xdg-open for BSDs, etc.
+    xdg-open $1 ;;
+  esac
+}
