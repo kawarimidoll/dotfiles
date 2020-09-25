@@ -29,8 +29,12 @@ alias zmv='noglob zmv -W'
 
 alias -g F='| fzf'
 alias -g G='| grep'
+alias -g H='| head'
 alias -g J='| jq'
-alias -g L='| less'
+alias -g L='| less -R'
+alias -g S='| sort'
+alias -g T='| tail'
+alias -g V='| view'
 alias -g X='| xargs'
 
 # 独自コマンド
