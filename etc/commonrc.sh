@@ -68,6 +68,11 @@ push() {
   git push origin ${branch}
 }
 
+stash() {
+  [ $# -ne 1 ] && echo 'stash message is required.' && return 1
+  git stash save $1
+}
+
 # -----------------
 #  fzf
 # -----------------
@@ -202,6 +207,18 @@ fxup() {
     git commit --fixup "$hash"
     __yn "Squash now?" && git rebase --interactive --autosquash
   fi
+}
+
+fstash() {
+  local out=$(git stash list | fzf --ansi --cycle --exit-0 --expect=ctrl-d,ctrl-p \
+    --no-multi --header="Enter: apply, Ctrl-d: drop, Ctrl-p: pop" \
+    --preview="echo {} | grep -o 'stash@{.\+}' | xargs git stash show -p --color=always")
+  local target=$(echo $out | tail -1 | grep -o 'stash@{.\+}')
+  case "$(echo $out | head -1)" in
+    ctrl-d ) git stash drop "$target" ;;
+    ctrl-p ) git stash pop "$target" ;;
+    * ) git stash apply "$target" ;;
+  esac
 }
 
 # -----------------
