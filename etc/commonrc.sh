@@ -198,7 +198,7 @@ fshow() {
     --header "$_binds" --bind "$_binds" \
     --preview-window=down:60% | grep -o '[a-f0-9]\{7\}'
   # get commit message
-  # sed -e 's/[a-f0-9]\{7\}\( (.\+)\)\? [0-9]\+ \w\+ \w\+ //'
+  # sed -r 's/[a-f0-9]{7}( \(.+\))? [0-9]+ \w+ \w+ //'
 }
 
 fxup() {
