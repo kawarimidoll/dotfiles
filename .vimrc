@@ -517,8 +517,8 @@ nnoremap <Space>? :<C-u>RgRaw -F -- $'<C-r><C-w>'<Left>
 nnoremap <Space>; :<C-u>History/<CR>
 nnoremap <Space>: :<C-u>History:<CR>
 
-nnoremap <C-k> "zdd<Up>"zP==
-nnoremap <C-j> "zdd"zp==
+nnoremap <silent><C-k> :m-2<CR>=l
+nnoremap <silent><C-j> :m+1<CR>=l
 nnoremap <silent><C-l> :<C-u>nohlsearch<CR><C-l>
 nnoremap <C-w><C-q> <C-w>c
 
@@ -552,7 +552,8 @@ xnoremap <silent> y y`]
 xnoremap x "_x
 xnoremap z zf
 
-xnoremap <C-k> "zd<Up>"z]P`[V`]
+xnoremap <silent><C-k> :m'>-2<CR>gv=gv
+xnoremap <silent><C-j> :m'<+1<CR>gv=gv
 xnoremap <C-j> "zd"z]p`[V`]
 xnoremap <Space>/ "zy:<C-u>RgRaw -F -- $'<C-r>z'<Left>
 xnoremap <expr> <Space>c <sid>CaseToSelected(0, 'v')
