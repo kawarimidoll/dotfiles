@@ -205,7 +205,11 @@ fxup() {
   local hash=$(fshow $@)
   if [ -n "$hash" ]; then
     git commit --fixup "$hash"
-    __yn "Squash now?" && git rebase --interactive --autosquash
+    if __yn "Squash now?"; then
+      git rebase -i --autosquash
+    else
+      echo "Run 'git rebase -i --autosquash' to squash manually."
+    fi
   fi
 }
 
