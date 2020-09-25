@@ -1,0 +1,10 @@
+#!/bin/sh
+
+git log --graph --color=always --format="%C(auto)%h%d %C(black bold)%cr %C(auto)%s" | \
+  fzf --ansi --exit-0 --no-sort --no-multi --tiebreak=index --height=100% \
+  --preview="echo {} | grep -o '[a-f0-9]\{7\}' | xargs git show --color=always" \
+  --header="Ctrl-y to toggle preview, Ctrl-u to preview down, Ctrl-i to preview up" \
+  --bind="ctrl-y:toggle-preview,ctrl-u:preview-down,ctrl-i:preview-up" \
+  --preview-window=down:60% | grep -o '[a-f0-9]\{7\}'
+  # get commit message
+  # sed -r 's/[a-f0-9]{7}( \(.+\))? [0-9]+ \w+ \w+ //'

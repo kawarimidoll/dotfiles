@@ -31,6 +31,11 @@ alias vin='vim -u NONE -N'
 alias vir='vim -c "edit #<1"'
 
 # -----------------
+#  Paths
+# -----------------
+PATH="${DOT_DIR}/bin:$PATH"
+
+# -----------------
 #  Functions
 # -----------------
 has() {
