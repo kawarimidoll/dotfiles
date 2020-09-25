@@ -27,20 +27,27 @@
 	whitespace = red reverse
 [alias]
 	aliases = !git config --get-regexp alias | cut -c7- | sed -e 's/ / = /' | sort
+	amend = commit --amend
+	autosquash = rebase -i --autosquash
+	btf = rebase --continue
 	current-branch = rev-parse --abbrev-ref HEAD
 	default-branch = !git symbolic-ref refs/remotes/origin/HEAD | sed 's!.*/!!'
 	discard = restore
-	graph = log --graph --decorate --oneline
+	graph = log --graph --oneline
 	git = !git
+	history = log --numstat --pretty=format:'%C(auto)%h %C(blue)%cs%C(auto)%d %s %C(blue)[%cn]'
 	new-branch = switch --create
 	rename-branch = branch --move
+	remote-url = !git remote get-url origin | sed -e 's!^git@\\(.\\+\\):!\\1/!' -e 's/\\.git$//'
 	root = rev-parse --show-toplevel
 	ss = status --short
+	summary = shortlog -nse
 	toggle-branch = switch -
-	whoami = !git config --get-regexp user | cut -c6- | sed -e 's/ / = /'
 	uncommit = reset --soft HEAD^
+	unpushed = !git log --oneline $(git remote)/$(git current-branch)..$(git current-branch)
 	unstage = restore --staged
 	upstream-branch = rev-parse --abbrev-ref --symbolic-full-name @{u}
+	whoami = !git config --get-regexp user | cut -c6- | sed -e 's/ / = /'
 [push]
 	default = current
 [pull]
