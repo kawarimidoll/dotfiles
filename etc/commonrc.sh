@@ -95,16 +95,16 @@ vif() {
 }
 
 fgt() {
-  local list="fbr\nfsw\nfmer\nfdel\nfst\nfadd"
-  local cmd=$(echo -e "$list" | fzf --no-multi --preview "case {} in
-    fbr) echo 'select git branch' ;;
-    fsw) echo 'switch to selected git branch' ;;
-    fmer) echo 'merge selected git branch to current branch' ;;
-    fdel) echo 'delete selected git branch' ;;
-    fst) echo 'check current git status and manage staging' ;;
-    fadd) echo 'git add and show' ;;
-    fcm) echo 'git commit with showing staged diff' ;;
-  esac")
+  local list="fbr select git branch"
+  list="$list\nfsw switch to selected git branch"
+  list="$list\nfmer merge selected git branch to current branch"
+  list="$list\nfdel delete selected git branch"
+  list="$list\nfst check current git status and manage staging"
+  list="$list\nfadd git add and show"
+  list="$list\nfcm git commit with showing staged diff"
+  list="$list\nfshow select commit with show diff"
+  list=$(echo -e "$list" | sed -r 's/(\w+)/\\033[1;33m\1\\033[0m/')
+  local cmd=$(echo -e "$list" | fzf --ansi --cycle --no-multi --tiebreak=begin | awk '{ print $1 }')
   [ -n "$cmd" ] && "$cmd"
 }
 
