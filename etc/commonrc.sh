@@ -13,6 +13,7 @@ alias di='docker image'
 alias dp='docker-compose'
 alias ds='docker system'
 alias egrep='egrep --color=auto'
+alias g='git'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias lg='lazygit'
@@ -29,6 +30,7 @@ alias vimrc='vim ~/.vimrc'
 alias vimrclocal='vim ~/.vimrc.local'
 alias vin='vim -u NONE -N'
 alias vir='vim -c "edit #<1"'
+alias wcl='wc -l'
 
 # -----------------
 #  Paths
