@@ -1,0 +1,6 @@
+#!/bin/sh
+
+git branch --color=always "$@" | grep -ve HEAD | \
+  fzf --ansi --cycle --exit-0 --no-multi \
+  --preview="git log -20 --pretty=format:'[%ad] %s <%an>' --date=format:'%F' --color=always {-1}" | \
+  cut -c3- | sed 's#.*/##'

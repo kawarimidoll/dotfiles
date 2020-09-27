@@ -37,6 +37,8 @@
 	graph = log --graph --oneline
 	git = !git
 	history = log --numstat --pretty=format:'%C(auto)%h %C(blue)%cs%C(auto)%d %s %C(blue)[%cn]'
+	it = __it
+	list-branch = __list-branch
 	new-branch = switch --create
 	party = shortlog -nse
 	rename-branch = branch --move
