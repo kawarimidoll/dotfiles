@@ -32,10 +32,12 @@
 	autosquash = rebase -i --autosquash
 	btf = rebase --continue
 	current-branch = rev-parse --abbrev-ref HEAD
+	cog = config --global --edit
 	default-branch = !git symbolic-ref refs/remotes/origin/HEAD | sed 's!.*/!!'
 	discard = restore
 	graph = log --graph --oneline
 	git = !git
+	fixup = !git remember | xargs -I % git commit --fixup % && git rebase -i --autosquash
 	history = log --numstat --pretty=format:'%C(auto)%h %C(blue)%cs%C(auto)%d %s %C(blue)[%cn]'
 	it = __it
 	list-branch = __list-branch

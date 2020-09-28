@@ -1,4 +1,4 @@
-timestamp: 2020-09-27 08:20:20 JST
+timestamp: 2020-09-28 10:00:47 JST
 tap: homebrew/bundle
 tap: homebrew/cask
 tap: homebrew/cask-fonts
@@ -44,6 +44,7 @@ brew: neovim
 brew: ninja
 brew: nnn
 brew: nodebrew
+brew: re2c
 brew: ripgrep
 brew: rust
 brew: sbcl
