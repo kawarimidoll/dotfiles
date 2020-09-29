@@ -235,7 +235,7 @@ command! -bang -nargs=* Rg
       \           : fzf#vim#with_preview('right:50%:hidden','?'),
       \   <bang>0)
 " avoid to search file name: fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'up:40%')
-command! GitFilesExceptImages GFiles | grep -v -e '\.\(png\|jpg\|jpeg\|gif\|webp\|svg\|ico\|ttf\|otf\|woff\|woff2\|keep\|lock\)$'
+command! GitFilesExceptImages GFiles | grep -vE '\.(png|jpg|jpeg|gif|webp|svg|ico|ttf|otf|woff|woff2|keep|lock)$'
 
 " call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
 "       \ 'name': 'omni',
