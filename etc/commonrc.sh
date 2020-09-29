@@ -100,10 +100,9 @@ vif() {
     preview_cmd='bat --color=always --style=header,grid --line-range :100 {}'
   fi
   local ignore_exts='png,jpg,jpeg,gif,webp,svg,ico,ttf,otf,woff,woff2,keep'
-  local file=$(rg --files --hidden --follow \
-    --glob '!**/.git/*' --glob '!'"**/*.{$ignore_exts}" | \
-    fzf --multi --exit-0 --query="$@" --preview "$preview_cmd")
-  [ -n "$file" ] && vim $(echo "$file" | paste -s -d ' ' -)
+  rg --files --hidden --follow --glob '!**/.git/*' --glob '!'"**/*.{$ignore_exts}" | \
+    fzf --multi --exit-0 --query="$@" --preview "$preview_cmd" | \
+    xargs -o vim
 }
 
 fgt() {
