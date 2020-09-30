@@ -247,7 +247,8 @@ elif [ "$(uname)" = "Linux" ]; then
 elif [ "$(expr substr $(uname -s) 1 5)" = "MINGW" ]; then
   OS='windows'
 fi
-__source "${DOT_DIR}/etc/${OS}/commonrc.sh"
+export DOT_OS_DIR="${DOT_DIR}/etc/${OS}"
+__source "${DOT_OS_DIR}/commonrc.sh"
 
 browse() {
   # [git-extras/git-browse](https://github.com/tj/git-extras/blob/master/bin/git-browse)
