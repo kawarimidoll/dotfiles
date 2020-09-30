@@ -1,8 +1,8 @@
 # -----------------
 #  commonshrc for mac
 # -----------------
-alias brewer='sh ~/dotfiles/etc/mac/brewer.sh'
-alias ctags='$(brew --prefix)/bin/ctags'
+alias brewer="sh ${DOT_OS_DIR}/brewer.sh"
+alias ctags="$(brew --prefix)/bin/ctags"
 
 # Define PATH to coreutils/findutils by using symlinks to avoid brew warnings
 # This may cause error on building gmp/python
