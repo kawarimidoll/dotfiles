@@ -2,7 +2,7 @@
 
 setup_homebrew() {
   brew_list() {
-    cat brew-list.log | grep $1 | awk 'BEGIN{ORS=" "}{print $2}'
+    grep $1 brew-list.log | sed 's/.* //'
   }
   which curl >> /dev/null || die "curl is required."
   if !has "brew"; then
