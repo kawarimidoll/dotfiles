@@ -3,8 +3,11 @@
 # -----------------
 alias brewer='sh ~/dotfiles/etc/mac/brewer.sh'
 alias ctags='$(brew --prefix)/bin/ctags'
-alias find='gfind'
-alias ls='gls --color=auto'
+
+# Define PATH to coreutils/findutils by using symlinks to avoid brew warnings
+# This may cause error on building gmp/python
+PATH="${DOT_OS_DIR}/core_gnubin:$PATH"
+PATH="${DOT_OS_DIR}/find_gnubin:$PATH"
 
 PATH="/usr/local/opt/binutils/bin:$PATH"
 # PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
