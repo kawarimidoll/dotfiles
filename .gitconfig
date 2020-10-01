@@ -46,14 +46,16 @@
 	rename-branch = branch --move
 	remember = __remember
 	remote-url = !git remote get-url origin | sed -e 's!^git@\\(.\\+\\):!\\1/!' -e 's/\\.git$//'
-	rewind = !git remember | xargs git rebase -i
+	rewind = !git remember | xargs --open-tty git rebase -i
 	root = rev-parse --show-toplevel
+	save = stash save
 	ss = status --short
 	summary = __summary
 	toggle-branch = switch -
 	uncommit = reset --soft HEAD^
 	unpushed = !git log --oneline $(git remote)/$(git current-branch)..$(git current-branch)
 	unstage = restore --staged
+	untracked = ls-files --others --exclude-standard
 	upstream-branch = rev-parse --abbrev-ref --symbolic-full-name @{u}
 	whoami = !git config --get-regexp user | cut -c6- | sed -e 's/ / = /'
 [push]
