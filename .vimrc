@@ -227,7 +227,7 @@ let g:vim_markdown_no_default_key_mappings = 1
 let g:vim_markdown_strikethrough = 1
 let g:vim_markdown_toc_autofit = 1
 
-let $FZF_DEFAULT_COMMAND = 'rg --files --follow --glob "!**/{vendor,images,fonts,node_modules}/*" 2> /dev/null'
+let $FZF_DEFAULT_COMMAND = 'find_for_vim'
 command! -bang -nargs=* Rg
       \ call fzf#vim#grep(
       \   'rg --column --line-number --no-heading --color=always --smart-case -g "!{*.lock,*-lock.json}"'.shellescape(<q-args>), 1,
@@ -235,7 +235,6 @@ command! -bang -nargs=* Rg
       \           : fzf#vim#with_preview('right:50%:hidden','?'),
       \   <bang>0)
 " avoid to search file name: fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'up:40%')
-command! GitFilesExceptImages GFiles | grep -vE '\.(png|jpg|jpeg|gif|webp|svg|ico|ttf|otf|woff|woff2|keep|lock)$'
 
 " call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
 "       \ 'name': 'omni',
@@ -488,8 +487,7 @@ nnoremap <Space>c :<C-u>ToggleCase<CR>
 nnoremap <Space>C :<C-u>CaseToSelected<CR>
 nnoremap <Space>d :<C-u>bdelete<CR>
 " nnoremap <Space>e
-nnoremap <Space>f :<C-u>GitFilesExceptImages<CR>
-nnoremap <Space>F :<C-u>Files<CR>
+nnoremap <Space>f :<C-u>Files<CR>
 nnoremap <silent><Space>g :<C-u>copy.<CR>
 nnoremap <Space>h :<C-u>History<CR>
 nnoremap <silent><Space>i mzviwbg~`z:<C-u>delmarks z<CR>

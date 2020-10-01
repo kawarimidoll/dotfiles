@@ -83,6 +83,10 @@ stash() {
 # -----------------
 #  fzf
 # -----------------
+fzf_preview_cmd='head -50'
+if has "bat"; then
+  fzf_preview_cmd='bat --color=always --style=header,grid --line-range :50 {}'
+fi
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
 export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
 export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
@@ -95,14 +99,9 @@ cgh() {
 }
 
 vif() {
-  local preview_cmd='head -100'
-  if has "bat"; then
-    preview_cmd='bat --color=always --style=header,grid --line-range :100 {}'
-  fi
-  local ignore_exts='png,jpg,jpeg,gif,webp,svg,ico,ttf,otf,woff,woff2,keep'
-  rg --files --hidden --follow --glob '!**/.git/*' --glob '!'"**/*.{$ignore_exts}" | \
-    fzf --multi --exit-0 --query="$@" --preview "$preview_cmd" | \
-    xargs -o vim
+  find_for_vim | \
+    fzf --multi --exit-0 --query="$@" --preview="$fzf_preview_cmd" | \
+    xargs --no-run-if-empty --open-tty vim
 }
 
 fgt() {
