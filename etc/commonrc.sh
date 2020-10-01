@@ -93,9 +93,8 @@ export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 export FZF_CTRL_T_OPTS="--preview=${fzf_preview_cmd}"
 
 cgh() {
-  # local dir=$(ghq list --full-path | fzf +m --preview "ls -FA1 {}") && cd "$dir"
-  local dir
-  dir=$(ghq list | fzf +m --preview "ls -FA1 $(ghq root)/{}") && cd "$(ghq root)/$dir"
+  local dir=$(ghq list | fzf --no-multi --exit-0 --query="$@" --preview="ls -FA1 $(ghq root)/{}")
+  [ -n "$dir" ] && cd "$(ghq root)/$dir"
 }
 
 vif() {
