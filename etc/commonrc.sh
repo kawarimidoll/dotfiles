@@ -113,7 +113,7 @@ fgt() {
   list="$list\nfcm git commit with showing staged diff"
   list="$list\nfshow select commit with show diff"
   list=$(echo -e "$list" | sed -r 's/(\w+)/\\033[1;33m\1\\033[0m/')
-  local cmd=$(echo -e "$list" | fzf --ansi --cycle --no-multi --tiebreak=begin | awk '{ print $1 }')
+  local cmd=$(echo -e "$list" | fzf --ansi --cycle --no-multi --tiebreak=begin | sed -e 's/ .*//')
   [ -n "$cmd" ] && "$cmd"
 }
 
@@ -222,6 +222,7 @@ fstash() {
     --no-multi --header="Enter: apply, Ctrl-d: drop, Ctrl-p: pop" \
     --preview="echo {} | grep -o 'stash@{.\+}' | xargs git stash show -p --color=always")
   local target=$(echo $out | tail -1 | grep -o 'stash@{.\+}')
+  [ -z "$target" ] && return 1
   case "$(echo $out | head -1)" in
     ctrl-d ) git stash drop "$target" ;;
     ctrl-p ) git stash pop "$target" ;;
