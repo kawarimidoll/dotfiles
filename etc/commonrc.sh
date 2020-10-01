@@ -230,6 +230,14 @@ fstash() {
   esac
 }
 
+grass() {
+  echo 'Contributions of this week'; \
+    curl -sS https://github.com/kawarimidoll |
+    grep -E "fill.*($(seq 0 6 | tac | \
+    xargs -I_ date --date _' days ago' +%Y-%m-%d | paste -s -d '|' -))" | \
+    sed -r 's/.+count="([0-9]+)".+date="([0-9\-]+)".+/\2: \1/'
+}
+
 # -----------------
 #  xd - extended cd
 # -----------------
