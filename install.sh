@@ -37,14 +37,14 @@ die() {
 }
 
 __source() {
-  [ -f $1 ] && source $1
+  [ -f "$1" ] && source "$1"
 }
 OS='unknown'
 if [ "$(uname)" = "Darwin" ]; then
   OS='mac'
 elif [ "$(uname)" = "Linux" ]; then
   OS='linux'
-elif [ "$(expr substr $(uname -s) 1 5)" = "MINGW" ]; then
+elif [ "$(uname -s | cut -c-5)" = "MINGW" ]; then
   OS='windows'
 fi
 
@@ -73,7 +73,7 @@ link_dotfiles() {
   if [ $? -ne 0 ]; then
     echo "cannot cd to $DOT_DIR"
   else
-    for f in `find . -not -path '*.git/*' -not -path '*.DS_Store' -path '*/.*' -type f -print | cut -b3-`
+    for f in $(find . -not -path '*.git/*' -not -path '*.DS_Store' -path '*/.*' -type f -print | cut -b3-)
     do
       ln -sniv "$DOT_DIR/$f" "$HOME/$f"
     done
@@ -82,19 +82,19 @@ link_dotfiles() {
 
 echo "$LOGO" "$DIALOG"
 read selection
-if [ $selection = "a" -o $selection = "d" ]; then
+if [ "$selection" = "a" -o "$selection" = "d" ]; then
   echo "  begin download dotfiles."
   download_dotfiles
   echo "  end download dotfiles."
   echo ""
 fi
-if [ $selection = "a" -o $selection = "l" ]; then
+if [ "$selection" = "a" -o "$selection" = "l" ]; then
   echo "  begin link dotfiles."
   link_dotfiles
   echo "  end link dotfiles."
   echo ""
 fi
-if [ $selection = "a" -o $selection = "s" ]; then
+if [ "$selection" = "a" -o "$selection" = "s" ]; then
   echo "  begin setup applications."
   __source "${DOT_DIR}/etc/${OS}/install.sh"
   echo "  end setup applications."

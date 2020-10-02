@@ -2,7 +2,7 @@
 
 setup_homebrew() {
   brew_list() {
-    grep $1 brew-list.log | sed 's/.* //'
+    grep "$1" brew-list.log | sed 's/.* //'
   }
   which curl >> /dev/null || die "curl is required."
   if !has "brew"; then

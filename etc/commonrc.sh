@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # -----------------
 #  Aliases
 # -----------------
@@ -61,7 +63,7 @@ pull() {
   [[ -z "$branch" ]] && branch="$current"
 
   echo "git pull origin ${branch}"
-  git pull origin ${branch}
+  git pull origin "$branch"
 }
 
 push() {
@@ -72,12 +74,12 @@ push() {
   [[ -z "$branch" ]] && branch="$current"
 
   echo "git push origin ${branch}"
-  git push origin ${branch}
+  git push origin "$branch"
 }
 
 stash() {
   [ $# -ne 1 ] && echo 'stash message is required.' && return 1
-  git stash save $1
+  git stash save "$1"
 }
 
 # -----------------
@@ -123,9 +125,9 @@ fadd() {
     awk '{if (substr($0,2,1) != " ") print $2}' |
     fzf --multi --exit-0 --expect=ctrl-d,ctrl-f \
     --header 'Enter: add, Ctrl-f: patch add, Ctrl-d: show diff, Esc:quit'); do
-    local files=$(echo ${out} | tail -n+2)
+    local files=$(echo "$out" | tail -n+2)
     [ -z "$files" ] && continue
-    case "$(echo ${out} | head -1)" in
+    case "$(echo "$out" | head -1)" in
       ctrl-d ) git diff "$files" ;;
       ctrl-f ) git add --patch "$files" ;;
       * ) git add "$files" ;;
@@ -221,9 +223,9 @@ fstash() {
   local out=$(git stash list | fzf --ansi --cycle --exit-0 --expect=ctrl-d,ctrl-p \
     --no-multi --header="Enter: apply, Ctrl-d: drop, Ctrl-p: pop" \
     --preview="echo {} | grep -o 'stash@{.\+}' | xargs git stash show -p --color=always")
-  local target=$(echo $out | tail -1 | grep -o 'stash@{.\+}')
+  local target=$(echo "$out" | tail -1 | grep -o 'stash@{.\+}')
   [ -z "$target" ] && return 1
-  case "$(echo $out | head -1)" in
+  case "$(echo "$out" | head -1)" in
     ctrl-d ) git stash drop "$target" ;;
     ctrl-p ) git stash pop "$target" ;;
     * ) git stash apply "$target" ;;
@@ -251,7 +253,7 @@ if [ "$(uname)" = "Darwin" ]; then
   OS='mac'
 elif [ "$(uname)" = "Linux" ]; then
   OS='linux'
-elif [ "$(expr substr $(uname -s) 1 5)" = "MINGW" ]; then
+elif [ "$(uname -s | cut -c-5)" = "MINGW" ]; then
   OS='windows'
 fi
 export DOT_OS_DIR="${DOT_DIR}/etc/${OS}"
@@ -262,19 +264,19 @@ browse() {
   case "$OSTYPE" in
   darwin*)
     # MacOS
-    open $1 ;;
+    open "$1" ;;
   msys)
     # Git-Bash on Windows
-    start $1 ;;
+    start "$1" ;;
   linux*)
     # Handle WSL on Windows
     if uname -a | grep -i -q Microsoft; then
-      powershell.exe -NoProfile start $1
+      powershell.exe -NoProfile start "$1"
     else
-      xdg-open $1
+      xdg-open "$1"
     fi ;;
   *)
     # fall back to xdg-open for BSDs, etc.
-    xdg-open $1 ;;
+    xdg-open "$1" ;;
   esac
 }

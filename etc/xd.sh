@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # -----------------
 #  xd - extended cd
 # -----------------
@@ -5,7 +7,7 @@
 alias xdf='xd $OLDPWD'
 
 __xd_log_dir() {
-  echo ${XD_LOG_DIR:-"${HOME}/.kawarimidoll"}
+  echo "${XD_LOG_DIR:-"${HOME}/.kawarimidoll"}"
 }
 
 __xd_log_file() {
@@ -13,7 +15,7 @@ __xd_log_file() {
 }
 
 __xd_log_lines() {
-  echo ${XD_LOG_LINES:-10}
+  echo "${XD_LOG_LINES:-10}"
 }
 
 xd() {
