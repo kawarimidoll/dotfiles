@@ -1,6 +1,6 @@
 #!/bin/sh
 
-git log --graph --color=always --format="%C(auto)%h%d %C(black bold)%cr %C(auto)%s" | \
+git log --graph --color=always --format="%C(auto)%h%d %C(black bold)%cr %C(auto)%s" "$@" | \
   fzf --ansi --exit-0 --no-sort --no-multi --tiebreak=index --height=100% \
   --preview="echo {} | grep -o '[a-f0-9]\{7\}' | xargs git show --color=always" \
   --header="Ctrl-y to toggle preview, Ctrl-u to preview down, Ctrl-i to preview up" \
