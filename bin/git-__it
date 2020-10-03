@@ -1,8 +1,8 @@
 #!/bin/sh
 
-git diff --staged --name-only | fzf --phony --exit-0 --no-multi --cycle \
+git status --short | grep -E '^[ACDMRU]' | fzf --phony --exit-0 --no-multi --cycle \
   --height=100% --preview-window=down:80% \
-  --preview='git diff --staged --color=always -- {}' \
+  --preview='git diff --staged --color=always -- {-1}' \
   --header='Enter: commit, Ctrl-r: replace-query, Ctrl-y: toggle-preview, Ctrl-u/i: scroll-preview' \
   --bind='ctrl-r:replace-query,ctrl-y:toggle-preview,ctrl-u:preview-down,ctrl-i:preview-up' \
   --prompt='commit message: ' --print-query | head -1 | \
