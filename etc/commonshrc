@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # -----------------
 #  Aliases
 # -----------------
@@ -257,7 +255,7 @@ elif [ "$(uname -s | cut -c-5)" = "MINGW" ]; then
   OS='windows'
 fi
 export DOT_OS_DIR="${DOT_DIR}/etc/${OS}"
-__source "${DOT_OS_DIR}/commonrc.sh"
+__source "${DOT_OS_DIR}/commonshrc"
 
 browse() {
   # [git-extras/git-browse](https://github.com/tj/git-extras/blob/master/bin/git-browse)
