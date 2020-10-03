@@ -9,7 +9,7 @@ __add_fpath() {
 }
 
 export DOT_DIR="${HOME}/dotfiles"
-shell_rc="~/.zshrc"
+shell_rc="${HOME}/.zshrc"
 __source "${DOT_DIR}/etc/commonshrc"
 
 # -----------------
@@ -40,14 +40,21 @@ alias -g X='| xargs'
 # 独自コマンド
 # findで明らかに検索しなくて良さそうなものを対象から外す
 fnd () {
-  find $1 -mindepth 1 -type d \( -name 'node_modules' -o -name '.*' \) -prune -o -type f -not -name '.DS_Store' ${@:2} -print
+  find "$1" -mindepth 1 -type d \( -name 'node_modules' -o -name '.*' \) -prune -o -type f -not -name '.DS_Store' "${@:2}" -print
 }
 # json format
-jf () { cat $1 | jq > pretty-$1; mv pretty-$1 $1 }
+jf () {
+  jq < "$1" > "pretty-$1"
+  mv "pretty-$1" "$1"
+}
 # json lint (need specific file input)
-jl () { docker container run --rm -v $(pwd):/data cytopia/jsonlint $1 }
+jl () {
+  docker container run --rm -v "${PWD}:/data" cytopia/jsonlint "$1"
+}
 # yaml lint (all files in current directory)
-yl () { docker container run --rm -it -v $(pwd):/data cytopia/yamllint . }
+yl () {
+  docker container run --rm -it -v "${PWD}:/data" cytopia/yamllint .
+}
 
 # -----------------
 #  Options

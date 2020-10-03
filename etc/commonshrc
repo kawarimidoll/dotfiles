@@ -139,7 +139,7 @@ fst() {
     local listup_command="unbuffer $listup_command"
   fi
   local prefix_git="cut -c4- <<< {} | xargs git"
-  eval $listup_command | fzf --ansi --exit-0 --no-multi \
+  eval "$listup_command" | fzf --ansi --exit-0 --no-multi \
     --height 100% --preview-window=down:80% \
     --preview "$prefix_git diff --color=always --;$prefix_git diff --staged --color=always --" \
     --header "Enter: add, Ctrl-s: unstage, Ctrl-d: discard, Ctrl-u/i: scroll preview" \
@@ -165,7 +165,7 @@ fcm() {
 }
 
 fbr() {
-  [ -z $(git current-branch) ] && return 1
+  [ -z "$(git current-branch)" ] && return 1
   git branch "$@" | grep -v -e HEAD | \
     fzf --no-multi --exit-0 --cycle --preview \
     "cut -c3- <<< {} | xargs git log -30 --oneline --pretty=format:'[%ad] %s <%an>' --date=format:'%F'" | \
@@ -173,7 +173,7 @@ fbr() {
 }
 
 fsw() {
-  local branch=$(fbr $@)
+  local branch="$(fbr $@)"
   if [ -n "$branch" ]; then
     echo "Switching to branch '$branch'..."
     git switch "$branch"
@@ -181,14 +181,14 @@ fsw() {
 }
 
 fdel() {
-  local branch=$(fbr $@)
+  local branch="$(fbr $@)"
   if [ -n "$branch" ]; then
     __yn "Delete branch '$branch'?" && git branch -d "$branch"
   fi
 }
 
 fmer() {
-  local branch=$(fbr $@)
+  local branch="$(fbr $@)"
   if [ -n "$branch" ]; then
     __yn "Merge branch '$branch' to current branch?" && git merge "$branch"
   fi

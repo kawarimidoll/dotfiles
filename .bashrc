@@ -9,7 +9,7 @@ __source() {
 }
 
 export DOT_DIR="${HOME}/dotfiles"
-shell_rc="~/.bashrc"
+shell_rc="${HOME}/.bashrc"
 __source "${DOT_DIR}/etc/commonshrc"
 
 # -----------------
