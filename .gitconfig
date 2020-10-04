@@ -45,7 +45,7 @@
 	party = shortlog -nse
 	rename-branch = branch --move
 	remember = __remember
-	remote-url = !git remote get-url origin | sed -e 's!^git@\\(.\\+\\):!\\1/!' -e 's/\\.git$//'
+	remote-url = !git remote get-url origin | sed -E 's!^git@(.+):!\\1/!' | sed -e 's/\\.git$//'
 	rewind = !git remember | xargs --open-tty git rebase -i
 	root = rev-parse --show-toplevel
 	save = stash save

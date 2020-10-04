@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # [gitでnumstatを利用して総追加行数、総削除行数を取得するワンライナー - @nnm_tech](http://koyamay.hatenablog.com/entry/2014/10/06/022654)
 git log --numstat --pretty='%H' "$@" | awk 'NF==3 { plus+=$1; minus+=$2 } END { printf("+%d, -%d\n", plus, minus) }'

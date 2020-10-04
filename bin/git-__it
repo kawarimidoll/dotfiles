@@ -1,9 +1,11 @@
-#!/bin/sh
+#!/bin/bash
 
-git status --short | grep -E '^[ACDMRU]' | fzf --phony --exit-0 --no-multi --cycle \
-  --height=100% --preview-window=down:80% \
+git status --short | \
+  grep -E '^[ACDMRU]' | \
+  fzf --phony --exit-0 --no-multi --cycle --print-query \
+  --height=100% --preview-window=down:80% --prompt='commit message(required): ' \
   --preview='git diff --staged --color=always -- {-1}' \
   --header='Enter: commit, Ctrl-r: replace-query, Ctrl-y: toggle-preview, Ctrl-u/i: scroll-preview' \
-  --bind='ctrl-r:replace-query,ctrl-y:toggle-preview,ctrl-u:preview-down,ctrl-i:preview-up' \
-  --prompt='commit message: ' --print-query | head -1 | \
-  xargs -I % git commit --message=%
+  --bind='ctrl-r:replace-query,ctrl-y:toggle-preview,ctrl-u:preview-down,ctrl-i:preview-up' | \
+  head -1 | \
+  xargs --no-run-if-empty -I % git commit --message=%
