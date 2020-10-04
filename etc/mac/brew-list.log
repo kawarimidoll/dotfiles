@@ -1,4 +1,4 @@
-timestamp: 2020-10-03 09:26:17 JST
+timestamp: 2020-10-04 10:55:12 JST
 tap: homebrew/bundle
 tap: homebrew/cask
 tap: homebrew/cask-fonts
@@ -48,6 +48,7 @@ brew: re2c
 brew: ripgrep
 brew: rust
 brew: sbcl
+brew: shellcheck
 brew: sl
 brew: starship
 brew: the_platinum_searcher
