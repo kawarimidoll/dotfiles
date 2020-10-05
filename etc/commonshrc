@@ -94,10 +94,13 @@ export FZF_DEFAULT_OPTS='--height=40% --reverse --border'
 export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 export FZF_CTRL_T_OPTS="--preview=${fzf_preview_cmd}"
 
-cgh() {
-  local dir=$(ghq list | fzf --no-multi --exit-0 --query="$@" --preview="ls -FA1 $(ghq root)/{}")
-  [ -n "$dir" ] && cd "$(ghq root)/$dir"
-}
+if has 'ghq'; then
+  cgh() {
+    local dir
+    dir=$(ghq list | fzf --no-multi --exit-0 --query="$*" --preview="ls -FA1 $(ghq root)/{}")
+    [ -n "$dir" ] && cd "$(ghq root)/$dir" || return
+  }
+fi
 
 vif() {
   find_for_vim | \
