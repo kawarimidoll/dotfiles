@@ -54,25 +54,11 @@ __yn() {
 }
 
 pull() {
-  local current=$(git current-branch)
-  [[ -z "$current" ]] && return 1
-
-  local branch="$1"
-  [[ -z "$branch" ]] && branch="$current"
-
-  echo "git pull origin ${branch}"
-  git pull origin "$branch"
+  git pull origin "${1:-$(git current-branch)}"
 }
 
 push() {
-  local current=$(git current-branch)
-  [[ -z "$current" ]] && return 1
-
-  local branch="$1"
-  [[ -z "$branch" ]] && branch="$current"
-
-  echo "git push origin ${branch}"
-  git push origin "$branch"
+  git push origin "${1:-$(git current-branch)}"
 }
 
 stash() {
