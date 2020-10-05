@@ -86,7 +86,7 @@ frg() {
 #  fzf
 # -----------------
 fzf_preview_cmd='head -50'
-if has "bat"; then
+if has 'bat'; then
   fzf_preview_cmd='bat --color=always --style=header,grid --line-range :50 {}'
 fi
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
@@ -104,7 +104,7 @@ fi
 
 vif() {
   find_for_vim | \
-    fzf --multi --exit-0 --query="$@" --preview="$fzf_preview_cmd" | \
+    fzf --multi --exit-0 --query="$*" --preview="$fzf_preview_cmd" | \
     xargs --no-run-if-empty --open-tty vim
 }
 
@@ -139,16 +139,16 @@ fadd() {
 }
 
 fst() {
-  local listup_command="git status --short"
-  if has "unbuffer"; then
-    local listup_command="unbuffer $listup_command"
+  local listup_command='git status --short'
+  if has 'unbuffer'; then
+    listup_command="unbuffer $listup_command"
   fi
-  local prefix_git="cut -c4- <<< {} | xargs git"
+  local prefix_git='cut -c4- <<< {} | xargs git'
   eval "$listup_command" | fzf --ansi --exit-0 --no-multi \
     --height 100% --preview-window=down:80% \
     --preview "$prefix_git diff --color=always --;$prefix_git diff --staged --color=always --" \
-    --header "Enter: add, Ctrl-s: unstage, Ctrl-d: discard, Ctrl-u/i: scroll preview" \
-    --bind "ctrl-u:preview-down,ctrl-i:preview-up" \
+    --header 'Enter: add, Ctrl-s: unstage, Ctrl-d: discard, Ctrl-u/i: scroll preview' \
+    --bind 'ctrl-u:preview-down,ctrl-i:preview-up' \
     --bind "enter:reload($prefix_git add;$listup_command)" \
     --bind "ctrl-s:reload($prefix_git restore --staged;$listup_command)" \
     --bind "ctrl-d:reload($prefix_git restore;$listup_command)" #\
@@ -252,11 +252,11 @@ __source "${DOT_DIR}/etc/xd.sh"
 #  OS Setting
 # -----------------
 OS='unknown'
-if [ "$(uname)" = "Darwin" ]; then
+if [ "$(uname)" = 'Darwin' ]; then
   OS='mac'
-elif [ "$(uname)" = "Linux" ]; then
+elif [ "$(uname)" = 'Linux' ]; then
   OS='linux'
-elif [ "$(uname -s | cut -c-5)" = "MINGW" ]; then
+elif [ "$(uname -s | cut -c-5)" = 'MINGW' ]; then
   OS='windows'
 fi
 export DOT_OS_DIR="${DOT_DIR}/etc/${OS}"
