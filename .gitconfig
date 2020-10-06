@@ -50,6 +50,7 @@
 	root = rev-parse --show-toplevel
 	save = stash save
 	ss = status --short
+	store = __store
 	summary = __summary
 	toggle-branch = switch -
 	uncommit = reset --soft HEAD^

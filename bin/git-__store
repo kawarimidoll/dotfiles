@@ -1,0 +1,10 @@
+#!/bin/bash
+
+git stash list | fzf --ansi --cycle --exit-0 --no-multi --expect=ctrl-x \
+  --height=100% --preview-window=down:80% \
+  --preview="echo {} | sed -e 's/:.*//' | xargs git stash show -p --color=always" \
+  --header='Enter: apply, Ctrl-x: drop, Ctrl-u/i: scroll preview' \
+  --bind='ctrl-u:preview-down,ctrl-i:preview-up' | \
+  xargs --no-run-if-empty | \
+  sed -e 's/:.*//' -e 's/^stash/apply stash/' -e 's/ctrl-x/drop/' | \
+  xargs -I_ bash -c 'git stash _'
