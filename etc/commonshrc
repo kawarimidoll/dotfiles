@@ -44,15 +44,6 @@ has() {
   type "$1" > /dev/null 2>&1
 }
 
-__yn() {
-  echo -n "$1 [y/N]: "
-  read yn
-  case "${yn:0:1}" in
-    [yY]) return 0;;
-  esac
-  return 1
-}
-
 pull() {
   git pull origin "${1:-$(git current-branch)}"
 }
@@ -108,132 +99,19 @@ vif() {
     xargs --no-run-if-empty --open-tty vim
 }
 
-fgt() {
-  local list="fbr select git branch"
-  list="$list\nfsw switch to selected git branch"
-  list="$list\nfmer merge selected git branch to current branch"
-  list="$list\nfdel delete selected git branch"
-  list="$list\nfst check current git status and manage staging"
-  list="$list\nfadd git add and show"
-  list="$list\nfcm git commit with showing staged diff"
-  list="$list\nfshow select commit with show diff"
-  list=$(echo -e "$list" | sed -r 's/(\w+)/\\033[1;33m\1\\033[0m/')
-  local cmd=$(echo -e "$list" | fzf --ansi --cycle --no-multi --tiebreak=begin | sed -e 's/ .*//')
-  [ -n "$cmd" ] && "$cmd"
-}
-
-fadd() {
-  local out
-  while out=$(git status --short |
-    awk '{if (substr($0,2,1) != " ") print $2}' |
-    fzf --multi --exit-0 --expect=ctrl-d,ctrl-f \
-    --header 'Enter: add, Ctrl-f: patch add, Ctrl-d: show diff, Esc:quit'); do
-    local files=$(echo "$out" | tail -n+2)
-    [ -z "$files" ] && continue
-    case "$(echo "$out" | head -1)" in
-      ctrl-d ) git diff "$files" ;;
-      ctrl-f ) git add --patch "$files" ;;
-      * ) git add "$files" ;;
-    esac
-  done
-}
-
-fst() {
-  local listup_command='git status --short'
-  if has 'unbuffer'; then
-    listup_command="unbuffer $listup_command"
-  fi
-  local prefix_git='cut -c4- <<< {} | xargs git'
-  eval "$listup_command" | fzf --ansi --exit-0 --no-multi \
-    --height 100% --preview-window=down:80% \
-    --preview "$prefix_git diff --color=always --;$prefix_git diff --staged --color=always --" \
-    --header 'Enter: add, Ctrl-s: unstage, Ctrl-d: discard, Ctrl-u/i: scroll preview' \
-    --bind 'ctrl-u:preview-down,ctrl-i:preview-up' \
-    --bind "enter:reload($prefix_git add;$listup_command)" \
-    --bind "ctrl-s:reload($prefix_git restore --staged;$listup_command)" \
-    --bind "ctrl-d:reload($prefix_git restore;$listup_command)" #\
-    # --bind "ctrl-f:reload($prefix_git add --patch;$listup_command)"
-}
-
-fcm() {
-  local _binds="ctrl-r:replace-query,ctrl-y:toggle-preview,ctrl-u:preview-down,ctrl-i:preview-up"
-  local message=$(git diff --staged --name-only | fzf --phony --exit-0 --no-multi --cycle \
-    --height 100% --preview-window=down:80% \
-    --preview "git diff --staged --color=always -- {}" \
-    --header "$_binds" --bind "$_binds" \
-    --prompt "commit message: " --print-query | head -1)
-  if [ -z "$message" ]; then
-    echo 'commit is canceled.'
-    return 1
-  fi
-  git commit --message="$message"
-}
-
-fbr() {
-  [ -z "$(git current-branch)" ] && return 1
-  git branch "$@" | grep -v -e HEAD | \
-    fzf --no-multi --exit-0 --cycle --preview \
-    "cut -c3- <<< {} | xargs git log -30 --oneline --pretty=format:'[%ad] %s <%an>' --date=format:'%F'" | \
-    cut -c3- | sed 's#.*/##'
-}
-
-fsw() {
-  local branch="$(fbr $@)"
-  if [ -n "$branch" ]; then
-    echo "Switching to branch '$branch'..."
-    git switch "$branch"
-  fi
-}
-
-fdel() {
-  local branch="$(fbr $@)"
-  if [ -n "$branch" ]; then
-    __yn "Delete branch '$branch'?" && git branch -d "$branch"
-  fi
-}
-
-fmer() {
-  local branch="$(fbr $@)"
-  if [ -n "$branch" ]; then
-    __yn "Merge branch '$branch' to current branch?" && git merge "$branch"
-  fi
-}
-
-fshow() {
-  local _binds="ctrl-y:toggle-preview,ctrl-u:preview-down,ctrl-i:preview-up"
-  git log --graph --color=always --format="%C(auto)%h%d %C(black bold)%cr %C(auto)%s" |
-    fzf --no-sort --no-multi --exit-0 --tiebreak=index --ansi --height 100% \
-    --preview "echo {} | grep -o '[a-f0-9]\{7\}' | xargs git show --color=always" \
-    --header "$_binds" --bind "$_binds" \
-    --preview-window=down:60% | grep -o '[a-f0-9]\{7\}'
-  # get commit message
-  # sed -r 's/[a-f0-9]{7}( \(.+\))? [0-9]+ \w+ \w+ //'
-}
-
-fxup() {
-  local hash=$(fshow $@)
-  if [ -n "$hash" ]; then
-    git commit --fixup "$hash"
-    if __yn "Squash now?"; then
-      git rebase -i --autosquash
-    else
-      echo "Run 'git rebase -i --autosquash' to squash manually."
-    fi
-  fi
-}
-
-fstash() {
-  local out=$(git stash list | fzf --ansi --cycle --exit-0 --expect=ctrl-d,ctrl-p \
-    --no-multi --header="Enter: apply, Ctrl-d: drop, Ctrl-p: pop" \
-    --preview="echo {} | grep -o 'stash@{.\+}' | xargs git stash show -p --color=always")
-  local target=$(echo "$out" | tail -1 | grep -o 'stash@{.\+}')
-  [ -z "$target" ] && return 1
-  case "$(echo "$out" | head -1)" in
-    ctrl-d ) git stash drop "$target" ;;
-    ctrl-p ) git stash pop "$target" ;;
-    * ) git stash apply "$target" ;;
-  esac
-}
+# fgt() {
+#   local list="fbr select git branch"
+#   list="$list\nfsw switch to selected git branch"
+#   list="$list\nfmer merge selected git branch to current branch"
+#   list="$list\nfdel delete selected git branch"
+#   list="$list\nfst check current git status and manage staging"
+#   list="$list\nfadd git add and show"
+#   list="$list\nfcm git commit with showing staged diff"
+#   list="$list\nfshow select commit with show diff"
+#   list=$(echo -e "$list" | sed -r 's/(\w+)/\\033[1;33m\1\\033[0m/')
+#   local cmd=$(echo -e "$list" | fzf --ansi --cycle --no-multi --tiebreak=begin | sed -e 's/ .*//')
+#   [ -n "$cmd" ] && "$cmd"
+# }
 
 grass() {
   echo 'Contributions of this week'; \
