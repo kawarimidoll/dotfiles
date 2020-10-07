@@ -1,0 +1,15 @@
+#!/bin/bash
+
+listup_command='git status --short'
+if type 'unbuffer' >/dev/null; then
+  listup_command="unbuffer $listup_command"
+fi
+bash -c "$listup_command" | fzf --ansi --exit-0 --no-multi \
+  --height=100% --preview-window=down:80% \
+  --preview="git diff --color=always -- {2}; git diff --staged --color=always -- {2}" \
+  --header='Enter: add, Ctrl-s: unstage, Ctrl-d: discard, Ctrl-u/i: scroll preview' \
+  --bind='ctrl-u:preview-down,ctrl-i:preview-up' \
+  --bind="enter:reload(git add {2}; $listup_command)" \
+  --bind="ctrl-s:reload(git restore --staged {2}; $listup_command)" \
+  --bind="ctrl-d:reload(git restore {2}; $listup_command)" #\
+  # --bind="ctrl-f:reload(git add --patch {2}; $listup_command)"

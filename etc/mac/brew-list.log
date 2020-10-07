@@ -1,4 +1,4 @@
-timestamp: 2020-10-06 09:57:22 JST
+timestamp: 2020-10-07 10:14:14 JST
 tap: homebrew/bundle
 tap: homebrew/cask
 tap: homebrew/cask-fonts
@@ -93,6 +93,7 @@ cask: google-chrome
 cask: google-japanese-ime
 cask: hiddenbar
 cask: hyperswitch
+cask: inkscape
 cask: iterm2
 cask: joplin
 cask: karabiner-elements

@@ -27,6 +27,7 @@
 	whitespace = red reverse
 [alias]
 	aa = add .
+	age = __age
 	aliases = !git config --get-regexp alias | cut -c7- | sed -e 's/ / = /' | sort
 	amend = commit --amend
 	autosquash = rebase -i --autosquash
