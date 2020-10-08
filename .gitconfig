@@ -48,7 +48,7 @@
 	remember = __remember
 	remote-url = !git remote get-url origin | sed -E 's!^git@(.+):!\\1/!' | sed -e 's/\\.git$//'
 	rewind = !git remember | xargs --open-tty git rebase -i
-	root = rev-parse --show-toplevel
+	root = !pwd
 	save = stash save
 	ss = status --short
 	store = __store
