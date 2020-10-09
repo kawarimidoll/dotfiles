@@ -1,6 +1,7 @@
 # -----------------
 #  Aliases
 # -----------------
+alias bx='bundle exec'
 alias cdd='cd ..'
 alias cddd='cd ../..'
 alias cdddd='cd ../../..'
@@ -21,7 +22,9 @@ alias ls='ls --color=auto'
 alias lsf='ls -FAogh --time-style="+%F %R"'
 alias mkdir='mkdir -pv'
 alias mv='mv -i'
+alias rc='bundle exec rails console'
 alias rm='rm -i'
+alias rs='bundle exec rails server'
 alias she="vim ${shell_rc}"
 alias shl="vim ${shell_rc}.local"
 alias shs="source ${shell_rc}"
