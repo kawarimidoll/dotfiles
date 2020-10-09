@@ -82,6 +82,10 @@ setopt share_history # 同時に起動しているzshの間でhistoryを共有�
 # 補完時に大文字小文字を区別しない
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
+# docker補完の設定
+zstyle ':completion:*:*:docker:*' option-stacking yes
+zstyle ':completion:*:*:docker-*:*' option-stacking yes
+
 # 現在のディレクトリを補完しない
 zstyle ':completion:*' ignore-parents parent pwd ..
 
