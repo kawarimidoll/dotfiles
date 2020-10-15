@@ -3,4 +3,4 @@
 git branch "$@" | grep -v HEAD | fzf --cycle --exit-0 --no-multi \
   --preview="sed -r 's/. ([^ ]+).*/\1/' <<< {} | \
   xargs git log -40 --pretty=format:'[%ad] %s <%an>' --date=format:'%F'" | \
-  sed -r 's/. ([^ ]+).*/\1/'
+  sed -r 's#. (.*origin/)?([^ ]+).*#\2#'

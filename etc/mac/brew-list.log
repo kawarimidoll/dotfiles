@@ -1,4 +1,4 @@
-timestamp: 2020-10-12 09:57:14 JST
+timestamp: 2020-10-15 09:59:34 JST
 tap: homebrew/bundle
 tap: homebrew/cask
 tap: homebrew/cask-fonts
@@ -14,6 +14,7 @@ brew: avrdude
 brew: bat
 brew: binutils
 brew: clisp
+brew: cmake
 brew: coreutils
 brew: ctags
 brew: deno
