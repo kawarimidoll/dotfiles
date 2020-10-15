@@ -35,6 +35,8 @@
 	current-branch = rev-parse --abbrev-ref HEAD
 	cog = config --global --edit
 	default-branch = !git symbolic-ref refs/remotes/origin/HEAD | sed 's!.*/!!'
+	delete = branch --delete
+	df = !git diff $(git default-branch)...$(git current-branch)
 	discard = restore
 	graph = log --graph --oneline
 	git = !git
