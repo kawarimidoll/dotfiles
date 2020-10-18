@@ -55,7 +55,7 @@ push() {
   git push origin "${1:-$(git current-branch)}"
 }
 
-choose() {
+switch() {
   git list-branch "$@" | xargs --no-run-if-empty -I_ git switch _
 }
 
