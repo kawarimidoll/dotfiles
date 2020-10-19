@@ -550,9 +550,8 @@ xnoremap <silent> y y`]
 xnoremap x "_x
 xnoremap z zf
 
-xnoremap <silent><C-k> :m'>-2<CR>gv=gv
-xnoremap <silent><C-j> :m'<+1<CR>gv=gv
-xnoremap <C-j> "zd"z]p`[V`]
+xnoremap <silent><C-k> :m'<-2<CR>gv=gv
+xnoremap <silent><C-j> :m'>+1<CR>gv=gv
 xnoremap <Space>/ "zy:<C-u>RgRaw -F -- $'<C-r>z'<Left>
 xnoremap <expr> <Space>c <sid>CaseToSelected(0, 'v')
 
