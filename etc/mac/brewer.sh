@@ -2,18 +2,27 @@
 # homebrew update script
 
 set -e
-set -x
-brew doctor
-brew update
-brew upgrade
-brew upgrade --cask
-brew cleanup
-set +x
+
+brew_fixed_path() {
+  env PATH="$(echo "$PATH" | sed -r 's#/opt/chefdk/[^:]+:##g')" brew "$@"
+}
+brew_with_echo() {
+  echo "brew $*"
+  brew_fixed_path "$@"
+}
+
+brew_with_echo doctor
+brew_with_echo update
+brew_with_echo upgrade
+brew_with_echo upgrade --cask
+brew_with_echo cleanup
+
 echo 'log list...'
-logfile="${DOT_OS_DIR}/brew-list.log"
-date "+timestamp: %F %T %Z" > "$logfile"
-brew tap         | sed 's/^/tap: /'  >> "$logfile"
-brew leaves      | sed 's/^/brew: /' >> "$logfile"
-brew list --cask | sed 's/^/cask: /' >> "$logfile"
-mas list         | sed 's/^/mas: /'  >> "$logfile"
+{
+  date "+timestamp: %F %T %Z"
+  brew_fixed_path tap         | sed 's/^/tap: /'
+  brew_fixed_path leaves      | sed 's/^/brew: /'
+  brew_fixed_path list --cask | sed 's/^/cask: /'
+  mas list                    | sed 's/^/mas: /'
+} > "${DOT_OS_DIR}/brew-list.log"
 echo 'done.'
