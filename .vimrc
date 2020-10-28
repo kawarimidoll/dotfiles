@@ -118,10 +118,11 @@ Plug 'airblade/vim-gitgutter'
 Plug 'alvan/vim-closetag'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'dense-analysis/ale'
+Plug 'editorconfig/editorconfig-vim'
 Plug 'ervandew/supertab'
 Plug 'haya14busa/is.vim'
 Plug 'haya14busa/vim-asterisk'
-" Plug 'iamcco/markdown-preview' " vim-markdownよりこっち？
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 Plug 'itchyny/lightline.vim'
 Plug 'jacquesbh/vim-showmarks'
 Plug 'jesseleite/vim-agriculture'
@@ -147,7 +148,7 @@ Plug 'mhinz/vim-startify'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'nelstrom/vim-qargs'
 Plug 'osyo-manga/vim-anzu'
-Plug 'plasticboy/vim-markdown'
+" Plug 'plasticboy/vim-markdown'
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
@@ -155,8 +156,8 @@ Plug 'prabirshrestha/vim-lsp'
 Plug 'prettier/vim-prettier', {
       \ 'do': 'yarn install',
       \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json',
-      \        'graphql', 'markdown', 'vue', 'yaml', 'html']}
-Plug 'previm/previm' " :PrevimOpenでmarkdownファイルをブラウザで表示、HMRつき
+      \        'graphql', 'markdown', 'vue', 'yaml', 'html', 'svelte']}
+" Plug 'previm/previm' " :PrevimOpenでmarkdownファイルをブラウザで表示、HMRつき
 Plug 'qpkorr/vim-bufkill'
 Plug 'sheerun/vim-polyglot'
 Plug 'simeji/winresizer' " C-eで起動、hjklでカレントウィンドウのサイズを変更
@@ -218,14 +219,14 @@ let g:startify_change_to_vcs_root = 1
 " let g:startify_session_persistence = 0
 " let g:tcomment#replacements_xml = {}
 " let g:vim_json_syntax_conceal = 0
-let g:vim_markdown_auto_insert_bullets = 0
-let g:vim_markdown_conceal_code_blocks = 0
-let g:vim_markdown_folding_disabled = 1
-let g:vim_markdown_frontmatter = 1
-let g:vim_markdown_new_list_item_indent = 0
-let g:vim_markdown_no_default_key_mappings = 1
-let g:vim_markdown_strikethrough = 1
-let g:vim_markdown_toc_autofit = 1
+" let g:vim_markdown_auto_insert_bullets = 0
+" let g:vim_markdown_conceal_code_blocks = 0
+" let g:vim_markdown_folding_disabled = 1
+" let g:vim_markdown_frontmatter = 1
+" let g:vim_markdown_new_list_item_indent = 0
+" let g:vim_markdown_no_default_key_mappings = 1
+" let g:vim_markdown_strikethrough = 1
+" let g:vim_markdown_toc_autofit = 1
 
 let $FZF_DEFAULT_COMMAND = 'find_for_vim'
 command! -bang -nargs=* Rg
