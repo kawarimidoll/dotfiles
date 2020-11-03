@@ -1,7 +1,7 @@
 #!/bin/bash
 
 listup_command='git status --short'
-if type 'unbuffer' >/dev/null; then
+if type 'unbuffer' >/dev/null 2>&1; then
   listup_command="unbuffer $listup_command"
 fi
 bash -c "$listup_command" | fzf --ansi --exit-0 --no-multi \
