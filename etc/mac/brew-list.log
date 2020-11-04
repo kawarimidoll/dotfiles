@@ -1,9 +1,11 @@
-timestamp: 2020-11-03 11:08:14 JST
+timestamp: 2020-11-04 11:24:04 JST
+tap: a-know/tap
 tap: homebrew/bundle
 tap: homebrew/cask
 tap: homebrew/cask-fonts
 tap: homebrew/core
 tap: jesseduffield/lazygit
+tap: k-vernooy/tap
 tap: nektos/tap
 tap: osx-cross/avr
 tap: px4/px4
@@ -45,6 +47,7 @@ brew: neovim
 brew: ninja
 brew: nnn
 brew: nodebrew
+brew: a-know/tap/pi
 brew: python@3.8
 brew: re2c
 brew: ripgrep
@@ -53,6 +56,7 @@ brew: sbcl
 brew: shellcheck
 brew: sl
 brew: starship
+brew: k-vernooy/tap/tetris
 brew: the_platinum_searcher
 brew: tig
 brew: tldr
