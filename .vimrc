@@ -690,6 +690,7 @@ augroup vimrc
 
   " file type settings
   autocmd BufNewFile,BufRead *.md set filetype=markdown
+  autocmd BufNewFile,BufRead .env* set filetype=env
   autocmd BufNewFile,BufRead git-__* set filetype=bash
   autocmd BufNewFile,BufRead [^.]*shrc set filetype=bash
   autocmd BufNewFile,BufRead *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4
