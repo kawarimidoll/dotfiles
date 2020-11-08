@@ -1,4 +1,4 @@
-timestamp: 2020-11-04 11:24:04 JST
+timestamp: 2020-11-08 11:18:32 JST
 tap: a-know/tap
 tap: homebrew/bundle
 tap: homebrew/cask
@@ -15,6 +15,7 @@ brew: osx-cross/avr/avr-gcc@7
 brew: avrdude
 brew: bat
 brew: binutils
+brew: cask
 brew: clisp
 brew: cmake
 brew: coreutils
@@ -124,6 +125,7 @@ cask: scriptql
 cask: shotcut
 cask: slack
 cask: sourcetree
+cask: stats
 cask: steam
 cask: sublime-text
 cask: suspicious-package

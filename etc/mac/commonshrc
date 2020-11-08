@@ -4,6 +4,8 @@
 alias brewer="sh ${DOT_OS_DIR}/brewer.sh"
 alias ctags="$(brew --prefix)/bin/ctags"
 
+PATH="/usr/local/sbin:$PATH"
+
 # Define PATH to coreutils/findutils by using symlinks to avoid brew warnings
 # This may cause error on building gmp/python
 PATH="${DOT_OS_DIR}/core_gnubin:$PATH"
