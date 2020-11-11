@@ -2,9 +2,9 @@
 
 git log --graph --color=always --format="%C(auto)%h%d %C(black bold)%cr %C(auto)%s" "$@" | \
   fzf --ansi --exit-0 --no-sort --no-multi --tiebreak=index --height=100% \
-  --preview="grep -o '[a-f0-9]\{7\}' <<< {} | xargs --no-run-if-empty git show --color=always" \
+  --preview="grep -o '[a-f0-9]\{7\}' <<< {} | head -1 | xargs --no-run-if-empty git show --color=always" \
   --header="Ctrl-y to toggle preview, Ctrl-u to preview down, Ctrl-i to preview up" \
   --bind="ctrl-y:toggle-preview,ctrl-u:preview-down,ctrl-i:preview-up" \
-  --preview-window=down:60% | grep -oE '[a-f0-9]{7}'
+  --preview-window=down:60% | grep -oE '[a-f0-9]{7}' | head -1
   # get commit message
   # sed -r 's/[a-f0-9]{7}( \(.+\))? [0-9]+ \w+ \w+ //'

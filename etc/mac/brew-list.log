@@ -1,4 +1,4 @@
-timestamp: 2020-11-08 11:18:32 JST
+timestamp: 2020-11-11 08:46:37 JST
 tap: a-know/tap
 tap: homebrew/bundle
 tap: homebrew/cask
@@ -10,8 +10,7 @@ tap: nektos/tap
 tap: osx-cross/avr
 tap: px4/px4
 tap: skanehira/docui
-brew: nektos/tap/act
-brew: osx-cross/avr/avr-gcc@7
+brew: a-know/tap/pi
 brew: avrdude
 brew: bat
 brew: binutils
@@ -25,13 +24,11 @@ brew: dfu-programmer
 brew: dfu-util
 brew: diff-so-fancy
 brew: diffutils
-brew: skanehira/docui/docui
 brew: ed
 brew: expect
 brew: findutils
 brew: fzf
 brew: gawk
-brew: px4/px4/gcc-arm-none-eabi
 brew: ghq
 brew: git
 brew: gnu-sed
@@ -39,25 +36,28 @@ brew: gnu-tar
 brew: grep
 brew: gzip
 brew: highlight
-brew: jq
 brew: jesseduffield/lazygit/lazygit
+brew: jq
+brew: k-vernooy/tap/tetris
 brew: llvm
 brew: mas
 brew: nano
+brew: nektos/tap/act
 brew: neovim
 brew: ninja
 brew: nnn
 brew: nodebrew
-brew: a-know/tap/pi
+brew: osx-cross/avr/avr-gcc@7
+brew: px4/px4/gcc-arm-none-eabi
 brew: python@3.8
 brew: re2c
 brew: ripgrep
 brew: rust
 brew: sbcl
 brew: shellcheck
+brew: skanehira/docui/docui
 brew: sl
 brew: starship
-brew: k-vernooy/tap/tetris
 brew: the_platinum_searcher
 brew: tig
 brew: tldr
@@ -143,4 +143,4 @@ mas: 490461369 Bandwidth+ (1.18)
 mas: 1348795218 TeraTime (1.0.3)
 mas: 497799835 Xcode (12.1)
 mas: 1278508951 Trello (2.11.7)
-mas: 1525795950 Git Streaks (1.0)
+mas: 1525795950 Git Streaks (1.0.1)
