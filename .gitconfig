@@ -1,5 +1,7 @@
 [include]
 	path = ~/.gitconfig.local
+[init]
+	defaultBranch = main
 [color]
 	ui = auto
 [core]
