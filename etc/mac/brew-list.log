@@ -1,4 +1,4 @@
-timestamp: 2020-11-13 08:50:31 JST
+timestamp: 2020-11-14 13:38:55 JST
 tap: a-know/tap
 tap: homebrew/bundle
 tap: homebrew/cask
@@ -95,14 +95,11 @@ cask: flux
 cask: font-roboto-mono-for-powerline
 cask: font-roboto-mono-nerd-font
 cask: gimp
-cask: gitup
 cask: google-chrome
 cask: google-japanese-ime
 cask: hiddenbar
-cask: hyperswitch
 cask: inkscape
 cask: iterm2
-cask: joplin
 cask: karabiner-elements
 cask: kindle
 cask: lmms
@@ -134,7 +131,6 @@ cask: table-tool
 cask: virtualbox
 cask: visual-studio-code
 cask: vnote
-cask: webponize
 cask: webpquicklook
 cask: workflowy
 cask: zappy

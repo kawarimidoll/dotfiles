@@ -49,6 +49,11 @@ has() {
   type "$1" > /dev/null 2>&1
 }
 
+img_to_webp() {
+  find . -maxdepth 1 \( -name \*.png -or -name \*.jpg -or -name \*.jpeg \) \
+    | xargs -I_ sh -c 'printf _" -> "_".webp ..."; cwebp _ -o _".webp" >/dev/null 2>&1; echo " done."'
+}
+
 pull() {
   git pull origin "${1:-$(git current-branch)}"
 }
