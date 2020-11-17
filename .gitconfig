@@ -32,6 +32,7 @@
 	age = __age
 	aliases = !git config --get-regexp alias | cut -c7- | sed -e 's/ / = /' | sort
 	amend = commit --amend
+	at = !git aa && git it
 	autosquash = rebase -i --autosquash
 	btf = rebase --continue
 	current-branch = rev-parse --abbrev-ref HEAD
