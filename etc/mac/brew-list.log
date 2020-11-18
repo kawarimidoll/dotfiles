@@ -1,4 +1,4 @@
-timestamp: 2020-11-17 10:01:16 JST
+timestamp: 2020-11-18 21:16:29 JST
 tap: a-know/tap
 tap: homebrew/bundle
 tap: homebrew/cask
@@ -32,7 +32,6 @@ brew: gawk
 brew: ghq
 brew: git
 brew: glow
-brew: gnu-sed
 brew: gnu-tar
 brew: grep
 brew: gzip

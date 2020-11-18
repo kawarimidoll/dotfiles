@@ -5,18 +5,18 @@ setup_homebrew() {
     grep "$1" brew-list.log | sed 's/.* //'
   }
   which curl >> /dev/null || die "curl is required."
-  if !has "brew"; then
+  if ! has "brew"; then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
   fi
   which brew >> /dev/null || die "brew is required."
   brew doctor || die "brew doctor raised error."
   brew update
   if [ -e brew-list.log ]; then
-    brew tap $(brew_list tap)
-    brew install $(brew_list brew)
-    brew cask install $(brew_list cask)
+    brew tap "$(brew_list tap)"
+    brew install "$(brew_list brew)"
+    brew cask install "$(brew_list cask)"
     brew_list brew | grep mas >> /dev/null || brew install mas
-    mas install $(brew_list mas)
+    mas install "$(brew_list mas)"
   else
     echo "  brew-list.log is needed."
   fi
@@ -26,3 +26,6 @@ setup_homebrew() {
 echo "  begin setup homebrew."
 setup_homebrew
 echo "  end setup homebrew."
+
+echo "  create symlink to iCloud directory."
+ln -s "$HOME/Library/Mobile Documents" "$HOME/iCloud"
