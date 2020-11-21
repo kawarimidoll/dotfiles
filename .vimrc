@@ -695,6 +695,7 @@ augroup vimrc
   autocmd BufNewFile,BufRead .env* set filetype=env
   autocmd BufNewFile,BufRead git-__* set filetype=bash
   autocmd BufNewFile,BufRead [^.]*shrc set filetype=bash
+  autocmd BufNewFile,BufRead .bashrc set filetype=bash
   autocmd BufNewFile,BufRead *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4
   autocmd BufNewFile,BufRead *.java setlocal tabstop=4 softtabstop=4 shiftwidth=4
 
