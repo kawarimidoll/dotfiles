@@ -52,6 +52,16 @@ fi
 __source ~/.fzf.bash
 
 # -----------------
+#  Functions
+# -----------------
+oneliners() {
+  oneliner=$(cat "${DOT_DIR}/etc/oneliners.txt" | fzf | sed 's/\[.*\]//') || return 1
+  READLINE_LINE="$oneliner"
+  READLINE_POINT=${#READLINE_LINE}
+}
+bint -x '"^x":"oneliners"'
+
+# -----------------
 #  prompt
 # -----------------
 if has "starship"; then
