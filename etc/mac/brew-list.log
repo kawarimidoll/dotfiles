@@ -1,4 +1,4 @@
-timestamp: 2020-11-21 09:29:19 JST
+timestamp: 2020-11-22 22:20:34 JST
 tap: a-know/tap
 tap: homebrew/bundle
 tap: homebrew/cask
@@ -98,6 +98,7 @@ cask: gimp
 cask: google-chrome
 cask: google-japanese-ime
 cask: hiddenbar
+cask: iina
 cask: inkscape
 cask: iterm2
 cask: karabiner-elements
@@ -128,6 +129,7 @@ cask: steam
 cask: sublime-text
 cask: suspicious-package
 cask: table-tool
+cask: time-out
 cask: virtualbox
 cask: visual-studio-code
 cask: vnote

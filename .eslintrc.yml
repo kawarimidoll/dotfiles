@@ -1,0 +1,17 @@
+env:
+  browser: true
+  commonjs: true
+  es2021: true
+extends:
+  - 'eslint:recommended'
+parserOptions:
+  ecmaVersion: 12
+rules:
+  curly: warn
+  semi-spacing:
+    - error
+    - before: false
+      after: true
+  space-before-blocks:
+    - warn
+    - functions: always
