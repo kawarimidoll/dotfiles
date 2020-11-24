@@ -115,9 +115,10 @@ zle -N edit_current_line
 bindkey '^w' edit_current_line
 
 oneliners() {
-  local oneliner=$(cat "${DOT_DIR}/etc/oneliners.txt" | fzf | sed 's/\[.*\]//') || return 1
-  BUFFER="$oneliner"
-  CURSOR="${#BUFFER}"
+  local oneliner=$(__get_oneliners) || return 1
+  local cursol="${oneliner%%@*}"
+  BUFFER="${oneliner/@/}"
+  CURSOR="${#cursol}"
   zle redisplay
 }
 zle -N oneliners

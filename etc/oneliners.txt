@@ -1,2 +1,2 @@
-[Convert svg files in current directory to png files] ls -1 *.svg | xargs inkscape --pipe --export-width=40 --export-type='png'
-[Convert png files in current directory to webp files] ls -1 *.png | xargs -I_ cwebp _ -o _".webp" >/dev/null 2>&1
+[Convert svg files in current directory to png files] ls -1 *.svg@ | xargs inkscape --pipe --export-width=40 --export-type='png'
+[Convert png files in current directory to webp files] ls -1 *.png@ | xargs -I_ cwebp _ -o _".webp" >/dev/null 2>&1

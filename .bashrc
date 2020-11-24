@@ -55,9 +55,10 @@ __source ~/.fzf.bash
 #  Functions
 # -----------------
 oneliners() {
-  local oneliner=$(cat "${DOT_DIR}/etc/oneliners.txt" | fzf | sed 's/\[.*\]//') || return 1
-  READLINE_LINE="$oneliner"
-  READLINE_POINT="${#READLINE_LINE}"
+  local oneliner=$(__get_oneliners) || return 1
+  local cursol="${oneliner%%@*}"
+  READLINE_LINE="${oneliner/@/}"
+  READLINE_POINT="${#cursol}"
 }
 bint -x '"^x":"oneliners"'
 
