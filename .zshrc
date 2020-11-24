@@ -117,7 +117,7 @@ bindkey '^w' edit_current_line
 oneliners() {
   local oneliner=$(cat "${DOT_DIR}/etc/oneliners.txt" | fzf | sed 's/\[.*\]//') || return 1
   BUFFER="$oneliner"
-  CURSOR=${#BUFFER}
+  CURSOR="${#BUFFER}"
   zle redisplay
 }
 zle -N oneliners
