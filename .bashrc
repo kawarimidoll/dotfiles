@@ -60,7 +60,7 @@ oneliners() {
   READLINE_LINE="${oneliner/@/}"
   READLINE_POINT="${#cursol}"
 }
-bint -x '"^x":"oneliners"'
+bind -x '"^x":"oneliners"'
 
 # -----------------
 #  prompt
