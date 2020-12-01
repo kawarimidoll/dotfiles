@@ -36,9 +36,6 @@ die() {
   exit 1
 }
 
-__source() {
-  [ -f "$1" ] && source "$1"
-}
 OS='unknown'
 if [ "$(uname)" = "Darwin" ]; then
   OS='mac'
@@ -69,36 +66,33 @@ download_dotfiles() {
 }
 
 link_dotfiles() {
-  cd "$DOT_DIR"
-  if [ $? -ne 0 ]; then
-    echo "cannot cd to $DOT_DIR"
-  else
+  if cd "$DOT_DIR"; then
     for f in $(find . -not -path '*.git/*' -not -path '*.DS_Store' -path '*/.*' -type f -print | cut -b3-)
     do
       ln -sniv "$DOT_DIR/$f" "$HOME/$f"
     done
+  else
+    echo "cannot cd to $DOT_DIR"
   fi
 }
 
 echo "$LOGO" "$DIALOG"
-read selection
-if [ "$selection" = "a" -o "$selection" = "d" ]; then
+read -r selection
+if [ "$selection" = "a" ] || [ "$selection" = "d" ]; then
   echo "  begin download dotfiles."
   download_dotfiles
-  echo "  end download dotfiles."
-  echo ""
+  echo -e "  end download dotfiles.\n"
 fi
-if [ "$selection" = "a" -o "$selection" = "l" ]; then
+if [ "$selection" = "a" ] || [ "$selection" = "l" ]; then
   echo "  begin link dotfiles."
   link_dotfiles
-  echo "  end link dotfiles."
-  echo ""
+  echo -e "  end link dotfiles.\n"
 fi
-if [ "$selection" = "a" -o "$selection" = "s" ]; then
+if [ "$selection" = "a" ] || [ "$selection" = "s" ]; then
   echo "  begin setup applications."
-  __source "${DOT_DIR}/etc/${OS}/install.sh"
-  echo "  end setup applications."
-  echo ""
+  os_install_sh="${DOT_DIR}/etc/${OS}/install.sh"
+  [ -f "$os_install_sh" ] && sh -c "$os_install_sh"
+  echo -e "  end setup applications.\n"
 fi
 
 echo "  finished."

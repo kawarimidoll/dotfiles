@@ -28,4 +28,4 @@ setup_homebrew
 echo "  end setup homebrew."
 
 echo "  create symlink to iCloud directory."
-ln -s "$HOME/Library/Mobile Documents" "$HOME/iCloud"
+ln -sniv "$HOME/Library/Mobile Documents" "$HOME/iCloud"

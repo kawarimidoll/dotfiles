@@ -1,4 +1,4 @@
-timestamp: 2020-12-01 09:53:36 JST
+timestamp: 2020-12-02 08:23:15 JST
 tap: a-know/tap
 tap: homebrew/bundle
 tap: homebrew/cask
@@ -72,6 +72,7 @@ brew: wget
 brew: yarn
 brew: zsh
 brew: zsh-completions
+cask: ableton-live-lite
 cask: alfred
 cask: amazon-music
 cask: appcleaner
@@ -136,6 +137,7 @@ cask: vnote
 cask: webpquicklook
 cask: workflowy
 cask: zappy
+cask: zenbeats
 mas: 495511246 CLCL Lite (1.2)
 mas: 1467796430 Plain Pasta (1.1.6)
 mas: 490461369 Bandwidth+ (1.18)
