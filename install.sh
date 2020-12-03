@@ -18,11 +18,12 @@ DIALOG="
   (2) link dotfiles
   (3) setup applications
 
-  select:
+  Select:
   [a] run all above
   [d] only download dotfiles
   [l] only link dotfiles
   [s] only setup applications
+  You can use multiple choose like 'dl'
 "
 # ref:
 # https://qiita.com/b4b4r07/items/24872cdcbec964ce2178
@@ -78,17 +79,17 @@ link_dotfiles() {
 
 echo "$LOGO" "$DIALOG"
 read -r selection
-if [ "$selection" = "a" ] || [ "$selection" = "d" ]; then
+if [[ "$selection" = *"a"* ]] || [[ "$selection" = *"d"* ]]; then
   echo "  begin download dotfiles."
   download_dotfiles
   echo -e "  end download dotfiles.\n"
 fi
-if [ "$selection" = "a" ] || [ "$selection" = "l" ]; then
+if [[ "$selection" = *"a"* ]] || [[ "$selection" = *"l"* ]]; then
   echo "  begin link dotfiles."
   link_dotfiles
   echo -e "  end link dotfiles.\n"
 fi
-if [ "$selection" = "a" ] || [ "$selection" = "s" ]; then
+if [[ "$selection" = *"a"* ]] || [[ "$selection" = *"s"* ]]; then
   echo "  begin setup applications."
   os_install_sh="${DOT_DIR}/etc/${OS}/install.sh"
   [ -f "$os_install_sh" ] && sh -c "$os_install_sh"
