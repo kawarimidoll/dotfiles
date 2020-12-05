@@ -43,7 +43,7 @@
 	discard = restore
 	graph = log --graph --oneline
 	git = !git
-	fixup = !git remember | xargs -I % git commit --fixup % && git rebase -i --autosquash
+	fixup = !git remember | xargs --no-run-if-empty -I_ git commit --fixup _ && git rebase -i --autosquash
 	history = log --numstat --pretty=format:'%C(auto)%h %C(blue)%cs%C(auto)%d %s %C(blue)[%cn]'
 	it = __it
 	list-branch = __list-branch
@@ -52,7 +52,7 @@
 	rename-branch = branch --move
 	remember = __remember
 	remote-url = !git remote get-url origin | sed -E 's!^git@(.+):!\\1/!' | sed -e 's/\\.git$//'
-	rewind = !git remember | xargs --open-tty git rebase -i
+	rewind = !git remember | xargs --no-run-if-empty --open-tty git rebase -i
 	root = !pwd
 	save = stash save
 	ss = status --short
