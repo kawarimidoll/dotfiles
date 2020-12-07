@@ -1,4 +1,4 @@
-timestamp: 2020-12-05 09:26:32 JST
+timestamp: 2020-12-07 10:01:40 JST
 tap: a-know/tap
 tap: homebrew/bundle
 tap: homebrew/cask
@@ -34,6 +34,7 @@ brew: git
 brew: glow
 brew: gnu-tar
 brew: grep
+brew: gron
 brew: gzip
 brew: highlight
 brew: jesseduffield/lazygit/lazygit
@@ -138,6 +139,7 @@ cask: webpquicklook
 cask: workflowy
 cask: zappy
 cask: zenbeats
+cask: zoom
 mas: 495511246 CLCL Lite (1.2)
 mas: 1467796430 Plain Pasta (1.1.6)
 mas: 490461369 Bandwidth+ (1.18)

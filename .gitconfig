@@ -31,6 +31,7 @@
 	aa = add .
 	age = __age
 	aliases = !git config --get-regexp alias | cut -c7- | sed -e 's/ / = /' | sort
+	allohistory = !git remember | xargs --no-run-if-empty --open-tty git rebase -i
 	amend = commit --amend
 	at = !git aa && git it
 	autosquash = rebase -i --autosquash
@@ -52,7 +53,7 @@
 	rename-branch = branch --move
 	remember = __remember
 	remote-url = !git remote get-url origin | sed -E 's!^git@(.+):!\\1/!' | sed -e 's/\\.git$//'
-	rewind = !git remember | xargs --no-run-if-empty --open-tty git rebase -i
+	rewind = !git remember | xargs --no-run-if-empty git reset --soft
 	root = !pwd
 	save = stash save
 	ss = status --short
