@@ -46,6 +46,9 @@ if ! shopt -oq posix; then
   fi
 fi
 
+# use git completion with alias 'g'
+__git_complete g __git_main
+
 # -----------------
 #  FZF
 # -----------------
