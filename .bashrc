@@ -46,8 +46,14 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# use git completion with alias 'g'
-__git_complete g __git_main
+if ! has '__git_complete'; then
+  __source /usr/share/bash_completion/completions/git || \
+    __source /etc/bash_completion/completions/git
+fi
+if has '__git_complete'; then
+  # use git completion with alias 'g'
+  __git_complete g __git_main
+fi
 
 # -----------------
 #  FZF

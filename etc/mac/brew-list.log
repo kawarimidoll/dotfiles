@@ -1,8 +1,9 @@
-timestamp: 2020-12-08 08:55:27 JST
+timestamp: 2020-12-14 10:24:17 JST
 tap: a-know/tap
 tap: homebrew/bundle
 tap: homebrew/cask
 tap: homebrew/cask-fonts
+tap: homebrew/cask-versions
 tap: homebrew/core
 tap: jesseduffield/lazygit
 tap: k-vernooy/tap
