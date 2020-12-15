@@ -1,4 +1,4 @@
-timestamp: 2020-12-14 10:24:17 JST
+timestamp: 2020-12-15 10:42:43 JST
 tap: a-know/tap
 tap: homebrew/bundle
 tap: homebrew/cask
@@ -106,6 +106,7 @@ cask: inkscape
 cask: iterm2
 cask: karabiner-elements
 cask: kindle
+cask: licecap
 cask: lmms
 cask: lyrics-master
 cask: nautilus

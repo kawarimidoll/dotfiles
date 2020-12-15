@@ -39,15 +39,12 @@ HISTFILESIZE=2000
 # enable programmable completion features (you don't need to enable this,
 # if it's already enabled in /etc/bash.bashrc and /etc /profile sources /etc/etc.bashrc).
 if ! shopt -oq posix; then
-  if [ -f /usr/share/bash_completion/bash_completion ]; then
-    source /usr/share/bash_completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    source /etc/bash_completion
-  fi
+  __source /usr/share/bash-completion/bash_completion || \
+    __source /etc/bash_completion
 fi
 
 if ! has '__git_complete'; then
-  __source /usr/share/bash_completion/completions/git || \
+  __source /usr/share/bash-completion/completions/git || \
     __source /etc/bash_completion/completions/git
 fi
 if has '__git_complete'; then
