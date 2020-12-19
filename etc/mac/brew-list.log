@@ -1,4 +1,4 @@
-timestamp: 2020-12-15 10:42:43 JST
+timestamp: 2020-12-19 13:10:41 JST
 tap: a-know/tap
 tap: homebrew/bundle
 tap: homebrew/cask
@@ -146,6 +146,6 @@ mas: 495511246 CLCL Lite (1.2)
 mas: 1467796430 Plain Pasta (1.1.6)
 mas: 490461369 Bandwidth+ (1.18)
 mas: 1348795218 TeraTime (1.0.3)
-mas: 497799835 Xcode (12.2)
+mas: 497799835 Xcode (12.3)
 mas: 1278508951 Trello (2.11.7)
 mas: 1525795950 Git Streaks (1.0.1)
