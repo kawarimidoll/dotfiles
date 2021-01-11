@@ -1,4 +1,4 @@
-timestamp: 2020-12-19 13:10:41 JST
+timestamp: 2021-01-11 10:25:52 JST
 tap: a-know/tap
 tap: homebrew/bundle
 tap: homebrew/cask
@@ -6,12 +6,13 @@ tap: homebrew/cask-fonts
 tap: homebrew/cask-versions
 tap: homebrew/core
 tap: jesseduffield/lazygit
-tap: k-vernooy/tap
 tap: nektos/tap
 tap: osx-cross/avr
 tap: px4/px4
 tap: skanehira/docui
+tap: universal-ctags/universal-ctags
 brew: a-know/tap/pi
+brew: automake
 brew: avrdude
 brew: bat
 brew: binutils
@@ -19,7 +20,6 @@ brew: cask
 brew: clisp
 brew: cmake
 brew: coreutils
-brew: ctags
 brew: deno
 brew: dfu-programmer
 brew: dfu-util
@@ -40,7 +40,6 @@ brew: gzip
 brew: highlight
 brew: jesseduffield/lazygit/lazygit
 brew: jq
-brew: k-vernooy/tap/tetris
 brew: llvm
 brew: mas
 brew: nano
@@ -65,6 +64,7 @@ brew: tig
 brew: tldr
 brew: tmux
 brew: tree
+brew: universal-ctags/universal-ctags/universal-ctags
 brew: unzip
 brew: vim
 brew: w3m
@@ -75,6 +75,7 @@ brew: yarn
 brew: zsh
 brew: zsh-completions
 cask: ableton-live-lite
+cask: abricotine
 cask: alfred
 cask: amazon-music
 cask: appcleaner
@@ -104,15 +105,19 @@ cask: hiddenbar
 cask: iina
 cask: inkscape
 cask: iterm2
+cask: kap
 cask: karabiner-elements
+cask: keycastr
 cask: kindle
 cask: licecap
 cask: lmms
 cask: lyrics-master
+cask: modern-csv
 cask: nautilus
 cask: notion
 cask: onepile
 cask: openshot-video-editor
+cask: pixel-picker
 cask: processing
 cask: provisionql
 cask: qlcolorcode
@@ -124,12 +129,15 @@ cask: quicklook-csv
 cask: quicklook-json
 cask: quicklookase
 cask: racket
+cask: rectangle
 cask: scriptql
 cask: shotcut
 cask: slack
+cask: soundcleod
 cask: sourcetree
 cask: stats
 cask: steam
+cask: stretchly
 cask: sublime-text
 cask: suspicious-package
 cask: table-tool
@@ -137,15 +145,16 @@ cask: time-out
 cask: virtualbox
 cask: visual-studio-code
 cask: vnote
-cask: webpquicklook
 cask: workflowy
 cask: zappy
 cask: zenbeats
 cask: zoom
 mas: 495511246 CLCL Lite (1.2)
-mas: 1467796430 Plain Pasta (1.1.6)
+mas: 1467796430 Plain Pasta (1.2.1)
+mas: 1351639930 Gifski (2.12.0)
 mas: 490461369 Bandwidth+ (1.18)
 mas: 1348795218 TeraTime (1.0.3)
 mas: 497799835 Xcode (12.3)
+mas: 1450640351 Lightweight PDF (1.0.4)
 mas: 1278508951 Trello (2.11.7)
-mas: 1525795950 Git Streaks (1.0.1)
+mas: 1525795950 Git Streaks (1.0.2)
