@@ -27,6 +27,7 @@ set expandtab
 set fenc=utf-8
 set fileencoding=utf-8
 set fileencodings=utf-8
+set fileformats=unix,dos,mac
 set formatoptions=tcqmMj1
 set helplang=ja
 set hidden

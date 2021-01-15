@@ -1,4 +1,4 @@
-timestamp: 2021-01-11 10:25:52 JST
+timestamp: 2021-01-15 12:10:25 JST
 tap: a-know/tap
 tap: homebrew/bundle
 tap: homebrew/cask
@@ -38,8 +38,10 @@ brew: grep
 brew: gron
 brew: gzip
 brew: highlight
+brew: isl
 brew: jesseduffield/lazygit/lazygit
 brew: jq
+brew: libmpc
 brew: llvm
 brew: mas
 brew: nano
@@ -48,7 +50,8 @@ brew: neovim
 brew: ninja
 brew: nnn
 brew: nodebrew
-brew: osx-cross/avr/avr-gcc@7
+brew: osx-cross/avr/avr-binutils
+brew: pandoc
 brew: px4/px4/gcc-arm-none-eabi
 brew: python@3.8
 brew: re2c
@@ -85,7 +88,6 @@ cask: betterzip
 cask: bitwarden
 cask: blackhole
 cask: brave-browser
-cask: cheatsheet
 cask: dash
 cask: day-o
 cask: deepl
@@ -133,8 +135,6 @@ cask: rectangle
 cask: scriptql
 cask: shotcut
 cask: slack
-cask: soundcleod
-cask: sourcetree
 cask: stats
 cask: steam
 cask: stretchly
