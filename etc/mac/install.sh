@@ -14,7 +14,7 @@ setup_homebrew() {
   if [ -e brew-list.log ]; then
     brew tap "$(brew_list tap)"
     brew install "$(brew_list brew)"
-    brew cask install "$(brew_list cask)"
+    brew install --cask "$(brew_list cask)"
     brew_list brew | grep mas >> /dev/null || brew install mas
     mas install "$(brew_list mas)"
   else
