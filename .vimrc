@@ -154,7 +154,7 @@ Plug 'peitalin/vim-jsx-typescript'
 " Plug 'plasticboy/vim-markdown'
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
+" Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'prettier/vim-prettier', {
       \ 'do': 'yarn install',
