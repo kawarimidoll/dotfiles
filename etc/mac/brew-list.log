@@ -1,23 +1,21 @@
-timestamp: 2021-01-17 08:10:49 JST
+timestamp: 2021-02-21 17:04:06 JST
 tap: a-know/tap
 tap: homebrew/bundle
 tap: homebrew/cask
 tap: homebrew/cask-fonts
-tap: homebrew/cask-versions
 tap: homebrew/core
 tap: jesseduffield/lazygit
+tap: melonamin/formulae
 tap: nektos/tap
-tap: osx-cross/avr
 tap: px4/px4
 tap: skanehira/docui
 tap: universal-ctags/universal-ctags
 brew: a-know/tap/pi
 brew: automake
-brew: avrdude
 brew: bat
 brew: binutils
 brew: cask
-brew: clisp
+brew: cfitsio
 brew: cmake
 brew: coreutils
 brew: deno
@@ -26,39 +24,44 @@ brew: dfu-util
 brew: diff-so-fancy
 brew: diffutils
 brew: ed
-brew: expect
+brew: fftw
 brew: findutils
 brew: fzf
 brew: gawk
 brew: ghq
+brew: giflib
 brew: git
 brew: glow
 brew: gnu-tar
 brew: grep
-brew: gron
 brew: gzip
 brew: highlight
-brew: isl
+brew: imagemagick
 brew: jesseduffield/lazygit/lazygit
 brew: jq
-brew: libmpc
+brew: libexif
+brew: libgsf
+brew: libimagequant
+brew: libmatio
+brew: librsvg
+brew: libspng
 brew: llvm
 brew: mas
+brew: mozjpeg
 brew: nano
 brew: nektos/tap/act
-brew: neovim
 brew: ninja
 brew: nnn
 brew: nodebrew
-brew: osx-cross/avr/avr-binutils
-brew: pandoc
+brew: nss
+brew: openslide
+brew: orc
 brew: px4/px4/gcc-arm-none-eabi
 brew: python@3.8
+brew: qt
 brew: re2c
 brew: ripgrep
 brew: rust
-brew: sbcl
-brew: shellcheck
 brew: skanehira/docui/docui
 brew: sl
 brew: starship
@@ -67,12 +70,10 @@ brew: tig
 brew: tldr
 brew: tmux
 brew: tree
-brew: universal-ctags/universal-ctags/universal-ctags
 brew: unzip
 brew: vim
 brew: w3m
 brew: wdiff
-brew: webp
 brew: wget
 brew: yarn
 brew: zsh
@@ -80,33 +81,24 @@ brew: zsh-completions
 cask: ableton-live-lite
 cask: abricotine
 cask: alfred
-cask: amazon-music
-cask: appcleaner
 cask: arduino
 cask: authy
 cask: betterzip
 cask: bitwarden
-cask: blackhole
 cask: brave-browser
-cask: dash
-cask: day-o
 cask: deepl
 cask: docker
 cask: dropbox
-cask: duet
 cask: dynalist
 cask: evernote
 cask: firefox
 cask: flux
-cask: font-roboto-mono-for-powerline
 cask: font-roboto-mono-nerd-font
 cask: gimp
 cask: google-chrome
 cask: google-japanese-ime
-cask: hiddenbar
 cask: iina
 cask: inkscape
-cask: iterm2
 cask: kap
 cask: karabiner-elements
 cask: keycastr
@@ -122,7 +114,6 @@ cask: openshot-video-editor
 cask: pixel-picker
 cask: processing
 cask: provisionql
-cask: qlcolorcode
 cask: qlimagesize
 cask: qlmarkdown
 cask: qlstephen
@@ -142,19 +133,18 @@ cask: sublime-text
 cask: suspicious-package
 cask: table-tool
 cask: time-out
-cask: virtualbox
 cask: visual-studio-code
 cask: vnote
 cask: workflowy
 cask: zappy
 cask: zenbeats
 cask: zoom
-mas: 495511246 CLCL Lite (1.2)
+mas: 1549370672 Save to Raindrop.io (5.0.1)
+mas: 1482920575 DuckDuckGo Privacy Essentials (1.4.3)
+mas: 777874532 Cinemagraph Pro (2.9)
 mas: 1467796430 Plain Pasta (1.2.1)
-mas: 1351639930 Gifski (2.12.0)
-mas: 490461369 Bandwidth+ (1.18)
-mas: 1348795218 TeraTime (1.0.3)
-mas: 497799835 Xcode (12.3)
-mas: 1450640351 Lightweight PDF (1.0.5)
-mas: 1278508951 Trello (2.11.7)
-mas: 1525795950 Git Streaks (1.0.2)
+mas: 682658836 GarageBand (10.4.2)
+mas: 408981434 iMovie (10.2.2)
+mas: 415311936 めがね (1.3.0)
+mas: 1099120373 Exporter (3.0.0)
+mas: 1278508951 Trello (2.12.0)
