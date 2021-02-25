@@ -1,6 +1,8 @@
 # -----------------
 #  commonshrc for mac
 # -----------------
+eval $(/opt/homebrew/bin/brew shellenv)
+
 alias brewer="sh ${DOT_OS_DIR}/brewer.sh"
 alias ctags="$(brew --prefix)/bin/ctags"
 
