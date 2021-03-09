@@ -541,6 +541,8 @@ inoremap <expr> <C-x><C-k> fzf#vim#complete#word({'left': '15%'})
 inoremap <expr> <C-x><C-f> fzf#vim#complete#path('rg --files')
 inoremap <expr> <C-x><C-x> fzf#vim#complete#line()
 inoremap <C-]> <Esc><Right>
+inoremap <silent> jj <ESC>
+inoremap <silent> っj <ESC>
 " inoremap <C-t> <Esc><Left>"zx"pa <C-t>はtmuxのprefixにする
 " inoremap <C-f> <C-x><C-o>
 " inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>" vim-endwiseと相性が悪いのでオフ
