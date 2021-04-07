@@ -26,7 +26,7 @@ alias lsf='ls -FAogh --time-style="+%F %R"'
 alias mkdir='mkdir -pv'
 alias mv='mv -i'
 alias rc='bundle exec rails console'
-alias rm='rm -i'
+alias rm='rm -i --preserve-root'
 alias rs='bundle exec rails server'
 alias she="vim ${shell_rc}"
 alias shl="vim ${shell_rc}.local"

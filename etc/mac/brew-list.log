@@ -1,14 +1,14 @@
-timestamp: 2021-03-09 16:28:37 JST
+timestamp: 2021-04-07 09:50:21 JST
 tap: a-know/tap
 tap: homebrew/bundle
 tap: homebrew/cask
 tap: homebrew/cask-fonts
 tap: homebrew/core
 tap: jesseduffield/lazygit
-tap: nektos/tap
 tap: px4/px4
 tap: skanehira/docui
 brew: a-know/tap/pi
+brew: act
 brew: automake
 brew: bat
 brew: binutils
@@ -35,19 +35,21 @@ brew: jesseduffield/lazygit/lazygit
 brew: jq
 brew: llvm
 brew: mas
+brew: moreutils
 brew: nano
-brew: nektos/tap/act
 brew: ninja
 brew: nnn
 brew: nodebrew
 brew: px4/px4/gcc-arm-none-eabi
 brew: python@3.8
+brew: qt
 brew: re2c
 brew: ripgrep
 brew: rust
 brew: skanehira/docui/docui
 brew: sl
 brew: starship
+brew: svgo
 brew: the_platinum_searcher
 brew: tig
 brew: tldr
@@ -66,12 +68,15 @@ cask: ableton-live-lite
 cask: abricotine
 cask: agenda
 cask: alfred
+cask: alt-tab
 cask: apparency
 cask: arduino
 cask: authy
+cask: bdash
 cask: betterzip
 cask: bitwarden
 cask: brave-browser
+cask: clickup
 cask: deepl
 cask: docker
 cask: dropbox
@@ -82,6 +87,7 @@ cask: font-roboto-mono-nerd-font
 cask: gimp
 cask: google-chrome
 cask: google-japanese-ime
+cask: iconset
 cask: iina
 cask: inkscape
 cask: kap
@@ -101,7 +107,6 @@ cask: pixel-picker
 cask: processing
 cask: provisionql
 cask: qlimagesize
-cask: qlvideo
 cask: quicklook-csv
 cask: quicklook-json
 cask: quicklookase
@@ -110,6 +115,7 @@ cask: rectangle
 cask: scriptql
 cask: shotcut
 cask: slack
+cask: stack-stack
 cask: stats
 cask: steam
 cask: stretchly
@@ -125,10 +131,12 @@ cask: zappy
 cask: zenbeats
 mas: 415311936 めがね (1.3.0)
 mas: 1187772509 stts (1.27)
-mas: 1099120373 Exporter (3.0.1)
+mas: 1099120373 Exporter (3.0.2)
 mas: 1467796430 Plain Pasta (1.2.1)
 mas: 408981434 iMovie (10.2.3)
 mas: 497799835 Xcode (12.4)
 mas: 682658836 GarageBand (10.4.2)
 mas: 975890633 HotKey (1.5)
 mas: 1278508951 Trello (2.12.0)
+mas: 1429033973 RunCat (9.0)
+mas: 1534796314 Twenttty (1.1.0)
