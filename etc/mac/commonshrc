@@ -3,8 +3,11 @@
 # -----------------
 eval $(/opt/homebrew/bin/brew shellenv)
 
+export OBSIDIAN_VAULT="${HOME}/Dropbox/Obsidian"
+
 alias brewer="sh ${DOT_OS_DIR}/brewer.sh"
 alias ctags="$(brew --prefix)/bin/ctags"
+alias cob="cd ${OBSIDIAN_VAULT}"
 
 PATH="/usr/local/sbin:$PATH"
 
