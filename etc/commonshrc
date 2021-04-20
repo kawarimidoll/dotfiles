@@ -11,7 +11,7 @@ alias cdot="cd ${DOT_DIR}"
 alias cp='cp -i'
 alias dc='docker container'
 alias di='docker image'
-alias dp='docker-compose'
+alias dp='docker compose'
 alias ds='docker system'
 alias egrep='egrep --color=auto'
 alias g='git'

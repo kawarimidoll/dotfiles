@@ -27,6 +27,7 @@ autoload -Uz colors && colors
 # -----------------
 alias zmv='noglob zmv -W'
 
+alias -g CP='| tee >(pbcopy)'
 alias -g F='| fzf'
 alias -g G='| grep'
 alias -g H='| head'
