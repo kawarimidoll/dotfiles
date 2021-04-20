@@ -1,5 +1,6 @@
-timestamp: 2021-04-17 10:52:04 JST
+timestamp: 2021-04-20 11:21:22 JST
 tap: a-know/tap
+tap: hmarr/tap
 tap: homebrew/bundle
 tap: homebrew/cask
 tap: homebrew/cask-fonts
@@ -19,12 +20,15 @@ brew: dfu-programmer
 brew: dfu-util
 brew: diff-so-fancy
 brew: diffutils
+brew: dprint
 brew: ed
 brew: findutils
 brew: fzf
 brew: gawk
 brew: ghq
 brew: git
+brew: gitbatch
+brew: gitmoji
 brew: glow
 brew: gnu-tar
 brew: grep
@@ -48,6 +52,7 @@ brew: ripgrep
 brew: rust
 brew: skanehira/docui/docui
 brew: sl
+brew: snowpack
 brew: starship
 brew: svgo
 brew: tesseract
@@ -80,6 +85,7 @@ cask: betterzip
 cask: bitwarden
 cask: brave-browser
 cask: clickup
+cask: cloudflare-warp
 cask: colour-contrast-analyser
 cask: deepl
 cask: devbook
@@ -88,11 +94,13 @@ cask: dropbox
 cask: dynalist
 cask: editaro
 cask: evernote
+cask: flutter
 cask: flux
 cask: font-roboto-mono-nerd-font
 cask: gimp
 cask: google-chrome
 cask: google-japanese-ime
+cask: hermit-crab
 cask: iconset
 cask: iina
 cask: inkscape
@@ -114,6 +122,7 @@ cask: obsidian
 cask: onepile
 cask: openshot-video-editor
 cask: pixel-picker
+cask: pngyu
 cask: postman
 cask: processing
 cask: provisionql
@@ -139,6 +148,7 @@ cask: tiles
 cask: time-out
 cask: typora
 cask: visual-studio-code
+cask: vitals
 cask: vnote
 cask: workflowy
 cask: zappy
