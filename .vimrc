@@ -123,6 +123,8 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'ervandew/supertab'
 Plug 'haya14busa/is.vim'
 Plug 'haya14busa/vim-asterisk'
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 Plug 'itchyny/lightline.vim'
 Plug 'jacquesbh/vim-showmarks'
@@ -154,7 +156,7 @@ Plug 'peitalin/vim-jsx-typescript'
 " Plug 'plasticboy/vim-markdown'
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/asyncomplete.vim'
-" Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'prettier/vim-prettier', {
       \ 'do': 'yarn install',
@@ -208,6 +210,7 @@ let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 1
 let g:indent_guides_exclude_filetypes = ['help']
+let g:lsp_diagnostics_echo_cursor = 1
 let g:netrw_alto = 1
 let g:netrw_altv = 1
 let g:netrw_banner = 0
@@ -487,6 +490,7 @@ nnoremap ? /\v
 nnoremap == gg=G''
 nnoremap <Space>a <C-w><C-w>
 nnoremap <Space>b :<C-u>Buffers<CR>
+nnoremap <Space>B :<C-u>BLines<CR>
 nnoremap <Space>c :<C-u>ToggleCase<CR>
 nnoremap <Space>C :<C-u>CaseToSelected<CR>
 nnoremap <Space>d :<C-u>bdelete<CR>
@@ -497,12 +501,13 @@ nnoremap <Space>h :<C-u>History<CR>
 nnoremap <silent><Space>i mzviwbg~`z:<C-u>delmarks z<CR>
 " nnoremap <Space>j
 " nnoremap <Space>k
-nnoremap <Space>l :<C-u>BLines<CR>
+nnoremap <Space>l :<C-u>LspDocumentDiagnostics<CR>
 nnoremap <Space>m :<C-u>Marks<CR>
 " nnoremap <Space>n
 nnoremap <Space>o o<Esc>
 nnoremap <Space>O O<Esc>
-nnoremap <Space>p :<C-u>Prettier<CR>
+nnoremap <Space>p :<C-u>LspDocumentFormat<CR>
+nnoremap <Space>P :<C-u>Prettier<CR>
 nnoremap <Space>q :<C-u>quit<CR>
 nnoremap <Space>r :<C-u>registers<CR>
 nnoremap <Space>s :<C-u>&&<CR>
