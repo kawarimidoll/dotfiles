@@ -16,99 +16,262 @@
         },
         "rules": [
           {
-            "description": "Left Shift plus Left Option with h/j/k/l to Fn with Arrows",
+            "description": "Layerd Eisuu",
+            "extra_descriptions": [
+              "英数キー + hjkl -> カーソル移動（← ↓ ↑ →）",
+              "英数キー + qwertyuiop -> 直上の数字キー",
+              "英数キー 単独 -> 英数キー"
+            ],
+            "extra_description_level": 1,
             "manipulators": [
               {
+                "type": "basic",
+                "from": {
+                  "key_code": "japanese_eisuu",
+                  "modifiers": {
+                    "optional": [
+                      "any"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "fn",
+                    "lazy": true
+                  }
+                ],
+                "to_if_alone": [
+                  {
+                    "key_code": "japanese_eisuu"
+                  }
+                ]
+              },
+              {
+                "type": "basic",
                 "from": {
                   "key_code": "h",
                   "modifiers": {
                     "mandatory": [
-                      "left_option",
-                      "left_shift"
+                      "fn"
                     ],
                     "optional": [
-                      "any"
+                      "shift",
+                      "control",
+                      "caps_lock"
                     ]
                   }
                 },
                 "to": [
                   {
-                    "key_code": "left_arrow",
-                    "modifiers": [
-                      "fn"
-                    ]
+                    "key_code": "left_arrow"
                   }
-                ],
-                "type": "basic"
+                ]
               },
               {
+                "type": "basic",
                 "from": {
                   "key_code": "j",
                   "modifiers": {
                     "mandatory": [
-                      "left_option",
-                      "left_shift"
+                      "fn"
                     ],
                     "optional": [
-                      "any"
+                      "shift",
+                      "control",
+                      "caps_lock"
                     ]
                   }
                 },
                 "to": [
                   {
-                    "key_code": "down_arrow",
-                    "modifiers": [
-                      "fn"
-                    ]
+                    "key_code": "down_arrow"
                   }
-                ],
-                "type": "basic"
+                ]
               },
               {
+                "type": "basic",
                 "from": {
                   "key_code": "k",
                   "modifiers": {
                     "mandatory": [
-                      "left_option",
-                      "left_shift"
+                      "fn"
                     ],
                     "optional": [
-                      "any"
+                      "shift",
+                      "control",
+                      "caps_lock"
                     ]
                   }
                 },
                 "to": [
                   {
-                    "key_code": "up_arrow",
-                    "modifiers": [
-                      "fn"
-                    ]
+                    "key_code": "up_arrow"
                   }
-                ],
-                "type": "basic"
+                ]
               },
               {
+                "type": "basic",
                 "from": {
                   "key_code": "l",
                   "modifiers": {
                     "mandatory": [
-                      "left_option",
-                      "left_shift"
+                      "fn"
                     ],
                     "optional": [
-                      "any"
+                      "shift",
+                      "control",
+                      "caps_lock"
                     ]
                   }
                 },
                 "to": [
                   {
-                    "key_code": "right_arrow",
-                    "modifiers": [
-                      "fn"
-                    ]
+                    "key_code": "right_arrow"
                   }
-                ],
-                "type": "basic"
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "tab",
+                  "modifiers": {
+                    "mandatory": ["fn"],
+                    "optional": ["shift", "control", "caps_lock"]
+                  }
+                },
+                "to": [{ "key_code": "grave_accent_and_tilde" }]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "q",
+                  "modifiers": {
+                    "mandatory": ["fn"],
+                    "optional": ["shift", "control", "caps_lock"]
+                  }
+                },
+                "to": [{ "key_code": "1" }]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "w",
+                  "modifiers": {
+                    "mandatory": ["fn"],
+                    "optional": ["shift", "control", "caps_lock"]
+                  }
+                },
+                "to": [{ "key_code": "2" }]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "e",
+                  "modifiers": {
+                    "mandatory": ["fn"],
+                    "optional": ["shift", "control", "caps_lock"]
+                  }
+                },
+                "to": [{ "key_code": "3" }]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "r",
+                  "modifiers": {
+                    "mandatory": ["fn"],
+                    "optional": ["shift", "control", "caps_lock"]
+                  }
+                },
+                "to": [{ "key_code": "4" }]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "t",
+                  "modifiers": {
+                    "mandatory": ["fn"],
+                    "optional": ["shift", "control", "caps_lock"]
+                  }
+                },
+                "to": [{ "key_code": "5" }]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "y",
+                  "modifiers": {
+                    "mandatory": ["fn"],
+                    "optional": ["shift", "control", "caps_lock"]
+                  }
+                },
+                "to": [{ "key_code": "6" }]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "u",
+                  "modifiers": {
+                    "mandatory": ["fn"],
+                    "optional": ["shift", "control", "caps_lock"]
+                  }
+                },
+                "to": [{ "key_code": "7" }]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "i",
+                  "modifiers": {
+                    "mandatory": ["fn"],
+                    "optional": ["shift", "control", "caps_lock"]
+                  }
+                },
+                "to": [{ "key_code": "8" }]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "o",
+                  "modifiers": {
+                    "mandatory": ["fn"],
+                    "optional": ["shift", "control", "caps_lock"]
+                  }
+                },
+                "to": [{ "key_code": "9" }]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "p",
+                  "modifiers": {
+                    "mandatory": ["fn"],
+                    "optional": ["shift", "control", "caps_lock"]
+                  }
+                },
+                "to": [{ "key_code": "0" }]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "open_bracket",
+                  "modifiers": {
+                    "mandatory": ["fn"],
+                    "optional": ["shift", "control", "caps_lock"]
+                  }
+                },
+                "to": [{ "key_code": "hyphen" }]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "close_bracket",
+                  "modifiers": {
+                    "mandatory": ["fn"],
+                    "optional": ["shift", "control", "caps_lock"]
+                  }
+                },
+                "to": [{ "key_code": "equal_sign" }]
               }
             ]
           },
