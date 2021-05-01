@@ -10,4 +10,5 @@ Run script below:
 bash -c "$(curl -L bit.ly/kawarimidots)"
 ```
 
-This link leads to `https://raw.githubusercontent.com/kawarimidoll/dotfiles/master/install.sh`
+This link leads to
+`https://raw.githubusercontent.com/kawarimidoll/dotfiles/master/install.sh`

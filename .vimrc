@@ -707,6 +707,9 @@ augroup vimrc
   autocmd BufNewFile,BufRead *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4
   autocmd BufNewFile,BufRead *.java setlocal tabstop=4 softtabstop=4 shiftwidth=4
 
+  " remap for specific filetypes
+  autocmd BufNewFile,BufRead *.md,*.json nnoremap <Space>p :<C-u>w<CR>:echo system("deno fmt --quiet ".expand("%:p"))<CR>
+
   " 前回終了位置に移動
   autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line('$') | execute 'normal g`"' | endif
   autocmd BufReadPost * delmarks!
