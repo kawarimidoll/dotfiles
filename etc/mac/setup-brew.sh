@@ -24,3 +24,6 @@ else
   echo "  brew-list.log is needed."
 fi
 brew cleanup
+
+ln -sf "$(brew --prefix)/opt/coreutils/libexec/gnubin" "$DOT_DIR/etc/mac/symlinks/core_gnubin"
+ln -sf "$(brew --prefix)/opt/findutils/libexec/gnubin" "$DOT_DIR/etc/mac/symlinks/find_gnubin"

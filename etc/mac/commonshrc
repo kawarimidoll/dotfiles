@@ -12,8 +12,8 @@ PATH="$(brew --prefix)/sbin:$PATH"
 
 # Define PATH to coreutils/findutils by using symlinks to avoid brew warnings
 # This may cause error on building gmp/python
-PATH="${DOT_OS_DIR}/core_gnubin:$PATH"
-PATH="${DOT_OS_DIR}/find_gnubin:$PATH"
+PATH="${DOT_OS_DIR}/symlinks/core_gnubin:$PATH"
+PATH="${DOT_OS_DIR}/symlinks/find_gnubin:$PATH"
 
 PATH="$(brew --prefix)/opt/binutils/bin:$PATH"
 # PATH="$(brew --prefix)/opt/coreutils/libexec/gnubin:$PATH"
