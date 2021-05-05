@@ -91,6 +91,12 @@ if [[ "$selection" = *"a"* ]] || [[ "$selection" = *"l"* ]]; then
 fi
 if [[ "$selection" = *"a"* ]] || [[ "$selection" = *"s"* ]]; then
   echo "  begin setup applications."
+
+  echo "  create symlink to neovim config file."
+  neovim_dir="$HOME/.config/nvim"
+  mkdir -p "$neovim_dir"
+  ln -sniv "${DOT_DIR}/init.vim" "${neovim_dir}/init.vim"
+
   os_install_sh="${DOT_DIR}/etc/${OS}/install.sh"
   [ -f "$os_install_sh" ] && sh -c "$os_install_sh"
   echo -e "  end setup applications.\n"
