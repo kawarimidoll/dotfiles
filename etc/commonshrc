@@ -26,7 +26,8 @@ alias lsf='ls -FAogh --time-style="+%F %R"'
 alias mkdir='mkdir -pv'
 alias mv='mv -i'
 alias nv='nvim'
-alias nvrc='nvim ~/.config/nvim/init.vim'
+alias nvinit='nvim ~/.config/nvim/init.vim'
+alias nvr='nvim -c "edit #<1"'
 alias rc='bundle exec rails console'
 alias rm='rm -i --preserve-root'
 alias rs='bundle exec rails server'
@@ -104,6 +105,12 @@ cgh() {
   local dir
   dir=$(ghq list | fzf --no-multi --exit-0 --query="$*" --preview="ls -FA1 $(ghq root)/{}")
   [ -n "$dir" ] && cd "$(ghq root)/$dir" || return
+}
+
+nvf() {
+  find_for_vim | \
+    fzf --multi --exit-0 --query="$*" --preview="$fzf_preview_cmd" | \
+    xargs --no-run-if-empty --open-tty nvim
 }
 
 vif() {
