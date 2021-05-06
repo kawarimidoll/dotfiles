@@ -114,12 +114,26 @@ endif
 unlet autoload_plug_path
 
 call plug#begin(stdpath('config') . '/plugged')
+Plug 'airblade/vim-gitgutter'
+Plug 'alvan/vim-closetag'
+Plug 'bronson/vim-trailing-whitespace'
 Plug 'dart-lang/dart-vim-plugin'
+Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'markonm/traces.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'terryma/vim-expand-region'
 Plug 'sainnhe/sonokai'
 Plug 'thosakwe/vim-flutter'
+" Plug 'tpope/vim-endwise'
+" Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+" Plug 'tpope/vim-unimpaired'
+Plug 'tyru/caw.vim'
+" Plug 'tyru/open-browser.vim'
+Plug 'vim-jp/vimdoc-ja'
 call plug#end()
 
 "-----------------
@@ -226,20 +240,20 @@ nnoremap ? /\v
 nnoremap == gg=G''
 
 nnoremap <Space>a <C-w><C-w>
-" nnoremap <Space>b :<C-u>Buffers<CR>
-" nnoremap <Space>B :<C-u>BLines<CR>
-" nnoremap <Space>c :<C-u>ToggleCase<CR>
+nnoremap <Space>b :<C-u>Buffers<CR>
+nnoremap <Space>B :<C-u>BLines<CR>
+nmap <Space>c <Plug>(caw:hatpos:toggle)
 " nnoremap <Space>C :<C-u>CaseToSelected<CR>
 nnoremap <Space>d :<C-u>bdelete<CR>
 " nnoremap <Space>e
-" nnoremap <Space>f :<C-u>Files<CR>
+nnoremap <Space>f :<C-u>Files<CR>
 nnoremap <silent><Space>g :<C-u>copy.<CR>
-" nnoremap <Space>h :<C-u>History<CR>
+nnoremap <Space>h :<C-u>History<CR>
 nnoremap <silent><Space>i mzviwbg~`z:<C-u>delmarks z<CR>
 " nnoremap <Space>j
 " nnoremap <Space>k
 " nnoremap <Space>l :<C-u>LspDocumentDiagnostics<CR>
-" nnoremap <Space>m :<C-u>Marks<CR>
+nnoremap <Space>m :<C-u>Marks<CR>
 " nnoremap <Space>n
 nnoremap <Space>o o<Esc>
 nnoremap <Space>O O<Esc>
@@ -258,8 +272,8 @@ nnoremap <Space>wq :<C-u>wq<CR>
 nnoremap <Space>z :<C-u>za<CR>
 " nnoremap <Space>/ :<C-u>RgRaw -F -- $''<Left>
 " nnoremap <Space>? :<C-u>RgRaw -F -- $'<C-r><C-w>'<Left>
-" nnoremap <Space>; :<C-u>History/<CR>
-" nnoremap <Space>: :<C-u>History:<CR>
+nnoremap <Space>; :<C-u>History/<CR>
+nnoremap <Space>: :<C-u>History:<CR>
 
 nnoremap <silent><C-k> :m-2<CR>=l
 nnoremap <silent><C-j> :m+1<CR>=l
@@ -283,8 +297,9 @@ inoremap <silent> jj <ESC>
 inoremap <silent> っj <ESC>
 
 " visual
-" xmap v <Plug>(expand_region_expand)
-" xmap <C-v> <Plug>(expand_region_shrink)
+xmap v <Plug>(expand_region_expand)
+xmap <C-v> <Plug>(expand_region_shrink)
+xmap <Space>c <Plug>(caw:hatpos:toggle)
 xnoremap <silent> <expr> p <sid>VisualPaste()
 xnoremap <silent> y y`]
 xnoremap x "_x
@@ -305,3 +320,32 @@ tnoremap <C-w><C-n> <C-w>N
 syntax enable
 
 colorscheme sonokai
+
+"-----------------
+" Auto Commands
+"-----------------
+augroup vimrc
+  autocmd!
+  " plugin settings
+  " autocmd BufReadPost * silent! DoShowMarks
+
+  " [vaffle.vim から netrw にお試しで移行してみた - bamch0h’s diary](https://bamch0h.hatenablog.com/entry/2019/06/24/004104)
+  " autocmd FileType netrw nnoremap <buffer> h -
+  " autocmd FileType netrw nnoremap <buffer> l <CR>
+  " autocmd FileType netrw nnoremap <buffer> . gh
+
+  " file type settings
+  " autocmd BufNewFile,BufRead *.md set filetype=markdown
+  " autocmd BufNewFile,BufRead .env* set filetype=env
+  " autocmd BufNewFile,BufRead git-__* set filetype=bash
+  " autocmd BufNewFile,BufRead [^.]*shrc set filetype=bash
+  " autocmd BufNewFile,BufRead .bashrc set filetype=bash
+  autocmd BufNewFile,BufRead *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4
+  autocmd BufNewFile,BufRead *.java setlocal tabstop=4 softtabstop=4 shiftwidth=4
+
+  " 前回終了位置に移動
+  autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line('$') | execute 'normal g`"' | endif
+  autocmd BufReadPost * delmarks!
+
+  autocmd VimLeavePre * call s:ClearAutoRec()
+augroup END
