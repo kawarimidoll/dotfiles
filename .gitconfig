@@ -12,7 +12,7 @@
 	pager = diff-so-fancy | less --tabs=4 -RFX
 	preloadindex = true
 	quotepath = false
-	editor = vim
+	editor = nvim
 [ghq]
 	root = ~/ghq
 [color "diff-highlight"]
