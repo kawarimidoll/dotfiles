@@ -70,6 +70,9 @@ link_dotfiles() {
   if cd "$DOT_DIR"; then
     for f in $(find . -not -path '*.git/*' -not -path '*.DS_Store' -path '*/.*' -type f -print | cut -b3-)
     do
+      if [[ $f == *"$f"* ]];then
+        mkdir -p "$HOME/$(dirname "$f")"
+      fi
       ln -sniv "$DOT_DIR/$f" "$HOME/$f"
     done
   else

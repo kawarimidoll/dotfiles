@@ -3,11 +3,6 @@
 echo "  create symlink to iCloud directory."
 ln -sniv "$HOME/Library/Mobile Documents" "$HOME/iCloud"
 
-echo "  create symlink to karabiner config file."
-karabiner_dir="$HOME/.config/karabiner"
-mkdir -p "$karabiner_dir"
-ln -sniv karabiner.json "$karabiner_dir/karabiner.json"
-
 echo "  enable key-repeating for VScodeVim."
 defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false         # For VS Code
 defaults write com.microsoft.VSCodeInsiders ApplePressAndHoldEnabled -bool false # For VS Code Insider
