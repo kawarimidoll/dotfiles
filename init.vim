@@ -130,11 +130,12 @@ Plug 'terryma/vim-expand-region'
 Plug 'reireias/vim-cheatsheet'
 Plug 'sainnhe/sonokai'
 Plug 'thosakwe/vim-flutter'
+Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-endwise'
 " Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-unimpaired'
+" Plug 'tpope/vim-unimpaired'
 Plug 'tyru/caw.vim'
 " Plug 'tyru/open-browser.vim'
 Plug 'vim-jp/vimdoc-ja'
@@ -160,17 +161,16 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-" Use <c-space> to trigger completion.
-if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
-else
-  inoremap <silent><expr> <c-@> coc#refresh()
-endif
-
-" Make <CR> auto-select the first completion item and notify coc.nvim to
-" format on enter, <cr> could be remapped by other vim plugin
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+" Make <CR> auto-select the first completion item and notify coc.nvim to format on enter
+" https://github.com/tpope/vim-endwise/issues/125#issuecomment-743921576
+inoremap <silent> <CR> <C-r>=<SID>coc_confirm()<CR>
+function! s:coc_confirm() abort
+  if pumvisible()
+    return coc#_select_confirm()
+  else
+    return "\<C-g>u\<CR>\<C-r>=coc#on_enter()\<CR>"
+  endif
+endfunction
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
@@ -342,6 +342,33 @@ function! s:ClearAutoRec() abort
   endfor
 endfunction
 
+" braces motion
+" (count)+braces+action
+" [ to effect prev, ] to effect next
+" m to move, t to copy, o to add blank line
+" use capital to fix cursor position
+" TODO: add count feature
+nnoremap [m :<C-u>move-2<CR>=l
+nnoremap ]m :<C-u>move+1<CR>=l
+nnoremap [M :<C-u>move-2<CR>=lj
+nnoremap ]M :<C-u>move+1<CR>=lk
+nnoremap [t :<C-u>copy-2<CR>=l
+nnoremap ]t :<C-u>copy+1<CR>=l
+nnoremap [T :<C-u>copy-2<CR>=lj
+nnoremap ]T :<C-u>copy+1<CR>=lk
+nnoremap [o O<Esc>
+nnoremap ]o o<Esc>
+nnoremap [O O<Esc>j
+nnoremap ]O o<Esc>k
+xnoremap [m :<C-u>move'<-2<CR>gv=gv
+xnoremap ]m :<C-u>move'>+1<CR>gv=gv
+" xnoremap [M :<C-u>move'<-2<CR>gv=gvj
+" xnoremap ]M :<C-u>move'>+1<CR>gv=gvk
+xnoremap [t :<C-u>copy'<-2<CR>gv=gv
+xnoremap ]t :<C-u>copy'>+1<CR>gv=gv
+" xnoremap [T :<C-u>copy'<-2<CR>gv=gvj
+" xnoremap ]T :<C-u>copy'>+1<CR>gv=gvk
+
 "-----------------
 " Key mappings
 " :map  ノーマル、ビジュアル、選択、オペレータ待機
@@ -456,8 +483,8 @@ xnoremap <silent> y y`]
 xnoremap x "_x
 xnoremap z zf
 
-xnoremap <silent><C-k> :m'<-2<CR>gv=gv
-xnoremap <silent><C-j> :m'>+1<CR>gv=gv
+" xnoremap <silent><C-k> :m'<-2<CR>gv=gv
+" xnoremap <silent><C-j> :m'>+1<CR>gv=gv
 
 " operator
 onoremap x d
