@@ -25,5 +25,7 @@ else
 fi
 brew cleanup
 
-ln -sf "$(brew --prefix)/opt/coreutils/libexec/gnubin" "$DOT_DIR/etc/mac/symlinks/core_gnubin"
-ln -sf "$(brew --prefix)/opt/findutils/libexec/gnubin" "$DOT_DIR/etc/mac/symlinks/find_gnubin"
+symlinks_dir="$DOT_DIR/etc/mac/symlinks"
+mkdir -p "$symlinks_dir"
+ln -sf "$(brew --prefix)/opt/coreutils/libexec/gnubin" "$symlinks_dir/core_gnubin"
+ln -sf "$(brew --prefix)/opt/findutils/libexec/gnubin" "$symlinks_dir/find_gnubin"
