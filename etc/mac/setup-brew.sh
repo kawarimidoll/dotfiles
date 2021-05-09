@@ -24,8 +24,3 @@ else
   echo "  brew-list.log is needed."
 fi
 brew cleanup
-
-symlinks_dir="$DOT_DIR/etc/mac/symlinks"
-mkdir -p "$symlinks_dir"
-ln -sf "$(brew --prefix)/opt/coreutils/libexec/gnubin" "$symlinks_dir/core_gnubin"
-ln -sf "$(brew --prefix)/opt/findutils/libexec/gnubin" "$symlinks_dir/find_gnubin"
