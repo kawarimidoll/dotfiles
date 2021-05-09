@@ -286,7 +286,7 @@ nnoremap <silent><nowait> <space>P  :<C-u>CocListResume<CR>
 " Commands and Functions
 "-----------------
 command! Rcedit edit $MYVIMRC
-command! Rcreload source $MYVIMRC | nohlsearch | redraw | echo 'init.vim is reloaded.'
+command! Rcreload write | source $MYVIMRC | nohlsearch | redraw | echo 'init.vim is reloaded.'
 command! MyTerminal terminal ++rows=12
 command! LazyGit tab terminal ++close lazygit
 command! Lg LazyGit
@@ -347,19 +347,18 @@ endfunction
 " [ to effect prev, ] to effect next
 " m to move, t to copy, o to add blank line
 " use capital to fix cursor position
-" TODO: add count feature
-nnoremap [m :<C-u>move-2<CR>=l
-nnoremap ]m :<C-u>move+1<CR>=l
-nnoremap [M :<C-u>move-2<CR>=lj
-nnoremap ]M :<C-u>move+1<CR>=lk
-nnoremap [t :<C-u>copy-2<CR>=l
-nnoremap ]t :<C-u>copy+1<CR>=l
-nnoremap [T :<C-u>copy-2<CR>=lj
-nnoremap ]T :<C-u>copy+1<CR>=lk
-nnoremap [o O<Esc>
-nnoremap ]o o<Esc>
-nnoremap [O O<Esc>j
-nnoremap ]O o<Esc>k
+nnoremap <silent><expr> [m ':<C-u>move-' . (v:count1 + 1) . '<CR>=l'
+nnoremap <silent><expr> ]m ':<C-u>move+' . v:count1 . '<CR>=l'
+nnoremap <silent><expr> [M ':<C-u>move-' . (v:count1 + 1) . '<CR>=l<Esc>' . v:count1 . 'j'
+nnoremap <silent><expr> ]M ':<C-u>move+' . v:count1 . '<CR>=l<Esc>' . v:count1 . 'k'
+nnoremap <silent><expr> [t ':<C-u>copy-' . v:count1 . '<CR>=l'
+nnoremap <silent><expr> ]t ':<C-u>copy+' . (v:count1 - 1) . '<CR>=l'
+nnoremap <silent><expr> [T 'mz:<C-u>copy-' . v:count1 . '<CR>=l<Esc>`z:<C-u>delmarks z<CR>'
+nnoremap <silent><expr> ]T 'mz:<C-u>copy+' . (v:count1 - 1) . '<CR>=l<Esc>`z:<C-u>delmarks z<CR>'
+nnoremap <silent><expr> [o '<Esc>' . v:count1 . 'O<Esc>' . (v:count ? v:count - 1 . 'k' : '')
+nnoremap <silent><expr> ]o '<Esc>' . v:count1 . 'o<Esc>'
+nnoremap <silent><expr> [O 'mz' . v:count1 . 'O<Esc>`z:<C-u>delmarks z<CR>'
+nnoremap <silent><expr> ]O 'mz' . v:count1 . 'o<Esc>`z:<C-u>delmarks z<CR>'
 xnoremap [m :<C-u>move'<-2<CR>gv=gv
 xnoremap ]m :<C-u>move'>+1<CR>gv=gv
 " xnoremap [M :<C-u>move'<-2<CR>gv=gvj
