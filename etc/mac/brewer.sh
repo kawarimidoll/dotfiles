@@ -23,6 +23,6 @@ echo 'log list...'
   brew_fixed_path tap         | sed 's/^/tap: /'
   brew_fixed_path leaves      | sed 's/^/brew: /'
   brew_fixed_path list --cask | sed 's/^/cask: /'
-  mas list                    | sed 's/^/mas: /'
+  mas list | sort             | sed 's/^/mas: /'
 } > "${DOT_OS_DIR}/brew-list.log"
 echo 'done.'
