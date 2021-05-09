@@ -1,3 +1,7 @@
+has() {
+  type "$1" > /dev/null 2>&1
+}
+
 # -----------------
 #  Aliases
 # -----------------
@@ -42,6 +46,12 @@ alias vin='vim -u NONE -N'
 alias vir='vim -c "edit #<1"'
 alias wcl='wc -l'
 
+if has 'lsd'; then
+  alias ls='lsd'
+  alias lsf='lsd -FAl --blocks=permission,size,date,name --date="+%F %R"'
+  alias tree='lsd --tree'
+fi
+
 # -----------------
 #  Paths
 # -----------------
@@ -50,10 +60,6 @@ PATH="${DOT_DIR}/bin:$PATH"
 # -----------------
 #  Functions
 # -----------------
-has() {
-  type "$1" > /dev/null 2>&1
-}
-
 img_to_webp() {
   find . -maxdepth 1 \( -name \*.png -or -name \*.jpg -or -name \*.jpeg \) \
     | xargs -I_ sh -c 'printf _" -> "_".webp ..."; cwebp _ -o _".webp" >/dev/null 2>&1; echo " done."'
