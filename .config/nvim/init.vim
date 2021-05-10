@@ -115,32 +115,38 @@ endif
 unlet autoload_plug_path
 
 call plug#begin(stdpath('config') . '/plugged')
+" Plug 'dbeniamine/cheat.sh-vim'
+" Plug 'tpope/vim-fugitive'
+" Plug 'tpope/vim-unimpaired'
+" Plug 'tyru/open-browser.vim'
+
+Plug 'Lunarwatcher/auto-pairs'
 Plug 'airblade/vim-gitgutter'
 Plug 'alvan/vim-closetag'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'dart-lang/dart-vim-plugin'
-" Plug 'dbeniamine/cheat.sh-vim'
+Plug 'gko/vim-coloresque'
 Plug 'haya14busa/vim-asterisk'
-Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'kristijanhusak/vim-carbon-now-sh'
+Plug 'liuchengxu/vim-which-key'
+Plug 'liuchengxu/vista.vim'
 Plug 'markonm/traces.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'terryma/vim-expand-region'
 Plug 'reireias/vim-cheatsheet'
 Plug 'sainnhe/sonokai'
+Plug 'terryma/vim-expand-region'
 Plug 'thosakwe/vim-flutter'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-endwise'
-" Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-" Plug 'tpope/vim-unimpaired'
 Plug 'tyru/caw.vim'
-" Plug 'tyru/open-browser.vim'
 Plug 'vim-jp/vimdoc-ja'
 call plug#end()
 
+let g:AutoPairsCompatibleMaps = 0
 let g:cheatsheet#cheat_file = '~/.vim-cheatsheet.md'
 
 "-----------------
@@ -266,15 +272,15 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 
 " Mappings for CoCList
 " Show all diagnostics.
-nnoremap <silent><nowait> <space>A  :<C-u>CocList diagnostics<cr>
+nnoremap <silent><nowait> <space>A  :<C-u>CocList diagnostics<CR>
 " Manage extensions.
-nnoremap <silent><nowait> <space>E  :<C-u>CocList extensions<cr>
+nnoremap <silent><nowait> <space>E  :<C-u>CocList extensions<CR>
 " Show commands.
-nnoremap <silent><nowait> <space>C  :<C-u>CocList commands<cr>
+nnoremap <silent><nowait> <space>C  :<C-u>CocList commands<CR>
 " Find symbol of current document.
-nnoremap <silent><nowait> <space>O  :<C-u>CocList outline<cr>
+nnoremap <silent><nowait> <space>O  :<C-u>CocList outline<CR>
 " Search workspace symbols.
-nnoremap <silent><nowait> <space>S  :<C-u>CocList -I symbols<cr>
+nnoremap <silent><nowait> <space>S  :<C-u>CocList -I symbols<CR>
 " Do default action for next item.
 nnoremap <silent><nowait> <space>J  :<C-u>CocNext<CR>
 " Do default action for previous item.
@@ -416,6 +422,7 @@ nnoremap ' `
 nnoremap ? /\v
 nnoremap == gg=G''
 
+nnoremap <Space><Space> :<C-u>WhichKey '<Space>'<CR>
 nnoremap <Space>a <C-w><C-w>
 nnoremap <Space>b :<C-u>Buffers<CR>
 nnoremap <Space>B :<C-u>BLines<CR>
