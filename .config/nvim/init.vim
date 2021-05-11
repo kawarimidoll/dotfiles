@@ -360,24 +360,24 @@ endfunction
 " [ to effect prev, ] to effect next
 " m to move, t to copy, o to add blank line
 " use capital to fix cursor position
-nnoremap <silent><expr> [m ':<C-u>move-' . (v:count1 + 1) . '<CR>=l'
-nnoremap <silent><expr> ]m ':<C-u>move+' . v:count1 . '<CR>=l'
-nnoremap <silent><expr> [M ':<C-u>move-' . (v:count1 + 1) . '<CR>=l<Esc>' . v:count1 . 'j'
-nnoremap <silent><expr> ]M ':<C-u>move+' . v:count1 . '<CR>=l<Esc>' . v:count1 . 'k'
-nnoremap <silent><expr> [t ':<C-u>copy-' . v:count1 . '<CR>=l'
-nnoremap <silent><expr> ]t ':<C-u>copy+' . (v:count1 - 1) . '<CR>=l'
-nnoremap <silent><expr> [T 'mz:<C-u>copy-' . v:count1 . '<CR>=l<Esc>`z:<C-u>delmarks z<CR>'
-nnoremap <silent><expr> ]T 'mz:<C-u>copy+' . (v:count1 - 1) . '<CR>=l<Esc>`z:<C-u>delmarks z<CR>'
-nnoremap <silent><expr> [o '<Esc>' . v:count1 . 'O<Esc>' . (v:count ? v:count - 1 . 'k' : '')
-nnoremap <silent><expr> ]o '<Esc>' . v:count1 . 'o<Esc>'
-nnoremap <silent><expr> [O 'mz' . v:count1 . 'O<Esc>`z:<C-u>delmarks z<CR>'
-nnoremap <silent><expr> ]O 'mz' . v:count1 . 'o<Esc>`z:<C-u>delmarks z<CR>'
-xnoremap [m :<C-u>move'<-2<CR>gv=gv
-xnoremap ]m :<C-u>move'>+1<CR>gv=gv
+" nnoremap <silent><expr> [m ':<C-u>move-' . (v:count1 + 1) . '<CR>=l'
+" nnoremap <silent><expr> ]m ':<C-u>move+' . v:count1 . '<CR>=l'
+" nnoremap <silent><expr> [M ':<C-u>move-' . (v:count1 + 1) . '<CR>=l<Esc>' . v:count1 . 'j'
+" nnoremap <silent><expr> ]M ':<C-u>move+' . v:count1 . '<CR>=l<Esc>' . v:count1 . 'k'
+" nnoremap <silent><expr> [t ':<C-u>copy-' . v:count1 . '<CR>=l'
+" nnoremap <silent><expr> ]t ':<C-u>copy+' . (v:count1 - 1) . '<CR>=l'
+" nnoremap <silent><expr> [T 'mz:<C-u>copy-' . v:count1 . '<CR>=l<Esc>`z:<C-u>delmarks z<CR>'
+" nnoremap <silent><expr> ]T 'mz:<C-u>copy+' . (v:count1 - 1) . '<CR>=l<Esc>`z:<C-u>delmarks z<CR>'
+" nnoremap <silent><expr> [o '<Esc>' . v:count1 . 'O<Esc>' . (v:count ? v:count - 1 . 'k' : '')
+" nnoremap <silent><expr> ]o '<Esc>' . v:count1 . 'o<Esc>'
+" nnoremap <silent><expr> [O 'mz' . v:count1 . 'O<Esc>`z:<C-u>delmarks z<CR>'
+" nnoremap <silent><expr> ]O 'mz' . v:count1 . 'o<Esc>`z:<C-u>delmarks z<CR>'
+" xnoremap [m :<C-u>move'<-2<CR>gv=gv
+" xnoremap ]m :<C-u>move'>+1<CR>gv=gv
 " xnoremap [M :<C-u>move'<-2<CR>gv=gvj
 " xnoremap ]M :<C-u>move'>+1<CR>gv=gvk
-xnoremap [t :<C-u>copy'<-2<CR>gv=gv
-xnoremap ]t :<C-u>copy'>+1<CR>gv=gv
+" xnoremap [t :<C-u>copy'<-2<CR>gv=gv
+" xnoremap ]t :<C-u>copy'>+1<CR>gv=gv
 " xnoremap [T :<C-u>copy'<-2<CR>gv=gvj
 " xnoremap ]T :<C-u>copy'>+1<CR>gv=gvk
 
@@ -406,8 +406,8 @@ noremap L $
 noremap M %
 noremap n nzz
 noremap N Nzz
-map s <Plug>(asterisk-*)
-map gs <Plug>(asterisk-g*)
+map ss <Plug>(asterisk-z*)
+map sg <Plug>(asterisk-gz*)
 
 " normal
 nnoremap mm :<C-u>call <sid>AutoMark()<CR>
@@ -439,15 +439,16 @@ nnoremap <Space>d :<C-u>Sayonara!<CR>
 " nnoremap <Space>e
 nnoremap <Space>f :<C-u>Files<CR>
 nnoremap <silent><Space>g :<C-u>copy.<CR>
+nnoremap <silent><Space>G :<C-u>copy-1<CR>
 nnoremap <Space>h :<C-u>History<CR>
-nnoremap <silent><Space>i mzviwbg~`z:<C-u>delmarks z<CR>
+" nnoremap <silent><Space>i mzviwbg~`z:<C-u>delmarks z<CR>
 " nnoremap <Space>j
 " nnoremap <Space>k
 " nnoremap <Space>l :<C-u>LspDocumentDiagnostics<CR>
 nnoremap <Space>m :<C-u>Marks<CR>
 " nnoremap <Space>n
-" nnoremap <Space>o o<Esc>
-" nnoremap <Space>O O<Esc>
+nnoremap <Space>o o<Esc>
+nnoremap <Space>O O<Esc>
 " nnoremap <Space>p :<C-u>LspDocumentFormat<CR>
 " nnoremap <Space>P :<C-u>Prettier<CR>
 nnoremap <Space>q :<C-u>quit<CR>
@@ -455,6 +456,7 @@ nnoremap <Space>r :<C-u>registers<CR>
 nnoremap <Space>s :<C-u>&&<CR>
 nnoremap <Space>t <C-^>
 nnoremap <silent><Space>u mzviwg~`z:<C-u>delmarks z<CR>
+nnoremap <silent><Space>U mzviwbg~`z:<C-u>delmarks z<CR>
 " nnoremap <Space>v
 nnoremap <Space>w :<C-u>write<CR>
 nnoremap <Space>wq :<C-u>wq<CR>
@@ -466,8 +468,8 @@ nnoremap <Space>z :<C-u>za<CR>
 nnoremap <Space>; :<C-u>History/<CR>
 nnoremap <Space>: :<C-u>History:<CR>
 
-" nnoremap <silent><C-k> :m-2<CR>=l
-" nnoremap <silent><C-j> :m+1<CR>=l
+nnoremap <silent><C-k> :m-2<CR>=l
+nnoremap <silent><C-j> :m+1<CR>=l
 nnoremap <silent><C-l> :<C-u>nohlsearch<CR><C-l>
 nnoremap <C-w><C-q> <C-w>c
 
@@ -496,8 +498,8 @@ xnoremap <silent> y y`]
 xnoremap x "_x
 xnoremap z zf
 
-" xnoremap <silent><C-k> :m'<-2<CR>gv=gv
-" xnoremap <silent><C-j> :m'>+1<CR>gv=gv
+xnoremap <silent><C-k> :m'<-2<CR>gv=gv
+xnoremap <silent><C-j> :m'>+1<CR>gv=gv
 
 " operator
 onoremap x d
