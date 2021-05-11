@@ -72,7 +72,6 @@ bind -x '"^x":"oneliners"'
 #  prompt
 # -----------------
 if has "starship"; then
-  export STARSHIP_CONFIG="${DOT_DIR}/etc/starship.toml"
   eval "$(starship init bash)"
 else
   __ps_git_br() {
