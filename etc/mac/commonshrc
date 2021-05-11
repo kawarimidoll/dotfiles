@@ -1,27 +1,23 @@
 # -----------------
 #  commonshrc for mac
 # -----------------
-if [ -f "/usr/local/bin/brew" ]; then
-  eval $(/usr/local/bin/brew shellenv)
-elif [ -f "/opt/homebrew" ]; then
+if [ -f "/opt/homebrew/bin/brew" ]; then
   eval $(/opt/homebrew/bin/brew shellenv)
+else
+  eval $(/usr/local/bin/brew shellenv)
 fi
 
 export OBSIDIAN_VAULT="${HOME}/Dropbox/Obsidian"
 
 alias brewer="sh ${DOT_OS_DIR}/brewer.sh"
 alias cob="cd ${OBSIDIAN_VAULT}"
-alias find="gfind"
-# alias locate="glocate"
-# alias updatedb="gupdatedb"
-alias xargs="gxargs"
 
 PATH="$(brew --prefix)/sbin:$PATH"
 
 # Define PATH to coreutils/findutils by using symlinks to avoid brew warnings
 # This may cause error on building gmp/python
-# PATH="${DOT_OS_DIR}/symlinks/core_gnubin:$PATH"
-# PATH="${DOT_OS_DIR}/symlinks/find_gnubin:$PATH"
+PATH="${DOT_OS_DIR}/symlinks/core_gnubin:$PATH"
+PATH="${DOT_OS_DIR}/symlinks/find_gnubin:$PATH"
 
 PATH="$(brew --prefix)/opt/binutils/bin:$PATH"
 # PATH="$(brew --prefix)/opt/coreutils/libexec/gnubin:$PATH"
