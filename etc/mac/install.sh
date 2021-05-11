@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "  create symlink to iCloud directory."
-ln -sniv "$HOME/Library/Mobile Documents" "$HOME/iCloud"
+ln -sniv "$HOME/Library/Mobile\ Documents" "$HOME/iCloud"
 
 echo "  enable key-repeating for VScodeVim."
 defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false         # For VS Code
