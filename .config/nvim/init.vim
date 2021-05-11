@@ -156,6 +156,9 @@ let g:asterisk#keeppos = 1
 let g:cheatsheet#cheat_file = '~/.vim-cheatsheet.md'
 let g:qs_buftype_blacklist = ['terminal', 'nofile']
 
+let g:which_key_map = {}
+call which_key#register('<Space>', "g:which_key_map")
+
 "-----------------
 " coc.nvim configuration
 " https://github.com/neoclide/coc.nvim#example-vim-configuration
@@ -430,7 +433,7 @@ nnoremap ? /\v
 nnoremap == gg=G''
 
 nnoremap <Space><Space> :<C-u>WhichKey '<Space>'<CR>
-nnoremap <Space>a <C-w><C-w>
+" nnoremap <Space>a <C-w><C-w>
 nnoremap <Space>b :<C-u>Buffers<CR>
 nnoremap <Space>B :<C-u>BLines<CR>
 " nmap <Space>c <Plug>(caw:hatpos:toggle)
@@ -439,7 +442,9 @@ nnoremap <Space>d :<C-u>Sayonara!<CR>
 " nnoremap <Space>e
 nnoremap <Space>f :<C-u>Files<CR>
 nnoremap <silent><Space>g :<C-u>copy.<CR>
+let g:which_key_map.g = "Duplicate line to down"
 nnoremap <silent><Space>G :<C-u>copy-1<CR>
+let g:which_key_map.G = "Duplicate line to up"
 nnoremap <Space>h :<C-u>History<CR>
 " nnoremap <silent><Space>i mzviwbg~`z:<C-u>delmarks z<CR>
 " nnoremap <Space>j
@@ -448,13 +453,18 @@ nnoremap <Space>h :<C-u>History<CR>
 nnoremap <Space>m :<C-u>Marks<CR>
 " nnoremap <Space>n
 nnoremap <Space>o o<Esc>
+let g:which_key_map.o = "Insert line to down"
 nnoremap <Space>O O<Esc>
+let g:which_key_map.O = "Insert line to up"
 " nnoremap <Space>p :<C-u>LspDocumentFormat<CR>
 " nnoremap <Space>P :<C-u>Prettier<CR>
 nnoremap <Space>q :<C-u>quit<CR>
 nnoremap <Space>r :<C-u>registers<CR>
 nnoremap <Space>s :<C-u>&&<CR>
 nnoremap <Space>t <C-^>
+let g:which_key_map.t = "Toggle buffers"
+nnoremap <Space>T <C-w><C-w>
+let g:which_key_map.T = "Toggle windows"
 nnoremap <silent><Space>u mzviwg~`z:<C-u>delmarks z<CR>
 nnoremap <silent><Space>U mzviwbg~`z:<C-u>delmarks z<CR>
 " nnoremap <Space>v
