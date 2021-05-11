@@ -133,7 +133,10 @@ Plug 'kristijanhusak/vim-carbon-now-sh'
 Plug 'liuchengxu/vim-which-key'
 Plug 'liuchengxu/vista.vim'
 Plug 'markonm/traces.vim'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'machakann/vim-highlightedyank'
+Plug 'machakann/vim-sandwich'
+Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'reireias/vim-cheatsheet'
 Plug 'sainnhe/sonokai'
 Plug 'terryma/vim-expand-region'
@@ -141,13 +144,17 @@ Plug 'thosakwe/vim-flutter'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-surround'
+Plug 'tpope/vim-sleuth'
+" Plug 'tpope/vim-surround'
 Plug 'tyru/caw.vim'
+" Plug 'unblevable/quick-scope'
 Plug 'vim-jp/vimdoc-ja'
 call plug#end()
 
 let g:AutoPairsCompatibleMaps = 0
+let g:asterisk#keeppos = 1
 let g:cheatsheet#cheat_file = '~/.vim-cheatsheet.md'
+let g:qs_buftype_blacklist = ['terminal', 'nofile']
 
 "-----------------
 " coc.nvim configuration
@@ -428,7 +435,7 @@ nnoremap <Space>b :<C-u>Buffers<CR>
 nnoremap <Space>B :<C-u>BLines<CR>
 " nmap <Space>c <Plug>(caw:hatpos:toggle)
 " nnoremap <Space>C :<C-u>CaseToSelected<CR>
-nnoremap <Space>d :<C-u>bdelete<CR>
+nnoremap <Space>d :<C-u>Sayonara!<CR>
 " nnoremap <Space>e
 nnoremap <Space>f :<C-u>Files<CR>
 nnoremap <silent><Space>g :<C-u>copy.<CR>
@@ -505,6 +512,8 @@ syntax enable
 
 colorscheme sonokai
 
+highlight HighlightedyankRegion cterm=reverse gui=reverse
+
 "-----------------
 " Auto Commands
 "-----------------
@@ -519,13 +528,12 @@ augroup vimrc
   " autocmd FileType netrw nnoremap <buffer> . gh
 
   " file type settings
-  " autocmd BufNewFile,BufRead *.md set filetype=markdown
-  " autocmd BufNewFile,BufRead .env* set filetype=env
-  " autocmd BufNewFile,BufRead git-__* set filetype=bash
-  " autocmd BufNewFile,BufRead [^.]*shrc set filetype=bash
-  " autocmd BufNewFile,BufRead .bashrc set filetype=bash
-  autocmd BufNewFile,BufRead *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4
-  autocmd BufNewFile,BufRead *.java setlocal tabstop=4 softtabstop=4 shiftwidth=4
+  autocmd BufNewFile,BufRead .env* set filetype=env
+  autocmd BufNewFile,BufRead git-__* set filetype=bash
+  autocmd BufNewFile,BufRead [^.]*shrc set filetype=bash
+  autocmd BufNewFile,BufRead .bashrc set filetype=bash
+  " autocmd BufNewFile,BufRead *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4
+  " autocmd BufNewFile,BufRead *.java setlocal tabstop=4 softtabstop=4 shiftwidth=4
 
   " 前回終了位置に移動
   autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line('$') | execute 'normal g`"' | endif
