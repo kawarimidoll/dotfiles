@@ -126,7 +126,9 @@ Plug 'alvan/vim-closetag'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'dart-lang/dart-vim-plugin'
 Plug 'gko/vim-coloresque'
+Plug 'glidenote/memolist.vim'
 Plug 'haya14busa/vim-asterisk'
+Plug 'jesseleite/vim-agriculture'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'kristijanhusak/vim-carbon-now-sh'
@@ -137,7 +139,7 @@ Plug 'machakann/vim-highlightedyank'
 Plug 'machakann/vim-sandwich'
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-Plug 'reireias/vim-cheatsheet'
+Plug 'reireias/vim-cheatsheet', { 'on': 'Cheat' }
 Plug 'sainnhe/sonokai'
 Plug 'terryma/vim-expand-region'
 Plug 'thosakwe/vim-flutter'
@@ -155,6 +157,8 @@ let g:AutoPairsCompatibleMaps = 0
 let g:asterisk#keeppos = 1
 let g:cheatsheet#cheat_file = '~/.vim-cheatsheet.md'
 let g:qs_buftype_blacklist = ['terminal', 'nofile']
+let g:memolist_memo_suffix = "md"
+let g:memolist_fzf = 1
 
 let g:which_key_map = {}
 call which_key#register('<Space>', "g:which_key_map")
@@ -473,8 +477,8 @@ nnoremap <Space>wq :<C-u>wq<CR>
 " nnoremap <Space>x
 " nnoremap <Space>y
 nnoremap <Space>z :<C-u>za<CR>
-" nnoremap <Space>/ :<C-u>RgRaw -F -- $''<Left>
-" nnoremap <Space>? :<C-u>RgRaw -F -- $'<C-r><C-w>'<Left>
+nnoremap <Space>/ :<C-u>RgRaw -F -- $''<Left>
+nmap <Space>? <Plug>RgRawWordUnderCursor<Left>
 nnoremap <Space>; :<C-u>History/<CR>
 nnoremap <Space>: :<C-u>History:<CR>
 
@@ -502,6 +506,7 @@ inoremap <silent> っj <ESC>
 " visual
 xmap v <Plug>(expand_region_expand)
 xmap <C-v> <Plug>(expand_region_shrink)
+xmap <Space>/ <Plug>RgRawVisualSelection<Left>
 " xmap <Space>c <Plug>(caw:hatpos:toggle)
 xnoremap <silent> <expr> p <sid>VisualPaste()
 xnoremap <silent> y y`]
