@@ -440,6 +440,7 @@ nnoremap ' `
 nnoremap ? /\v
 nnoremap == gg=G''
 
+nnoremap <leader><leader> :<C-u>WhichKey '<leader>'<CR>
 nnoremap <Space><Space> :<C-u>WhichKey '<Space>'<CR>
 " nnoremap <Space>a <C-w><C-w>
 nnoremap <Space>b :<C-u>Buffers<CR>
@@ -460,9 +461,9 @@ nnoremap <Space>h :<C-u>History<CR>
 " nnoremap <Space>l :<C-u>LspDocumentDiagnostics<CR>
 nnoremap <Space>m :<C-u>Marks<CR>
 " nnoremap <Space>n
-nnoremap <Space>o :<c-u>put =repeat(nr2char(10), v:count1)<cr>
+nnoremap <silent><Space>o :<c-u>put =repeat(nr2char(10), v:count1)<cr>
 let g:which_key_map.o = "Insert line to down"
-nnoremap <space>O :<c-u>put! =repeat(nr2char(10), v:count1)<cr>'[
+nnoremap <silent><Space>O :<c-u>put! =repeat(nr2char(10), v:count1)<cr>'[
 let g:which_key_map.O = "Insert line to up"
 " nnoremap <Space>p :<C-u>LspDocumentFormat<CR>
 " nnoremap <Space>P :<C-u>Prettier<CR>
