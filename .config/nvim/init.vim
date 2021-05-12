@@ -456,9 +456,9 @@ nnoremap <Space>h :<C-u>History<CR>
 " nnoremap <Space>l :<C-u>LspDocumentDiagnostics<CR>
 nnoremap <Space>m :<C-u>Marks<CR>
 " nnoremap <Space>n
-nnoremap <Space>o o<Esc>
+nnoremap <Space>o :<c-u>put =repeat(nr2char(10), v:count1)<cr>
 let g:which_key_map.o = "Insert line to down"
-nnoremap <Space>O O<Esc>
+nnoremap <space>O :<c-u>put! =repeat(nr2char(10), v:count1)<cr>'[
 let g:which_key_map.O = "Insert line to up"
 " nnoremap <Space>p :<C-u>LspDocumentFormat<CR>
 " nnoremap <Space>P :<C-u>Prettier<CR>
@@ -482,17 +482,17 @@ nmap <Space>? <Plug>RgRawWordUnderCursor<Left>
 nnoremap <Space>; :<C-u>History/<CR>
 nnoremap <Space>: :<C-u>History:<CR>
 
-nnoremap <silent><C-k> :m-2<CR>=l
-nnoremap <silent><C-j> :m+1<CR>=l
-nnoremap <silent><C-l> :<C-u>nohlsearch<CR><C-l>
+nnoremap <silent><expr> <C-k> ':<C-u>move-1-' . v:count1 . '<CR>=l'
+nnoremap <silent><expr> <C-j> ':<C-u>move+' . v:count1 . '<CR>=l'
+nnoremap <silent><C-l> :<C-u>nohlsearch<CR>:diffupdate<CR>:syntax sync fromstart<CR><C-l>
 nnoremap <C-w><C-q> <C-w>c
 
 " command
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
 " cnoremap <expr> ? getcmdtype() == '?' ? '\?' : '?'
-cnoremap <C-p> <Up>
-cnoremap <C-n> <Down>
+cnoremap <expr> <C-n> wildmenumode() ? "\<C-n>" : "\<Down>"
+cnoremap <expr> <C-p> wildmenumode() ? "\<C-p>" : "\<Up>"
 cnoremap <C-b> <Left>
 cnoremap <C-f> <Right>
 cnoremap <C-a> <Home>
@@ -512,6 +512,8 @@ xnoremap <silent> <expr> p <sid>VisualPaste()
 xnoremap <silent> y y`]
 xnoremap x "_x
 xnoremap z zf
+xnoremap < <gv
+xnoremap > >gv
 
 xnoremap <silent><C-k> :m'<-2<CR>gv=gv
 xnoremap <silent><C-j> :m'>+1<CR>gv=gv
@@ -543,6 +545,8 @@ augroup vimrc
   " autocmd FileType netrw nnoremap <buffer> h -
   " autocmd FileType netrw nnoremap <buffer> l <CR>
   " autocmd FileType netrw nnoremap <buffer> . gh
+
+  autocmd BufWritePost $MYVIMRC source $MYVIMRC | echo 'vimrc is reloaded.'
 
   " file type settings
   autocmd BufNewFile,BufRead .env* set filetype=env
