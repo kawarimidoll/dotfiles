@@ -9,24 +9,18 @@
 	excludesfile = ~/.gitignore_global
 	fscache = true
 	ignorecase = false
-	pager = diff-so-fancy | less --tabs=4 -RFX
+	pager = delta
 	preloadindex = true
 	quotepath = false
 	editor = nvim
 [ghq]
 	root = ~/ghq
-[color "diff-highlight"]
-	oldNormal = red bold
-	oldHighlight = red bold 52
-	newNormal = green bold
-	newHighlight = green bold 22
-[color "diff"]
-	meta = 11
-	frag = magenta bold
-	commit = yellow bold
-	old = red bold
-	new = green bold
-	whitespace = red reverse
+[delta]
+	navigate = true
+	line-numbers = true
+	diff-so-fancy = true
+[interactive]
+	diffFilter = delta --color-only
 [alias]
 	aa = add .
 	age = __age
