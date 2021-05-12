@@ -128,7 +128,10 @@ Plug 'dart-lang/dart-vim-plugin'
 Plug 'gko/vim-coloresque'
 Plug 'glidenote/memolist.vim'
 Plug 'haya14busa/vim-asterisk'
+Plug 'itchyny/lightline.vim'
+Plug 'jacquesbh/vim-showmarks'
 Plug 'jesseleite/vim-agriculture'
+Plug 'josa42/vim-lightline-coc'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'kristijanhusak/vim-carbon-now-sh'
@@ -139,6 +142,7 @@ Plug 'machakann/vim-highlightedyank'
 Plug 'machakann/vim-sandwich'
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+Plug 'osyo-manga/vim-anzu'
 Plug 'reireias/vim-cheatsheet', { 'on': 'Cheat' }
 Plug 'sainnhe/sonokai'
 Plug 'terryma/vim-expand-region'
@@ -411,10 +415,10 @@ noremap gk k
 noremap H ^
 noremap L $
 noremap M %
-noremap n nzz
-noremap N Nzz
-map ss <Plug>(asterisk-z*)
-map sg <Plug>(asterisk-gz*)
+map n <Plug>(anzu-n)zz
+map N <Plug>(anzu-N)zz
+map ss <Plug>(asterisk-z*)<Plug>(anzu-update-search-status)zz
+map sg <Plug>(asterisk-gz*)<Plug>(anzu-update-search-status)zz
 
 " normal
 nnoremap mm :<C-u>call <sid>AutoMark()<CR>
@@ -531,6 +535,63 @@ syntax enable
 
 colorscheme sonokai
 
+" tablineの項目はwinwidthを気にしなくて良い
+let g:lightline = {
+      \ 'colorscheme': 'sonokai',
+      \ 'active': {
+      \   'left': [['mode', 'paste'], ['coc_info', 'coc_hints', 'coc_errors', 'coc_warnings', 'coc_ok'],
+      \            ['gitgutter', 'filename', 'modified'], ['coc_status'], ['vista']],
+      \   'right': [['coc'], ['lineinfo', 'anzu'], ['percent'], ['fileformat', 'fileencoding', 'filetype']]
+      \ },
+      \ 'tabline': {
+      \  'left': [['tabs']],
+      \  'right': [['clock', 'pwd']],
+      \ },
+      \ 'component': {
+      \   'clock': '%{strftime("%F %R")}',
+      \   'fileencoding': '%{winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ""}',
+      \   'fileformat': '%{winwidth(0) > 70 ? &fileformat : ""}',
+      \   'filetype': '%{winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : "no ft") : ""}',
+      \   'mode': '%{winwidth(0) > 60 ? lightline#mode() : lightline#mode()[0]}',
+      \   'modified': '%{!&modifiable ? "RO" : &modified ? "+" : ""}',
+      \   'pwd': '%.35(%{fnamemodify(getcwd(), ":~")}%)',
+      \ },
+      \ 'component_function': {
+      \   'anzu': 'anzu#search_status',
+      \   'coc': 'coc#status',
+      \   'gitgutter': 'LightlineGitGutter',
+      \   'vista': 'LightlineVista',
+      \ },
+      \ }
+call lightline#coc#register()
+" [lightline.vimをカスタマイズする - cafegale(LeafCage備忘録)](http://leafcage.hateblo.jp/entry/2013/10/21/lightlinevim-customize)
+" [lightline.vim に乗り換えた - すぱぶろ](http://superbrothers.hatenablog.com/entry/2013/08/29/001326)
+function! LightlineGitGutter()
+  if !exists('*GitGutterGetHunkSummary')
+        \ || !get(g:, 'gitgutter_enabled', 0)
+    return ''
+  endif
+  let [a,m,r] = GitGutterGetHunkSummary()
+  let ret = ( a ? g:gitgutter_sign_added . a . ' ' : '' ) .
+        \ ( m ? g:gitgutter_sign_modified . m . ' ' : '' ) .
+        \ ( r ? g:gitgutter_sign_removed . r : '' )
+  return substitute(ret, " $", "", "")
+endfunction
+function! LightlineVista() abort
+  return get(b:, 'vista_nearest_method_or_function', '')
+endfunction
+
+" 全角スペースの可視化 colorscheme以降に記述する
+if has('syntax')
+  let s:HighlightZenkakuSpace = {-> execute("highlight ZenkakuSpace cterm=reverse ctermfg=darkmagenta") }
+  augroup vimrc_appearances
+    autocmd!
+    autocmd ColorScheme * call call( s:HighlightZenkakuSpace, [] )
+    autocmd VimEnter,WinEnter,BufRead * let w:m1=matchadd('ZenkakuSpace', '　')
+  augroup END
+  call call( s:HighlightZenkakuSpace, [] )
+endif
+
 highlight HighlightedyankRegion cterm=reverse gui=reverse
 
 "-----------------
@@ -539,7 +600,9 @@ highlight HighlightedyankRegion cterm=reverse gui=reverse
 augroup vimrc
   autocmd!
   " plugin settings
-  " autocmd BufReadPost * silent! DoShowMarks
+  autocmd BufReadPost * silent! DoShowMarks
+  " [lightline.vimとvim-anzuで検索ヒット数を表示する - Qiita](https://qiita.com/shiena/items/f53959d62085b7980cb5)
+  autocmd CursorHold,CursorHoldI,WinLeave,TabLeave * call anzu#clear_search_status()
 
   " [vaffle.vim から netrw にお試しで移行してみた - bamch0h’s diary](https://bamch0h.hatenablog.com/entry/2019/06/24/004104)
   " autocmd FileType netrw nnoremap <buffer> h -
