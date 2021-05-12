@@ -53,7 +53,7 @@ if has 'lsd'; then
 fi
 
 if has 'exa'; then
-  alias lsf='exa -Falh --git-ignore --no-user --time-style=long-iso --icons --git --color-scale'
+  alias lsf='exa -Falh --no-user --time-style=long-iso --icons --git --color-scale'
   alias tree='exa --all --git-ignore --tree --icons --ignore-glob=.git'
 fi
 
