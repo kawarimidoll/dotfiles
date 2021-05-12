@@ -2,9 +2,13 @@
 #  commonshrc for mac
 # -----------------
 if [ -f "/opt/homebrew/bin/brew" ]; then
+  # apple silicon
   eval $(/opt/homebrew/bin/brew shellenv)
+  alias nnn="nnn-apple-silicon"
 else
+  # intel chip
   eval $(/usr/local/bin/brew shellenv)
+  alias nnn="nnn-intel-chip"
 fi
 
 export OBSIDIAN_VAULT="${HOME}/Dropbox/Obsidian"
