@@ -125,6 +125,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'alvan/vim-closetag'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'dart-lang/dart-vim-plugin'
+Plug 'easymotion/vim-easymotion'
 Plug 'gko/vim-coloresque'
 Plug 'glidenote/memolist.vim'
 Plug 'haya14busa/vim-asterisk'
@@ -419,6 +420,9 @@ map n <Plug>(anzu-n)zz
 map N <Plug>(anzu-N)zz
 map ss <Plug>(asterisk-z*)<Plug>(anzu-update-search-status)zz
 map sg <Plug>(asterisk-gz*)<Plug>(anzu-update-search-status)zz
+map <Space>ef <Plug>(easymotion-bd-f)
+map <Space>el <Plug>(easymotion-bd-jk)
+map <Space>ew <Plug>(easymotion-bd-w)
 
 " normal
 nnoremap mm :<C-u>call <sid>AutoMark()<CR>
@@ -448,7 +452,10 @@ nnoremap <Space>B :<C-u>BLines<CR>
 " nmap <Space>c <Plug>(caw:hatpos:toggle)
 " nnoremap <Space>C :<C-u>CaseToSelected<CR>
 nnoremap <Space>d :<C-u>Sayonara!<CR>
-" nnoremap <Space>e
+nmap <Space>ef <Plug>(easymotion-overwin-f)
+nmap <Space>el <Plug>(easymotion-overwin-jk)
+nmap <Space>es <Plug>(easymotion-overwin-f2)
+nmap <Space>ew <Plug>(easymotion-overwin-w)
 nnoremap <Space>f :<C-u>Files<CR>
 nnoremap <silent><Space>g :<C-u>copy.<CR>
 let g:which_key_map.g = "Duplicate line to down"
