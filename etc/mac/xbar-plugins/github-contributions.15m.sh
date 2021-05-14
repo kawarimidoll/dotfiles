@@ -12,21 +12,20 @@
 # Variables:
 # <xbar.var>string(VAR_USERNAME="kawarimidoll"): Your github username.</xbar.var>
 
-# week=$(curl -sS https://github.com/users/${VAR_USERNAME}/contributions | \
-#   grep 'data-date' | \
-#   sed -r 's/.+count="([0-9]+)".+date="([0-9\-]+)".+/\2: \1/' | \
-#   tail -7 | \
-#   tac
-# )
-
-# cat $week | head -1 | sed 's/.*: /today: /'
-# echo '---'
-# echo -e $week
-
-curl -sS "https://github.com/users/${VAR_USERNAME}/contributions" | \
+curl -sS https://github.com/users/${VAR_USERNAME}/contributions | \
   grep 'data-date' | \
-  sed -r 's/.+count="([0-9]+)".+/\1/' | \
-  tail -1 | \
-  xargs -I_ sh -c 'if [[ "_" == 0 ]]; then echo ":poop: 0 | color=brown"; else echo ":seedling: _ | color=green"; fi'
+  tail -7 | \
+  sed -r 's/.+count="([0-9]+)".+date="([0-9\-]+)".+/\2: \1/' | \
+  awk '{
+    if ($2 == 0) print ":fallen_leaf:", $0, "| color=brown";
+    else if ($2 < 5) print ":seedling:", $0, "| color=green";
+    else if ($2 < 10) print ":herb:", $0, "| color=green";
+    else print ":evergreen_tree:", $0, "| color=green";
+    }' | \
+  sed '1!G;h;$!d' | \
+  sed -e '1a\'$'\n''---'
 echo '---'
 echo "Open GitHub | href=https://github.com/${VAR_USERNAME}"
+
+# tac with sed: https://stackoverflow.com/questions/742466/how-can-i-reverse-the-order-of-lines-in-a-file
+# insert on mac sed: https://unix.stackexchange.com/questions/52131/sed-on-osx-insert-at-a-certain-line
