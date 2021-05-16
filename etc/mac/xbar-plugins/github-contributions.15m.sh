@@ -12,7 +12,7 @@
 # Variables:
 # <xbar.var>string(VAR_USERNAME="kawarimidoll"): Your github username.</xbar.var>
 
-curl -sS https://github.com/users/${VAR_USERNAME}/contributions | \
+curl -sS "https://github.com/users/${VAR_USERNAME}/contributions" | \
   grep 'data-date' | \
   tail -7 | \
   sed -r 's/.+count="([0-9]+)".+date="([0-9\-]+)".+/\2: \1/' | \

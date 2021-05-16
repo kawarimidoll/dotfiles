@@ -1,4 +1,4 @@
-timestamp: 2021-05-12 06:59:19 JST
+timestamp: 2021-05-16 09:37:50 JST
 tap: a-know/tap
 tap: clementtsang/bottom
 tap: homebrew/bundle
@@ -61,6 +61,7 @@ brew: navi
 brew: neovim
 brew: ninja
 brew: nodebrew
+brew: pastel
 brew: pngquant
 brew: procs
 brew: px4/px4/gcc-arm-none-eabi
@@ -70,8 +71,10 @@ brew: qt
 brew: rargs
 brew: re2c
 brew: ripgrep
+brew: rmw
 brew: rust
 brew: sd
+brew: semgrep
 brew: skanehira/docui/docui
 brew: sl
 brew: snowpack
@@ -93,6 +96,8 @@ brew: vips
 brew: w3m
 brew: wdiff
 brew: wget
+brew: wtfutil
+brew: xplr
 brew: xsv
 brew: yarn
 brew: zsh
@@ -149,6 +154,7 @@ cask: licecap
 cask: lmms
 cask: lyrics-master
 cask: medibangpaintpro
+cask: meteorologist
 cask: middle
 cask: min
 cask: mmhmm
@@ -176,6 +182,7 @@ cask: rectangle
 cask: runjs
 cask: sbarex-qlmarkdown
 cask: scriptql
+cask: shortcutor
 cask: shotcut
 cask: slack
 cask: spotter
@@ -210,6 +217,7 @@ mas: 1450640351  Lightweight PDF    (1.0.5)
 mas: 1467796430  Plain Pasta        (1.2.1)
 mas: 1503136033  Service Station    (2020.9)
 mas: 1534796314  Twenttty           (1.1.0)
+mas: 1542390153  Chemy              (1.0.3)
 mas: 1545870783  Color Picker       (1.2.0)
 mas: 1563735522  Charmstone         (0.6)
 mas: 408981434   iMovie             (10.2.3)
