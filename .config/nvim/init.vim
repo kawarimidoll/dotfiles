@@ -317,6 +317,41 @@ command! LazyGit tab terminal ++close lazygit
 command! Lg LazyGit
 command! FmtTabTrail retab | FixWhiteSpace
 
+let g:blog_dir = $OBSIDIAN_VAULT . '/blog/'
+command! -bang BlogList
+      \ call fzf#vim#files(g:blog_dir, {'options': ['--layout=reverse', '--info=inline', '--preview', 'cat {}']}, <bang>0)
+
+function! s:warn(message)
+  echohl WarningMsg
+  echom a:message
+  echohl None
+  return 0
+endfunction
+
+function! s:BlogNew()
+  let title = input("Blog title: ", "")
+  " echo "\nCreate blog: " . title
+
+  let filepath = $OBSIDIAN_VAULT . '/blog/' . strftime("%Y-%m-%d-") .
+        \ substitute(title, ' ', '-', 'g') . '.md'
+  if filereadable(filepath)
+    return s:warn('The file is already exists!')
+  endif
+
+  let templatepath = $OBSIDIAN_VAULT . '/templates/blog-template.md'
+  if !filereadable(templatepath)
+    return s:warn('The template file does not exists!')
+  endif
+
+  execute "edit" templatepath
+  execute "write" filepath
+  execute "edit" filepath
+  execute "0,3substitute/title: /title: " . title . "/"
+  write
+  " echo "\nCreate blog: " . filepath . " from " . templatepath
+endfunction
+command! -bang BlogNew call s:BlogNew()
+
 " [Vimの生産性を高める12の方法 | POSTD](https://postd.cc/how-to-boost-your-vim-productivity/)
 function! s:VisualPaste()
   let clipboard_options = split(&clipboard, ",")

@@ -1,4 +1,4 @@
-timestamp: 2021-05-16 09:37:50 JST
+timestamp: 2021-05-17 08:35:50 JST
 tap: a-know/tap
 tap: clementtsang/bottom
 tap: homebrew/bundle
@@ -149,6 +149,7 @@ cask: itsycal
 cask: kap
 cask: karabiner-elements
 cask: keycastr
+cask: keysmith
 cask: kindle
 cask: licecap
 cask: lmms
