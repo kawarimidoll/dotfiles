@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "coc-deno": ">=3.4.0",
+    "coc-explorer": ">=0.17.5",
+    "coc-flutter": ">=1.9.2",
+    "coc-highlight": ">=1.2.8",
+    "coc-spell-checker": ">=1.2.0",
+    "coc-tsserver": ">=1.7.0",
+    "coc-word": ">=1.2.2",
+    "coc-yaml": ">=1.3.1",
+    "coc-yank": ">=1.2.0"
+  }
+}
