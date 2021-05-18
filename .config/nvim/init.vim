@@ -116,9 +116,12 @@ unlet autoload_plug_path
 
 call plug#begin(stdpath('config') . '/plugged')
 " Plug 'dbeniamine/cheat.sh-vim'
+" Plug 'machakann/vim-highlightedyank'
 " Plug 'tpope/vim-fugitive'
+" Plug 'tpope/vim-surround'
 " Plug 'tpope/vim-unimpaired'
 " Plug 'tyru/open-browser.vim'
+" Plug 'unblevable/quick-scope'
 
 Plug 'Lunarwatcher/auto-pairs'
 Plug 'airblade/vim-gitgutter'
@@ -139,7 +142,6 @@ Plug 'kristijanhusak/vim-carbon-now-sh'
 Plug 'liuchengxu/vim-which-key'
 Plug 'liuchengxu/vista.vim'
 Plug 'markonm/traces.vim'
-Plug 'machakann/vim-highlightedyank'
 Plug 'machakann/vim-sandwich'
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
@@ -152,9 +154,7 @@ Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-sleuth'
-" Plug 'tpope/vim-surround'
 Plug 'tyru/caw.vim'
-" Plug 'unblevable/quick-scope'
 Plug 'vim-jp/vimdoc-ja'
 call plug#end()
 
@@ -453,6 +453,8 @@ noremap L $
 noremap M %
 map n <Plug>(anzu-n)zz
 map N <Plug>(anzu-N)zz
+" z*はssにマッピングするが通常のsの動作を潰すため1個の場合も登録しておく
+map s <Plug>(asterisk-z*)<Plug>(anzu-update-search-status)zz
 map ss <Plug>(asterisk-z*)<Plug>(anzu-update-search-status)zz
 map sg <Plug>(asterisk-gz*)<Plug>(anzu-update-search-status)zz
 map <Space>ef <Plug>(easymotion-bd-f)
@@ -518,11 +520,11 @@ nnoremap <Space>T <C-w><C-w>
 let g:which_key_map.T = "Toggle windows"
 nnoremap <silent><Space>u mzviwg~`z:<C-u>delmarks z<CR>
 nnoremap <silent><Space>U mzviwbg~`z:<C-u>delmarks z<CR>
-" nnoremap <Space>v
+nnoremap <Space>v :<C-u>Vista!! coc<CR>
 nnoremap <Space>w :<C-u>write<CR>
-nnoremap <Space>wq :<C-u>wq<CR>
-" nnoremap <Space>x
-" nnoremap <Space>y
+nnoremap <Space>wq :<C-u>exit<CR>
+nnoremap <Space>x :<C-u>CocCommand explorer<CR>
+nnoremap <Silent> <Space>y  :<C-u>CocList -A --normal yank<CR>
 nnoremap <Space>z :<C-u>za<CR>
 nnoremap <Space>/ :<C-u>RgRaw -F -- $''<Left>
 nmap <Space>? <Plug>RgRawWordUnderCursor<Left>
@@ -548,12 +550,12 @@ cnoremap <C-d> <Del>
 
 " insert
 inoremap <silent> jj <ESC>
-inoremap <silent> っj <ESC>
 
 " visual
 xmap v <Plug>(expand_region_expand)
 xmap <C-v> <Plug>(expand_region_shrink)
 xmap <Space>/ <Plug>RgRawVisualSelection<Left>
+xnoremap <Space>w <Esc>:<C-u>write<CR>gv
 " xmap <Space>c <Plug>(caw:hatpos:toggle)
 xnoremap <silent> <expr> p <sid>VisualPaste()
 xnoremap <silent> y y`]
