@@ -123,6 +123,7 @@ call plug#begin(stdpath('config') . '/plugged')
 " Plug 'tyru/open-browser.vim'
 " Plug 'unblevable/quick-scope'
 
+Plug 'AndrewRadev/splitjoin.vim'
 Plug 'Lunarwatcher/auto-pairs'
 Plug 'airblade/vim-gitgutter'
 Plug 'alvan/vim-closetag'
@@ -342,6 +343,9 @@ command! LazyGit tab terminal ++close lazygit
 command! Lg LazyGit
 command! FmtTabTrail retab | FixWhiteSpace
 
+command! CocFlutter CocList --input=flutter commands
+command! CocMarkmap CocCommand markmap.create
+
 let g:blog_dir = $OBSIDIAN_VAULT . '/blog/'
 command! -bang BlogList
       \ call fzf#vim#files(g:blog_dir, {'options': ['--layout=reverse', '--info=inline', '--preview', 'cat {}']}, <bang>0)
@@ -473,6 +477,7 @@ noremap j gj
 noremap k gk
 noremap gj j
 noremap gk k
+noremap gV `[v`]
 noremap H ^
 noremap L $
 noremap M %
@@ -494,8 +499,8 @@ nnoremap S :%s/\V<C-r>///g<Left><Left>
 nnoremap <script> <expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
 nnoremap <sid>(q)q :<C-u>call <sid>AutoRec()<CR>
 nnoremap <expr> Q <sid>AutoPlay()
-nnoremap p ]p`]
-nnoremap P ]P`]
+nnoremap p p`[v`]=`]
+nnoremap P P`[v`]=`]
 nnoremap ]p p
 nnoremap ]P P
 nnoremap x "_d
@@ -518,6 +523,8 @@ nmap <Space>ef <Plug>(easymotion-overwin-f)
 nmap <Space>el <Plug>(easymotion-overwin-jk)
 nmap <Space>es <Plug>(easymotion-overwin-f2)
 nmap <Space>ew <Plug>(easymotion-overwin-w)
+nmap <Space>sj :SplitjoinSplit<CR>
+nmap <Space>sk :SplitjoinJoin<CR>
 nnoremap <Space>f :<C-u>Files<CR>
 nnoremap <silent><Space>g :<C-u>copy.<CR>
 let g:which_key_map.g = "Duplicate line to down"
