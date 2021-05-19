@@ -308,6 +308,31 @@ nnoremap <silent><nowait> <space>K  :<C-u>CocPrev<CR>
 nnoremap <silent><nowait> <space>P  :<C-u>CocListResume<CR>
 
 "-----------------
+" vista.vim configuration
+" https://github.com/liuchengxu/vista.vim#options
+"-----------------
+" How each level is indented and what to prepend.
+" This could make the display more compact or more spacious.
+" e.g., more compact: ["▸ ", ""]
+" Note: this option only works for the kind renderer, not the tree renderer.
+let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
+let g:vista_default_executive = 'coc'
+
+" To enable fzf's preview window set g:vista_fzf_preview.
+" The elements of g:vista_fzf_preview will be passed as arguments to fzf#vim#with_preview()
+" For example:
+let g:vista_fzf_preview = ['right:50%']
+
+" Ensure you have installed some decent font to show these pretty symbols, then you can enable icon for the kind.
+let g:vista#renderer#enable_icon = 1
+
+" The default icons can't be suitable for all the filetypes, you can extend it as you wish.
+" let g:vista#renderer#icons = {
+"      \   "function": "\uf794",
+"      \   "variable": "\uf71b",
+"      \  }
+
+"-----------------
 " Commands and Functions
 "-----------------
 command! Rcedit edit $MYVIMRC
@@ -520,7 +545,8 @@ nnoremap <Space>T <C-w><C-w>
 let g:which_key_map.T = "Toggle windows"
 nnoremap <silent><Space>u mzviwg~`z:<C-u>delmarks z<CR>
 nnoremap <silent><Space>U mzviwbg~`z:<C-u>delmarks z<CR>
-nnoremap <Space>v :<C-u>Vista!! coc<CR>
+nnoremap <Space>v :<C-u>Vista!!<CR>
+nnoremap <Space>V :<C-u>Vista finder fzf<CR>
 nnoremap <Space>w :<C-u>write<CR>
 nnoremap <Space>wq :<C-u>exit<CR>
 nnoremap <Space>x :<C-u>CocCommand explorer<CR>
