@@ -326,6 +326,7 @@ let g:vista_fzf_preview = ['right:50%']
 
 " Ensure you have installed some decent font to show these pretty symbols, then you can enable icon for the kind.
 let g:vista#renderer#enable_icon = 1
+" let g:vista_stay_on_open = 0
 
 " The default icons can't be suitable for all the filetypes, you can extend it as you wish.
 " let g:vista#renderer#icons = {
@@ -341,7 +342,7 @@ command! Rcreload write | source $MYVIMRC | nohlsearch | redraw | echo 'init.vim
 command! MyTerminal terminal ++rows=12
 command! LazyGit tab terminal ++close lazygit
 command! Lg LazyGit
-command! FmtTabTrail retab | FixWhiteSpace
+command! FmtTabTrail retab | FixWhitespace
 
 command! CocFlutter CocList --input=flutter commands
 command! CocMarkmap CocCommand markmap.create
@@ -523,8 +524,8 @@ nmap <Space>ef <Plug>(easymotion-overwin-f)
 nmap <Space>el <Plug>(easymotion-overwin-jk)
 nmap <Space>es <Plug>(easymotion-overwin-f2)
 nmap <Space>ew <Plug>(easymotion-overwin-w)
-nmap <Space>sj :SplitjoinSplit<CR>
-nmap <Space>sk :SplitjoinJoin<CR>
+nmap <Space>sj :SplitjoinJoin<CR>
+nmap <Space>sk :SplitjoinSplit<CR>
 nnoremap <Space>f :<C-u>Files<CR>
 nnoremap <silent><Space>g :<C-u>copy.<CR>
 let g:which_key_map.g = "Duplicate line to down"
@@ -686,6 +687,9 @@ augroup vimrc
   " autocmd FileType netrw nnoremap <buffer> h -
   " autocmd FileType netrw nnoremap <buffer> l <CR>
   " autocmd FileType netrw nnoremap <buffer> . gh
+
+  " [close vista window automatically when it's the last window open](https://github.com/liuchengxu/vista.vim/issues/108)
+  autocmd BufEnter * if winnr("$") == 1 && vista#sidebar#IsOpen() | execute "normal! :q!\<CR>" | endif
 
   autocmd BufWritePost $MYVIMRC source $MYVIMRC | echo 'vimrc is reloaded.'
 
