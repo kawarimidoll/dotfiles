@@ -6,7 +6,6 @@
 	ui = auto
 [core]
 	autocrlf = false
-	excludesfile = ~/.gitignore_global
 	fscache = true
 	ignorecase = false
 	pager = delta
