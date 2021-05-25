@@ -482,6 +482,14 @@ noremap gV `[v`]
 noremap H ^
 noremap L $
 noremap M %
+noremap [b :<C-u>bprevious<CR>
+noremap ]b :<C-u>bnext<CR>
+noremap [B :<C-u>bfirst<CR>
+noremap ]B :<C-u>blast<CR>
+noremap [q :<C-u>cprevious<CR>
+noremap ]q :<C-u>cnext<CR>
+noremap [Q :<C-u>cfirst<CR>
+noremap ]Q :<C-u>clast<CR>
 map n <Plug>(anzu-n)zz
 map N <Plug>(anzu-N)zz
 " z*はssにマッピングするが通常のsの動作を潰すため1個の場合も登録しておく
@@ -535,18 +543,19 @@ nnoremap <Space>h :<C-u>History<CR>
 " nnoremap <silent><Space>i mzviwbg~`z:<C-u>delmarks z<CR>
 " nnoremap <Space>j
 " nnoremap <Space>k
-" nnoremap <Space>l :<C-u>LspDocumentDiagnostics<CR>
+nnoremap <Space>l :<C-u>Lines<CR>
 nnoremap <Space>m :<C-u>Marks<CR>
 " nnoremap <Space>n
 nnoremap <silent><Space>o :<c-u>put =repeat(nr2char(10), v:count1)<cr>
 let g:which_key_map.o = "Insert line to down"
 nnoremap <silent><Space>O :<c-u>put! =repeat(nr2char(10), v:count1)<cr>'[
 let g:which_key_map.O = "Insert line to up"
-" nnoremap <Space>p :<C-u>LspDocumentFormat<CR>
+nnoremap <Space>p :<C-u>Format<CR>
 " nnoremap <Space>P :<C-u>Prettier<CR>
 nnoremap <Space>q :<C-u>quit<CR>
 nnoremap <Space>r :<C-u>registers<CR>
-nnoremap <Space>s :<C-u>&&<CR>
+nnoremap <Space>s :<C-u>%s/
+nnoremap <Space>S :<C-u>&&<CR>
 nnoremap <Space>t <C-^>
 let g:which_key_map.t = "Toggle buffers"
 nnoremap <Space>T <C-w><C-w>
@@ -559,7 +568,7 @@ nnoremap <Space>w :<C-u>write<CR>
 nnoremap <Space>wq :<C-u>exit<CR>
 nnoremap <Space>x :<C-u>CocCommand explorer<CR>
 nnoremap <Silent> <Space>y  :<C-u>CocList -A --normal yank<CR>
-nnoremap <Space>z :<C-u>za<CR>
+nnoremap <Space>z za
 nnoremap <Space>/ :<C-u>RgRaw -F -- $''<Left>
 nmap <Space>? <Plug>RgRawWordUnderCursor<Left>
 nnoremap <Space>; :<C-u>History/<CR>

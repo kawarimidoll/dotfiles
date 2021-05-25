@@ -1,4 +1,4 @@
-timestamp: 2021-05-19 09:59:32 JST
+timestamp: 2021-05-25 07:41:01 JST
 tap: a-know/tap
 tap: clementtsang/bottom
 tap: homebrew/bundle
@@ -70,6 +70,7 @@ brew: q
 brew: qt
 brew: rargs
 brew: re2c
+brew: richmd
 brew: ripgrep
 brew: rmw
 brew: rust
@@ -105,9 +106,11 @@ brew: zsh-completions
 cask: ableton-live-lite
 cask: abricotine
 cask: accessmenubarapps
+cask: adoptopenjdk
 cask: agenda
 cask: alfred
 cask: alt-tab
+cask: android-commandlinetools
 cask: android-studio
 cask: anki
 cask: apparency
@@ -190,6 +193,7 @@ cask: sbarex-qlmarkdown
 cask: scriptql
 cask: shortcutor
 cask: shotcut
+cask: skitch
 cask: slack
 cask: spotter
 cask: stats
@@ -228,6 +232,7 @@ mas: 1542390153  Chemy              (1.0.3)
 mas: 1545870783  Color Picker       (1.2.0)
 mas: 1546140065  RegExp             (1.3.1)
 mas: 1547147101  OpenIn             (2.0.5)
+mas: 1562921229  Uniview            (1.2)
 mas: 1563735522  Charmstone         (0.9)
 mas: 1566662030  CustomSymbols      (1.0.3)
 mas: 408981434   iMovie             (10.2.3)
