@@ -1,4 +1,4 @@
-timestamp: 2021-05-25 07:41:01 JST
+timestamp: 2021-05-28 06:19:18 JST
 tap: a-know/tap
 tap: clementtsang/bottom
 tap: homebrew/bundle
@@ -37,6 +37,7 @@ brew: genact
 brew: ghq
 brew: git
 brew: git-delta
+brew: git-quick-stats
 brew: gitbatch
 brew: gitmoji
 brew: gitui
@@ -76,6 +77,7 @@ brew: rmw
 brew: rust
 brew: sd
 brew: semgrep
+brew: silicon
 brew: skanehira/docui/docui
 brew: sl
 brew: snowpack
@@ -145,6 +147,7 @@ cask: fuwari
 cask: gimp
 cask: google-chrome
 cask: google-japanese-ime
+cask: gray
 cask: hermit-crab
 cask: hiddenbar
 cask: iconizer

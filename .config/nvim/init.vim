@@ -481,7 +481,6 @@ noremap gk k
 noremap gV `[v`]
 noremap H ^
 noremap L $
-noremap M %
 noremap [b :<C-u>bprevious<CR>
 noremap ]b :<C-u>bnext<CR>
 noremap [B :<C-u>bfirst<CR>
@@ -492,6 +491,7 @@ noremap [Q :<C-u>cfirst<CR>
 noremap ]Q :<C-u>clast<CR>
 map n <Plug>(anzu-n)zz
 map N <Plug>(anzu-N)zz
+map M %
 " z*はssにマッピングするが通常のsの動作を潰すため1個の場合も登録しておく
 map s <Plug>(asterisk-z*)<Plug>(anzu-update-search-status)zz
 map ss <Plug>(asterisk-z*)<Plug>(anzu-update-search-status)zz
