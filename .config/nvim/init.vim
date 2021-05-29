@@ -144,6 +144,7 @@ Plug 'liuchengxu/vim-which-key'
 Plug 'liuchengxu/vista.vim'
 Plug 'markonm/traces.vim'
 Plug 'machakann/vim-sandwich'
+Plug 'mattn/vim-goimports'
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'osyo-manga/vim-anzu'
@@ -345,6 +346,8 @@ command! Lg LazyGit
 command! FmtTabTrail retab | FixWhitespace
 
 command! CocFlutter CocList --input=flutter commands
+command! CocGo CocList --input=go commands
+command! GoRun !go run %:p
 command! CocMarkmap CocCommand markmap.create
 
 let g:blog_dir = $OBSIDIAN_VAULT . '/blog/'
@@ -545,7 +548,7 @@ nnoremap <Space>h :<C-u>History<CR>
 " nnoremap <Space>k
 nnoremap <Space>l :<C-u>Lines<CR>
 nnoremap <Space>m :<C-u>Marks<CR>
-" nnoremap <Space>n
+" nnoremap <Space>n -> map to run current file (autocmd)
 nnoremap <silent><Space>o :<c-u>put =repeat(nr2char(10), v:count1)<cr>
 let g:which_key_map.o = "Insert line to down"
 nnoremap <silent><Space>O :<c-u>put! =repeat(nr2char(10), v:count1)<cr>'[
@@ -707,8 +710,15 @@ augroup vimrc
   autocmd BufNewFile,BufRead git-__* set filetype=bash
   autocmd BufNewFile,BufRead [^.]*shrc set filetype=bash
   autocmd BufNewFile,BufRead .bashrc set filetype=bash
-  " autocmd BufNewFile,BufRead *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4
-  " autocmd BufNewFile,BufRead *.java setlocal tabstop=4 softtabstop=4 shiftwidth=4
+  autocmd BufNewFile,BufRead *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4
+  autocmd BufNewFile,BufRead *.go setlocal tabstop=4 softtabstop=4 shiftwidth=4
+  autocmd BufNewFile,BufRead *.java setlocal tabstop=4 softtabstop=4 shiftwidth=4
+
+  " F4で現在のファイルを実行 https://qiita.com/i47_rozary/items/e02bd3b790a2d909ea9f
+  autocmd FileType go noremap <Space>n :!go run %:p<CR>
+  autocmd FileType javascript noremap <Space>n :!deno %:p<CR>
+  autocmd FileType ruby noremap <Space>n :!ruby %:p<CR>
+  autocmd FileType sh noremap <Space>n :!sh %:p<CR>
 
   " 前回終了位置に移動
   autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line('$') | execute 'normal g`"' | endif
