@@ -150,6 +150,7 @@ Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'osyo-manga/vim-anzu'
 Plug 'reireias/vim-cheatsheet', { 'on': 'Cheat' }
 Plug 'sainnhe/sonokai'
+Plug 'segeljakt/vim-silicon'
 Plug 'terryma/vim-expand-region'
 Plug 'thosakwe/vim-flutter'
 Plug 'tpope/vim-abolish'
@@ -166,6 +167,8 @@ let g:cheatsheet#cheat_file = '~/.vim-cheatsheet.md'
 let g:qs_buftype_blacklist = ['terminal', 'nofile']
 let g:memolist_memo_suffix = "md"
 let g:memolist_fzf = 1
+let g:silicon = {}
+let g:silicon['output'] = '~/Pictures/silicon/silicon-{time:%Y-%m-%d-%H%M%S}.png'
 
 let g:which_key_map = {}
 call which_key#register('<Space>', "g:which_key_map")
@@ -344,6 +347,7 @@ command! MyTerminal terminal ++rows=12
 command! LazyGit tab terminal ++close lazygit
 command! Lg LazyGit
 command! FmtTabTrail retab | FixWhitespace
+" command! Silicon !silicon %:p --output %:p:t.png
 
 command! CocFlutter CocList --input=flutter commands
 command! CocGo CocList --input=go commands
