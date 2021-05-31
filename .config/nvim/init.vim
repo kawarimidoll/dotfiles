@@ -144,6 +144,8 @@ Plug 'liuchengxu/vim-which-key'
 Plug 'liuchengxu/vista.vim'
 Plug 'markonm/traces.vim'
 Plug 'machakann/vim-sandwich'
+Plug 'mattn/vim-goaddtags'
+Plug 'mattn/vim-goimpl'
 Plug 'mattn/vim-goimports'
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
@@ -152,6 +154,7 @@ Plug 'reireias/vim-cheatsheet', { 'on': 'Cheat' }
 Plug 'sainnhe/sonokai'
 Plug 'segeljakt/vim-silicon'
 Plug 'terryma/vim-expand-region'
+Plug 'thinca/vim-quickrun'
 Plug 'thosakwe/vim-flutter'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-endwise'
@@ -164,6 +167,14 @@ call plug#end()
 let g:AutoPairsCompatibleMaps = 0
 let g:asterisk#keeppos = 1
 let g:cheatsheet#cheat_file = '~/.vim-cheatsheet.md'
+
+let g:coc_global_extensions = [
+      \ 'coc-highlight',
+      \ 'coc-json',
+      \ 'coc-spell-checker',
+      \ 'coc-word',
+      \ 'coc-yank',
+      \ ]
 let g:qs_buftype_blacklist = ['terminal', 'nofile']
 let g:memolist_memo_suffix = "md"
 let g:memolist_fzf = 1
@@ -552,7 +563,7 @@ nnoremap <Space>h :<C-u>History<CR>
 " nnoremap <Space>k
 nnoremap <Space>l :<C-u>Lines<CR>
 nnoremap <Space>m :<C-u>Marks<CR>
-" nnoremap <Space>n -> map to run current file (autocmd)
+nnoremap <silent> <Space>n :<C-u>write<CR>:QuickRun -mode n<CR>
 nnoremap <silent><Space>o :<c-u>put =repeat(nr2char(10), v:count1)<cr>
 let g:which_key_map.o = "Insert line to down"
 nnoremap <silent><Space>O :<c-u>put! =repeat(nr2char(10), v:count1)<cr>'[
@@ -586,6 +597,8 @@ nnoremap <silent><expr> <C-j> ':<C-u>move+' . v:count1 . '<CR>=l'
 nnoremap <silent><C-l> :<C-u>nohlsearch<CR>:diffupdate<CR>:syntax sync fromstart<CR><C-l>
 nnoremap <C-w><C-q> <C-w>c
 
+nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
+
 " command
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
@@ -605,6 +618,7 @@ inoremap <silent> jj <ESC>
 xmap v <Plug>(expand_region_expand)
 xmap <C-v> <Plug>(expand_region_shrink)
 xmap <Space>/ <Plug>RgRawVisualSelection<Left>
+xnoremap <silent> <Space>n :<C-u>write<CR>gv:QuickRun -mode n<CR>
 xnoremap <Space>w <Esc>:<C-u>write<CR>gv
 " xmap <Space>c <Plug>(caw:hatpos:toggle)
 xnoremap <silent> <expr> p <sid>VisualPaste()
@@ -718,11 +732,14 @@ augroup vimrc
   autocmd BufNewFile,BufRead *.go setlocal tabstop=4 softtabstop=4 shiftwidth=4
   autocmd BufNewFile,BufRead *.java setlocal tabstop=4 softtabstop=4 shiftwidth=4
 
-  " F4で現在のファイルを実行 https://qiita.com/i47_rozary/items/e02bd3b790a2d909ea9f
-  autocmd FileType go noremap <Space>n :!go run %:p<CR>
-  autocmd FileType javascript noremap <Space>n :!deno %:p<CR>
-  autocmd FileType ruby noremap <Space>n :!ruby %:p<CR>
-  autocmd FileType sh noremap <Space>n :!sh %:p<CR>
+  " " F4で現在のファイルを実行 https://qiita.com/i47_rozary/items/e02bd3b790a2d909ea9f
+  " autocmd FileType go noremap <Space>n :!go run %:p<CR>
+  " autocmd FileType javascript noremap <Space>n :!deno %:p<CR>
+  " autocmd FileType ruby noremap <Space>n :!ruby %:p<CR>
+  " autocmd FileType sh noremap <Space>n :!sh %:p<CR>
+
+  " [vim-quickrun シンプルかつまともに使える設定 - Qiita](https://qiita.com/uplus_e10/items/2a75fbe3d80063eb9c18)
+  " autocmd FileType qf nnoremap <silent><buffer>q :quit<CR>
 
   " 前回終了位置に移動
   autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line('$') | execute 'normal g`"' | endif
