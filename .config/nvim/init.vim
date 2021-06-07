@@ -642,6 +642,11 @@ onoremap x d
 tnoremap <C-w><C-n> <C-w>N
 
 "-----------------
+" Abbreviations
+"-----------------
+cabbrev svs saveas %
+
+"-----------------
 " Appearances
 "-----------------
 syntax enable
@@ -748,6 +753,15 @@ augroup vimrc
   " 前回終了位置に移動
   autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line('$') | execute 'normal g`"' | endif
   autocmd BufReadPost * delmarks!
+
+  " [vim-jp » Hack #202: 自動的にディレクトリを作成する](https://vim-jp.org/vim-users-jp/2011/02/20/Hack-202.html)
+  autocmd BufWritePre * call s:auto_mkdir(expand('<afile>:p:h'), v:cmdbang)
+  function! s:auto_mkdir(dir, force)
+    if !isdirectory(a:dir) && (a:force ||
+          \    input(printf('"%s" does not exist. Create? [y/N]', a:dir)) =~? '^y\%[es]$')
+      call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
+    endif
+  endfunction
 
   autocmd VimLeavePre * call s:ClearAutoRec()
 augroup END
