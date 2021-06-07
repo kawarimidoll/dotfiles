@@ -153,6 +153,7 @@ Plug 'osyo-manga/vim-anzu'
 Plug 'reireias/vim-cheatsheet', { 'on': 'Cheat' }
 Plug 'sainnhe/sonokai'
 Plug 'segeljakt/vim-silicon'
+Plug 'simeji/winresizer'
 Plug 'terryma/vim-expand-region'
 Plug 'thinca/vim-quickrun'
 Plug 'thosakwe/vim-flutter'
@@ -161,6 +162,7 @@ Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-sleuth'
 Plug 'tyru/caw.vim'
+Plug 'tyru/open-browser.vim'
 Plug 'vim-jp/vimdoc-ja'
 call plug#end()
 
@@ -178,6 +180,7 @@ let g:coc_global_extensions = [
 let g:qs_buftype_blacklist = ['terminal', 'nofile']
 let g:memolist_memo_suffix = "md"
 let g:memolist_fzf = 1
+let g:netrw_nogx = 1 " disable netrw's gx mapping for openbrowser
 let g:silicon = {}
 let g:silicon['output'] = '~/Pictures/silicon/silicon-{time:%Y-%m-%d-%H%M%S}.png'
 
@@ -538,6 +541,8 @@ nnoremap ' `
 nnoremap ? /\v
 nnoremap == gg=G''
 
+nmap gx <Plug>(openbrowser-smart-search)
+
 nnoremap <leader><leader> :<C-u>WhichKey '<leader>'<CR>
 nnoremap <Space><Space> :<C-u>WhichKey '<Space>'<CR>
 " nnoremap <Space>a <C-w><C-w>
@@ -550,8 +555,6 @@ nmap <Space>ef <Plug>(easymotion-overwin-f)
 nmap <Space>el <Plug>(easymotion-overwin-jk)
 nmap <Space>es <Plug>(easymotion-overwin-f2)
 nmap <Space>ew <Plug>(easymotion-overwin-w)
-nmap <Space>sj :SplitjoinJoin<CR>
-nmap <Space>sk :SplitjoinSplit<CR>
 nnoremap <Space>f :<C-u>Files<CR>
 nnoremap <silent><Space>g :<C-u>copy.<CR>
 let g:which_key_map.g = "Duplicate line to down"
@@ -559,8 +562,8 @@ nnoremap <silent><Space>G :<C-u>copy-1<CR>
 let g:which_key_map.G = "Duplicate line to up"
 nnoremap <Space>h :<C-u>History<CR>
 " nnoremap <silent><Space>i mzviwbg~`z:<C-u>delmarks z<CR>
-" nnoremap <Space>j
-" nnoremap <Space>k
+nmap <Space>j :SplitjoinJoin<CR>
+nmap <Space>k :SplitjoinSplit<CR>
 nnoremap <Space>l :<C-u>Lines<CR>
 nnoremap <Space>m :<C-u>Marks<CR>
 nnoremap <silent> <Space>n :<C-u>write<CR>:QuickRun -mode n<CR>
@@ -618,6 +621,7 @@ inoremap <silent> jj <ESC>
 xmap v <Plug>(expand_region_expand)
 xmap <C-v> <Plug>(expand_region_shrink)
 xmap <Space>/ <Plug>RgRawVisualSelection<Left>
+vmap gx <Plug>(openbrowser-smart-search)
 xnoremap <silent> <Space>n :<C-u>write<CR>gv:QuickRun -mode n<CR>
 xnoremap <Space>w <Esc>:<C-u>write<CR>gv
 " xmap <Space>c <Plug>(caw:hatpos:toggle)

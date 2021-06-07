@@ -1,4 +1,4 @@
-timestamp: 2021-05-29 08:45:36 JST
+timestamp: 2021-06-07 07:49:54 JST
 tap: a-know/tap
 tap: clementtsang/bottom
 tap: homebrew/bundle
@@ -6,6 +6,8 @@ tap: homebrew/cask
 tap: homebrew/cask-fonts
 tap: homebrew/core
 tap: jesseduffield/lazygit
+tap: keith/formulae
+tap: melonamin/formulae
 tap: px4/px4
 tap: skanehira/docui
 brew: a-know/tap/pi
@@ -13,6 +15,8 @@ brew: act
 brew: automake
 brew: bat
 brew: binutils
+brew: broot
+brew: caire
 brew: cask
 brew: choose-rust
 brew: clementtsang/bottom/bottom
@@ -45,6 +49,7 @@ brew: globe
 brew: glow
 brew: gnu-sed
 brew: gnu-tar
+brew: gojq
 brew: gping
 brew: grep
 brew: grex
@@ -53,8 +58,10 @@ brew: highlight
 brew: jesseduffield/lazygit/lazygit
 brew: jid
 brew: jq
+brew: keith/formulae/reminders-cli
 brew: llvm
 brew: lsd
+brew: luarocks
 brew: mas
 brew: moreutils
 brew: nano
@@ -62,6 +69,7 @@ brew: navi
 brew: neovim
 brew: ninja
 brew: nodebrew
+brew: pacvim
 brew: pastel
 brew: pngquant
 brew: procs
@@ -71,12 +79,12 @@ brew: q
 brew: qt
 brew: rargs
 brew: re2c
+brew: revive
 brew: richmd
 brew: ripgrep
 brew: rmw
 brew: rust
 brew: sd
-brew: semgrep
 brew: silicon
 brew: skanehira/docui/docui
 brew: sl
@@ -212,6 +220,8 @@ cask: the-unarchiver
 cask: tiles
 cask: time-out
 cask: tiny-player
+cask: trex
+cask: tweeten
 cask: typora
 cask: visual-studio-code
 cask: vitals
@@ -239,6 +249,8 @@ mas: 1547147101  OpenIn             (2.0.5)
 mas: 1562921229  Uniview            (1.2)
 mas: 1563735522  Charmstone         (0.9)
 mas: 1566662030  CustomSymbols      (1.0.3)
+mas: 1569290801  ItemStock          (1.0)
+mas: 403195710   Remote Mouse       (3.005)
 mas: 408981434   iMovie             (10.2.3)
 mas: 415311936   めがね                (1.3.0)
 mas: 497799835   Xcode              (12.5)
