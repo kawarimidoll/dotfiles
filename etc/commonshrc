@@ -170,6 +170,11 @@ __get_oneliners() {
 __source "${DOT_DIR}/etc/xd.sh"
 
 # -----------------
+#  broot
+# -----------------
+__source "${HOME}/.config/broot/launcher/bash/br"
+
+# -----------------
 #  OS Setting
 # -----------------
 OS='unknown'
