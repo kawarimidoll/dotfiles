@@ -20,8 +20,9 @@ alias dr='docker run'
 alias ds='docker system'
 alias egrep='egrep --color=auto'
 alias g='git'
-alias grep='grep --color=auto'
+alias golint='revive -formatter friendly -config $HOME/.config/revive.toml'
 alias gq='ghq get'
+alias grep='grep --color=auto'
 alias fetch='git fetch --all --prune --tags'
 alias fgrep='fgrep --color=auto'
 alias fl='flutter'
@@ -162,6 +163,25 @@ __get_oneliners() {
   cat "${DOT_DIR}/etc/oneliners.txt" | \
     fzf --header="@ becomes the cursor position" |  \
     sed 's/\[.*\]//'
+}
+
+goinit() {
+  if [ -f main.go ]; then
+    echo "main.go is already exists!"
+    return 1
+  fi
+  echo -e "package main\n\nfunc main() {\n\n}" > main.go
+  go mod init "$((git config --get remote.origin.url || basename `pwd`) | sed -e 's#https\?://##')"
+}
+
+gopackage() {
+  if [ $# -eq 0 ]; then
+    echo "package name is required!"
+    echo "usage: gopackage package_name"
+    return 1
+  fi
+  mkdir -p "$1" && \
+    echo -e "package $1\n\nfunc init() {\n\n}" > "$1/$1.go"
 }
 
 # -----------------
