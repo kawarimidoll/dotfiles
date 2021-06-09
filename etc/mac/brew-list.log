@@ -1,4 +1,4 @@
-timestamp: 2021-06-07 07:49:54 JST
+timestamp: 2021-06-09 09:17:10 JST
 tap: a-know/tap
 tap: clementtsang/bottom
 tap: homebrew/bundle
@@ -207,6 +207,7 @@ cask: shotcut
 cask: skitch
 cask: slack
 cask: spotter
+cask: sqlitestudio
 cask: stats
 cask: steam
 cask: stretchly
@@ -250,6 +251,7 @@ mas: 1562921229  Uniview            (1.2)
 mas: 1563735522  Charmstone         (0.9)
 mas: 1566662030  CustomSymbols      (1.0.3)
 mas: 1569290801  ItemStock          (1.0)
+mas: 1569600264  Pandan             (1.2.1)
 mas: 403195710   Remote Mouse       (3.005)
 mas: 408981434   iMovie             (10.2.3)
 mas: 415311936   めがね                (1.3.0)

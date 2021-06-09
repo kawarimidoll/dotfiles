@@ -181,7 +181,7 @@ gopackage() {
     return 1
   fi
   mkdir -p "$1" && \
-    echo -e "package $1\n\nfunc init() {\n\n}" > "$1/$1.go"
+    echo -e "package $(basename $1)\n\nfunc init() {\n\n}" > "$1/$(basename $1).go"
 }
 
 # -----------------
