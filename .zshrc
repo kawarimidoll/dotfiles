@@ -37,6 +37,7 @@ alias -g S='| sort'
 alias -g T='| tail'
 alias -g V='| view'
 alias -g X='| xargs'
+alias -g NOTIFY="&& osascript -e 'display notification \"Done!\" with title \"Terminal\"'"
 
 # 独自コマンド
 # findで明らかに検索しなくて良さそうなものを対象から外す

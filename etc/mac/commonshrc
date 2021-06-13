@@ -15,6 +15,7 @@ export OBSIDIAN_VAULT="${HOME}/Dropbox/Obsidian"
 
 alias brewer="sh ${DOT_OS_DIR}/brewer.sh"
 alias cob="cd ${OBSIDIAN_VAULT}"
+alias notify="osascript -e 'display notification \"Done!\" with title \"Terminal\"'"
 
 PATH="$(brew --prefix)/sbin:$PATH"
 
