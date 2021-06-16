@@ -70,3 +70,6 @@ symbol = " "
 
 [rust]
 symbol = " "
+
+[deno]
+symbol = " "

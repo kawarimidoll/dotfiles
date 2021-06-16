@@ -1,4 +1,4 @@
-timestamp: 2021-06-13 08:56:55 JST
+timestamp: 2021-06-16 14:25:54 JST
 tap: a-know/tap
 tap: clementtsang/bottom
 tap: homebrew/bundle
@@ -13,6 +13,7 @@ tap: skanehira/docui
 brew: a-know/tap/pi
 brew: act
 brew: automake
+brew: awscli
 brew: bat
 brew: binutils
 brew: broot
@@ -23,6 +24,7 @@ brew: clementtsang/bottom/bottom
 brew: clog
 brew: cmake
 brew: cocoapods
+brew: csvq
 brew: deno
 brew: dfu-programmer
 brew: dfu-util
@@ -85,11 +87,14 @@ brew: revive
 brew: richmd
 brew: ripgrep
 brew: rmw
+brew: rpg-cli
 brew: rust
 brew: sd
+brew: serverless
 brew: silicon
 brew: skanehira/docui/docui
 brew: sl
+brew: slides
 brew: snowpack
 brew: starship
 brew: svgo
@@ -136,7 +141,6 @@ cask: binance
 cask: bitwarden
 cask: brave-browser
 cask: clickup
-cask: clock
 cask: cloudflare-warp
 cask: colour-contrast-analyser
 cask: commander-one
@@ -148,6 +152,7 @@ cask: docker
 cask: dockey
 cask: dropbox
 cask: dynalist
+cask: dynamodb-local
 cask: editaro
 cask: empoche
 cask: evernote
@@ -161,6 +166,7 @@ cask: google-japanese-ime
 cask: gray
 cask: hermit-crab
 cask: hiddenbar
+cask: hot
 cask: iconizer
 cask: iconset
 cask: iina
@@ -236,6 +242,7 @@ cask: vitals
 cask: vnote
 cask: workflowy
 cask: xbar
+cask: yippy
 cask: yt-music
 cask: zappy
 cask: zenbeats
