@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "create-vuepress-site": "^0.4.2-beta",
+    "snap-tweet": "^1.0.1"
+  }
+}
