@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "create-vuepress-site": "^0.4.2-beta",
+    "serverless-scriptable-plugin": "^1.2.1",
     "snap-tweet": "^1.0.1"
   }
 }

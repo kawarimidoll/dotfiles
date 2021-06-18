@@ -361,6 +361,7 @@ command! MyTerminal terminal ++rows=12
 command! LazyGit tab terminal ++close lazygit
 command! Lg LazyGit
 command! FmtTabTrail retab | FixWhitespace
+command! FileName echo expand('%:p')
 " command! Silicon !silicon %:p --output %:p:t.png
 
 command! CocFlutter CocList --input=flutter commands

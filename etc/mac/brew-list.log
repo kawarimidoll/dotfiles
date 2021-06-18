@@ -1,4 +1,4 @@
-timestamp: 2021-06-16 14:25:54 JST
+timestamp: 2021-06-18 09:21:11 JST
 tap: a-know/tap
 tap: clementtsang/bottom
 tap: homebrew/bundle
@@ -33,6 +33,7 @@ brew: diffutils
 brew: dprint
 brew: ed
 brew: efm-langserver
+brew: ethereum
 brew: eureka
 brew: exa
 brew: fd
@@ -112,6 +113,7 @@ brew: unzip
 brew: vim
 brew: vips
 brew: w3m
+brew: wasmer
 brew: wdiff
 brew: wget
 brew: wtfutil
@@ -197,6 +199,7 @@ cask: notion
 cask: numi
 cask: obsidian
 cask: onepile
+cask: openboard
 cask: openshot-video-editor
 cask: pixel-picker
 cask: pngyu
@@ -210,6 +213,7 @@ cask: quicklook-csv
 cask: quicklook-json
 cask: quicklookase
 cask: racket
+cask: raycast
 cask: rectangle
 cask: runjs
 cask: sbarex-qlmarkdown
