@@ -1,4 +1,4 @@
-timestamp: 2021-06-18 09:21:11 JST
+timestamp: 2021-06-19 06:48:41 JST
 tap: a-know/tap
 tap: clementtsang/bottom
 tap: homebrew/bundle
@@ -91,7 +91,6 @@ brew: rmw
 brew: rpg-cli
 brew: rust
 brew: sd
-brew: serverless
 brew: silicon
 brew: skanehira/docui/docui
 brew: sl
@@ -138,7 +137,6 @@ cask: audius
 cask: authy
 cask: battery-buddy
 cask: bdash
-cask: betterzip
 cask: binance
 cask: bitwarden
 cask: brave-browser
