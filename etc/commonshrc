@@ -65,8 +65,8 @@ fi
 # -----------------
 #  Paths
 # -----------------
-export GOPATH="${HOME}/go"
-PATH="${DOT_DIR}/bin:${HOME}/.cargo/bin:${GOPATH}/bin:${PATH}"
+# export GOPATH="${HOME}/go"
+PATH="${DOT_DIR}/bin:${HOME}/.cargo/bin:${HOME}/.deno/bin:${PATH}"
 
 # -----------------
 #  Functions
