@@ -1,6 +1,6 @@
 .DS_Store
 .vscode
-.vim
+#.vim
 .env
 tags
 !*.gitignore

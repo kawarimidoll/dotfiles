@@ -1,4 +1,4 @@
-timestamp: 2021-06-21 14:02:40 JST
+timestamp: 2021-06-28 09:44:42 JST
 tap: a-know/tap
 tap: clementtsang/bottom
 tap: homebrew/bundle
@@ -31,12 +31,14 @@ brew: dfu-programmer
 brew: dfu-util
 brew: diff-so-fancy
 brew: diffutils
+brew: docker-slim
 brew: dprint
 brew: ed
 brew: efm-langserver
 brew: ethereum
 brew: eureka
 brew: exa
+brew: fcp
 brew: fd
 brew: findutils
 brew: fselect
@@ -63,6 +65,7 @@ brew: jesseduffield/lazygit/lazygit
 brew: jid
 brew: jq
 brew: keith/formulae/reminders-cli
+brew: lima
 brew: llvm
 brew: lsd
 brew: luarocks
@@ -154,6 +157,7 @@ cask: dockey
 cask: dropbox
 cask: dynalist
 cask: dynamodb-local
+cask: ears
 cask: editaro
 cask: empoche
 cask: evernote
@@ -165,6 +169,7 @@ cask: fuwari
 cask: gimp
 cask: google-chrome
 cask: google-japanese-ime
+cask: grammarly
 cask: gray
 cask: hermit-crab
 cask: hiddenbar
@@ -213,6 +218,7 @@ cask: quicklook-csv
 cask: quicklook-json
 cask: quicklookase
 cask: racket
+cask: radar
 cask: raycast
 cask: rectangle
 cask: runjs
@@ -233,6 +239,7 @@ cask: syntax-highlight
 cask: table-tool
 cask: tabtopus
 cask: tetrio
+cask: textbuddy
 cask: the-unarchiver
 cask: tiles
 cask: time-out

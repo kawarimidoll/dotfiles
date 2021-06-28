@@ -41,6 +41,7 @@ alias rs='bundle exec rails server'
 alias she="vim ${shell_rc}"
 alias shl="vim ${shell_rc}.local"
 alias shs="source ${shell_rc}"
+alias stw="snap-tweet --locale ja --output-dir ~/Downloads"
 alias sudo='sudo '
 alias vimrc='vim ~/.vimrc'
 alias vimrclocal='vim ~/.vimrc.local'
