@@ -182,7 +182,7 @@ let g:memolist_memo_suffix = "md"
 let g:memolist_fzf = 1
 let g:netrw_nogx = 1 " disable netrw's gx mapping for openbrowser
 let g:silicon = {}
-let g:silicon['output'] = '~/Pictures/silicon/silicon-{time:%Y-%m-%d-%H%M%S}.png'
+let g:silicon['output'] = '~/Downloads/silicon-{time:%Y-%m-%d-%H%M%S}.png'
 
 let g:which_key_map = {}
 call which_key#register('<Space>', "g:which_key_map")
