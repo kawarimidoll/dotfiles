@@ -147,6 +147,13 @@ else
 fi
 
 # -----------------
+#  velociraptor
+# -----------------
+if has 'vr'; then
+  source <(vr completions zsh)
+fi
+
+# -----------------
 #  Local Setting
 # -----------------
 __source ~/.zshrc.local

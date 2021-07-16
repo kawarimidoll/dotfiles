@@ -1,4 +1,4 @@
-timestamp: 2021-06-28 09:44:42 JST
+timestamp: 2021-07-16 06:35:49 JST
 tap: a-know/tap
 tap: clementtsang/bottom
 tap: homebrew/bundle
@@ -25,6 +25,7 @@ brew: clementtsang/bottom/bottom
 brew: clog
 brew: cmake
 brew: cocoapods
+brew: csvkit
 brew: csvq
 brew: deno
 brew: dfu-programmer
@@ -44,6 +45,7 @@ brew: findutils
 brew: fselect
 brew: gawk
 brew: genact
+brew: gh
 brew: ghq
 brew: git
 brew: git-delta
@@ -55,6 +57,7 @@ brew: globe
 brew: glow
 brew: gnu-sed
 brew: gnu-tar
+brew: gnupg
 brew: gojq
 brew: gping
 brew: grep
@@ -64,17 +67,21 @@ brew: highlight
 brew: jesseduffield/lazygit/lazygit
 brew: jid
 brew: jq
+brew: kalker
 brew: keith/formulae/reminders-cli
+brew: lcov
 brew: lima
 brew: llvm
 brew: lsd
 brew: luarocks
 brew: mas
+brew: miller
 brew: moar
 brew: mongosh
 brew: moreutils
 brew: nano
 brew: navi
+brew: nbsdgames
 brew: neovim
 brew: ninja
 brew: nodebrew
@@ -95,6 +102,7 @@ brew: rmw
 brew: rpg-cli
 brew: rust
 brew: sd
+brew: semgrep
 brew: silicon
 brew: skanehira/docui/docui
 brew: sl
@@ -130,6 +138,7 @@ cask: abricotine
 cask: accessmenubarapps
 cask: adoptopenjdk
 cask: agenda
+cask: alacritty
 cask: alfred
 cask: alt-tab
 cask: android-commandlinetools
@@ -139,6 +148,7 @@ cask: apparency
 cask: arduino
 cask: audius
 cask: authy
+cask: balenaetcher
 cask: battery-buddy
 cask: bdash
 cask: binance
@@ -167,6 +177,7 @@ cask: flux
 cask: font-roboto-mono-nerd-font
 cask: fuwari
 cask: gimp
+cask: github
 cask: google-chrome
 cask: google-japanese-ime
 cask: grammarly
@@ -178,12 +189,14 @@ cask: iconizer
 cask: iconset
 cask: iina
 cask: inkscape
+cask: iterm2
 cask: itsycal
 cask: kap
 cask: karabiner-elements
 cask: keycastr
 cask: keysmith
 cask: kindle
+cask: kitty
 cask: krita
 cask: licecap
 cask: lmms
@@ -191,6 +204,7 @@ cask: lyrics-master
 cask: medibangpaintpro
 cask: mem
 cask: meteorologist
+cask: mi
 cask: middle
 cask: min
 cask: mmhmm
@@ -241,6 +255,7 @@ cask: tabtopus
 cask: tetrio
 cask: textbuddy
 cask: the-unarchiver
+cask: thebrain
 cask: tiles
 cask: time-out
 cask: tiny-player
@@ -248,6 +263,7 @@ cask: tradingview
 cask: trex
 cask: tweeten
 cask: typora
+cask: ueli
 cask: visual-studio-code
 cask: vitals
 cask: vnote

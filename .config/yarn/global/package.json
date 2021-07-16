@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "cowsay": "^1.5.0",
     "create-vuepress-site": "^0.4.2-beta",
     "serverless": "^2.46.0",
     "serverless-scriptable-plugin": "^1.2.1",

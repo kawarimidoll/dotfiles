@@ -91,6 +91,13 @@ else
 fi
 
 # -----------------
+#  velociraptor
+# -----------------
+if has 'vr'; then
+  source <(vr completions bash)
+fi
+
+# -----------------
 #  Local Setting
 # -----------------
 __source ~/.bashrc.local
