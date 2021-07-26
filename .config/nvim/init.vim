@@ -361,8 +361,8 @@ command! MyTerminal terminal ++rows=12
 command! LazyGit tab terminal ++close lazygit
 command! Lg LazyGit
 command! FmtTabTrail retab | FixWhitespace
-command! FileName echo expand('%:p')
-" command! Silicon !silicon %:p --output %:p:t.png
+command! DenoRun !NO_COLOR=1 deno run -A --unstable %:p
+command! DenoFmt echo system("deno fmt --quiet ".expand("%:p")) | edit | echo 'deno fmt current file'
 
 command! CocFlutter CocList --input=flutter commands
 command! CocGo CocList --input=go commands
@@ -731,7 +731,7 @@ augroup vimrc
   " [close vista window automatically when it's the last window open](https://github.com/liuchengxu/vista.vim/issues/108)
   autocmd BufEnter * if winnr("$") == 1 && vista#sidebar#IsOpen() | execute "normal! :q!\<CR>" | endif
 
-  autocmd BufWritePost $MYVIMRC source $MYVIMRC | echo 'vimrc is reloaded.'
+  " autocmd BufWritePost $MYVIMRC source $MYVIMRC | echo 'vimrc is reloaded.'
 
   " file type settings
   autocmd BufNewFile,BufRead .env* set filetype=env
@@ -750,6 +750,8 @@ augroup vimrc
 
   " [vim-quickrun シンプルかつまともに使える設定 - Qiita](https://qiita.com/uplus_e10/items/2a75fbe3d80063eb9c18)
   " autocmd FileType qf nnoremap <silent><buffer>q :quit<CR>
+
+  autocmd BufNewFile,BufRead *.md,*.json nnoremap <Space>p :<C-u>w<CR>:DenoFmt<CR>
 
   " 前回終了位置に移動
   autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line('$') | execute 'normal g`"' | endif
