@@ -154,6 +154,13 @@ if has 'vr'; then
 fi
 
 # -----------------
+#  eggs
+# -----------------
+if has 'eggs'; then
+  source <(eggs completions zsh)
+fi
+
+# -----------------
 #  Local Setting
 # -----------------
 __source ~/.zshrc.local
