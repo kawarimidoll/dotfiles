@@ -154,6 +154,7 @@ Plug 'reireias/vim-cheatsheet', { 'on': 'Cheat' }
 Plug 'sainnhe/sonokai'
 Plug 'segeljakt/vim-silicon'
 Plug 'simeji/winresizer'
+Plug 'skanehira/command.vim'
 Plug 'terryma/vim-expand-region'
 Plug 'thinca/vim-quickrun'
 Plug 'thosakwe/vim-flutter'
@@ -163,6 +164,8 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-sleuth'
 Plug 'tyru/caw.vim'
 Plug 'tyru/open-browser.vim'
+Plug 'vim-denops/denops.vim'
+Plug 'vim-denops/denops-helloworld.vim'
 Plug 'vim-jp/vimdoc-ja'
 call plug#end()
 
@@ -357,12 +360,13 @@ let g:vista#renderer#enable_icon = 1
 "-----------------
 command! Rcedit edit $MYVIMRC
 command! Rcreload write | source $MYVIMRC | nohlsearch | redraw | echo 'init.vim is reloaded.'
-command! MyTerminal terminal ++rows=12
+" command! MyTerminal terminal ++rows=12
 command! LazyGit tab terminal ++close lazygit
 command! Lg LazyGit
 command! FmtTabTrail retab | FixWhitespace
 command! DenoRun !NO_COLOR=1 deno run -A --unstable %:p
 command! DenoFmt echo system("deno fmt --quiet ".expand("%:p")) | edit | echo 'deno fmt current file'
+command! -nargs=* T split | wincmd j | resize 20 | terminal <args>
 
 command! CocFlutter CocList --input=flutter commands
 command! CocGo CocList --input=go commands
@@ -641,6 +645,7 @@ onoremap x d
 
 " terminal
 tnoremap <C-w><C-n> <C-w>N
+tnoremap <Esc> <C-\><C-n>
 
 "-----------------
 " Abbreviations
@@ -752,6 +757,9 @@ augroup vimrc
   " autocmd FileType qf nnoremap <silent><buffer>q :quit<CR>
 
   autocmd BufNewFile,BufRead *.md,*.json nnoremap <Space>p :<C-u>w<CR>:DenoFmt<CR>
+
+  " [NeovimのTerminalモードをちょっと使いやすくする](https://zenn.dev/ryo_kawamata/articles/improve-neovmi-terminal)
+  autocmd TermOpen * startinsert
 
   " 前回終了位置に移動
   autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line('$') | execute 'normal g`"' | endif
