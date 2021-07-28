@@ -361,7 +361,7 @@ let g:vista#renderer#enable_icon = 1
 command! Rcedit edit $MYVIMRC
 command! Rcreload write | source $MYVIMRC | nohlsearch | redraw | echo 'init.vim is reloaded.'
 " command! MyTerminal terminal ++rows=12
-command! LazyGit tab terminal ++close lazygit
+command! LazyGit tab terminal lazygit
 command! Lg LazyGit
 command! FmtTabTrail retab | FixWhitespace
 command! DenoRun !NO_COLOR=1 deno run -A --unstable %:p
@@ -457,6 +457,14 @@ function! s:ClearAutoRec() abort
     execute 'let @' . reg_char . " = ''"
   endfor
 endfunction
+
+" [neovim terminal](https://gist.github.com/pocari/fd0622fb5ec6946a368e8ee0603979ae)
+" terminalの終了時にバッファを消すフック
+function! s:onTermExit(job_id, code, event) dict
+  " Process Exitが表示されたその後cr打つとバッファが無くなるので
+  " それと同じようにする
+  call feedkeys("\<CR>")
+endfun
 
 " braces motion
 " (count)+braces+action
