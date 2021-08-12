@@ -12,7 +12,7 @@
 # Variables:
 # <xbar.var>string(VAR_USERNAME="kawarimidoll"): Your github username.</xbar.var>
 
-curl -sS https://github-contributions-api.deno.dev/${VAR_USERNAME}.json?flat=true | \
+curl -sS "https://github-contributions-api.deno.dev/${VAR_USERNAME}.json?flat=true" | \
   /opt/homebrew/bin/jq -r '.contributions[-7:] | map(
       (
         if .contributionLevel == "NONE" then ":fallen_leaf:"
