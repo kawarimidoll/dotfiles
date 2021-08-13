@@ -1,4 +1,4 @@
-timestamp: 2021-08-12 07:59:08 JST
+timestamp: 2021-08-13 07:51:38 JST
 tap: a-know/tap
 tap: clementtsang/bottom
 tap: homebrew/bundle
@@ -268,6 +268,7 @@ cask: visual-studio-code
 cask: vitals
 cask: vivaldi
 cask: vnote
+cask: vym
 cask: workflowy
 cask: xbar
 cask: yippy
