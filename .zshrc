@@ -100,6 +100,14 @@ zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
 # -----------------
 __source ~/.fzf.zsh
 
+# https://tech-blog.sgr-ksmt.org/2016/12/10/smart_fzf_history/
+function select-history() {
+  BUFFER=$(history -n -r 1 | fzf --no-sort +m --query "$LBUFFER" --prompt="History > ")
+  CURSOR=$#BUFFER
+}
+zle -N select-history
+bindkey '^r' select-history
+
 # -----------------
 #  Functions
 # -----------------
