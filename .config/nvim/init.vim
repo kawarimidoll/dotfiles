@@ -366,7 +366,10 @@ command! Lg LazyGit
 command! FmtTabTrail retab | FixWhitespace
 command! DenoRun !NO_COLOR=1 deno run -A --unstable %:p
 command! DenoFmt echo system("deno fmt --quiet ".expand("%:p")) | edit | echo 'deno fmt current file'
-command! -nargs=* T split | wincmd j | resize 20 | terminal <args>
+command! CopyFullPath let @*=expand('%:p') | echo 'copy full path'
+command! CopyDirName  let @*=expand('%:h') | echo 'copy dir name'
+command! CopyFileName let @*=expand('%:t') | echo 'copy file name'
+command! -nargs=* T split | wincmd j | resize 12 | terminal <args>
 
 command! CocFlutter CocList --input=flutter commands
 command! CocGo CocList --input=go commands
