@@ -101,9 +101,15 @@ zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
 __source ~/.fzf.zsh
 
 # https://tech-blog.sgr-ksmt.org/2016/12/10/smart_fzf_history/
-function select-history() {
-  BUFFER=$(history -n -r 1 | fzf --no-sort +m --query "$LBUFFER" --prompt="History > ")
-  CURSOR=$#BUFFER
+__get_histories() {
+  history -n -r 1 | \
+    fzf --no-sort +m --query "$LBUFFER" --prompt="History > "
+}
+
+select-history() {
+  BUFFER=$(__get_histories) || return 1
+  CURSOR="${#BUFFER}"
+  zle redisplay
 }
 zle -N select-history
 bindkey '^r' select-history
