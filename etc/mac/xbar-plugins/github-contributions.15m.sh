@@ -17,7 +17,8 @@ curl -sS "https://github-contributions-api.deno.dev/${VAR_USERNAME}.json?flat=tr
       (
         if .contributionLevel == "NONE" then ":fallen_leaf:"
         elif .contributionLevel == "FIRST_QUARTILE" then ":seedling:"
-        elif .contributionLevel == "SECOND_QUARTILE" then ":herb:"
+        elif .contributionLevel == "SECOND_QUARTILE" then ":leaves:"
+        elif .contributionLevel == "THIRD_QUARTILE" then ":herb:"
         else ":evergreen_tree:" end
       ) + .date + ": " +
       (.contributionCount | tostring) + " | color=" +
