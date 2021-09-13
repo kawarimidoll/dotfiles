@@ -28,6 +28,7 @@
 	amend = commit --amend
 	at = !git aa && git it
 	autosquash = rebase -i --autosquash
+	browse = !open $(git remote-url)
 	btf = rebase --continue
 	current-branch = rev-parse --abbrev-ref HEAD
 	cog = config --global --edit
