@@ -123,7 +123,7 @@ call plug#begin(stdpath('config') . '/plugged')
 " Plug 'tyru/open-browser.vim'
 " Plug 'unblevable/quick-scope'
 
-Plug 'AndrewRadev/splitjoin.vim'
+" Plug 'AndrewRadev/splitjoin.vim'
 Plug 'Lunarwatcher/auto-pairs'
 Plug 'airblade/vim-gitgutter'
 Plug 'alvan/vim-closetag'
@@ -578,8 +578,8 @@ nnoremap <silent><Space>G :<C-u>copy-1<CR>
 let g:which_key_map.G = "Duplicate line to up"
 nnoremap <Space>h :<C-u>History<CR>
 " nnoremap <silent><Space>i mzviwbg~`z:<C-u>delmarks z<CR>
-nmap <Space>j :SplitjoinJoin<CR>
-nmap <Space>k :SplitjoinSplit<CR>
+" nmap <Space>j :SplitjoinJoin<CR>
+" nmap <Space>k :SplitjoinSplit<CR>
 nnoremap <Space>l :<C-u>Lines<CR>
 nnoremap <Space>m :<C-u>Marks<CR>
 nnoremap <silent> <Space>n :<C-u>write<CR>:QuickRun -mode n<CR>
