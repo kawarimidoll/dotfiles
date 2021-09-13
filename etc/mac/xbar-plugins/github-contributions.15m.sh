@@ -24,7 +24,7 @@ curl -sS "https://github-contributions-api.deno.dev/${VAR_USERNAME}.json?flat=tr
       (.contributionCount | tostring) + " | color=" +
       (if .contributionLevel == "NONE" then "brown" else "green" end)
     ) | .[]' | \
-  sed '1!G;h;$!d' | \
+  /opt/homebrew/bin/tac | \
   sed -e '1a\'$'\n''---'
 echo '---'
 echo "Open GitHub | href=https://github.com/${VAR_USERNAME}"
