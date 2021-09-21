@@ -13,4 +13,5 @@
 # <xbar.var>string(VAR_LOCATION="Cupertino"): Your location.</xbar.var>
 # <xbar.var>string(VAR_FORMAT="3"): Display format. Ref: https://github.com/chubin/wttr.in#one-line-output</xbar.var>
 
-curl "wttr.in/${VAR_LOCATION}?format=${VAR_FORMAT}"
+curl -sS "wttr.in/${VAR_LOCATION}?format=${VAR_FORMAT}" \
+  | head -1 | sed 's/^$/🈳 down now/'
