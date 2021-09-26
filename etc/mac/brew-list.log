@@ -1,4 +1,4 @@
-timestamp: 2021-09-21 07:44:36 JST
+timestamp: 2021-09-26 09:04:57 JST
 tap: a-know/tap
 tap: clementtsang/bottom
 tap: homebrew/bundle
@@ -16,6 +16,7 @@ brew: automake
 brew: awscli
 brew: awslogs
 brew: bat
+brew: bat-extras
 brew: binutils
 brew: broot
 brew: caire
@@ -72,6 +73,7 @@ brew: jql
 brew: kalker
 brew: keith/formulae/reminders-cli
 brew: lcov
+brew: libproxy
 brew: lima
 brew: llvm
 brew: lsd
@@ -127,6 +129,7 @@ brew: ugrep
 brew: unzip
 brew: vim
 brew: vips
+brew: viu
 brew: w3m
 brew: wasmer
 brew: wdiff

@@ -5,12 +5,14 @@ has() {
 # -----------------
 #  Aliases
 # -----------------
+alias bg='batgrep'
 alias bx='bundle exec'
 alias cdd='cd ..'
 alias cddd='cd ../..'
 alias cdddd='cd ../../..'
 alias cdf="cd $OLDPWD"
 alias cdot="cd $DOT_DIR"
+alias cdg="cd $(git root)"
 alias cp='cp -i'
 alias dc='docker container'
 alias di='docker image'
@@ -60,6 +62,13 @@ fi
 if has 'exa'; then
   alias lsf='exa -Falh --no-user --time-style=long-iso --icons --git --color-scale'
   alias tree='exa --all --git-ignore --tree --icons --ignore-glob=.git'
+fi
+
+if has 'batman'; then
+  alias man='batman'
+fi
+if has 'batdiff'; then
+  alias diff='batdiff --delta'
 fi
 
 # -----------------
