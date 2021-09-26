@@ -150,6 +150,7 @@ Plug 'mattn/vim-goimports'
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'osyo-manga/vim-anzu'
+Plug 'rcarriga/nvim-notify'
 Plug 'reireias/vim-cheatsheet', { 'on': 'Cheat' }
 Plug 'sainnhe/sonokai'
 Plug 'segeljakt/vim-silicon'
@@ -189,6 +190,74 @@ let g:silicon['output'] = '~/Downloads/silicon-{time:%Y-%m-%d-%H%M%S}.png'
 
 let g:which_key_map = {}
 call which_key#register('<Space>', "g:which_key_map")
+
+" https://github.com/yuki-yano/dotfiles/blob/7c2eabca5e5a0ffe5632e64243d149e7f5b87503/.vimrc#L4079
+
+let s:notify_hook = {}
+let g:quickrun_running_message = ''
+let g:quickrun_notify_success_message = ''
+let g:quickrun_notify_error_message = ''
+function! s:notify_hook.on_ready(session, context) abort
+  let g:quickrun_running_message = '[QuickRun] Running ' . a:session.config.command
+  call lightline#update()
+endfunction
+function! s:notify_hook.on_finish(session, context) abort
+  let g:quickrun_running_message = ''
+  call lightline#update()
+endfunction
+function! s:notify_hook.on_success(session, context) abort
+  let g:quickrun_notify_success_message = 'Success ' . a:session.config.command
+  echohl String | echomsg '[QuickRun] ' . g:quickrun_notify_success_message | echohl None
+  lua require('notify')(vim.g.quickrun_notify_success_message, 'info', { title = ' QuickRun' })
+endfunction
+function! s:notify_hook.on_success(session, context) abort
+  let g:quickrun_notify_success_message = 'Success ' . a:session.config.command
+  echohl String | echomsg '[QuickRun] ' . g:quickrun_notify_success_message | echohl None
+  lua require('notify')(vim.g.quickrun_notify_success_message, 'info', { title = ' QuickRun' })
+endfunction
+function! s:notify_hook.on_failure(session, context) abort
+  let g:quickrun_notify_error_message = 'Error ' . a:session.config.command
+  echohl Error | echomsg '[QuickRun] ' . g:quickrun_notify_error_message | echohl None
+  lua require('notify')(vim.g.quickrun_notify_error_message, 'error', { title = ' QuickRun' })
+endfunction
+function! s:notify_hook.sweep() abort
+  let g:quickrun_notify_success_message = ''
+  let g:quickrun_notify_error_message = ''
+endfunction
+let g:quickrun_config = {
+  \ '_' : {
+  \   'outputter' : 'error',
+  \   'outputter/error/success': 'buffer',
+  \   'outputter/error/error':   'quickfix',
+  \   'outputter/buffer/opener': ':botright 15split',
+  \   'outputter/buffer/close_on_empty' : 1,
+  \ },
+  \ 'deno' : {
+  \   'command': 'deno',
+  \   'cmdopt': '--no-check --allow-all --unstable',
+  \   'exec': ['%c run %o %s'],
+  \ },
+  \ 'tsc' : {
+  \   'command': 'tsc',
+  \   'exec': ['yarn run --silent %C --project . --noEmit --incremental --tsBuildInfoFile .git/.tsbuildinfo 2>/dev/null'],
+  \   'outputter': 'quickfix',
+  \   'outputter/quickfix/errorformat': '%+A %#%f %#(%l\,%c): %m,%C%m',
+  \ },
+  \ 'eslint' : {
+  \   'command': 'eslint',
+  \   'exec': ['yarn run --silent %C --format unix --ext .ts,.tsx %a 2>/dev/null'],
+  \   'outputter': 'quickfix',
+  \   'outputter/quickfix/errorformat': '%f:%l:%c:%m,%-G%.%#',
+  \ },
+  \ 'yq' : {
+  \   'exec': 'cat %s | yq eval --tojson',
+  \ },
+  \ 'yq-browser' : {
+  \   'exec': 'cat %s | yq eval --tojson',
+  \   'outputter': 'browser',
+  \   'outputter/browser/name': tempname() . '.json',
+  \ },
+  \ }
 
 "-----------------
 " coc.nvim configuration
@@ -364,7 +433,8 @@ command! Rcreload write | source $MYVIMRC | nohlsearch | redraw | echo 'init.vim
 command! LazyGit tab terminal lazygit
 command! Lg LazyGit
 command! FmtTabTrail retab | FixWhitespace
-command! DenoRun !NO_COLOR=1 deno run -A --unstable %:p
+" command! DenoRun !NO_COLOR=1 deno run -A --unstable %:p
+command! DenoRun QuickRun deno
 command! DenoFmt echo system("deno fmt --quiet ".expand("%:p")) | edit | echo 'deno fmt current file'
 command! CopyFullPath let @*=expand('%:p') | echo 'copy full path'
 command! CopyDirName  let @*=expand('%:h') | echo 'copy dir name'
@@ -590,6 +660,7 @@ let g:which_key_map.O = "Insert line to up"
 nnoremap <Space>p :<C-u>Format<CR>
 " nnoremap <Space>P :<C-u>Prettier<CR>
 nnoremap <Space>q :<C-u>quit<CR>
+nnoremap <Space>Q :<C-u>only<CR>
 nnoremap <Space>r :<C-u>registers<CR>
 nnoremap <Space>s :<C-u>%s/
 nnoremap <Space>S :<C-u>&&<CR>
