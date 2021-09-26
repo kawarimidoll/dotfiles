@@ -93,18 +93,6 @@ push() {
   git push origin "${1:-$(git current-branch)}"
 }
 
-switch() {
-  git list-branch "$@" | xargs --no-run-if-empty -I_ git switch _
-}
-
-delete() {
-  git list-branch "$@" | xargs --no-run-if-empty -I_ git branch --delete _
-}
-
-merge() {
-  git list-branch "$@" | xargs --no-run-if-empty -I_ git merge _
-}
-
 stash() {
   [ $# -ne 1 ] && echo 'stash message is required.' && return 1
   git stash save "$1"
