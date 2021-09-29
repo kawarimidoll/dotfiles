@@ -1,4 +1,4 @@
-timestamp: 2021-09-27 07:34:04 JST
+timestamp: 2021-09-29 08:02:23 JST
 tap: a-know/tap
 tap: clementtsang/bottom
 tap: homebrew/bundle
@@ -10,6 +10,7 @@ tap: keith/formulae
 tap: melonamin/formulae
 tap: px4/px4
 tap: skanehira/docui
+tap: tako8ki/tap
 brew: a-know/tap/pi
 brew: act
 brew: automake
@@ -117,6 +118,7 @@ brew: snowpack
 brew: starship
 brew: svgo
 brew: t-rec
+brew: tako8ki/tap/gobang
 brew: tesseract
 brew: the_platinum_searcher
 brew: tig

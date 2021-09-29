@@ -44,10 +44,10 @@
 	git = !git
 	fixup = !git remember | xargs --no-run-if-empty -I_ git commit --fixup _ && git rebase -i --autosquash
 	history = log --numstat --pretty=format:'%C(auto)%h %C(blue)%cs%C(auto)%d %s %C(blue)[%cn]'
+	home = !git switch $(git default-branch)
 	it = __it
 	latest-tag = describe --tags --abbrev=0
 	list-branch = __list-branch
-	new-branch = switch --create
 	party = shortlog -nse
 	rename-branch = branch --move
 	remember = __remember
@@ -59,6 +59,7 @@
 	store = __store
 	summary = __summary
 	toggle-branch = switch -
+	twig = __twig
 	uncommit = reset --soft HEAD^
 	unpushed = !git log --oneline $(git remote)/$(git current-branch)..$(git current-branch)
 	unstage = restore --staged
