@@ -1,0 +1,6 @@
+#!/bin/bash
+
+git branch "$@" | grep -v HEAD | fzf --cycle --exit-0 --multi \
+  --preview="sed -r 's/. ([^ ]+).*/\1/' <<< {} | \
+  xargs git log -40 --pretty=format:'[%ad] %s <%an>' --date=format:'%F'" | \
+  sed -r 's#. (.*origin/)?([^ ]+).*#\2#'
