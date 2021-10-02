@@ -434,7 +434,7 @@ command! LazyGit tab terminal lazygit
 command! Lg LazyGit
 command! FmtTabTrail retab | FixWhitespace
 " command! DenoRun !NO_COLOR=1 deno run -A --unstable %:p
-command! DenoRun QuickRun deno
+" command! DenoRun QuickRun deno
 command! DenoFmt echo system("deno fmt --quiet ".expand("%:p")) | edit | echo 'deno fmt current file'
 command! CopyFullPath let @*=expand('%:p') | echo 'copy full path'
 command! CopyDirName  let @*=expand('%:h') | echo 'copy dir name'
@@ -539,6 +539,23 @@ function! s:onTermExit(job_id, code, event) dict
   call feedkeys("\<CR>")
 endfun
 
+" function! s:DenoRepl() abort
+"   only | echo 'deno repl' | split | wincmd j | resize 12 | execute 'terminal deno'
+" endfun
+" command! -bang DenoRepl call s:DenoRepl()
+
+function! s:DenoTerm() abort
+  let l:filename = expand('%:p')
+  let l:cmd = l:filename =~ '\(\.\|_\)\?test\.\(ts\|tsx\|js\|mjs\|jsx\)$'
+   \ ? 'test' : 'run'
+  only | echo '' | split | wincmd j | resize 12 |
+   \ execute 'terminal deno ' . l:cmd .
+   \ ' -A --no-check --unstable --watch ' . l:filename |
+   \ stopinsert | execute 'normal! G' |
+   \ set bufhidden=wipe | wincmd k
+endfun
+command! -bang DenoRun call s:DenoTerm()
+
 " braces motion
 " (count)+braces+action
 " [ to effect prev, ] to effect next
@@ -636,7 +653,8 @@ nnoremap <Space>b :<C-u>Buffers<CR>
 nnoremap <Space>B :<C-u>BLines<CR>
 " nmap <Space>c <Plug>(caw:hatpos:toggle)
 " nnoremap <Space>C :<C-u>CaseToSelected<CR>
-nnoremap <Space>d :<C-u>Sayonara!<CR>
+nnoremap <Space>d :<C-u>bdelete<CR>
+" nnoremap <Space>d :<C-u>Sayonara!<CR>
 nmap <Space>ef <Plug>(easymotion-overwin-f)
 nmap <Space>el <Plug>(easymotion-overwin-jk)
 nmap <Space>es <Plug>(easymotion-overwin-f2)
@@ -751,10 +769,9 @@ let g:lightline = {
       \ },
       \ 'tabline': {
       \  'left': [['tabs']],
-      \  'right': [['clock', 'pwd']],
+      \  'right': [['pwd']],
       \ },
       \ 'component': {
-      \   'clock': '%{strftime("%F %R")}',
       \   'fileencoding': '%{winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ""}',
       \   'fileformat': '%{winwidth(0) > 70 ? &fileformat : ""}',
       \   'filetype': '%{winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : "no ft") : ""}',
@@ -819,6 +836,9 @@ augroup vimrc
   autocmd BufEnter * if winnr("$") == 1 && vista#sidebar#IsOpen() | execute "normal! :q!\<CR>" | endif
 
   " autocmd BufWritePost $MYVIMRC source $MYVIMRC | echo 'vimrc is reloaded.'
+
+  " 端末のバッファの名前を実行中プロセスを含むものに変更 https://qiita.com/acomagu/items/5f10ce7bcb2fcfc9732f
+  autocmd BufLeave * if exists('b:term_title') && exists('b:terminal_job_pid') | execute ":file term" . b:terminal_job_pid . "/" . b:term_title
 
   " file type settings
   autocmd BufNewFile,BufRead .env* set filetype=env
