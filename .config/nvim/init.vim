@@ -12,6 +12,27 @@ scriptencoding utf-8
 " https://github.com/kawarimidoll
 
 "-----------------
+" Disable default plugins
+"-----------------
+let g:loaded_gzip               = 1
+let g:loaded_tar                = 1
+let g:loaded_tarPlugin          = 1
+let g:loaded_zip                = 1
+let g:loaded_zipPlugin          = 1
+let g:loaded_rrhelper           = 1
+let g:loaded_vimball            = 1
+let g:loaded_vimballPlugin      = 1
+let g:loaded_getscript          = 1
+let g:loaded_getscriptPlugin    = 1
+let g:loaded_netrw              = 1
+let g:loaded_netrwPlugin        = 1
+let g:loaded_netrwSettings      = 1
+let g:loaded_netrwFileHandlers  = 1
+let g:did_install_default_menus = 1
+let g:skip_loading_mswin        = 1
+let g:did_install_syntax_menu   = 1
+
+"-----------------
 " Options
 "-----------------
 set ambiwidth=single
@@ -92,14 +113,14 @@ else
   " nvimではarrow method使えない…？
   function! s:AutoPlugInstall() abort
     let list = map(
-          \ filter(
-          \ copy(
-          \ items(get(g:, 'plugs', {}))
-          \ ),
-          \ {_,item->!isdirectory(item[1].dir)}
-          \ ),
-          \ {_,item->item[0]}
-          \ )
+      \   filter(
+      \     copy(
+      \       items(get(g:, 'plugs', {}))
+      \     ),
+      \     {_,item->!isdirectory(item[1].dir)}
+      \   ),
+      \   {_,item->item[0]}
+      \ )
     if empty(list)
       return
     endif
@@ -115,20 +136,10 @@ endif
 unlet autoload_plug_path
 
 call plug#begin(stdpath('config') . '/plugged')
-" Plug 'dbeniamine/cheat.sh-vim'
-" Plug 'machakann/vim-highlightedyank'
-" Plug 'tpope/vim-fugitive'
-" Plug 'tpope/vim-surround'
-" Plug 'tpope/vim-unimpaired'
-" Plug 'tyru/open-browser.vim'
-" Plug 'unblevable/quick-scope'
-
-" Plug 'AndrewRadev/splitjoin.vim'
 Plug 'Lunarwatcher/auto-pairs'
 Plug 'airblade/vim-gitgutter'
-Plug 'alvan/vim-closetag'
+Plug 'beikome/cosme.vim'
 Plug 'bronson/vim-trailing-whitespace'
-Plug 'dart-lang/dart-vim-plugin'
 Plug 'easymotion/vim-easymotion'
 Plug 'gko/vim-coloresque'
 Plug 'glidenote/memolist.vim'
@@ -138,41 +149,28 @@ Plug 'jacquesbh/vim-showmarks'
 Plug 'jesseleite/vim-agriculture'
 Plug 'josa42/vim-lightline-coc'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
+" Plug 'junegunn/fzf.vim'
 Plug 'kristijanhusak/vim-carbon-now-sh'
-Plug 'liuchengxu/vim-which-key'
-Plug 'liuchengxu/vista.vim'
 Plug 'markonm/traces.vim'
 Plug 'machakann/vim-sandwich'
-Plug 'mattn/vim-goaddtags'
-Plug 'mattn/vim-goimpl'
-Plug 'mattn/vim-goimports'
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'osyo-manga/vim-anzu'
-Plug 'rcarriga/nvim-notify'
-Plug 'reireias/vim-cheatsheet', { 'on': 'Cheat' }
-Plug 'sainnhe/sonokai'
 Plug 'segeljakt/vim-silicon'
-Plug 'simeji/winresizer'
-Plug 'skanehira/command.vim'
 Plug 'terryma/vim-expand-region'
-Plug 'thinca/vim-quickrun'
-Plug 'thosakwe/vim-flutter'
 Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-endwise'
+" Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-sleuth'
 Plug 'tyru/caw.vim'
 Plug 'tyru/open-browser.vim'
+Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release/rpc' }
 Plug 'vim-denops/denops.vim'
-Plug 'vim-denops/denops-helloworld.vim'
 Plug 'vim-jp/vimdoc-ja'
 call plug#end()
 
 let g:AutoPairsCompatibleMaps = 0
 let g:asterisk#keeppos = 1
-let g:cheatsheet#cheat_file = '~/.vim-cheatsheet.md'
 
 let g:coc_global_extensions = [
       \ 'coc-highlight',
@@ -188,76 +186,7 @@ let g:netrw_nogx = 1 " disable netrw's gx mapping for openbrowser
 let g:silicon = {}
 let g:silicon['output'] = '~/Downloads/silicon-{time:%Y-%m-%d-%H%M%S}.png'
 
-let g:which_key_map = {}
-call which_key#register('<Space>', "g:which_key_map")
-
-" https://github.com/yuki-yano/dotfiles/blob/7c2eabca5e5a0ffe5632e64243d149e7f5b87503/.vimrc#L4079
-
-let s:notify_hook = {}
-let g:quickrun_running_message = ''
-let g:quickrun_notify_success_message = ''
-let g:quickrun_notify_error_message = ''
-function! s:notify_hook.on_ready(session, context) abort
-  let g:quickrun_running_message = '[QuickRun] Running ' . a:session.config.command
-  call lightline#update()
-endfunction
-function! s:notify_hook.on_finish(session, context) abort
-  let g:quickrun_running_message = ''
-  call lightline#update()
-endfunction
-function! s:notify_hook.on_success(session, context) abort
-  let g:quickrun_notify_success_message = 'Success ' . a:session.config.command
-  echohl String | echomsg '[QuickRun] ' . g:quickrun_notify_success_message | echohl None
-  lua require('notify')(vim.g.quickrun_notify_success_message, 'info', { title = ' QuickRun' })
-endfunction
-function! s:notify_hook.on_success(session, context) abort
-  let g:quickrun_notify_success_message = 'Success ' . a:session.config.command
-  echohl String | echomsg '[QuickRun] ' . g:quickrun_notify_success_message | echohl None
-  lua require('notify')(vim.g.quickrun_notify_success_message, 'info', { title = ' QuickRun' })
-endfunction
-function! s:notify_hook.on_failure(session, context) abort
-  let g:quickrun_notify_error_message = 'Error ' . a:session.config.command
-  echohl Error | echomsg '[QuickRun] ' . g:quickrun_notify_error_message | echohl None
-  lua require('notify')(vim.g.quickrun_notify_error_message, 'error', { title = ' QuickRun' })
-endfunction
-function! s:notify_hook.sweep() abort
-  let g:quickrun_notify_success_message = ''
-  let g:quickrun_notify_error_message = ''
-endfunction
-let g:quickrun_config = {
-  \ '_' : {
-  \   'outputter' : 'error',
-  \   'outputter/error/success': 'buffer',
-  \   'outputter/error/error':   'quickfix',
-  \   'outputter/buffer/opener': ':botright 15split',
-  \   'outputter/buffer/close_on_empty' : 1,
-  \ },
-  \ 'deno' : {
-  \   'command': 'deno',
-  \   'cmdopt': '--no-check --allow-all --unstable',
-  \   'exec': ['%c run %o %s'],
-  \ },
-  \ 'tsc' : {
-  \   'command': 'tsc',
-  \   'exec': ['yarn run --silent %C --project . --noEmit --incremental --tsBuildInfoFile .git/.tsbuildinfo 2>/dev/null'],
-  \   'outputter': 'quickfix',
-  \   'outputter/quickfix/errorformat': '%+A %#%f %#(%l\,%c): %m,%C%m',
-  \ },
-  \ 'eslint' : {
-  \   'command': 'eslint',
-  \   'exec': ['yarn run --silent %C --format unix --ext .ts,.tsx %a 2>/dev/null'],
-  \   'outputter': 'quickfix',
-  \   'outputter/quickfix/errorformat': '%f:%l:%c:%m,%-G%.%#',
-  \ },
-  \ 'yq' : {
-  \   'exec': 'cat %s | yq eval --tojson',
-  \ },
-  \ 'yq-browser' : {
-  \   'exec': 'cat %s | yq eval --tojson',
-  \   'outputter': 'browser',
-  \   'outputter/browser/name': tempname() . '.json',
-  \ },
-  \ }
+let g:fzf_preview_fzf_preview_window_option='down:70%'
 
 "-----------------
 " coc.nvim configuration
@@ -399,87 +328,23 @@ nnoremap <silent><nowait> <space>K  :<C-u>CocPrev<CR>
 nnoremap <silent><nowait> <space>P  :<C-u>CocListResume<CR>
 
 "-----------------
-" vista.vim configuration
-" https://github.com/liuchengxu/vista.vim#options
-"-----------------
-" How each level is indented and what to prepend.
-" This could make the display more compact or more spacious.
-" e.g., more compact: ["▸ ", ""]
-" Note: this option only works for the kind renderer, not the tree renderer.
-let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
-let g:vista_default_executive = 'coc'
-
-" To enable fzf's preview window set g:vista_fzf_preview.
-" The elements of g:vista_fzf_preview will be passed as arguments to fzf#vim#with_preview()
-" For example:
-let g:vista_fzf_preview = ['right:50%']
-
-" Ensure you have installed some decent font to show these pretty symbols, then you can enable icon for the kind.
-let g:vista#renderer#enable_icon = 1
-" let g:vista_stay_on_open = 0
-
-" The default icons can't be suitable for all the filetypes, you can extend it as you wish.
-" let g:vista#renderer#icons = {
-"      \   "function": "\uf794",
-"      \   "variable": "\uf71b",
-"      \  }
-
-"-----------------
 " Commands and Functions
 "-----------------
 command! Rcedit edit $MYVIMRC
 command! Rcreload write | source $MYVIMRC | nohlsearch | redraw | echo 'init.vim is reloaded.'
-" command! MyTerminal terminal ++rows=12
 command! LazyGit tab terminal lazygit
 command! Lg LazyGit
 command! FmtTabTrail retab | FixWhitespace
-" command! DenoRun !NO_COLOR=1 deno run -A --unstable %:p
-" command! DenoRun QuickRun deno
 command! DenoFmt echo system("deno fmt --quiet ".expand("%:p")) | edit | echo 'deno fmt current file'
 command! CopyFullPath let @*=expand('%:p') | echo 'copy full path'
 command! CopyDirName  let @*=expand('%:h') | echo 'copy dir name'
 command! CopyFileName let @*=expand('%:t') | echo 'copy file name'
 command! -nargs=* T split | wincmd j | resize 12 | terminal <args>
 
-command! CocFlutter CocList --input=flutter commands
-command! CocGo CocList --input=go commands
-command! GoRun !go run %:p
-command! CocMarkmap CocCommand markmap.create
-
-let g:blog_dir = $OBSIDIAN_VAULT . '/blog/'
-command! -bang BlogList
-      \ call fzf#vim#files(g:blog_dir, {'options': ['--layout=reverse', '--info=inline', '--preview', 'cat {}']}, <bang>0)
-
-function! s:warn(message)
-  echohl WarningMsg
-  echom a:message
-  echohl None
-  return 0
-endfunction
-
-function! s:BlogNew()
-  let title = input("Blog title: ", "")
-  " echo "\nCreate blog: " . title
-
-  let filepath = $OBSIDIAN_VAULT . '/blog/' . strftime("%Y-%m-%d-") .
-        \ substitute(title, ' ', '-', 'g') . '.md'
-  if filereadable(filepath)
-    return s:warn('The file is already exists!')
-  endif
-
-  let templatepath = $OBSIDIAN_VAULT . '/templates/blog-template.md'
-  if !filereadable(templatepath)
-    return s:warn('The template file does not exists!')
-  endif
-
-  execute "edit" templatepath
-  execute "write" filepath
-  execute "edit" filepath
-  execute "0,3substitute/title: /title: " . title . "/"
-  write
-  " echo "\nCreate blog: " . filepath . " from " . templatepath
-endfunction
-command! -bang BlogNew call s:BlogNew()
+" command! CocFlutter CocList --input=flutter commands
+" command! CocGo CocList --input=go commands
+" command! GoRun !go run %:p
+" command! CocMarkmap CocCommand markmap.create
 
 " [Vimの生産性を高める12の方法 | POSTD](https://postd.cc/how-to-boost-your-vim-productivity/)
 function! s:VisualPaste()
@@ -500,36 +365,20 @@ function! s:VisualPaste()
 endfunction
 
 " [vimのマーク機能をできるだけ活用してみる - Make 鮫 noise](http://saihoooooooo.hatenablog.com/entry/2013/04/30/001908)
-let g:mark_chars = ['h', 'j', 'k', 'l']
-function! s:AutoMark() abort
-  let b:mark_pos = exists('b:mark_pos') ? (b:mark_pos + 1) % len(g:mark_chars) : 0
-  execute 'normal! m' . g:mark_chars[b:mark_pos]
-  echo 'auto-marked' g:mark_chars[b:mark_pos]
-endfunction
-function! s:AutoJump() abort
-  if !exists('b:mark_pos')
-    echo 'not auto-marked yet.'
-    return
-  endif
-  execute 'normal! `' . g:mark_chars[b:mark_pos]
-  echo 'jumped to mark' g:mark_chars[b:mark_pos]
-endfunction
-
-let g:reg_chars = ['q', 'w', 'e', 'r', 't', 'y']
-function! s:AutoRec() abort
-  let b:reg_pos = exists('b:reg_pos') ? (b:reg_pos + 1) % len(g:reg_chars) : 0
-  execute 'normal! q' . g:reg_chars[b:reg_pos]
-  echo 'auto-reged' g:reg_chars[b:reg_pos]
-endfunction
-function! s:AutoPlay() abort
-  " echo 'played reg' g:reg_chars[b:reg_pos]
-  return exists('b:reg_pos') ? '@' . g:reg_chars[b:reg_pos] : ''
-endfunction
-function! s:ClearAutoRec() abort
-  for reg_char in g:reg_chars
-    execute 'let @' . reg_char . " = ''"
-  endfor
-endfunction
+" let g:mark_chars = ['h', 'j', 'k', 'l']
+" function! s:AutoMark() abort
+"   let b:mark_pos = exists('b:mark_pos') ? (b:mark_pos + 1) % len(g:mark_chars) : 0
+"   execute 'normal! m' . g:mark_chars[b:mark_pos]
+"   echo 'auto-marked' g:mark_chars[b:mark_pos]
+" endfunction
+" function! s:AutoJump() abort
+"   if !exists('b:mark_pos')
+"     echo 'not auto-marked yet.'
+"     return
+"   endif
+"   execute 'normal! `' . g:mark_chars[b:mark_pos]
+"   echo 'jumped to mark' g:mark_chars[b:mark_pos]
+" endfunction
 
 " [neovim terminal](https://gist.github.com/pocari/fd0622fb5ec6946a368e8ee0603979ae)
 " terminalの終了時にバッファを消すフック
@@ -616,8 +465,9 @@ noremap ]Q :<C-u>clast<CR>
 map n <Plug>(anzu-n)zz
 map N <Plug>(anzu-N)zz
 map M %
-" z*はssにマッピングするが通常のsの動作を潰すため1個の場合も登録しておく
-map s <Plug>(asterisk-z*)<Plug>(anzu-update-search-status)zz
+
+nmap s <Nop>
+xmap s <Nop>
 map ss <Plug>(asterisk-z*)<Plug>(anzu-update-search-status)zz
 map sg <Plug>(asterisk-gz*)<Plug>(anzu-update-search-status)zz
 map <Space>ef <Plug>(easymotion-bd-f)
@@ -625,13 +475,13 @@ map <Space>el <Plug>(easymotion-bd-jk)
 map <Space>ew <Plug>(easymotion-bd-w)
 
 " normal
-nnoremap mm :<C-u>call <sid>AutoMark()<CR>
-nnoremap m, :<C-u>call <sid>AutoJump()<CR>
+" nnoremap mm :<C-u>call <sid>AutoMark()<CR>
+" nnoremap m, :<C-u>call <sid>AutoJump()<CR>
 nnoremap S :%s/\V<C-r>///g<Left><Left>
 " [Vim で q を prefix キーにする - 永遠に未完成](https://thinca.hatenablog.com/entry/q-as-prefix-key-in-vim)
 nnoremap <script> <expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
-nnoremap <sid>(q)q :<C-u>call <sid>AutoRec()<CR>
-nnoremap <expr> Q <sid>AutoPlay()
+nnoremap <sid>(q)q qq
+nnoremap <expr> Q @q
 nnoremap p p`[v`]=`]
 nnoremap P P`[v`]=`]
 nnoremap ]p p
@@ -641,51 +491,36 @@ nnoremap xx "_dd
 nnoremap X "_D
 nnoremap Y y$
 nnoremap ' `
-nnoremap ? /\v
-nnoremap == gg=G''
 
 nmap gx <Plug>(openbrowser-smart-search)
 
-nnoremap <leader><leader> :<C-u>WhichKey '<leader>'<CR>
-nnoremap <Space><Space> :<C-u>WhichKey '<Space>'<CR>
-" nnoremap <Space>a <C-w><C-w>
-nnoremap <Space>b :<C-u>Buffers<CR>
-nnoremap <Space>B :<C-u>BLines<CR>
+nnoremap <Space>a :<C-u>FzfPreviewGitActions<CR>
+nnoremap <Space>b :<C-u>FzfPreviewBuffers<CR>
+nnoremap <Space>B :<C-u>FzfPreviewBufferLines<CR>
 " nmap <Space>c <Plug>(caw:hatpos:toggle)
-" nnoremap <Space>C :<C-u>CaseToSelected<CR>
-nnoremap <Space>d :<C-u>bdelete<CR>
-" nnoremap <Space>d :<C-u>Sayonara!<CR>
+nnoremap <Space>d :<C-u>Sayonara!<CR>
 nmap <Space>ef <Plug>(easymotion-overwin-f)
 nmap <Space>el <Plug>(easymotion-overwin-jk)
 nmap <Space>es <Plug>(easymotion-overwin-f2)
 nmap <Space>ew <Plug>(easymotion-overwin-w)
-nnoremap <Space>f :<C-u>Files<CR>
+nnoremap <Space>f :<C-u>FzfPreviewProjectFiles<CR>
 nnoremap <silent><Space>g :<C-u>copy.<CR>
-let g:which_key_map.g = "Duplicate line to down"
 nnoremap <silent><Space>G :<C-u>copy-1<CR>
-let g:which_key_map.G = "Duplicate line to up"
 nnoremap <Space>h :<C-u>History<CR>
-" nnoremap <silent><Space>i mzviwbg~`z:<C-u>delmarks z<CR>
-" nmap <Space>j :SplitjoinJoin<CR>
-" nmap <Space>k :SplitjoinSplit<CR>
-nnoremap <Space>l :<C-u>Lines<CR>
-nnoremap <Space>m :<C-u>Marks<CR>
+nnoremap <Space>j :<C-u>FzfPreviewJumps<CR>
+nnoremap <Space>l :<C-u>FzfPreviewLines<CR>
+nnoremap <Space>m :<C-u>FzfPreviewMarks<CR>
 nnoremap <silent> <Space>n :<C-u>write<CR>:QuickRun -mode n<CR>
 nnoremap <silent><Space>o :<c-u>put =repeat(nr2char(10), v:count1)<cr>
-let g:which_key_map.o = "Insert line to down"
 nnoremap <silent><Space>O :<c-u>put! =repeat(nr2char(10), v:count1)<cr>'[
-let g:which_key_map.O = "Insert line to up"
 nnoremap <Space>p :<C-u>Format<CR>
-" nnoremap <Space>P :<C-u>Prettier<CR>
 nnoremap <Space>q :<C-u>quit<CR>
 nnoremap <Space>Q :<C-u>only<CR>
 nnoremap <Space>r :<C-u>registers<CR>
 nnoremap <Space>s :<C-u>%s/
 nnoremap <Space>S :<C-u>&&<CR>
 nnoremap <Space>t <C-^>
-let g:which_key_map.t = "Toggle buffers"
 nnoremap <Space>T <C-w><C-w>
-let g:which_key_map.T = "Toggle windows"
 nnoremap <silent><Space>u mzviwg~`z:<C-u>delmarks z<CR>
 nnoremap <silent><Space>U mzviwbg~`z:<C-u>delmarks z<CR>
 nnoremap <Space>v :<C-u>Vista!!<CR>
@@ -733,7 +568,7 @@ xnoremap <Space>w <Esc>:<C-u>write<CR>gv
 xnoremap <silent> <expr> p <sid>VisualPaste()
 xnoremap <silent> y y`]
 xnoremap x "_x
-xnoremap z zf
+
 xnoremap < <gv
 xnoremap > >gv
 
@@ -757,11 +592,11 @@ cabbrev svs saveas %
 "-----------------
 syntax enable
 
-colorscheme sonokai
+colorscheme cosme
 
 " tablineの項目はwinwidthを気にしなくて良い
 let g:lightline = {
-      \ 'colorscheme': 'sonokai',
+      \ 'colorscheme': 'cosme',
       \ 'active': {
       \   'left': [['mode', 'paste'], ['coc_info', 'coc_hints', 'coc_errors', 'coc_warnings', 'coc_ok'],
       \            ['gitgutter', 'filename', 'modified'], ['coc_status'], ['vista']],
@@ -827,16 +662,6 @@ augroup vimrc
   " [lightline.vimとvim-anzuで検索ヒット数を表示する - Qiita](https://qiita.com/shiena/items/f53959d62085b7980cb5)
   autocmd CursorHold,CursorHoldI,WinLeave,TabLeave * call anzu#clear_search_status()
 
-  " [vaffle.vim から netrw にお試しで移行してみた - bamch0h’s diary](https://bamch0h.hatenablog.com/entry/2019/06/24/004104)
-  " autocmd FileType netrw nnoremap <buffer> h -
-  " autocmd FileType netrw nnoremap <buffer> l <CR>
-  " autocmd FileType netrw nnoremap <buffer> . gh
-
-  " [close vista window automatically when it's the last window open](https://github.com/liuchengxu/vista.vim/issues/108)
-  autocmd BufEnter * if winnr("$") == 1 && vista#sidebar#IsOpen() | execute "normal! :q!\<CR>" | endif
-
-  " autocmd BufWritePost $MYVIMRC source $MYVIMRC | echo 'vimrc is reloaded.'
-
   " 端末のバッファの名前を実行中プロセスを含むものに変更 https://qiita.com/acomagu/items/5f10ce7bcb2fcfc9732f
   autocmd BufLeave * if exists('b:term_title') && exists('b:terminal_job_pid') | execute ":file term" . b:terminal_job_pid . "/" . b:term_title
 
@@ -848,15 +673,6 @@ augroup vimrc
   autocmd BufNewFile,BufRead *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4
   autocmd BufNewFile,BufRead *.go setlocal tabstop=4 softtabstop=4 shiftwidth=4
   autocmd BufNewFile,BufRead *.java setlocal tabstop=4 softtabstop=4 shiftwidth=4
-
-  " " F4で現在のファイルを実行 https://qiita.com/i47_rozary/items/e02bd3b790a2d909ea9f
-  " autocmd FileType go noremap <Space>n :!go run %:p<CR>
-  " autocmd FileType javascript noremap <Space>n :!deno %:p<CR>
-  " autocmd FileType ruby noremap <Space>n :!ruby %:p<CR>
-  " autocmd FileType sh noremap <Space>n :!sh %:p<CR>
-
-  " [vim-quickrun シンプルかつまともに使える設定 - Qiita](https://qiita.com/uplus_e10/items/2a75fbe3d80063eb9c18)
-  " autocmd FileType qf nnoremap <silent><buffer>q :quit<CR>
 
   autocmd BufNewFile,BufRead *.md,*.json nnoremap <Space>p :<C-u>w<CR>:DenoFmt<CR>
 
@@ -875,6 +691,4 @@ augroup vimrc
       call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
     endif
   endfunction
-
-  autocmd VimLeavePre * call s:ClearAutoRec()
 augroup END
