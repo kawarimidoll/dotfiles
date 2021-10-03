@@ -1,0 +1,16 @@
+#!/bin/bash
+
+playdir="/var/tmp/deno-playground/"
+
+mkdir -p "${playdir}.vim"
+cd "$playdir"
+echo '{"deno.enable":true,"deno.lint":true,"deno.unstable":true,"deno.suggest.imports.hosts":{"https://deno.land/":true},"prettier.disableLanguages":["typescript","javascript","markdown"],"typescript.format.enabled":false}' > .vim/coc-settings.json
+echo -e 'console.clear();\n\nconsole.log("playground");\n' > playground.ts
+
+nvim playground.ts \
+  -c 'DenoRun' \
+  -c 'nnoremap <Space>q :<C-u>qa!<CR>' \
+  -c 'normal! G'
+
+cd
+rm -r "$playdir"
