@@ -136,7 +136,6 @@ endif
 unlet autoload_plug_path
 
 call plug#begin(stdpath('config') . '/plugged')
-Plug 'Lunarwatcher/auto-pairs'
 Plug 'airblade/vim-gitgutter'
 Plug 'beikome/cosme.vim'
 Plug 'bronson/vim-trailing-whitespace'
@@ -149,7 +148,6 @@ Plug 'jacquesbh/vim-showmarks'
 Plug 'jesseleite/vim-agriculture'
 Plug 'josa42/vim-lightline-coc'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-" Plug 'junegunn/fzf.vim'
 Plug 'kristijanhusak/vim-carbon-now-sh'
 Plug 'markonm/traces.vim'
 Plug 'machakann/vim-sandwich'
@@ -169,7 +167,6 @@ Plug 'vim-denops/denops.vim'
 Plug 'vim-jp/vimdoc-ja'
 call plug#end()
 
-let g:AutoPairsCompatibleMaps = 0
 let g:asterisk#keeppos = 1
 
 let g:coc_global_extensions = [

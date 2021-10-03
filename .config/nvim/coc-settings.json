@@ -1,0 +1,24 @@
+{
+  "tsserver.enable": false,
+  "cSpell.userWords": [
+    "Neovim",
+    "Zenn",
+    "autoloader",
+    "crossorigin",
+    "datetime",
+    "deno",
+    "deplyctl",
+    "frontmatter",
+    "kawarimidoll",
+    "monospace",
+    "noopener",
+    "noreferrer",
+    "textdb",
+    "twemoji",
+    "typograssy",
+    "vbscript",
+    "webp"
+  ],
+  "coc.preferences.formatOnType": true,
+  "html.autoClosingTags": true
+}
