@@ -1,0 +1,241 @@
+[[plugins]]
+repo = 'Shougo/dein.vim'
+
+[[plugins]]
+# repo='sainnhe/sonokai'
+repo='cocopon/iceberg.vim'
+on_event='VimEnter'
+hook_post_source='''
+  set background=dark
+  colorscheme iceberg
+'''
+
+[[plugins]]
+repo='vim-denops/denops.vim'
+
+[[plugins]]
+repo='Shougo/ddc.vim'
+depends = ['context_filetype.vim', 'denops.vim']
+on_event = 'InsertEnter'
+hook_source='''
+  inoremap <silent><expr> <C-l> ddc#complete_common_string()
+  inoremap <silent><expr> <TAB>
+      \ pumvisible() ? '<C-n>' :
+      \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
+      \ '<TAB>' : ddc#manual_complete()
+  inoremap <expr><S-TAB> pumvisible() ? '<C-p>' : '<C-h>'
+
+  call ddc#custom#patch_global('sources', [
+      \   'around', 'nextword', 'treesitter', 'nvim-lsp', 'skkeleton'
+      \ ])
+  call ddc#custom#patch_global('sourceOptions', {
+      \   'around': {'mark': 'A'},
+      \   'nextword': {'mark': 'nextword'},
+      \   'treesitter': {'mark': 'T'},
+      \   '_': {
+      \     'matchers': ['matcher_fuzzy', 'matcher_head', 'matcher_length'],
+      \     'sorters': ['sorter_fuzzy', 'sorter_rank']
+      \   },
+      \   'nvim-lsp': {
+      \     'mark': 'lsp',
+      \     'forceCompletionPattern': '\.\w*|:\w*|->\w*'
+      \   },
+      \   'skkeleton': {
+      \     'mark': 'skkeleton',
+      \     'matchers': ['skkeleton'],
+      \     'sorters': [],
+      \     'minAutoCompleteLength': 2,
+      \   },
+      \ })
+
+  call ddc#custom#patch_global('filterParams', {
+      \   'matcher_fuzzy': {'camelcase': v:true},
+      \ })
+  call ddc#enable()
+'''
+
+[[plugins]]
+repo = 'Shougo/context_filetype.vim'
+on_event = 'BufRead'
+
+[[plugins]]
+repo='vim-skk/denops-skkeleton.vim'
+on_event='InsertEnter'
+on_source = ['ddc.vim']
+on_map = {ic = '<plug>(skkeleton-'}
+hook_add = '''
+  imap <C-j> <Plug>(skkeleton-toggle)
+  cmap <C-j> <Plug>(skkeleton-toggle)
+  function! s:skkeleton_init() abort
+    call skkeleton#config({
+      \   'eggLikeNewline': v:true,
+      \   'globalJisyo': exapnd('~/.cache/skk/SKK-JISYO.L'),
+      \ })
+  endfunction
+  autocmd User skkeleton-initialize-pre call s:skkeleton_init()
+'''
+
+[[plugins]]
+repo = 'Shougo/ddc-matcher_head'
+depends = ['ddc.vim']
+
+[[plugins]]
+repo = 'Shougo/ddc-matcher_length'
+depends = ['ddc.vim']
+
+[[plugins]]
+repo = 'delphinus/ddc-treesitter'
+depends = ['ddc.vim']
+
+[[plugins]]
+repo = 'LumaKernel/ddc-tabnine'
+depends = ['ddc.vim']
+
+[[plugins]]
+repo = 'Shougo/neco-vim'
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'Shougo/ddc-converter_remove_overlap'
+on_source = 'ddc.vim'
+
+[[plugins]]
+repo = 'hrsh7th/vim-vsnip'
+depends = ['vim-vsnip-integ', 'friendly-snippets']
+on_event = 'InsertEnter'
+hook_add = '''
+  " Expand
+  imap <expr> <C-l> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-l>'
+  smap <expr> <C-l> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-l>'
+  " Jump forward or backward
+  imap <expr> <C-f> vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<C-f>'
+  smap <expr> <C-f> vsnip#jumpable(1)  ? '<Plug>(vsnip-jump-next)' : '<C-f>'
+  imap <expr> <C-b> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<C-b>'
+  smap <expr> <C-b> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<C-b>'
+  let g:vsnip_snippet_dir = expand('~/dotfiles/nvim/snippets')
+'''
+
+[[plugins]]
+repo = 'hrsh7th/vim-vsnip-integ'
+
+[[plugins]]
+repo = 'rafamadriz/friendly-snippets'
+
+[[plugins]]
+repo = 'Shougo/ddc-sorter_rank'
+depends = ['ddc.vim']
+
+[[plugins]]
+repo='matsui54/ddc-matcher_fuzzy'
+depends = ['ddc.vim']
+
+[[plugins]]
+repo='Shougo/ddc-nvim-lsp'
+depends = ['ddc.vim']
+
+[[plugins]]
+repo='matsui54/ddc-nvim-lsp-doc'
+depends = ['ddc.vim']
+hook_add='''
+  let g:ddc_nvim_lsp_doc_config = {
+    \   'documentation': {
+    \     'enable': v:true,
+    \     'border': 'double',
+    \     'maxWidth': 60,
+    \     'maxHeight': 30,
+    \   },
+    \   'signature': {
+    \     'maxHeight': 5,
+    \   },
+    \ }
+  call ddc_nvim_lsp_doc#enable()
+'''
+
+[[plugins]]
+repo = 'matsui54/denops-popup-preview.vim'
+on_source = 'ddc.vim'
+hook_source = '''
+  let g:popup_preview_config = {
+    \   'enable': v:true,
+    \   'delay': 30,
+    \ }
+  call popup_preview#enable()
+  let g:markdown_fenced_languages = ['ts=typescript']
+'''
+
+[[plugins]]
+repo='LumaKernel/ddc-file'
+depends = ['ddc.vim']
+
+[[plugins]]
+repo = 'matsui54/ddc-buffer'
+on_source = 'ddc.vim'
+
+# [[plugins]]
+# repo = 'matsui54/ddc-ultisnips'
+# on_source = 'ddc.vim'
+# 
+# [[plugins]]
+# repo = 'matsui54/ddc-filter_editdistance'
+# on_source = 'ddc.vim'
+# 
+# [[plugins]]
+# repo = 'matsui54/ddc-converter_truncate'
+# on_source = 'ddc.vim'
+
+[[plugins]]
+repo='higashi000/dps-kakkonan''
+depends = ['denops.vim']
+
+# [[plugins]]
+# repo='lambdalisue/gin.vim'
+# depends = ['denops.vim']
+
+[[plugins]]
+repo='lambdalisue/guise.vim'
+depends = ['denops.vim']
+
+[[plugins]]
+repo='lambdalisue/askpass.vim'
+
+[[plugins]]
+repo='lambdalisue/gina.vim'
+
+[[plugins]]
+repo='junegunn/fzf'
+hook_done_update='./install --all'
+merged = 0
+
+[[plugins]]
+repo='yuki-ycino/fzf-preview.vim'
+rev='release/rpc'
+hook_add='''
+  nnoremap <Space>b :<C-u>FzfPreviewBuffers<CR>
+  nnoremap <Space>f :<C-u>FzfPreviewProjectFiles<CR>
+'''
+
+[[plugins]]
+repo = 'vim-jp/autofmt'
+
+[[plugins]]
+repo = 'vim-jp/vimdoc-ja'
+merged = 0
+
+[[plugins]]
+repo='machakann/vim-sandwich'
+hook_add='''
+  nmap saa <Plug>(operator-sandwich-add)
+  nmap sai <Plug>(operator-sandwich-add)
+  nmap sd <Plug>(operator-sandwich-delete)<Plug>(textobj-sandwich-query-a)
+  nmap sdb <Plug>(operator-sandwich-delete)<Plug>(textobj-sandwich-auto-a)
+  nmap sr <Plug>(operator-sandwich-replace)<Plug>(textobj-sandwich-query-a)
+  nmap srb <Plug>(operator-sandwich-replace)<Plug>(textobj-sandwich-auto-a)
+'''
+
+[[plugins]]
+repo='tyru/caw.vim'
+on_map=['<Plug>(caw:hatpos:toggle)']
+hook_add='''
+  nmap gl <Plug>(caw:hatpos:toggle)
+  xmap gl <Plug>(caw:hatpos:toggle)
+'''
