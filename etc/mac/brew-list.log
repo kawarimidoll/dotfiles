@@ -1,4 +1,4 @@
-timestamp: 2021-10-02 17:19:07 JST
+timestamp: 2021-10-04 07:28:44 JST
 tap: a-know/tap
 tap: clementtsang/bottom
 tap: homebrew/bundle
@@ -174,11 +174,11 @@ cask: ears
 cask: editaro
 cask: empoche
 cask: evernote
+cask: fig
 cask: firecamp
 cask: flutter
 cask: flux
 cask: font-roboto-mono-nerd-font
-cask: freetube
 cask: fuwari
 cask: gimp
 cask: google-chrome
@@ -284,16 +284,16 @@ mas: 1503136033  Service Station    (2020.9)
 mas: 1534796314  Twenttty           (1.1.0)
 mas: 1542390153  Chemy              (1.1.0)
 mas: 1543657970  Nimble Click       (1.8)
-mas: 1545870783  Color Picker       (1.6.2)
+mas: 1545870783  Color Picker       (1.7.1)
 mas: 1546457750  Zavala             (1.1.3)
 mas: 1547147101  OpenIn             (2.1.0)
-mas: 1560355863  cidemon            (3.0.21)
+mas: 1560355863  CI Demon           (3.0.22)
 mas: 1562921229  Uniview            (1.2)
 mas: 1563735522  Charmstone         (0.14)
 mas: 1566662030  CustomSymbols      (2.3.2)
 mas: 1569290801  ItemStock          (1.0)
 mas: 1581223559  Magic              (2.2)
-mas: 1586304988  messer             (1.0.14)
+mas: 1586304988  messer             (1.0.17)
 mas: 415311936   めがね                (1.3.0)
 mas: 497799835   Xcode              (13.0)
 mas: 682658836   GarageBand         (10.4.3)

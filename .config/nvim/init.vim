@@ -97,6 +97,9 @@ set wildmenu
 set wildmode=list:longest,full
 set wrap
 set wrapscan
+if has('termguicolors')
+  set termguicolors
+endif
 
 " [Tips should also describe automatic installation for Neovim|junegunn/vim-plug](https://github.com/junegunn/vim-plug/issues/739)
 let autoload_plug_path = stdpath('config') . '/autoload/plug.vim'
@@ -137,8 +140,8 @@ unlet autoload_plug_path
 
 call plug#begin(stdpath('config') . '/plugged')
 Plug 'airblade/vim-gitgutter'
-Plug 'beikome/cosme.vim'
 Plug 'bronson/vim-trailing-whitespace'
+" Plug 'cocopon/iceberg.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'gko/vim-coloresque'
 Plug 'glidenote/memolist.vim'
@@ -149,12 +152,14 @@ Plug 'jesseleite/vim-agriculture'
 Plug 'josa42/vim-lightline-coc'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'kristijanhusak/vim-carbon-now-sh'
+Plug 'lambdalisue/gina.vim'
 Plug 'markonm/traces.vim'
 Plug 'machakann/vim-sandwich'
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'osyo-manga/vim-anzu'
 Plug 'segeljakt/vim-silicon'
+Plug 'sainnhe/sonokai'
 Plug 'terryma/vim-expand-region'
 Plug 'tpope/vim-abolish'
 " Plug 'tpope/vim-endwise'
@@ -162,7 +167,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-sleuth'
 Plug 'tyru/caw.vim'
 Plug 'tyru/open-browser.vim'
-Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release/rpc' }
+" Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release/rpc' }
 Plug 'vim-denops/denops.vim'
 Plug 'vim-jp/vimdoc-ja'
 call plug#end()
@@ -183,7 +188,15 @@ let g:netrw_nogx = 1 " disable netrw's gx mapping for openbrowser
 let g:silicon = {}
 let g:silicon['output'] = '~/Downloads/silicon-{time:%Y-%m-%d-%H%M%S}.png'
 
-let g:fzf_preview_fzf_preview_window_option='down:70%'
+let g:fzf_preview_fzf_preview_window_option = 'down:70%'
+let g:fzf_preview_use_dev_icons = 1
+let g:fzf_preview_default_fzf_options = {
+      \ '--reverse': v:true,
+      \ '--preview-window': 'wrap',
+      \ '--exact': v:true,
+      \ '--no-sort': v:true,
+      \ }
+let g:sonokai_style = 'shusia' " default,atlantis,andromeda,shusia,maia,espresso
 
 "-----------------
 " coc.nvim configuration
@@ -392,7 +405,7 @@ endfun
 
 function! s:DenoTerm() abort
   let l:filename = expand('%:p')
-  let l:cmd = l:filename =~ '\(\.\|_\)\?test\.\(ts\|tsx\|js\|mjs\|jsx\)$'
+  let l:cmd = l:filename =~ '^\(.*\.\|.*_\)\?test\.\(ts\|tsx\|js\|mjs\|jsx\)$'
    \ ? 'test' : 'run'
   only | echo '' | split | wincmd j | resize 12 |
    \ execute 'terminal deno ' . l:cmd .
@@ -478,7 +491,7 @@ nnoremap S :%s/\V<C-r>///g<Left><Left>
 " [Vim で q を prefix キーにする - 永遠に未完成](https://thinca.hatenablog.com/entry/q-as-prefix-key-in-vim)
 nnoremap <script> <expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
 nnoremap <sid>(q)q qq
-nnoremap <expr> Q @q
+nnoremap Q @q
 nnoremap p p`[v`]=`]
 nnoremap P P`[v`]=`]
 nnoremap ]p p
@@ -491,23 +504,22 @@ nnoremap ' `
 
 nmap gx <Plug>(openbrowser-smart-search)
 
-nnoremap <Space>a :<C-u>FzfPreviewGitActions<CR>
-nnoremap <Space>b :<C-u>FzfPreviewBuffers<CR>
-nnoremap <Space>B :<C-u>FzfPreviewBufferLines<CR>
+nnoremap <Space>a :<C-u>CocCommand fzf-preview.GitActions<CR>
+nnoremap <Space>b :<C-u>CocCommand fzf-preview.Buffers<CR>
+nnoremap <Space>B :<C-u>CocCommand fzf-previewBufferLines<CR>
 " nmap <Space>c <Plug>(caw:hatpos:toggle)
 nnoremap <Space>d :<C-u>Sayonara!<CR>
 nmap <Space>ef <Plug>(easymotion-overwin-f)
 nmap <Space>el <Plug>(easymotion-overwin-jk)
 nmap <Space>es <Plug>(easymotion-overwin-f2)
 nmap <Space>ew <Plug>(easymotion-overwin-w)
-nnoremap <Space>f :<C-u>FzfPreviewProjectFiles<CR>
+nnoremap <Space>f :<C-u>CocCommand fzf-preview.ProjectFiles<CR>
 nnoremap <silent><Space>g :<C-u>copy.<CR>
 nnoremap <silent><Space>G :<C-u>copy-1<CR>
 nnoremap <Space>h :<C-u>History<CR>
-nnoremap <Space>j :<C-u>FzfPreviewJumps<CR>
-nnoremap <Space>l :<C-u>FzfPreviewLines<CR>
-nnoremap <Space>m :<C-u>FzfPreviewMarks<CR>
-nnoremap <silent> <Space>n :<C-u>write<CR>:QuickRun -mode n<CR>
+nnoremap <Space>j :<C-u>CocCommand fzf-preview.Jumps<CR>
+nnoremap <Space>l :<C-u>CocCommand fzf-preview.Lines<CR>
+nnoremap <Space>m :<C-u>CocCommand fzf-preview.Marks<CR>
 nnoremap <silent><Space>o :<c-u>put =repeat(nr2char(10), v:count1)<cr>
 nnoremap <silent><Space>O :<c-u>put! =repeat(nr2char(10), v:count1)<cr>'[
 nnoremap <Space>p :<C-u>Format<CR>
@@ -520,8 +532,6 @@ nnoremap <Space>t <C-^>
 nnoremap <Space>T <C-w><C-w>
 nnoremap <silent><Space>u mzviwg~`z:<C-u>delmarks z<CR>
 nnoremap <silent><Space>U mzviwbg~`z:<C-u>delmarks z<CR>
-nnoremap <Space>v :<C-u>Vista!!<CR>
-nnoremap <Space>V :<C-u>Vista finder fzf<CR>
 nnoremap <Space>w :<C-u>write<CR>
 nnoremap <Space>wq :<C-u>exit<CR>
 nnoremap <Space>x :<C-u>CocCommand explorer<CR>
@@ -536,8 +546,6 @@ nnoremap <silent><expr> <C-k> ':<C-u>move-1-' . v:count1 . '<CR>=l'
 nnoremap <silent><expr> <C-j> ':<C-u>move+' . v:count1 . '<CR>=l'
 nnoremap <silent><C-l> :<C-u>nohlsearch<CR>:diffupdate<CR>:syntax sync fromstart<CR><C-l>
 nnoremap <C-w><C-q> <C-w>c
-
-nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
 
 " command
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
@@ -559,7 +567,6 @@ xmap v <Plug>(expand_region_expand)
 xmap <C-v> <Plug>(expand_region_shrink)
 xmap <Space>/ <Plug>RgRawVisualSelection<Left>
 vmap gx <Plug>(openbrowser-smart-search)
-xnoremap <silent> <Space>n :<C-u>write<CR>gv:QuickRun -mode n<CR>
 xnoremap <Space>w <Esc>:<C-u>write<CR>gv
 " xmap <Space>c <Plug>(caw:hatpos:toggle)
 xnoremap <silent> <expr> p <sid>VisualPaste()
@@ -589,11 +596,11 @@ cabbrev svs saveas %
 "-----------------
 syntax enable
 
-colorscheme cosme
+colorscheme sonokai
 
 " tablineの項目はwinwidthを気にしなくて良い
 let g:lightline = {
-      \ 'colorscheme': 'cosme',
+      \ 'colorscheme': 'sonokai',
       \ 'active': {
       \   'left': [['mode', 'paste'], ['coc_info', 'coc_hints', 'coc_errors', 'coc_warnings', 'coc_ok'],
       \            ['gitgutter', 'filename', 'modified'], ['coc_status'], ['vista']],
