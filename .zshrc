@@ -2,7 +2,7 @@
 #  Common setting
 # -----------------
 __source() {
-  [ -f $1 ] && source $1
+  [ -s $1 ] && source $1
 }
 __add_fpath() {
   [ -e $1 ] && fpath=($1 $fpath)
@@ -149,7 +149,12 @@ bindkey '^x' oneliners
 #  prompt
 # -----------------
 if has "starship"; then
-  eval "$(starship init zsh)"
+  # [zsh の起動速度を改善した](https://zenn.dev/ktakayama/articles/27b9d6218ed2f0ee9992)
+  if [ ! -f /tmp/zsh_starship.cache ]; then
+    starship init zsh > /tmp/zsh_starship.cache
+    zcompile /tmp/zsh_starship.cache
+  fi
+  source /tmp/zsh_starship.cache
 else
   __ps_git_br() {
     local exit=$?
@@ -164,14 +169,24 @@ fi
 #  velociraptor
 # -----------------
 if has 'vr'; then
-  source <(vr completions zsh)
+  if [ ! -f /tmp/zsh_velociraptor.cache ]; then
+    vr completions zsh > /tmp/zsh_velociraptor.cache
+    zcompile /tmp/zsh_velociraptor.cache
+  fi
+  source /tmp/zsh_velociraptor.cache
+  # source <(vr completions zsh)
 fi
 
 # -----------------
 #  eggs
 # -----------------
 if has 'eggs'; then
-  source <(eggs completions zsh)
+  if [ ! -f /tmp/zsh_eggs.cache ]; then
+    eggs completions zsh > /tmp/zsh_eggs.cache
+    zcompile /tmp/zsh_eggs.cache
+  fi
+  source /tmp/zsh_eggs.cache
+  # source <(eggs completions zsh)
 fi
 
 # -----------------
