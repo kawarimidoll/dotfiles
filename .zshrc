@@ -189,6 +189,9 @@ if has 'eggs'; then
   # source <(eggs completions zsh)
 fi
 
+# Set tab name of kitty https://github.com/kovidgoyal/kitty/issues/930
+precmd () { print -Pn "\e]0;%~\a" }
+
 # -----------------
 #  Local Setting
 # -----------------
