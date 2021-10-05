@@ -2,6 +2,7 @@
   "tsserver.enable": false,
   "cSpell.userWords": [
     "Neovim",
+    "Ptera",
     "Zenn",
     "autoloader",
     "crossorigin",

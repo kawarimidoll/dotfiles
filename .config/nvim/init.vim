@@ -14,23 +14,24 @@ scriptencoding utf-8
 "-----------------
 " Disable default plugins
 "-----------------
-let g:loaded_gzip               = 1
-let g:loaded_tar                = 1
-let g:loaded_tarPlugin          = 1
-let g:loaded_zip                = 1
-let g:loaded_zipPlugin          = 1
-let g:loaded_rrhelper           = 1
-let g:loaded_vimball            = 1
-let g:loaded_vimballPlugin      = 1
+let g:did_install_default_menus = 1
+let g:did_install_syntax_menu   = 1
 let g:loaded_getscript          = 1
 let g:loaded_getscriptPlugin    = 1
+let g:loaded_gzip               = 1
+let g:loaded_matchparen         = 1
 let g:loaded_netrw              = 1
+let g:loaded_netrwFileHandlers  = 1
 let g:loaded_netrwPlugin        = 1
 let g:loaded_netrwSettings      = 1
-let g:loaded_netrwFileHandlers  = 1
-let g:did_install_default_menus = 1
+let g:loaded_rrhelper           = 1
+let g:loaded_tar                = 1
+let g:loaded_tarPlugin          = 1
+let g:loaded_vimball            = 1
+let g:loaded_vimballPlugin      = 1
+let g:loaded_zip                = 1
+let g:loaded_zipPlugin          = 1
 let g:skip_loading_mswin        = 1
-let g:did_install_syntax_menu   = 1
 
 "-----------------
 " Options
@@ -144,32 +145,35 @@ Plug 'bronson/vim-trailing-whitespace'
 " Plug 'cocopon/iceberg.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'gko/vim-coloresque'
-Plug 'glidenote/memolist.vim'
+" Plug 'glidenote/memolist.vim'
 Plug 'haya14busa/vim-asterisk'
-Plug 'itchyny/lightline.vim'
-Plug 'jacquesbh/vim-showmarks'
-Plug 'jesseleite/vim-agriculture'
-Plug 'josa42/vim-lightline-coc'
+" Plug 'itchyny/lightline.vim'
+Plug 'jacquesbh/vim-showmarks', { 'on': 'DoShowMarks' }
+" Plug 'josa42/vim-lightline-coc'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'kristijanhusak/vim-carbon-now-sh'
+Plug 'kristijanhusak/vim-carbon-now-sh', { 'on': 'CarbonNowSh' }
 Plug 'lambdalisue/gina.vim'
 Plug 'markonm/traces.vim'
 Plug 'machakann/vim-sandwich'
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'osyo-manga/vim-anzu'
-Plug 'segeljakt/vim-silicon'
+Plug 'segeljakt/vim-silicon', { 'on': 'Silicon' }
 Plug 'sainnhe/sonokai'
-Plug 'terryma/vim-expand-region'
+Plug 'terryma/vim-expand-region', { 'on': [
+      \ '<Plug>(expand_region_expand)',
+      \ '<Plug>(expand_region_shrink)' ]}
 Plug 'tpope/vim-abolish'
 " Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-sleuth'
 Plug 'tyru/caw.vim'
-Plug 'tyru/open-browser.vim'
-" Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release/rpc' }
-Plug 'vim-denops/denops.vim'
+Plug 'tyru/open-browser.vim', { 'on': [ '<Plug>(openbrowser-smart-search)' ]}
+" Plug 'vim-denops/denops.vim'
 Plug 'vim-jp/vimdoc-ja'
+
+Plug 'hoob3rt/lualine.nvim'
+Plug 'kyazdani42/nvim-web-devicons'
 call plug#end()
 
 let g:asterisk#keeppos = 1
@@ -516,7 +520,7 @@ nmap <Space>ew <Plug>(easymotion-overwin-w)
 nnoremap <Space>f :<C-u>CocCommand fzf-preview.ProjectFiles<CR>
 nnoremap <silent><Space>g :<C-u>copy.<CR>
 nnoremap <silent><Space>G :<C-u>copy-1<CR>
-nnoremap <Space>h :<C-u>History<CR>
+nnoremap <Space>h :<C-u>CocCommand fzf-preview.ProjectMruFiles<CR>
 nnoremap <Space>j :<C-u>CocCommand fzf-preview.Jumps<CR>
 nnoremap <Space>l :<C-u>CocCommand fzf-preview.Lines<CR>
 nnoremap <Space>m :<C-u>CocCommand fzf-preview.Marks<CR>
@@ -536,11 +540,9 @@ nnoremap <Space>w :<C-u>write<CR>
 nnoremap <Space>wq :<C-u>exit<CR>
 nnoremap <Space>x :<C-u>CocCommand explorer<CR>
 nnoremap <Silent> <Space>y  :<C-u>CocList -A --normal yank<CR>
-nnoremap <Space>z za
-nnoremap <Space>/ :<C-u>RgRaw -F -- $''<Left>
-nmap <Space>? <Plug>RgRawWordUnderCursor<Left>
-nnoremap <Space>; :<C-u>History/<CR>
-nnoremap <Space>: :<C-u>History:<CR>
+nnoremap <Space>/ :<C-u>CocCommand fzf-preview.ProjectGrep ''<Left>
+nnoremap <Space>? :<C-u>CocCommand fzf-preview.ProjectGrep ''<Left><C-r><C-f>
+nnoremap <Space>: :<C-u>CocCommand fzf-preview.CommandPallette<CR>
 
 nnoremap <silent><expr> <C-k> ':<C-u>move-1-' . v:count1 . '<CR>=l'
 nnoremap <silent><expr> <C-j> ':<C-u>move+' . v:count1 . '<CR>=l'
@@ -598,37 +600,49 @@ syntax enable
 
 colorscheme sonokai
 
-" tablineの項目はwinwidthを気にしなくて良い
-let g:lightline = {
-      \ 'colorscheme': 'sonokai',
-      \ 'active': {
-      \   'left': [['mode', 'paste'], ['coc_info', 'coc_hints', 'coc_errors', 'coc_warnings', 'coc_ok'],
-      \            ['gitgutter', 'filename', 'modified'], ['coc_status'], ['vista']],
-      \   'right': [['coc'], ['lineinfo', 'anzu'], ['percent'], ['fileformat', 'fileencoding', 'filetype']]
-      \ },
-      \ 'tabline': {
-      \  'left': [['tabs']],
-      \  'right': [['pwd']],
-      \ },
-      \ 'component': {
-      \   'fileencoding': '%{winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ""}',
-      \   'fileformat': '%{winwidth(0) > 70 ? &fileformat : ""}',
-      \   'filetype': '%{winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : "no ft") : ""}',
-      \   'mode': '%{winwidth(0) > 60 ? lightline#mode() : lightline#mode()[0]}',
-      \   'modified': '%{!&modifiable ? "RO" : &modified ? "+" : ""}',
-      \   'pwd': '%.35(%{fnamemodify(getcwd(), ":~")}%)',
-      \ },
-      \ 'component_function': {
-      \   'anzu': 'anzu#search_status',
-      \   'coc': 'coc#status',
-      \   'gitgutter': 'LightlineGitGutter',
-      \   'vista': 'LightlineVista',
-      \ },
-      \ }
-call lightline#coc#register()
+lua << EOF
+require('lualine').setup {
+  options = {
+    icons_enabled = true,
+    theme = 'jellybeans',
+    },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {
+      {
+        'diagnostics',
+        sources = {'coc'},
+        symbols = {error = 'E', warn = 'W', info = 'I', hint = 'H'}
+      },
+      'HunkSummary',
+      'g:coc_status'
+      },
+    lualine_c = {'filename'},
+    lualine_x = {'encoding', 'fileformat', 'filetype'},
+    lualine_y = {'progress', 'anzu#search_status'},
+    lualine_z = {'location'}
+    },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {'filename'},
+    lualine_x = {'location'},
+    lualine_y = {},
+    lualine_z = {}
+    },
+  tabline = {
+    lualine_a = {},
+    lualine_b = {'filename'},
+    lualine_c = {},
+    lualine_x = {},
+    lualine_y = {},
+    lualine_z = {}
+  }
+  }
+EOF
 " [lightline.vimをカスタマイズする - cafegale(LeafCage備忘録)](http://leafcage.hateblo.jp/entry/2013/10/21/lightlinevim-customize)
 " [lightline.vim に乗り換えた - すぱぶろ](http://superbrothers.hatenablog.com/entry/2013/08/29/001326)
-function! LightlineGitGutter()
+function! HunkSummary()
   if !exists('*GitGutterGetHunkSummary')
         \ || !get(g:, 'gitgutter_enabled', 0)
     return ''
@@ -638,9 +652,6 @@ function! LightlineGitGutter()
         \ ( m ? g:gitgutter_sign_modified . m . ' ' : '' ) .
         \ ( r ? g:gitgutter_sign_removed . r : '' )
   return substitute(ret, " $", "", "")
-endfunction
-function! LightlineVista() abort
-  return get(b:, 'vista_nearest_method_or_function', '')
 endfunction
 
 " 全角スペースの可視化 colorscheme以降に記述する

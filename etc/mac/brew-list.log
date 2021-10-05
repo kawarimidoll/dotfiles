@@ -1,4 +1,4 @@
-timestamp: 2021-10-04 07:28:44 JST
+timestamp: 2021-10-05 06:51:49 JST
 tap: a-know/tap
 tap: clementtsang/bottom
 tap: homebrew/bundle
@@ -287,7 +287,7 @@ mas: 1543657970  Nimble Click       (1.8)
 mas: 1545870783  Color Picker       (1.7.1)
 mas: 1546457750  Zavala             (1.1.3)
 mas: 1547147101  OpenIn             (2.1.0)
-mas: 1560355863  CI Demon           (3.0.22)
+mas: 1560355863  CI Demon           (3.0.24)
 mas: 1562921229  Uniview            (1.2)
 mas: 1563735522  Charmstone         (0.14)
 mas: 1566662030  CustomSymbols      (2.3.2)
