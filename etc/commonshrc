@@ -28,6 +28,7 @@ alias fetch='git fetch --all --prune --tags'
 alias fgrep='fgrep --color=auto'
 alias fl='flutter'
 alias fpull='fetch && pull'
+alias kittyconfig="nvim ${DOT_DIR}/.config/kitty/kitty.conf"
 alias lg='lazygit'
 alias ls='ls --color=auto'
 alias lsf='ls -FAogh --time-style="+%F %R"'
@@ -74,6 +75,7 @@ fi
 # -----------------
 #  Paths
 # -----------------
+export EDITOR="nvim"
 # export GOPATH="${HOME}/go"
 PATH="${DOT_DIR}/bin:${HOME}/.cargo/bin:${HOME}/.deno/bin:${PATH}"
 
