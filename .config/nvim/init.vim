@@ -140,41 +140,54 @@ endif
 unlet autoload_plug_path
 
 call plug#begin(stdpath('config') . '/plugged')
-Plug 'airblade/vim-gitgutter'
 Plug 'bronson/vim-trailing-whitespace'
 " Plug 'cocopon/iceberg.vim'
-Plug 'easymotion/vim-easymotion'
-Plug 'gko/vim-coloresque'
+Plug 'phaazon/hop.nvim'
 " Plug 'glidenote/memolist.vim'
-Plug 'haya14busa/vim-asterisk'
-" Plug 'itchyny/lightline.vim'
+Plug 'hoob3rt/lualine.nvim'
 Plug 'jacquesbh/vim-showmarks', { 'on': 'DoShowMarks' }
-" Plug 'josa42/vim-lightline-coc'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'kevinhwang91/nvim-hlslens'
 Plug 'kristijanhusak/vim-carbon-now-sh', { 'on': 'CarbonNowSh' }
-Plug 'lambdalisue/gina.vim'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'lambdalisue/gina.vim', { 'on': 'Gina' }
+Plug 'lewis6991/gitsigns.nvim'
 Plug 'markonm/traces.vim'
 Plug 'machakann/vim-sandwich'
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-Plug 'osyo-manga/vim-anzu'
+Plug 'norcalli/nvim-colorizer.lua'
+Plug 'nvim-lua/plenary.nvim'
 Plug 'segeljakt/vim-silicon', { 'on': 'Silicon' }
 Plug 'sainnhe/sonokai'
-Plug 'terryma/vim-expand-region', { 'on': [
-      \ '<Plug>(expand_region_expand)',
-      \ '<Plug>(expand_region_shrink)' ]}
+Plug 'simeji/winresizer', { 'on': 'WinResizerStartResize' }
+Plug 'terrortylor/nvim-comment'
+Plug 'terryma/vim-expand-region', { 'on': [ '<Plug>(expand_region_' ]}
 Plug 'tpope/vim-abolish'
 " Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-sleuth'
-Plug 'tyru/caw.vim'
-Plug 'tyru/open-browser.vim', { 'on': [ '<Plug>(openbrowser-smart-search)' ]}
+Plug 'tyru/open-browser.vim', { 'on': [ '<Plug>(openbrowser-' ]}
 " Plug 'vim-denops/denops.vim'
 Plug 'vim-jp/vimdoc-ja'
-
-Plug 'hoob3rt/lualine.nvim'
-Plug 'kyazdani42/nvim-web-devicons'
 call plug#end()
+
+lua require('nvim_comment').setup()
+lua require('colorizer').setup()
+lua require('hop').setup()
+lua require('hlslens').setup({ calm_down = true })
+
+lua << EOF
+require('gitsigns').setup {
+  signs = {
+    add          = { text = '+' },
+    change       = { text = '~' },
+    delete       = { text = '_' },
+    topdelete    = { text = '‾' },
+    changedelete = { text = '~_' },
+  },
+  }
+EOF
 
 let g:asterisk#keeppos = 1
 
@@ -476,19 +489,20 @@ noremap [q :<C-u>cprevious<CR>
 noremap ]q :<C-u>cnext<CR>
 noremap [Q :<C-u>cfirst<CR>
 noremap ]Q :<C-u>clast<CR>
-map n <Plug>(anzu-n)zz
-map N <Plug>(anzu-N)zz
 map M %
 
 nmap s <Nop>
 xmap s <Nop>
-map ss <Plug>(asterisk-z*)<Plug>(anzu-update-search-status)zz
-map sg <Plug>(asterisk-gz*)<Plug>(anzu-update-search-status)zz
-map <Space>ef <Plug>(easymotion-bd-f)
-map <Space>el <Plug>(easymotion-bd-jk)
-map <Space>ew <Plug>(easymotion-bd-w)
+
+noremap <silent> n <Cmd>execute('normal! ' . v:count1 . 'n')<CR>
+      \<Cmd>lua require('hlslens').start()<CR>
+noremap <silent> N <Cmd>execute('normal! ' . v:count1 . 'N')<CR>
+      \<Cmd>lua require('hlslens').start()<CR>
+map * <Plug>(asterisk-z*)<Cmd>lua require('hlslens').start()<CR>
+map # <Plug>(asterisk-gz*)<Cmd>lua require('hlslens').start()<CR>
 
 " normal
+nnoremap <silent><C-e> :<C-u>WinResizerStartResize<CR>
 " nnoremap mm :<C-u>call <sid>AutoMark()<CR>
 " nnoremap m, :<C-u>call <sid>AutoJump()<CR>
 nnoremap S :%s/\V<C-r>///g<Left><Left>
@@ -513,10 +527,10 @@ nnoremap <Space>b :<C-u>CocCommand fzf-preview.Buffers<CR>
 nnoremap <Space>B :<C-u>CocCommand fzf-previewBufferLines<CR>
 " nmap <Space>c <Plug>(caw:hatpos:toggle)
 nnoremap <Space>d :<C-u>Sayonara!<CR>
-nmap <Space>ef <Plug>(easymotion-overwin-f)
-nmap <Space>el <Plug>(easymotion-overwin-jk)
-nmap <Space>es <Plug>(easymotion-overwin-f2)
-nmap <Space>ew <Plug>(easymotion-overwin-w)
+nnoremap <Space>ef :<C-u>HopChar1<CR>
+nnoremap <Space>el :<C-u>HopLine<CR>
+nnoremap <Space>es :<C-u>HopChar2<CR>
+nnoremap <Space>ew :<C-u>HopWord<CR>
 nnoremap <Space>f :<C-u>CocCommand fzf-preview.ProjectFiles<CR>
 nnoremap <silent><Space>g :<C-u>copy.<CR>
 nnoremap <silent><Space>G :<C-u>copy-1<CR>
@@ -534,8 +548,8 @@ nnoremap <Space>s :<C-u>%s/
 nnoremap <Space>S :<C-u>&&<CR>
 nnoremap <Space>t <C-^>
 nnoremap <Space>T <C-w><C-w>
-nnoremap <silent><Space>u mzviwg~`z:<C-u>delmarks z<CR>
-nnoremap <silent><Space>U mzviwbg~`z:<C-u>delmarks z<CR>
+nnoremap <silent><Space>u mzg~iw`z:<C-u>delmarks z<CR>
+nnoremap <silent><Space>U mzlbg~l`z:<C-u>delmarks z<CR>
 nnoremap <Space>w :<C-u>write<CR>
 nnoremap <Space>wq :<C-u>exit<CR>
 nnoremap <Space>x :<C-u>CocCommand explorer<CR>
@@ -570,7 +584,6 @@ xmap <C-v> <Plug>(expand_region_shrink)
 xmap <Space>/ <Plug>RgRawVisualSelection<Left>
 vmap gx <Plug>(openbrowser-smart-search)
 xnoremap <Space>w <Esc>:<C-u>write<CR>gv
-" xmap <Space>c <Plug>(caw:hatpos:toggle)
 xnoremap <silent> <expr> p <sid>VisualPaste()
 xnoremap <silent> y y`]
 xnoremap x "_x
@@ -614,7 +627,7 @@ require('lualine').setup {
         sources = {'coc'},
         symbols = {error = 'E', warn = 'W', info = 'I', hint = 'H'}
       },
-      'HunkSummary',
+      'b:gitsigns_status',
       'g:coc_status'
       },
     lualine_c = {'filename'},
@@ -640,19 +653,6 @@ require('lualine').setup {
   }
   }
 EOF
-" [lightline.vimをカスタマイズする - cafegale(LeafCage備忘録)](http://leafcage.hateblo.jp/entry/2013/10/21/lightlinevim-customize)
-" [lightline.vim に乗り換えた - すぱぶろ](http://superbrothers.hatenablog.com/entry/2013/08/29/001326)
-function! HunkSummary()
-  if !exists('*GitGutterGetHunkSummary')
-        \ || !get(g:, 'gitgutter_enabled', 0)
-    return ''
-  endif
-  let [a,m,r] = GitGutterGetHunkSummary()
-  let ret = ( a ? g:gitgutter_sign_added . a . ' ' : '' ) .
-        \ ( m ? g:gitgutter_sign_modified . m . ' ' : '' ) .
-        \ ( r ? g:gitgutter_sign_removed . r : '' )
-  return substitute(ret, " $", "", "")
-endfunction
 
 " 全角スペースの可視化 colorscheme以降に記述する
 if has('syntax')
@@ -674,8 +674,6 @@ augroup vimrc
   autocmd!
   " plugin settings
   autocmd BufReadPost * silent! DoShowMarks
-  " [lightline.vimとvim-anzuで検索ヒット数を表示する - Qiita](https://qiita.com/shiena/items/f53959d62085b7980cb5)
-  autocmd CursorHold,CursorHoldI,WinLeave,TabLeave * call anzu#clear_search_status()
 
   " 端末のバッファの名前を実行中プロセスを含むものに変更 https://qiita.com/acomagu/items/5f10ce7bcb2fcfc9732f
   autocmd BufLeave * if exists('b:term_title') && exists('b:terminal_job_pid') | execute ":file term" . b:terminal_job_pid . "/" . b:term_title
