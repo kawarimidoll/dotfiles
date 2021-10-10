@@ -420,17 +420,13 @@ endfun
 " endfun
 " command! -bang DenoRepl call s:DenoRepl()
 
-function! s:DenoTerm() abort
-  let l:filename = expand('%:p')
-  let l:cmd = l:filename =~ '^\(.*\.\|.*_\)\?test\.\(ts\|tsx\|js\|mjs\|jsx\)$'
-   \ ? 'test' : 'run'
-  only | echo '' | split | wincmd j | resize 12 |
-   \ execute 'terminal deno ' . l:cmd .
-   \ ' -A --no-check --unstable --watch ' . l:filename |
+command! DenoRun silent only | split | wincmd j | resize 12 |
+   \ execute 'terminal deno ' .
+   \ (expand('%:t') =~ '^\(.*[._]\)\?test\.\(ts\|tsx\|js\|mjs\|jsx\)$'
+   \    ? 'test' : 'run')
+   \ . ' -A --no-check --unstable --watch ' . expand('%:p') |
    \ stopinsert | execute 'normal! G' |
    \ set bufhidden=wipe | wincmd k
-endfun
-command! -bang DenoRun call s:DenoTerm()
 
 " braces motion
 " (count)+braces+action
