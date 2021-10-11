@@ -14,22 +14,36 @@ scriptencoding utf-8
 "-----------------
 " Disable default plugins
 "-----------------
+" let g:did_indent_on             = 1
 let g:did_install_default_menus = 1
 let g:did_install_syntax_menu   = 1
+let g:did_load_filetypes        = 1
+let g:did_load_ftplugin         = 1
+let g:loaded_2html_plugin       = 1
 let g:loaded_getscript          = 1
 let g:loaded_getscriptPlugin    = 1
+let g:loaded_gtags              = 1
+let g:loaded_gtags_cscope       = 1
 let g:loaded_gzip               = 1
+let g:loaded_logiPat            = 1
+let g:loaded_man                = 1
+let g:loaded_matchit            = 1
 let g:loaded_matchparen         = 1
 let g:loaded_netrw              = 1
 let g:loaded_netrwFileHandlers  = 1
 let g:loaded_netrwPlugin        = 1
 let g:loaded_netrwSettings      = 1
+let g:loaded_remote_plugins     = 1
 let g:loaded_rrhelper           = 1
+let g:loaded_shada_plugin       = 1
+let g:loaded_spellfile_plugin   = 1
 let g:loaded_tar                = 1
 let g:loaded_tarPlugin          = 1
+let g:loaded_tutor_mode_plugin  = 1
 let g:loaded_vimball            = 1
 let g:loaded_vimballPlugin      = 1
 let g:loaded_zip                = 1
+let g:loaded_zipPlugin          = 1
 let g:loaded_zipPlugin          = 1
 let g:skip_loading_mswin        = 1
 
@@ -89,6 +103,7 @@ set splitright
 set switchbuf=usetab
 set t_Co=256
 set tabstop=2
+set termguicolors
 set textwidth=0
 set title
 set ttyfast
@@ -98,9 +113,6 @@ set wildmenu
 set wildmode=list:longest,full
 set wrap
 set wrapscan
-if has('termguicolors')
-  set termguicolors
-endif
 
 " [Tips should also describe automatic installation for Neovim|junegunn/vim-plug](https://github.com/junegunn/vim-plug/issues/739)
 let autoload_plug_path = stdpath('config') . '/autoload/plug.vim'
@@ -140,10 +152,13 @@ endif
 unlet autoload_plug_path
 
 call plug#begin(stdpath('config') . '/plugged')
-Plug 'bronson/vim-trailing-whitespace'
 " Plug 'cocopon/iceberg.vim'
-Plug 'phaazon/hop.nvim'
 " Plug 'glidenote/memolist.vim'
+" Plug 'vim-denops/denops.vim'
+
+Plug 'arthurxavierx/vim-caser'
+Plug 'cappyzawa/trim.nvim', { 'on': 'Trim' }
+Plug 'haya14busa/vim-asterisk'
 Plug 'hoob3rt/lualine.nvim'
 Plug 'jacquesbh/vim-showmarks', { 'on': 'DoShowMarks' }
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -152,32 +167,29 @@ Plug 'kristijanhusak/vim-carbon-now-sh', { 'on': 'CarbonNowSh' }
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'lambdalisue/gina.vim', { 'on': 'Gina' }
 Plug 'lewis6991/gitsigns.nvim'
-Plug 'markonm/traces.vim'
+Plug 'lewis6991/impatient.nvim'
 Plug 'machakann/vim-sandwich'
+Plug 'markonm/traces.vim'
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'nvim-lua/plenary.nvim'
-Plug 'segeljakt/vim-silicon', { 'on': 'Silicon' }
+Plug 'phaazon/hop.nvim'
 Plug 'sainnhe/sonokai'
+Plug 'segeljakt/vim-silicon', { 'on': 'Silicon' }
 Plug 'simeji/winresizer', { 'on': 'WinResizerStartResize' }
 Plug 'terrortylor/nvim-comment'
-Plug 'terryma/vim-expand-region', { 'on': [ '<Plug>(expand_region_' ]}
-Plug 'tpope/vim-abolish'
-" Plug 'tpope/vim-endwise'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-sleuth'
-Plug 'tyru/open-browser.vim', { 'on': [ '<Plug>(openbrowser-' ]}
-" Plug 'vim-denops/denops.vim'
+Plug 'terryma/vim-expand-region', { 'on': '<Plug>(expand_region_' }
+Plug 'tyru/capture.vim', { 'on': 'Capture' }
+Plug 'tyru/open-browser.vim', { 'on': '<Plug>(openbrowser-' }
 Plug 'vim-jp/vimdoc-ja'
 call plug#end()
 
-lua require('nvim_comment').setup()
-lua require('colorizer').setup()
-lua require('hop').setup()
-lua require('hlslens').setup({ calm_down = true })
-
 lua << EOF
+require('nvim_comment').setup()
+require('colorizer').setup()
+require('hop').setup()
+require('hlslens').setup({ calm_down = true })
 require('gitsigns').setup {
   signs = {
     add          = { text = '+' },
@@ -186,11 +198,10 @@ require('gitsigns').setup {
     topdelete    = { text = '‾' },
     changedelete = { text = '~_' },
   },
-  }
+}
 EOF
 
 let g:asterisk#keeppos = 1
-
 let g:coc_global_extensions = [
       \ 'coc-highlight',
       \ 'coc-json',
@@ -210,7 +221,7 @@ let g:fzf_preview_use_dev_icons = 1
 let g:fzf_preview_default_fzf_options = {
       \ '--reverse': v:true,
       \ '--preview-window': 'wrap',
-      \ '--exact': v:true,
+      \ '--cycle': v:true,
       \ '--no-sort': v:true,
       \ }
 let g:sonokai_style = 'shusia' " default,atlantis,andromeda,shusia,maia,espresso
@@ -361,7 +372,7 @@ command! Rcedit edit $MYVIMRC
 command! Rcreload write | source $MYVIMRC | nohlsearch | redraw | echo 'init.vim is reloaded.'
 command! LazyGit tab terminal lazygit
 command! Lg LazyGit
-command! FmtTabTrail retab | FixWhitespace
+command! FmtTabTrail retab | Trim
 command! DenoFmt echo system("deno fmt --quiet ".expand("%:p")) | edit | echo 'deno fmt current file'
 command! CopyFullPath let @*=expand('%:p') | echo 'copy full path'
 command! CopyDirName  let @*=expand('%:h') | echo 'copy dir name'
@@ -490,10 +501,8 @@ map M %
 nmap s <Nop>
 xmap s <Nop>
 
-noremap <silent> n <Cmd>execute('normal! ' . v:count1 . 'n')<CR>
-      \<Cmd>lua require('hlslens').start()<CR>
-noremap <silent> N <Cmd>execute('normal! ' . v:count1 . 'N')<CR>
-      \<Cmd>lua require('hlslens').start()<CR>
+noremap n <Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>
+noremap N <Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>
 map * <Plug>(asterisk-z*)<Cmd>lua require('hlslens').start()<CR>
 map # <Plug>(asterisk-gz*)<Cmd>lua require('hlslens').start()<CR>
 
@@ -520,8 +529,7 @@ nmap gx <Plug>(openbrowser-smart-search)
 
 nnoremap <Space>a :<C-u>CocCommand fzf-preview.GitActions<CR>
 nnoremap <Space>b :<C-u>CocCommand fzf-preview.Buffers<CR>
-nnoremap <Space>B :<C-u>CocCommand fzf-previewBufferLines<CR>
-" nmap <Space>c <Plug>(caw:hatpos:toggle)
+nnoremap <Space>B :<C-u>CocCommand fzf-preview.BufferLines<CR>
 nnoremap <Space>d :<C-u>Sayonara!<CR>
 nnoremap <Space>ef :<C-u>HopChar1<CR>
 nnoremap <Space>el :<C-u>HopLine<CR>
@@ -534,8 +542,8 @@ nnoremap <Space>h :<C-u>CocCommand fzf-preview.ProjectMruFiles<CR>
 nnoremap <Space>j :<C-u>CocCommand fzf-preview.Jumps<CR>
 nnoremap <Space>l :<C-u>CocCommand fzf-preview.Lines<CR>
 nnoremap <Space>m :<C-u>CocCommand fzf-preview.Marks<CR>
-nnoremap <silent><Space>o :<c-u>put =repeat(nr2char(10), v:count1)<cr>
-nnoremap <silent><Space>O :<c-u>put! =repeat(nr2char(10), v:count1)<cr>'[
+nnoremap <silent><Space>o :<C-u>put =repeat(nr2char(10), v:count1)<CR>
+nnoremap <silent><Space>O :<C-u>put! =repeat(nr2char(10), v:count1)<CR>'[
 nnoremap <Space>p :<C-u>Format<CR>
 nnoremap <Space>q :<C-u>quit<CR>
 nnoremap <Space>Q :<C-u>only<CR>
@@ -577,8 +585,8 @@ inoremap <silent> jj <ESC>
 " visual
 xmap v <Plug>(expand_region_expand)
 xmap <C-v> <Plug>(expand_region_shrink)
-xmap <Space>/ <Plug>RgRawVisualSelection<Left>
-vmap gx <Plug>(openbrowser-smart-search)
+xmap <Space>/ <Esc>gv"zy:<C-u>CocCommand fzf-preview.ProjectGrep '<C-r>z'<Left>
+xmap gx <Plug>(openbrowser-smart-search)
 xnoremap <Space>w <Esc>:<C-u>write<CR>gv
 xnoremap <silent> <expr> p <sid>VisualPaste()
 xnoremap <silent> y y`]
@@ -650,8 +658,8 @@ require('lualine').setup {
   }
 EOF
 
-" 全角スペースの可視化 colorscheme以降に記述する
 if has('syntax')
+  " 全角スペースの可視化 colorscheme以降に記述する
   let s:HighlightZenkakuSpace = {-> execute("highlight ZenkakuSpace cterm=reverse ctermfg=darkmagenta") }
   augroup vimrc_appearances
     autocmd!
@@ -659,6 +667,15 @@ if has('syntax')
     autocmd VimEnter,WinEnter,BufRead * let w:m1=matchadd('ZenkakuSpace', '　')
   augroup END
   call call( s:HighlightZenkakuSpace, [] )
+
+  " https://github.com/bronson/vim-trailing-whitespace/blob/master/plugin/trailing-whitespace.vim
+  " Highlight EOL whitespace, http://vim.wikia.com/wiki/Highlight_unwanted_spaces
+  highlight default ExtraWhitespace ctermbg=darkmagenta guibg=darkmagenta
+  autocmd ColorScheme * highlight default ExtraWhitespace ctermbg=darkmagenta guibg=darkmagenta
+  autocmd BufRead,BufNew * match ExtraWhitespace /\\\@<![\u3000[:space:]]\+$/
+  " The above flashes annoyingly while typing, be calmer in insert mode
+  autocmd InsertLeave * match ExtraWhitespace /\\\@<![\u3000[:space:]]\+$/
+  autocmd InsertEnter * match ExtraWhitespace /\\\@<![\u3000[:space:]]\+\%#\@<!$/
 endif
 
 highlight HighlightedyankRegion cterm=reverse gui=reverse
