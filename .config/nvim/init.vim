@@ -226,6 +226,7 @@ require('gitsigns').setup {
     topdelete    = { text = '‾' },
     changedelete = { text = '~_' },
   },
+  current_line_blame = true,
 }
 EOF
 
@@ -567,6 +568,7 @@ nnoremap S :%s/\V<C-r>///g<Left><Left>
 nnoremap <script> <expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
 nnoremap <sid>(q)q qq
 nnoremap Q @q
+nnoremap <sid>(q)b <Cmd>GitSigns toggle_current_line_blame<CR>
 nnoremap p p`[v`]=`]
 nnoremap P P`[v`]=`]
 nnoremap ]p p
@@ -736,6 +738,7 @@ if has('syntax')
 endif
 
 highlight HighlightedyankRegion cterm=reverse gui=reverse
+highlight GitSignsCurrentLineBlame cterm=italic ctermfg=246 gui=italic guifg=#848089
 
 "-----------------
 " Auto Commands
