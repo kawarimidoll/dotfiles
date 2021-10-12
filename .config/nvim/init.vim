@@ -173,9 +173,9 @@ Plug 'machakann/vim-sandwich', { 'on': [] }
 Plug 'markonm/traces.vim', { 'on': [] }
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 Plug 'nathom/filetype.nvim'
-Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+Plug 'neoclide/coc.nvim', { 'on': [], 'branch': 'release' }
 Plug 'norcalli/nvim-colorizer.lua', { 'on': [] }
-Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-lua/plenary.nvim', { 'on': [] }
 Plug 'phaazon/hop.nvim', { 'on': ['HopChar1', 'HopChar2', 'HopLine', 'HopWord'] }
 Plug 'sainnhe/sonokai'
 Plug 'segeljakt/vim-silicon', { 'on': 'Silicon' }
@@ -193,11 +193,13 @@ function! s:LazyLoadPlugs(timer) abort
   " back to previous position by marking Z because plug#load reloads current buffer
   normal! mZ
   call plug#load(
+        \   'coc.nvim',
         \   'fzf',
         \   'gitsigns.nvim',
         \   'nvim-colorizer.lua',
         \   'nvim-hlslens',
         \   'nvim-web-devicons',
+        \   'plenary.nvim',
         \   'traces.vim',
         \   'vim-asterisk',
         \   'vim-caser',
