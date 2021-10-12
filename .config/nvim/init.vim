@@ -399,9 +399,10 @@ command! Rcedit edit $MYVIMRC
 command! Rcreload write | source $MYVIMRC | nohlsearch | redraw | echo 'init.vim is reloaded.'
 command! FmtTabTrail retab | Trim
 command! DenoFmt echo system("deno fmt --quiet ".expand("%:p")) | edit | echo 'deno fmt current file'
-command! CopyFullPath let @*=expand('%:p') | echo 'copy full path'
-command! CopyDirName  let @*=expand('%:h') | echo 'copy dir name'
-command! CopyFileName let @*=expand('%:t') | echo 'copy file name'
+command! CopyFullPath     let @*=expand('%:p') | echo 'copy full path'
+command! CopyDirName      let @*=expand('%:h') | echo 'copy dir name'
+command! CopyFileName     let @*=expand('%:t') | echo 'copy file name'
+command! CopyRelativePath let @*=expand('%:h').'/'.expand('%:t') | echo 'copy relative path'
 command! -nargs=* T split | wincmd j | resize 12 | terminal <args>
 
 " command! CocFlutter CocList --input=flutter commands
