@@ -1,6 +1,5 @@
-timestamp: 2021-10-11 07:44:03 JST
+timestamp: 2021-10-12 11:39:59 JST
 tap: a-know/tap
-tap: clementtsang/bottom
 tap: homebrew/bundle
 tap: homebrew/cask
 tap: homebrew/cask-fonts
@@ -19,14 +18,15 @@ brew: awslogs
 brew: bat
 brew: bat-extras
 brew: binutils
+brew: bottom
 brew: broot
 brew: caire
 brew: cask
 brew: choose-rust
-brew: clementtsang/bottom/bottom
 brew: clog
 brew: cmake
 brew: cocoapods
+brew: cpufetch
 brew: csvkit
 brew: csvq
 brew: deno

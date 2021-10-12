@@ -18,7 +18,6 @@ scriptencoding utf-8
 let g:did_install_default_menus = 1
 let g:did_install_syntax_menu   = 1
 let g:did_load_filetypes        = 1
-let g:did_load_ftplugin         = 1
 let g:loaded_2html_plugin       = 1
 let g:loaded_getscript          = 1
 let g:loaded_getscriptPlugin    = 1
@@ -126,7 +125,7 @@ if !filereadable(autoload_plug_path)
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 else
   " [おい、NeoBundle もいいけど vim-plug 使えよ](https://qiita.com/b4b4r07/items/fa9c8cceb321edea5da0)
-  " nvimではarrow method使えない…？
+  " nvimではarrow methodを使えない
   function! s:AutoPlugInstall() abort
     let list = map(
       \   filter(
@@ -156,37 +155,64 @@ call plug#begin(stdpath('config') . '/plugged')
 " Plug 'glidenote/memolist.vim'
 " Plug 'vim-denops/denops.vim'
 
-Plug 'arthurxavierx/vim-caser'
+Plug 'arthurxavierx/vim-caser', { 'on': [] }
 Plug 'cappyzawa/trim.nvim', { 'on': 'Trim' }
-Plug 'haya14busa/vim-asterisk'
+Plug 'folke/which-key.nvim', { 'on': [] }
+Plug 'haya14busa/vim-asterisk', { 'on': [] }
 Plug 'hoob3rt/lualine.nvim'
 Plug 'jacquesbh/vim-showmarks', { 'on': 'DoShowMarks' }
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'kevinhwang91/nvim-hlslens'
+Plug 'junegunn/fzf', { 'on': [], 'do': { -> fzf#install() } }
+Plug 'kevinhwang91/nvim-hlslens', { 'on': [] }
+Plug 'kdheepak/lazygit.nvim', { 'on': 'LazyGit' }
 Plug 'kristijanhusak/vim-carbon-now-sh', { 'on': 'CarbonNowSh' }
-Plug 'kyazdani42/nvim-web-devicons'
+Plug 'kyazdani42/nvim-web-devicons', { 'on': [] }
 Plug 'lambdalisue/gina.vim', { 'on': 'Gina' }
-Plug 'lewis6991/gitsigns.nvim'
+Plug 'lewis6991/gitsigns.nvim', { 'on': [] }
 Plug 'lewis6991/impatient.nvim'
-Plug 'machakann/vim-sandwich'
-Plug 'markonm/traces.vim'
+Plug 'machakann/vim-sandwich', { 'on': [] }
+Plug 'markonm/traces.vim', { 'on': [] }
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
+Plug 'nathom/filetype.nvim'
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-Plug 'norcalli/nvim-colorizer.lua'
+Plug 'norcalli/nvim-colorizer.lua', { 'on': [] }
 Plug 'nvim-lua/plenary.nvim'
-Plug 'phaazon/hop.nvim'
+Plug 'phaazon/hop.nvim', { 'on': ['HopChar1', 'HopChar2', 'HopLine', 'HopWord'] }
 Plug 'sainnhe/sonokai'
 Plug 'segeljakt/vim-silicon', { 'on': 'Silicon' }
 Plug 'simeji/winresizer', { 'on': 'WinResizerStartResize' }
-Plug 'terrortylor/nvim-comment'
+Plug 'terrortylor/nvim-comment', { 'on': 'CommentOperator' }
 Plug 'terryma/vim-expand-region', { 'on': '<Plug>(expand_region_' }
 Plug 'tyru/capture.vim', { 'on': 'Capture' }
 Plug 'tyru/open-browser.vim', { 'on': '<Plug>(openbrowser-' }
 Plug 'vim-jp/vimdoc-ja'
 call plug#end()
 
+" https://qiita.com/Alice_ecilA/items/d251a90e4a71d67444dd#vim%E3%81%AE%E3%82%BF%E3%82%A4%E3%83%9E%E3%83%BC%E6%A9%9F%E8%83%BD%E3%81%A7%E9%81%85%E5%BB%B6%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF
+" load plugins by timer
+function! s:LazyLoadPlugs(timer) abort
+  " back to previous position by marking Z because plug#load reloads current buffer
+  normal! mZ
+  call plug#load(
+        \   'fzf',
+        \   'gitsigns.nvim',
+        \   'nvim-colorizer.lua',
+        \   'nvim-hlslens',
+        \   'nvim-web-devicons',
+        \   'traces.vim',
+        \   'vim-asterisk',
+        \   'vim-caser',
+        \   'vim-sandwich',
+        \   'which-key.nvim',
+        \ )
+  normal! g`Z
+  delmarks Z
+endfunction
+call timer_start(200, function("s:LazyLoadPlugs"))
+
 lua << EOF
+require('impatient')
 require('nvim_comment').setup()
+require('which-key').setup()
 require('colorizer').setup()
 require('hop').setup()
 require('hlslens').setup({ calm_down = true })
@@ -209,7 +235,8 @@ let g:coc_global_extensions = [
       \ 'coc-word',
       \ 'coc-yank',
       \ ]
-let g:qs_buftype_blacklist = ['terminal', 'nofile']
+let g:lazygit_floating_window_scaling_factor = 1
+let g:lazygit_floating_window_winblend = 20
 let g:memolist_memo_suffix = "md"
 let g:memolist_fzf = 1
 let g:netrw_nogx = 1 " disable netrw's gx mapping for openbrowser
@@ -370,8 +397,6 @@ nnoremap <silent><nowait> <space>P  :<C-u>CocListResume<CR>
 "-----------------
 command! Rcedit edit $MYVIMRC
 command! Rcreload write | source $MYVIMRC | nohlsearch | redraw | echo 'init.vim is reloaded.'
-command! LazyGit tab terminal lazygit
-command! Lg LazyGit
 command! FmtTabTrail retab | Trim
 command! DenoFmt echo system("deno fmt --quiet ".expand("%:p")) | edit | echo 'deno fmt current file'
 command! CopyFullPath let @*=expand('%:p') | echo 'copy full path'
@@ -419,12 +444,36 @@ endfunction
 " endfunction
 
 " [neovim terminal](https://gist.github.com/pocari/fd0622fb5ec6946a368e8ee0603979ae)
-" terminalの終了時にバッファを消すフック
-function! s:onTermExit(job_id, code, event) dict
-  " Process Exitが表示されたその後cr打つとバッファが無くなるので
-  " それと同じようにする
-  call feedkeys("\<CR>")
-endfun
+" exitフックを指定して:terminalを開く
+function! s:termopen_wrapper(cmd) abort
+  " terminalの終了時にバッファを消すフック
+  function! OnTermExit(job_id, code, event) dict
+    " Process Exit表示後の<CR>押下を自動化する
+    call feedkeys("\<CR>")
+  endfunction
+
+  call termopen(a:cmd =~ '^\s*$' ? $SHELL : a:cmd, {'on_exit': function('OnTermExit')})
+  " call termopen(a:cmd =~ '^\s*$' ? $SHELL : a:cmd)
+endfunction
+
+function! TermHelper(h_or_v, size, cmd) abort
+  " echo a:cmd
+
+  if a:h_or_v == 'h'
+    topleft new | execute 'Eterminal ' . a:cmd
+    execute 'resize ' . a:size
+  else
+    vertical botright new | execute 'Eterminal ' . a:cmd
+    execute 'vertical resize ' . a:size
+  endif
+endfunction
+
+" 水平ウィンドウ分割してターミナル表示 引数はwindowの行数指定(Horizontal terminal)
+command! -count=15 -nargs=* Hterminal :call TermHelper('h', <count>, <q-args>)
+" 垂直ウィンドウ分割してターミナル表示 引数はwindowの行数指定(Vertical terminal)
+command! -count=80 -nargs=* Vterminal :call TermHelper('v', <count>, <q-args>)
+" ウィンドウ分割なしでターミナル表示(Extended Terminal)
+command! -nargs=* Eterminal :call s:termopen_wrapper(<q-args>)
 
 " function! s:DenoRepl() abort
 "   only | echo 'deno repl' | split | wincmd j | resize 12 | execute 'terminal deno'
@@ -541,6 +590,7 @@ nnoremap <silent><Space>G :<C-u>copy-1<CR>
 nnoremap <Space>h :<C-u>CocCommand fzf-preview.ProjectMruFiles<CR>
 nnoremap <Space>j :<C-u>CocCommand fzf-preview.Jumps<CR>
 nnoremap <Space>l :<C-u>CocCommand fzf-preview.Lines<CR>
+nnoremap <Space>L <Cmd>LazyGit<CR>
 nnoremap <Space>m :<C-u>CocCommand fzf-preview.Marks<CR>
 nnoremap <silent><Space>o :<C-u>put =repeat(nr2char(10), v:count1)<CR>
 nnoremap <silent><Space>O :<C-u>put! =repeat(nr2char(10), v:count1)<CR>'[
@@ -622,7 +672,7 @@ require('lualine').setup {
   options = {
     icons_enabled = true,
     theme = 'jellybeans',
-    },
+  },
   sections = {
     lualine_a = {'mode'},
     lualine_b = {
@@ -635,7 +685,11 @@ require('lualine').setup {
       'g:coc_status'
       },
     lualine_c = {'filename'},
-    lualine_x = {'encoding', 'fileformat', 'filetype'},
+    lualine_x = {
+      'encoding',
+      'fileformat',
+      {'filetype', colored = false}
+    },
     lualine_y = {'progress', 'anzu#search_status'},
     lualine_z = {'location'}
     },
@@ -655,7 +709,7 @@ require('lualine').setup {
     lualine_y = {},
     lualine_z = {}
   }
-  }
+}
 EOF
 
 if has('syntax')
