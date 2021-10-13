@@ -80,7 +80,7 @@ fi
 # -----------------
 export EDITOR="nvim"
 # export GOPATH="${HOME}/go"
-PATH="${DOT_DIR}/bin:${HOME}/.cargo/bin:${HOME}/.deno/bin:${PATH}"
+PATH="${DOT_DIR}/bin:${HOME}/.cargo/bin:${HOME}/.deno/bin:${HOME}/go/bin:${PATH}"
 
 # -----------------
 #  Functions
