@@ -172,7 +172,7 @@ Plug 'lewis6991/impatient.nvim'
 Plug 'machakann/vim-sandwich', { 'on': [] }
 Plug 'markonm/traces.vim', { 'on': [] }
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
-Plug 'nathom/filetype.nvim'
+Plug 'nathom/filetype.nvim', { 'on': [] }
 Plug 'neoclide/coc.nvim', { 'on': [], 'branch': 'release' }
 Plug 'norcalli/nvim-colorizer.lua', { 'on': [] }
 Plug 'nvim-lua/plenary.nvim', { 'on': [] }
@@ -195,6 +195,7 @@ function! s:LazyLoadPlugs(timer) abort
   call plug#load(
         \   'coc.nvim',
         \   'fzf',
+        \   'filetype.nvim',
         \   'gitsigns.nvim',
         \   'nvim-colorizer.lua',
         \   'nvim-hlslens',
@@ -232,6 +233,7 @@ EOF
 
 let g:asterisk#keeppos = 1
 let g:coc_global_extensions = [
+      \ 'coc-fzf-preview',
       \ 'coc-highlight',
       \ 'coc-json',
       \ 'coc-spell-checker',
@@ -385,7 +387,7 @@ nnoremap <silent><nowait> <space>E  :<C-u>CocList extensions<CR>
 " Show commands.
 nnoremap <silent><nowait> <space>C  :<C-u>CocList commands<CR>
 " Find symbol of current document.
-nnoremap <silent><nowait> <space>O  :<C-u>CocList outline<CR>
+nnoremap <silent><nowait> <space>D  :<C-u>CocList outline<CR>
 " Search workspace symbols.
 nnoremap <silent><nowait> <space>S  :<C-u>CocList -I symbols<CR>
 " Do default action for next item.
@@ -479,18 +481,14 @@ command! -count=80 -nargs=* Vterminal :call TermHelper('v', <count>, <q-args>)
 " ウィンドウ分割なしでターミナル表示(Extended Terminal)
 command! -nargs=* Eterminal :call s:termopen_wrapper(<q-args>)
 
-" function! s:DenoRepl() abort
-"   only | echo 'deno repl' | split | wincmd j | resize 12 | execute 'terminal deno'
-" endfun
-" command! -bang DenoRepl call s:DenoRepl()
+" command! DenoRepl silent only | botright 12 new | execute 'terminal deno'
 
-command! DenoRun silent only | split | wincmd j | resize 12 |
+command! DenoRun silent only | botright 12 split +set\ bufhidden=wipe |
    \ execute 'terminal deno ' .
    \ (expand('%:t') =~ '^\(.*[._]\)\?test\.\(ts\|tsx\|js\|mjs\|jsx\)$'
    \    ? 'test' : 'run')
    \ . ' -A --no-check --unstable --watch ' . expand('%:p') |
-   \ stopinsert | execute 'normal! G' |
-   \ set bufhidden=wipe | wincmd k
+   \ stopinsert | execute 'normal! G' | wincmd k
 
 " braces motion
 " (count)+braces+action
@@ -590,8 +588,8 @@ nnoremap <Space>el :<C-u>HopLine<CR>
 nnoremap <Space>es :<C-u>HopChar2<CR>
 nnoremap <Space>ew :<C-u>HopWord<CR>
 nnoremap <Space>f :<C-u>CocCommand fzf-preview.ProjectFiles<CR>
-nnoremap <silent><Space>g :<C-u>copy.<CR>
-nnoremap <silent><Space>G :<C-u>copy-1<CR>
+nnoremap <Space>g <Cmd>copy.<CR>
+nnoremap <Space>G <Cmd>copy-1<CR>
 nnoremap <Space>h :<C-u>CocCommand fzf-preview.ProjectMruFiles<CR>
 nnoremap <Space>j :<C-u>CocCommand fzf-preview.Jumps<CR>
 nnoremap <Space>l :<C-u>CocCommand fzf-preview.Lines<CR>
@@ -602,9 +600,9 @@ nnoremap <silent><Space>O :<C-u>put! =repeat(nr2char(10), v:count1)<CR>'[
 nnoremap <Space>p :<C-u>Format<CR>
 nnoremap <Space>q :<C-u>quit<CR>
 nnoremap <Space>Q :<C-u>only<CR>
-nnoremap <Space>r :<C-u>registers<CR>
+" nnoremap <Space>r :<C-u>registers<CR>
 nnoremap <Space>s :<C-u>%s/
-nnoremap <Space>S :<C-u>&&<CR>
+" nnoremap <Space>S :<C-u>&&<CR>
 nnoremap <Space>t <C-^>
 nnoremap <Space>T <C-w><C-w>
 nnoremap <silent><Space>u mzg~iw`z:<C-u>delmarks z<CR>
