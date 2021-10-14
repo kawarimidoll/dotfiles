@@ -164,7 +164,6 @@ Plug 'jacquesbh/vim-showmarks', { 'on': 'DoShowMarks' }
 Plug 'junegunn/fzf', { 'on': [], 'do': { -> fzf#install() } }
 Plug 'kevinhwang91/nvim-hlslens', { 'on': [] }
 Plug 'kdheepak/lazygit.nvim', { 'on': 'LazyGit' }
-Plug 'kristijanhusak/vim-carbon-now-sh', { 'on': 'CarbonNowSh' }
 Plug 'kyazdani42/nvim-web-devicons', { 'on': [] }
 Plug 'lambdalisue/gina.vim', { 'on': 'Gina' }
 Plug 'lewis6991/gitsigns.nvim', { 'on': [] }
@@ -183,7 +182,7 @@ Plug 'simeji/winresizer', { 'on': 'WinResizerStartResize' }
 Plug 'terrortylor/nvim-comment', { 'on': [] }
 Plug 'terryma/vim-expand-region', { 'on': '<Plug>(expand_region_' }
 Plug 'tyru/capture.vim', { 'on': 'Capture' }
-Plug 'tyru/open-browser.vim', { 'on': '<Plug>(openbrowser-' }
+Plug 'tyru/open-browser.vim', { 'on': ['OpenBrowser', '<Plug>(openbrowser-'] }
 Plug 'vim-jp/vimdoc-ja'
 call plug#end()
 
@@ -502,6 +501,70 @@ command! DenoRun silent only | botright 12 split +set\ bufhidden=wipe |
    \    ? 'test' : 'run')
    \ . ' -A --no-check --unstable --watch ' . expand('%:p') |
    \ stopinsert | execute 'normal! G' | wincmd k
+
+" https://github.com/kristijanhusak/vim-carbon-now-sh/blob/master/plugin/vim-carbon-now-sh.vim
+command! -range=% CarbonNowSh <line1>,<line2>call s:carbonNowSh()
+
+function! s:carbonNowSh() range "{{{
+  if !exists('g:loaded_openbrowser')
+    call plug#load('open-browser.vim')
+  endif
+
+  let l:text = s:urlEncode(s:getVisualSelection())
+  let l:url = 'https://carbon.now.sh/?l=' .. &filetype .. '&code=' .. l:text
+
+  call openbrowser#open(l:url)
+endfunction "}}}
+
+function! s:urlEncode(string) "{{{
+  let l:result = ''
+
+  let l:characters = split(a:string, '.\zs')
+  for l:character in l:characters
+    if s:characterRequiresUrlEncoding(l:character)
+      let l:i = 0
+      while l:i < strlen(l:character)
+        let l:byte = strpart(l:character, l:i, 1)
+        let l:decimal = char2nr(l:byte)
+        let l:result = l:result .. '%' .. printf('%02x', l:decimal)
+        let l:i += 1
+      endwhile
+    else
+      let l:result = l:result .. l:character
+    endif
+  endfor
+
+  return l:result
+endfunction "}}}
+
+function! s:characterRequiresUrlEncoding(character) "{{{
+  let l:ascii_code = char2nr(a:character)
+
+  if (l:ascii_code >= 48 && l:ascii_code <= 57) ||
+        \ (l:ascii_code >= 65 && l:ascii_code <= 90) ||
+        \ (l:ascii_code >= 97 && l:ascii_code <= 122) ||
+        \ a:character ==? '-' || a:character ==? '_' ||
+        \ a:character ==? '.' || a:character ==? '~'
+    return 0
+  endif
+
+  return 1
+endfunction "}}}
+
+function! s:getVisualSelection() "{{{
+  let [l:line_start, l:column_start] = getpos("'<")[1:2]
+  let [l:line_end, l:column_end] = getpos("'>")[1:2]
+  let l:lines = getline(l:line_start, l:line_end)
+
+  if len(l:lines) == 0
+    return ''
+  endif
+
+  let l:lines[-1] = l:lines[-1][:l:column_end - (&selection ==? 'inclusive' ? 1 : 2)]
+  let l:lines[0] = l:lines[0][l:column_start - 1:]
+
+  return join(l:lines, "\n")
+endfunction "}}}
 
 " braces motion
 " (count)+braces+action
