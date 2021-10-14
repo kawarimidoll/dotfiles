@@ -156,7 +156,6 @@ call plug#begin(stdpath('config') . '/plugged')
 " Plug 'vim-denops/denops.vim'
 
 Plug 'arthurxavierx/vim-caser', { 'on': [] }
-Plug 'cappyzawa/trim.nvim', { 'on': 'Trim' }
 Plug 'folke/which-key.nvim', { 'on': [] }
 Plug 'haya14busa/vim-asterisk', { 'on': [] }
 Plug 'hoob3rt/lualine.nvim'
@@ -414,7 +413,6 @@ nnoremap <silent><nowait> <space>P  :<C-u>CocListResume<CR>
 "-----------------
 command! Rcedit edit $MYVIMRC
 command! Rcreload write | source $MYVIMRC | nohlsearch | redraw | echo 'init.vim is reloaded.'
-command! FmtTabTrail retab | Trim
 command! DenoFmt echo system("deno fmt --quiet ".expand("%:p")) | edit | echo 'deno fmt current file'
 command! CopyFullPath     let @*=expand('%:p') | echo 'copy full path'
 command! CopyDirName      let @*=expand('%:h') | echo 'copy dir name'
@@ -426,6 +424,13 @@ command! -nargs=* T split | wincmd j | resize 12 | terminal <args>
 " command! CocGo CocList --input=go commands
 " command! GoRun !go run %:p
 " command! CocMarkmap CocCommand markmap.create
+
+" https://github.com/bronson/vim-trailing-whitespace/blob/master/plugin/trailing-whitespace.vim
+function! s:Trim(line1, line2)
+  silent! keepjumps execute ':' . a:line1 . ',' . a:line2 . 's/\\\@<!\s\+$//'
+endfunction
+command! -range=% Trim call <SID>Trim(<line1>, <line2>)
+command! BaTrim retab | Trim
 
 " [Vimの生産性を高める12の方法 | POSTD](https://postd.cc/how-to-boost-your-vim-productivity/)
 function! s:VisualPaste()
@@ -792,27 +797,26 @@ require('lualine').setup {
 EOF
 
 if has('syntax')
-  " 全角スペースの可視化 colorscheme以降に記述する
-  let s:HighlightZenkakuSpace = {-> execute("highlight ZenkakuSpace cterm=reverse ctermfg=darkmagenta") }
-  augroup vimrc_appearances
+  augroup vimrc_syntax
     autocmd!
-    autocmd ColorScheme * call call( s:HighlightZenkakuSpace, [] )
-    autocmd VimEnter,WinEnter,BufRead * let w:m1=matchadd('ZenkakuSpace', '　')
+    " https://github.com/bronson/vim-trailing-whitespace/blob/master/plugin/trailing-whitespace.vim
+    " Highlight EOL whitespace, http://vim.wikia.com/wiki/Highlight_unwanted_spaces
+    highlight default ExtraWhitespace ctermbg=darkmagenta guibg=darkmagenta
+    autocmd BufRead,BufNew * match ExtraWhitespace /\\\@<![\u3000[:space:]]\+$/
+    " The above flashes annoyingly while typing, be calmer in insert mode
+    autocmd InsertLeave * match ExtraWhitespace /\\\@<![\u3000[:space:]]\+$/
+    autocmd InsertEnter * match ExtraWhitespace /\\\@<![\u3000[:space:]]\+\%#\@<!$/
+
+    " 全角スペースの可視化
+    " https://vim-jp.org/vim-users-jp/2009/07/12/Hack-40.html
+    " '　'
+    autocmd VimEnter,WinEnter,BufRead *
+          \ call matchadd('ExtraWhitespace', "[\u00A0\u2002-\u200B\u3000]")
+
+    highlight HighlightedyankRegion cterm=reverse gui=reverse
+    highlight! link GitSignsCurrentLineBlame Comment
   augroup END
-  call call( s:HighlightZenkakuSpace, [] )
-
-  " https://github.com/bronson/vim-trailing-whitespace/blob/master/plugin/trailing-whitespace.vim
-  " Highlight EOL whitespace, http://vim.wikia.com/wiki/Highlight_unwanted_spaces
-  highlight default ExtraWhitespace ctermbg=darkmagenta guibg=darkmagenta
-  autocmd ColorScheme * highlight default ExtraWhitespace ctermbg=darkmagenta guibg=darkmagenta
-  autocmd BufRead,BufNew * match ExtraWhitespace /\\\@<![\u3000[:space:]]\+$/
-  " The above flashes annoyingly while typing, be calmer in insert mode
-  autocmd InsertLeave * match ExtraWhitespace /\\\@<![\u3000[:space:]]\+$/
-  autocmd InsertEnter * match ExtraWhitespace /\\\@<![\u3000[:space:]]\+\%#\@<!$/
 endif
-
-highlight HighlightedyankRegion cterm=reverse gui=reverse
-highlight GitSignsCurrentLineBlame cterm=italic ctermfg=246 gui=italic guifg=#848089
 
 "-----------------
 " Auto Commands
