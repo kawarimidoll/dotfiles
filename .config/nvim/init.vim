@@ -172,7 +172,7 @@ Plug 'lewis6991/impatient.nvim'
 Plug 'machakann/vim-sandwich', { 'on': [] }
 Plug 'markonm/traces.vim', { 'on': [] }
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
-Plug 'nathom/filetype.nvim', { 'on': [] }
+Plug 'nathom/filetype.nvim'
 Plug 'neoclide/coc.nvim', { 'on': [], 'branch': 'release' }
 Plug 'norcalli/nvim-colorizer.lua', { 'on': [] }
 Plug 'nvim-lua/plenary.nvim', { 'on': [] }
@@ -180,7 +180,7 @@ Plug 'phaazon/hop.nvim', { 'on': ['HopChar1', 'HopChar2', 'HopLine', 'HopWord'] 
 Plug 'sainnhe/sonokai'
 Plug 'segeljakt/vim-silicon', { 'on': 'Silicon' }
 Plug 'simeji/winresizer', { 'on': 'WinResizerStartResize' }
-Plug 'terrortylor/nvim-comment', { 'on': 'CommentOperator' }
+Plug 'terrortylor/nvim-comment', { 'on': [] }
 Plug 'terryma/vim-expand-region', { 'on': '<Plug>(expand_region_' }
 Plug 'tyru/capture.vim', { 'on': 'Capture' }
 Plug 'tyru/open-browser.vim', { 'on': '<Plug>(openbrowser-' }
@@ -195,7 +195,6 @@ function! s:LazyLoadPlugs(timer) abort
   call plug#load(
         \   'coc.nvim',
         \   'fzf',
-        \   'filetype.nvim',
         \   'gitsigns.nvim',
         \   'nvim-colorizer.lua',
         \   'nvim-hlslens',
@@ -229,6 +228,20 @@ require('gitsigns').setup {
   },
   current_line_blame = true,
 }
+require('filetype').setup({
+  overrides = {
+    extensions = {
+      bashrc = 'bash',
+      env = 'env',
+    },
+    complex = {
+      ["%.env.*"] = "env",
+      ["%.zshrc.*"] = "zsh",
+      [".*shrc"] = "bash",
+      ["git--__.+"] = "bash",
+    },
+  }
+})
 EOF
 
 let g:asterisk#keeppos = 1
@@ -750,10 +763,10 @@ augroup vimrc
   autocmd BufLeave * if exists('b:term_title') && exists('b:terminal_job_pid') | execute ":file term" . b:terminal_job_pid . "/" . b:term_title
 
   " file type settings
-  autocmd BufNewFile,BufRead .env* set filetype=env
-  autocmd BufNewFile,BufRead git-__* set filetype=bash
-  autocmd BufNewFile,BufRead [^.]*shrc set filetype=bash
-  autocmd BufNewFile,BufRead .bashrc set filetype=bash
+  " autocmd BufNewFile,BufRead .env* set filetype=env
+  " autocmd BufNewFile,BufRead git-__* set filetype=bash
+  " autocmd BufNewFile,BufRead [^.]*shrc set filetype=bash
+  " autocmd BufNewFile,BufRead .bashrc set filetype=bash
   autocmd BufNewFile,BufRead *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4
   autocmd BufNewFile,BufRead *.go setlocal tabstop=4 softtabstop=4 shiftwidth=4
   autocmd BufNewFile,BufRead *.java setlocal tabstop=4 softtabstop=4 shiftwidth=4
