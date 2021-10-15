@@ -390,24 +390,6 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 " provide custom statusline: lightline.vim, vim-airline.
 " set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
-" Mappings for CoCList
-" Show all diagnostics.
-nnoremap <silent><nowait> <space>A  :<C-u>CocList diagnostics<CR>
-" Manage extensions.
-nnoremap <silent><nowait> <space>E  :<C-u>CocList extensions<CR>
-" Show commands.
-nnoremap <silent><nowait> <space>C  :<C-u>CocList commands<CR>
-" Find symbol of current document.
-nnoremap <silent><nowait> <space>D  :<C-u>CocList outline<CR>
-" Search workspace symbols.
-nnoremap <silent><nowait> <space>S  :<C-u>CocList -I symbols<CR>
-" Do default action for next item.
-nnoremap <silent><nowait> <space>J  :<C-u>CocNext<CR>
-" Do default action for previous item.
-nnoremap <silent><nowait> <space>K  :<C-u>CocPrev<CR>
-" Resume latest coc list.
-nnoremap <silent><nowait> <space>P  :<C-u>CocListResume<CR>
-
 "-----------------
 " Commands and Functions
 "-----------------
@@ -660,41 +642,48 @@ nnoremap ' `
 
 nmap gx <Plug>(openbrowser-smart-search)
 
-nnoremap <Space>a :<C-u>CocCommand fzf-preview.GitActions<CR>
-nnoremap <Space>b :<C-u>CocCommand fzf-preview.Buffers<CR>
-nnoremap <Space>B :<C-u>CocCommand fzf-preview.BufferLines<CR>
+nnoremap <Space>a <Cmd>CocCommand fzf-preview.GitActions<CR>
+nnoremap <space>A <Cmd>CocList diagnostics<CR>
+nnoremap <Space>b <Cmd>CocCommand fzf-preview.Buffers<CR>
+nnoremap <Space>B <Cmd>CocCommand fzf-preview.BufferLines<CR>
+nnoremap <space>C <Cmd>CocList commands<CR>
 nnoremap <Space>d :<C-u>Sayonara!<CR>
+nnoremap <space>D <Cmd>CocList outline<CR>
 nnoremap <Space>ef :<C-u>HopChar1<CR>
-nnoremap <Space>el :<C-u>HopLine<CR>
+nnoremap <Space>el <Cmd>HopLine<CR>
 nnoremap <Space>es :<C-u>HopChar2<CR>
-nnoremap <Space>ew :<C-u>HopWord<CR>
-nnoremap <Space>f :<C-u>CocCommand fzf-preview.ProjectFiles<CR>
+nnoremap <Space>ew <Cmd>HopWord<CR>
+nnoremap <space>E <Cmd>CocList extensions<CR>
+nnoremap <Space>f <Cmd>CocCommand fzf-preview.ProjectFiles<CR>
 nnoremap <Space>g <Cmd>copy.<CR>
 nnoremap <Space>G <Cmd>copy-1<CR>
-nnoremap <Space>h :<C-u>CocCommand fzf-preview.ProjectMruFiles<CR>
-nnoremap <Space>j :<C-u>CocCommand fzf-preview.Jumps<CR>
-nnoremap <Space>l :<C-u>CocCommand fzf-preview.Lines<CR>
+nnoremap <Space>h <Cmd>CocCommand fzf-preview.ProjectMruFiles<CR>
+nnoremap <Space>j <Cmd>CocCommand fzf-preview.Jumps<CR>
+nnoremap <space>J <Cmd>CocNext<CR>
+nnoremap <space>K <Cmd>CocPrev<CR>
+nnoremap <Space>l <Cmd>CocCommand fzf-preview.Lines<CR>
 nnoremap <Space>L <Cmd>LazyGit<CR>
-nnoremap <Space>m :<C-u>CocCommand fzf-preview.Marks<CR>
+nnoremap <Space>m <Cmd>CocCommand fzf-preview.Marks<CR>
 nnoremap <silent><Space>o :<C-u>put =repeat(nr2char(10), v:count1)<CR>
 nnoremap <silent><Space>O :<C-u>put! =repeat(nr2char(10), v:count1)<CR>'[
 nnoremap <Space>p :<C-u>Format<CR>
+" nnoremap <space>P <Cmd>CocListResume<CR>
 nnoremap <Space>q :<C-u>quit<CR>
 nnoremap <Space>Q :<C-u>only<CR>
 " nnoremap <Space>r :<C-u>registers<CR>
 nnoremap <Space>s :<C-u>%s/
-" nnoremap <Space>S :<C-u>&&<CR>
+nnoremap <space>S <Cmd>CocList -I symbols<CR>
 nnoremap <Space>t <C-^>
 nnoremap <Space>T <C-w><C-w>
-nnoremap <silent><Space>u mzg~iw`z:<C-u>delmarks z<CR>
-nnoremap <silent><Space>U mzlbg~l`z:<C-u>delmarks z<CR>
+nnoremap <Space>u mzg~iw`z<Cmd>delmarks z<CR>
+nnoremap <Space>U mzlbg~l`z<Cmd>delmarks z<CR>
 nnoremap <Space>w :<C-u>write<CR>
-nnoremap <Space>wq :<C-u>exit<CR>
-nnoremap <Space>x :<C-u>CocCommand explorer<CR>
-nnoremap <Silent> <Space>y  :<C-u>CocList -A --normal yank<CR>
+nnoremap <Space>wq <Cmd>wq<CR>
+nnoremap <Space>x <Cmd>CocCommand explorer<CR>
+nnoremap <Space>y <Cmd>CocList -A --normal yank<CR>
 nnoremap <Space>/ :<C-u>CocCommand fzf-preview.ProjectGrep ''<Left>
 nnoremap <Space>? :<C-u>CocCommand fzf-preview.ProjectGrep ''<Left><C-r><C-f>
-nnoremap <Space>: :<C-u>CocCommand fzf-preview.CommandPallette<CR>
+nnoremap <Space>: <Cmd>CocCommand fzf-preview.CommandPalette<CR>
 
 nnoremap <silent><expr> <C-k> ':<C-u>move-1-' . v:count1 . '<CR>=l'
 nnoremap <silent><expr> <C-j> ':<C-u>move+' . v:count1 . '<CR>=l'
@@ -712,6 +701,7 @@ cnoremap <C-f> <Right>
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 cnoremap <C-d> <Del>
+cnoremap <C-l> <C-r>*
 
 " insert
 inoremap <silent> jj <ESC>
