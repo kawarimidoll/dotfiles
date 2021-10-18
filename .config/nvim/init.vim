@@ -153,21 +153,24 @@ unlet autoload_plug_path
 call plug#begin(stdpath('config') . '/plugged')
 " Plug 'cocopon/iceberg.vim'
 " Plug 'glidenote/memolist.vim'
+" Plug 'machakann/vim-sandwich', { 'on': [] }
+" Plug 'sainnhe/sonokai'
+" Plug 'terrortylor/nvim-comment', { 'on': [] }
 " Plug 'vim-denops/denops.vim'
 
 Plug 'arthurxavierx/vim-caser', { 'on': [] }
+Plug 'echasnovski/mini.nvim'
 Plug 'folke/which-key.nvim', { 'on': [] }
 Plug 'haya14busa/vim-asterisk', { 'on': [] }
 Plug 'hoob3rt/lualine.nvim'
 Plug 'jacquesbh/vim-showmarks', { 'on': 'DoShowMarks' }
 Plug 'junegunn/fzf', { 'on': [], 'do': { -> fzf#install() } }
-Plug 'kevinhwang91/nvim-hlslens', { 'on': [] }
 Plug 'kdheepak/lazygit.nvim', { 'on': 'LazyGit' }
+Plug 'kevinhwang91/nvim-hlslens', { 'on': [] }
 Plug 'kyazdani42/nvim-web-devicons', { 'on': [] }
 Plug 'lambdalisue/gina.vim', { 'on': 'Gina' }
 Plug 'lewis6991/gitsigns.nvim', { 'on': [] }
 Plug 'lewis6991/impatient.nvim'
-Plug 'machakann/vim-sandwich', { 'on': [] }
 Plug 'markonm/traces.vim', { 'on': [] }
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 Plug 'nathom/filetype.nvim'
@@ -175,10 +178,8 @@ Plug 'neoclide/coc.nvim', { 'on': [], 'branch': 'release' }
 Plug 'norcalli/nvim-colorizer.lua', { 'on': [] }
 Plug 'nvim-lua/plenary.nvim', { 'on': [] }
 Plug 'phaazon/hop.nvim', { 'on': ['HopChar1', 'HopChar2', 'HopLine', 'HopWord'] }
-Plug 'sainnhe/sonokai'
 Plug 'segeljakt/vim-silicon', { 'on': 'Silicon' }
 Plug 'simeji/winresizer', { 'on': 'WinResizerStartResize' }
-Plug 'terrortylor/nvim-comment', { 'on': [] }
 Plug 'terryma/vim-expand-region', { 'on': '<Plug>(expand_region_' }
 Plug 'tyru/capture.vim', { 'on': 'Capture' }
 Plug 'tyru/open-browser.vim', { 'on': ['OpenBrowser', '<Plug>(openbrowser-'] }
@@ -201,9 +202,9 @@ function! s:LazyLoadPlugs(timer) abort
         \   'traces.vim',
         \   'vim-asterisk',
         \   'vim-caser',
-        \   'vim-sandwich',
         \   'which-key.nvim',
         \ )
+        " \   'vim-sandwich',
   normal! g`Z
   delmarks Z
 endfunction
@@ -211,7 +212,7 @@ call timer_start(200, function("s:LazyLoadPlugs"))
 
 lua << EOF
 require('impatient')
-require('nvim_comment').setup()
+-- require('nvim_comment').setup()
 require('which-key').setup()
 require('colorizer').setup()
 require('hop').setup()
@@ -240,6 +241,11 @@ require('filetype').setup({
     },
   }
 })
+
+require('mini.bufremove').setup()
+require('mini.comment').setup()
+require('mini.surround').setup()
+-- require('mini.trailspace').setup()
 EOF
 
 let g:asterisk#keeppos = 1
@@ -647,7 +653,9 @@ nnoremap <space>A <Cmd>CocList diagnostics<CR>
 nnoremap <Space>b <Cmd>CocCommand fzf-preview.Buffers<CR>
 nnoremap <Space>B <Cmd>CocCommand fzf-preview.BufferLines<CR>
 nnoremap <space>C <Cmd>CocList commands<CR>
-nnoremap <Space>d :<C-u>Sayonara!<CR>
+nnoremap <Space>d <Cmd>lua MiniBufremove.delete()<CR>
+" nnoremap <Space>d <Cmd>lua MiniBufremove.unshow_in_window()<CR>
+" nnoremap <Space>d :<C-u>Sayonara!<CR>
 nnoremap <space>D <Cmd>CocList outline<CR>
 nnoremap <Space>ef :<C-u>HopChar1<CR>
 nnoremap <Space>el <Cmd>HopLine<CR>
@@ -738,10 +746,51 @@ cabbrev svs saveas %
 " Appearances
 "-----------------
 syntax enable
+command! VimShowHlGroup echo synIDattr(synIDtrans(synID(line('.'), col('.'), 1)), 'name')
 
-colorscheme sonokai
+" colorscheme sonokai
 
 lua << EOF
+-- https://github.com/sainnhe/sonokai/blob/master/alacritty/README.md shusia
+-- https://github.com/chriskempson/base16/blob/master/styling.md
+require('mini.base16').setup({
+  palette = {
+    -- Default Background
+    base00 = "#2d2a2e",
+    -- Lighter Background (Used for status bars, line number and folding marks)
+    base01 = "#37343a",
+    -- Selection Background
+    base02 = "#423f46",
+    -- Comments, Invisibles, Line Highlighting
+    base03 = "#848089",
+    -- Dark Foreground (Used for status bars)
+    base04 = "#66d9ef",
+    -- Default Foreground, Caret, Delimiters, Operators
+    base05 = "#e3e1e4",
+    -- Light Foreground (Not often used)
+    base06 = "#a1efe4",
+    -- Light Background (Not often used)
+    base07 = "#f8f8f2",
+    -- Variables, XML Tags, Markup Link Text, Markup Lists, Diff Deleted
+    base08 = "#f85e84",
+    -- Integers, Boolean, Constants, XML Attributes, Markup Link Url
+    base09 = "#ef9062",
+    -- Classes, Markup Bold, Search Text Background
+    base0A = "#a6e22e",
+    -- Strings, Inherited Class, Markup Code, Diff Inserted
+    base0B = "#e5c463",
+    -- Support, Regular Expressions, Escape Characters, Markup Quotes
+    base0C = "#66d9ef",
+    -- Functions, Methods, Attribute IDs, Headings
+    base0D = "#9ecd6f",
+    -- Keywords, Storage, Selector, Markup Italic, Diff Changed
+    base0E = "#a1efe4",
+    -- Deprecated, Opening/Closing Embedded Language Tags, e.g. <?php ?>
+    base0F = "#f9f8f5",
+  },
+  use_cterm = true,
+})
+
 require('lualine').setup {
   options = {
     icons_enabled = true,
@@ -785,6 +834,8 @@ require('lualine').setup {
   }
 }
 EOF
+
+" colorscheme minischeme
 
 if has('syntax')
   augroup vimrc_syntax
