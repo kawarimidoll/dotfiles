@@ -189,7 +189,7 @@ call plug#end()
 " https://qiita.com/Alice_ecilA/items/d251a90e4a71d67444dd#vim%E3%81%AE%E3%82%BF%E3%82%A4%E3%83%9E%E3%83%BC%E6%A9%9F%E8%83%BD%E3%81%A7%E9%81%85%E5%BB%B6%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF
 " load plugins by timer
 function! s:LazyLoadPlugs(timer) abort
-  " back to previous position by marking Z because plug#load reloads current buffer
+  " save current position by marking Z because plug#load reloads current buffer
   normal! mZ
   call plug#load(
         \   'coc.nvim',
@@ -503,9 +503,8 @@ function! s:carbonNowSh() range "{{{
     call plug#load('open-browser.vim')
   endif
 
-  let l:text = s:urlEncode(s:getVisualSelection())
-  let l:url = 'https://carbon.now.sh/?l=' .. &filetype .. '&code=' .. l:text
-
+  let l:code = s:urlEncode(s:getVisualSelection())
+  let l:url = 'https://carbon.now.sh/?l=' .. &filetype .. '&code=' .. l:code
   call openbrowser#open(l:url)
 endfunction "}}}
 
@@ -514,7 +513,9 @@ function! s:urlEncode(string) "{{{
 
   let l:characters = split(a:string, '.\zs')
   for l:character in l:characters
-    if s:characterRequiresUrlEncoding(l:character)
+    if l:character =~ '[[:alnum:]]'
+      let l:result = l:result .. l:character
+    else
       let l:i = 0
       while l:i < strlen(l:character)
         let l:byte = strpart(l:character, l:i, 1)
@@ -522,26 +523,10 @@ function! s:urlEncode(string) "{{{
         let l:result = l:result .. '%' .. printf('%02x', l:decimal)
         let l:i += 1
       endwhile
-    else
-      let l:result = l:result .. l:character
     endif
   endfor
 
   return l:result
-endfunction "}}}
-
-function! s:characterRequiresUrlEncoding(character) "{{{
-  let l:ascii_code = char2nr(a:character)
-
-  if (l:ascii_code >= 48 && l:ascii_code <= 57) ||
-        \ (l:ascii_code >= 65 && l:ascii_code <= 90) ||
-        \ (l:ascii_code >= 97 && l:ascii_code <= 122) ||
-        \ a:character ==? '-' || a:character ==? '_' ||
-        \ a:character ==? '.' || a:character ==? '~'
-    return 0
-  endif
-
-  return 1
 endfunction "}}}
 
 function! s:getVisualSelection() "{{{
