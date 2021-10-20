@@ -125,7 +125,7 @@ if !filereadable(autoload_plug_path)
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 else
   " [おい、NeoBundle もいいけど vim-plug 使えよ](https://qiita.com/b4b4r07/items/fa9c8cceb321edea5da0)
-  " nvimではarrow methodを使えない
+  " nvim does not support arrow methods
   function! s:AutoPlugInstall() abort
     let list = map(
       \   filter(
@@ -157,6 +157,7 @@ call plug#begin(stdpath('config') . '/plugged')
 " Plug 'sainnhe/sonokai'
 " Plug 'terrortylor/nvim-comment', { 'on': [] }
 " Plug 'vim-denops/denops.vim'
+" Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 
 Plug 'arthurxavierx/vim-caser', { 'on': [] }
 Plug 'echasnovski/mini.nvim'
@@ -172,7 +173,6 @@ Plug 'lambdalisue/gina.vim', { 'on': 'Gina' }
 Plug 'lewis6991/gitsigns.nvim', { 'on': [] }
 Plug 'lewis6991/impatient.nvim'
 Plug 'markonm/traces.vim', { 'on': [] }
-Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 Plug 'nathom/filetype.nvim'
 Plug 'neoclide/coc.nvim', { 'on': [], 'branch': 'release' }
 Plug 'norcalli/nvim-colorizer.lua', { 'on': [] }
@@ -246,6 +246,7 @@ require('mini.bufremove').setup()
 require('mini.comment').setup()
 require('mini.surround').setup()
 require('mini.trailspace').setup()
+require('mini.tabline').setup()
 EOF
 
 let g:asterisk#keeppos = 1
@@ -635,8 +636,6 @@ nnoremap <Space>b <Cmd>CocCommand fzf-preview.Buffers<CR>
 nnoremap <Space>B <Cmd>CocCommand fzf-preview.BufferLines<CR>
 nnoremap <space>C <Cmd>CocList commands<CR>
 nnoremap <Space>d <Cmd>lua MiniBufremove.delete()<CR>
-" nnoremap <Space>d <Cmd>lua MiniBufremove.unshow_in_window()<CR>
-" nnoremap <Space>d :<C-u>Sayonara!<CR>
 nnoremap <space>D <Cmd>CocList outline<CR>
 nnoremap <Space>ef :<C-u>HopChar1<CR>
 nnoremap <Space>el <Cmd>HopLine<CR>
@@ -794,9 +793,9 @@ require('lualine').setup {
       'fileformat',
       {'filetype', colored = false}
     },
-    lualine_y = {'progress', 'anzu#search_status'},
+    lualine_y = {'progress'},
     lualine_z = {'location'}
-    },
+  },
   inactive_sections = {
     lualine_a = {},
     lualine_b = {},
@@ -804,15 +803,7 @@ require('lualine').setup {
     lualine_x = {'location'},
     lualine_y = {},
     lualine_z = {}
-    },
-  tabline = {
-    lualine_a = {},
-    lualine_b = {'filename'},
-    lualine_c = {},
-    lualine_x = {},
-    lualine_y = {},
-    lualine_z = {}
-  }
+  },
 }
 EOF
 
