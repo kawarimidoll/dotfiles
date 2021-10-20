@@ -245,7 +245,7 @@ require('filetype').setup({
 require('mini.bufremove').setup()
 require('mini.comment').setup()
 require('mini.surround').setup()
--- require('mini.trailspace').setup()
+require('mini.trailspace').setup()
 EOF
 
 let g:asterisk#keeppos = 1
@@ -273,7 +273,7 @@ let g:fzf_preview_default_fzf_options = {
       \ '--cycle': v:true,
       \ '--no-sort': v:true,
       \ }
-let g:sonokai_style = 'shusia' " default,atlantis,andromeda,shusia,maia,espresso
+" let g:sonokai_style = 'shusia' " default,atlantis,andromeda,shusia,maia,espresso
 
 "-----------------
 " coc.nvim configuration
@@ -413,11 +413,7 @@ command! -nargs=* T split | wincmd j | resize 12 | terminal <args>
 " command! GoRun !go run %:p
 " command! CocMarkmap CocCommand markmap.create
 
-" https://github.com/bronson/vim-trailing-whitespace/blob/master/plugin/trailing-whitespace.vim
-function! s:Trim(line1, line2)
-  silent! keepjumps execute ':' . a:line1 . ',' . a:line2 . 's/\\\@<!\s\+$//'
-endfunction
-command! -range=% Trim call <SID>Trim(<line1>, <line2>)
+command! Trim lua MiniTrailspace.trim()
 command! BaTrim retab | Trim
 
 " [Vimの生産性を高める12の方法 | POSTD](https://postd.cc/how-to-boost-your-vim-productivity/)
@@ -820,22 +816,25 @@ require('lualine').setup {
 }
 EOF
 
-" colorscheme minischeme
-
 if has('syntax')
   augroup vimrc_syntax
     autocmd!
-    " https://github.com/bronson/vim-trailing-whitespace/blob/master/plugin/trailing-whitespace.vim
-    " Highlight EOL whitespace, http://vim.wikia.com/wiki/Highlight_unwanted_spaces
     highlight default ExtraWhitespace ctermbg=darkmagenta guibg=darkmagenta
-    autocmd BufRead,BufNew * match ExtraWhitespace /\\\@<![\u3000[:space:]]\+$/
-    " The above flashes annoyingly while typing, be calmer in insert mode
-    autocmd InsertLeave * match ExtraWhitespace /\\\@<![\u3000[:space:]]\+$/
-    autocmd InsertEnter * match ExtraWhitespace /\\\@<![\u3000[:space:]]\+\%#\@<!$/
+    highlight! link MiniTrailspace ExtraWhitespace
 
-    " 全角スペースの可視化
-    " https://vim-jp.org/vim-users-jp/2009/07/12/Hack-40.html
-    " '　'
+    " visualize whitespace characters
+    " original: https://vim-jp.org/vim-users-jp/2009/07/12/Hack-40.html
+    " u2002 ' ' en space
+    " u2003 ' ' em space
+    " u2004 ' ' three-per em space
+    " u2005 ' ' four-per em space
+    " u2006 ' ' six-per em space
+    " u2007 ' ' figure space
+    " u2008 ' ' punctuation space
+    " u2009 ' ' thin space
+    " u200A ' ' hair space
+    " u200B '​' zero-width space
+    " u3000 '　' ideographic (zenkaku) space
     autocmd VimEnter,WinEnter,BufRead *
           \ call matchadd('ExtraWhitespace', "[\u00A0\u2002-\u200B\u3000]")
 
