@@ -482,6 +482,22 @@ command! DenoRun silent only | botright 12 split +set\ bufhidden=wipe |
    \ . ' -A --no-check --unstable --watch ' . expand('%:p') |
    \ stopinsert | execute 'normal! G' | wincmd k
 
+lua << EOF
+-- [url-encode.lua](https://gist.github.com/liukun/f9ce7d6d14fa45fe9b924a3eed5c3d99)
+-- [string/gsub - Lua Memo](https://aoikujira.com/wiki/lua/index.php?string%252Fgsub)
+function urlencode(url)
+  if url == nil then
+    return
+  end
+
+  url = url:gsub("\n", "\r\n")
+  url = url:gsub("([^%w _%%%-%.~])",
+          function(c) return string.format("%%%02X", string.byte(c)) end)
+  url = url:gsub(" ", "+")
+  return url
+end
+EOF
+
 " https://github.com/kristijanhusak/vim-carbon-now-sh/blob/master/plugin/vim-carbon-now-sh.vim
 command! -range=% CarbonNowSh <line1>,<line2>call s:carbonNowSh()
 
@@ -496,24 +512,7 @@ function! s:carbonNowSh() range "{{{
 endfunction "}}}
 
 function! s:urlEncode(string) "{{{
-  let l:result = ''
-
-  let l:characters = split(a:string, '.\zs')
-  for l:character in l:characters
-    if l:character =~ '[[:alnum:]]'
-      let l:result = l:result .. l:character
-    else
-      let l:i = 0
-      while l:i < strlen(l:character)
-        let l:byte = strpart(l:character, l:i, 1)
-        let l:decimal = char2nr(l:byte)
-        let l:result = l:result .. '%' .. printf('%02x', l:decimal)
-        let l:i += 1
-      endwhile
-    endif
-  endfor
-
-  return l:result
+  return v:lua.urlencode(a:string)
 endfunction "}}}
 
 function! s:getVisualSelection() "{{{
