@@ -151,13 +151,8 @@ endif
 unlet autoload_plug_path
 
 call plug#begin(stdpath('config') . '/plugged')
-" Plug 'cocopon/iceberg.vim'
 " Plug 'glidenote/memolist.vim'
-" Plug 'machakann/vim-sandwich', { 'on': [] }
-" Plug 'sainnhe/sonokai'
-" Plug 'terrortylor/nvim-comment', { 'on': [] }
 " Plug 'vim-denops/denops.vim'
-" Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 
 Plug 'arthurxavierx/vim-caser', { 'on': [] }
 Plug 'echasnovski/mini.nvim'
@@ -172,7 +167,6 @@ Plug 'kyazdani42/nvim-web-devicons', { 'on': [] }
 Plug 'lambdalisue/gina.vim', { 'on': 'Gina' }
 Plug 'lewis6991/gitsigns.nvim', { 'on': [] }
 Plug 'lewis6991/impatient.nvim'
-Plug 'markonm/traces.vim', { 'on': [] }
 Plug 'nathom/filetype.nvim'
 Plug 'neoclide/coc.nvim', { 'on': [], 'branch': 'release' }
 Plug 'norcalli/nvim-colorizer.lua', { 'on': [] }
@@ -199,12 +193,10 @@ function! s:LazyLoadPlugs(timer) abort
         \   'nvim-hlslens',
         \   'nvim-web-devicons',
         \   'plenary.nvim',
-        \   'traces.vim',
         \   'vim-asterisk',
         \   'vim-caser',
         \   'which-key.nvim',
         \ )
-        " \   'vim-sandwich',
   normal! g`Z
   delmarks Z
 endfunction
@@ -212,7 +204,6 @@ call timer_start(200, function("s:LazyLoadPlugs"))
 
 lua << EOF
 require('impatient')
--- require('nvim_comment').setup()
 require('which-key').setup()
 require('colorizer').setup()
 require('hop').setup()
@@ -247,6 +238,7 @@ require('mini.comment').setup()
 require('mini.surround').setup()
 require('mini.trailspace').setup()
 require('mini.tabline').setup()
+require('mini.pairs').setup()
 EOF
 
 let g:asterisk#keeppos = 1
@@ -260,8 +252,8 @@ let g:coc_global_extensions = [
       \ ]
 let g:lazygit_floating_window_scaling_factor = 1
 let g:lazygit_floating_window_winblend = 20
-let g:memolist_memo_suffix = "md"
-let g:memolist_fzf = 1
+" let g:memolist_memo_suffix = "md"
+" let g:memolist_fzf = 1
 let g:netrw_nogx = 1 " disable netrw's gx mapping for openbrowser
 let g:silicon = {}
 let g:silicon['output'] = '~/Downloads/silicon-{time:%Y-%m-%d-%H%M%S}.png'
@@ -274,7 +266,6 @@ let g:fzf_preview_default_fzf_options = {
       \ '--cycle': v:true,
       \ '--no-sort': v:true,
       \ }
-" let g:sonokai_style = 'shusia' " default,atlantis,andromeda,shusia,maia,espresso
 
 "-----------------
 " coc.nvim configuration
@@ -417,7 +408,6 @@ command! -nargs=* T split | wincmd j | resize 12 | terminal <args>
 command! Trim lua MiniTrailspace.trim()
 command! BaTrim retab | Trim
 
-" [Vimの生産性を高める12の方法 | POSTD](https://postd.cc/how-to-boost-your-vim-productivity/)
 function! s:VisualPaste()
   let clipboard_options = split(&clipboard, ",")
   let restore_reg = index(clipboard_options, "unnamed") >= 0 ? @* : @"
@@ -728,8 +718,6 @@ cabbrev svs saveas %
 syntax enable
 command! VimShowHlGroup echo synIDattr(synIDtrans(synID(line('.'), col('.'), 1)), 'name')
 
-" colorscheme sonokai
-
 lua << EOF
 -- https://github.com/sainnhe/sonokai/blob/master/alacritty/README.md shusia
 -- https://github.com/chriskempson/base16/blob/master/styling.md
@@ -830,6 +818,7 @@ if has('syntax')
           \ call matchadd('ExtraWhitespace', "[\u00A0\u2002-\u200B\u3000]")
 
     highlight HighlightedyankRegion cterm=reverse gui=reverse
+    highlight! link GitSignsChange Keyword
     highlight! link GitSignsCurrentLineBlame Comment
   augroup END
 endif
