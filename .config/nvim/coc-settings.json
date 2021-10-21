@@ -8,6 +8,7 @@
     "crossorigin",
     "datetime",
     "deno",
+    "denops",
     "deplyctl",
     "frontmatter",
     "kawarimidoll",

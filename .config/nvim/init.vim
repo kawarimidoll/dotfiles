@@ -152,7 +152,8 @@ unlet autoload_plug_path
 
 call plug#begin(stdpath('config') . '/plugged')
 " Plug 'glidenote/memolist.vim'
-" Plug 'vim-denops/denops.vim'
+Plug 'vim-denops/denops.vim', { 'on': [] }
+Plug 'kat0h/bufpreview.vim', { 'on': 'PreviewMarkdown' }
 
 Plug 'arthurxavierx/vim-caser', { 'on': [] }
 Plug 'echasnovski/mini.nvim'
@@ -180,12 +181,15 @@ Plug 'tyru/open-browser.vim', { 'on': ['OpenBrowser', '<Plug>(openbrowser-'] }
 Plug 'vim-jp/vimdoc-ja'
 call plug#end()
 
+" set runtimepath^=$DOT_DIR/dps-open
+
 " https://qiita.com/Alice_ecilA/items/d251a90e4a71d67444dd#vim%E3%81%AE%E3%82%BF%E3%82%A4%E3%83%9E%E3%83%BC%E6%A9%9F%E8%83%BD%E3%81%A7%E9%81%85%E5%BB%B6%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF
 " load plugins by timer
 function! s:LazyLoadPlugs(timer) abort
   " save current position by marking Z because plug#load reloads current buffer
   normal! mZ
   call plug#load(
+        \   'denops.vim',
         \   'coc.nvim',
         \   'fzf',
         \   'gitsigns.nvim',
@@ -606,6 +610,7 @@ nnoremap <script> <expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
 nnoremap <sid>(q)q qq
 nnoremap Q @q
 nnoremap <sid>(q)b <Cmd>GitSigns toggle_current_line_blame<CR>
+nnoremap <sid>(q)m <Cmd>PreviewMarkdownToggle<CR>
 nnoremap p p`[v`]=`]
 nnoremap P P`[v`]=`]
 nnoremap ]p p

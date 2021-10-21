@@ -1,4 +1,4 @@
-timestamp: 2021-10-15 07:24:49 JST
+timestamp: 2021-10-22 08:26:21 JST
 tap: a-know/tap
 tap: homebrew/bundle
 tap: homebrew/cask
@@ -81,6 +81,8 @@ brew: lsd
 brew: luarocks
 brew: macchina
 brew: mas
+brew: mdcat
+brew: mdv
 brew: miller
 brew: moar
 brew: mongosh
@@ -97,7 +99,6 @@ brew: pinentry-mac
 brew: pngquant
 brew: procs
 brew: px4/px4/gcc-arm-none-eabi
-brew: python@3.8
 brew: q
 brew: qt@5
 brew: rargs
@@ -108,6 +109,7 @@ brew: ripgrep
 brew: rmw
 brew: rpg-cli
 brew: rust
+brew: s-search
 brew: sd
 brew: semgrep
 brew: silicon
@@ -127,6 +129,7 @@ brew: tldr
 brew: tmux
 brew: tokei
 brew: tree
+brew: tz
 brew: ugrep
 brew: unzip
 brew: vim
@@ -174,7 +177,6 @@ cask: ears
 cask: editaro
 cask: empoche
 cask: evernote
-cask: fig
 cask: firecamp
 cask: flutter
 cask: flux
@@ -189,6 +191,7 @@ cask: hiddenbar
 cask: hot
 cask: iconizer
 cask: iina
+cask: informant
 cask: inkscape
 cask: iterm2
 cask: itsycal
@@ -209,6 +212,7 @@ cask: mi
 cask: middle
 cask: modern-csv
 cask: multi
+cask: nota
 cask: notion
 cask: numi
 cask: obsidian
@@ -296,5 +300,5 @@ mas: 1581223559  Magic              (2.2)
 mas: 1586304988  messer             (1.0.20)
 mas: 415311936   めがね                (1.3.0)
 mas: 497799835   Xcode              (13.0)
-mas: 682658836   GarageBand         (10.4.3)
+mas: 682658836   GarageBand         (10.4.4)
 mas: 975890633   HotKey             (1.5)
