@@ -408,21 +408,20 @@ command! -nargs=* T split | wincmd j | resize 12 | terminal <args>
 command! Trim lua MiniTrailspace.trim()
 command! BaTrim retab | Trim
 
-function! s:VisualPaste()
-  let clipboard_options = split(&clipboard, ",")
-  let restore_reg = index(clipboard_options, "unnamed") >= 0 ? @* : @"
-  function! RestoreRegister() closure
-    if index(clipboard_options, "unnamed") >= 0
-      let @* = restore_reg
-      if index(clipboard_options, "unnamedplus") >= 0
-        let @+ = restore_reg
-      endif
-    else
-      let @" = restore_reg
-    endif
-    return ''
-  endfunction
-  return "p@=RestoreRegister()\<CR>"
+" https://github.com/neovim/neovim/pull/12383#issuecomment-695768082
+" https://github.com/Shougo/shougo-s-github/blob/master/vim/autoload/vimrc.vim#L84
+function! init#visual_paste(direction) range abort
+  let registers = {}
+
+  for name in ['"', '0']
+    let registers[name] = {'type': getregtype(name), 'value': getreg(name)}
+  endfor
+
+  execute 'normal!' a:direction
+
+  for [name, register] in items(registers)
+    call setreg(name, register.value, register.type)
+  endfor
 endfunction
 
 " [vimのマーク機能をできるだけ活用してみる - Make 鮫 noise](http://saihoooooooo.hatenablog.com/entry/2013/04/30/001908)
@@ -689,7 +688,9 @@ xmap <C-v> <Plug>(expand_region_shrink)
 xmap <Space>/ <Esc>gv"zy:<C-u>CocCommand fzf-preview.ProjectGrep '<C-r>z'<Left>
 xmap gx <Plug>(openbrowser-smart-search)
 xnoremap <Space>w <Esc>:<C-u>write<CR>gv
-xnoremap <silent> <expr> p <sid>VisualPaste()
+" https://github.com/Shougo/shougo-s-github/blob/master/vim/rc/mappings.rc.vim#L179
+xnoremap <silent> p <Cmd>call init#visual_paste('p')<CR>
+xnoremap <silent> P <Cmd>call init#visual_paste('P')<CR>
 xnoremap <silent> y y`]
 xnoremap x "_x
 
