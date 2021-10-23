@@ -1,4 +1,4 @@
-timestamp: 2021-10-23 09:59:10 JST
+timestamp: 2021-10-23 12:04:28 JST
 tap: a-know/tap
 tap: homebrew/bundle
 tap: homebrew/cask
@@ -12,7 +12,7 @@ tap: skanehira/docui
 tap: tako8ki/tap
 brew: a-know/tap/pi
 brew: act
-brew: automake
+brew: asdf
 brew: awscli
 brew: awslogs
 brew: bat
@@ -92,7 +92,6 @@ brew: navi
 brew: nbsdgames
 brew: neovim
 brew: ninja
-brew: nodebrew
 brew: pacvim
 brew: pastel
 brew: pinentry-mac

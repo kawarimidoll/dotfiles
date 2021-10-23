@@ -59,3 +59,8 @@ MANPATH="${BREW_PREFIX}/opt/grep/libexec/gnuman:$MANPATH"
 
 __add_fpath "${BREW_PREFIX}/share/zsh-completions"
 __add_fpath "${BREW_PREFIX}/share/zsh/site-functions"
+
+# -----------------
+#  asdf
+# -----------------
+__source "${BREW_PREFIX}/opt/asdf/libexec/asdf.sh"
