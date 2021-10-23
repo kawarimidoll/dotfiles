@@ -808,6 +808,9 @@ if has('syntax')
 
     " visualize whitespace characters
     " original: https://vim-jp.org/vim-users-jp/2009/07/12/Hack-40.html
+
+    " u2000 ' ' en quad
+    " u2001 ' ' em quad
     " u2002 ' ' en space
     " u2003 ' ' em space
     " u2004 ' ' three-per em space
@@ -820,7 +823,7 @@ if has('syntax')
     " u200B '​' zero-width space
     " u3000 '　' ideographic (zenkaku) space
     autocmd VimEnter,WinEnter,BufRead *
-          \ call matchadd('ExtraWhitespace', "[\u00A0\u2002-\u200B\u3000]")
+          \ call matchadd('ExtraWhitespace', "[\u00A0\u2000-\u200B\u3000]")
 
     highlight HighlightedyankRegion cterm=reverse gui=reverse
     highlight! link GitSignsChange Keyword
