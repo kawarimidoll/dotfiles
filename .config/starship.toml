@@ -4,6 +4,7 @@ command = "echo Vim"
 when = """ test -n "$VIMRUNTIME" """
 
 [aws]
+disabled = true
 symbol = " "
 
 [battery]
