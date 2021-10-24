@@ -3,6 +3,7 @@ gui:
     selectedLineBgColor:
       # - default
       - reverse
+  showFileTree: false
 # there is blinking bug https://github.com/jesseduffield/lazygit/issues/1302
 # git:
 #   paging:
