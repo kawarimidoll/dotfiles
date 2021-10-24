@@ -121,7 +121,7 @@ bindkey '^r' select-history
 edit_current_line() {
   local tmpfile=$(mktemp)
   echo "$BUFFER" > $tmpfile
-  vim $tmpfile -c "normal $" -c "set filetype=zsh"
+  nvim $tmpfile -c "normal $" -c "set filetype=zsh"
   BUFFER="$(cat $tmpfile)"
   CURSOR=${#BUFFER}
   rm $tmpfile
