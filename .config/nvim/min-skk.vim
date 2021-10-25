@@ -1,41 +1,16 @@
-let $CACHE = expand('~/.cache')
-if !isdirectory(expand($CACHE))
-  call mkdir(expand($CACHE), 'p')
-endif
+set encoding=utf-8
+scriptencoding utf-8
 
-" load secrets
-if filereadable(expand('~/.secret_vimrc'))
-  execute 'source' expand('~/.secret_vimrc')
-endif
+set clipboard=unnamed
 
-"-----------------
-" dein scripts
-"-----------------
-if &compatible
-  set nocompatible
-endif
-set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
-" if dein#load_state('$CACHE/dein')
-  call dein#begin('$CACHE/dein')
-
-  call dein#add('Shougo/dein.vim')
-  call dein#add('Shougo/ddc.vim')
-  call dein#add('vim-denops/denops.vim')
-  call dein#add('vim-skk/denops-skkeleton.vim')
-  call dein#add('Shougo/ddc-matcher_head')
-  call dein#add('Shougo/ddc-sorter_rank')
-
-  call dein#end()
-  call dein#save_state()
-" endif
-
-filetype plugin indent on
-syntax enable
-
-" Install not installed plugins on startup automatically
-if dein#check_install()
-  call dein#install()
-endif
+call plug#begin(stdpath('config') . '/plugged')
+Plug 'vim-denops/denops.vim'
+Plug 'vim-skk/denops-skkeleton.vim'
+Plug 'Shougo/ddc.vim'
+Plug 'Shougo/ddc-matcher_head'
+Plug 'Shougo/ddc-sorter_rank'
+Plug 'delphinus/skkeleton_indicator.nvim'
+call plug#end()
 
 call ddc#custom#patch_global('sources', ['skkeleton'])
 call ddc#custom#patch_global('sourceOptions', {
@@ -49,6 +24,9 @@ call ddc#custom#patch_global('sourceOptions', {
  \     'sorters': []
  \   },
  \ })
+call ddc#enable()
+
+lua require('skkeleton_indicator').setup{}
 
 imap <C-j> <Plug>(skkeleton-toggle)
 cmap <C-j> <Plug>(skkeleton-toggle)
@@ -60,12 +38,14 @@ inoremap <silent><expr> <TAB>
   \ '<TAB>' : ddc#map#manual_complete()
 inoremap <expr><S-TAB>  pumvisible() ? '<C-p>' : '<C-h>'
 
-" function! s:skkeleton_init() abort
-  call skkeleton#config({
-    \   'eggLikeNewline': v:true,
-    \   'globalJisyo': expand('~/.cache/skk/SKK-JISYO.L'),
-    \ })
-" endfunction
-" autocmd User skkeleton-initialize-pre call s:skkeleton_init()
+call skkeleton#config({
+  \   'eggLikeNewline': v:true,
+  \   'globalJisyo': expand('~/.cache/skk/SKK-JISYO.L'),
+  \ })
+
+nnoremap <Space>w :<C-u>w<CR>
+nnoremap <Space>wq :<C-u>wq<CR>
+nnoremap <Space>q :<C-u>quit<CR>
+nnoremap <Space>Q :<C-u>quit!<CR>
 
 colorscheme industry
