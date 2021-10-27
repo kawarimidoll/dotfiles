@@ -1,4 +1,4 @@
-timestamp: 2021-10-26 08:16:10 JST
+timestamp: 2021-10-27 15:26:07 JST
 tap: a-know/tap
 tap: homebrew/bundle
 tap: homebrew/cask
@@ -61,6 +61,7 @@ brew: glow
 brew: gnu-sed
 brew: gnu-tar
 brew: gnupg
+brew: go
 brew: gojq
 brew: gping
 brew: grep
@@ -112,7 +113,6 @@ brew: s-search
 brew: sd
 brew: semgrep
 brew: silicon
-brew: skanehira/docui/docui
 brew: sl
 brew: slides
 brew: snowpack
@@ -144,160 +144,90 @@ brew: xsv
 brew: yarn
 brew: zsh
 brew: zsh-completions
-cask: ableton-live-lite
 cask: accessmenubarapps
 cask: adoptopenjdk
-cask: agenda
 cask: alacritty
 cask: alfred
 cask: alt-tab
 cask: android-commandlinetools
-cask: android-studio
 cask: anki
 cask: apparency
 cask: arduino
 cask: battery-buddy
-cask: bdash
-cask: binance
 cask: bitwarden
 cask: brave-browser
-cask: clickup
 cask: cloudflare-warp
-cask: colour-contrast-analyser
 cask: deepl
 cask: devutils
 cask: displaperture
-cask: docker
 cask: dockey
 cask: dropbox
-cask: dynalist
-cask: dynamodb-local
-cask: ears
 cask: editaro
-cask: empoche
 cask: evernote
-cask: firecamp
 cask: flutter
 cask: flux
 cask: font-roboto-mono-nerd-font
 cask: fuwari
-cask: gimp
-cask: google-chrome
 cask: google-japanese-ime
-cask: gray
-cask: hermit-crab
 cask: hiddenbar
 cask: hot
-cask: iconizer
 cask: iina
 cask: informant
-cask: inkscape
 cask: iterm2
 cask: itsycal
 cask: kap
 cask: karabiner-elements
 cask: keycastr
 cask: keysmith
-cask: kindle
 cask: kitty
-cask: krita
 cask: licecap
-cask: lmms
-cask: lyrics-master
-cask: medibangpaintpro
-cask: mem
-cask: meteorologist
-cask: mi
-cask: middle
-cask: modern-csv
-cask: multi
-cask: nota
-cask: notion
 cask: numi
 cask: obsidian
-cask: onepile
-cask: openshot-video-editor
 cask: pixel-picker
 cask: pngyu
-cask: postman
 cask: processing
 cask: provisionql
-cask: pushplaylabs-sidekick
 cask: qlimagesize
 cask: qlvideo
 cask: quicklook-csv
 cask: quicklook-json
 cask: quicklookase
-cask: raycast
 cask: rectangle
 cask: sbarex-qlmarkdown
 cask: scriptql
-cask: shotcut
 cask: shottr
-cask: skitch
 cask: slack
 cask: snipaste
-cask: spotter
-cask: sqlitestudio
 cask: stats
 cask: steam
-cask: stretchly
-cask: sublime-text
 cask: suspicious-package
 cask: syntax-highlight
 cask: table-tool
 cask: tabtopus
-cask: textbuddy
 cask: the-unarchiver
 cask: tiles
-cask: time-out
 cask: tiny-player
-cask: tradingview
 cask: trex
-cask: typora
-cask: ueli
-cask: visual-studio-code
 cask: vitals
-cask: vivaldi
-cask: vnote
-cask: vym
 cask: workflowy
 cask: xbar
 cask: yippy
-cask: yt-music
-mas: 1039633009  Internet Status    (5.3)
-mas: 1087442457  InternetSpeedTest  (3.4)
-mas: 1099120373  Exporter           (3.0.6)
-mas: 1158642554  Desktop Lens       (4.0.6)
-mas: 1182934556  TransData          (2.6)
-mas: 1187772509  stts               (2.1)
-mas: 1190243926  EzyCal             (1.9)
-mas: 1200685619  QuickLinks         (2.5)
-mas: 1218797101  Sticky             (1.8)
-mas: 1231405402  Pro Disk Cleaner   (1.6)
-mas: 1328847392  Processes Monitor  (1.4)
-mas: 1429033973  RunCat             (9.4)
-mas: 1434280883  A-Zippr            (1.4)
-mas: 1434390623  CoverDesk          (1.3)
-mas: 1437226581  Horo               (2.2.4)
-mas: 1450640351  Lightweight PDF    (1.0.5)
-mas: 1467796430  Plain Pasta        (1.2.1)
-mas: 1493491870  ロールちゃん             (2.0.0)
-mas: 1503136033  Service Station    (2020.9)
-mas: 1534796314  Twenttty           (1.1.0)
-mas: 1542390153  Chemy              (1.1.0)
-mas: 1543657970  Nimble Click       (1.8)
-mas: 1545870783  Color Picker       (1.7.1)
-mas: 1546457750  Zavala             (1.2)
-mas: 1547147101  OpenIn             (2.1.0)
-mas: 1560355863  CI Demon           (3.0.24)
-mas: 1562921229  Uniview            (1.2)
-mas: 1563735522  Charmstone         (0.14)
-mas: 1566662030  CustomSymbols      (2.3.2)
-mas: 1569290801  ItemStock          (1.0)
-mas: 1581223559  Magic              (2.2)
-mas: 1586304988  messer             (1.0.20)
-mas: 415311936   めがね                (1.3.0)
-mas: 497799835   Xcode              (13.0)
-mas: 682658836   GarageBand         (10.4.4)
-mas: 975890633   HotKey             (1.5)
+mas: 1099120373  Exporter          (3.0.6)
+mas: 1158642554  Desktop Lens      (4.0.6)
+mas: 1187772509  stts              (2.1)
+mas: 1190243926  EzyCal            (1.9)
+mas: 1200685619  QuickLinks        (2.5)
+mas: 1218797101  Sticky            (1.8)
+mas: 1231405402  Pro Disk Cleaner  (1.6)
+mas: 1429033973  RunCat            (9.4)
+mas: 1434280883  A-Zippr           (1.4)
+mas: 1450640351  Lightweight PDF   (1.0.5)
+mas: 1467796430  Plain Pasta       (1.2.1)
+mas: 1503136033  Service Station   (2020.9)
+mas: 1545870783  Color Picker      (1.8.0)
+mas: 1546457750  Zavala            (1.2)
+mas: 1547147101  OpenIn            (2.1.0)
+mas: 1563735522  Charmstone        (0.14)
+mas: 1569290801  ItemStock         (1.0)
+mas: 1586304988  messer            (1.0.20)
+mas: 975890633   HotKey            (1.5)
