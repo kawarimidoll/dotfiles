@@ -7,6 +7,14 @@ echo "  create symlink to lazygit config directory."
 mkdir -p "$HOME/Library/Application Support/jesseduffield/lazygit"
 ln -sniv "$HOME/.config/lazygit/config.yml" "$HOME/Library/Application Support/jesseduffield/lazygit/config.yml"
 
+echo "  create symlink to homebrew directory."
+# https://stackoverflow.com/questions/65259300/detect-apple-silicon-from-command-line
+if [[ `uname -m` == 'arm64' ]]; then
+  ln -sniv "/opt/homebrew" "$HOME/homebrew"
+else
+  ln -sniv "/usr/local" "$HOME/homebrew"
+fi
+
 # echo "  enable key-repeating for VScodeVim."
 # defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false         # For VS Code
 # defaults write com.microsoft.VSCodeInsiders ApplePressAndHoldEnabled -bool false # For VS Code Insider

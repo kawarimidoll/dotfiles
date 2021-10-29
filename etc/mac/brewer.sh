@@ -15,7 +15,7 @@ brew_with_echo doctor
 brew_with_echo update
 brew_with_echo upgrade
 brew_with_echo upgrade --cask
-brew_with_echo cleanup
+brew_with_echo cleanup -s
 
 echo 'log list...'
 {

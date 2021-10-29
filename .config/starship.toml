@@ -11,6 +11,7 @@ symbol = " "
 full_symbol = ""
 charging_symbol = ""
 discharging_symbol = ""
+disabled = true
 
 [conda]
 symbol = " "
