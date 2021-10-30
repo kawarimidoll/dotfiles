@@ -7,7 +7,7 @@ has() {
 # -----------------
 export EDITOR="nvim"
 # export GOPATH="${HOME}/go"
-# PATH="${DOT_DIR}/bin:${HOME}/.cargo/bin:${HOME}/.deno/bin:${HOME}/go/bin:${PATH}"
+PATH="${HOME}/bin:${PATH}"
 PATH="${DOT_DIR}/bin:${PATH}"
 PATH="${HOME}/.cargo/bin:${PATH}"
 PATH="${HOME}/.deno/bin:${PATH}"
