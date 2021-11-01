@@ -1,9 +1,6 @@
 {
   "tsserver.enable": false,
   "cSpell.userWords": [
-    "Neovim",
-    "Ptera",
-    "Zenn",
     "autoloader",
     "crossorigin",
     "datetime",
@@ -11,15 +8,21 @@
     "denops",
     "deplyctl",
     "frontmatter",
+    "jisyo",
     "kawarimidoll",
     "monospace",
+    "neovim",
     "noopener",
     "noreferrer",
+    "ptera",
+    "shougo",
+    "skkeleton",
     "textdb",
     "twemoji",
     "typograssy",
     "vbscript",
-    "webp"
+    "webp",
+    "zenn"
   ],
   "coc.preferences.formatOnType": true,
   "html.autoClosingTags": true
