@@ -81,6 +81,14 @@ if has 'exa'; then
   alias tree='exa --all --git-ignore --tree --icons --ignore-glob=.git'
 fi
 
+if has 'procs'; then
+  alias ps='procs'
+fi
+
+if has 'fcp'; then
+  alias cp='fcp'
+fi
+
 if has 'batman'; then
   alias man='batman'
 fi
