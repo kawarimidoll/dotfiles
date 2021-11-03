@@ -611,6 +611,7 @@ nnoremap <sid>(q)q qq
 nnoremap Q @q
 nnoremap <sid>(q)b <Cmd>GitSigns toggle_current_line_blame<CR>
 nnoremap <sid>(q)m <Cmd>PreviewMarkdownToggle<CR>
+nnoremap <sid>(q)o <Cmd>only<CR>
 nnoremap p p`[v`]=`]
 nnoremap P P`[v`]=`]
 nnoremap ]p p
@@ -650,7 +651,7 @@ nnoremap <silent><Space>O :<C-u>put! =repeat(nr2char(10), v:count1)<CR>'[
 nnoremap <Space>p :<C-u>Format<CR>
 " nnoremap <space>P <Cmd>CocListResume<CR>
 nnoremap <Space>q :<C-u>quit<CR>
-nnoremap <Space>Q :<C-u>only<CR>
+nnoremap <Space>Q :<C-u>quitall!<CR>
 " nnoremap <Space>r :<C-u>registers<CR>
 nnoremap <Space>s :<C-u>%s/
 nnoremap <space>S <Cmd>CocList -I symbols<CR>
@@ -659,7 +660,7 @@ nnoremap <Space>T <C-w><C-w>
 nnoremap <Space>u mzg~iw`z<Cmd>delmarks z<CR>
 nnoremap <Space>U mzlbg~l`z<Cmd>delmarks z<CR>
 nnoremap <Space>w :<C-u>write<CR>
-nnoremap <Space>wq <Cmd>wq<CR>
+nnoremap <Space>wq :<C-u>wq<CR>
 nnoremap <Space>x <Cmd>CocCommand explorer<CR>
 nnoremap <Space>y <Cmd>CocList -A --normal yank<CR>
 nnoremap <Space>/ :<C-u>CocCommand fzf-preview.ProjectGrep ''<Left>
