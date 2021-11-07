@@ -1,4 +1,4 @@
-timestamp: 2021-11-03 11:30:39 JST
+timestamp: 2021-11-07 13:27:48 JST
 tap: a-know/tap
 tap: homebrew/bundle
 tap: homebrew/cask
@@ -43,7 +43,6 @@ brew: git
 brew: git-delta
 brew: git-quick-stats
 brew: gitbatch
-brew: gitmoji
 brew: globe
 brew: glow
 brew: gnu-sed
@@ -68,7 +67,6 @@ brew: lsd
 brew: macchina
 brew: mas
 brew: mdcat
-brew: mdv
 brew: miller
 brew: moar
 brew: moreutils
@@ -136,7 +134,6 @@ cask: displaperture
 cask: dockey
 cask: dropbox
 cask: editaro
-cask: evernote
 cask: flux
 cask: font-roboto-mono-nerd-font
 cask: fuwari
@@ -169,7 +166,6 @@ cask: shottr
 cask: slack
 cask: snipaste
 cask: stats
-cask: suspicious-package
 cask: syntax-highlight
 cask: the-unarchiver
 cask: tiny-player
@@ -179,14 +175,12 @@ cask: yippy
 mas: 1099120373  Exporter           (3.0.6)
 mas: 1158642554  Desktop Lens       (4.0.6)
 mas: 1187772509  stts               (2.1)
-mas: 1190243926  EzyCal             (1.9)
 mas: 1200685619  QuickLinks         (2.5)
-mas: 1218797101  Sticky             (1.8)
 mas: 1328847392  Processes Monitor  (1.4)
 mas: 1429033973  RunCat             (9.4)
-mas: 1437226581  Horo               (2.2.5)
 mas: 1450640351  Lightweight PDF    (1.0.5)
 mas: 1467796430  Plain Pasta        (1.2.1)
+mas: 1491071483  Tot                (1.2.3)
 mas: 1563735522  Charmstone         (0.14)
 mas: 1569290801  ItemStock          (1.0)
 mas: 1581223559  Magic              (2.2)
