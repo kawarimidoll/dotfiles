@@ -1,4 +1,4 @@
-timestamp: 2021-11-07 13:27:48 JST
+timestamp: 2021-11-09 07:17:18 JST
 tap: a-know/tap
 tap: homebrew/bundle
 tap: homebrew/cask
@@ -64,6 +64,7 @@ brew: libproxy
 brew: lima
 brew: llvm
 brew: lsd
+brew: luarocks
 brew: macchina
 brew: mas
 brew: mdcat
@@ -79,6 +80,7 @@ brew: pinentry-mac
 brew: pngquant
 brew: procs
 brew: px4/px4/gcc-arm-none-eabi
+brew: python@3.8
 brew: q
 brew: qt@5
 brew: rargs
@@ -166,6 +168,7 @@ cask: shottr
 cask: slack
 cask: snipaste
 cask: stats
+cask: suspicious-package
 cask: syntax-highlight
 cask: the-unarchiver
 cask: tiny-player
@@ -180,8 +183,7 @@ mas: 1328847392  Processes Monitor  (1.4)
 mas: 1429033973  RunCat             (9.4)
 mas: 1450640351  Lightweight PDF    (1.0.5)
 mas: 1467796430  Plain Pasta        (1.2.1)
-mas: 1491071483  Tot                (1.2.3)
 mas: 1563735522  Charmstone         (0.14)
 mas: 1569290801  ItemStock          (1.0)
 mas: 1581223559  Magic              (2.2)
-mas: 1586304988  Messer             (1.0.25)
+mas: 1586304988  Messer             (1.1.1)
