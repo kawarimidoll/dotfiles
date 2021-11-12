@@ -663,8 +663,8 @@ nnoremap <Space>w :<C-u>write<CR>
 nnoremap <Space>wq :<C-u>wq<CR>
 nnoremap <Space>x <Cmd>CocCommand explorer<CR>
 nnoremap <Space>y <Cmd>CocList -A --normal yank<CR>
-nnoremap <Space>/ :<C-u>CocCommand fzf-preview.ProjectGrep ''<Left>
-nnoremap <Space>? :<C-u>CocCommand fzf-preview.ProjectGrep ''<Left><C-r><C-f>
+nnoremap <Space>/ :<C-u>CocCommand fzf-preview.ProjectGrep ""<Left>
+nnoremap <Space>? :<C-u>CocCommand fzf-preview.ProjectGrep ""<Left><C-r><C-f>
 nnoremap <Space>: <Cmd>CocCommand fzf-preview.CommandPalette<CR>
 
 nnoremap <silent><expr> <C-k> ':<C-u>move-1-' . v:count1 . '<CR>=l'
@@ -691,7 +691,7 @@ inoremap <silent> jj <ESC>
 " visual
 xmap v <Plug>(expand_region_expand)
 xmap <C-v> <Plug>(expand_region_shrink)
-xmap <Space>/ <Esc>gv"zy:<C-u>CocCommand fzf-preview.ProjectGrep '<C-r>z'<Left>
+xmap <Space>/ <Esc>gv"zy:<C-u>CocCommand fzf-preview.ProjectGrep "<C-r>z"<Left>
 xmap gx <Plug>(openbrowser-smart-search)
 xnoremap <Space>w <Esc>:<C-u>write<CR>gv
 " https://github.com/Shougo/shougo-s-github/blob/master/vim/rc/mappings.rc.vim#L179
