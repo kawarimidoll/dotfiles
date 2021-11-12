@@ -853,6 +853,8 @@ augroup vimrc
   autocmd BufNewFile,BufRead *.java setlocal tabstop=4 softtabstop=4 shiftwidth=4
 
   autocmd BufNewFile,BufRead *.md,*.json nnoremap <Space>p :<C-u>w<CR>:DenoFmt<CR>
+  " https://stackoverflow.com/questions/19137601/turn-off-highlighting-a-certain-pattern-in-vim
+  autocmd VimEnter,WinEnter,BufReadPost *.md syntax match Error "\w\@<=\w\@="
 
   " [NeovimのTerminalモードをちょっと使いやすくする](https://zenn.dev/ryo_kawamata/articles/improve-neovmi-terminal)
   autocmd TermOpen * startinsert
