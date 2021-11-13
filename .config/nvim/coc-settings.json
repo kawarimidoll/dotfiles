@@ -1,12 +1,17 @@
 {
   "tsserver.enable": false,
   "cSpell.userWords": [
+    "acmr",
     "autoloader",
+    "blocklist",
+    "commitlint",
     "crossorigin",
     "datetime",
     "deno",
     "denops",
     "deplyctl",
+    "deps",
+    "entrypoint",
     "frontmatter",
     "jisyo",
     "kawarimidoll",
@@ -22,6 +27,7 @@
     "typograssy",
     "vbscript",
     "webp",
+    "xargs",
     "zenn"
   ],
   "coc.preferences.formatOnType": true,

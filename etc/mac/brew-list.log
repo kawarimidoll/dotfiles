@@ -1,4 +1,4 @@
-timestamp: 2021-11-09 07:17:18 JST
+timestamp: 2021-11-13 11:37:30 JST
 tap: a-know/tap
 tap: homebrew/bundle
 tap: homebrew/cask
@@ -80,7 +80,6 @@ brew: pinentry-mac
 brew: pngquant
 brew: procs
 brew: px4/px4/gcc-arm-none-eabi
-brew: python@3.8
 brew: q
 brew: qt@5
 brew: rargs
