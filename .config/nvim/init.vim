@@ -735,7 +735,7 @@ require('mini.base16').setup({
     base01 = "#37343a",
     -- Selection Background
     base02 = "#423f46",
-    -- Comments, Invisibles, Line Highlighting
+    -- Comments, Invisible, Line Highlighting
     base03 = "#848089",
     -- Dark Foreground (Used for status bars)
     base04 = "#66d9ef",
@@ -829,6 +829,40 @@ if has('syntax')
     highlight HighlightedyankRegion cterm=reverse gui=reverse
     highlight! link GitSignsChange Keyword
     highlight! link GitSignsCurrentLineBlame Comment
+
+    highlight Red ctermfg=203 guifg=#f85e84
+    highlight Orange ctermfg=215 guifg=#ef9062
+    highlight Yellow ctermfg=179 guifg=#e5c463
+    highlight Green ctermfg=107 guifg=#9ecd6f
+    highlight Blue ctermfg=110 guifg=#7accd7
+    highlight Purple ctermfg=176 guifg=#ab9df2
+    highlight Gray ctermfg=246 guifg=#848089
+    highlight markdownH1 cterm=bold ctermfg=203 gui=bold guifg=#f85e84
+    highlight markdownH2 cterm=bold ctermfg=215 gui=bold guifg=#ef9062
+    highlight markdownH3 cterm=bold ctermfg=179 gui=bold guifg=#e5c463
+    highlight markdownH4 cterm=bold ctermfg=107 gui=bold guifg=#9ecd6f
+    highlight markdownH5 cterm=bold ctermfg=110 gui=bold guifg=#7accd7
+    highlight markdownH6 cterm=bold ctermfg=176 gui=bold guifg=#ab9df2
+    highlight markdownItalic cterm=italic gui=italic
+    highlight markdownBold cterm=bold gui=bold
+    highlight markdownItalicDelimiter cterm=italic ctermfg=246 gui=italic guifg=#848089
+    highlight link markdownCode Green
+    highlight link markdownCodeBlock markdownCode
+    highlight link markdownCodeDelimiter markdownCode
+    highlight link markdownBlockquote Grey
+    highlight link markdownListMarker Red
+    highlight link markdownOrderedListMarker Red
+    highlight link markdownRule Purple
+    highlight link markdownHeadingRule Grey
+    highlight link markdownUrlDelimiter Grey
+    highlight link markdownLinkDelimiter Grey
+    highlight link markdownLinkTextDelimiter Grey
+    highlight link markdownHeadingDelimiter Grey
+    highlight link markdownLinkText Red
+    highlight link markdownUrlTitleDelimiter Green
+    highlight link markdownIdDeclaration markdownLinkText
+    highlight link markdownBoldDelimiter Grey
+    highlight link markdownId Yellow
   augroup END
 endif
 
