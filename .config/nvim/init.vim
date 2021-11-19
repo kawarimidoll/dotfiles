@@ -397,7 +397,7 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 "-----------------
 command! Rcedit edit $MYVIMRC
 command! Rcreload write | source $MYVIMRC | nohlsearch | redraw | echo 'init.vim is reloaded.'
-command! DenoFmt echo system("deno fmt --quiet ".expand("%:p")) | edit | echo 'deno fmt current file'
+command! DenoFmt write | echo system("deno fmt -q ".expand("%:p")) | edit | echo 'deno fmt current file'
 command! CopyFullPath     let @*=expand('%:p') | echo 'copy full path'
 command! CopyDirName      let @*=expand('%:h') | echo 'copy dir name'
 command! CopyFileName     let @*=expand('%:t') | echo 'copy file name'
@@ -648,7 +648,7 @@ nnoremap <Space>L <Cmd>LazyGit<CR>
 nnoremap <Space>m <Cmd>CocCommand fzf-preview.Marks<CR>
 nnoremap <silent><Space>o :<C-u>put =repeat(nr2char(10), v:count1)<CR>
 nnoremap <silent><Space>O :<C-u>put! =repeat(nr2char(10), v:count1)<CR>'[
-nnoremap <Space>p :<C-u>Format<CR>
+nnoremap <Space>p <cmd>execute (expand('%:e') == 'md' ? "DenoFmt" : "Format")<CR>
 " nnoremap <space>P <Cmd>CocListResume<CR>
 nnoremap <Space>q :<C-u>quit<CR>
 nnoremap <Space>Q :<C-u>quitall!<CR>
@@ -886,7 +886,6 @@ augroup vimrc
   autocmd BufNewFile,BufRead *.go setlocal tabstop=4 softtabstop=4 shiftwidth=4
   autocmd BufNewFile,BufRead *.java setlocal tabstop=4 softtabstop=4 shiftwidth=4
 
-  autocmd BufNewFile,BufRead *.md,*.json nnoremap <Space>p :<C-u>w<CR>:DenoFmt<CR>
   " https://stackoverflow.com/questions/19137601/turn-off-highlighting-a-certain-pattern-in-vim
   autocmd VimEnter,WinEnter,BufReadPost *.md syntax match Error "\w\@<=\w\@="
 
