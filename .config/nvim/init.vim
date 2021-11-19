@@ -395,8 +395,8 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 "-----------------
 " Commands and Functions
 "-----------------
-command! Rcedit edit $MYVIMRC
-command! Rcreload write | source $MYVIMRC | nohlsearch | redraw | echo 'init.vim is reloaded.'
+command! RcEdit edit $MYVIMRC
+command! RcReload write | source $MYVIMRC | nohlsearch | redraw | echo 'init.vim is reloaded.'
 command! DenoFmt write | echo system("deno fmt -q ".expand("%:p")) | edit | echo 'deno fmt current file'
 command! CopyFullPath     let @*=expand('%:p') | echo 'copy full path'
 command! CopyDirName      let @*=expand('%:h') | echo 'copy dir name'
