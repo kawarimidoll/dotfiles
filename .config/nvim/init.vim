@@ -650,8 +650,8 @@ nnoremap <silent><Space>o :<C-u>put =repeat(nr2char(10), v:count1)<CR>
 nnoremap <silent><Space>O :<C-u>put! =repeat(nr2char(10), v:count1)<CR>'[
 nnoremap <Space>p <cmd>execute (expand('%:e') == 'md' ? "DenoFmt" : "Format")<CR>
 " nnoremap <space>P <Cmd>CocListResume<CR>
-nnoremap <Space>q :<C-u>quit<CR>
-nnoremap <Space>Q :<C-u>quitall!<CR>
+nnoremap <Space>q <cmd>quit<CR>
+nnoremap <Space>Q <cmd>quitall!<CR>
 " nnoremap <Space>r :<C-u>registers<CR>
 nnoremap <Space>s :<C-u>%s/
 nnoremap <space>S <Cmd>CocList -I symbols<CR>
@@ -659,7 +659,7 @@ nnoremap <Space>t <C-^>
 nnoremap <Space>T <C-w><C-w>
 nnoremap <Space>u mzg~iw`z<Cmd>delmarks z<CR>
 nnoremap <Space>U mzlbg~l`z<Cmd>delmarks z<CR>
-nnoremap <Space>w :<C-u>write<CR>
+nnoremap <Space>w <cmd>write<CR>
 nnoremap <Space>wq :<C-u>wq<CR>
 nnoremap <Space>x <Cmd>CocCommand explorer<CR>
 nnoremap <Space>y <Cmd>CocList -A --normal yank<CR>
@@ -683,10 +683,11 @@ cnoremap <C-f> <Right>
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 cnoremap <C-d> <Del>
-cnoremap <C-l> <C-r>*
+cnoremap <C-r><C-r> <C-r><C-r>*
 
 " insert
 inoremap <silent> jj <ESC>
+inoremap <silent> <C-r><C-r> <C-r><C-r>*
 
 " visual
 xmap v <Plug>(expand_region_expand)
