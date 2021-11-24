@@ -1,4 +1,4 @@
-timestamp: 2021-11-21 07:56:56 JST
+timestamp: 2021-11-25 07:49:30 JST
 tap: a-know/tap
 tap: homebrew/bundle
 tap: homebrew/cask
@@ -117,6 +117,7 @@ brew: wasmer
 brew: wdiff
 brew: wget
 brew: yarn
+brew: youtubedr
 brew: zsh
 brew: zsh-completions
 cask: accessmenubarapps
@@ -138,6 +139,7 @@ cask: editaro
 cask: flux
 cask: font-roboto-mono-nerd-font
 cask: fuwari
+cask: gitify
 cask: google-japanese-ime
 cask: hiddenbar
 cask: hot
@@ -161,28 +163,27 @@ cask: quicklook-csv
 cask: quicklook-json
 cask: quicklookase
 cask: rectangle
-cask: sbarex-qlmarkdown
 cask: scriptql
 cask: shottr
 cask: slack
 cask: snipaste
 cask: stats
-cask: suspicious-package
 cask: syntax-highlight
 cask: the-unarchiver
 cask: tiny-player
+cask: toland-qlmarkdown
 cask: vitals
 cask: xbar
 cask: yippy
 mas: 1099120373  Exporter           (3.0.6)
 mas: 1158642554  Desktop Lens       (4.0.6)
-mas: 1187772509  stts               (2.2)
+mas: 1187772509  stts               (2.1)
 mas: 1200685619  QuickLinks         (2.5)
 mas: 1328847392  Processes Monitor  (1.4)
 mas: 1429033973  RunCat             (9.4)
 mas: 1450640351  Lightweight PDF    (1.0.5)
 mas: 1467796430  Plain Pasta        (1.2.1)
-mas: 1563735522  Charmstone         (0.15)
+mas: 1563735522  Charmstone         (0.14)
 mas: 1569290801  ItemStock          (1.0)
 mas: 1581223559  Magic              (2.2)
 mas: 1586304988  Messer             (1.1.1)

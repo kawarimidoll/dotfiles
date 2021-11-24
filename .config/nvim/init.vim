@@ -249,7 +249,6 @@ let g:asterisk#keeppos = 1
 let g:coc_global_extensions = [
       \ 'coc-fzf-preview',
       \ 'coc-highlight',
-      \ 'coc-json',
       \ 'coc-spell-checker',
       \ 'coc-word',
       \ 'coc-yank',
@@ -657,7 +656,7 @@ nnoremap <Space>T <C-w><C-w>
 nnoremap <Space>u mzg~iw`z<Cmd>delmarks z<CR>
 nnoremap <Space>U mzlbg~l`z<Cmd>delmarks z<CR>
 nnoremap <Space>w <cmd>write<CR>
-nnoremap <Space>wq :<C-u>wq<CR>
+nnoremap <Space>wq <cmd>wq<CR>
 nnoremap <Space>x <Cmd>CocCommand explorer<CR>
 nnoremap <Space>y <Cmd>CocList -A --normal yank<CR>
 nnoremap <Space>/ :<C-u>CocCommand fzf-preview.ProjectGrep ""<Left>
