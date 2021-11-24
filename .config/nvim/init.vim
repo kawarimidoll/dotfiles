@@ -478,12 +478,9 @@ command! -nargs=* Eterminal :call s:termopen_wrapper(<q-args>)
 
 " command! DenoRepl silent only | botright 12 new | execute 'terminal deno'
 
-command! DenoRun silent only | botright 12 split |
-   \ execute 'terminal deno ' .
-   \ (expand('%:t') =~ '^\(.*[._]\)\?test\.\(ts\|tsx\|js\|mjs\|jsx\)$'
-   \    ? 'test' : 'run')
-   \ . ' -A --no-check --unstable --watch ' . expand('%:p') |
-   \ stopinsert | execute 'normal! G' | set bufhidden=wipe | wincmd k
+command! -nargs=* -bang Dex silent only | botright 12 split |
+    \ execute 'terminal dex ' . (<bang>0 ? '--clear ' : '') . <q-args> . ' ' . expand('%:p') |
+    \ stopinsert | execute 'normal! G' | set bufhidden=wipe | wincmd k
 
 lua << EOF
 -- [url-encode.lua](https://gist.github.com/liukun/f9ce7d6d14fa45fe9b924a3eed5c3d99)
