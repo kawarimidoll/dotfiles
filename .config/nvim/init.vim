@@ -477,8 +477,9 @@ command! -nargs=* Eterminal :call s:termopen_wrapper(<q-args>)
 
 " command! DenoRepl silent only | botright 12 new | execute 'terminal deno'
 
-command! -nargs=* -bang Dex silent only | botright 12 split |
-    \ execute 'terminal dex ' . (<bang>0 ? '--clear ' : '') . <q-args> . ' ' . expand('%:p') |
+command! -nargs=* -bang Dex silent only! | botright 12 split |
+    \ execute 'terminal' (has('nvim') ? '' : '++curwin') 'dex'
+    \   (<bang>0 ? '--clear ' : '') <q-args> ' ' expand('%:p') |
     \ stopinsert | execute 'normal! G' | set bufhidden=wipe | wincmd k
 
 lua << EOF
