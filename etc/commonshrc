@@ -40,7 +40,6 @@ alias grep='grep --color=auto'
 alias fetch='git fetch --all --prune --tags'
 alias fgrep='fgrep --color=auto'
 alias fl='flutter'
-alias fpull='fetch && pull'
 alias kittyconfig="nvim ${DOT_DIR}/.config/kitty/kitty.conf"
 alias lg='lazygit'
 alias ls='ls --color=auto'
@@ -102,6 +101,18 @@ fi
 img_to_webp() {
   find . -maxdepth 1 \( -name \*.png -or -name \*.jpg -or -name \*.jpeg \) \
     | xargs -I_ sh -c 'printf _" -> "_".webp ..."; cwebp _ -o _".webp" >/dev/null 2>&1; echo " done."'
+}
+
+fpull() {
+  if [ "$(fetch | wc -l)" -gt 1 ]; then
+    if g status -s | grep -q ' \?M';then
+      git stash
+      pull
+      git stash pop
+    else
+      pull
+    fi
+  fi
 }
 
 pull() {
