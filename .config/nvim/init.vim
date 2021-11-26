@@ -591,6 +591,10 @@ map M %
 
 nmap s <Nop>
 xmap s <Nop>
+nnoremap so :<C-u>HopChar1<CR>
+nnoremap st :<C-u>HopChar2<CR>
+nnoremap sl <Cmd>HopLine<CR>
+nnoremap sw <Cmd>HopWord<CR>
 
 noremap n <Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>
 noremap N <Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>
@@ -628,10 +632,10 @@ nnoremap <Space>B <Cmd>CocCommand fzf-preview.BufferLines<CR>
 nnoremap <space>C <Cmd>CocList commands<CR>
 nnoremap <Space>d <Cmd>lua MiniBufremove.delete()<CR>
 nnoremap <space>D <Cmd>CocList outline<CR>
-nnoremap <Space>ef :<C-u>HopChar1<CR>
-nnoremap <Space>el <Cmd>HopLine<CR>
-nnoremap <Space>es :<C-u>HopChar2<CR>
-nnoremap <Space>ew <Cmd>HopWord<CR>
+" nnoremap <Space>ef :<C-u>HopChar1<CR>
+" nnoremap <Space>el <Cmd>HopLine<CR>
+" nnoremap <Space>es :<C-u>HopChar2<CR>
+" nnoremap <Space>ew <Cmd>HopWord<CR>
 nnoremap <space>E <Cmd>CocList extensions<CR>
 nnoremap <Space>f <Cmd>CocCommand fzf-preview.ProjectFiles<CR>
 nnoremap <Space>g <Cmd>copy.<CR>
