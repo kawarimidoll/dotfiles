@@ -243,6 +243,7 @@ require('mini.surround').setup()
 require('mini.trailspace').setup()
 require('mini.tabline').setup()
 require('mini.pairs').setup()
+require('mini.jump').setup()
 EOF
 
 let g:asterisk#keeppos = 1
