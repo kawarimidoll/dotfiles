@@ -730,23 +730,18 @@ command! VimShowHlGroup echo synIDattr(synIDtrans(synID(line('.'), col('.'), 1))
 
 " https://github.com/neoclide/coc.nvim/wiki/Statusline-integration#use-manual-function
 " :h coc-status
-function! CocStatusDiagnostic(key) abort
+function! CocStatusDiagnostic() abort
   let info = get(b:, 'coc_diagnostic_info', {})
   if empty(info)
-    return ''
+    return {}
   endif
-
-  if a:key == 'error'
-    return get(info, 'error', 0) ? ('E' . info['error']) : ''
-  elseif a:key == 'warning'
-    return get(info, 'warning', 0) ? ('W' . info['warning']) : ''
-  elseif a:key == 'information'
-    return get(info, 'information', 0) ? ('I' . info['information']) : ''
-  elseif a:key == 'hint'
-    return get(info, 'hint', 0) ? ('H' . info['hint']) : ''
-  endif
-
-  return get(g:, 'coc_status', '')
+  let table = {}
+  let table['e'] = get(info, 'error', 0) ? ('E' . info['error']) : ''
+  let table['w'] = get(info, 'warning', 0) ? ('W' . info['warning']) : ''
+  let table['i'] = get(info, 'information', 0) ? ('I' . info['information']) : ''
+  let table['h'] = get(info, 'hint', 0) ? ('H' . info['hint']) : ''
+  let table['s'] = get(g:, 'coc_status', '')
+  return table
 endfunction
 
 lua << EOF
@@ -790,21 +785,28 @@ require('mini.base16').setup({
   use_cterm = true,
 })
 
+function diagnostics_table(args)
+  if MiniStatusline.is_truncated(args.trunc_width) then
+    return {}
+  end
+  return vim.fn.CocStatusDiagnostic()
+end
+
 function status_config()
   local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 120 })
   local git           = MiniStatusline.section_git({ trunc_width = 75 })
-  -- local diagnostics   = MiniStatusline.section_diagnostics({ trunc_width = 75 })
+  local diagnostics   = diagnostics_table({ trunc_width = 75 })
   local filename      = MiniStatusline.section_filename({ trunc_width = 140 })
   local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 120 })
   local location      = MiniStatusline.section_location({ trunc_width = 75 })
 
   return MiniStatusline.combine_groups({
   { hl = mode_hl,                  strings = { mode } },
-  { hl = 'MiniStatuslineDevinfo',  strings = { git, vim.fn.CocStatusDiagnostic('') } },
-  { hl = 'Red',  strings = { vim.fn.CocStatusDiagnostic('error') } },
-  { hl = 'Yellow',  strings = { vim.fn.CocStatusDiagnostic('warning') } },
-  { hl = 'Blue',  strings = { vim.fn.CocStatusDiagnostic('information') } },
-  { hl = 'Green',  strings = { vim.fn.CocStatusDiagnostic('hint') } },
+  { hl = 'MiniStatuslineDevinfo',  strings = { git, diagnostics['s'] } },
+  { hl = 'MiniStatuslineError',  strings = { diagnostics['e'] } },
+  { hl = 'MiniStatuslineWarning',  strings = { diagnostics['w'] } },
+  { hl = 'MiniStatuslineInfo',  strings = { diagnostics['i'] } },
+  { hl = 'MiniStatuslineHint',  strings = { diagnostics['h'] } },
   '%<', -- Mark general truncate point
   { hl = 'MiniStatuslineFilename', strings = { filename } },
   '%=', -- End left alignment
@@ -823,6 +825,11 @@ EOF
 if has('syntax')
   augroup vimrc_syntax
     autocmd!
+    highlight MiniStatuslineError ctermfg=9 ctermbg=238 guifg=#ff0000 guibg=#423f46
+    highlight MiniStatuslineWarning ctermfg=130 ctermbg=238 guifg=#ff922b guibg=#423f46
+    highlight MiniStatuslineInfo ctermfg=11 ctermbg=238 guifg=#fab005 guibg=#423f46
+    highlight MiniStatuslineHint ctermfg=12 ctermbg=238 guifg=#15aabf guibg=#423f46
+
     highlight default ExtraWhitespace ctermbg=darkmagenta guibg=darkmagenta
     highlight! link MiniTrailspace ExtraWhitespace
 
