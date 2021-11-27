@@ -159,7 +159,6 @@ Plug 'arthurxavierx/vim-caser', { 'on': [] }
 Plug 'echasnovski/mini.nvim'
 Plug 'folke/which-key.nvim', { 'on': [] }
 Plug 'haya14busa/vim-asterisk', { 'on': [] }
-Plug 'hoob3rt/lualine.nvim'
 Plug 'jacquesbh/vim-showmarks', { 'on': 'DoShowMarks' }
 Plug 'junegunn/fzf', { 'on': [], 'do': { -> fzf#install() } }
 Plug 'kdheepak/lazygit.nvim', { 'on': 'LazyGit' }
@@ -729,6 +728,27 @@ cabbrev svs saveas %
 syntax enable
 command! VimShowHlGroup echo synIDattr(synIDtrans(synID(line('.'), col('.'), 1)), 'name')
 
+" https://github.com/neoclide/coc.nvim/wiki/Statusline-integration#use-manual-function
+" :h coc-status
+function! CocStatusDiagnostic(key) abort
+  let info = get(b:, 'coc_diagnostic_info', {})
+  if empty(info)
+    return ''
+  endif
+
+  if a:key == 'error'
+    return get(info, 'error', 0) ? ('E' . info['error']) : ''
+  elseif a:key == 'warning'
+    return get(info, 'warning', 0) ? ('W' . info['warning']) : ''
+  elseif a:key == 'information'
+    return get(info, 'information', 0) ? ('I' . info['information']) : ''
+  elseif a:key == 'hint'
+    return get(info, 'hint', 0) ? ('H' . info['hint']) : ''
+  endif
+
+  return get(g:, 'coc_status', '')
+endfunction
+
 lua << EOF
 -- https://github.com/sainnhe/sonokai/blob/master/alacritty/README.md shusia
 -- https://github.com/chriskempson/base16/blob/master/styling.md
@@ -770,40 +790,34 @@ require('mini.base16').setup({
   use_cterm = true,
 })
 
-require('lualine').setup {
-  options = {
-    icons_enabled = true,
-    theme = 'jellybeans',
+function status_config()
+  local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 120 })
+  local git           = MiniStatusline.section_git({ trunc_width = 75 })
+  -- local diagnostics   = MiniStatusline.section_diagnostics({ trunc_width = 75 })
+  local filename      = MiniStatusline.section_filename({ trunc_width = 140 })
+  local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 120 })
+  local location      = MiniStatusline.section_location({ trunc_width = 75 })
+
+  return MiniStatusline.combine_groups({
+  { hl = mode_hl,                  strings = { mode } },
+  { hl = 'MiniStatuslineDevinfo',  strings = { git, vim.fn.CocStatusDiagnostic('') } },
+  { hl = 'Red',  strings = { vim.fn.CocStatusDiagnostic('error') } },
+  { hl = 'Yellow',  strings = { vim.fn.CocStatusDiagnostic('warning') } },
+  { hl = 'Blue',  strings = { vim.fn.CocStatusDiagnostic('information') } },
+  { hl = 'Green',  strings = { vim.fn.CocStatusDiagnostic('hint') } },
+  '%<', -- Mark general truncate point
+  { hl = 'MiniStatuslineFilename', strings = { filename } },
+  '%=', -- End left alignment
+  { hl = 'MiniStatuslineFileinfo', strings = { fileinfo } },
+  { hl = mode_hl,                  strings = { location } },
+  })
+end
+
+require('mini.statusline').setup({
+  content = {
+    active = status_config
   },
-  sections = {
-    lualine_a = {'mode'},
-    lualine_b = {
-      {
-        'diagnostics',
-        sources = {'coc'},
-        symbols = {error = 'E', warn = 'W', info = 'I', hint = 'H'}
-      },
-      'b:gitsigns_status',
-      'g:coc_status'
-      },
-    lualine_c = {'filename'},
-    lualine_x = {
-      'encoding',
-      'fileformat',
-      {'filetype', colored = false}
-    },
-    lualine_y = {'progress'},
-    lualine_z = {'location'}
-  },
-  inactive_sections = {
-    lualine_a = {},
-    lualine_b = {},
-    lualine_c = {'filename'},
-    lualine_x = {'location'},
-    lualine_y = {},
-    lualine_z = {}
-  },
-}
+})
 EOF
 
 if has('syntax')
