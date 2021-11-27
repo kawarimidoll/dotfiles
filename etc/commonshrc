@@ -104,7 +104,8 @@ img_to_webp() {
 }
 
 fpull() {
-  if [ "$(fetch | wc -l)" -gt 1 ]; then
+  fetch
+  if [ "$(git diff HEAD..origin | wc -l)" -gt 1 ]; then
     if g status -s | grep -q ' \?M';then
       git stash
       pull
@@ -112,6 +113,8 @@ fpull() {
     else
       pull
     fi
+  else
+    echo 'Working tree is up-to-date.'
   fi
 }
 
