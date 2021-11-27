@@ -728,22 +728,6 @@ cabbrev svs saveas %
 syntax enable
 command! VimShowHlGroup echo synIDattr(synIDtrans(synID(line('.'), col('.'), 1)), 'name')
 
-" https://github.com/neoclide/coc.nvim/wiki/Statusline-integration#use-manual-function
-" :h coc-status
-function! CocStatusDiagnostic() abort
-  let info = get(b:, 'coc_diagnostic_info', {})
-  if empty(info)
-    return {}
-  endif
-  let table = {}
-  let table['e'] = get(info, 'error', 0) ? ('E' . info['error']) : ''
-  let table['w'] = get(info, 'warning', 0) ? ('W' . info['warning']) : ''
-  let table['i'] = get(info, 'information', 0) ? ('I' . info['information']) : ''
-  let table['h'] = get(info, 'hint', 0) ? ('H' . info['hint']) : ''
-  let table['s'] = get(g:, 'coc_status', '')
-  return table
-endfunction
-
 lua << EOF
 -- https://github.com/sainnhe/sonokai/blob/master/alacritty/README.md shusia
 -- https://github.com/chriskempson/base16/blob/master/styling.md
@@ -785,11 +769,19 @@ require('mini.base16').setup({
   use_cterm = true,
 })
 
+-- :h coc-status
 function diagnostics_table(args)
-  if MiniStatusline.is_truncated(args.trunc_width) then
+  local info = vim.b.coc_diagnostic_info
+  if MiniStatusline.is_truncated(args.trunc_width) or info == nil then
     return {}
   end
-  return vim.fn.CocStatusDiagnostic()
+  local table = {}
+  table.e = (info['error'] or 0) > 0 and 'E'..info['error'] or ''
+  table.w = (info['warning'] or 0) > 0 and 'W'..info['warning'] or ''
+  table.h = (info['hint'] or 0) > 0 and 'H'..info['hint'] or ''
+  table.i = (info['information'] or 0) > 0 and 'I'..info['information'] or ''
+  table.s = vim.g.coc_status
+  return table
 end
 
 function status_config()
