@@ -581,14 +581,14 @@ noremap gk k
 noremap gV `[v`]
 noremap H ^
 noremap L $
-noremap [b :<C-u>bprevious<CR>
-noremap ]b :<C-u>bnext<CR>
-noremap [B :<C-u>bfirst<CR>
-noremap ]B :<C-u>blast<CR>
-noremap [q :<C-u>cprevious<CR>
-noremap ]q :<C-u>cnext<CR>
-noremap [Q :<C-u>cfirst<CR>
-noremap ]Q :<C-u>clast<CR>
+noremap [b <Cmd>bprevious<CR>
+noremap ]b <Cmd>bnext<CR>
+noremap [B <Cmd>bfirst<CR>
+noremap ]B <Cmd>blast<CR>
+noremap [q <Cmd>cprevious<CR>
+noremap ]q <Cmd>cnext<CR>
+noremap [Q <Cmd>cfirst<CR>
+noremap ]Q <Cmd>clast<CR>
 map M %
 
 nmap s <Nop>
