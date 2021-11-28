@@ -243,6 +243,10 @@ require('mini.trailspace').setup()
 require('mini.tabline').setup()
 require('mini.pairs').setup()
 require('mini.jump').setup()
+require('mini.starter').setup()
+require('mini.misc').setup({
+  make_global = { 'put', 'put_text', 'zoom'}
+})
 EOF
 
 let g:asterisk#keeppos = 1
@@ -615,6 +619,7 @@ nnoremap Q @q
 nnoremap <sid>(q)b <Cmd>GitSigns toggle_current_line_blame<CR>
 nnoremap <sid>(q)m <Cmd>PreviewMarkdownToggle<CR>
 nnoremap <sid>(q)o <Cmd>only<CR>
+nnoremap <sid>(q)z <Cmd>lua MiniMisc.zoom()<CR>
 nnoremap p p`[v`]=`]
 nnoremap P P`[v`]=`]
 nnoremap ]p p
