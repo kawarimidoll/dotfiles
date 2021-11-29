@@ -1,4 +1,4 @@
-timestamp: 2021-11-28 09:54:00 JST
+timestamp: 2021-11-29 08:52:00 JST
 tap: a-know/tap
 tap: homebrew/bundle
 tap: homebrew/cask
@@ -116,6 +116,7 @@ brew: w3m
 brew: wasmer
 brew: wdiff
 brew: wget
+brew: xh
 brew: yarn
 brew: youtubedr
 brew: zsh
@@ -187,3 +188,4 @@ mas: 1563735522  Charmstone         (0.14)
 mas: 1569290801  ItemStock          (1.0)
 mas: 1581223559  Magic              (2.2)
 mas: 1586304988  Messer             (1.1.1)
+mas: 409183694   Keynote            (11.2)
