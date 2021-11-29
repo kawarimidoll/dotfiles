@@ -209,7 +209,7 @@ lua << EOF
   })
 EOF
 endfunction
-call timer_start(50, function("s:LazyLoadPlugs"))
+call timer_start(20, function("s:LazyLoadPlugs"))
 
 lua << EOF
 require('impatient')
