@@ -152,8 +152,6 @@ unlet autoload_plug_path
 
 call plug#begin(stdpath('config') . '/plugged')
 " Plug 'glidenote/memolist.vim'
-Plug 'vim-denops/denops.vim', { 'on': [] }
-Plug 'kat0h/bufpreview.vim', { 'on': 'PreviewMarkdown' }
 
 Plug 'arthurxavierx/vim-caser', { 'on': [] }
 Plug 'echasnovski/mini.nvim'
@@ -161,6 +159,7 @@ Plug 'folke/which-key.nvim', { 'on': [] }
 Plug 'haya14busa/vim-asterisk', { 'on': [] }
 Plug 'jacquesbh/vim-showmarks', { 'on': 'DoShowMarks' }
 Plug 'junegunn/fzf', { 'on': [], 'do': { -> fzf#install() } }
+Plug 'kat0h/bufpreview.vim', { 'on': 'PreviewMarkdown' }
 Plug 'kdheepak/lazygit.nvim', { 'on': 'LazyGit' }
 Plug 'kevinhwang91/nvim-hlslens', { 'on': [] }
 Plug 'kyazdani42/nvim-web-devicons', { 'on': [] }
@@ -171,12 +170,13 @@ Plug 'nathom/filetype.nvim'
 Plug 'neoclide/coc.nvim', { 'on': [], 'branch': 'release' }
 Plug 'norcalli/nvim-colorizer.lua', { 'on': [] }
 Plug 'nvim-lua/plenary.nvim', { 'on': [] }
-Plug 'phaazon/hop.nvim', { 'on': ['HopChar1', 'HopChar2', 'HopLine', 'HopWord'] }
+Plug 'phaazon/hop.nvim', { 'on': [] }
 Plug 'segeljakt/vim-silicon', { 'on': 'Silicon' }
 Plug 'simeji/winresizer', { 'on': 'WinResizerStartResize' }
 Plug 'terryma/vim-expand-region', { 'on': '<Plug>(expand_region_' }
 Plug 'tyru/capture.vim', { 'on': 'Capture' }
 Plug 'tyru/open-browser.vim', { 'on': ['OpenBrowser', '<Plug>(openbrowser-'] }
+Plug 'vim-denops/denops.vim', { 'on': [] }
 Plug 'vim-jp/vimdoc-ja'
 call plug#end()
 
@@ -196,31 +196,35 @@ function! s:LazyLoadPlugs(timer) abort
         \   'nvim-hlslens',
         \   'nvim-web-devicons',
         \   'plenary.nvim',
+        \   'hop.nvim',
         \   'vim-asterisk',
         \   'vim-caser',
         \   'which-key.nvim',
         \ )
   normal! g`Z
   delmarks Z
+
+lua << EOF
+  require('which-key').setup()
+  require('colorizer').setup()
+  require('hop').setup()
+  require('hlslens').setup({ calm_down = true })
+  require('gitsigns').setup ({
+    signs = {
+      add          = { text = '+' },
+      change       = { text = '~' },
+      delete       = { text = '_' },
+      topdelete    = { text = '‾' },
+      changedelete = { text = '~_' },
+    },
+    current_line_blame = true,
+  })
+EOF
 endfunction
-call timer_start(200, function("s:LazyLoadPlugs"))
+call timer_start(50, function("s:LazyLoadPlugs"))
 
 lua << EOF
 require('impatient')
-require('which-key').setup()
-require('colorizer').setup()
-require('hop').setup()
-require('hlslens').setup({ calm_down = true })
-require('gitsigns').setup {
-  signs = {
-    add          = { text = '+' },
-    change       = { text = '~' },
-    delete       = { text = '_' },
-    topdelete    = { text = '‾' },
-    changedelete = { text = '~_' },
-  },
-  current_line_blame = true,
-}
 require('filetype').setup({
   overrides = {
     extensions = {
