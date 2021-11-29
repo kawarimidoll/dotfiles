@@ -153,6 +153,7 @@ unlet autoload_plug_path
 call plug#begin(stdpath('config') . '/plugged')
 " Plug 'glidenote/memolist.vim'
 
+Plug '4513ECHO/vim-readme-viewer', { 'on': 'PlugReadme' }
 Plug 'arthurxavierx/vim-caser', { 'on': [] }
 Plug 'echasnovski/mini.nvim'
 Plug 'folke/which-key.nvim', { 'on': [] }
@@ -252,6 +253,7 @@ require('mini.misc').setup({
   make_global = { 'put', 'put_text', 'zoom'}
 })
 EOF
+let g:readme_viewer#plugin_manager = 'vim-plug'
 
 let g:asterisk#keeppos = 1
 let g:coc_global_extensions = [
