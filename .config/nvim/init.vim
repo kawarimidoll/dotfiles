@@ -889,7 +889,7 @@ augroup vimrc
   autocmd BufReadPost * silent! DoShowMarks
 
   " 端末のバッファの名前を実行中プロセスを含むものに変更 https://qiita.com/acomagu/items/5f10ce7bcb2fcfc9732f
-  autocmd BufLeave * if exists('b:term_title') && exists('b:terminal_job_pid') | execute ":file term" . b:terminal_job_pid . "/" . b:term_title
+  " autocmd BufLeave * if exists('b:term_title') && exists('b:terminal_job_pid') | execute ":file term" . b:terminal_job_pid . "/" . b:term_title
 
   " file type settings
   " autocmd BufNewFile,BufRead .env* set filetype=env
