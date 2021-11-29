@@ -719,8 +719,7 @@ xnoremap <silent><C-j> :m'>+1<CR>gv=gv
 onoremap x d
 
 " terminal
-tnoremap <C-w><C-n> <C-w>N
-tnoremap <Esc> <C-\><C-n>
+tnoremap <C-w><C-n> <C-\><C-n>
 
 "-----------------
 " Abbreviations
