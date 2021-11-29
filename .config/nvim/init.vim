@@ -821,17 +821,16 @@ EOF
 if has('syntax')
   augroup vimrc_syntax
     autocmd!
-    highlight MiniStatuslineError ctermfg=9 ctermbg=238 guifg=#ff0000 guibg=#423f46
-    highlight MiniStatuslineWarning ctermfg=130 ctermbg=238 guifg=#ff922b guibg=#423f46
-    highlight MiniStatuslineInfo ctermfg=11 ctermbg=238 guifg=#fab005 guibg=#423f46
-    highlight MiniStatuslineHint ctermfg=12 ctermbg=238 guifg=#15aabf guibg=#423f46
+    highlight MiniStatuslineError ctermfg=203 ctermbg=238 guifg=#f85e84 guibg=#423f46
+    highlight MiniStatuslineWarning ctermfg=215 ctermbg=238 guifg=#ef9062 guibg=#423f46
+    highlight MiniStatuslineInfo ctermfg=110 ctermbg=238 guifg=#7accd7 guibg=#423f46
+    highlight MiniStatuslineHint ctermfg=107 ctermbg=238 guifg=#9ecd6f guibg=#423f46
 
     highlight default ExtraWhitespace ctermbg=darkmagenta guibg=darkmagenta
     highlight! link MiniTrailspace ExtraWhitespace
 
     " visualize whitespace characters
     " original: https://vim-jp.org/vim-users-jp/2009/07/12/Hack-40.html
-
     " u2000 ' ' en quad
     " u2001 ' ' em quad
     " u2002 ' ' en space
