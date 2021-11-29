@@ -237,7 +237,7 @@ require('mini.pairs').setup()
 require('mini.jump').setup()
 require('mini.starter').setup()
 require('mini.misc').setup({
-  make_global = { 'put', 'put_text', 'zoom'}
+  make_global = { 'put', 'put_text', 'zoom' }
 })
 EOF
 let g:readme_viewer#plugin_manager = 'vim-plug'
