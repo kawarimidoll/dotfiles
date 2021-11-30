@@ -1,4 +1,4 @@
-timestamp: 2021-11-29 08:52:00 JST
+timestamp: 2021-11-30 15:14:26 JST
 tap: a-know/tap
 tap: homebrew/bundle
 tap: homebrew/cask
@@ -6,6 +6,7 @@ tap: homebrew/cask-fonts
 tap: homebrew/core
 tap: jesseduffield/lazygit
 tap: px4/px4
+tap: rhysd/hgrep
 brew: a-know/tap/pi
 brew: act
 brew: asdf
@@ -84,6 +85,7 @@ brew: q
 brew: qt@5
 brew: rargs
 brew: re2c
+brew: rhysd/hgrep/hgrep
 brew: richmd
 brew: ripgrep
 brew: rmw
