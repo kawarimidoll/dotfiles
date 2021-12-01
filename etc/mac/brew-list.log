@@ -1,4 +1,4 @@
-timestamp: 2021-11-30 15:14:26 JST
+timestamp: 2021-12-01 09:21:02 JST
 tap: a-know/tap
 tap: homebrew/bundle
 tap: homebrew/cask
@@ -40,6 +40,7 @@ brew: fselect
 brew: gawk
 brew: gh
 brew: ghq
+brew: gifsicle
 brew: git
 brew: git-delta
 brew: git-quick-stats
