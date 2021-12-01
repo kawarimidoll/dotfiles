@@ -1,16 +1,16 @@
 #!/bin/bash
 
-playdir="/var/tmp/deno-playground/"
+cd ~/ghq/github.com/kawarimidoll/deno-dev-template/
 
-mkdir -p "${playdir}.vim"
-cd "$playdir"
-echo '{"deno.enable":true,"deno.lint":true,"deno.unstable":true,"deno.suggest.imports.hosts":{"https://deno.land/":true},"prettier.disableLanguages":["typescript","javascript","markdown"],"typescript.format.enabled":false}' > .vim/coc-settings.json
-echo -e 'console.clear();\n\nconsole.log("playground");\n' > playground.ts
+filename="playground.js"
 
-nvim playground.ts \
-  -c 'DenoRun' \
-  -c 'nnoremap <Space>q :<C-u>qa!<CR>' \
-  -c 'normal! G'
+echo 'console.log("Playground start");' > "$filename"
 
-cd
-rm -r "$playdir"
+nvim "$filename" \
+  -c 'Dex' \
+  -c 'nnoremap <Space>q <cmd>qa!<CR>' \
+  -c 'normal! "_dd' \
+  -c 'startinsert'
+  # -c 'autocmd CursorHold <buffer> write' \
+
+rm -f "$filename"
