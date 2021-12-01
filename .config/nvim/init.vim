@@ -828,6 +828,26 @@ require('mini.statusline').setup({
 })
 EOF
 
+command! -nargs=+ -complete=highlight MergeHighlight call s:MergeHighlight(<q-args>)
+function! s:MergeHighlight(args) abort "{{{
+  let l:args = split(a:args)
+  if len(l:args) < 2
+    echoerr '[MergeHighlight] At least 2 arguments are required.'
+    echoerr 'New highlight name and source highlight names.'
+    return
+  endif
+
+  " skip 'links' and 'cleared'
+  execute 'highlight' l:args[0] join(
+      \  filter(
+      \    map(
+      \     l:args[1:],
+      \     {_, val -> substitute(execute('highlight ' . val),  '^\S\+\s\+xxx\s', '', '')}
+      \    ),
+      \   {_, val -> val !~? '^links to' && val !=? 'cleared'}
+      \  ))
+endfunction "}}}
+
 if has('syntax')
   augroup vimrc_syntax
     autocmd!
