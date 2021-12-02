@@ -167,6 +167,7 @@ Plug 'tyru/capture.vim', { 'on': 'Capture' }
 Plug 'tyru/open-browser.vim', { 'on': ['OpenBrowser', '<Plug>(openbrowser-'] }
 Plug 'vim-denops/denops.vim', { 'on': [] }
 Plug 'vim-jp/vimdoc-ja'
+Plug 'voldikss/vim-floaterm', { 'on' : 'Floaterm' }
 
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
@@ -441,6 +442,9 @@ command! -nargs=* T split | wincmd j | resize 12 | terminal <args>
 
 command! Trim lua MiniTrailspace.trim()
 command! BaTrim retab | Trim
+
+command! -bang GhGraph execute 'FloatermNew' '--title=contributions' '--height=13'
+            \ '--width=55' 'gh' 'graph' (<bang>0 ? '--scheme=random' : '')
 
 " https://github.com/neovim/neovim/pull/12383#issuecomment-695768082
 " https://github.com/Shougo/shougo-s-github/blob/master/vim/autoload/vimrc.vim#L84
