@@ -851,10 +851,22 @@ endfunction "}}}
 if has('syntax')
   augroup vimrc_syntax
     autocmd!
-    highlight MiniStatuslineError ctermfg=203 ctermbg=238 guifg=#f85e84 guibg=#423f46
-    highlight MiniStatuslineWarning ctermfg=215 ctermbg=238 guifg=#ef9062 guibg=#423f46
-    highlight MiniStatuslineInfo ctermfg=110 ctermbg=238 guifg=#7accd7 guibg=#423f46
-    highlight MiniStatuslineHint ctermfg=107 ctermbg=238 guifg=#9ecd6f guibg=#423f46
+    highlight Red ctermfg=203 guifg=#f85e84
+    highlight Orange ctermfg=215 guifg=#ef9062
+    highlight Yellow ctermfg=179 guifg=#e5c463
+    highlight Green ctermfg=107 guifg=#9ecd6f
+    highlight Blue ctermfg=110 guifg=#7accd7
+    highlight Purple ctermfg=176 guifg=#ab9df2
+    highlight Gray ctermfg=246 guifg=#848089
+    highlight link Grey Gray
+    highlight Italic cterm=italic gui=italic
+    highlight Bold cterm=bold gui=bold
+
+    highlight MiniStatuslineBackground ctermbg=238 guibg=#423f46
+    MergeHighlight MiniStatuslineError   Red    MiniStatuslineBackground
+    MergeHighlight MiniStatuslineWarning Orange MiniStatuslineBackground
+    MergeHighlight MiniStatuslineInfo    Blue   MiniStatuslineBackground
+    MergeHighlight MiniStatuslineHint    Green  MiniStatuslineBackground
 
     highlight default ExtraWhitespace ctermbg=darkmagenta guibg=darkmagenta
     highlight! link MiniTrailspace ExtraWhitespace
@@ -881,22 +893,15 @@ if has('syntax')
     highlight! link GitSignsChange Keyword
     highlight! link GitSignsCurrentLineBlame Comment
 
-    highlight Red ctermfg=203 guifg=#f85e84
-    highlight Orange ctermfg=215 guifg=#ef9062
-    highlight Yellow ctermfg=179 guifg=#e5c463
-    highlight Green ctermfg=107 guifg=#9ecd6f
-    highlight Blue ctermfg=110 guifg=#7accd7
-    highlight Purple ctermfg=176 guifg=#ab9df2
-    highlight Gray ctermfg=246 guifg=#848089
-    highlight markdownH1 cterm=bold ctermfg=203 gui=bold guifg=#f85e84
-    highlight markdownH2 cterm=bold ctermfg=215 gui=bold guifg=#ef9062
-    highlight markdownH3 cterm=bold ctermfg=179 gui=bold guifg=#e5c463
-    highlight markdownH4 cterm=bold ctermfg=107 gui=bold guifg=#9ecd6f
-    highlight markdownH5 cterm=bold ctermfg=110 gui=bold guifg=#7accd7
-    highlight markdownH6 cterm=bold ctermfg=176 gui=bold guifg=#ab9df2
-    highlight markdownItalic cterm=italic gui=italic
-    highlight markdownBold cterm=bold gui=bold
-    highlight markdownItalicDelimiter cterm=italic ctermfg=246 gui=italic guifg=#848089
+    MergeHighlight markdownH1 Red Bold
+    MergeHighlight markdownH2 Orange Bold
+    MergeHighlight markdownH3 Yellow Bold
+    MergeHighlight markdownH4 Green Bold
+    MergeHighlight markdownH5 Blue Bold
+    MergeHighlight markdownH6 Purple Bold
+    MergeHighlight markdownH6 Gray Italic
+    highlight link markdownItalic Italic
+    highlight link markdownBold Bold
     highlight link markdownCode Green
     highlight link markdownCodeBlock markdownCode
     highlight link markdownCodeDelimiter markdownCode
