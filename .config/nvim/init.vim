@@ -443,7 +443,8 @@ command! -nargs=* T split | wincmd j | resize 12 | terminal <args>
 command! Trim lua MiniTrailspace.trim()
 command! BaTrim retab | Trim
 
-command! -bang GhGraph execute 'FloatermNew' '--title=contributions' '--height=13'
+command! -bang GhGraph if !exists('g:loaded_floaterm') | call plug#load('vim-floaterm') | endif |
+            \ execute 'FloatermNew' '--title=contributions' '--height=13'
             \ '--width=55' 'gh' 'graph' (<bang>0 ? '--scheme=random' : '')
 
 " https://github.com/neovim/neovim/pull/12383#issuecomment-695768082
