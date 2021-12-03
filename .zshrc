@@ -125,7 +125,7 @@ edit_current_line() {
   if [ -z "$BUFFER" ]; then
     cmd="startinsert!"
   fi
-  nvim $tmpfile -c "${cmd}" -c "set filetype=zsh" -u ~/dotfiles/.config/nvim/min-skk.vim
+  nvim $tmpfile --noplugin -u ~/dotfiles/.config/nvim/min-edit.vim -c "${cmd}" -c "set filetype=zsh"
   BUFFER="$(cat $tmpfile)"
   CURSOR=${#BUFFER}
   rm $tmpfile
