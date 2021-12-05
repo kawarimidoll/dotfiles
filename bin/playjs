@@ -9,7 +9,7 @@ echo 'console.log("Playground start");' > "$filename"
 nvim "$filename" \
   -c 'Dex' \
   -c 'nnoremap <Space>q <cmd>qa!<CR>' \
-  -c 'normal! "_dd' \
+  -c 'delete _' \
   -c 'startinsert'
   # -c 'autocmd CursorHold <buffer> write' \
 
