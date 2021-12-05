@@ -167,7 +167,7 @@ Plug 'tyru/capture.vim', { 'on': 'Capture' }
 Plug 'tyru/open-browser.vim', { 'on': ['OpenBrowser', '<Plug>(openbrowser-'] }
 Plug 'vim-denops/denops.vim', { 'on': [] }
 Plug 'vim-jp/vimdoc-ja'
-Plug 'voldikss/vim-floaterm', { 'on' : 'Floaterm' }
+Plug 'voldikss/vim-floaterm', { 'on': 'FloatermNew' }
 
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
@@ -434,6 +434,7 @@ command! CopyDirName      let @*=expand('%:h') | echo 'copy dir name'
 command! CopyFileName     let @*=expand('%:t') | echo 'copy file name'
 command! CopyRelativePath let @*=expand('%:h').'/'.expand('%:t') | echo 'copy relative path'
 command! -nargs=* T split | wincmd j | resize 12 | terminal <args>
+command! Nyancat FloatermNew --autoclose=2 nyancat
 
 " command! CocFlutter CocList --input=flutter commands
 " command! CocGo CocList --input=go commands
