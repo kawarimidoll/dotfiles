@@ -464,6 +464,27 @@ function! init#visual_paste(direction) range abort
   endfor
 endfunction
 
+" https://zenn.dev/skanehira/articles/2021-11-29-vim-paste-clipboard-link
+let s:clipboard_register = has('linux') || has('unix') ? '+' : '*'
+function! init#markdown_link_paste() abort
+  let link = trim(getreg(s:clipboard_register))
+  if link !~# '^http'
+    normal! gv
+    call init#visual_paste('p')
+    return
+  endif
+
+  let old = getreg(0)
+  normal! gv"9y
+  call setreg(9, printf('[%s](%s)', getreg(9), link))
+  normal! gv"9p
+  call setreg(9, old)
+
+  for name in ['"', '0']
+    call setreg(name, link)
+  endfor
+endfunction
+
 " [vimのマーク機能をできるだけ活用してみる - Make 鮫 noise](http://saihoooooooo.hatenablog.com/entry/2013/04/30/001908)
 " let g:mark_chars = ['h', 'j', 'k', 'l']
 " function! s:AutoMark() abort
@@ -736,9 +757,10 @@ xmap <C-v> <Plug>(expand_region_shrink)
 xmap <Space>/ <Esc>gv"zy:<C-u>CocCommand fzf-preview.ProjectGrep "<C-r>z"<Left>
 xmap gx <Plug>(openbrowser-smart-search)
 xnoremap <Space>w <Esc>:<C-u>write<CR>gv
+" do not replace <cmd> to ensure exiting visual mode
+xnoremap <silent> p :<C-u>call init#markdown_link_paste()<CR>
 " https://github.com/Shougo/shougo-s-github/blob/master/vim/rc/mappings.rc.vim#L179
-xnoremap <silent> p <Cmd>call init#visual_paste('p')<CR>
-xnoremap <silent> P <Cmd>call init#visual_paste('P')<CR>
+xnoremap <silent> P <Cmd>call init#visual_paste('p')<CR>
 xnoremap <silent> y y`]
 xnoremap x "_x
 
