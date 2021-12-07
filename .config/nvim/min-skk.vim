@@ -92,6 +92,15 @@ call skkeleton#config({
   \   'globalJisyo': expand(s:jisyoPath),
   \ })
 
+noremap j gj
+noremap k gk
+noremap gj j
+noremap gk k
+noremap gV `[v`]
+noremap H ^
+noremap L $
+map M %
+
 nnoremap <Space>w :<C-u>w<CR>
 nnoremap <Space>wq :<C-u>wq<CR>
 nnoremap <Space>q :<C-u>quit<CR>
