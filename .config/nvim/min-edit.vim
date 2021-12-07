@@ -12,6 +12,7 @@ set nonumber
 set noshowmode
 set noswapfile
 set nowritebackup
+set scrolloff=5
 set showtabline=0
 set whichwrap=b,s,h,l,<,>,[,],~
 set wrap
