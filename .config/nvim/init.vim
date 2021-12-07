@@ -966,7 +966,7 @@ augroup vimrc
   autocmd BufNewFile,BufRead *.java setlocal tabstop=4 softtabstop=4 shiftwidth=4
 
   " https://stackoverflow.com/questions/19137601/turn-off-highlighting-a-certain-pattern-in-vim
-  autocmd BufWinEnter *.md syntax match markdownError "\w\@<=\w\@="
+  autocmd FileType markdown syntax match markdownError '\w\@<=\w\@='
 
   " [NeovimのTerminalモードをちょっと使いやすくする](https://zenn.dev/ryo_kawamata/articles/improve-neovmi-terminal)
   autocmd TermOpen * startinsert
