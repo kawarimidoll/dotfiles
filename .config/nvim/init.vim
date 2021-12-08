@@ -692,6 +692,8 @@ nnoremap X "_D
 nnoremap Y y$
 nnoremap ' `
 
+" https://twitter.com/mo_naqa/status/1467626946293284865
+nnoremap gf gF
 nmap gx <Plug>(openbrowser-smart-search)
 
 nnoremap <Space>a <Cmd>CocCommand fzf-preview.GitActions<CR>
