@@ -11,6 +11,11 @@ if [ -f "/opt/homebrew/bin/brew" ]; then
   # eval $(/opt/homebrew/bin/brew shellenv)
   BREW_PREFIX="/opt/homebrew"
   alias nnn="nnn-apple-silicon"
+
+  if [ ! -f /tmp/zsh_fnm.cache ]; then
+    /opt/homebrew/bin/fnm env > /tmp/zsh_fnm.cache
+    zcompile /tmp/zsh_fnm.cache
+  fi
 else
   # intel chip
   if [ ! -f /tmp/zsh_brew.cache ]; then
@@ -20,8 +25,14 @@ else
   # eval $(/usr/local/bin/brew shellenv)
   BREW_PREFIX="/usr/local"
   alias nnn="nnn-intel-chip"
+
+  if [ ! -f /tmp/zsh_fnm.cache ]; then
+    /usr/local/bin/fnm env > /tmp/zsh_fnm.cache
+    zcompile /tmp/zsh_fnm.cache
+  fi
 fi
 source /tmp/zsh_brew.cache
+source /tmp/zsh_fnm.cache
 
 export OBSIDIAN_VAULT="${HOME}/Dropbox/Obsidian"
 
@@ -29,7 +40,6 @@ alias brewer="sh ${DOT_OS_DIR}/brewer.sh"
 alias cob="cd ${OBSIDIAN_VAULT}"
 alias ds_store_all_delete="find . -name '.DS_Store' -type f -delete"
 alias notify="osascript -e 'display notification \"Done!\" with title \"Terminal\"'"
-
 
 PATH="${BREW_PREFIX}/sbin:$PATH"
 
