@@ -168,6 +168,8 @@ Plug 'tyru/open-browser.vim', { 'on': ['OpenBrowser', '<Plug>(openbrowser-'] }
 Plug 'vim-denops/denops.vim', { 'on': [] }
 Plug 'vim-jp/vimdoc-ja'
 Plug 'voldikss/vim-floaterm', { 'on': 'FloatermNew' }
+Plug 'vim-skk/denops-skkeleton.vim'
+Plug 'delphinus/skkeleton_indicator.nvim'
 
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
@@ -182,6 +184,8 @@ function! s:LazyLoadPlugs(timer) abort
   normal! mZ
   call plug#load(
         \   'denops.vim',
+        \   'denops-skkeleton.vim',
+        \   'skkeleton_indicator.nvim',
         \   'coc.nvim',
         \   'fzf',
         \   'gitsigns.nvim',
@@ -212,6 +216,7 @@ lua << EOF
     },
     current_line_blame = true,
   })
+  require('skkeleton_indicator').setup()
 EOF
 endfunction
 call timer_start(20, function("s:LazyLoadPlugs"))
@@ -319,6 +324,43 @@ let g:fzf_preview_default_fzf_options = {
       \ '--cycle': v:true,
       \ '--no-sort': v:true,
       \ }
+
+imap <C-j> <Plug>(skkeleton-toggle)
+cmap <C-j> <Plug>(skkeleton-toggle)
+
+let s:jisyoPath = '~/.cache/nvim/SKK-JISYO.L'
+if !filereadable(expand(s:jisyoPath))
+  echo "SSK Jisyo does not exists! '" .
+        \ s:jisyoPath . "' is required!"
+  let s:jisyoDir = fnamemodify(s:jisyoPath, ':h')
+  echo "Run: "
+  echo "curl -OL http://openlab.jp/skk/dic/SKK-JISYO.L.gz"
+  echo "gunzip SKK-JISYO.L.gz"
+  echo "mkdir -p " . s:jisyoDir
+  echo "mv ./SKK-JISYO.L " . s:jisyoDir
+
+  let s:choice = confirm("Run automatically?", "y\nN")
+  if s:choice == 1
+    echo "Running..."
+    call system("curl -OL http://openlab.jp/skk/dic/SKK-JISYO.L.gz")
+    call system("gunzip SKK-JISYO.L.gz")
+    call system("mkdir -p " . s:jisyoDir)
+    call system("mv ./SKK-JISYO.L " . s:jisyoDir)
+    echo "Done."
+  endif
+endif
+call skkeleton#config({
+  \   'eggLikeNewline': v:true,
+  \   'globalJisyo': expand(s:jisyoPath),
+  \   'showCandidatesCount': 2,
+  \ })
+augroup skkeleton
+  autocmd!
+  autocmd User skkeleton-enable-pre  let b:coc_suggest_disable  = v:true
+  autocmd User skkeleton-enable-pre  let g:skkeleton_is_enabled = v:true
+  autocmd User skkeleton-disable-pre let b:coc_suggest_disable  = v:false
+  autocmd User skkeleton-disable-pre let g:skkeleton_is_enabled = v:false
+augroup END
 
 "-----------------
 " coc.nvim configuration
@@ -860,9 +902,10 @@ function status_config()
   local filename      = MiniStatusline.section_filename({ trunc_width = 140 })
   local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 120 })
   local location      = MiniStatusline.section_location({ trunc_width = 75 })
+  local skkeleton     = vim.g.skkeleton_is_enabled and '▼' or ''
 
   return MiniStatusline.combine_groups({
-  { hl = mode_hl,                  strings = { mode } },
+  { hl = mode_hl,                  strings = { mode .. skkeleton } },
   { hl = 'MiniStatuslineDevinfo',  strings = { git, diagnostics['s'] } },
   { hl = 'MiniStatuslineError',  strings = { diagnostics['e'] } },
   { hl = 'MiniStatuslineWarning',  strings = { diagnostics['w'] } },
