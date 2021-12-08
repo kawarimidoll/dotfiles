@@ -436,6 +436,14 @@ command! CopyRelativePath let @*=expand('%:h').'/'.expand('%:t') | echo 'copy re
 command! -nargs=* T split | wincmd j | resize 12 | terminal <args>
 command! Nyancat FloatermNew --autoclose=2 nyancat
 
+command! FzReadme call fzf#run(fzf#wrap(#{
+          \ source: values(map(copy(g:plugs), {k,v-> k.' '.get(split(globpath(get(v,'dir',''), '\creadme.*'), '\n'), 0, '')})),
+          \ options: ['--with-nth=1', '--preview', 'bat --color=always --plain {2}'],
+          \ sink: funcref('s:PlugReadmeFzf')}))
+function s:PlugReadmeFzf(name_and_path) abort
+  execute 'PlugReadme' substitute(a:name_and_path, ' .*', '', '')
+endfunction
+
 " command! CocFlutter CocList --input=flutter commands
 " command! CocGo CocList --input=go commands
 " command! GoRun !go run %:p
