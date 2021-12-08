@@ -1,4 +1,4 @@
-timestamp: 2021-12-01 09:21:02 JST
+timestamp: 2021-12-08 09:41:33 JST
 tap: a-know/tap
 tap: homebrew/bundle
 tap: homebrew/cask
@@ -36,6 +36,7 @@ brew: exa
 brew: fcp
 brew: fd
 brew: findutils
+brew: fnm
 brew: fselect
 brew: gawk
 brew: gh
@@ -43,8 +44,13 @@ brew: ghq
 brew: gifsicle
 brew: git
 brew: git-delta
+brew: git-interactive-rebase-tool
+brew: git-now
 brew: git-quick-stats
+brew: git-recent
+brew: git-trim
 brew: gitbatch
+brew: github-markdown-toc
 brew: globe
 brew: glow
 brew: gnu-sed
@@ -77,12 +83,12 @@ brew: nano
 brew: navi
 brew: neovim
 brew: ninja
+brew: nyancat
 brew: pastel
 brew: pinentry-mac
 brew: pngquant
 brew: procs
 brew: px4/px4/gcc-arm-none-eabi
-brew: q
 brew: qt@5
 brew: rargs
 brew: re2c
@@ -129,6 +135,7 @@ cask: alfred
 cask: alt-tab
 cask: anki
 cask: apparency
+cask: appflowy
 cask: arduino
 cask: battery-buddy
 cask: bitwarden
@@ -141,6 +148,7 @@ cask: dockey
 cask: dropbox
 cask: editaro
 cask: flux
+cask: font-hackgen-nerd
 cask: font-roboto-mono-nerd-font
 cask: fuwari
 cask: gitify
@@ -172,6 +180,8 @@ cask: shottr
 cask: slack
 cask: snipaste
 cask: stats
+cask: stoplight-studio
+cask: suspicious-package
 cask: syntax-highlight
 cask: the-unarchiver
 cask: tiny-player
@@ -181,14 +191,14 @@ cask: xbar
 cask: yippy
 mas: 1099120373  Exporter           (3.0.6)
 mas: 1158642554  Desktop Lens       (4.0.6)
-mas: 1187772509  stts               (2.1)
+mas: 1187772509  stts               (2.2)
 mas: 1200685619  QuickLinks         (2.5)
 mas: 1328847392  Processes Monitor  (1.4)
 mas: 1429033973  RunCat             (9.4)
 mas: 1450640351  Lightweight PDF    (1.0.5)
 mas: 1467796430  Plain Pasta        (1.2.1)
-mas: 1563735522  Charmstone         (0.14)
+mas: 1563735522  Charmstone         (0.15)
 mas: 1569290801  ItemStock          (1.0)
 mas: 1581223559  Magic              (2.2)
-mas: 1586304988  Messer             (1.1.1)
+mas: 1586304988  Messer             (1.1.4)
 mas: 409183694   Keynote            (11.2)
