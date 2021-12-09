@@ -338,19 +338,23 @@ if !filereadable(expand(s:jisyoPath))
   echo "SSK Jisyo does not exists! '" .
         \ s:jisyoPath . "' is required!"
   let s:jisyoDir = fnamemodify(s:jisyoPath, ':h')
-  echo "Run: "
-  echo "curl -OL http://openlab.jp/skk/dic/SKK-JISYO.L.gz"
-  echo "gunzip SKK-JISYO.L.gz"
-  echo "mkdir -p " . s:jisyoDir
-  echo "mv ./SKK-JISYO.L " . s:jisyoDir
+  let s:cmds = [
+    \ "curl -OL http://openlab.jp/skk/dic/SKK-JISYO.L.gz",
+    \ "gunzip SKK-JISYO.L.gz",
+    \ "mkdir -p " . s:jisyoDir,
+    \ "mv ./SKK-JISYO.L " . s:jisyoDir,
+    \ ]
+  echo "To get Jisyo, run:"
+  for cmd in s:cmds
+    echo cmd
+  endfor
 
   let s:choice = confirm("Run automatically?", "y\nN")
   if s:choice == 1
     echo "Running..."
-    call system("curl -OL http://openlab.jp/skk/dic/SKK-JISYO.L.gz")
-    call system("gunzip SKK-JISYO.L.gz")
-    call system("mkdir -p " . s:jisyoDir)
-    call system("mv ./SKK-JISYO.L " . s:jisyoDir)
+    for cmd in s:cmds
+      call system(cmd)
+    endfor
     echo "Done."
   endif
 endif
