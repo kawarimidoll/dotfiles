@@ -351,6 +351,7 @@ if !filereadable(expand(s:jisyoPath))
 endif
 call skkeleton#config({
   \   'eggLikeNewline': v:true,
+  \   'acceptIllegalResult': v:true,
   \   'globalJisyo': expand(s:jisyoPath),
   \   'showCandidatesCount': 2,
   \ })
