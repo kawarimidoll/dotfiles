@@ -216,7 +216,10 @@ lua << EOF
     },
     current_line_blame = true,
   })
-  require('skkeleton_indicator').setup()
+  if not vim.g.loaded_skkeleton_indicator then
+    require('skkeleton_indicator').setup()
+    vim.g.loaded_skkeleton_indicator = 1
+  end
 EOF
 endfunction
 call timer_start(20, function("s:LazyLoadPlugs"))
