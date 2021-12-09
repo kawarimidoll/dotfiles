@@ -170,6 +170,7 @@ Plug 'vim-jp/vimdoc-ja'
 Plug 'voldikss/vim-floaterm', { 'on': 'FloatermNew' }
 Plug 'vim-skk/denops-skkeleton.vim'
 Plug 'delphinus/skkeleton_indicator.nvim'
+Plug 'Shougo/ddc.vim'
 
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
@@ -200,6 +201,7 @@ function! s:LazyLoadPlugs(timer) abort
         \ )
   normal! g`Z
   delmarks Z
+  call ddc#enable()
 
 lua << EOF
   require('which-key').setup()
@@ -352,12 +354,23 @@ if !filereadable(expand(s:jisyoPath))
     echo "Done."
   endif
 endif
-call skkeleton#config({
-  \   'eggLikeNewline': v:true,
-  \   'acceptIllegalResult': v:true,
-  \   'globalJisyo': expand(s:jisyoPath),
-  \   'showCandidatesCount': 2,
+
+call ddc#custom#patch_global('sources', ['skkeleton'])
+call ddc#custom#patch_global('sourceOptions', #{
+  \   skkeleton: #{
+  \     mark: 'skkeleton',
+  \     matchers: ['skkeleton'],
+  \     minAutoCompleteLength: 1,
+  \   },
   \ })
+call skkeleton#config(#{
+  \   eggLikeNewline: v:true,
+  \   acceptIllegalResult: v:true,
+  \   globalJisyo: expand(s:jisyoPath),
+  \   showCandidatesCount: 1,
+  \   immediatelyCancel: v:false,
+  \ })
+
 augroup skkeleton
   autocmd!
   autocmd User skkeleton-enable-pre  let b:coc_suggest_disable  = v:true
