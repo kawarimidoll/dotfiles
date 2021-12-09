@@ -936,14 +936,10 @@ function! s:MergeHighlight(args) abort "{{{
   endif
 
   " skip 'links' and 'cleared'
-  execute 'highlight' l:args[0] join(
-      \  filter(
-      \    map(
-      \     l:args[1:],
-      \     {_, val -> substitute(execute('highlight ' . val),  '^\S\+\s\+xxx\s', '', '')}
-      \    ),
-      \   {_, val -> val !~? '^links to' && val !=? 'cleared'}
-      \  ))
+  execute 'highlight' l:args[0] l:args[1:]
+      \ ->map({_, val -> substitute(execute('highlight ' . val),  '^\S\+\s\+xxx\s', '', '')})
+      \ ->filter({_, val -> val !~? '^links to' && val !=? 'cleared'})
+      \ ->join()
 endfunction "}}}
 
 if has('syntax')
