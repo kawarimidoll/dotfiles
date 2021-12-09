@@ -219,7 +219,10 @@ lua << EOF
     current_line_blame = true,
   })
   if not vim.g.loaded_skkeleton_indicator then
-    require('skkeleton_indicator').setup()
+    require('skkeleton_indicator').setup({
+      alwaysShown = false,
+      fadeOutMs = 30000,
+    })
     vim.g.loaded_skkeleton_indicator = 1
   end
 EOF
@@ -330,8 +333,8 @@ let g:fzf_preview_default_fzf_options = {
       \ '--no-sort': v:true,
       \ }
 
-imap <C-j> <Plug>(skkeleton-toggle)
-cmap <C-j> <Plug>(skkeleton-toggle)
+imap <C-j> <Plug>(skkeleton-enable)
+cmap <C-j> <Plug>(skkeleton-enable)
 
 let s:jisyoPath = '~/.cache/nvim/SKK-JISYO.L'
 if !filereadable(expand(s:jisyoPath))
