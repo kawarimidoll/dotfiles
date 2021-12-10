@@ -1,0 +1,18 @@
+# feat      feature
+# fix       bug fix
+# deps      dependencies
+# breaking  breaking changes
+# docs      documentation
+# style     formatting, missing semi colons, etc
+# refactor  refactoring
+# test      when adding missing tests
+# chore     maintain
+
+# [optional body]
+
+# [optional footer]
+
+# ==========
+# - https://zenn.dev/uochan/articles/2021-12-08-vim-conventional-commits
+# - https://www.conventionalcommits.org/ja/v1.0.0/
+# - https://gist.github.com/stephenparish/9941e89d80e2bc58a153#allowed-type

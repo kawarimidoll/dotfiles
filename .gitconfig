@@ -72,3 +72,5 @@
 	rebase = true
 [fetch]
 	prune = true
+[commit]
+	template = ~/.gitmessage
