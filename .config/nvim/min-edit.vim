@@ -5,6 +5,7 @@ set background=dark
 set backspace=indent,eol,start
 set clipboard+=unnamedplus
 set foldcolumn=0
+set laststatus=0
 set nobackup
 set nolist
 set nomodeline
@@ -80,3 +81,12 @@ xnoremap <silent><C-j> :m'>+1<CR>gv=gv
 onoremap x d
 
 colorscheme industry
+
+highlight Pmenu      ctermfg=254 ctermbg=237 guifg=#e3e1e4 guibg=#37343a
+highlight PmenuSel   ctermfg=237 ctermbg=254 guifg=#37343a guibg=#e3e1e4
+highlight PmenuSbar  ctermbg=238 guibg=#423f46
+highlight PmenuThumb ctermbg=255 guibg=#f8f8f2
+augroup min-edit
+  autocmd!
+  autocmd FileType markdown syntax match markdownError '\w\@<=\w\@='
+augroup END
