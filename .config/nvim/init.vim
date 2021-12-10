@@ -218,13 +218,10 @@ lua << EOF
     },
     current_line_blame = true,
   })
-  if not vim.g.loaded_skkeleton_indicator then
-    require('skkeleton_indicator').setup({
-      alwaysShown = false,
-      fadeOutMs = 30000,
-    })
-    vim.g.loaded_skkeleton_indicator = 1
-  end
+  require('skkeleton_indicator').setup({
+    alwaysShown = false,
+    fadeOutMs = 30000,
+  })
 EOF
 endfunction
 call timer_start(20, function("s:LazyLoadPlugs"))
@@ -376,6 +373,7 @@ call skkeleton#config(#{
   \   globalJisyo: expand(s:jisyoPath),
   \   showCandidatesCount: 1,
   \   immediatelyCancel: v:false,
+  \   keepState: v:true,
   \ })
 
 augroup skkeleton
