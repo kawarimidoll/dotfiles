@@ -801,9 +801,9 @@ nnoremap <space>K <Cmd>CocPrev<CR>
 nnoremap <Space>l <Cmd>CocCommand fzf-preview.Lines<CR>
 nnoremap <Space>L <Cmd>LazyGit<CR>
 nnoremap <Space>m <Cmd>CocCommand fzf-preview.Marks<CR>
-nnoremap <silent><Space>o :<C-u>put =repeat(nr2char(10), v:count1)<CR>
-nnoremap <silent><Space>O :<C-u>put! =repeat(nr2char(10), v:count1)<CR>'[
-nnoremap <Space>p <cmd>execute (expand('%:e') == 'md' ? "DenoFmt" : "Format")<CR>
+nnoremap <Space>o <Cmd>put =repeat(nr2char(10), v:count1)<CR>
+nnoremap <Space>O <Cmd>put! =repeat(nr2char(10), v:count1)<CR>'[
+nnoremap <Space>p <cmd>execute (&filetype == 'markdown' ? "DenoFmt" : "Format")<CR>
 " nnoremap <space>P <Cmd>CocListResume<CR>
 nnoremap <Space>q <cmd>quit<CR>
 nnoremap <Space>Q <cmd>quitall!<CR>
@@ -822,8 +822,8 @@ nnoremap <Space>/ :<C-u>CocCommand fzf-preview.ProjectGrep ""<Left>
 nnoremap <Space>? :<C-u>CocCommand fzf-preview.ProjectGrep ""<Left><C-r><C-f>
 nnoremap <Space>: <Cmd>CocCommand fzf-preview.CommandPalette<CR>
 
-nnoremap <silent><expr> <C-k> ':<C-u>move-1-' . v:count1 . '<CR>=l'
-nnoremap <silent><expr> <C-j> ':<C-u>move+' . v:count1 . '<CR>=l'
+nnoremap <silent><expr> <C-k> '<Cmd>move-1-' . v:count1 . '<CR>=l'
+nnoremap <silent><expr> <C-j> '<Cmd>move+'   . v:count1 . '<CR>=l'
 nnoremap <silent><C-l> :<C-u>nohlsearch<CR>:diffupdate<CR>:syntax sync fromstart<CR><C-l>
 nnoremap <C-w><C-q> <C-w>c
 
