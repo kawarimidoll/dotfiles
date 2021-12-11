@@ -375,13 +375,30 @@ call skkeleton#config(#{
   \   immediatelyCancel: v:false,
   \   keepState: v:true,
   \ })
+call skkeleton#register_kanatable('rom', #{
+  \   l:   ['l', ''],
+  \   l-:  ['-', ''],
+  \   l_:  ['_', ''],
+  \   la:  ['ぁ', ''],
+  \   le:  ['ぇ', ''],
+  \   li:  ['ぃ', ''],
+  \   ll:  'disable',
+  \   lo:  ['ぉ', ''],
+  \   ltu: ['っ', ''],
+  \   lu:  ['ぅ', ''],
+  \   lwa: ['ゎ', ''],
+  \   lya: ['ゃ', ''],
+  \   lyo: ['ょ', ''],
+  \   lyu: ['ゅ', ''],
+  \ })
+call skkeleton#register_kanatable('rom', {
+  \   "z\<Space>": ["\u3000", ''],
+  \ })
 
 augroup skkeleton
   autocmd!
-  autocmd User skkeleton-enable-pre  let b:coc_suggest_disable  = v:true
-  autocmd User skkeleton-enable-pre  let g:skkeleton_is_enabled = v:true
-  autocmd User skkeleton-disable-pre let b:coc_suggest_disable  = v:false
-  autocmd User skkeleton-disable-pre let g:skkeleton_is_enabled = v:false
+  autocmd User skkeleton-enable-pre  let b:coc_suggest_disable = v:true
+  autocmd User skkeleton-disable-pre let b:coc_suggest_disable = v:false
 augroup END
 
 "-----------------
@@ -924,7 +941,7 @@ function status_config()
   local filename      = MiniStatusline.section_filename({ trunc_width = 140 })
   local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 120 })
   local location      = MiniStatusline.section_location({ trunc_width = 75 })
-  local skkeleton     = vim.g.skkeleton_is_enabled and '▼' or ''
+  local skkeleton     = vim.g['skkeleton#enabled'] and '▼' or ''
 
   return MiniStatusline.combine_groups({
   { hl = mode_hl,                  strings = { mode .. skkeleton } },
