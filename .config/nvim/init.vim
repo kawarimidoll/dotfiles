@@ -201,7 +201,7 @@ function! s:LazyLoadPlugs(timer) abort
         \ )
   normal! g`Z
   delmarks Z
-  call ddc#enable()
+  " call ddc#enable()
 
 lua << EOF
   require('which-key').setup()
@@ -359,14 +359,14 @@ if !filereadable(expand(s:jisyoPath))
   endif
 endif
 
-call ddc#custom#patch_global('sources', ['skkeleton'])
-call ddc#custom#patch_global('sourceOptions', #{
-  \   skkeleton: #{
-  \     mark: 'skkeleton',
-  \     matchers: ['skkeleton'],
-  \     minAutoCompleteLength: 1,
-  \   },
-  \ })
+" call ddc#custom#patch_global('sources', ['skkeleton'])
+" call ddc#custom#patch_global('sourceOptions', #{
+"   \   skkeleton: #{
+"   \     mark: 'skkeleton',
+"   \     matchers: ['skkeleton'],
+"   \     minAutoCompleteLength: 1,
+"   \   },
+"   \ })
 call skkeleton#config(#{
   \   eggLikeNewline: v:true,
   \   acceptIllegalResult: v:true,
