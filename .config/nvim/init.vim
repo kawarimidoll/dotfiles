@@ -631,6 +631,8 @@ command! -nargs=* -bang Dex silent only! | botright 12 split |
     \ execute 'autocmd BufEnter <buffer> if winnr("$") == 1 | quit! | endif' |
     \ file Dex<bang> | wincmd k
 
+command! Croc execute '!croc send ' expand('%:p')
+
 lua << EOF
 -- [url-encode.lua](https://gist.github.com/liukun/f9ce7d6d14fa45fe9b924a3eed5c3d99)
 -- [string/gsub - Lua Memo](https://aoikujira.com/wiki/lua/index.php?string%252Fgsub)
