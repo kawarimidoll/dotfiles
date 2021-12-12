@@ -303,7 +303,6 @@ let g:coc_global_extensions = [
       \ 'coc-fzf-preview',
       \ 'coc-spell-checker',
       \ 'coc-word',
-      \ 'coc-yank',
       \ ]
 let g:lazygit_floating_window_scaling_factor = 1
 let g:lazygit_floating_window_winblend = 20
@@ -1013,7 +1012,6 @@ if has('syntax')
     autocmd VimEnter,WinEnter,BufRead *
           \ call matchadd('ExtraWhitespace', "[\u00A0\u2000-\u200B\u3000]")
 
-    highlight HighlightedyankRegion cterm=reverse gui=reverse
     highlight! link GitSignsChange Keyword
     highlight! link GitSignsCurrentLineBlame Comment
 
@@ -1074,6 +1072,9 @@ augroup vimrc
   autocmd BufNewFile,BufRead *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4
   autocmd BufNewFile,BufRead *.go setlocal tabstop=4 softtabstop=4 shiftwidth=4
   autocmd BufNewFile,BufRead *.java setlocal tabstop=4 softtabstop=4 shiftwidth=4
+
+  " https://jdhao.github.io/2020/05/22/highlight_yank_region_nvim/
+  autocmd TextYankPost * silent! lua vim.highlight.on_yank({timeout=500})
 
   " https://stackoverflow.com/questions/19137601/turn-off-highlighting-a-certain-pattern-in-vim
   autocmd FileType markdown syntax match markdownError '\w\@<=\w\@='

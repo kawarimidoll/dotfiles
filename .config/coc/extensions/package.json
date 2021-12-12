@@ -17,7 +17,6 @@
     "coc-tsserver": ">=1.8.6",
     "coc-vimlsp": ">=0.12.5",
     "coc-word": ">=1.2.2",
-    "coc-yaml": ">=1.4.2",
-    "coc-yank": ">=1.2.0"
+    "coc-yaml": ">=1.4.2"
   }
 }
