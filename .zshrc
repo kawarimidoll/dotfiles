@@ -121,7 +121,7 @@ bindkey '^r' select-history
 edit_current_line() {
   local tmpfile=$(mktemp)
   echo "$BUFFER" > $tmpfile
-  nvim $tmpfile --noplugin -u ~/dotfiles/.config/nvim/min-edit.vim -c 'normal! G$' -c 'set filetype=zsh'
+  nvim $tmpfile --noplugin -u ~/dotfiles/.config/nvim/min-edit.vim -c 'normal! G$' -c "setlocal autowriteall" -c 'set filetype=zsh'
   BUFFER="$(cat $tmpfile)"
   CURSOR=${#BUFFER}
   rm $tmpfile
