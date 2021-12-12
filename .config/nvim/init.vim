@@ -984,6 +984,9 @@ if has('syntax')
     highlight link Grey Gray
     highlight Italic cterm=italic gui=italic
     highlight Bold cterm=bold gui=bold
+    highlight Reverse cterm=reverse gui=reverse
+    highlight Underline cterm=underline gui=underline
+    highlight Strikethrough cterm=strikethrough gui=strikethrough
 
     highlight MiniStatuslineBackground ctermbg=238 guibg=#423f46
     MergeHighlight MiniStatuslineError   Red    MiniStatuslineBackground
