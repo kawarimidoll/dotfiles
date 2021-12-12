@@ -150,7 +150,7 @@ Plug 'lewis6991/gitsigns.nvim', { 'on': [] }
 Plug 'lewis6991/impatient.nvim'
 Plug 'nathom/filetype.nvim'
 Plug 'neoclide/coc.nvim', { 'on': [], 'branch': 'release' }
-Plug 'norcalli/nvim-colorizer.lua', { 'on': [] }
+Plug 'norcalli/nvim-colorizer.lua' ", { 'on': [] }
 Plug 'nvim-lua/plenary.nvim', { 'on': [] }
 Plug 'phaazon/hop.nvim', { 'on': [] }
 Plug 'segeljakt/vim-silicon', { 'on': 'Silicon' }
@@ -183,7 +183,6 @@ function! s:LazyLoadPlugs(timer) abort
         \   'coc.nvim',
         \   'fzf',
         \   'gitsigns.nvim',
-        \   'nvim-colorizer.lua',
         \   'nvim-hlslens',
         \   'nvim-web-devicons',
         \   'plenary.nvim',
@@ -198,7 +197,6 @@ function! s:LazyLoadPlugs(timer) abort
 
 lua << EOF
   require('which-key').setup()
-  require('colorizer').setup()
   require('hop').setup()
   require('hlslens').setup({ calm_down = true })
   require('gitsigns').setup ({
@@ -221,6 +219,7 @@ call timer_start(20, function("s:LazyLoadPlugs"))
 
 lua << EOF
 require('impatient')
+require('colorizer').setup()
 require('filetype').setup({
   overrides = {
     extensions = {
@@ -238,6 +237,7 @@ require('filetype').setup({
 
 require('mini.bufremove').setup()
 require('mini.comment').setup()
+require('mini.cursorword').setup()
 require('mini.surround').setup()
 require('mini.trailspace').setup()
 require('mini.tabline').setup()
@@ -301,7 +301,6 @@ let g:readme_viewer#plugin_manager = 'vim-plug'
 let g:asterisk#keeppos = 1
 let g:coc_global_extensions = [
       \ 'coc-fzf-preview',
-      \ 'coc-highlight',
       \ 'coc-spell-checker',
       \ 'coc-word',
       \ 'coc-yank',
@@ -448,7 +447,7 @@ function! s:show_documentation()
 endfunction
 
 " Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
+" autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Symbol renaming.
 nmap <leader>rn <Plug>(coc-rename)
