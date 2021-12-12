@@ -1,8 +1,4 @@
-set encoding=utf-8
-scriptencoding utf-8
 
-set background=dark
-set backspace=indent,eol,start
 set clipboard+=unnamedplus
 set foldcolumn=0
 set laststatus=0
@@ -51,8 +47,8 @@ nnoremap <Space>q <cmd>quit<CR>
 nnoremap <Space>Q <cmd>quitall!<CR>
 nnoremap <Space>w <cmd>w<CR>
 nnoremap <Space>wq <cmd>wq<CR>
-nnoremap <silent><expr> <C-k> ':<C-u>move-1-' . v:count1 . '<CR>=l'
-nnoremap <silent><expr> <C-j> ':<C-u>move+' . v:count1 . '<CR>=l'
+nnoremap <silent><expr> <C-k> '<Cmd>move-1-' . v:count1 . '<CR>=l'
+nnoremap <silent><expr> <C-j> '<Cmd>move+'   . v:count1 . '<CR>=l'
 nnoremap <silent><C-l> :<C-u>nohlsearch<CR>:diffupdate<CR>:syntax sync fromstart<CR><C-l>
 
 " command
