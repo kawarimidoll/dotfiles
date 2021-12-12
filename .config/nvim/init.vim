@@ -1084,7 +1084,7 @@ augroup vimrc
   autocmd FileType markdown syntax match markdownError '\w\@<=\w\@='
 
   " https://zenn.dev/uochan/articles/2021-12-08-vim-conventional-commits
-  autocmd FileType gitcommit nnoremap <buffer> <CR><CR> <Cmd>call <SID>select_commit_type()<CR>
+  autocmd FileType gitcommit nnoremap <buffer> <CR> <Cmd>call <SID>select_commit_type()<CR>
 
   " [NeovimのTerminalモードをちょっと使いやすくする](https://zenn.dev/ryo_kawamata/articles/improve-neovmi-terminal)
   autocmd TermOpen * startinsert
