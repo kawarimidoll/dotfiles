@@ -1,6 +1,7 @@
 
 set clipboard+=unnamedplus
 set foldcolumn=0
+set ignorecase
 set laststatus=0
 set nobackup
 set nolist
@@ -11,7 +12,10 @@ set noswapfile
 set nowritebackup
 set scrolloff=5
 set showtabline=0
+set smartcase
+set smartindent
 set whichwrap=b,s,h,l,<,>,[,],~
+set wildmenu
 set wrap
 set wrapscan
 
