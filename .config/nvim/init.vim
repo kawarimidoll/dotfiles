@@ -126,6 +126,7 @@ else
     endif
   endfunction
   augroup vimrc_plug
+    autocmd!
     autocmd VimEnter * call s:AutoPlugInstall()
   augroup END
 endif
