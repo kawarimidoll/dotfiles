@@ -63,5 +63,25 @@ call skkeleton#config(#{
   \   immediatelyCancel: v:false,
   \   keepState: v:true,
   \ })
-
+call skkeleton#register_kanatable('rom', {
+  \   'x!': ['!', ''],
+  \   'x,': [',', ''],
+  \   'x-': ['-', ''],
+  \   'x.': ['.', ''],
+  \   'x?': ['?', ''],
+  \   'x[': ['[', ''],
+  \   'x]': [']', ''],
+  \   'x_': ['_', ''],
+  \   "z\<Space>": ["\u3000", ''],
+  \ })
 call ddc#enable()
+
+function! s:bullet_enter() abort
+  let prefix = getline('.') =~# '^\s*-\s' ? '- ' :
+            \  getline('.') =~# '^\d*.\s' ? '1. ' : ''
+  return "\<CR>" . prefix
+endfunction
+
+augroup init
+  autocmd FileType markdown inoremap <expr> <CR> <sid>bullet_enter()
+augroup END
