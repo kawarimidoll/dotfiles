@@ -1,5 +1,5 @@
-set encoding=utf-8
-scriptencoding utf-8
+" set encoding=utf-8
+" scriptencoding utf-8
 "  _       _ _         _
 " (_)     (_) |       (_)
 "  _ _ __  _| |___   ___ _ __ ___
@@ -108,22 +108,15 @@ if !filereadable(autoload_plug_path)
     echoerr 'You have to install curl.'
     execute 'quit!'
   endif
-  silent exe '!curl -fL --create-dirs -o ' . autoload_plug_path .
+  silent execute '!curl -fL --create-dirs -o ' . autoload_plug_path .
       \ ' https://raw.github.com/junegunn/vim-plug/master/plug.vim'
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 else
   " [おい、NeoBundle もいいけど vim-plug 使えよ](https://qiita.com/b4b4r07/items/fa9c8cceb321edea5da0)
-  " nvim does not support arrow methods
   function! s:AutoPlugInstall() abort
-    let list = map(
-      \   filter(
-      \     copy(
-      \       items(get(g:, 'plugs', {}))
-      \     ),
-      \     {_,item->!isdirectory(item[1].dir)}
-      \   ),
-      \   {_,item->item[0]}
-      \ )
+    let list = get(g:, 'plugs', {})->items()->copy()
+      \  ->filter({_,item->!isdirectory(item[1].dir)})
+      \  ->map({_,item->item[0]})
     if empty(list)
       return
     endif
@@ -638,14 +631,13 @@ lua << EOF
 -- [string/gsub - Lua Memo](https://aoikujira.com/wiki/lua/index.php?string%252Fgsub)
 function urlencode(url)
   if url == nil then
-    return
+    return ''
   end
 
-  url = url:gsub("\n", "\r\n")
-  url = url:gsub("([^%w _%%%-%.~])",
-          function(c) return string.format("%%%02X", string.byte(c)) end)
-  url = url:gsub(" ", "+")
-  return url
+  return url:gsub("\n", "\r\n")
+            :gsub("([^%w _%%%-%.~])",
+             function(c) return string.format("%%%02X", string.byte(c)) end)
+            :gsub(" ", "+")
 end
 EOF
 
@@ -928,41 +920,39 @@ function diagnostics_table(args)
     return {}
   end
   local table = {}
-  table.e = (info['error'] or 0) > 0 and 'E'..info['error'] or ''
-  table.w = (info['warning'] or 0) > 0 and 'W'..info['warning'] or ''
-  table.h = (info['hint'] or 0) > 0 and 'H'..info['hint'] or ''
-  table.i = (info['information'] or 0) > 0 and 'I'..info['information'] or ''
+  table.e = (info.error       or 0) > 0 and 'E'..info.error       or ''
+  table.w = (info.warning     or 0) > 0 and 'W'..info.warning     or ''
+  table.h = (info.hint        or 0) > 0 and 'H'..info.hint        or ''
+  table.i = (info.information or 0) > 0 and 'I'..info.information or ''
   table.s = vim.g.coc_status
   return table
 end
 
-function status_config()
-  local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 120 })
-  local git           = MiniStatusline.section_git({ trunc_width = 75 })
-  local diagnostics   = diagnostics_table({ trunc_width = 75 })
-  local filename      = MiniStatusline.section_filename({ trunc_width = 140 })
-  local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 120 })
-  local location      = MiniStatusline.section_location({ trunc_width = 75 })
-  local skkeleton     = vim.g['skkeleton#enabled'] and '▼' or ''
-
-  return MiniStatusline.combine_groups({
-  { hl = mode_hl,                  strings = { mode .. skkeleton } },
-  { hl = 'MiniStatuslineDevinfo',  strings = { git, diagnostics['s'] } },
-  { hl = 'MiniStatuslineError',  strings = { diagnostics['e'] } },
-  { hl = 'MiniStatuslineWarning',  strings = { diagnostics['w'] } },
-  { hl = 'MiniStatuslineInfo',  strings = { diagnostics['i'] } },
-  { hl = 'MiniStatuslineHint',  strings = { diagnostics['h'] } },
-  '%<', -- Mark general truncate point
-  { hl = 'MiniStatuslineFilename', strings = { filename } },
-  '%=', -- End left alignment
-  { hl = 'MiniStatuslineFileinfo', strings = { fileinfo } },
-  { hl = mode_hl,                  strings = { location } },
-  })
-end
-
 require('mini.statusline').setup({
   content = {
-    active = status_config
+    active = function()
+      local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 120 })
+      local git           = MiniStatusline.section_git({ trunc_width = 75 })
+      local diagnostics   = diagnostics_table({ trunc_width = 75 })
+      local filename      = MiniStatusline.section_filename({ trunc_width = 140 })
+      local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 120 })
+      local location      = MiniStatusline.section_location({ trunc_width = 75 })
+      local skkeleton     = vim.g['skkeleton#enabled'] and '▼' or ''
+
+      return MiniStatusline.combine_groups({
+        { hl = mode_hl,                  strings = { mode .. skkeleton } },
+        { hl = 'MiniStatuslineDevinfo',  strings = { git, diagnostics.s } },
+        { hl = 'MiniStatuslineError',    strings = { diagnostics.e } },
+        { hl = 'MiniStatuslineWarning',  strings = { diagnostics.w } },
+        { hl = 'MiniStatuslineInfo',     strings = { diagnostics.i } },
+        { hl = 'MiniStatuslineHint',     strings = { diagnostics.h } },
+        '%<', -- Mark general truncate point
+        { hl = 'MiniStatuslineFilename', strings = { filename } },
+        '%=', -- End left alignment
+        { hl = 'MiniStatuslineFileinfo', strings = { fileinfo } },
+        { hl = mode_hl,                  strings = { location } },
+      })
+    end
   },
 })
 EOF
@@ -978,7 +968,7 @@ function! s:MergeHighlight(args) abort "{{{
 
   " skip 'links' and 'cleared'
   execute 'highlight' l:args[0] l:args[1:]
-      \ ->map({_, val -> substitute(execute('highlight ' . val),  '^\S\+\s\+xxx\s', '', '')})
+      \ ->map({_, val -> execute('highlight ' . val)->substitute('^\S\+\s\+xxx\s', '', '')})
       \ ->filter({_, val -> val !~? '^links to' && val !=? 'cleared'})
       \ ->join()
 endfunction "}}}
@@ -1058,7 +1048,7 @@ if has('syntax')
 endif
 
 function! s:select_commit_type() abort
-  let line = substitute(getline('.'), '^#\s*', '', 'g')
+  let line = getline('.')->substitute('^#\s*', '', 'g')
   let title = printf('%s: ', split(line, ' ')[0])
 
   silent! normal! "_dip
