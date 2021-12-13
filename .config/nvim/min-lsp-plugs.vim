@@ -17,13 +17,14 @@ Plug 'Shougo/ddc-nvim-lsp'
 
 Plug 'matsui54/denops-popup-preview.vim'
 Plug 'ray-x/lsp_signature.nvim'
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/vim-vsnip-integ'
 
 Plug 'neovim/nvim-lspconfig'
 Plug 'williamboman/nvim-lsp-installer'
 call plug#end()
 
-call ddc#custom#patch_global('sources', ['nvim-lsp'])
-call ddc#custom#patch_global('sources', ['around'])
+call ddc#custom#patch_global('sources', ['nvim-lsp', 'around'])
 call ddc#custom#patch_global('sourceOptions', #{
   \   _: {
   \     'ignoreCase': v:true,
@@ -40,11 +41,11 @@ call ddc#custom#patch_global('sourceOptions', #{
   \   },
   \ })
 call ddc#custom#patch_global('sourceParams', #{
-  \ nvim-lsp: #{ kindLabels: #{ Class: 'c' } },
+  \ nvim-lsp: #{ maxSize: 500, kindLabels: #{ Class: 'c' } },
   \ })
-call ddc#custom#patch_filetype(
-  \ ['typescript'], 'sources', ['nvim-lsp', 'around']
-  \ )
+" call ddc#custom#patch_filetype(
+"   \ ['typescript'], 'sources', ['nvim-lsp', 'around']
+"   \ )
 call ddc#enable()
 
 " <TAB>/<S-TAB> completion.
@@ -78,8 +79,9 @@ local on_attach = function(client, bufnr)
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   buf_set_keymap('n', 'gD',        '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
   buf_set_keymap('n', 'gd',        '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'K',         '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
   buf_set_keymap('n', 'gi',        '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  buf_set_keymap('n', 'gr',        '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_set_keymap('n', 'K',         '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
   buf_set_keymap('n', '<C-k>',     '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
   buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
@@ -87,24 +89,15 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<space>D',  '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
   buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  buf_set_keymap('n', 'gr',        '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   buf_set_keymap('n', '<space>e',  '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
-  buf_set_keymap('n', '[d',        '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', ']d',        '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+  buf_set_keymap('n', '[g',        '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap('n', ']g',        '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
   buf_set_keymap('n', 'sl',        '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
   buf_set_keymap('n', '<space>p',  '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
 
--- Use a loop to conveniently call 'setup' on multiple servers and
--- map buffer local keybindings when the language server attaches
--- for _, lsp in ipairs({ 'pyright', 'rust_analyzer', 'tsserver' }) do
---   nvim_lsp[lsp].setup {
---     on_attach = on_attach,
---     flags = {
---       debounce_text_changes = 150,
---     }
---   }
--- end
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- [Neovim builtin LSP設定入門](https://zenn.dev/nazo6/articles/c2f16b07798bab)
 local lsp_installer = require("nvim-lsp-installer")
@@ -120,18 +113,22 @@ lsp_installer.settings({
 lsp_installer.on_server_ready(function(server)
   local opts = {}
   opts.on_attach = on_attach
+  opts.capabilities = capabilities
+
+  if server.name == 'tsserver' or server.name == 'eslint' then
+    opts.root_dir = nvim_lsp.util.root_pattern("package.json")
+  elseif server.name == 'denols' then
+    opts.root_dir = nvim_lsp.util.root_pattern("deno.json", "deno.jsonc", "deps.ts")
+    opts.init_options = { lint = true, unstable = true, }
+  end
 
   server:setup(opts)
   vim.cmd [[ do User LspAttachBuffers ]]
 end)
 
-
-require "lsp_signature".setup()
+require("lsp_signature").setup()
 EOF
 
 call popup_preview#enable()
 
-colorscheme industry
-
 set number
-
