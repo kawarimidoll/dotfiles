@@ -23,7 +23,7 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'williamboman/nvim-lsp-installer'
 call plug#end()
 
-call ddc#custom#patch_global('sources', ['nvim-lsp', 'around'])
+call ddc#custom#patch_global('sources', ['nvim-lsp', 'vsnip', 'around'])
 call ddc#custom#patch_global('completionMenu', 'pum.vim')
 call ddc#custom#patch_global('sourceOptions', #{
   \   _: #{
@@ -32,7 +32,14 @@ call ddc#custom#patch_global('sourceOptions', #{
   \     sorters: ['sorter_fuzzy'],
   \     converters: ['converter_fuzzy']
   \   },
-  \   around: #{ mark: 'A' },
+  \   around: #{
+  \     mark: 'A',
+  \     isVolatile: v:true,
+  \   },
+  \   vsnip: #{
+  \     mark: 'VS',
+  \     dup: v:true,
+  \   },
   \   nvim-lsp: #{
   \     mark: 'lsp',
   \     forceCompletionPattern: '\.\w*|:\w*|->\w*',
