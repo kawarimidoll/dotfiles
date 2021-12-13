@@ -12,7 +12,11 @@ Plug 'Shougo/ddc.vim'
 Plug 'Shougo/ddc-around'
 Plug 'Shougo/ddc-nvim-lsp'
 Plug 'Shougo/pum.vim'
+Plug 'Shougo/ddc-matcher_head'
+Plug 'Shougo/neco-vim'
+Plug 'Shougo/ddc-cmdline-history'
 Plug 'tani/ddc-fuzzy'
+Plug 'gamoutatsumi/ddc-sorter_ascii'
 
 Plug 'matsui54/denops-popup-preview.vim'
 Plug 'ray-x/lsp_signature.nvim'
@@ -25,8 +29,8 @@ call plug#end()
 
 call ddc#custom#patch_global('sources', ['nvim-lsp', 'vsnip', 'around'])
 call ddc#custom#patch_global('completionMenu', 'pum.vim')
-call ddc#custom#patch_global('autoCompleteEvents',
-  \ ['InsertEnter', 'TextChangedI', 'TextChangedP', 'CmdlineChanged'])
+" call ddc#custom#patch_global('autoCompleteEvents',
+"   \ ['InsertEnter', 'TextChangedI', 'TextChangedP', 'CmdlineChanged'])
 " call ddc#custom#patch_global('filterParams', #{
 "   \   matcher_fuzzy: #{splitMode: 'word',}
 "   \ })
@@ -75,10 +79,13 @@ inoremap <PageDown> <Cmd>call pum#map#insert_relative_page(+1)<CR>
 inoremap <PageUp>   <Cmd>call pum#map#insert_relative_page(-1)<CR>
 autocmd User PumCompleteDone call vsnip_integ#on_complete_done(g:pum#completed_item)
 
-cnoremap <Tab>   <Cmd>call pum#map#insert_relative(+1)<CR>
-cnoremap <S-Tab> <Cmd>call pum#map#insert_relative(-1)<CR>
-cnoremap <C-n>   <Cmd>call pum#map#insert_relative(+1)<CR>
-cnoremap <C-p>   <Cmd>call pum#map#insert_relative(-1)<CR>
+
+cmap <silent><expr> <TAB>   pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : ddc#map#manual_complete(['necovim', 'cmdline-history'])
+cmap <silent><expr> <S-TAB> pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<C-h>'
+" not works well
+" cmap <silent><expr> <C-n>   pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<C-n>'
+" cmap <silent><expr> <C-p>   pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<C-p>'
+cmap <silent><expr> <CR>    pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<CR>'
 cnoremap <C-y>   <Cmd>call pum#map#confirm()<CR>
 cnoremap <C-e>   <Cmd>call pum#map#cancel()<CR>
 nnoremap :       <Cmd>call CommandlinePre()<CR>:
@@ -86,9 +93,21 @@ nnoremap :       <Cmd>call CommandlinePre()<CR>:
 function! CommandlinePre() abort
   " Overwrite sources
   let s:prev_buffer_config = ddc#custom#get_buffer()
-  call ddc#custom#patch_buffer('sources', ['necovim', 'around'])
+  call ddc#custom#patch_buffer('sources', ['necovim', 'cmdline-history', 'around'])
 
-  autocmd User DDCCmdlineLeave ++once call CommandlinePost()
+  call ddc#custom#patch_buffer('autoCompleteEvents', ['CmdlineChanged'])
+  call ddc#custom#patch_buffer('sourceOptions', #{
+    \   _: #{
+    \     matchers: ['matcher_head'],
+    \     sorters: ['sorter_ascii'],
+    \     minAutoCompleteLength: 255,
+    \     ignoreCase: v:true,
+    \   },
+    \   necovim: #{ mark: 'neco' },
+    \   cmdline-history: #{ mark: 'hist' },
+    \ })
+
+  autocmd CmdlineLeave ++once call CommandlinePost()
 
   " Enable command line completion
   call ddc#enable_cmdline_completion()
@@ -154,7 +173,7 @@ lsp_installer.on_server_ready(function(server)
   opts.capabilities = capabilities
 
   if server.name == 'tsserver' or server.name == 'eslint' then
-    opts.root_dir = nvim_lsp.util.root_pattern("package.json")
+    opts.root_dir = nvim_lsp.util.root_pattern("package.json", "node_modules")
   elseif server.name == 'denols' then
     opts.root_dir = nvim_lsp.util.root_pattern("deno.json", "deno.jsonc", "deps.ts")
     opts.init_options = { lint = true, unstable = true, }
