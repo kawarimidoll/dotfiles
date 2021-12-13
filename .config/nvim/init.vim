@@ -194,7 +194,7 @@ function! s:LazyLoadPlugs(timer) abort
         \ )
   normal! g`Z
   delmarks Z
-  " call ddc#enable()
+  call ddc#enable()
 
 lua << EOF
   require('which-key').setup()
@@ -351,46 +351,52 @@ if !filereadable(expand(s:jisyoPath))
   endif
 endif
 
-" call ddc#custom#patch_global('sources', ['skkeleton'])
-" call ddc#custom#patch_global('sourceOptions', #{
-"   \   skkeleton: #{
-"   \     mark: 'skkeleton',
-"   \     matchers: ['skkeleton'],
-"   \     minAutoCompleteLength: 1,
-"   \   },
-"   \ })
+call ddc#custom#patch_global('sources', ['skkeleton'])
 call skkeleton#config(#{
   \   eggLikeNewline: v:true,
-  \   acceptIllegalResult: v:true,
   \   globalJisyo: expand(s:jisyoPath),
   \   showCandidatesCount: 1,
   \   immediatelyCancel: v:false,
   \   keepState: v:true,
   \ })
-call skkeleton#register_kanatable('rom', #{
-  \   l:   ['l', ''],
-  \   l-:  ['-', ''],
-  \   l_:  ['_', ''],
-  \   la:  ['ぁ', ''],
-  \   le:  ['ぇ', ''],
-  \   li:  ['ぃ', ''],
-  \   ll:  'disable',
-  \   lo:  ['ぉ', ''],
-  \   ltu: ['っ', ''],
-  \   lu:  ['ぅ', ''],
-  \   lwa: ['ゎ', ''],
-  \   lya: ['ゃ', ''],
-  \   lyo: ['ょ', ''],
-  \   lyu: ['ゅ', ''],
-  \ })
+" call skkeleton#register_kanatable('rom', #{
+"   \   l:   ['l', ''],
+"   \   l-:  ['-', ''],
+"   \   l_:  ['_', ''],
+"   \   la:  ['ぁ', ''],
+"   \   le:  ['ぇ', ''],
+"   \   li:  ['ぃ', ''],
+"   \   ll:  'disable',
+"   \   lo:  ['ぉ', ''],
+"   \   ltu: ['っ', ''],
+"   \   lu:  ['ぅ', ''],
+"   \   lwa: ['ゎ', ''],
+"   \   lya: ['ゃ', ''],
+"   \   lyo: ['ょ', ''],
+"   \   lyu: ['ゅ', ''],
+"   \ })
 call skkeleton#register_kanatable('rom', {
   \   "z\<Space>": ["\u3000", ''],
   \ })
+function s:enableDdc() abort
+  let b:coc_suggest_disable = v:true
+  call ddc#custom#patch_global('sourceOptions', #{
+    \   skkeleton: #{
+    \     mark: 'skkeleton',
+    \     matchers: ['skkeleton'],
+    \     minAutoCompleteLength: 1,
+    \   },
+    \ })
+endfunction
+function s:disableDdc() abort
+  let b:coc_suggest_disable = v:false
+  call ddc#custom#patch_global('sourceOptions', {})
+endfunction
 
 augroup skkeleton
   autocmd!
-  autocmd User skkeleton-enable-pre  let b:coc_suggest_disable = v:true
-  autocmd User skkeleton-disable-pre let b:coc_suggest_disable = v:false
+  autocmd User skkeleton-enable-pre  call s:enableDdc()
+  autocmd User skkeleton-disable-pre call s:disableDdc()
 augroup END
 
 "-----------------
