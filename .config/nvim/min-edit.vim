@@ -1,5 +1,5 @@
-
 set clipboard+=unnamedplus
+set expandtab
 set foldcolumn=0
 set ignorecase
 set laststatus=0
@@ -11,9 +11,11 @@ set noshowmode
 set noswapfile
 set nowritebackup
 set scrolloff=5
+set shiftwidth=2
 set showtabline=0
 set smartcase
 set smartindent
+set tabstop=2
 set whichwrap=b,s,h,l,<,>,[,],~
 set wildmenu
 set wrap
@@ -93,6 +95,8 @@ augroup min-edit
   autocmd!
   " https://zenn.dev/kawarimidoll/articles/5490567f8194a4
   autocmd FileType markdown syntax match markdownError '\w\@<=\w\@='
+
+  autocmd InsertEnter *.tsv setlocal noexpandtab
 
   " https://jdhao.github.io/2020/05/22/highlight_yank_region_nvim/
   autocmd TextYankPost * silent! lua vim.highlight.on_yank{timeout=500}
