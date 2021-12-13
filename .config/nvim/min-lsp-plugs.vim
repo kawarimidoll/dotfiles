@@ -10,10 +10,9 @@ Plug 'vim-denops/denops.vim'
 
 Plug 'Shougo/ddc.vim'
 Plug 'Shougo/ddc-around'
-Plug 'Shougo/ddc-matcher_head'
-Plug 'Shougo/ddc-matcher_length'
-Plug 'Shougo/ddc-sorter_rank'
 Plug 'Shougo/ddc-nvim-lsp'
+Plug 'Shougo/pum.vim'
+Plug 'tani/ddc-fuzzy'
 
 Plug 'matsui54/denops-popup-preview.vim'
 Plug 'ray-x/lsp_signature.nvim'
@@ -25,23 +24,22 @@ Plug 'williamboman/nvim-lsp-installer'
 call plug#end()
 
 call ddc#custom#patch_global('sources', ['nvim-lsp', 'around'])
+call ddc#custom#patch_global('completionMenu', 'pum.vim')
 call ddc#custom#patch_global('sourceOptions', #{
-  \   _: {
-  \     'ignoreCase': v:true,
-  \     'matchers': ['matcher_head'],
-  \     'sorters': ['sorter_rank'],
+  \   _: #{
+  \     ignoreCase: v:true,
+  \     matchers: ['matcher_fuzzy'],
+  \     sorters: ['sorter_fuzzy'],
+  \     converters: ['converter_fuzzy']
   \   },
-  \   around: {
-  \     'mark': 'A',
-  \     'matchers': ['matcher_head', 'matcher_length'],
-  \   },
-  \   nvim-lsp: {
-  \     'mark': 'lsp',
-  \     'forceCompletionPattern': '\.\w*|:\w*|->\w*',
+  \   around: #{ mark: 'A' },
+  \   nvim-lsp: #{
+  \     mark: 'lsp',
+  \     forceCompletionPattern: '\.\w*|:\w*|->\w*',
   \   },
   \ })
 call ddc#custom#patch_global('sourceParams', #{
-  \ nvim-lsp: #{ maxSize: 500, kindLabels: #{ Class: 'c' } },
+  \ nvim-lsp: #{ maxSize: 500 },
   \ })
 " call ddc#custom#patch_filetype(
 "   \ ['typescript'], 'sources', ['nvim-lsp', 'around']
@@ -49,11 +47,20 @@ call ddc#custom#patch_global('sourceParams', #{
 call ddc#enable()
 
 " <TAB>/<S-TAB> completion.
-inoremap <silent><expr> <TAB>
-  \ pumvisible() ? '<C-n>' :
-  \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
-  \ '<TAB>' : ddc#map#manual_complete()
-inoremap <expr><S-TAB>  pumvisible() ? '<C-p>' : '<C-h>'
+" inoremap <silent><expr> <TAB>
+"   \ pumvisible() ? '<C-n>' :
+"   \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
+"   \ '<TAB>' : ddc#map#manual_complete()
+" inoremap <expr><S-TAB>  pumvisible() ? '<C-p>' : '<C-h>'
+
+inoremap <Tab>   <Cmd>call pum#map#insert_relative(+1)<CR>
+inoremap <S-Tab> <Cmd>call pum#map#insert_relative(-1)<CR>
+inoremap <C-n>   <Cmd>call pum#map#insert_relative(+1)<CR>
+inoremap <C-p>   <Cmd>call pum#map#insert_relative(-1)<CR>
+inoremap <C-y>   <Cmd>call pum#map#confirm()<CR>
+inoremap <C-e>   <Cmd>call pum#map#cancel()<CR>
+inoremap <PageDown> <Cmd>call pum#map#insert_relative_page(+1)<CR>
+inoremap <PageUp>   <Cmd>call pum#map#insert_relative_page(-1)<CR>
 
 " [NeovimのBuiltin LSPを使ってみる - Qiita](https://qiita.com/slin/items/2b43925065de3b9a6d3b)
 " lua require('lspconfig').denols.setup{}
