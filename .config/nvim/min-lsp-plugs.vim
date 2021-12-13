@@ -34,13 +34,14 @@ call ddc#custom#patch_global('completionMenu', 'pum.vim')
 " call ddc#custom#patch_global('filterParams', #{
 "   \   matcher_fuzzy: #{splitMode: 'word',}
 "   \ })
+let s:source_common_option = #{
+  \  ignoreCase: v:true,
+  \  matchers:   ['matcher_fuzzy'],
+  \  sorters:    ['sorter_fuzzy'],
+  \  converters: ['converter_fuzzy']
+  \ }
 call ddc#custom#patch_global('sourceOptions', #{
-  \   _: #{
-  \     ignoreCase: v:true,
-  \     matchers: ['matcher_fuzzy'],
-  \     sorters: ['sorter_fuzzy'],
-  \     converters: ['converter_fuzzy']
-  \   },
+  \   _: s:source_common_option,
   \   around: #{
   \     mark: 'A',
   \     isVolatile: v:true,
@@ -79,30 +80,23 @@ inoremap <PageDown> <Cmd>call pum#map#insert_relative_page(+1)<CR>
 inoremap <PageUp>   <Cmd>call pum#map#insert_relative_page(-1)<CR>
 autocmd User PumCompleteDone call vsnip_integ#on_complete_done(g:pum#completed_item)
 
-
-cmap <silent><expr> <TAB>   pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : ddc#map#manual_complete(['necovim', 'cmdline-history'])
-cmap <silent><expr> <S-TAB> pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<C-h>'
-" not works well
-" cmap <silent><expr> <C-n>   pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<C-n>'
-" cmap <silent><expr> <C-p>   pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<C-p>'
-cmap <silent><expr> <CR>    pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<CR>'
-cnoremap <C-y>   <Cmd>call pum#map#confirm()<CR>
-cnoremap <C-e>   <Cmd>call pum#map#cancel()<CR>
+cnoremap <expr> <TAB>   pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : ddc#map#manual_complete()
+cnoremap <expr> <S-TAB> pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : ddc#map#manual_complete()
+cnoremap <expr> <C-n>   pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<C-n>'
+cnoremap <expr> <C-p>   pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<C-p>'
+cnoremap <expr> <CR>    pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<CR>'
+" cnoremap <C-y>   <Cmd>call pum#map#confirm()<CR>
+" cnoremap <C-e>   <Cmd>call pum#map#cancel()<CR>
 nnoremap :       <Cmd>call CommandlinePre()<CR>:
 
 function! CommandlinePre() abort
   " Overwrite sources
   let s:prev_buffer_config = ddc#custom#get_buffer()
-  call ddc#custom#patch_buffer('sources', ['necovim', 'cmdline-history', 'around'])
+  call ddc#custom#patch_buffer('sources', ['necovim', 'cmdline-history'])
 
   call ddc#custom#patch_buffer('autoCompleteEvents', ['CmdlineChanged'])
   call ddc#custom#patch_buffer('sourceOptions', #{
-    \   _: #{
-    \     matchers: ['matcher_head'],
-    \     sorters: ['sorter_ascii'],
-    \     minAutoCompleteLength: 255,
-    \     ignoreCase: v:true,
-    \   },
+    \   _: s:source_common_option,
     \   necovim: #{ mark: 'neco' },
     \   cmdline-history: #{ mark: 'hist' },
     \ })
