@@ -2,6 +2,8 @@ if filereadable(expand('~/dotfiles/.config/nvim/min-edit.vim'))
   source ~/dotfiles/.config/nvim/min-edit.vim
 endif
 
+set number
+
 "-----------------
 " Plugs
 "-----------------
@@ -49,6 +51,9 @@ Plug 'Shougo/ddc-cmdline'
 Plug 'Shougo/ddc-cmdline-history'
 Plug 'Shougo/ddc-converter_remove_overlap'
 Plug 'matsui54/ddc-converter_truncate'
+Plug 'matsui54/ddc-buffer'
+Plug 'matsui54/ddc-dictionary'
+Plug 'LumaKernel/ddc-file'
 Plug 'tani/ddc-fuzzy'
 Plug 'gamoutatsumi/ddc-sorter_ascii'
 
@@ -61,23 +66,34 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'williamboman/nvim-lsp-installer'
 call plug#end()
 
-call ddc#custom#patch_global('sources', ['nvim-lsp', 'vsnip', 'around'])
+call ddc#custom#patch_global('sources', ['nvim-lsp', 'vsnip', 'buffer', 'file', 'around', 'dictionary'])
 call ddc#custom#patch_global('completionMenu', 'pum.vim')
-" call ddc#custom#patch_global('filterParams', #{
-"   \   matcher_fuzzy: #{splitMode: 'word',}
-"   \ })
 
 let s:source_common_option = #{
-  \  smartCase: v:true,
-  \  matchers:   ['matcher_fuzzy'],
-  \  sorters:    ['sorter_fuzzy'],
-  \  converters: ['converter_remove_overlap', 'converter_truncate', 'converter_fuzzy']
+  \   smartCase: v:true,
+  \   matchers:   ['matcher_fuzzy'],
+  \   sorters:    ['sorter_fuzzy'],
+  \   converters: ['converter_remove_overlap', 'converter_truncate', 'converter_fuzzy']
   \ }
 call ddc#custom#patch_global('sourceOptions', #{
   \   _: s:source_common_option,
   \   around: #{
   \     mark: 'A',
   \     isVolatile: v:true,
+  \   },
+  \   buffer: #{
+  \     mark: 'B',
+  \     maxCandidates: 10,
+  \   },
+  \   dictionary: #{
+  \     mark: 'D',
+  \     maxCandidates: 6,
+  \     minAutoCompleteLength: 3,
+  \   },
+  \   file: #{
+  \     mark: 'F',
+  \     isVolatile: v:true,
+  \     forceCompletionPattern: '\S/\S*',
   \   },
   \   vsnip: #{
   \     mark: 'VS',
@@ -94,12 +110,13 @@ call ddc#custom#patch_global('filterParams', #{
   \ })
 call ddc#custom#patch_global('specialBufferCompletion', v:true)
 call ddc#custom#patch_global('sourceParams', #{
-  \ nvim-lsp: #{ maxSize: 500 },
+  \   around: #{ maxSize: 500 },
+  \   buffer: #{ forceCollect: v:true, fromAltBuf: v:true, showBufName: v:true },
+  \   dictionary: #{ showMenu: v:false },
+  \   nvim-lsp: #{ maxSize: 500 },
   \ })
-" call ddc#custom#patch_filetype(
-"   \ ['typescript'], 'sources', ['nvim-lsp', 'around']
-"   \ )
 call ddc#enable()
+call popup_preview#enable()
 
 imap <expr> <C-l> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-l>'
 imap <silent><expr> <TAB>   pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : vsnip#jumpable(+1) ? '<Plug>(vsnip-jump-next)' : '<TAB>'
@@ -223,7 +240,3 @@ end)
 
 require("lsp_signature").setup()
 EOF
-
-call popup_preview#enable()
-
-set number
