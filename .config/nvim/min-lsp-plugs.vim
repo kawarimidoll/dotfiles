@@ -68,7 +68,7 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'williamboman/nvim-lsp-installer'
 call plug#end()
 
-call ddc#custom#patch_global('sources', ['nvim-lsp', 'skkeleton', 'vsnip', 'buffer', 'file', 'around', 'dictionary'])
+call ddc#custom#patch_global('sources', ['nvim-lsp', 'skkeleton', 'vsnip', 'buffer', 'file', 'dictionary', 'around'])
 call ddc#custom#patch_global('completionMenu', 'pum.vim')
 
 let s:source_common_option = #{
@@ -116,10 +116,15 @@ call ddc#custom#patch_global('filterParams', #{
   \   converter_fuzzy: #{ hlGroup: 'Title' },
   \ })
 call ddc#custom#patch_global('specialBufferCompletion', v:true)
+" 10k words dictionary:
+" https://raw.githubusercontent.com/first20hours/google-10000-english/master/google-10000-english-no-swears.txt
 call ddc#custom#patch_global('sourceParams', #{
   \   around: #{ maxSize: 500 },
   \   buffer: #{ forceCollect: v:true, fromAltBuf: v:true, showBufName: v:true },
-  \   dictionary: #{ showMenu: v:false },
+  \   dictionary: #{
+  \     showMenu: v:false,
+  \     dictPaths: [expand('~/.cache/nvim/google-10000-english-no-swears.txt')],
+  \   },
   \   nvim-lsp: #{ maxSize: 500 },
   \ })
 call ddc#enable()
