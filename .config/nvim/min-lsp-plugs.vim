@@ -68,6 +68,24 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'williamboman/nvim-lsp-installer'
 call plug#end()
 
+let s:dictPath = '~/.cache/nvim/google-10000-english-no-swears.txt'
+if !filereadable(expand(s:dictPath))
+  echo "10k words dictionary does not exists! '" . s:dictPath . "' is required!"
+  let l:dictDir = fnamemodify(s:dictPath, ':h')
+  let l:cmds = [
+    \   "curl -OL https://raw.githubusercontent.com/first20hours/google-10000-english/master/google-10000-english-no-swears.txt",
+    \   "mkdir -p " . l:dictDir,
+    \   "mv ./google-10000-english-no-swears.txt " . l:dictDir,
+    \ ]
+  echo "To get dictionary, run:\n" . l:cmds->join("\n") . "\n"
+
+  if confirm("Run automatically?", "y\nN") == 1
+    echo "Running..."
+    call system(l:cmds->join(" && "))
+    echo "Done."
+  endif
+endif
+
 call ddc#custom#patch_global('sources', ['nvim-lsp', 'skkeleton', 'vsnip', 'buffer', 'file', 'dictionary', 'around'])
 call ddc#custom#patch_global('completionMenu', 'pum.vim')
 
@@ -123,7 +141,7 @@ call ddc#custom#patch_global('sourceParams', #{
   \   buffer: #{ forceCollect: v:true, fromAltBuf: v:true, showBufName: v:true },
   \   dictionary: #{
   \     showMenu: v:false,
-  \     dictPaths: [expand('~/.cache/nvim/google-10000-english-no-swears.txt')],
+  \     dictPaths: [expand(s:dictPath)],
   \   },
   \   nvim-lsp: #{ maxSize: 500 },
   \ })
