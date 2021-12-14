@@ -56,6 +56,8 @@ Plug 'matsui54/ddc-dictionary'
 Plug 'LumaKernel/ddc-file'
 Plug 'tani/ddc-fuzzy'
 Plug 'gamoutatsumi/ddc-sorter_ascii'
+Plug 'vim-skk/denops-skkeleton.vim'
+Plug 'delphinus/skkeleton_indicator.nvim'
 
 Plug 'matsui54/denops-popup-preview.vim'
 Plug 'ray-x/lsp_signature.nvim'
@@ -66,7 +68,7 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'williamboman/nvim-lsp-installer'
 call plug#end()
 
-call ddc#custom#patch_global('sources', ['nvim-lsp', 'vsnip', 'buffer', 'file', 'around', 'dictionary'])
+call ddc#custom#patch_global('sources', ['nvim-lsp', 'skkeleton', 'vsnip', 'buffer', 'file', 'around', 'dictionary'])
 call ddc#custom#patch_global('completionMenu', 'pum.vim')
 
 let s:source_common_option = #{
@@ -94,6 +96,11 @@ call ddc#custom#patch_global('sourceOptions', #{
   \     mark: 'F',
   \     isVolatile: v:true,
   \     forceCompletionPattern: '\S/\S*',
+  \   },
+  \   skkeleton: #{
+  \     mark: 'skk',
+  \     matchers: ['skkeleton'],
+  \     minAutoCompleteLength: 1,
   \   },
   \   vsnip: #{
   \     mark: 'VS',
@@ -162,6 +169,50 @@ function! CommandlinePost() abort
 endfunction
 
 nnoremap <expr> K '<Cmd>' . (['vim','help']->index(&filetype) >= 0 ? 'help ' . expand('<cword>') : 'lua vim.lsp.buf.hover()') . '<CR>'
+
+imap <C-j> <Plug>(skkeleton-enable)
+cmap <C-j> <Plug>(skkeleton-enable)
+
+let s:jisyoPath = '~/.cache/nvim/SKK-JISYO.L'
+if !filereadable(expand(s:jisyoPath))
+  echo "SSK Jisyo does not exists! '" . s:jisyoPath . "' is required!"
+  let l:jisyoDir = fnamemodify(s:jisyoPath, ':h')
+  let l:cmds = [
+    \   "curl -OL http://openlab.jp/skk/dic/SKK-JISYO.L.gz",
+    \   "gunzip SKK-JISYO.L.gz",
+    \   "mkdir -p " . l:jisyoDir,
+    \   "mv ./SKK-JISYO.L " . l:jisyoDir,
+    \ ]
+  echo "To get Jisyo, run:\n" . l:cmds->join("\n") . "\n"
+
+  if confirm("Run automatically?", "y\nN") == 1
+    echo "Running..."
+    call system(l:cmds->join(" && "))
+    echo "Done."
+  endif
+endif
+
+function! s:skkeleton_init() abort
+  call skkeleton#config(#{
+    \   eggLikeNewline: v:true,
+    \   globalJisyo: expand(s:jisyoPath),
+    \   showCandidatesCount: 1,
+    \   immediatelyCancel: v:false,
+    \   keepState: v:true,
+    \ })
+  call skkeleton#register_kanatable('rom', {
+    \   'x,': [',', ''],
+    \   'x.': ['.', ''],
+    \   'x-': ['-', ''],
+    \   'x_': ['_', ''],
+    \   'x!': ['!', ''],
+    \   'x?': ['?', ''],
+    \   'z9': ['（', ''],
+    \   'z0': ['）', ''],
+    \   "z\<Space>": ["\u3000", ''],
+    \ })
+endfunction
+autocmd User skkeleton-initialize-pre call s:skkeleton_init()
 
 lua << EOF
 -- ほぼREADMEそのまま
@@ -239,4 +290,9 @@ lsp_installer.on_server_ready(function(server)
 end)
 
 require("lsp_signature").setup()
+
+require('skkeleton_indicator').setup({
+  alwaysShown = false,
+  fadeOutMs = 30000,
+})
 EOF
