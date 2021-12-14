@@ -14,6 +14,7 @@ Plug 'Shougo/ddc-nvim-lsp'
 Plug 'Shougo/pum.vim'
 Plug 'Shougo/ddc-matcher_head'
 Plug 'Shougo/neco-vim'
+Plug 'Shougo/ddc-cmdline'
 Plug 'Shougo/ddc-cmdline-history'
 Plug 'tani/ddc-fuzzy'
 Plug 'gamoutatsumi/ddc-sorter_ascii'
@@ -29,13 +30,11 @@ call plug#end()
 
 call ddc#custom#patch_global('sources', ['nvim-lsp', 'vsnip', 'around'])
 call ddc#custom#patch_global('completionMenu', 'pum.vim')
-" call ddc#custom#patch_global('autoCompleteEvents',
-"   \ ['InsertEnter', 'TextChangedI', 'TextChangedP', 'CmdlineChanged'])
 " call ddc#custom#patch_global('filterParams', #{
 "   \   matcher_fuzzy: #{splitMode: 'word',}
 "   \ })
 let s:source_common_option = #{
-  \  ignoreCase: v:true,
+  \  smartCase: v:true,
   \  matchers:   ['matcher_fuzzy'],
   \  sorters:    ['sorter_fuzzy'],
   \  converters: ['converter_fuzzy']
@@ -92,16 +91,17 @@ nnoremap :       <Cmd>call CommandlinePre()<CR>:
 function! CommandlinePre() abort
   " Overwrite sources
   let s:prev_buffer_config = ddc#custom#get_buffer()
-  call ddc#custom#patch_buffer('sources', ['necovim', 'cmdline-history'])
-
+  call ddc#custom#patch_buffer('sources', ['cmdline'])
+  " call ddc#custom#patch_buffer('sources', ['necovim', 'cmdline', 'cmdline-history'])
   call ddc#custom#patch_buffer('autoCompleteEvents', ['CmdlineChanged'])
   call ddc#custom#patch_buffer('sourceOptions', #{
     \   _: s:source_common_option,
-    \   necovim: #{ mark: 'neco' },
-    \   cmdline-history: #{ mark: 'hist' },
+    \   cmdline: #{ mark: 'cmd' },
     \ })
+    " \   necovim: #{ mark: 'neco' },
+    " \   cmdline-history: #{ mark: 'hist' },
 
-  autocmd CmdlineLeave ++once call CommandlinePost()
+  autocmd User DDCCmdlineLeave ++once call CommandlinePost()
 
   " Enable command line completion
   call ddc#enable_cmdline_completion()
