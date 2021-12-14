@@ -62,13 +62,7 @@ call ddc#custom#patch_global('sourceParams', #{
 "   \ )
 call ddc#enable()
 
-" <TAB>/<S-TAB> completion.
-" inoremap <silent><expr> <TAB>
-"   \ pumvisible() ? '<C-n>' :
-"   \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
-"   \ '<TAB>' : ddc#map#manual_complete()
-" inoremap <expr><S-TAB>  pumvisible() ? '<C-p>' : '<C-h>'
-
+imap <expr> <C-l> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-l>'
 imap <silent><expr> <TAB>   pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : vsnip#jumpable(+1) ? '<Plug>(vsnip-jump-next)' : '<TAB>'
 imap <silent><expr> <S-TAB> pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<S-TAB>'
 imap <silent><expr> <C-n>   (pum#visible() ? '' : '<Cmd>call ddc#map#manual_complete()<CR>') . '<Cmd>call pum#map#select_relative(+1)<CR>'
@@ -111,6 +105,8 @@ function! CommandlinePost() abort
   call ddc#custom#set_buffer(s:prev_buffer_config)
 endfunction
 
+nnoremap <expr> K '<Cmd>' . (['vim','help']->index(&filetype) >= 0 ? 'help ' . expand('<cword>') : 'lua vim.lsp.buf.hover()') . '<CR>'
+
 lua << EOF
 -- ほぼREADMEそのまま
 local nvim_lsp = require('lspconfig')
@@ -132,7 +128,7 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', 'gd',        '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap('n', 'gi',        '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   buf_set_keymap('n', 'gr',        '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', 'K',         '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  -- buf_set_keymap('n', 'K',         '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
   buf_set_keymap('n', '<C-k>',     '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
   buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
