@@ -66,6 +66,7 @@ Plug 'hrsh7th/vim-vsnip-integ'
 
 Plug 'neovim/nvim-lspconfig'
 Plug 'williamboman/nvim-lsp-installer'
+Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 call plug#end()
 
 let s:dictPath = '~/.cache/nvim/google-10000-english-no-swears.txt'
@@ -238,6 +239,16 @@ endfunction
 autocmd User skkeleton-initialize-pre call s:skkeleton_init()
 
 lua << EOF
+require('nvim-treesitter.configs').setup({
+  ensure_installed = "maintained",
+  sync_install = false,
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = { 'vim' },
+  },
+  indent = { enable = true },
+})
+
 -- ほぼREADMEそのまま
 local nvim_lsp = require('lspconfig')
 
