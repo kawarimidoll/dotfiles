@@ -47,6 +47,8 @@ Plug 'Shougo/ddc-matcher_head'
 Plug 'Shougo/neco-vim'
 Plug 'Shougo/ddc-cmdline'
 Plug 'Shougo/ddc-cmdline-history'
+Plug 'Shougo/ddc-converter_remove_overlap'
+Plug 'matsui54/ddc-converter_truncate'
 Plug 'tani/ddc-fuzzy'
 Plug 'gamoutatsumi/ddc-sorter_ascii'
 
@@ -64,11 +66,12 @@ call ddc#custom#patch_global('completionMenu', 'pum.vim')
 " call ddc#custom#patch_global('filterParams', #{
 "   \   matcher_fuzzy: #{splitMode: 'word',}
 "   \ })
+
 let s:source_common_option = #{
   \  smartCase: v:true,
   \  matchers:   ['matcher_fuzzy'],
   \  sorters:    ['sorter_fuzzy'],
-  \  converters: ['converter_fuzzy']
+  \  converters: ['converter_remove_overlap', 'converter_truncate', 'converter_fuzzy']
   \ }
 call ddc#custom#patch_global('sourceOptions', #{
   \   _: s:source_common_option,
@@ -85,6 +88,11 @@ call ddc#custom#patch_global('sourceOptions', #{
   \     forceCompletionPattern: '\.\w*|:\w*|->\w*',
   \   },
   \ })
+call ddc#custom#patch_global('filterParams', #{
+  \   converter_truncate: #{ maxAbbrWidth: 60, maxInfo: 500, ellipsis: '...' },
+  \   converter_fuzzy: #{ hlGroup: 'Title' },
+  \ })
+call ddc#custom#patch_global('specialBufferCompletion', v:true)
 call ddc#custom#patch_global('sourceParams', #{
   \ nvim-lsp: #{ maxSize: 500 },
   \ })
