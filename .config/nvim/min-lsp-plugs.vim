@@ -50,14 +50,18 @@ Plug 'Shougo/neco-vim'
 Plug 'Shougo/ddc-cmdline'
 Plug 'Shougo/ddc-cmdline-history'
 Plug 'Shougo/ddc-converter_remove_overlap'
+Plug 'Shougo/ddc-rg'
 Plug 'matsui54/ddc-converter_truncate'
 Plug 'matsui54/ddc-buffer'
 Plug 'matsui54/ddc-dictionary'
 Plug 'LumaKernel/ddc-file'
+Plug 'LumaKernel/ddc-tabnine'
+Plug 'LumaKernel/ddc-registers-words'
 Plug 'tani/ddc-fuzzy'
 Plug 'gamoutatsumi/ddc-sorter_ascii'
 Plug 'vim-skk/denops-skkeleton.vim'
 Plug 'delphinus/skkeleton_indicator.nvim'
+Plug 'delphinus/ddc-treesitter'
 
 Plug 'matsui54/denops-popup-preview.vim'
 Plug 'ray-x/lsp_signature.nvim'
@@ -87,7 +91,9 @@ if !filereadable(expand(s:dictPath))
   endif
 endif
 
-call ddc#custom#patch_global('sources', ['nvim-lsp', 'skkeleton', 'vsnip', 'buffer', 'file', 'dictionary', 'around'])
+call ddc#custom#patch_global('sources', [
+  \ 'nvim-lsp', 'skkeleton', 'vsnip', 'buffer', 'file', 'tabnine', 'treesitter',
+  \ 'registers-words', 'dictionary', 'rg', 'around'])
 call ddc#custom#patch_global('completionMenu', 'pum.vim')
 
 let s:source_common_option = #{
@@ -125,6 +131,22 @@ call ddc#custom#patch_global('sourceOptions', #{
   \     mark: 'VS',
   \     dup: v:true,
   \   },
+  \   tabnine: #{
+  \     mark: 'TN',
+  \     maxCandidates: 6,
+  \     isVolatile: v:true,
+  \   },
+  \   treesitter: #{
+  \     mark: 'TS',
+  \   },
+  \   registers-words: #{
+  \     mark: 'reg',
+  \     minAutoCompleteLength: 3,
+  \   },
+  \   rg: #{
+  \     mark: 'rg',
+  \     minAutoCompleteLength: 3,
+  \   },
   \   nvim-lsp: #{
   \     mark: 'lsp',
   \     forceCompletionPattern: '\.\w*|:\w*|->\w*',
@@ -144,6 +166,7 @@ call ddc#custom#patch_global('sourceParams', #{
   \     showMenu: v:false,
   \     dictPaths: [expand(s:dictPath)],
   \   },
+  \   registers-words: #{ registers: '/"0123456' },
   \   nvim-lsp: #{ maxSize: 500 },
   \ })
 call ddc#enable()
