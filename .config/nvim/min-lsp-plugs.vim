@@ -97,7 +97,7 @@ call ddc#custom#patch_global('sources', [
 call ddc#custom#patch_global('completionMenu', 'pum.vim')
 
 let s:source_common_option = #{
-  \   smartCase: v:true,
+  \   ignoreCase: v:true,
   \   matchers:   ['matcher_fuzzy'],
   \   sorters:    ['sorter_fuzzy'],
   \   converters: ['converter_remove_overlap', 'converter_truncate', 'converter_fuzzy']
@@ -177,6 +177,7 @@ imap <silent><expr> <TAB>   pum#visible() ? '<Cmd>call pum#map#insert_relative(+
 imap <silent><expr> <S-TAB> pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<S-TAB>'
 imap <silent><expr> <C-n>   (pum#visible() ? '' : '<Cmd>call ddc#map#manual_complete()<CR>') . '<Cmd>call pum#map#select_relative(+1)<CR>'
 imap <silent><expr> <C-p>   (pum#visible() ? '' : '<Cmd>call ddc#map#manual_complete()<CR>') . '<Cmd>call pum#map#select_relative(-1)<CR>'
+inoremap <silent><expr> <CR> pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<CR>'
 inoremap <C-y>   <Cmd>call pum#map#confirm()<CR>
 inoremap <C-e>   <Cmd>call pum#map#cancel()<CR>
 inoremap <PageDown> <Cmd>call pum#map#insert_relative_page(+1)<CR>
@@ -197,7 +198,7 @@ function! CommandlinePre() abort
   let s:prev_buffer_config = ddc#custom#get_buffer()
   call ddc#custom#patch_buffer('sources', ['cmdline'])
   " call ddc#custom#patch_buffer('sources', ['necovim', 'cmdline', 'cmdline-history'])
-  call ddc#custom#patch_buffer('autoCompleteEvents', ['CmdlineChanged'])
+  call ddc#custom#patch_buffer('autoCompleteEvents', ['CmdlineChanged', 'CmdlineEnter'])
   call ddc#custom#patch_buffer('sourceOptions', #{
     \   _: s:source_common_option,
     \   cmdline: #{ mark: 'cmd' },
