@@ -198,7 +198,10 @@ inoremap <PageDown> <Cmd>call pum#map#insert_relative_page(+1)<CR>
 inoremap <PageUp>   <Cmd>call pum#map#insert_relative_page(-1)<CR>
 inoremap <silent><expr> <CR> pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<CR>'
 " }}}
-autocmd User PumCompleteDone call vsnip_integ#on_complete_done(g:pum#completed_item)
+augroup pum-complete-done
+  autocmd!
+  autocmd User PumCompleteDone call vsnip_integ#on_complete_done(g:pum#completed_item)
+augroup END
 
 " {{{ mappings(vsnip)
 " imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
@@ -313,7 +316,10 @@ function! s:skkeleton_init() abort
     \   "z\<Space>": ["\u3000", ''],
     \ })
 endfunction
-autocmd User skkeleton-initialize-pre call s:skkeleton_init()
+augroup skkeleton-initialize-pre
+  autocmd!
+  autocmd User skkeleton-initialize-pre call s:skkeleton_init()
+augroup END
 
 lua << EOF
 require('nvim-treesitter.configs').setup({
