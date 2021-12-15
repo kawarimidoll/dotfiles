@@ -220,9 +220,9 @@ cnoremap <expr> <C-p>   pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<C
 cnoremap <expr> <CR>    pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<CR>'
 " cnoremap <C-y>   <Cmd>call pum#map#confirm()<CR>
 " cnoremap <C-e>   <Cmd>call pum#map#cancel()<CR>
-nnoremap :       <Cmd>call CommandlinePre()<CR>:
+nnoremap : <Cmd>call <SID>CommandlinePre()<CR>:
 
-function! CommandlinePre() abort
+function! s:CommandlinePre() abort
   " Overwrite sources
   let s:prev_buffer_config = ddc#custom#get_buffer()
   call ddc#custom#patch_buffer('sources', ['cmdline', 'cmdline-history'])
@@ -234,12 +234,12 @@ function! CommandlinePre() abort
     \ })
     " \   necovim: #{ mark: 'neco' },
 
-  autocmd User DDCCmdlineLeave ++once call CommandlinePost()
+  autocmd User DDCCmdlineLeave ++once call <SID>CommandlinePost()
 
   " Enable command line completion
   call ddc#enable_cmdline_completion()
 endfunction
-function! CommandlinePost() abort
+function! s:CommandlinePost() abort
   " Restore sources
   call ddc#custom#set_buffer(s:prev_buffer_config)
 endfunction
