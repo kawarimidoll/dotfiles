@@ -80,6 +80,8 @@ Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'nvim-treesitter/nvim-treesitter-refactor'
 Plug 'p00f/nvim-ts-rainbow'
+Plug 'romgrk/nvim-treesitter-context'
+Plug 'lukas-reineke/indent-blankline.nvim'
 call plug#end()
 
 let g:vsnip_filetypes = {}
@@ -278,6 +280,8 @@ nnoremap ]d        <cmd>lua vim.diagnostic.goto_next()<CR>
 nnoremap sl        <cmd>lua vim.diagnostic.setloclist()<CR>
 nnoremap <space>p  <cmd>lua vim.lsp.buf.formatting()<CR>
 
+nnoremap <leader>df <cmd>lua PeekDefinition()<CR>
+
 imap <C-j> <Plug>(skkeleton-enable)
 cmap <C-j> <Plug>(skkeleton-enable)
 
@@ -334,6 +338,15 @@ require('nvim-treesitter.configs').setup({
     enable = true,
     additional_vim_regex_highlighting = { 'vim' },
   },
+  incremental_selection = {
+    enable = true,
+    keymaps = {
+      init_selection = "gnn",
+      node_incremental = "grn",
+      node_decremental = "grm",
+      scope_incremental = "grc",
+    },
+  },
   indent = { enable = true },
   -- }}}
 
@@ -369,6 +382,22 @@ require('nvim-treesitter.configs').setup({
       goto_previous_end = {
         ["[F"] = "@function.outer",
         ["[C"] = "@conditional.outer",
+      },
+    },
+    swap = {
+      enable = true,
+      swap_next = {
+        ["<leader>a"] = "@parameter.inner",
+      },
+      swap_previous = {
+        ["<leader>A"] = "@parameter.inner",
+      },
+    },
+    lsp_interop = {
+      enable = true,
+      peek_definition_code = {
+        ["<leader>df"] = "@function.outer",
+        ["<leader>dF"] = "@class.outer",
       },
     },
   },
@@ -408,7 +437,36 @@ require('nvim-treesitter.configs').setup({
   -- }}}
 })
 
--- ほぼREADMEそのまま
+require('treesitter-context').setup({
+  enable = true,
+  throttle = true,
+  max_lines = 0,
+  patterns = {
+    default = {
+      'class',
+      'function',
+      'method',
+      'for',
+      'while',
+      'if',
+      'switch',
+      'case',
+    },
+  },
+})
+
+-- [User contributed tips: Peek Definition](https://github.com/neovim/nvim-lspconfig/wiki/User-contributed-tips#peek-definition)
+function PeekDefinition()
+  local function callback(_, result)
+    if result == nil or vim.tbl_isempty(result) then
+      return nil
+    end
+    vim.lsp.util.preview_location(result[1])
+  end
+
+  return vim.lsp.buf_request(0, 'textDocument/definition', vim.lsp.util.make_position_params(), callback)
+end
+
 local nvim_lsp = require('lspconfig')
 
 -- Use an on_attach function to only map the following keys
@@ -466,7 +524,7 @@ lsp_installer.settings({
     }
   }
 })
-function detected_root_dir(root_dir)
+local function detected_root_dir(root_dir)
   return not(not(root_dir(vim.api.nvim_buf_get_name(0), vim.api.nvim_get_current_buf())))
 end
 lsp_installer.on_server_ready(function(server)
@@ -519,4 +577,10 @@ require('skkeleton_indicator').setup({
 
 require("lsp-colors").setup()
 require("trouble").setup()
+
+require("indent_blankline").setup({
+  space_char_blankline = " ",
+  show_current_context = true,
+  show_current_context_start = true,
+})
 EOF
