@@ -73,6 +73,9 @@ Plug 'rafamadriz/friendly-snippets'
 Plug 'neovim/nvim-lspconfig'
 Plug 'williamboman/nvim-lsp-installer'
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'folke/lsp-colors.nvim'
+Plug 'folke/trouble.nvim'
 call plug#end()
 
 let g:vsnip_filetypes = {}
@@ -431,4 +434,7 @@ require('skkeleton_indicator').setup({
   alwaysShown = false,
   fadeOutMs = 30000,
 })
+
+require("lsp-colors").setup()
+require("trouble").setup()
 EOF
