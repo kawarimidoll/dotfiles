@@ -365,11 +365,11 @@ lsp_installer.on_server_ready(function(server)
   opts.capabilities = capabilities
 
   -- https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/configs.lua
-  if server.name == 'tsserver' or server.name == 'eslint' then
+  if server.name == "tsserver" or server.name == "eslint" then
     local root_dir = nvim_lsp.util.root_pattern("package.json", "node_modules")
     opts.root_dir = root_dir
     opts.autostart = detected_root_dir(root_dir)
-  elseif server.name == 'denols' then
+  elseif server.name == "denols" then
     local root_dir = nvim_lsp.util.root_pattern("deno.json", "deno.jsonc", "deps.ts")
     opts.root_dir = root_dir
     opts.filetypes = {
@@ -377,6 +377,23 @@ lsp_installer.on_server_ready(function(server)
     }
     opts.autostart = detected_root_dir(root_dir)
     opts.init_options = { lint = true, unstable = true, }
+  -- elseif server.name == "efm" then
+  --   https://skanehira.github.io/blog/posts/20201116-vim-writing-articles/
+  --   opts.filetypes = { "markdown" }
+  --   opts.settings = {
+  --     rootMarkers = { ".git/" },
+  --     languages = {
+  --       markdown = {
+  --         {
+  --           lintCommand = "npx --no-install textlint -f unix --stdin --stdin-filename ${INPUT}",
+  --           lintStdin = true,
+  --           lintIgnoreExitCode = true,
+  --           lintFormats = { '%f:%l:%c: %m [%trror/%r]' },
+  --           rootMarkers = { '.textlintrc' },
+  --         }
+  --       }
+  --     }
+  --   }
   end
 
   server:setup(opts)
