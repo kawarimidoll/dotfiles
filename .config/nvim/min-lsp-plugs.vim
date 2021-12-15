@@ -3,6 +3,7 @@ if filereadable(expand('~/dotfiles/.config/nvim/min-edit.vim'))
 endif
 
 set number
+let g:markdown_fenced_languages = ['ts=typescript', 'js=javascript']
 
 "-----------------
 " Plugs
@@ -362,6 +363,9 @@ lsp_installer.on_server_ready(function(server)
   elseif server.name == 'denols' then
     local root_dir = nvim_lsp.util.root_pattern("deno.json", "deno.jsonc", "deps.ts")
     opts.root_dir = root_dir
+    opts.filetypes = {
+      "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx", "markdown", "json"
+    }
     opts.autostart = detected_root_dir(root_dir)
     opts.init_options = { lint = true, unstable = true, }
   end
