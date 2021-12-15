@@ -72,10 +72,14 @@ Plug 'rafamadriz/friendly-snippets'
 
 Plug 'neovim/nvim-lspconfig'
 Plug 'williamboman/nvim-lsp-installer'
-Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'folke/lsp-colors.nvim'
 Plug 'folke/trouble.nvim'
+
+Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
+Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+Plug 'nvim-treesitter/nvim-treesitter-refactor'
+Plug 'p00f/nvim-ts-rainbow'
 call plug#end()
 
 let g:vsnip_filetypes = {}
@@ -323,6 +327,7 @@ augroup END
 
 lua << EOF
 require('nvim-treesitter.configs').setup({
+  -- {{{ nvim-treesitter
   ensure_installed = "maintained",
   sync_install = false,
   highlight = {
@@ -330,6 +335,77 @@ require('nvim-treesitter.configs').setup({
     additional_vim_regex_highlighting = { 'vim' },
   },
   indent = { enable = true },
+  -- }}}
+
+  -- {{{ nvim-treesitter-textobjects
+  textobjects = {
+    select = {
+      enable = true,
+      lookahead = true,
+      keymaps = {
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["ac"] = "@conditional.outer",
+        ["ic"] = "@conditional.inner",
+        ["ab"] = "@block.outer",
+        ["ib"] = "@block.inner",
+      },
+    },
+    move = {
+      enable = true,
+      set_jumps = true, -- whether to set jumps in the jumplist
+      goto_next_start = {
+        ["]f"] = "@function.outer",
+        ["]c"] = "@conditional.outer",
+      },
+      goto_next_end = {
+        ["]F"] = "@function.outer",
+        ["]C"] = "@conditional.outer",
+      },
+      goto_previous_start = {
+        ["[f"] = "@function.outer",
+        ["[c"] = "@conditional.outer",
+      },
+      goto_previous_end = {
+        ["[F"] = "@function.outer",
+        ["[C"] = "@conditional.outer",
+      },
+    },
+  },
+  -- }}}
+
+
+  -- {{{ nvim-treesitter-refactor
+  refactor = {
+    highlight_definitions = { enable = true },
+    highlight_current_scope = { enable = true },
+    smart_rename = {
+      enable = true,
+      keymaps = {
+        smart_rename = "grr",
+      },
+    },
+    navigation = {
+      enable = true,
+      keymaps = {
+        goto_definition_lsp_fallback = 'gnd',
+        list_definitions = 'gnD',
+        list_definitions_toc = "gO",
+        goto_previous_usage = "[u",
+        goto_next_usage = "]u",
+      },
+    },
+  },
+  -- }}}
+
+
+  -- {{{ nvim-ts-rainbow
+  rainbow = {
+    enable = true,
+    extended_mode = true,
+    max_file_lines = nil,
+  }
+  -- }}}
 })
 
 -- ほぼREADMEそのまま
