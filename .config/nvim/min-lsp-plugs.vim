@@ -216,7 +216,16 @@ function! CommandlinePost() abort
   call ddc#custom#set_buffer(s:prev_buffer_config)
 endfunction
 
-nnoremap <expr> K '<Cmd>' . (['vim','help']->index(&filetype) >= 0 ? 'help ' . expand('<cword>') : 'lua vim.lsp.buf.hover()') . '<CR>'
+function! s:help_or_hover() abort
+  if ['vim','help']->index(&filetype) >= 0
+    execute 'help' expand('<cword>')
+  else
+    lua vim.lsp.buf.hover()
+  endif
+endfunction
+
+nnoremap K <Cmd>call <SID>help_or_hover()<CR>
+
 nnoremap gD        <cmd>lua vim.lsp.buf.declaration()<CR>
 nnoremap gd        <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap gi        <cmd>lua vim.lsp.buf.implementation()<CR>
