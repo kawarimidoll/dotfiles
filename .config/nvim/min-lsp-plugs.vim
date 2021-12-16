@@ -145,14 +145,19 @@ Plug 'echasnovski/mini.nvim'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'kat0h/bufpreview.vim', { 'on': 'PreviewMarkdown' }
+Plug 'lambdalisue/gina.vim', { 'on': 'Gina' }
 Plug 'kdheepak/lazygit.nvim', { 'on': 'LazyGit' }
 Plug 'tyru/open-browser.vim', { 'on': ['OpenBrowser', '<Plug>(openbrowser-'] }
 Plug 'tyru/capture.vim', { 'on': 'Capture' }
 " Plug 'obcat/vim-hitspop'
 Plug 'nvim-telescope/telescope.nvim'
+Plug 'nathom/filetype.nvim'
+Plug 'arthurxavierx/vim-caser'
 Plug 'haya14busa/vim-asterisk'
 Plug 'voldikss/vim-floaterm', { 'on': 'FloatermNew' }
+Plug 'phaazon/hop.nvim'
 Plug 'monaqa/dial.nvim'
+Plug 'vim-jp/vimdoc-ja'
 call plug#end()
 
 let g:vsnip_filetypes = {}
@@ -361,6 +366,13 @@ nnoremap <space>fb <cmd>Telescope buffers<cr>
 nnoremap <space>fh <cmd>Telescope help_tags<cr>
 " }}}
 
+" {{{ hop.nvim
+nnoremap so :<C-u>HopChar1<CR>
+nnoremap st :<C-u>HopChar2<CR>
+nnoremap sl <Cmd>HopLine<CR>
+nnoremap sw <Cmd>HopWord<CR>
+" }}}
+
 " {{{ user owned mappings
 noremap [b <Cmd>bprevious<CR>
 noremap ]b <Cmd>bnext<CR>
@@ -383,6 +395,7 @@ nnoremap <sid>(q)o <Cmd>only<CR>
 nnoremap <sid>(q)t <C-^>
 nnoremap <sid>(q)z <Cmd>lua MiniMisc.zoom()<CR>
 
+nnoremap <Space>d <Cmd>lua MiniBufremove.delete()<CR>
 nnoremap <Space>L <Cmd>LazyGit<CR>
 " }}}
 
@@ -741,9 +754,11 @@ require('gitsigns').setup({
 })
 require('lualine').setup()
 require('colorizer').setup()
+require('hop').setup()
 
 require('mini.bufremove').setup()
 require('mini.comment').setup()
+require('mini.cursorword').setup()
 require('mini.surround').setup()
 require('mini.trailspace').setup()
 require('mini.tabline').setup()
@@ -859,6 +874,21 @@ require('telescope').setup({
         ["<C-UP>"] = require('telescope.actions').cycle_history_prev,
       },
       n = i,
+    },
+  }
+})
+
+require('filetype').setup({
+  overrides = {
+    extensions = {
+      bashrc = 'bash',
+      env = 'env',
+    },
+    complex = {
+      ["%.env.*"] = "env",
+      ["%.zshrc.*"] = "zsh",
+      [".*shrc"] = "bash",
+      ["git--__.+"] = "bash",
     },
   }
 })
