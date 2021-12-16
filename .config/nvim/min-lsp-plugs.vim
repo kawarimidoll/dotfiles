@@ -119,7 +119,7 @@ if !filereadable(expand(s:dictPath))
   let l:cmds = [
     \   "curl -OL https://raw.githubusercontent.com/first20hours/google-10000-english/master/google-10000-english-no-swears.txt",
     \   "mkdir -p " . l:dictDir,
-    \   "mv ./google-10000-english-no-swears.txt " . l:dictDir,
+    \   "mv " . fnamemodify(s:dictPath, ':t') . " " . l:dictDir,
     \ ]
   echo "To get dictionary, run:\n" . l:cmds->join("\n") . "\n"
 
@@ -174,6 +174,7 @@ call ddc#custom#patch_global('sourceOptions', #{
   \     mark: 'TN',
   \     maxCandidates: 6,
   \     isVolatile: v:true,
+  \     minAutoCompleteLength: 1,
   \   },
   \   treesitter: #{
   \     mark: 'TS',
