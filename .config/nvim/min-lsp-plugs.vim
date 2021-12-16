@@ -247,36 +247,36 @@ nmap sT <Plug>(vsnip-cut-text)
 xmap sT <Plug>(vsnip-cut-text)
 " }}}
 
-cnoremap <expr> <TAB>   pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : ddc#map#manual_complete()
-cnoremap <expr> <S-TAB> pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : ddc#map#manual_complete()
-cnoremap <expr> <C-n>   pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<C-n>'
-cnoremap <expr> <C-p>   pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<C-p>'
-cnoremap <expr> <CR>    pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<CR>'
-" cnoremap <C-y>   <Cmd>call pum#map#confirm()<CR>
-" cnoremap <C-e>   <Cmd>call pum#map#cancel()<CR>
-nnoremap : <Cmd>call <SID>CommandlinePre()<CR>:
-
-function! s:CommandlinePre() abort
-  " Overwrite sources
-  let s:prev_buffer_config = ddc#custom#get_buffer()
-  call ddc#custom#patch_buffer('sources', ['cmdline', 'cmdline-history'])
-  call ddc#custom#patch_buffer('autoCompleteEvents', ['CmdlineChanged', 'CmdlineEnter'])
-  call ddc#custom#patch_buffer('sourceOptions', #{
-    \   _: s:source_common_option,
-    \   cmdline: #{ mark: 'cmd' },
-    \   cmdline-history: #{ mark: 'hist' },
-    \ })
-    " \   necovim: #{ mark: 'neco' },
-
-  autocmd User DDCCmdlineLeave ++once call <SID>CommandlinePost()
-
-  " Enable command line completion
-  call ddc#enable_cmdline_completion()
-endfunction
-function! s:CommandlinePost() abort
-  " Restore sources
-  call ddc#custom#set_buffer(s:prev_buffer_config)
-endfunction
+" cnoremap <expr> <TAB>   pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : ddc#map#manual_complete()
+" cnoremap <expr> <S-TAB> pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : ddc#map#manual_complete()
+" cnoremap <expr> <C-n>   pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<C-n>'
+" cnoremap <expr> <C-p>   pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<C-p>'
+" cnoremap <expr> <CR>    pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<CR>'
+" " cnoremap <C-y>   <Cmd>call pum#map#confirm()<CR>
+" " cnoremap <C-e>   <Cmd>call pum#map#cancel()<CR>
+" nnoremap : <Cmd>call <SID>CommandlinePre()<CR>:
+"
+" function! s:CommandlinePre() abort
+"   " Overwrite sources
+"   let s:prev_buffer_config = ddc#custom#get_buffer()
+"   call ddc#custom#patch_buffer('sources', ['cmdline', 'cmdline-history'])
+"   call ddc#custom#patch_buffer('autoCompleteEvents', ['CmdlineChanged', 'CmdlineEnter'])
+"   call ddc#custom#patch_buffer('sourceOptions', #{
+"     \   _: s:source_common_option,
+"     \   cmdline: #{ mark: 'cmd' },
+"     \   cmdline-history: #{ mark: 'hist' },
+"     \ })
+"     " \   necovim: #{ mark: 'neco' },
+"
+"   autocmd User DDCCmdlineLeave ++once call <SID>CommandlinePost()
+"
+"   " Enable command line completion
+"   call ddc#enable_cmdline_completion()
+" endfunction
+" function! s:CommandlinePost() abort
+"   " Restore sources
+"   call ddc#custom#set_buffer(s:prev_buffer_config)
+" endfunction
 
 " {{{ nvim-ts-hint-textobject
 omap     <silent> m <Cmd>lua require('tsht').nodes()<CR>
