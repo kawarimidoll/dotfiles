@@ -283,6 +283,31 @@ omap     <silent> m <Cmd>lua require('tsht').nodes()<CR>
 vnoremap <silent> m :lua require('tsht').nodes()<CR>
 " }}}
 
+" {{{ user owned mappings
+noremap [b <Cmd>bprevious<CR>
+noremap ]b <Cmd>bnext<CR>
+noremap [B <Cmd>bfirst<CR>
+noremap ]B <Cmd>blast<CR>
+noremap [q <Cmd>cprevious<CR>
+noremap ]q <Cmd>cnext<CR>
+noremap [Q <Cmd>cfirst<CR>
+noremap ]Q <Cmd>clast<CR>
+map M %
+
+" [Vim で q を prefix キーにする - 永遠に未完成](https://thinca.hatenablog.com/entry/q-as-prefix-key-in-vim)
+nnoremap <script> <expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
+nnoremap <sid>(q)q qq
+nnoremap Q @q
+nnoremap <sid>(q)b <Cmd>GitSigns toggle_current_line_blame<CR>
+nnoremap <sid>(q)c <Cmd>cclose<CR>
+" nnoremap <sid>(q)m <Cmd>PreviewMarkdownToggle<CR>
+nnoremap <sid>(q)o <Cmd>only<CR>
+nnoremap <sid>(q)t <C-^>
+nnoremap <sid>(q)z <Cmd>lua MiniMisc.zoom()<CR>
+
+nnoremap <Space>L <Cmd>LazyGit<CR>
+" }}}
+
 function! s:help_or_hover() abort
   if ['vim','help']->index(&filetype) >= 0
     execute 'help' expand('<cword>')
@@ -299,12 +324,12 @@ nnoremap gi        <cmd>lua vim.lsp.buf.implementation()<CR>
 nnoremap gr        <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap gt        <cmd>lua vim.lsp.buf.type_definition()<CR>
 nnoremap gs        <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <space>wa <cmd>lua vim.lsp.buf.add_workspace_folder()<CR>
-nnoremap <space>wr <cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>
-nnoremap <space>wl <cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>
-nnoremap <space>rn <cmd>lua vim.lsp.buf.rename()<CR>
-nnoremap <space>ca <cmd>lua vim.lsp.buf.code_action()<CR>
-nnoremap <space>e  <cmd>lua vim.diagnostic.open_float()<CR>
+nnoremap <space>ta <cmd>lua vim.lsp.buf.add_workspace_folder()<CR>
+nnoremap <space>tr <cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>
+nnoremap <space>tl <cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>
+nnoremap <space>tn <cmd>lua vim.lsp.buf.rename()<CR>
+nnoremap <space>tc <cmd>lua vim.lsp.buf.code_action()<CR>
+nnoremap <space>to <cmd>lua vim.diagnostic.open_float()<CR>
 nnoremap [d        <cmd>lua vim.diagnostic.goto_prev()<CR>
 nnoremap ]d        <cmd>lua vim.diagnostic.goto_next()<CR>
 nnoremap sl        <cmd>lua vim.diagnostic.setloclist()<CR>
