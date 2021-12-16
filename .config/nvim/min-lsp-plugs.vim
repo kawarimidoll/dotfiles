@@ -23,6 +23,7 @@ let g:loaded_zipPlugin          = 1
 let g:skip_loading_mswin        = 1
 
 set number
+set termguicolors
 let g:markdown_fenced_languages = ['ts=typescript', 'js=javascript']
 
 "-----------------
@@ -90,6 +91,7 @@ Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'rafamadriz/friendly-snippets'
 
+Plug 'lewis6991/impatient.nvim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'williamboman/nvim-lsp-installer'
 Plug 'kyazdani42/nvim-web-devicons'
@@ -106,11 +108,30 @@ Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'mfussenegger/nvim-ts-hint-textobject'
 Plug 'lewis6991/spellsitter.nvim'
 Plug 'andymass/vim-matchup'
+
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-lualine/lualine.nvim'
+
+Plug 'folke/which-key.nvim'
+Plug 'echasnovski/mini.nvim'
+Plug 'norcalli/nvim-colorizer.lua'
+Plug 'lewis6991/gitsigns.nvim'
+Plug 'kat0h/bufpreview.vim', { 'on': 'PreviewMarkdown' }
+Plug 'kdheepak/lazygit.nvim', { 'on': 'LazyGit' }
+Plug 'tyru/open-browser.vim', { 'on': ['OpenBrowser', '<Plug>(openbrowser-'] }
+Plug 'tyru/capture.vim', { 'on': 'Capture' }
+Plug 'obcat/vim-hitspop'
+Plug 'haya14busa/vim-asterisk'
+Plug 'voldikss/vim-floaterm', { 'on': 'FloatermNew' }
+Plug 'monaqa/dial.nvim'
 call plug#end()
 
 let g:vsnip_filetypes = {}
 let g:vsnip_filetypes.javascriptreact = ['javascript']
 let g:vsnip_filetypes.typescriptreact = ['typescript']
+let g:asterisk#keeppos = 1
+let g:lazygit_floating_window_scaling_factor = 1
+let g:lazygit_floating_window_winblend = 20
 
 let s:dictPath = '~/.cache/nvim/google-10000-english-no-swears.txt'
 if !filereadable(expand(s:dictPath))
@@ -278,9 +299,30 @@ xmap sT <Plug>(vsnip-cut-text)
 "   call ddc#custom#set_buffer(s:prev_buffer_config)
 " endfunction
 
+" {{{ dial.nvim
+nmap <C-a> <Plug>(dial-increment)
+nmap <C-x> <Plug>(dial-decrement)
+vmap <C-a> <Plug>(dial-increment)
+vmap <C-x> <Plug>(dial-decrement)
+vmap g<C-a> <Plug>(dial-increment-additional)
+vmap g<C-x> <Plug>(dial-decrement-additional)
+" }}}
+
 " {{{ nvim-ts-hint-textobject
 omap     <silent> m <Cmd>lua require('tsht').nodes()<CR>
 vnoremap <silent> m :lua require('tsht').nodes()<CR>
+" }}}
+
+" {{{ nvim-ts-hint-textobject
+nmap gx <Plug>(openbrowser-smart-search)
+xmap gx <Plug>(openbrowser-smart-search)
+" }}}
+
+" {{{ vim-asterisk
+map *  <Plug>(asterisk-z*)
+map #  <Plug>(asterisk-z#)
+map g* <Plug>(asterisk-gz*)
+map g# <Plug>(asterisk-gz#)
 " }}}
 
 " {{{ user owned mappings
@@ -385,6 +427,8 @@ augroup skkeleton-initialize-pre
 augroup END
 
 lua << EOF
+require('impatient')
+
 require('nvim-treesitter.configs').setup({
   -- {{{ nvim-treesitter
   ensure_installed = "maintained",
@@ -648,4 +692,66 @@ require("indent_blankline").setup({
   show_current_context = true,
   show_current_context_start = true,
 })
+
+require('gitsigns').setup({
+    signs = {
+      add          = { text = '+' },
+      change       = { text = '~' },
+      delete       = { text = '_' },
+      topdelete    = { text = '‾' },
+      changedelete = { text = '~_' },
+    },
+    current_line_blame = true,
+})
+require('lualine').setup()
+require('colorizer').setup()
+
+require('mini.bufremove').setup()
+require('mini.comment').setup()
+require('mini.surround').setup()
+require('mini.trailspace').setup()
+require('mini.tabline').setup()
+require('mini.pairs').setup()
+require('mini.misc').setup({ make_global = { 'put', 'put_text', 'zoom' } })
+-- require('mini.statusline').setup()
+-- https://github.com/sainnhe/sonokai/blob/master/alacritty/README.md shusia
+-- https://github.com/chriskempson/base16/blob/master/styling.md
+require('mini.base16').setup({
+  palette = {
+    -- Default Background
+    base00 = "#2d2a2e",
+    -- Lighter Background (Used for status bars, line number and folding marks)
+    base01 = "#37343a",
+    -- Selection Background
+    base02 = "#423f46",
+    -- Comments, Invisible, Line Highlighting
+    base03 = "#848089",
+    -- Dark Foreground (Used for status bars)
+    base04 = "#66d9ef",
+    -- Default Foreground, Caret, Delimiters, Operators
+    base05 = "#e3e1e4",
+    -- Light Foreground (Not often used)
+    base06 = "#a1efe4",
+    -- Light Background (Not often used)
+    base07 = "#f8f8f2",
+    -- Variables, XML Tags, Markup Link Text, Markup Lists, Diff Deleted
+    base08 = "#f85e84",
+    -- Integers, Boolean, Constants, XML Attributes, Markup Link Url
+    base09 = "#ef9062",
+    -- Classes, Markup Bold, Search Text Background
+    base0A = "#a6e22e",
+    -- Strings, Inherited Class, Markup Code, Diff Inserted
+    base0B = "#e5c463",
+    -- Support, Regular Expressions, Escape Characters, Markup Quotes
+    base0C = "#66d9ef",
+    -- Functions, Methods, Attribute IDs, Headings
+    base0D = "#9ecd6f",
+    -- Keywords, Storage, Selector, Markup Italic, Diff Changed
+    base0E = "#a1efe4",
+    -- Deprecated, Opening/Closing Embedded Language Tags, e.g. <?php ?>
+    base0F = "#f9f8f5",
+  },
+  use_cterm = true,
+})
+require('which-key').setup()
 EOF
