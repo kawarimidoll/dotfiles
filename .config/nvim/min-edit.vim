@@ -1,3 +1,4 @@
+set ambiwidth=single
 set clipboard+=unnamedplus
 set expandtab
 set foldcolumn=0
@@ -15,6 +16,7 @@ set shiftwidth=2
 set showtabline=0
 set smartcase
 set smartindent
+set softtabstop=2
 set tabstop=2
 set whichwrap=b,s,h,l,<,>,[,],~
 set wildmenu
