@@ -22,8 +22,36 @@ let g:loaded_tutor_mode_plugin  = 1
 let g:loaded_zipPlugin          = 1
 let g:skip_loading_mswin        = 1
 
-set number
+set autoindent
+set autoread
+" set cmdheight=2
+set completeopt=longest,menu
+" set cursorline
+set display=lastline
+set formatoptions=tcqmMj1
+set history=2000
+set incsearch
+set infercase
+" set laststatus=2
+set lazyredraw
+set linebreak
+set list
+set listchars=tab:^-,trail:~,extends:»,precedes:«,nbsp:%
+set matchtime=1
+" set number
+set shiftround
+set shortmess+=c
+set signcolumn=yes
+set splitbelow
+set splitright
+set switchbuf=usetab
+" set t_Co=256
 set termguicolors
+set textwidth=0
+set title
+set ttyfast
+set updatetime=300
+set wildmode=list:longest,full
 let g:markdown_fenced_languages = ['ts=typescript', 'js=javascript']
 
 "-----------------
