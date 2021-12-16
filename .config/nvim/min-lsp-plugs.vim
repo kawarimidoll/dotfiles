@@ -99,9 +99,13 @@ Plug 'folke/trouble.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'nvim-treesitter/nvim-treesitter-refactor'
+Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 Plug 'p00f/nvim-ts-rainbow'
 Plug 'romgrk/nvim-treesitter-context'
 Plug 'lukas-reineke/indent-blankline.nvim'
+Plug 'mfussenegger/nvim-ts-hint-textobject'
+Plug 'lewis6991/spellsitter.nvim'
+Plug 'andymass/vim-matchup'
 call plug#end()
 
 let g:vsnip_filetypes = {}
@@ -272,6 +276,11 @@ function! s:CommandlinePost() abort
   " Restore sources
   call ddc#custom#set_buffer(s:prev_buffer_config)
 endfunction
+
+" {{{ nvim-ts-hint-textobject
+omap     <silent> m <Cmd>lua require('tsht').nodes()<CR>
+vnoremap <silent> m :lua require('tsht').nodes()<CR>
+" }}}
 
 function! s:help_or_hover() abort
   if ['vim','help']->index(&filetype) >= 0
@@ -453,7 +462,15 @@ require('nvim-treesitter.configs').setup({
     enable = true,
     extended_mode = true,
     max_file_lines = nil,
-  }
+  },
+  -- }}}
+
+  -- {{{ ts-context-commentstring
+  context_commentstring = { enable = true },
+  -- }}}
+
+  -- {{{ vim-matchup
+    matchup = { enable = true },
   -- }}}
 })
 
@@ -474,6 +491,8 @@ require('treesitter-context').setup({
     },
   },
 })
+
+require('spellsitter').setup()
 
 -- [User contributed tips: Peek Definition](https://github.com/neovim/nvim-lspconfig/wiki/User-contributed-tips#peek-definition)
 function PeekDefinition()
