@@ -120,7 +120,8 @@ Plug 'kat0h/bufpreview.vim', { 'on': 'PreviewMarkdown' }
 Plug 'kdheepak/lazygit.nvim', { 'on': 'LazyGit' }
 Plug 'tyru/open-browser.vim', { 'on': ['OpenBrowser', '<Plug>(openbrowser-'] }
 Plug 'tyru/capture.vim', { 'on': 'Capture' }
-Plug 'obcat/vim-hitspop'
+" Plug 'obcat/vim-hitspop'
+Plug 'nvim-telescope/telescope.nvim'
 Plug 'haya14busa/vim-asterisk'
 Plug 'voldikss/vim-floaterm', { 'on': 'FloatermNew' }
 Plug 'monaqa/dial.nvim'
@@ -217,7 +218,7 @@ call ddc#custom#patch_global('filterParams', #{
   \   converter_truncate: #{ maxAbbrWidth: 60, maxInfo: 500, ellipsis: '...' },
   \   converter_fuzzy: #{ hlGroup: 'Title' },
   \ })
-call ddc#custom#patch_global('specialBufferCompletion', v:true)
+" call ddc#custom#patch_global('specialBufferCompletion', v:true)
 " 10k words dictionary:
 " https://raw.githubusercontent.com/first20hours/google-10000-english/master/google-10000-english-no-swears.txt
 call ddc#custom#patch_global('sourceParams', #{
@@ -323,6 +324,13 @@ map *  <Plug>(asterisk-z*)
 map #  <Plug>(asterisk-z#)
 map g* <Plug>(asterisk-gz*)
 map g# <Plug>(asterisk-gz#)
+" }}}
+
+" {{{ telescope.vim
+nnoremap <space>ff <cmd>Telescope git_files<cr>
+nnoremap <space>fg <cmd>Telescope live_grep<cr>
+nnoremap <space>fb <cmd>Telescope buffers<cr>
+nnoremap <space>fh <cmd>Telescope help_tags<cr>
 " }}}
 
 " {{{ user owned mappings
@@ -754,4 +762,76 @@ require('mini.base16').setup({
   use_cterm = true,
 })
 require('which-key').setup()
+
+-- https://github.com/nvim-telescope/telescope.nvim/wiki/Configuration-Recipes#dont-preview-binaries
+local previewers = require("telescope.previewers")
+local Job = require("plenary.job")
+local preview_except_binaries = function(filepath, bufnr, opts)
+  filepath = vim.fn.expand(filepath)
+  Job:new({
+    command = "file",
+    args = { "--mime-type", "-b", filepath },
+    on_exit = function(j)
+      local mime_type = vim.split(j:result()[1], "/")[1]
+      if mime_type == "text" then
+        previewers.buffer_previewer_maker(filepath, bufnr, opts)
+      else
+        -- maybe we want to write something to the buffer here
+        vim.schedule(function()
+          vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, { "BINARY" })
+        end)
+      end
+    end
+  }):sync()
+end
+
+-- https://github.com/nvim-telescope/telescope.nvim/issues/1048#issuecomment-993956937
+local actions = require('telescope.actions')
+local action_state = require('telescope.actions.state')
+local telescope_custom_actions = {}
+function telescope_custom_actions._multiopen(prompt_bufnr, open_cmd)
+  local picker = action_state.get_current_picker(prompt_bufnr)
+  local selected_entry = action_state.get_selected_entry()
+  local num_selections = #picker:get_multi_selection()
+  if not num_selections or num_selections <= 1 then
+    actions.add_selection(prompt_bufnr)
+  end
+  actions.send_selected_to_qflist(prompt_bufnr)
+  vim.cmd("cfdo " .. open_cmd)
+end
+function telescope_custom_actions.multi_selection_open_vsplit(prompt_bufnr)
+  telescope_custom_actions._multiopen(prompt_bufnr, "vsplit")
+end
+function telescope_custom_actions.multi_selection_open_split(prompt_bufnr)
+  telescope_custom_actions._multiopen(prompt_bufnr, "split")
+end
+function telescope_custom_actions.multi_selection_open_tab(prompt_bufnr)
+  telescope_custom_actions._multiopen(prompt_bufnr, "tabe")
+end
+function telescope_custom_actions.multi_selection_open(prompt_bufnr)
+  telescope_custom_actions._multiopen(prompt_bufnr, "edit")
+end
+require('telescope').setup({
+  defaults = {
+    generic_sorter = require('mini.fuzzy').get_telescope_sorter ,
+    buffer_previewer_maker = preview_except_binaries,
+    mappings = {
+      i = {
+        ["<ESC>"] = actions.close,
+        ["<C-J>"] = actions.move_selection_next,
+        ["<C-K>"] = actions.move_selection_previous,
+        ["<TAB>"] = actions.toggle_selection,
+        ["<C-TAB>"] = actions.toggle_selection + actions.move_selection_next,
+        ["<S-TAB>"] = actions.toggle_selection + actions.move_selection_previous,
+        ["<CR>"] = telescope_custom_actions.multi_selection_open,
+        ["<C-V>"] = telescope_custom_actions.multi_selection_open_vsplit,
+        ["<C-S>"] = telescope_custom_actions.multi_selection_open_split,
+        ["<C-T>"] = telescope_custom_actions.multi_selection_open_tab,
+        ["<C-DOWN>"] = require('telescope.actions').cycle_history_next,
+        ["<C-UP>"] = require('telescope.actions').cycle_history_prev,
+      },
+      n = i,
+    },
+  }
+})
 EOF
