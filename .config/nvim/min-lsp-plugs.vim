@@ -711,23 +711,23 @@ lsp_installer.on_server_ready(function(server)
     }
     opts.autostart = detected_root_dir(root_dir)
     opts.init_options = { lint = true, unstable = true, }
-  -- elseif server.name == "efm" then
-  --   https://skanehira.github.io/blog/posts/20201116-vim-writing-articles/
-  --   opts.filetypes = { "markdown" }
-  --   opts.settings = {
-  --     rootMarkers = { ".git/" },
-  --     languages = {
-  --       markdown = {
-  --         {
-  --           lintCommand = "npx --no-install textlint -f unix --stdin --stdin-filename ${INPUT}",
-  --           lintStdin = true,
-  --           lintIgnoreExitCode = true,
-  --           lintFormats = { '%f:%l:%c: %m [%trror/%r]' },
-  --           rootMarkers = { '.textlintrc' },
-  --         }
-  --       }
-  --     }
-  --   }
+  elseif server.name == "efm" then
+    -- https://skanehira.github.io/blog/posts/20201116-vim-writing-articles/
+    opts.filetypes = { "markdown" }
+    opts.settings = {
+      rootMarkers = { ".git/" },
+      languages = {
+        markdown = {
+          {
+            lintCommand = "npx --no-install textlint -f unix --stdin --stdin-filename ${INPUT}",
+            lintStdin = true,
+            lintIgnoreExitCode = true,
+            lintFormats = { '%f:%l:%c: %m [%trror/%r]' },
+            -- rootMarkers = { '.textlintrc' },
+          }
+        }
+      }
+    }
   end
 
   server:setup(opts)
