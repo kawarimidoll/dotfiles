@@ -272,22 +272,22 @@ call ddc#enable()
 call popup_preview#enable()
 
 " {{{ mappings(ddc)
-imap <silent><expr> <TAB>
+imap <expr> <TAB>
   \ vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' :
   \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' :
   \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
-  \ '<TAB>' : ddc#map#manual_complete()
-imap <silent><expr> <S-TAB>
+  \ '<TAB>' : '<Cmd>call ddc#map#manual_complete()<CR>'
+imap <expr> <S-TAB>
   \ vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' :
   \ pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' :
   \ '<S-TAB>'
-inoremap <silent><expr> <C-n> (pum#visible() ? '' : '<Cmd>call ddc#map#manual_complete()<CR>') . '<Cmd>call pum#map#select_relative(+1)<CR>'
-inoremap <silent><expr> <C-p> (pum#visible() ? '' : '<Cmd>call ddc#map#manual_complete()<CR>') . '<Cmd>call pum#map#select_relative(-1)<CR>'
+inoremap <expr> <C-n> (pum#visible() ? '' : '<Cmd>call ddc#map#manual_complete()<CR>') . '<Cmd>call pum#map#select_relative(+1)<CR>'
+inoremap <expr> <C-p> (pum#visible() ? '' : '<Cmd>call ddc#map#manual_complete()<CR>') . '<Cmd>call pum#map#select_relative(-1)<CR>'
 inoremap <C-y>   <Cmd>call pum#map#confirm()<CR>
 inoremap <C-e>   <Cmd>call pum#map#cancel()<CR>
 inoremap <PageDown> <Cmd>call pum#map#insert_relative_page(+1)<CR>
 inoremap <PageUp>   <Cmd>call pum#map#insert_relative_page(-1)<CR>
-" inoremap <silent><expr> <CR> pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<CR>'
+inoremap <expr> <CR> pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<CR>'
 " }}}
 augroup pum-complete-done
   autocmd!
@@ -307,36 +307,38 @@ nmap sT <Plug>(vsnip-cut-text)
 xmap sT <Plug>(vsnip-cut-text)
 " }}}
 
-" cnoremap <expr> <TAB>   pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : ddc#map#manual_complete()
-" cnoremap <expr> <S-TAB> pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : ddc#map#manual_complete()
-" cnoremap <expr> <C-n>   pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<C-n>'
-" cnoremap <expr> <C-p>   pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<C-p>'
-" cnoremap <expr> <CR>    pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<CR>'
-" " cnoremap <C-y>   <Cmd>call pum#map#confirm()<CR>
-" " cnoremap <C-e>   <Cmd>call pum#map#cancel()<CR>
-" nnoremap : <Cmd>call <SID>CommandlinePre()<CR>:
-"
-" function! s:CommandlinePre() abort
-"   " Overwrite sources
-"   let s:prev_buffer_config = ddc#custom#get_buffer()
-"   call ddc#custom#patch_buffer('sources', ['cmdline', 'cmdline-history'])
-"   call ddc#custom#patch_buffer('autoCompleteEvents', ['CmdlineChanged', 'CmdlineEnter'])
-"   call ddc#custom#patch_buffer('sourceOptions', #{
-"     \   _: s:source_common_option,
-"     \   cmdline: #{ mark: 'cmd' },
-"     \   cmdline-history: #{ mark: 'hist' },
-"     \ })
-"     " \   necovim: #{ mark: 'neco' },
-"
-"   autocmd User DDCCmdlineLeave ++once call <SID>CommandlinePost()
-"
-"   " Enable command line completion
-"   call ddc#enable_cmdline_completion()
-" endfunction
-" function! s:CommandlinePost() abort
-"   " Restore sources
-"   call ddc#custom#set_buffer(s:prev_buffer_config)
-" endfunction
+" {{{ mappings(ddc command-line completion)
+cnoremap <expr> <TAB>   pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<Cmd>ddc#map#manual_complete()<CR>'
+cnoremap <expr> <S-TAB> pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<Cmd>ddc#map#manual_complete()<CR>'
+cnoremap <expr> <C-n>   pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<C-n>'
+cnoremap <expr> <C-p>   pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<C-p>'
+cnoremap <expr> <CR>    pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<CR>'
+cnoremap <C-y>   <Cmd>call pum#map#confirm()<CR>
+cnoremap <C-e>   <Cmd>call pum#map#cancel()<CR>
+nnoremap : <Cmd>call <SID>CommandlinePre()<CR>:
+
+function! s:CommandlinePre() abort
+  " Overwrite sources
+  let s:prev_buffer_config = ddc#custom#get_buffer()
+  call ddc#custom#patch_buffer('sources', ['cmdline', 'cmdline-history'])
+  call ddc#custom#patch_buffer('autoCompleteEvents', ['CmdlineChanged', 'CmdlineEnter'])
+  call ddc#custom#patch_buffer('sourceOptions', #{
+    \   _: s:source_common_option,
+    \   cmdline: #{ mark: 'cmd' },
+    \   cmdline-history: #{ mark: 'hist' },
+    \ })
+    " \   necovim: #{ mark: 'neco' },
+
+  autocmd User DDCCmdlineLeave ++once call <SID>CommandlinePost()
+
+  " Enable command line completion
+  call ddc#enable_cmdline_completion()
+endfunction
+function! s:CommandlinePost() abort
+  " Restore sources
+  call ddc#custom#set_buffer(s:prev_buffer_config)
+endfunction
+" }}}
 
 " {{{ dial.nvim
 nmap <C-a>  <Plug>(dial-increment)
