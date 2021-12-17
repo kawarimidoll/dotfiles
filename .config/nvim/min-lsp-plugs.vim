@@ -188,7 +188,7 @@ if !filereadable(expand(s:dictPath))
 endif
 
 call ddc#custom#patch_global('sources', [
-  \ 'nvim-lsp', 'skkeleton', 'vsnip', 'buffer', 'file', 'tabnine', 'treesitter',
+  \ 'skkeleton', 'vsnip', 'nvim-lsp', 'buffer', 'file', 'tabnine', 'treesitter',
   \ 'registers-words', 'dictionary', 'rg', 'around'])
 call ddc#custom#patch_global('completionMenu', 'pum.vim')
 call ddc#custom#patch_global('autoCompleteEvents', [
@@ -273,20 +273,21 @@ call popup_preview#enable()
 
 " {{{ mappings(ddc)
 imap <silent><expr> <TAB>
-  \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' :
   \ vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' :
+  \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' :
   \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
   \ '<TAB>' : ddc#map#manual_complete()
 imap <silent><expr> <S-TAB>
+  \ vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' :
   \ pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' :
-  \ vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<S-TAB>'
+  \ '<S-TAB>'
 inoremap <silent><expr> <C-n> (pum#visible() ? '' : '<Cmd>call ddc#map#manual_complete()<CR>') . '<Cmd>call pum#map#select_relative(+1)<CR>'
 inoremap <silent><expr> <C-p> (pum#visible() ? '' : '<Cmd>call ddc#map#manual_complete()<CR>') . '<Cmd>call pum#map#select_relative(-1)<CR>'
 inoremap <C-y>   <Cmd>call pum#map#confirm()<CR>
 inoremap <C-e>   <Cmd>call pum#map#cancel()<CR>
 inoremap <PageDown> <Cmd>call pum#map#insert_relative_page(+1)<CR>
 inoremap <PageUp>   <Cmd>call pum#map#insert_relative_page(-1)<CR>
-inoremap <silent><expr> <CR> pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<CR>'
+" inoremap <silent><expr> <CR> pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<CR>'
 " }}}
 augroup pum-complete-done
   autocmd!
