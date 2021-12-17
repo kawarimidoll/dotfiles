@@ -37,14 +37,16 @@ nnoremap <script> <expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
 nnoremap <sid>(q)q qq
 nnoremap Q @q
 
-nnoremap p p`[v`]=`]
-nnoremap P P`[v`]=`]
-nnoremap ]p p
-nnoremap ]P P
+nnoremap p ]p`]
+nnoremap P [P`]
+nnoremap gp p
+nnoremap gP P
 nnoremap x "_d
 nnoremap X "_D
 nnoremap ' `
 
+" https://twitter.com/mo_naqa/status/1467626946293284865
+nnoremap gf gF
 nnoremap gx :<C-u>!open <C-r><C-a>
 
 nnoremap <Space>g <Cmd>copy.<CR>
@@ -85,6 +87,9 @@ xnoremap <silent><C-j> :m'>+1<CR>gv=gv
 
 " operator
 onoremap x d
+
+" terminal
+tnoremap <C-w><C-n> <C-\><C-n>
 
 colorscheme industry
 
