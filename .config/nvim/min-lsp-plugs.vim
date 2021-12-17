@@ -401,7 +401,7 @@ nnoremap <sid>(q)q qq
 nnoremap Q @q
 nnoremap <sid>(q)b <Cmd>GitSigns toggle_current_line_blame<CR>
 nnoremap <sid>(q)c <Cmd>cclose<CR>
-" nnoremap <sid>(q)m <Cmd>PreviewMarkdownToggle<CR>
+nnoremap <sid>(q)m <Cmd>PreviewMarkdownToggle<CR>
 nnoremap <sid>(q)o <Cmd>only<CR>
 nnoremap <sid>(q)t <C-^>
 nnoremap <sid>(q)z <Cmd>lua MiniMisc.zoom()<CR>
@@ -471,7 +471,6 @@ function! s:skkeleton_init() abort
     \   globalJisyo: expand(s:jisyoPath),
     \   showCandidatesCount: 1,
     \   immediatelyCancel: v:false,
-    \   keepState: v:true,
     \ })
   call skkeleton#register_kanatable('rom', {
     \   'x,': [',', ''],
@@ -715,9 +714,9 @@ lsp_installer.on_server_ready(function(server)
     -- opts.root_dir = root_dir
     -- opts.autostart = detected_root_dir(root_dir)
     opts.single_file_support = true
-    opts.filetypes = {
-      "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx", "markdown", "json"
-    }
+    -- opts.filetypes = {
+    --   "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx", "markdown", "json"
+    -- }
     opts.init_options = { lint = true, unstable = true, }
   elseif server.name == "efm" then
     -- https://skanehira.github.io/blog/posts/20201116-vim-writing-articles/
@@ -913,12 +912,14 @@ EOF
 "-----------------
 " Commands and Functions
 "-----------------
-command! RcEdit edit expand('<sfile>:p')
-command! RcReload write | source expand('<sfile>:p') | nohlsearch | redraw | echo 'init.vim is reloaded.'
+let g:my_vimrc = expand('<sfile>:p')
+command! RcEdit execute 'edit' g:my_vimrc
+command! RcReload write | execute 'source' g:my_vimrc | nohlsearch | redraw | echo g:my_vimrc . ' is reloaded.'
 command! CopyFullPath     let @*=expand('%:p') | echo 'copy full path'
 command! CopyDirName      let @*=expand('%:h') | echo 'copy dir name'
 command! CopyFileName     let @*=expand('%:t') | echo 'copy file name'
 command! CopyRelativePath let @*=expand('%:h').'/'.expand('%:t') | echo 'copy relative path'
+command! VimShowHlGroup echo synID(line('.'), col('.'), 1)->synIDtrans()->synIDattr('name')
 command! -nargs=* T split | wincmd j | resize 12 | terminal <args>
 command! Nyancat FloatermNew --autoclose=2 nyancat
 command! Trim lua MiniTrailspace.trim()
@@ -951,7 +952,7 @@ endfunction
 
 " https://zenn.dev/skanehira/articles/2021-11-29-vim-paste-clipboard-link
 function! s:markdown_link_paste() abort
-  let link = trim(getreg('"'))
+  let link = trim(getreg('*'))
   if link !~# '^http'
     call s:visual_paste('p')
     return
