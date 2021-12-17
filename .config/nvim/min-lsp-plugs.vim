@@ -578,9 +578,9 @@ require('nvim-treesitter.configs').setup({
     navigation = {
       enable = true,
       keymaps = {
-        goto_definition_lsp_fallback = 'gnd',
-        list_definitions = 'gnD',
-        list_definitions_toc = "gO",
+        goto_definition_lsp_fallback = 'grd',
+        list_definitions = 'grD',
+        list_definitions_toc = "grt",
         goto_previous_usage = "[u",
         goto_next_usage = "]u",
       },
@@ -974,6 +974,8 @@ augroup vimrc
 
   " [NeovimのTerminalモードをちょっと使いやすくする](https://zenn.dev/ryo_kawamata/articles/improve-neovmi-terminal)
   autocmd TermOpen * startinsert
+
+  autocmd VimEnter * TSEnableAll *
 
   " 前回終了位置に復帰
   autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line('$') | execute 'normal g`"' | endif | delmarks!
