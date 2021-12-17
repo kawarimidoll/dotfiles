@@ -567,7 +567,7 @@ require('nvim-treesitter.configs').setup({
   -- {{{ nvim-treesitter-refactor
   refactor = {
     highlight_definitions = { enable = true },
-    highlight_current_scope = { enable = true },
+    -- highlight_current_scope = { enable = true },
     smart_rename = {
       enable = true,
       keymaps = {
@@ -601,7 +601,7 @@ require('nvim-treesitter.configs').setup({
   -- }}}
 
   -- {{{ vim-matchup
-    matchup = { enable = true },
+  matchup = { enable = true },
   -- }}}
 })
 
