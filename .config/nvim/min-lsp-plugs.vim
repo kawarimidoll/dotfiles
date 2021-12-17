@@ -405,6 +405,10 @@ nnoremap <sid>(q)z <Cmd>lua MiniMisc.zoom()<CR>
 
 nnoremap <Space>d <Cmd>lua MiniBufremove.delete()<CR>
 nnoremap <Space>L <Cmd>LazyGit<CR>
+
+xnoremap <silent> p <Cmd>call <SID>markdown_link_paste()<CR>
+" https://github.com/Shougo/shougo-s-github/blob/master/vim/rc/mappings.rc.vim#L179
+xnoremap <silent> P <Cmd>call <SID>visual_paste('p')<CR>
 " }}}
 
 function! s:help_or_hover() abort
@@ -901,3 +905,83 @@ require('filetype').setup({
   }
 })
 EOF
+
+"-----------------
+" Commands and Functions
+"-----------------
+command! RcEdit edit expand('<sfile>:p')
+command! RcReload write | source expand('<sfile>:p') | nohlsearch | redraw | echo 'init.vim is reloaded.'
+command! CopyFullPath     let @*=expand('%:p') | echo 'copy full path'
+command! CopyDirName      let @*=expand('%:h') | echo 'copy dir name'
+command! CopyFileName     let @*=expand('%:t') | echo 'copy file name'
+command! CopyRelativePath let @*=expand('%:h').'/'.expand('%:t') | echo 'copy relative path'
+command! -nargs=* T split | wincmd j | resize 12 | terminal <args>
+command! Nyancat FloatermNew --autoclose=2 nyancat
+command! Trim lua MiniTrailspace.trim()
+command! -bang GhGraph if !exists('g:loaded_floaterm') | call plug#load('vim-floaterm') | endif |
+  \ execute 'FloatermNew' '--title=contributions' '--height=13'
+  \ '--width=55' 'gh' 'graph' (v:cmdbang ? '--scheme=random' : '')
+command! -nargs=* -bang Dex silent only! | botright 12 split |
+  \ execute 'terminal' (has('nvim') ? '' : '++curwin') 'dex'
+  \   (v:cmdbang ? '--clear' : '') <q-args> expand('%:p') |
+  \ stopinsert | execute 'normal! G' | set bufhidden=wipe |
+  \ execute 'autocmd BufEnter <buffer> if winnr("$") == 1 | quit! | endif' |
+  \ file Dex<bang> | wincmd k
+command! Croc execute '!croc send' expand('%:p')
+
+" https://github.com/neovim/neovim/pull/12383#issuecomment-695768082
+" https://github.com/Shougo/shougo-s-github/blob/master/vim/autoload/vimrc.vim#L84
+function! s:visual_paste(direction) range abort
+  let registers = {}
+
+  for name in ['"', '0']
+    let registers[name] = {'type': getregtype(name), 'value': getreg(name)}
+  endfor
+
+  execute 'normal!' a:direction
+
+  for [name, register] in items(registers)
+    call setreg(name, register.value, register.type)
+  endfor
+endfunction
+
+" https://zenn.dev/skanehira/articles/2021-11-29-vim-paste-clipboard-link
+function! s:markdown_link_paste() abort
+  let link = trim(getreg('"'))
+  if link !~# '^http'
+    call s:visual_paste('p')
+    return
+  endif
+
+  normal! "9y
+  call setreg(9, '[' . getreg(9) . '](' . link . ')')
+  normal! gv"9p
+
+  for name in ['"', '0']
+    call setreg(name, link)
+  endfor
+endfunction
+
+"-----------------
+" Auto Commands
+"-----------------
+augroup vimrc
+  autocmd!
+  " https://zenn.dev/uochan/articles/2021-12-08-vim-conventional-commits
+  autocmd FileType gitcommit nnoremap <buffer> <CR> :<C-u>silent! normal! "_dip |
+        \ put! =getline('.')->substitute('^\s*#\s*\(\S*\).*$', '\1', 'g') | startinsert!<CR>
+
+  " [NeovimのTerminalモードをちょっと使いやすくする](https://zenn.dev/ryo_kawamata/articles/improve-neovmi-terminal)
+  autocmd TermOpen * startinsert
+
+  " 前回終了位置に復帰
+  autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line('$') | execute 'normal g`"' | endif | delmarks!
+
+  " [vim-jp » Hack #202: 自動的にディレクトリを作成する](https://vim-jp.org/vim-users-jp/2011/02/20/Hack-202.html)
+  autocmd BufWritePre * call s:ensure_dir(expand('<afile>:p:h'), v:cmdbang)
+  function! s:ensure_dir(dir, force)
+    if !isdirectory(a:dir) && (a:force || confirm('"' . a:dir . '" does not exist. Create?', "y\nN"))
+      call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
+    endif
+  endfunction
+augroup END
