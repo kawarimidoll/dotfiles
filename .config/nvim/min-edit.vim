@@ -93,6 +93,7 @@ tnoremap <C-w><C-n> <C-\><C-n>
 
 colorscheme industry
 
+highlight Reverse    cterm=reverse gui=reverse
 highlight Pmenu      ctermfg=254 ctermbg=237 guifg=#e3e1e4 guibg=#37343a
 highlight PmenuSel   ctermfg=237 ctermbg=254 guifg=#37343a guibg=#e3e1e4
 highlight PmenuSbar  ctermbg=238 guibg=#423f46
@@ -106,5 +107,5 @@ augroup min-edit
   autocmd InsertEnter *.tsv setlocal noexpandtab
 
   " https://jdhao.github.io/2020/05/22/highlight_yank_region_nvim/
-  autocmd TextYankPost * silent! lua vim.highlight.on_yank{timeout=500}
+  autocmd TextYankPost * silent! lua vim.highlight.on_yank({ higroup = 'Reverse' ,timeout=500 })
 augroup END
