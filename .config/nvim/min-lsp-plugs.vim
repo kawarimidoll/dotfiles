@@ -191,7 +191,9 @@ call ddc#custom#patch_global('sources', [
   \ 'nvim-lsp', 'skkeleton', 'vsnip', 'buffer', 'file', 'tabnine', 'treesitter',
   \ 'registers-words', 'dictionary', 'rg', 'around'])
 call ddc#custom#patch_global('completionMenu', 'pum.vim')
-
+call ddc#custom#patch_global('autoCompleteEvents', [
+  \ 'InsertEnter', 'TextChangedI', 'TextChangedP',
+  \ 'CmdlineChanged', 'CmdlineEnter'])
 let s:source_common_option = #{
   \   ignoreCase: v:true,
   \   matchers:   ['matcher_fuzzy'],
