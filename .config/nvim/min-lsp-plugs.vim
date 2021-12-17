@@ -157,6 +157,8 @@ Plug 'haya14busa/vim-asterisk'
 Plug 'voldikss/vim-floaterm', { 'on': 'FloatermNew' }
 Plug 'phaazon/hop.nvim'
 Plug 'monaqa/dial.nvim'
+Plug 'segeljakt/vim-silicon', { 'on': 'Silicon' }
+Plug 'simeji/winresizer', { 'on': 'WinResizerStartResize' }
 Plug 'vim-jp/vimdoc-ja'
 call plug#end()
 
@@ -166,6 +168,8 @@ let g:vsnip_filetypes.typescriptreact = ['typescript']
 let g:asterisk#keeppos = 1
 let g:lazygit_floating_window_scaling_factor = 1
 let g:lazygit_floating_window_winblend = 20
+let g:silicon = {}
+let g:silicon['output'] = '~/Downloads/silicon-{time:%Y-%m-%d-%H%M%S}.png'
 
 let s:dictPath = '~/.cache/nvim/google-10000-english-no-swears.txt'
 if !filereadable(expand(s:dictPath))
@@ -371,6 +375,10 @@ nnoremap so :<C-u>HopChar1<CR>
 nnoremap st :<C-u>HopChar2<CR>
 nnoremap sl <Cmd>HopLine<CR>
 nnoremap sw <Cmd>HopWord<CR>
+" }}}
+
+" {{{ winresizer
+nnoremap <C-e> <Cmd>WinResizerStartResize<CR>
 " }}}
 
 " {{{ user owned mappings
