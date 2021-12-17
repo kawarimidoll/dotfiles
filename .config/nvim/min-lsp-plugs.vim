@@ -338,17 +338,17 @@ xmap sT <Plug>(vsnip-cut-text)
 " endfunction
 
 " {{{ dial.nvim
-nmap <C-a> <Plug>(dial-increment)
-nmap <C-x> <Plug>(dial-decrement)
-vmap <C-a> <Plug>(dial-increment)
-vmap <C-x> <Plug>(dial-decrement)
+nmap <C-a>  <Plug>(dial-increment)
+nmap <C-x>  <Plug>(dial-decrement)
+vmap <C-a>  <Plug>(dial-increment)
+vmap <C-x>  <Plug>(dial-decrement)
 vmap g<C-a> <Plug>(dial-increment-additional)
 vmap g<C-x> <Plug>(dial-decrement-additional)
 " }}}
 
 " {{{ nvim-ts-hint-textobject
-omap     <silent> m <Cmd>lua require('tsht').nodes()<CR>
-vnoremap <silent> m :lua require('tsht').nodes()<CR>
+onoremap m <Cmd>lua require('tsht').nodes()<CR>
+vnoremap m <Cmd>lua require('tsht').nodes()<CR>
 " }}}
 
 " {{{ nvim-ts-hint-textobject
@@ -431,7 +431,7 @@ nnoremap <space>tc <cmd>lua vim.lsp.buf.code_action()<CR>
 nnoremap <space>to <cmd>lua vim.diagnostic.open_float()<CR>
 nnoremap [d        <cmd>lua vim.diagnostic.goto_prev()<CR>
 nnoremap ]d        <cmd>lua vim.diagnostic.goto_next()<CR>
-nnoremap sl        <cmd>lua vim.diagnostic.setloclist()<CR>
+nnoremap sx        <cmd>lua vim.diagnostic.setloclist()<CR>
 nnoremap <space>p  <cmd>lua vim.lsp.buf.formatting()<CR>
 
 nnoremap <leader>df <cmd>lua PeekDefinition()<CR>
