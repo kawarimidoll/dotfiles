@@ -58,35 +58,33 @@ let g:markdown_fenced_languages = ['ts=typescript', 'js=javascript']
 " Plugs
 "-----------------
 " [Tips should also describe automatic installation for Neovim|junegunn/vim-plug](https://github.com/junegunn/vim-plug/issues/739)
-let autoload_plug_path = stdpath('config') . '/autoload/plug.vim'
-if !filereadable(autoload_plug_path)
+let s:autoload_plug_path = stdpath('config') . '/autoload/plug.vim'
+if !filereadable(s:autoload_plug_path)
   if !executable('curl')
-    echoerr 'You have to install curl.'
+    echoerr 'You have to install `curl` to install vim-plug.'
     execute 'quit!'
   endif
-  silent execute '!curl -fL --create-dirs -o ' . autoload_plug_path .
+  silent execute '!curl -fL --create-dirs -o ' . s:autoload_plug_path .
       \ ' https://raw.github.com/junegunn/vim-plug/master/plug.vim'
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-else
-  " [おい、NeoBundle もいいけど vim-plug 使えよ](https://qiita.com/b4b4r07/items/fa9c8cceb321edea5da0)
-  function! s:AutoPlugInstall() abort
-    let list = get(g:, 'plugs', {})->items()->copy()
-        \  ->filter({_,item->!isdirectory(item[1].dir)})
-        \  ->map({_,item->item[0]})
-    if empty(list)
-      return
-    endif
-    echo 'Not installed plugs: ' . string(list)
-    if confirm('Install plugs?', "yes\nno", 2) == 1
-      PlugInstall --sync | close
-    endif
-  endfunction
-  augroup vimrc_plug
-    autocmd!
-    autocmd VimEnter * call s:AutoPlugInstall()
-  augroup END
 endif
-unlet autoload_plug_path
+
+" [おい、NeoBundle もいいけど vim-plug 使えよ](https://qiita.com/b4b4r07/items/fa9c8cceb321edea5da0)
+function! s:AutoPlugInstall() abort
+  let s:not_installed_plugs = get(g:, 'plugs', {})->items()->copy()
+      \  ->filter({_,item->!isdirectory(item[1].dir)})
+      \  ->map({_,item->item[0]})
+  if empty(s:not_installed_plugs)
+    return
+  endif
+  echo 'Not installed plugs: ' . string(s:not_installed_plugs)
+  if confirm('Install now?', "yes\nNo", 2) == 1
+    PlugInstall --sync | close
+  endif
+endfunction
+augroup vimrc_plug
+  autocmd!
+  autocmd VimEnter * call s:AutoPlugInstall()
+augroup END
 
 call plug#begin(stdpath('config') . '/plugged')
 Plug 'vim-denops/denops.vim'
