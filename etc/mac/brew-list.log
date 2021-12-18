@@ -1,4 +1,4 @@
-timestamp: 2021-12-08 09:41:33 JST
+timestamp: 2021-12-17 08:33:08 JST
 tap: a-know/tap
 tap: homebrew/bundle
 tap: homebrew/cask
@@ -21,6 +21,7 @@ brew: choose-rust
 brew: clog
 brew: cmake
 brew: cocoapods
+brew: croc
 brew: csvkit
 brew: csvq
 brew: deno
@@ -131,6 +132,7 @@ brew: youtubedr
 brew: zsh
 brew: zsh-completions
 cask: accessmenubarapps
+cask: alacritty
 cask: alfred
 cask: alt-tab
 cask: anki
@@ -148,6 +150,7 @@ cask: dockey
 cask: dropbox
 cask: editaro
 cask: flux
+cask: font-cousine-nerd-font
 cask: font-hackgen-nerd
 cask: font-roboto-mono-nerd-font
 cask: fuwari
@@ -200,5 +203,5 @@ mas: 1467796430  Plain Pasta        (1.2.1)
 mas: 1563735522  Charmstone         (0.15)
 mas: 1569290801  ItemStock          (1.0)
 mas: 1581223559  Magic              (2.2)
-mas: 1586304988  Messer             (1.1.4)
+mas: 1586304988  Messer             (2.0.3)
 mas: 409183694   Keynote            (11.2)
