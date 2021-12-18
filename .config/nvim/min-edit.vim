@@ -107,5 +107,5 @@ augroup min-edit
   autocmd InsertEnter *.tsv setlocal noexpandtab
 
   " https://jdhao.github.io/2020/05/22/highlight_yank_region_nvim/
-  autocmd TextYankPost * silent! lua vim.highlight.on_yank({ higroup = 'Reverse' ,timeout=500 })
+  autocmd TextYankPost * silent! lua vim.highlight.on_yank({ timeout=500 })
 augroup END
