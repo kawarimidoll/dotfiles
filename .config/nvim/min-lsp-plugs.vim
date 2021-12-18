@@ -301,6 +301,8 @@ imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l
 smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
 smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
 smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+smap j <BS>j
+smap k <BS>k
 nmap st <Plug>(vsnip-select-text)
 xmap st <Plug>(vsnip-select-text)
 nmap sT <Plug>(vsnip-cut-text)
@@ -308,10 +310,12 @@ xmap sT <Plug>(vsnip-cut-text)
 " }}}
 
 " {{{ mappings(ddc command-line completion)
-cnoremap <expr> <TAB>   pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<Cmd>ddc#map#manual_complete()<CR>'
-cnoremap <expr> <S-TAB> pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<Cmd>ddc#map#manual_complete()<CR>'
-cnoremap <expr> <C-n>   pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<C-n>'
-cnoremap <expr> <C-p>   pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<C-p>'
+" cnoremap <expr> <TAB>   pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<Cmd>ddc#map#manual_complete()<CR>'
+" cnoremap <expr> <S-TAB> pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<Cmd>ddc#map#manual_complete()<CR>'
+cnoremap <expr> <TAB>   pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : ddc#map#manual_complete()
+cnoremap <expr> <S-TAB> pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : ddc#map#manual_complete()
+" cnoremap <expr> <C-n>   pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<DOWN>'
+" cnoremap <expr> <C-p>   pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<UP>'
 cnoremap <expr> <CR>    pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<CR>'
 cnoremap <C-y>   <Cmd>call pum#map#confirm()<CR>
 cnoremap <C-e>   <Cmd>call pum#map#cancel()<CR>
@@ -324,7 +328,7 @@ function! s:CommandlinePre() abort
   call ddc#custom#patch_buffer('autoCompleteEvents', ['CmdlineChanged', 'CmdlineEnter'])
   call ddc#custom#patch_buffer('sourceOptions', #{
     \   _: s:source_common_option,
-    \   cmdline: #{ mark: 'cmd' },
+    \   cmdline: #{ mark: 'cmd', minAutoCompleteLength: 1 },
     \   cmdline-history: #{ mark: 'hist' },
     \ })
     " \   necovim: #{ mark: 'neco' },
