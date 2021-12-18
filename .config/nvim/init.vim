@@ -322,6 +322,8 @@ let g:fzf_preview_default_fzf_options = {
       \ '--no-sort': v:true,
       \ }
 
+let g:markdown_fenced_languages = ['ts=typescript']
+
 imap <C-j> <Plug>(skkeleton-enable)
 cmap <C-j> <Plug>(skkeleton-enable)
 
@@ -394,6 +396,7 @@ function s:disableDdc() abort
 endfunction
 
 augroup skkeleton
+  " https://gist.github.com/yuki-yano/d2197be559841d0aeaf91344fde60b54
   autocmd!
   autocmd User skkeleton-enable-pre  call s:enableDdc()
   autocmd User skkeleton-disable-pre call s:disableDdc()
