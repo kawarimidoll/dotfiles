@@ -714,10 +714,10 @@ lsp_installer.on_server_ready(function(server)
     opts.root_dir = root_dir
     opts.autostart = detected_root_dir(root_dir)
   elseif server.name == "denols" then
-    -- local root_dir = nvim_lsp.util.root_pattern("deno.json", "deno.jsonc", "deps.ts")
-    -- opts.root_dir = root_dir
-    -- opts.autostart = detected_root_dir(root_dir)
-    opts.single_file_support = true
+    local root_dir = nvim_lsp.util.root_pattern("deno.json", "deno.jsonc", "deps.ts")
+    opts.root_dir = root_dir
+    opts.autostart = detected_root_dir(root_dir)
+    -- opts.single_file_support = true
     -- opts.filetypes = {
     --   "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx", "markdown", "json"
     -- }
