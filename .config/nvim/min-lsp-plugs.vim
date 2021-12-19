@@ -433,7 +433,7 @@ nnoremap gd        <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap gi        <cmd>lua vim.lsp.buf.implementation()<CR>
 nnoremap gr        <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap gt        <cmd>lua vim.lsp.buf.type_definition()<CR>
-nnoremap gs        <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap gT        <cmd>lua vim.lsp.buf.signature_help()<CR>
 nnoremap <space>ta <cmd>lua vim.lsp.buf.add_workspace_folder()<CR>
 nnoremap <space>tr <cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>
 nnoremap <space>tl <cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>
