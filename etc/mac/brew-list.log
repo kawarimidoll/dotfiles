@@ -1,4 +1,4 @@
-timestamp: 2021-12-17 08:33:08 JST
+timestamp: 2021-12-20 06:56:53 JST
 tap: a-know/tap
 tap: homebrew/bundle
 tap: homebrew/cask
@@ -173,6 +173,7 @@ cask: pngyu
 cask: processing
 cask: provisionql
 cask: qlimagesize
+cask: qlmarkdown
 cask: qlvideo
 cask: quicklook-csv
 cask: quicklook-json
@@ -188,7 +189,6 @@ cask: suspicious-package
 cask: syntax-highlight
 cask: the-unarchiver
 cask: tiny-player
-cask: toland-qlmarkdown
 cask: vitals
 cask: xbar
 cask: yippy
