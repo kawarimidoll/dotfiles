@@ -154,7 +154,7 @@ Plug 'arthurxavierx/vim-caser'
 Plug 'haya14busa/vim-asterisk'
 Plug 'voldikss/vim-floaterm', { 'on': 'FloatermNew' }
 Plug 'phaazon/hop.nvim'
-Plug 'monaqa/dial.nvim'
+Plug 'monaqa/dps-dial.vim'
 Plug 'segeljakt/vim-silicon', { 'on': 'Silicon' }
 Plug 'simeji/winresizer', { 'on': 'WinResizerStartResize' }
 Plug 'vim-jp/vimdoc-ja'
@@ -344,13 +344,19 @@ function! s:CommandlinePost() abort
 endfunction
 " }}}
 
-" {{{ dial.nvim
-nmap <C-a>  <Plug>(dial-increment)
-nmap <C-x>  <Plug>(dial-decrement)
-vmap <C-a>  <Plug>(dial-increment)
-vmap <C-x>  <Plug>(dial-decrement)
-vmap g<C-a> <Plug>(dial-increment-additional)
-vmap g<C-x> <Plug>(dial-decrement-additional)
+" {{{ dps-dial.vim
+let g:dps_dial#augends = [
+\   'decimal',
+\   'date-slash',
+\   #{ kind: 'constant', opts: #{ elements: ['true', 'false'] } },
+\   #{ kind: 'case', opts: #{ cases: ['camelCase', 'snake_case','kebab-case','SCREAMING_SNAKE_CASE'] } },
+\ ]
+nmap  <C-a>  <Plug>(dps-dial-increment)
+nmap  <C-x>  <Plug>(dps-dial-decrement)
+xmap  <C-a>  <Plug>(dps-dial-increment)
+xmap  <C-x>  <Plug>(dps-dial-decrement)
+xmap g<C-a> g<Plug>(dps-dial-increment)
+xmap g<C-x> g<Plug>(dps-dial-decrement)
 " }}}
 
 " {{{ nvim-ts-hint-textobject
