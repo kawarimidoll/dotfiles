@@ -123,6 +123,7 @@ Plug 'williamboman/nvim-lsp-installer'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'folke/lsp-colors.nvim'
 Plug 'folke/trouble.nvim'
+Plug 'folke/lua-dev.nvim', { 'for': 'lua' }
 
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
@@ -742,6 +743,12 @@ lsp_installer.on_server_ready(function(server)
         }
       }
     }
+  elseif server.name == "sumneko_lua" then
+    -- -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#sumneko_lua
+    -- opts.settings.Lua.diagnostics = { globals = { 'vim' } }
+    -- opts.settings.Lua.workspace = { library = vim.api.nvim_get_runtime_file("", true) }
+    -- opts.settings.Lua.telemetry = { enable = false }
+    opts = require('lua-dev').setup()
   end
 
   server:setup(opts)
