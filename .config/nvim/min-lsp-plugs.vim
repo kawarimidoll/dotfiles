@@ -706,23 +706,20 @@ lsp_installer.settings({
     }
   }
 })
-local function detected_root_dir(root_dir)
-  return not(not(root_dir(vim.api.nvim_buf_get_name(0), vim.api.nvim_get_current_buf())))
-end
+
+-- https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/configs.lua
+local node_root_dir = nvim_lsp.util.root_pattern("package.json", "node_modules")
+local is_node_repo = node_root_dir(vim.api.nvim_buf_get_name(0), vim.api.nvim_get_current_buf()) ~= nil
+
 lsp_installer.on_server_ready(function(server)
   local opts = {}
   -- opts.on_attach = on_attach
   opts.capabilities = capabilities
 
-  -- https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/configs.lua
   if server.name == "tsserver" or server.name == "eslint" then
-    local root_dir = nvim_lsp.util.root_pattern("package.json", "node_modules")
-    opts.root_dir = root_dir
-    opts.autostart = detected_root_dir(root_dir)
+    opts.autostart = is_node_repo
   elseif server.name == "denols" then
-    local root_dir = nvim_lsp.util.root_pattern("deno.json", "deno.jsonc", "deps.ts")
-    opts.root_dir = root_dir
-    opts.autostart = detected_root_dir(root_dir)
+    opts.autostart = not(is_node_repo)
     -- opts.single_file_support = true
     -- opts.filetypes = {
     --   "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx", "markdown", "json"
