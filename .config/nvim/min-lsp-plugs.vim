@@ -996,7 +996,8 @@ augroup vimrc
   autocmd VimEnter * TSEnableAll *
 
   " 前回終了位置に復帰
-  autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line('$') | execute 'normal g`"' | endif | delmarks!
+  autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line('$') | execute 'normal g`"' | endif
+  autocmd BufReadPost * delmarks!
 
   " [vim-jp » Hack #202: 自動的にディレクトリを作成する](https://vim-jp.org/vim-users-jp/2011/02/20/Hack-202.html)
   autocmd BufWritePre * call s:ensure_dir(expand('<afile>:p:h'), v:cmdbang)
