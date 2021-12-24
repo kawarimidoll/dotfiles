@@ -88,7 +88,8 @@ augroup vimrc_plug
 augroup END
 
 call plug#begin(stdpath('config') . '/plugged')
-" Plug 'vim-denops/denops.vim'
+Plug 'vim-denops/denops.vim'
+Plug 'vim-skk/skkeleton'
 
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
@@ -171,6 +172,108 @@ nmap st <Plug>(vsnip-select-text)
 xmap st <Plug>(vsnip-select-text)
 nmap sT <Plug>(vsnip-cut-text)
 xmap sT <Plug>(vsnip-cut-text)
+" }}}
+
+" {{{ skkeleton
+imap <C-j> <Plug>(skkeleton-enable)
+cmap <C-j> <Plug>(skkeleton-enable)
+
+let s:jisyoPath = '~/.cache/nvim/SKK-JISYO.L'
+if !filereadable(expand(s:jisyoPath))
+  echo "SSK Jisyo does not exists! '" . s:jisyoPath . "' is required!"
+  let l:jisyoDir = fnamemodify(s:jisyoPath, ':h')
+  let l:cmds = [
+    \   "curl -OL http://openlab.jp/skk/dic/SKK-JISYO.L.gz",
+    \   "gunzip SKK-JISYO.L.gz",
+    \   "mkdir -p " . l:jisyoDir,
+    \   "mv ./SKK-JISYO.L " . l:jisyoDir,
+    \ ]
+  echo "To get Jisyo, run:\n" . l:cmds->join("\n") . "\n"
+
+  if confirm("Run automatically?", "y\nN") == 1
+    echo "Running..."
+    call system(l:cmds->join(" && "))
+    echo "Done."
+  endif
+endif
+
+function! s:skkeleton_init() abort
+  call skkeleton#config(#{
+    \   eggLikeNewline: v:true,
+    \   globalJisyo: expand(s:jisyoPath),
+    \   showCandidatesCount: 1,
+    \   immediatelyCancel: v:false,
+    \ })
+  call skkeleton#register_kanatable('rom', #{
+    \   ca: ['a', ''],
+    \   cb: ['b', ''],
+    \   cc: ['c', ''],
+    \   cd: ['d', ''],
+    \   ce: ['e', ''],
+    \   cf: ['f', ''],
+    \   cg: ['g', ''],
+    \   ch: ['h', ''],
+    \   ci: ['i', ''],
+    \   cj: ['j', ''],
+    \   ck: ['k', ''],
+    \   cl: ['l', ''],
+    \   cm: ['m', ''],
+    \   cn: ['n', ''],
+    \   co: ['o', ''],
+    \   cp: ['p', ''],
+    \   cq: ['q', ''],
+    \   cr: ['r', ''],
+    \   cs: ['s', ''],
+    \   ct: ['t', ''],
+    \   cu: ['u', ''],
+    \   cv: ['v', ''],
+    \   cw: ['w', ''],
+    \   cx: ['x', ''],
+    \   cy: ['y', ''],
+    \   cz: ['z', ''],
+    \   cA: ['A', ''],
+    \   cB: ['B', ''],
+    \   cC: ['C', ''],
+    \   cD: ['D', ''],
+    \   cE: ['E', ''],
+    \   cF: ['F', ''],
+    \   cG: ['G', ''],
+    \   cH: ['H', ''],
+    \   cI: ['I', ''],
+    \   cJ: ['J', ''],
+    \   cK: ['K', ''],
+    \   cL: ['L', ''],
+    \   cM: ['M', ''],
+    \   cN: ['N', ''],
+    \   cO: ['O', ''],
+    \   cP: ['P', ''],
+    \   cQ: ['Q', ''],
+    \   cR: ['R', ''],
+    \   cS: ['S', ''],
+    \   cT: ['T', ''],
+    \   cU: ['U', ''],
+    \   cV: ['V', ''],
+    \   cW: ['W', ''],
+    \   cX: ['X', ''],
+    \   cY: ['Y', ''],
+    \   cZ: ['Z', ''],
+    \ })
+  call skkeleton#register_kanatable('rom', {
+    \   'x,': [',', ''],
+    \   'x.': ['.', ''],
+    \   'x-': ['-', ''],
+    \   'x_': ['_', ''],
+    \   'x!': ['!', ''],
+    \   'x?': ['?', ''],
+    \   'z9': ['（', ''],
+    \   'z0': ['）', ''],
+    \   "z\<Space>": ["\u3000", ''],
+    \ })
+endfunction
+augroup skkeleton-initialize-pre
+  autocmd!
+  autocmd User skkeleton-initialize-pre call s:skkeleton_init()
+augroup END
 " }}}
 
 
