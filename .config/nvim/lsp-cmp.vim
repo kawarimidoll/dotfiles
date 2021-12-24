@@ -97,6 +97,13 @@ Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/cmp-nvim-lua'
+Plug 'ray-x/cmp-treesitter'
+Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
+Plug 'lukas-reineke/cmp-rg'
+Plug 'hrsh7th/cmp-nvim-lsp-document-symbol'
+Plug 'f3fora/cmp-spell'
+Plug 'octaltree/cmp-look'
 
 Plug 'ray-x/lsp_signature.nvim'
 Plug 'hrsh7th/vim-vsnip'
@@ -562,25 +569,32 @@ cmp.setup({
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
     { name = 'vsnip' },
+    { name = 'cmp_tabnine' },
+    { name = 'treesitter' },
   }, {
     { name = 'buffer' },
-  })
+    { name = 'nvim_lua' },
+    { name = 'rg' },
+    { name = 'spell' },
+    { name = 'look', keyword_length = 2, option = { convert_case = true, loud = true } },
+  }),
 })
 
--- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
-cmp.setup.cmdline('/', {
-  sources = {
+require'cmp'.setup.cmdline('/', {
+  sources = cmp.config.sources({
+    { name = 'nvim_lsp_document_symbol' }
+  }, {
     { name = 'buffer' }
-  }
+  }),
 })
 
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline(':', {
   sources = cmp.config.sources({
-    { name = 'path' }
+    { name = 'path' },
   }, {
-    { name = 'cmdline' }
-  })
+    { name = 'cmdline' },
+  }),
 })
 
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
