@@ -354,6 +354,12 @@ if !filereadable(expand(s:jisyoPath))
 endif
 
 call ddc#custom#patch_global('sources', ['skkeleton'])
+call ddc#custom#patch_global('sourceOptions', #{
+  \   skkeleton: #{
+  \     matchers: ['skkeleton'],
+  \     minAutoCompleteLength: 1,
+  \   },
+  \ })
 call skkeleton#config(#{
   \   eggLikeNewline: v:true,
   \   globalJisyo: expand(s:jisyoPath),
@@ -380,26 +386,22 @@ call skkeleton#config(#{
 call skkeleton#register_kanatable('rom', {
   \   "z\<Space>": ["\u3000", ''],
   \ })
-function s:enableDdc() abort
+function s:enable_ddc() abort
   let b:coc_suggest_disable = v:true
-  call ddc#custom#patch_global('sourceOptions', #{
-    \   skkeleton: #{
-    \     mark: 'skkeleton',
-    \     matchers: ['skkeleton'],
-    \     minAutoCompleteLength: 1,
-    \   },
-    \ })
+  call ddc#custom#patch_global('autoCompleteEvents', ['TextChangedI', 'TextChangedP', 'CmdlineChanged'])
 endfunction
-function s:disableDdc() abort
+function s:disable_ddc() abort
   let b:coc_suggest_disable = v:false
-  call ddc#custom#patch_global('sourceOptions', {})
+  call ddc#custom#patch_global('autoCompleteEvents', [])
 endfunction
+
+call <SID>disable_ddc()
 
 augroup skkeleton
   " https://gist.github.com/yuki-yano/d2197be559841d0aeaf91344fde60b54
   autocmd!
-  autocmd User skkeleton-enable-pre  call s:enableDdc()
-  autocmd User skkeleton-disable-pre call s:disableDdc()
+  autocmd User skkeleton-enable-pre  call <SID>enable_ddc()
+  autocmd User skkeleton-disable-pre call <SID>disable_ddc()
 augroup END
 
 "-----------------
