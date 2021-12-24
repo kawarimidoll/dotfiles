@@ -105,6 +105,7 @@ Plug 'lukas-reineke/cmp-rg'
 Plug 'hrsh7th/cmp-nvim-lsp-document-symbol'
 Plug 'f3fora/cmp-spell'
 Plug 'octaltree/cmp-look'
+Plug 'onsails/lspkind-nvim'
 
 Plug 'ray-x/lsp_signature.nvim'
 Plug 'hrsh7th/vim-vsnip'
@@ -574,8 +575,12 @@ require('spellsitter').setup()
 -- https://github.com/hrsh7th/nvim-cmp
 -- Setup nvim-cmp.
 local cmp = require('cmp')
+local lspkind = require('lspkind')
 
 cmp.setup({
+  formatting = {
+    format = lspkind.cmp_format(),
+  },
   snippet = {
     expand = function(args) vim.fn["vsnip#anonymous"](args.body) end,
   },
@@ -595,7 +600,6 @@ cmp.setup({
     { name = 'vsnip' },
     { name = 'cmp_tabnine' },
     { name = 'treesitter' },
-  }, {
     { name = 'buffer' },
     { name = 'nvim_lua' },
     { name = 'rg' },
@@ -616,7 +620,6 @@ require'cmp'.setup.cmdline('/', {
 cmp.setup.cmdline(':', {
   sources = cmp.config.sources({
     { name = 'path' },
-  }, {
     { name = 'cmdline' },
   }),
 })
