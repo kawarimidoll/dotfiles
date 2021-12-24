@@ -243,8 +243,8 @@ require('mini.surround').setup()
 require('mini.trailspace').setup()
 require('mini.tabline').setup()
 require('mini.pairs').setup()
-require('mini.jump').setup()
-require('mini.starter').setup()
+-- require('mini.jump').setup()
+-- require('mini.starter').setup()
 require('mini.misc').setup({
   make_global = { 'put', 'put_text', 'zoom' }
 })
