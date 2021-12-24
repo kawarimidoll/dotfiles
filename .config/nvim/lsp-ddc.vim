@@ -483,6 +483,60 @@ function! s:skkeleton_init() abort
     \   showCandidatesCount: 1,
     \   immediatelyCancel: v:false,
     \ })
+  call skkeleton#register_kanatable('rom', #{
+    \   ca: ['a', ''],
+    \   cb: ['b', ''],
+    \   cc: ['c', ''],
+    \   cd: ['d', ''],
+    \   ce: ['e', ''],
+    \   cf: ['f', ''],
+    \   cg: ['g', ''],
+    \   ch: ['h', ''],
+    \   ci: ['i', ''],
+    \   cj: ['j', ''],
+    \   ck: ['k', ''],
+    \   cl: ['l', ''],
+    \   cm: ['m', ''],
+    \   cn: ['n', ''],
+    \   co: ['o', ''],
+    \   cp: ['p', ''],
+    \   cq: ['q', ''],
+    \   cr: ['r', ''],
+    \   cs: ['s', ''],
+    \   ct: ['t', ''],
+    \   cu: ['u', ''],
+    \   cv: ['v', ''],
+    \   cw: ['w', ''],
+    \   cx: ['x', ''],
+    \   cy: ['y', ''],
+    \   cz: ['z', ''],
+    \   cA: ['A', ''],
+    \   cB: ['B', ''],
+    \   cC: ['C', ''],
+    \   cD: ['D', ''],
+    \   cE: ['E', ''],
+    \   cF: ['F', ''],
+    \   cG: ['G', ''],
+    \   cH: ['H', ''],
+    \   cI: ['I', ''],
+    \   cJ: ['J', ''],
+    \   cK: ['K', ''],
+    \   cL: ['L', ''],
+    \   cM: ['M', ''],
+    \   cN: ['N', ''],
+    \   cO: ['O', ''],
+    \   cP: ['P', ''],
+    \   cQ: ['Q', ''],
+    \   cR: ['R', ''],
+    \   cS: ['S', ''],
+    \   cT: ['T', ''],
+    \   cU: ['U', ''],
+    \   cV: ['V', ''],
+    \   cW: ['W', ''],
+    \   cX: ['X', ''],
+    \   cY: ['Y', ''],
+    \   cZ: ['Z', ''],
+    \ })
   call skkeleton#register_kanatable('rom', {
     \   'x,': [',', ''],
     \   'x.': ['.', ''],
@@ -1005,7 +1059,7 @@ augroup vimrc
   autocmd VimEnter * TSEnableAll *
 
   " 前回終了位置に復帰
-  autocmd BufReadPost * if line("'\"") > 0 && line("'\"") <= line('$') | execute 'normal g`"' | endif
+  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line('$') | execute 'normal! g`"' | endif
   autocmd BufReadPost * delmarks!
 
   " [vim-jp » Hack #202: 自動的にディレクトリを作成する](https://vim-jp.org/vim-users-jp/2011/02/20/Hack-202.html)
