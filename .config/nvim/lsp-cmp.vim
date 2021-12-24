@@ -90,6 +90,7 @@ augroup END
 call plug#begin(stdpath('config') . '/plugged')
 Plug 'vim-denops/denops.vim'
 Plug 'vim-skk/skkeleton'
+Plug 'Shougo/ddc.vim'
 
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
@@ -277,9 +278,32 @@ function! s:skkeleton_init() abort
     \   "z\<Space>": ["\u3000", ''],
     \ })
 endfunction
-augroup skkeleton-initialize-pre
+
+call ddc#enable()
+call ddc#custom#patch_global('sources', ['skkeleton'])
+call ddc#custom#patch_global('sourceOptions', #{
+  \   skkeleton: #{
+  \     matchers: ['skkeleton'],
+  \     minAutoCompleteLength: 1,
+  \   },
+  \ })
+
+function s:enable_skk() abort
+  lua require('cmp').setup.buffer({ enabled = false })
+  call ddc#custom#patch_global('autoCompleteEvents', ['TextChangedI', 'TextChangedP', 'CmdlineChanged'])
+endfunction
+function s:disable_skk() abort
+  lua require('cmp').setup.buffer({ enabled = true })
+  call ddc#custom#patch_global('autoCompleteEvents', [])
+endfunction
+
+call <SID>disable_skk()
+
+augroup skkeleton
   autocmd!
-  autocmd User skkeleton-initialize-pre call s:skkeleton_init()
+  autocmd User skkeleton-enable-pre  call <SID>enable_skk()
+  autocmd User skkeleton-disable-pre call <SID>disable_skk()
+  autocmd User skkeleton-initialize-pre call <SID>skkeleton_init()
 augroup END
 " }}}
 
