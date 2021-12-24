@@ -725,7 +725,16 @@ lsp_installer.on_server_ready(function(server)
     -- opts.filetypes = {
     --   "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx", "markdown", "json"
     -- }
-    opts.init_options = { lint = true, unstable = true, }
+    opts.init_options = {
+      lint = true,
+      unstable = true,
+      config = "./deno.jsonc",
+      ["suggest.imports.hosts"] = {
+        ["https://deno.land"] = true,
+        ["https://cdn.nest.land"] = true,
+        ["https://crux.land"] = true
+      }
+    }
   elseif server.name == "efm" then
     -- https://skanehira.github.io/blog/posts/20201116-vim-writing-articles/
     opts.filetypes = { "markdown" }
