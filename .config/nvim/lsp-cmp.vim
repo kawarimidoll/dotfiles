@@ -187,21 +187,22 @@ xmap sT <Plug>(vsnip-cut-text)
 imap <C-j> <Plug>(skkeleton-enable)
 cmap <C-j> <Plug>(skkeleton-enable)
 
-let s:jisyoPath = '~/.cache/nvim/SKK-JISYO.L'
-if !filereadable(expand(s:jisyoPath))
+let s:jisyoDir = stdpath('config')
+let s:jisyoName = 'SKK-JISYO.L'
+let s:jisyoPath = expand(s:jisyoDir . '/' . s:jisyoName)
+if !filereadable(s:jisyoPath)
   echo "SSK Jisyo does not exists! '" . s:jisyoPath . "' is required!"
-  let l:jisyoDir = fnamemodify(s:jisyoPath, ':h')
-  let l:cmds = [
+  let s:skkSetupCmds = [
     \   "curl -OL http://openlab.jp/skk/dic/SKK-JISYO.L.gz",
     \   "gunzip SKK-JISYO.L.gz",
-    \   "mkdir -p " . l:jisyoDir,
-    \   "mv ./SKK-JISYO.L " . l:jisyoDir,
+    \   "mkdir -p " . s:jisyoDir,
+    \   "mv ./SKK-JISYO.L " . s:jisyoDir,
     \ ]
-  echo "To get Jisyo, run:\n" . l:cmds->join("\n") . "\n"
+  echo "To get Jisyo, run:\n" . s:skkSetupCmds->join("\n") . "\n"
 
   if confirm("Run automatically?", "y\nN") == 1
     echo "Running..."
-    call system(l:cmds->join(" && "))
+    call system(s:skkSetupCmds->join(" && "))
     echo "Done."
   endif
 endif
@@ -209,9 +210,11 @@ endif
 function! s:skkeleton_init() abort
   call skkeleton#config(#{
     \   eggLikeNewline: v:true,
-    \   globalJisyo: expand(s:jisyoPath),
-    \   showCandidatesCount: 1,
+    \   globalJisyo: s:jisyoPath,
     \   immediatelyCancel: v:false,
+    \   registerConvertResult: v:true,
+    \   selectCandidateKeys: '1234567',
+    \   showCandidatesCount: 1,
     \ })
   call skkeleton#register_kanatable('rom', #{
     \   ca: ['a', ''],
@@ -240,32 +243,6 @@ function! s:skkeleton_init() abort
     \   cx: ['x', ''],
     \   cy: ['y', ''],
     \   cz: ['z', ''],
-    \   cA: ['A', ''],
-    \   cB: ['B', ''],
-    \   cC: ['C', ''],
-    \   cD: ['D', ''],
-    \   cE: ['E', ''],
-    \   cF: ['F', ''],
-    \   cG: ['G', ''],
-    \   cH: ['H', ''],
-    \   cI: ['I', ''],
-    \   cJ: ['J', ''],
-    \   cK: ['K', ''],
-    \   cL: ['L', ''],
-    \   cM: ['M', ''],
-    \   cN: ['N', ''],
-    \   cO: ['O', ''],
-    \   cP: ['P', ''],
-    \   cQ: ['Q', ''],
-    \   cR: ['R', ''],
-    \   cS: ['S', ''],
-    \   cT: ['T', ''],
-    \   cU: ['U', ''],
-    \   cV: ['V', ''],
-    \   cW: ['W', ''],
-    \   cX: ['X', ''],
-    \   cY: ['Y', ''],
-    \   cZ: ['Z', ''],
     \ })
   call skkeleton#register_kanatable('rom', {
     \   'x,': [',', ''],
