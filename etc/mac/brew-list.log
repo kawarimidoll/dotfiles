@@ -1,4 +1,4 @@
-timestamp: 2021-12-21 09:37:51 JST
+timestamp: 2021-12-25 07:56:41 JST
 tap: a-know/tap
 tap: homebrew/bundle
 tap: homebrew/cask
@@ -29,6 +29,7 @@ brew: dfu-programmer
 brew: dfu-util
 brew: diff-so-fancy
 brew: diffutils
+brew: doitlive
 brew: dprint
 brew: ed
 brew: efm-langserver
@@ -64,6 +65,7 @@ brew: grep
 brew: grex
 brew: gzip
 brew: highlight
+brew: hurl
 brew: jesseduffield/lazygit/lazygit
 brew: jid
 brew: jq
@@ -150,6 +152,7 @@ cask: dockey
 cask: dropbox
 cask: editaro
 cask: flux
+cask: folder-colorizer
 cask: font-cousine-nerd-font
 cask: font-hackgen-nerd
 cask: font-roboto-mono-nerd-font
