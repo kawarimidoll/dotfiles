@@ -366,7 +366,7 @@ map M %
 nnoremap <script> <expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
 nnoremap <sid>(q)q qq
 nnoremap Q @q
-nnoremap <sid>(q)b <Cmd>GitSigns toggle_current_line_blame<CR>
+nnoremap <sid>(q)b <Cmd>Gitsigns toggle_current_line_blame<CR>
 nnoremap <sid>(q)c <Cmd>cclose<CR>
 nnoremap <sid>(q)m <Cmd>PreviewMarkdownToggle<CR>
 nnoremap <sid>(q)o <Cmd>only<CR>
