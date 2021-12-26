@@ -651,9 +651,15 @@ lsp_installer.on_server_ready(function(server)
   opts.capabilities = capabilities
 
   if server.name == "tsserver" or server.name == "eslint" then
-    opts.autostart = is_node_repo
+    opts.root_dir = nvim_lsp.util.root_pattern("package.json", "node_modules")
+    -- opts.autostart = is_node_repo
+    if server.name == "tsserver" then
+      opts.settings = { documentFormatting = false }
+      opts.init_options = { hostInfo = "neovim" }
+    end
   elseif server.name == "denols" then
-    opts.autostart = not(is_node_repo)
+    opts.root_dir = nvim_lsp.util.root_pattern("deno.jsonc", "deps.ts")
+    -- opts.autostart = not(is_node_repo)
     -- opts.single_file_support = true
     -- opts.filetypes = {
     --   "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx", "markdown", "json"
