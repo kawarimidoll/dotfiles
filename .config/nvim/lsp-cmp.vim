@@ -674,7 +674,15 @@ lsp_installer.on_server_ready(function(server)
     }
   elseif server.name == "efm" then
     -- https://skanehira.github.io/blog/posts/20201116-vim-writing-articles/
-    opts.filetypes = { "markdown" }
+    local prettier = {
+      formatCommand = "prettier --stdin-filepath ${INPUT}",
+      formatStdin = true
+    }
+    opts.filetypes = { "markdown", "typescript", "javascript", "typescriptreact", "javascriptreact" }
+    if not(is_node_repo) then
+      opts.filetypes = { "markdown" }
+    end
+    opts.init_options = { documentFormatting = true, codeAction = true }
     opts.settings = {
       rootMarkers = { ".git/" },
       languages = {
@@ -685,8 +693,14 @@ lsp_installer.on_server_ready(function(server)
             lintIgnoreExitCode = true,
             lintFormats = { '%f:%l:%c: %m [%trror/%r]' },
             -- rootMarkers = { '.textlintrc' },
+            formatCommand = "dprint fmt --config ~/dotfiles/dprint.json --stdin ${INPUT}",
+            formatStdin = true
           }
-        }
+        },
+        typescript = { prettier },
+        javascript = { prettier },
+        typescriptreact = { prettier },
+        javascriptreact = { prettier },
       }
     }
   elseif server.name == "sumneko_lua" then
