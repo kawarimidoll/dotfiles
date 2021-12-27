@@ -1,3 +1,4 @@
-if filereadable(expand('~/dotfiles/.config/nvim/lsp-cmp.vim'))
-  source ~/dotfiles/.config/nvim/lsp-cmp.vim
+let s:source = expand('~/dotfiles/.config/nvim/lsp-cmp.vim')
+if filereadable(s:source)
+  execute 'source' s:source
 endif
