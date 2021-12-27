@@ -184,7 +184,7 @@ xmap sT <Plug>(vsnip-cut-text)
 " }}}
 
 " {{{ skkeleton
-imap <C-j> <Plug>(skkeleton-enable)
+imap <C-j> <Cmd>lua require('cmp').close()<CR><Plug>(skkeleton-enable)
 cmap <C-j> <Plug>(skkeleton-enable)
 
 let s:jisyoDir = stdpath('config')
@@ -198,7 +198,7 @@ if !filereadable(s:jisyoPath)
     \   "mkdir -p " . s:jisyoDir,
     \   "mv ./SKK-JISYO.L " . s:jisyoDir,
     \ ]
-  echo "To get Jisyo, run:\n" . s:skkSetupCmds->join("\n") . "\n"
+  echo (["To get Jisyo, run:"] + s:skkSetupCmds + [""])->join("\n")
 
   if confirm("Run automatically?", "y\nN") == 1
     echo "Running..."
@@ -207,15 +207,16 @@ if !filereadable(s:jisyoPath)
   endif
 endif
 
-function! s:skk_table() abort
-  let l:table = {}
-  for char in split('abcdefghijklmnopqrstuvwxyz,._-!?', '.\zs')
-    let l:table['c'.char] = [char, '']
-  endfor
-  return l:table
-endfunction
-
 function! s:skkeleton_init() abort
+  let l:rom_table = {
+    \   'z9': ['（', ''],
+    \   'z0': ['）', ''],
+    \   "z\<Space>": ["\u3000", ''],
+    \ }
+  for char in split('abcdefghijklmnopqrstuvwxyz,._-!?', '.\zs')
+    let l:rom_table['c'.char] = [char, '']
+  endfor
+
   call skkeleton#config(#{
     \   eggLikeNewline: v:true,
     \   globalJisyo: s:jisyoPath,
@@ -224,42 +225,31 @@ function! s:skkeleton_init() abort
     \   selectCandidateKeys: '1234567',
     \   showCandidatesCount: 1,
     \ })
-  call skkeleton#register_kanatable('rom', s:skk_table())
-  call skkeleton#register_kanatable('rom', {
-    \   'z9': ['（', ''],
-    \   'z0': ['）', ''],
-    \   "z\<Space>": ["\u3000", ''],
-    \ })
+  call skkeleton#register_kanatable('rom', l:rom_table)
 endfunction
 
 call ddc#enable()
-call ddc#custom#patch_global('sources', ['skkeleton'])
-call ddc#custom#patch_global('sourceOptions', #{
-  \   skkeleton: #{
-  \     matchers: ['skkeleton'],
-  \     minAutoCompleteLength: 1,
-  \   },
+call ddc#custom#patch_global(#{
+  \   sources: ['skkeleton'],
+  \   sourceOptions: #{ skkeleton: #{ matchers: ['skkeleton'] } },
+  \   autoCompleteEvents: [],
   \ })
 
-function s:enable_skk() abort
+function! s:skkeleton_enable() abort
+  call ddc#custom#patch_buffer(#{ autoCompleteEvents: ['TextChangedI', 'TextChangedP', 'CmdlineChanged'] })
   lua require('cmp').setup.buffer({ enabled = false })
-  call ddc#custom#patch_global('autoCompleteEvents', ['TextChangedI', 'TextChangedP', 'CmdlineChanged'])
-endfunction
-function s:disable_skk() abort
-  lua require('cmp').setup.buffer({ enabled = true })
-  call ddc#custom#patch_global('autoCompleteEvents', [])
-endfunction
 
-call <SID>disable_skk()
+  autocmd User skkeleton-disable-pre ++once
+    \ call ddc#custom#patch_buffer(#{ autoCompleteEvents: [] }) |
+    \ lua require('cmp').setup.buffer({ enabled = true })
+endfunction
 
 augroup skkeleton
   autocmd!
-  autocmd User skkeleton-enable-pre  call <SID>enable_skk()
-  autocmd User skkeleton-disable-pre call <SID>disable_skk()
+  autocmd User skkeleton-enable-pre call <SID>skkeleton_enable()
   autocmd User skkeleton-initialize-pre call <SID>skkeleton_init()
 augroup END
 " }}}
-
 
 " {{{ dps-dial.vim
 let g:dps_dial#augends = [
