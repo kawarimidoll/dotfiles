@@ -207,6 +207,14 @@ if !filereadable(s:jisyoPath)
   endif
 endif
 
+function! s:skk_table() abort
+  let l:table = {}
+  for char in split('abcdefghijklmnopqrstuvwxyz,._-!?', '.\zs')
+    let l:table['c'.char] = [char, '']
+  endfor
+  return l:table
+endfunction
+
 function! s:skkeleton_init() abort
   call skkeleton#config(#{
     \   eggLikeNewline: v:true,
@@ -216,41 +224,8 @@ function! s:skkeleton_init() abort
     \   selectCandidateKeys: '1234567',
     \   showCandidatesCount: 1,
     \ })
-  call skkeleton#register_kanatable('rom', #{
-    \   ca: ['a', ''],
-    \   cb: ['b', ''],
-    \   cc: ['c', ''],
-    \   cd: ['d', ''],
-    \   ce: ['e', ''],
-    \   cf: ['f', ''],
-    \   cg: ['g', ''],
-    \   ch: ['h', ''],
-    \   ci: ['i', ''],
-    \   cj: ['j', ''],
-    \   ck: ['k', ''],
-    \   cl: ['l', ''],
-    \   cm: ['m', ''],
-    \   cn: ['n', ''],
-    \   co: ['o', ''],
-    \   cp: ['p', ''],
-    \   cq: ['q', ''],
-    \   cr: ['r', ''],
-    \   cs: ['s', ''],
-    \   ct: ['t', ''],
-    \   cu: ['u', ''],
-    \   cv: ['v', ''],
-    \   cw: ['w', ''],
-    \   cx: ['x', ''],
-    \   cy: ['y', ''],
-    \   cz: ['z', ''],
-    \ })
+  call skkeleton#register_kanatable('rom', s:skk_table())
   call skkeleton#register_kanatable('rom', {
-    \   'x,': [',', ''],
-    \   'x.': ['.', ''],
-    \   'x-': ['-', ''],
-    \   'x_': ['_', ''],
-    \   'x!': ['!', ''],
-    \   'x?': ['?', ''],
     \   'z9': ['（', ''],
     \   'z0': ['）', ''],
     \   "z\<Space>": ["\u3000", ''],
