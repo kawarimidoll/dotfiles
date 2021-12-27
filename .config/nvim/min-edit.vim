@@ -74,7 +74,6 @@ cnoremap <C-d> <Del>
 cnoremap <C-r><C-r> <C-r><C-r>*
 
 " insert
-inoremap <silent> jj <ESC>
 inoremap <silent> <C-r><C-r> <C-r><C-r>*
 
 " visual
