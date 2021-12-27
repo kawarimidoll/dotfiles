@@ -4,6 +4,11 @@ gui:
       # - default
       - reverse
   showFileTree: false
+keybinding:
+  files:
+    # swap default bindings
+    commitChanges: 'C'
+    commitChangesWithEditor: 'c'
 # there is blinking bug https://github.com/jesseduffield/lazygit/issues/1302
 # git:
 #   paging:
