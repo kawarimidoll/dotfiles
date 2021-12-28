@@ -188,22 +188,22 @@ xmap sT <Plug>(vsnip-cut-text)
 imap <C-j> <Cmd>lua require('cmp').close()<CR><Plug>(skkeleton-enable)
 cmap <C-j> <Plug>(skkeleton-enable)
 
-let s:jisyoDir = stdpath('config')
-let s:jisyoName = 'SKK-JISYO.L'
-let s:jisyoPath = expand(s:jisyoDir . '/' . s:jisyoName)
-if !filereadable(s:jisyoPath)
-  echo "SSK Jisyo does not exists! '" . s:jisyoPath . "' is required!"
-  let s:skkSetupCmds = [
+let s:jisyo_dir = stdpath('config')
+let s:jisyo_name = 'SKK-JISYO.L'
+let s:jisyo_path = expand(s:jisyo_dir . '/' . s:jisyo_name)
+if !filereadable(s:jisyo_path)
+  echo "SSK Jisyo does not exists! '" . s:jisyo_path . "' is required!"
+  let s:skk_setup_cmds = [
     \   "curl -OL http://openlab.jp/skk/dic/SKK-JISYO.L.gz",
     \   "gunzip SKK-JISYO.L.gz",
-    \   "mkdir -p " . s:jisyoDir,
-    \   "mv ./SKK-JISYO.L " . s:jisyoDir,
+    \   "mkdir -p " . s:jisyo_dir,
+    \   "mv ./SKK-JISYO.L " . s:jisyo_dir,
     \ ]
-  echo (["To get Jisyo, run:"] + s:skkSetupCmds + [""])->join("\n")
+  echo (["To get Jisyo, run:"] + s:skk_setup_cmds + [""])->join("\n")
 
   if confirm("Run automatically?", "y\nN") == 1
     echo "Running..."
-    call system(s:skkSetupCmds->join(" && "))
+    call system(s:skk_setup_cmds->join(" && "))
     echo "Done."
   endif
 endif
@@ -220,7 +220,7 @@ function! s:skkeleton_init() abort
 
   call skkeleton#config(#{
     \   eggLikeNewline: v:true,
-    \   globalJisyo: s:jisyoPath,
+    \   globalJisyo: s:jisyo_path,
     \   immediatelyCancel: v:false,
     \   registerConvertResult: v:true,
     \   selectCandidateKeys: '1234567',
