@@ -166,6 +166,7 @@ let g:lazygit_floating_window_scaling_factor = 1
 let g:lazygit_floating_window_winblend = 20
 let g:silicon = {}
 let g:silicon['output'] = '~/Downloads/silicon-{time:%Y-%m-%d-%H%M%S}.png'
+let g:denops#debug = 1
 
 
 " {{{ mappings(vsnip)
