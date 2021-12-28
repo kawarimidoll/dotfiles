@@ -74,3 +74,4 @@
 	prune = true
 [commit]
 	template = ~/.gitmessage
+	verbose = true
