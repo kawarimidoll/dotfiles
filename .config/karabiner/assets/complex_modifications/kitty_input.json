@@ -1,0 +1,95 @@
+{
+  "title": "kitty_input",
+  "rules": [
+    {
+      "description": "eisuu/kana for skkeleton",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "japanese_eisuu"
+          },
+          "to": [
+            {
+              "key_code": "l"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "^net\\.kovidgoyal\\.kitty$"
+              ]
+            },
+            {
+              "type": "variable_if",
+              "name": "neovim_in_insert_mode",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "japanese_kana"
+          },
+          "to": [
+            {
+              "key_code": "j",
+              "modifiers": [
+                "left_control"
+              ]
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "^net\\.kovidgoyal\\.kitty$"
+              ]
+            },
+            {
+              "type": "variable_if",
+              "name": "neovim_in_insert_mode",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "spacebar",
+            "modifiers": {
+              "optional": [
+                "any"
+              ]
+            }
+          },
+          "to": [
+            {
+              "key_code": "left_shift"
+            }
+          ],
+          "to_if_alone": [
+            {
+              "key_code": "spacebar"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "^net\\.kovidgoyal\\.kitty$"
+              ]
+            },
+            {
+              "type": "variable_if",
+              "name": "neovim_in_insert_mode",
+              "value": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -802,6 +802,31 @@ require('filetype').setup({
     },
   }
 })
+
+local Job = require('plenary.job')
+local karabiner_cli = '/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli'
+function _G.set_karabiner(val)
+  Job:new{
+    command = karabiner_cli,
+    args = {
+      '--set-variables',
+      ('{"neovim_in_insert_mode":%d}'):format(val),
+    },
+  }:start()
+end
+
+function _G.set_karabiner_if_in_insert_mode()
+  local val = vim.fn.mode():match'[icrR]' and 1 or 0
+  _G.set_karabiner(val)
+end
+vim.cmd[[
+augroup skkeleton_karabiner_elements
+  autocmd!
+  autocmd InsertEnter,CmdlineEnter * call v:lua.set_karabiner(1)
+  autocmd InsertLeave,CmdlineLeave,FocusLost * call v:lua.set_karabiner(0)
+  autocmd FocusGained * call v:lua.set_karabiner_if_in_insert_mode()
+augroup END
+]]
 EOF
 
 "-----------------
