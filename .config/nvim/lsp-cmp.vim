@@ -151,8 +151,8 @@ Plug 'nathom/filetype.nvim'
 Plug 'arthurxavierx/vim-caser'
 Plug 'haya14busa/vim-asterisk'
 Plug 'voldikss/vim-floaterm', { 'on': 'FloatermNew' }
-Plug 'phaazon/hop.nvim'
-Plug 'monaqa/dps-dial.vim'
+Plug 'phaazon/hop.nvim', { 'on': 'Hop' }
+Plug 'monaqa/dps-dial.vim', { 'on': '<Plug>(dps-dial-' }
 Plug 'segeljakt/vim-silicon', { 'on': 'Silicon' }
 Plug 'simeji/winresizer', { 'on': 'WinResizerStartResize' }
 Plug 'vim-jp/vimdoc-ja'
@@ -169,7 +169,7 @@ let g:silicon['output'] = '~/Downloads/silicon-{time:%Y-%m-%d-%H%M%S}.png'
 let g:denops#debug = 1
 
 " {{{ fuzzy-motion.vim
-nnoremap <CR> <Cmd>FuzzyMotion<CR>
+nnoremap ? <Cmd>FuzzyMotion<CR>
 " }}}
 
 " {{{ vsnip
@@ -257,10 +257,13 @@ augroup END
 
 " {{{ dps-dial.vim
 let g:dps_dial#augends = [
-\   'decimal',
-\   'date-slash',
-\   #{ kind: 'constant', opts: #{ elements: ['true', 'false'] } },
-\   #{ kind: 'case', opts: #{ cases: ['camelCase', 'snake_case','kebab-case','SCREAMING_SNAKE_CASE'] } },
+\  'decimal',
+\  'date-hyphen',
+\  'date-slash',
+\  #{ kind: 'constant', opts: #{ elements: ['true', 'false'] } },
+\  #{ kind: 'case', opts: #{
+\    cases: ['camelCase', 'PascalCase', 'snake_case', 'kebab-case', 'SCREAMING_SNAKE_CASE']
+\   } },
 \ ]
 nmap  <C-a>  <Plug>(dps-dial-increment)
 nmap  <C-x>  <Plug>(dps-dial-decrement)
