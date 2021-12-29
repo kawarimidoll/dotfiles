@@ -146,7 +146,7 @@ Plug 'lambdalisue/gina.vim', { 'on': 'Gina' }
 Plug 'kdheepak/lazygit.nvim', { 'on': 'LazyGit' }
 Plug 'tyru/open-browser.vim', { 'on': ['OpenBrowser', '<Plug>(openbrowser-'] }
 Plug 'tyru/capture.vim', { 'on': 'Capture' }
-" Plug 'obcat/vim-hitspop'
+Plug 'yuki-yano/fuzzy-motion.vim'
 Plug 'nathom/filetype.nvim'
 Plug 'arthurxavierx/vim-caser'
 Plug 'haya14busa/vim-asterisk'
@@ -168,6 +168,9 @@ let g:silicon = {}
 let g:silicon['output'] = '~/Downloads/silicon-{time:%Y-%m-%d-%H%M%S}.png'
 let g:denops#debug = 1
 
+" {{{ fuzzy-motion.vim
+nnoremap <CR> <Cmd>FuzzyMotion<CR>
+" }}}
 
 " {{{ vsnip
 " imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
