@@ -344,6 +344,10 @@ nnoremap <sid>(q)m <Cmd>PreviewMarkdownToggle<CR>
 nnoremap <sid>(q)o <Cmd>only<CR>
 nnoremap <sid>(q)t <C-^>
 nnoremap <sid>(q)z <Cmd>lua MiniMisc.zoom()<CR>
+nnoremap <sid>(q)h <Cmd>call <SID>half_move('left')<CR>
+nnoremap <sid>(q)j <Cmd>call <SID>half_move('down')<CR>
+nnoremap <sid>(q)k <Cmd>call <SID>half_move('up')<CR>
+nnoremap <sid>(q)l <Cmd>call <SID>half_move('right')<CR>
 
 nnoremap <Space>d <Cmd>lua MiniBufremove.delete()<CR>
 nnoremap <Space>L <Cmd>LazyGit<CR>
@@ -888,6 +892,20 @@ function! s:markdown_link_paste() abort
   for name in ['"', '0']
     call setreg(name, link)
   endfor
+endfunction
+
+function! s:half_move(direction) abort
+  let [bufnum, lnum, col, off] = getpos('.')
+  if a:direction == 'left'
+    let col = col / 2
+  elseif a:direction == 'right'
+    let col = (len(getline('.')) + col) / 2
+  elseif a:direction == 'up'
+    let lnum = (line('w0') + lnum) / 2
+  elseif a:direction == 'down'
+    let lnum = (line('w$') + lnum) / 2
+  endif
+  call setpos('.', [bufnum, lnum, col, off])
 endfunction
 
 "-----------------
