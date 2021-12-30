@@ -278,7 +278,7 @@ onoremap m <Cmd>lua require('tsht').nodes()<CR>
 vnoremap m <Cmd>lua require('tsht').nodes()<CR>
 " }}}
 
-" {{{ nvim-ts-hint-textobject
+" {{{ openbrowser
 nmap gx <Plug>(openbrowser-smart-search)
 xmap gx <Plug>(openbrowser-smart-search)
 " }}}
@@ -462,7 +462,6 @@ require('nvim-treesitter.configs').setup({
   },
   -- }}}
 
-
   -- {{{ nvim-treesitter-refactor
   refactor = {
     highlight_definitions = { enable = true },
@@ -485,7 +484,6 @@ require('nvim-treesitter.configs').setup({
     },
   },
   -- }}}
-
 
   -- {{{ nvim-ts-rainbow
   rainbow = {
@@ -732,14 +730,14 @@ require("indent_blankline").setup({
 })
 
 require('gitsigns').setup({
-    signs = {
-      add          = { text = '+' },
-      change       = { text = '~' },
-      delete       = { text = '_' },
-      topdelete    = { text = '‾' },
-      changedelete = { text = '~_' },
-    },
-    current_line_blame = true,
+  signs = {
+    add          = { text = '+' },
+    change       = { text = '~' },
+    delete       = { text = '_' },
+    topdelete    = { text = '‾' },
+    changedelete = { text = '~_' },
+  },
+  current_line_blame = true,
 })
 require('lualine').setup()
 require('colorizer').setup()
