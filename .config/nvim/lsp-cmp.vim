@@ -344,6 +344,7 @@ nnoremap <sid>(q)m <Cmd>PreviewMarkdownToggle<CR>
 nnoremap <sid>(q)o <Cmd>only<CR>
 nnoremap <sid>(q)t <C-^>
 nnoremap <sid>(q)z <Cmd>lua MiniMisc.zoom()<CR>
+nnoremap <sid>(q)i <Cmd>call <SID>half_move('center')<CR>
 nnoremap <sid>(q)h <Cmd>call <SID>half_move('left')<CR>
 nnoremap <sid>(q)j <Cmd>call <SID>half_move('down')<CR>
 nnoremap <sid>(q)k <Cmd>call <SID>half_move('up')<CR>
@@ -898,6 +899,8 @@ function! s:half_move(direction) abort
     let col = col / 2
   elseif a:direction == 'right'
     let col = (len(getline('.')) + col) / 2
+  elseif a:direction == 'center'
+    let col = len(getline('.')) / 2
   elseif a:direction == 'up'
     let lnum = (line('w0') + lnum) / 2
   elseif a:direction == 'down'
