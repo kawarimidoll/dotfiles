@@ -237,14 +237,18 @@ call ddc#custom#patch_global(#{
   \   sources: ['skkeleton'],
   \   sourceOptions: #{ skkeleton: #{ matchers: ['skkeleton'] } },
   \   autoCompleteEvents: [],
+  \   completionMode: 'manual',
   \ })
 
 function! s:skkeleton_enable() abort
-  call ddc#custom#patch_buffer(#{ autoCompleteEvents: ['TextChangedI', 'TextChangedP', 'CmdlineChanged'] })
+  call ddc#custom#patch_buffer(#{
+    \   autoCompleteEvents: ['TextChangedI', 'TextChangedP', 'CmdlineChanged'],
+    \   completionMode: 'popupmenu'
+    \ })
   lua require('cmp').setup.buffer({ enabled = false })
 
   autocmd User skkeleton-disable-pre ++once
-    \ call ddc#custom#patch_buffer(#{ autoCompleteEvents: [] }) |
+    \ call ddc#custom#patch_buffer(#{ autoCompleteEvents: [], completionMode: 'manual' }) |
     \ lua require('cmp').setup.buffer({ enabled = true })
 endfunction
 
@@ -740,7 +744,9 @@ require('gitsigns').setup({
   },
   current_line_blame = true,
 })
-require('lualine').setup()
+require('lualine').setup({
+  sections = { lualine_a = { 'mode', 'g:skkeleton#mode' } }
+})
 require('colorizer').setup()
 require('hop').setup()
 
