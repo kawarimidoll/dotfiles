@@ -100,7 +100,7 @@ Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/cmp-nvim-lua'
 Plug 'ray-x/cmp-treesitter'
-Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
+Plug 'tzachar/cmp-tabnine', #{ do: './install.sh' }
 Plug 'lukas-reineke/cmp-rg'
 Plug 'hrsh7th/cmp-nvim-lsp-document-symbol'
 Plug 'f3fora/cmp-spell'
@@ -118,9 +118,9 @@ Plug 'williamboman/nvim-lsp-installer'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'folke/lsp-colors.nvim'
 Plug 'folke/trouble.nvim'
-Plug 'folke/lua-dev.nvim', { 'for': 'lua' }
+Plug 'folke/lua-dev.nvim', #{ for: 'lua' }
 
-Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
+Plug 'nvim-treesitter/nvim-treesitter', #{ do: ':TSUpdate' }
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'nvim-treesitter/nvim-treesitter-refactor'
 Plug 'JoosepAlviste/nvim-ts-context-commentstring'
@@ -131,8 +131,8 @@ Plug 'mfussenegger/nvim-ts-hint-textobject'
 Plug 'lewis6991/spellsitter.nvim'
 Plug 'andymass/vim-matchup'
 
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'yuki-yano/fzf-preview.vim', { 'branch': 'release/rpc' }
+Plug 'junegunn/fzf', #{ do: { -> fzf#install() } }
+Plug 'yuki-yano/fzf-preview.vim', #{ branch: 'release/rpc' }
 
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-lualine/lualine.nvim'
@@ -141,20 +141,20 @@ Plug 'folke/which-key.nvim'
 Plug 'echasnovski/mini.nvim'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'lewis6991/gitsigns.nvim'
-Plug 'kat0h/bufpreview.vim', { 'on': 'PreviewMarkdown' }
-Plug 'lambdalisue/gina.vim', { 'on': 'Gina' }
-Plug 'kdheepak/lazygit.nvim', { 'on': 'LazyGit' }
-Plug 'tyru/open-browser.vim', { 'on': ['OpenBrowser', '<Plug>(openbrowser-'] }
-Plug 'tyru/capture.vim', { 'on': 'Capture' }
+Plug 'kat0h/bufpreview.vim', #{ on: 'PreviewMarkdown' }
+Plug 'lambdalisue/gina.vim', #{ on: 'Gina' }
+Plug 'kdheepak/lazygit.nvim', #{ on: 'LazyGit' }
+Plug 'tyru/open-browser.vim', #{ on: ['OpenBrowser', '<Plug>(openbrowser-'] }
+Plug 'tyru/capture.vim', #{ on: 'Capture' }
 Plug 'yuki-yano/fuzzy-motion.vim'
 Plug 'nathom/filetype.nvim'
 Plug 'arthurxavierx/vim-caser'
 Plug 'haya14busa/vim-asterisk'
-Plug 'voldikss/vim-floaterm', { 'on': 'FloatermNew' }
-Plug 'phaazon/hop.nvim', { 'on': 'Hop' }
-Plug 'monaqa/dps-dial.vim', { 'on': '<Plug>(dps-dial-' }
-Plug 'segeljakt/vim-silicon', { 'on': 'Silicon' }
-Plug 'simeji/winresizer', { 'on': 'WinResizerStartResize' }
+Plug 'voldikss/vim-floaterm', #{ on: 'FloatermNew' }
+Plug 'phaazon/hop.nvim', #{ on: 'Hop' }
+Plug 'monaqa/dps-dial.vim', #{ on: '<Plug>(dps-dial-' }
+Plug 'segeljakt/vim-silicon', #{ on: 'Silicon' }
+Plug 'simeji/winresizer', #{ on: 'WinResizerStartResize' }
 Plug 'vim-jp/vimdoc-ja'
 call plug#end()
 
