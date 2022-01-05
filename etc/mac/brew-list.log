@@ -1,12 +1,12 @@
-timestamp: 2021-12-25 07:56:41 JST
+timestamp: 2022-01-05 08:35:09 JST
 tap: a-know/tap
+tap: harelba/q
 tap: homebrew/bundle
 tap: homebrew/cask
 tap: homebrew/cask-fonts
 tap: homebrew/core
 tap: jesseduffield/lazygit
 tap: px4/px4
-tap: rhysd/hgrep
 brew: a-know/tap/pi
 brew: act
 brew: asdf
@@ -64,6 +64,7 @@ brew: gping
 brew: grep
 brew: grex
 brew: gzip
+brew: harelba/q/q
 brew: highlight
 brew: hurl
 brew: jesseduffield/lazygit/lazygit
@@ -95,7 +96,6 @@ brew: px4/px4/gcc-arm-none-eabi
 brew: qt@5
 brew: rargs
 brew: re2c
-brew: rhysd/hgrep/hgrep
 brew: richmd
 brew: ripgrep
 brew: rmw
@@ -130,16 +130,13 @@ brew: wdiff
 brew: wget
 brew: xh
 brew: yarn
-brew: youtubedr
 brew: zsh
 brew: zsh-completions
 cask: accessmenubarapps
-cask: alacritty
 cask: alfred
 cask: alt-tab
 cask: anki
 cask: apparency
-cask: appflowy
 cask: arduino
 cask: battery-buddy
 cask: bitwarden
@@ -153,8 +150,6 @@ cask: dropbox
 cask: editaro
 cask: flux
 cask: folder-colorizer
-cask: font-cousine-nerd-font
-cask: font-hackgen-nerd
 cask: font-roboto-mono-nerd-font
 cask: fuwari
 cask: gitify
@@ -171,6 +166,7 @@ cask: kitty
 cask: licecap
 cask: numi
 cask: obsidian
+cask: pensela
 cask: pixel-picker
 cask: pngyu
 cask: processing
@@ -207,4 +203,3 @@ mas: 1563735522  Charmstone         (0.15)
 mas: 1569290801  ItemStock          (1.0)
 mas: 1581223559  Magic              (2.2)
 mas: 1586304988  Messer             (2.0.3)
-mas: 409183694   Keynote            (11.2)
