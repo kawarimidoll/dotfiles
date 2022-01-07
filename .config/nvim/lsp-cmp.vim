@@ -303,17 +303,18 @@ let g:fzf_preview_default_fzf_options = {
       \ '--cycle': v:true,
       \ '--no-sort': v:true,
       \ }
-nnoremap <Space>a <Cmd>FzfPreviewGitActions<CR>
-nnoremap <Space>b <Cmd>FzfPreviewBuffers<CR>
-nnoremap <Space>B <Cmd>FzfPreviewBufferLines<CR>
-nnoremap <Space>f <Cmd>FzfPreviewProjectFiles<CR>
-nnoremap <Space>h <Cmd>FzfPreviewProjectMruFiles<CR>
-nnoremap <Space>j <Cmd>FzfPreviewJumps<CR>
-nnoremap <Space>l <Cmd>FzfPreviewLines<CR>
-nnoremap <Space>m <Cmd>FzfPreviewMarks<CR>
-nnoremap <Space>/ :<C-u>FzfPreviewProjectGrep ""<Left>
-nnoremap <Space>? :<C-u>FzfPreviewProjectGrep ""<Left><C-r><C-f>
-nnoremap <Space>: <Cmd>FzfPreviewCommandPalette<CR>
+nnoremap <Space>a <Cmd>FzfPreviewGitActionsRpc<CR>
+nnoremap <Space>b <Cmd>FzfPreviewBuffersRpc<CR>
+nnoremap <Space>B <Cmd>FzfPreviewBufferLinesRpc<CR>
+nnoremap <Space>f <Cmd>FzfPreviewProjectFilesRpc<CR>
+nnoremap <Space>h <Cmd>FzfPreviewProjectMruFilesRpc<CR>
+nnoremap <Space>j <Cmd>FzfPreviewJumpsRpc<CR>
+nnoremap <Space>l <Cmd>FzfPreviewLinesRpc<CR>
+nnoremap <Space>m <Cmd>FzfPreviewMarksRpc<CR>
+nnoremap <Space>/ :<C-u>FzfPreviewProjectGrepRpc ""<Left>
+nnoremap <Space>? :<C-u>FzfPreviewProjectGrepRpc ""<Left><C-r><C-f>
+nnoremap <Space>: <Cmd>FzfPreviewCommandPaletteRpc<CR>
+xnoremap <Space>? "zy:<C-u>FzfPreviewProjectGrepRpc "<C-r>z"<Left>
 " }}}
 
 " {{{ hop.nvim
