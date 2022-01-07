@@ -147,6 +147,7 @@ Plug 'kdheepak/lazygit.nvim', #{ on: 'LazyGit' }
 Plug 'tyru/open-browser.vim', #{ on: ['OpenBrowser', '<Plug>(openbrowser-'] }
 Plug 'tyru/capture.vim', #{ on: 'Capture' }
 Plug 'yuki-yano/fuzzy-motion.vim'
+Plug 'hrsh7th/vim-searchx'
 Plug 'nathom/filetype.nvim'
 Plug 'arthurxavierx/vim-caser'
 Plug 'haya14busa/vim-asterisk'
@@ -171,6 +172,30 @@ let g:silicon['output'] = '~/Downloads/silicon-{time:%Y-%m-%d-%H%M%S}.png'
 " {{{ fuzzy-motion.vim
 nnoremap s; <Cmd>FuzzyMotion<CR>
 let g:fuzzy_motion_auto_jump = v:true
+" }}}
+
+" {{{ searchx
+nnoremap ? <Cmd>call searchx#start({ 'dir': 0 })<CR>
+nnoremap / <Cmd>call searchx#start({ 'dir': 1 })<CR>
+xnoremap ? <Cmd>call searchx#start({ 'dir': 0 })<CR>
+xnoremap / <Cmd>call searchx#start({ 'dir': 1 })<CR>
+nnoremap N <Cmd>call searchx#prev()<CR>
+nnoremap n <Cmd>call searchx#next()<CR>
+xnoremap N <Cmd>call searchx#prev()<CR>
+xnoremap n <Cmd>call searchx#next()<CR>
+nnoremap <C-l> <Cmd>call searchx#clear()<CR><Cmd>nohlsearch<CR><C-l>
+
+let g:searchx = {}
+let g:searchx.auto_accept = v:true
+let g:searchx.scrolloff = &scrolloff
+let g:searchx.scrolltime = 500
+let g:searchx.markers = split('ASDFGHJKL:QWERTYUIOPZXCVBNM', '.\zs')
+function g:searchx.convert(input) abort
+  if a:input !~# '\k'
+    return '\V' .. a:input
+  endif
+  return a:input->split(' ')->join('.\{-}')
+endfunction
 " }}}
 
 " {{{ vsnip
