@@ -922,8 +922,8 @@ endfunction
 augroup vimrc
   autocmd!
   " https://zenn.dev/uochan/articles/2021-12-08-vim-conventional-commits
-  autocmd FileType gitcommit ++once normal! gg
-  autocmd FileType gitcommit nnoremap <buffer> <CR> <Cmd>silent! execute 'normal! ^w"zdiw"_dip"zPA: ' <bar> startinsert!<CR>
+  autocmd FileType gitcommit,gina-commit ++once normal! gg
+  autocmd FileType gitcommit,gina-commit nnoremap <buffer> <CR> <Cmd>silent! execute 'normal! ^w"zdiw"_dip"zPA: ' <bar> startinsert!<CR>
 
   " [NeovimのTerminalモードをちょっと使いやすくする](https://zenn.dev/ryo_kawamata/articles/improve-neovmi-terminal)
   autocmd TermOpen * startinsert
