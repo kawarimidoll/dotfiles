@@ -169,7 +169,8 @@ let g:silicon['output'] = '~/Downloads/silicon-{time:%Y-%m-%d-%H%M%S}.png'
 " let g:denops#debug = 1
 
 " {{{ fuzzy-motion.vim
-nnoremap ? <Cmd>FuzzyMotion<CR>
+nnoremap s; <Cmd>FuzzyMotion<CR>
+let g:fuzzy_motion_auto_jump = v:true
 " }}}
 
 " {{{ vsnip
