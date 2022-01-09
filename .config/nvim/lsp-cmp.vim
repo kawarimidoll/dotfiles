@@ -175,14 +175,18 @@ let g:fuzzy_motion_auto_jump = v:true
 " }}}
 
 " {{{ searchx
-nnoremap ? <Cmd>call searchx#start({ 'dir': 0 })<CR>
-nnoremap / <Cmd>call searchx#start({ 'dir': 1 })<CR>
-xnoremap ? <Cmd>call searchx#start({ 'dir': 0 })<CR>
-xnoremap / <Cmd>call searchx#start({ 'dir': 1 })<CR>
-nnoremap N <Cmd>call searchx#prev()<CR>
-nnoremap n <Cmd>call searchx#next()<CR>
-xnoremap N <Cmd>call searchx#prev()<CR>
-xnoremap n <Cmd>call searchx#next()<CR>
+" nnoremap ? <Cmd>call searchx#start({ 'dir': 0 })<CR>
+" nnoremap / <Cmd>call searchx#start({ 'dir': 1 })<CR>
+" xnoremap ? <Cmd>call searchx#start({ 'dir': 0 })<CR>
+" xnoremap / <Cmd>call searchx#start({ 'dir': 1 })<CR>
+" nnoremap N <Cmd>call searchx#prev()<CR>
+" nnoremap n <Cmd>call searchx#next()<CR>
+" xnoremap N <Cmd>call searchx#prev()<CR>
+" xnoremap n <Cmd>call searchx#next()<CR>
+lua vim.keymap.set({'n', 'x'}, '?', "<Cmd>call searchx#start({ 'dir': 0 })<CR>")
+lua vim.keymap.set({'n', 'x'}, '/', "<Cmd>call searchx#start({ 'dir': 1 })<CR>")
+lua vim.keymap.set({'n', 'x'}, 'N', "<Cmd>call searchx#prev()<CR>")
+lua vim.keymap.set({'n', 'x'}, 'n', "<Cmd>call searchx#next()<CR>")
 nnoremap <C-l> <Cmd>call searchx#clear()<CR><Cmd>nohlsearch<CR><C-l>
 
 let g:searchx = {}
@@ -201,16 +205,23 @@ endfunction
 " {{{ vsnip
 " imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
 " smap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
-imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
-smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+" imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+" smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
 " smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
 " smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
 smap j <BS>j
 smap k <BS>k
-nmap st <Plug>(vsnip-select-text)
-xmap st <Plug>(vsnip-select-text)
-nmap sT <Plug>(vsnip-cut-text)
-xmap sT <Plug>(vsnip-cut-text)
+" nmap st <Plug>(vsnip-select-text)
+" xmap st <Plug>(vsnip-select-text)
+" nmap sT <Plug>(vsnip-cut-text)
+" xmap sT <Plug>(vsnip-cut-text)
+lua << EOF
+vim.keymap.set({'i', 's'}, '<C-l>', function()
+  return vim.fn['vsnip#available'](1) and "<Plug>(vsnip-expand-or-jump)" or "<C-l>"
+end, { expr = true })
+vim.keymap.set({'n', 'x'}, 'st', '<Plug>(vsnip-select-text)')
+vim.keymap.set({'n', 'x'}, 'sT', '<Plug>(vsnip-cut-text)')
+EOF
 " }}}
 
 " {{{ skkeleton
@@ -295,22 +306,26 @@ let g:dps_dial#augends = [
 \    cases: ['camelCase', 'PascalCase', 'snake_case', 'kebab-case', 'SCREAMING_SNAKE_CASE']
 \   } },
 \ ]
-nmap  <C-a>  <Plug>(dps-dial-increment)
-nmap  <C-x>  <Plug>(dps-dial-decrement)
-xmap  <C-a>  <Plug>(dps-dial-increment)
-xmap  <C-x>  <Plug>(dps-dial-decrement)
-xmap g<C-a> g<Plug>(dps-dial-increment)
-xmap g<C-x> g<Plug>(dps-dial-decrement)
+" nmap  <C-a>  <Plug>(dps-dial-increment)
+" nmap  <C-x>  <Plug>(dps-dial-decrement)
+" xmap  <C-a>  <Plug>(dps-dial-increment)
+" xmap  <C-x>  <Plug>(dps-dial-decrement)
+" xmap g<C-a> g<Plug>(dps-dial-increment)
+" xmap g<C-x> g<Plug>(dps-dial-decrement)
+lua vim.keymap.set({'n', 'x'}, '<C-a>', '<Plug>(dps-dial-increment)')
+lua vim.keymap.set({'n', 'x'}, '<C-x>', '<Plug>(dps-dial-decrement)')
+lua vim.keymap.set({'x'}, 'g<C-a>', 'g<Plug>(dps-dial-increment)')
+lua vim.keymap.set({'x'}, 'g<C-x>', 'g<Plug>(dps-dial-decrement)')
 " }}}
 
 " {{{ nvim-ts-hint-textobject
-onoremap m <Cmd>lua require('tsht').nodes()<CR>
-vnoremap m <Cmd>lua require('tsht').nodes()<CR>
+" onoremap m <Cmd>lua require('tsht').nodes()<CR>
+" vnoremap m <Cmd>lua require('tsht').nodes()<CR>
+lua vim.keymap.set({'o', 'v'}, 'm', function() return require('tsht').nodes() end)
 " }}}
 
 " {{{ openbrowser
-nmap gx <Plug>(openbrowser-smart-search)
-xmap gx <Plug>(openbrowser-smart-search)
+lua vim.keymap.set({'n', 'x'}, 'gx', '<Plug>(openbrowser-smart-search)')
 " }}}
 
 " {{{ vim-asterisk
