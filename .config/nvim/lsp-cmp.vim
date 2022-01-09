@@ -152,7 +152,7 @@ Plug 'nathom/filetype.nvim'
 Plug 'arthurxavierx/vim-caser'
 Plug 'haya14busa/vim-asterisk'
 Plug 'voldikss/vim-floaterm', #{ on: 'FloatermNew' }
-Plug 'phaazon/hop.nvim', #{ on: 'Hop' }
+" Plug 'phaazon/hop.nvim', #{ on: 'Hop' }
 Plug 'monaqa/dps-dial.vim', #{ on: '<Plug>(dps-dial-' }
 Plug 'segeljakt/vim-silicon', #{ on: 'Silicon' }
 Plug 'simeji/winresizer', #{ on: 'WinResizerStartResize' }
@@ -343,12 +343,12 @@ nnoremap <Space>: <Cmd>FzfPreviewCommandPaletteRpc<CR>
 xnoremap <Space>? "zy:<C-u>FzfPreviewProjectGrepRpc "<C-r>z"<Left>
 " }}}
 
-" {{{ hop.nvim
-nnoremap so :<C-u>HopChar1<CR>
-nnoremap st :<C-u>HopChar2<CR>
-nnoremap sl <Cmd>HopLine<CR>
-nnoremap sw <Cmd>HopWord<CR>
-" }}}
+" " {{{ hop.nvim
+" nnoremap so :<C-u>HopChar1<CR>
+" nnoremap st :<C-u>HopChar2<CR>
+" nnoremap sl <Cmd>HopLine<CR>
+" nnoremap sw <Cmd>HopWord<CR>
+" " }}}
 
 " {{{ winresizer
 nnoremap <C-e> <Cmd>WinResizerStartResize<CR>
@@ -775,7 +775,7 @@ require('lualine').setup({
   sections = { lualine_a = { 'mode', 'g:skkeleton#mode' } }
 })
 require('colorizer').setup()
-require('hop').setup()
+-- require('hop').setup()
 
 require('mini.bufremove').setup()
 require('mini.comment').setup()
@@ -825,7 +825,7 @@ require('mini.base16').setup({
   },
   use_cterm = true,
 })
-require('which-key').setup()
+-- require('which-key').setup()
 
 require('filetype').setup({
   overrides = {
