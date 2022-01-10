@@ -380,6 +380,9 @@ noremap [Q <Cmd>cfirst<CR>
 noremap ]Q <Cmd>clast<CR>
 map M %
 
+lua vim.keymap.set({'n', 'x'}, ';', "getcharsearch().forward ? ';' : ','", { expr = true })
+lua vim.keymap.set({'n', 'x'}, ',', "getcharsearch().forward ? ',' : ';'", { expr = true })
+
 " [Vim で q を prefix キーにする - 永遠に未完成](https://thinca.hatenablog.com/entry/q-as-prefix-key-in-vim)
 nnoremap <script> <expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
 nnoremap <sid>(q)q qq
