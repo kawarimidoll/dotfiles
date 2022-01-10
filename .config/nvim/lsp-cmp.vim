@@ -225,8 +225,7 @@ EOF
 " }}}
 
 " {{{ skkeleton
-imap <C-j> <Cmd>lua require('cmp').close()<CR><Plug>(skkeleton-enable)
-cmap <C-j> <Plug>(skkeleton-enable)
+lua vim.keymap.set({'n', 'c'}, '<C-j>', '<Plug>(skkeleton-enable)')
 
 let s:jisyo_dir = stdpath('config')
 let s:jisyo_name = 'SKK-JISYO.L'
@@ -234,7 +233,7 @@ let s:jisyo_path = expand(s:jisyo_dir . '/' . s:jisyo_name)
 if !filereadable(s:jisyo_path)
   echo "SSK Jisyo does not exists! '" . s:jisyo_path . "' is required!"
   let s:skk_setup_cmds = [
-    \   "curl -OL http://openlab.jp/skk/dic/SKK-JISYO.L.gz",
+    \   "curl -OL https://skk-dev.github.io/dict/SKK-JISYO.L.gz",
     \   "gunzip SKK-JISYO.L.gz",
     \   "mkdir -p " . s:jisyo_dir,
     \   "mv ./SKK-JISYO.L " . s:jisyo_dir,
