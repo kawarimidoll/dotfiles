@@ -57,8 +57,10 @@ PATH="${BREW_PREFIX}/opt/gnu-sed/libexec/gnubin:$PATH"
 PATH="${BREW_PREFIX}/opt/gnu-tar/libexec/gnubin:$PATH"
 PATH="${BREW_PREFIX}/opt/grep/libexec/gnubin:$PATH"
 PATH="${BREW_PREFIX}/opt/unzip/bin:$PATH"
-export LDFLAGS="-L ${BREW_PREFIX}/opt/binutils/lib"
-export CPPFLAGS="-I ${BREW_PREFIX}/opt/binutils/include"
+PATH="${BREW_PREFIX}/opt/curl/bin:$PATH"
+
+export LDFLAGS="-L${BREW_PREFIX}/opt/binutils/lib -L${BREW_PREFIX}/opt/curl/lib"
+export CPPFLAGS="-I${BREW_PREFIX}/opt/binutils/include -I${BREW_PREFIX}/opt/curl/include"
 
 MANPATH="${BREW_PREFIX}/opt/coreutils/libexec/gnuman:$MANPATH"
 MANPATH="${BREW_PREFIX}/opt/ed/libexec/gnuman:$MANPATH"
@@ -69,6 +71,9 @@ MANPATH="${BREW_PREFIX}/opt/grep/libexec/gnuman:$MANPATH"
 
 __add_fpath "${BREW_PREFIX}/share/zsh-completions"
 __add_fpath "${BREW_PREFIX}/share/zsh/site-functions"
+__add_fpath "${BREW_PREFIX}/opt/curl/share/zsh/site-functions"
+
+export PKG_CONFIG_PATH="${BREW_PREFIX}/opt/curl/lib/pkgconfig"
 
 # -----------------
 #  asdf

@@ -1,4 +1,4 @@
-timestamp: 2022-01-08 12:17:57 JST
+timestamp: 2022-01-11 08:10:06 JST
 tap: a-know/tap
 tap: harelba/q
 tap: homebrew/bundle
@@ -7,6 +7,7 @@ tap: homebrew/cask-fonts
 tap: homebrew/core
 tap: jesseduffield/lazygit
 tap: px4/px4
+tap: rhysd/hgrep
 brew: a-know/tap/pi
 brew: act
 brew: asdf
@@ -24,6 +25,7 @@ brew: cocoapods
 brew: croc
 brew: csvkit
 brew: csvq
+brew: curl
 brew: deno
 brew: dfu-programmer
 brew: dfu-util
@@ -64,7 +66,6 @@ brew: gping
 brew: grep
 brew: grex
 brew: gzip
-brew: harelba/q/q
 brew: highlight
 brew: hurl
 brew: jesseduffield/lazygit/lazygit
@@ -96,6 +97,7 @@ brew: px4/px4/gcc-arm-none-eabi
 brew: qt@5
 brew: rargs
 brew: re2c
+brew: rhysd/hgrep/hgrep
 brew: richmd
 brew: ripgrep
 brew: rmw
@@ -110,10 +112,10 @@ brew: snowpack
 brew: starship
 brew: svgo
 brew: t-rec
-brew: tesseract
 brew: the_platinum_searcher
 brew: tig
 brew: timewarrior
+brew: timg
 brew: tldr
 brew: tmux
 brew: tokei
@@ -130,13 +132,16 @@ brew: wdiff
 brew: wget
 brew: xh
 brew: yarn
+brew: youtubedr
 brew: zsh
 brew: zsh-completions
 cask: accessmenubarapps
+cask: alacritty
 cask: alfred
 cask: alt-tab
 cask: anki
 cask: apparency
+cask: appflowy
 cask: arduino
 cask: battery-buddy
 cask: bitwarden
@@ -150,6 +155,8 @@ cask: dropbox
 cask: editaro
 cask: flux
 cask: folder-colorizer
+cask: font-cousine-nerd-font
+cask: font-hackgen-nerd
 cask: font-roboto-mono-nerd-font
 cask: fuwari
 cask: gitify
@@ -163,12 +170,15 @@ cask: kap
 cask: karabiner-elements
 cask: keycastr
 cask: kitty
+cask: lazpaint
 cask: licecap
 cask: numi
 cask: obsidian
+cask: paintbrush
 cask: pensela
 cask: pixel-picker
 cask: pngyu
+cask: pomotroid
 cask: processing
 cask: provisionql
 cask: qlimagesize
@@ -201,6 +211,7 @@ mas: 1450640351  Lightweight PDF    (1.0.5)
 mas: 1467796430  Plain Pasta        (1.2.1)
 mas: 1563735522  Charmstone         (0.15)
 mas: 1569290801  ItemStock          (1.0)
-mas: 1575588022  MenubarX           (1.0.7)
+mas: 1575588022  MenubarX           (1.1.1)
 mas: 1581223559  Magic              (2.2)
 mas: 1586304988  Messer             (2.0.5)
+mas: 409183694   Keynote            (11.2)
