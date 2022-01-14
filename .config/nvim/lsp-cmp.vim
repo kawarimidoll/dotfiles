@@ -225,7 +225,7 @@ EOF
 " }}}
 
 " {{{ skkeleton
-lua vim.keymap.set({'n', 'c'}, '<C-j>', '<Plug>(skkeleton-enable)')
+lua vim.keymap.set({'i', 'c'}, '<C-j>', '<Plug>(skkeleton-enable)')
 
 let s:jisyo_dir = stdpath('config')
 let s:jisyo_name = 'SKK-JISYO.L'
