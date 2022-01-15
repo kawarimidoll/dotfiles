@@ -205,7 +205,7 @@ let g:searchx = {}
 let g:searchx.auto_accept = v:true
 let g:searchx.scrolloff = &scrolloff
 let g:searchx.scrolltime = 500
-let g:searchx.markers = split('ASDFGHJKL:QWERTYUIOPZXCVBNM', '.\zs')
+let g:searchx.markers = split('ASDFGHJKLQWERTYUIOPZXCVBNM', '.\zs')
 function g:searchx.convert(input) abort
   if a:input !~# '\k'
     return '\V' .. a:input
