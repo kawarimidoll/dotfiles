@@ -386,8 +386,8 @@ noremap [Q <Cmd>cfirst<CR>
 noremap ]Q <Cmd>clast<CR>
 map M %
 
-call <SID>keymap(['n', 'x'], '<expr> ;', "getcharsearch().forward ? ';' : ','")
-call <SID>keymap(['n', 'x'], '<expr> ,', "getcharsearch().forward ? ',' : ';'")
+" call <SID>keymap(['n', 'x'], '<expr> ;', "getcharsearch().forward ? ';' : ','")
+" call <SID>keymap(['n', 'x'], '<expr> ,', "getcharsearch().forward ? ',' : ';'")
 
 " [Vim で q を prefix キーにする - 永遠に未完成](https://thinca.hatenablog.com/entry/q-as-prefix-key-in-vim)
 nnoremap <script> <expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
