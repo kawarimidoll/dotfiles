@@ -169,6 +169,18 @@ let g:silicon = {}
 let g:silicon['output'] = '~/Downloads/silicon-{time:%Y-%m-%d-%H%M%S}.png'
 " let g:denops#debug = 1
 
+" lua vim.keymap.set() API is not released as stable yet
+function! s:keymap(modes, keys, rhs) abort
+  let cmd = a:rhs =~? '<Plug>' ? 'noremap' : 'map'
+  for mode in a:modes
+    if index(split('nvsxoilct', '.\zs'), mode) < 0
+      echoerr 'Invalid mode is detected: ' . mode
+      continue
+    endif
+    execute mode .. cmd a:keys a:rhs
+  endfor
+endfunction
+
 " {{{ fuzzy-motion.vim
 nnoremap s; <Cmd>FuzzyMotion<CR>
 let g:fuzzy_motion_auto_jump = v:true
@@ -183,10 +195,10 @@ let g:fuzzy_motion_auto_jump = v:true
 " nnoremap n <Cmd>call searchx#next()<CR>
 " xnoremap N <Cmd>call searchx#prev()<CR>
 " xnoremap n <Cmd>call searchx#next()<CR>
-lua vim.keymap.set({'n', 'x'}, '?', "<Cmd>call searchx#start({ 'dir': 0 })<CR>")
-lua vim.keymap.set({'n', 'x'}, '/', "<Cmd>call searchx#start({ 'dir': 1 })<CR>")
-lua vim.keymap.set({'n', 'x'}, 'N', "<Cmd>call searchx#prev()<CR>")
-lua vim.keymap.set({'n', 'x'}, 'n', "<Cmd>call searchx#next()<CR>")
+call <SID>keymap(['n', 'x'], '?', "<Cmd>call searchx#start({ 'dir': 0 })<CR>")
+call <SID>keymap(['n', 'x'], '/', "<Cmd>call searchx#start({ 'dir': 1 })<CR>")
+call <SID>keymap(['n', 'x'], 'N', "<Cmd>call searchx#prev()<CR>")
+call <SID>keymap(['n', 'x'], 'n', "<Cmd>call searchx#next()<CR>")
 nnoremap <C-l> <Cmd>call searchx#clear()<CR><Cmd>nohlsearch<CR><C-l>
 
 let g:searchx = {}
@@ -215,17 +227,14 @@ smap k <BS>k
 " xmap st <Plug>(vsnip-select-text)
 " nmap sT <Plug>(vsnip-cut-text)
 " xmap sT <Plug>(vsnip-cut-text)
-lua << EOF
-vim.keymap.set({'i', 's'}, '<C-l>', function()
-  return vim.fn['vsnip#available'](1) and "<Plug>(vsnip-expand-or-jump)" or "<C-l>"
-end, { expr = true })
-vim.keymap.set({'n', 'x'}, 'st', '<Plug>(vsnip-select-text)')
-vim.keymap.set({'n', 'x'}, 'sT', '<Plug>(vsnip-cut-text)')
-EOF
+call <SID>keymap(['i', 's'], '<expr> <C-l>',
+  \ "vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'")
+call <SID>keymap(['n', 'x'], 'st', '<Plug>(vsnip-select-text)')
+call <SID>keymap(['n', 'x'], 'sT', '<Plug>(vsnip-cut-text)')
 " }}}
 
 " {{{ skkeleton
-lua vim.keymap.set({'i', 'c'}, '<C-j>', '<Plug>(skkeleton-enable)')
+map! <C-j> <Plug>(skkeleton-enable)
 
 let s:jisyo_dir = stdpath('config')
 let s:jisyo_name = 'SKK-JISYO.L'
@@ -309,22 +318,20 @@ let g:dps_dial#augends = [
 " nmap  <C-x>  <Plug>(dps-dial-decrement)
 " xmap  <C-a>  <Plug>(dps-dial-increment)
 " xmap  <C-x>  <Plug>(dps-dial-decrement)
-" xmap g<C-a> g<Plug>(dps-dial-increment)
-" xmap g<C-x> g<Plug>(dps-dial-decrement)
-lua vim.keymap.set({'n', 'x'}, '<C-a>', '<Plug>(dps-dial-increment)')
-lua vim.keymap.set({'n', 'x'}, '<C-x>', '<Plug>(dps-dial-decrement)')
-lua vim.keymap.set({'x'}, 'g<C-a>', 'g<Plug>(dps-dial-increment)')
-lua vim.keymap.set({'x'}, 'g<C-x>', 'g<Plug>(dps-dial-decrement)')
+xmap g<C-a> g<Plug>(dps-dial-increment)
+xmap g<C-x> g<Plug>(dps-dial-decrement)
+call <SID>keymap(['n', 'x'], '<C-a>', '<Plug>(dps-dial-increment)')
+call <SID>keymap(['n', 'x'], '<C-x>', '<Plug>(dps-dial-decrement)')
 " }}}
 
 " {{{ nvim-ts-hint-textobject
 " onoremap m <Cmd>lua require('tsht').nodes()<CR>
 " vnoremap m <Cmd>lua require('tsht').nodes()<CR>
-lua vim.keymap.set({'o', 'v'}, 'm', function() return require('tsht').nodes() end)
+call <SID>keymap(['o', 'v'], 'm', "<Cmd>lua require('tsht').nodes()<CR>")
 " }}}
 
 " {{{ openbrowser
-lua vim.keymap.set({'n', 'x'}, 'gx', '<Plug>(openbrowser-smart-search)')
+call <SID>keymap(['n', 'x'], 'gx', '<Plug>(openbrowser-smart-search)')
 " }}}
 
 " {{{ vim-asterisk
@@ -379,8 +386,8 @@ noremap [Q <Cmd>cfirst<CR>
 noremap ]Q <Cmd>clast<CR>
 map M %
 
-lua vim.keymap.set({'n', 'x'}, ';', "getcharsearch().forward ? ';' : ','", { expr = true })
-lua vim.keymap.set({'n', 'x'}, ',', "getcharsearch().forward ? ',' : ';'", { expr = true })
+call <SID>keymap(['n', 'x'], '<expr> ;', "getcharsearch().forward ? ';' : ','")
+call <SID>keymap(['n', 'x'], '<expr> ,', "getcharsearch().forward ? ',' : ';'")
 
 " [Vim で q を prefix キーにする - 永遠に未完成](https://thinca.hatenablog.com/entry/q-as-prefix-key-in-vim)
 nnoremap <script> <expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
