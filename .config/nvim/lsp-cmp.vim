@@ -171,7 +171,7 @@ let g:silicon['output'] = '~/Downloads/silicon-{time:%Y-%m-%d-%H%M%S}.png'
 
 " lua vim.keymap.set() API is not released as stable yet
 function! s:keymap(modes, keys, rhs) abort
-  let cmd = a:rhs =~? '<Plug>' ? 'noremap' : 'map'
+  let cmd = a:rhs =~? '<Plug>' ? 'map' : 'noremap'
   for mode in a:modes
     if index(split('nvsxoilct', '.\zs'), mode) < 0
       echoerr 'Invalid mode is detected: ' . mode
