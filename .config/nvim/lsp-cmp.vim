@@ -170,16 +170,18 @@ let g:silicon['output'] = '~/Downloads/silicon-{time:%Y-%m-%d-%H%M%S}.png'
 " let g:denops#debug = 1
 
 " lua vim.keymap.set() API is not released as stable yet
-function! s:keymap(modes, keys, rhs) abort
-  let cmd = a:rhs =~? '<Plug>' ? 'map' : 'noremap'
-  for mode in a:modes
+function! s:keymap(modes, ...) abort
+  let arg = join(a:000, ' ')
+  let cmd = arg !~? '<Plug>' ? 'noremap' : 'map'
+  for mode in split(a:modes, '.\zs')
     if index(split('nvsxoilct', '.\zs'), mode) < 0
       echoerr 'Invalid mode is detected: ' . mode
       continue
     endif
-    execute mode .. cmd a:keys a:rhs
+    execute mode .. cmd arg
   endfor
 endfunction
+command! -nargs=+ Keymap call <SID>keymap(<f-args>)
 
 " {{{ fuzzy-motion.vim
 nnoremap s; <Cmd>FuzzyMotion<CR>
@@ -195,10 +197,10 @@ let g:fuzzy_motion_auto_jump = v:true
 " nnoremap n <Cmd>call searchx#next()<CR>
 " xnoremap N <Cmd>call searchx#prev()<CR>
 " xnoremap n <Cmd>call searchx#next()<CR>
-call <SID>keymap(['n', 'x'], '?', "<Cmd>call searchx#start({ 'dir': 0 })<CR>")
-call <SID>keymap(['n', 'x'], '/', "<Cmd>call searchx#start({ 'dir': 1 })<CR>")
-call <SID>keymap(['n', 'x'], 'N', "<Cmd>call searchx#prev()<CR>")
-call <SID>keymap(['n', 'x'], 'n', "<Cmd>call searchx#next()<CR>")
+Keymap nx ? <Cmd>call searchx#start(#{ dir: 0 })<CR>
+Keymap nx / <Cmd>call searchx#start(#{ dir: 1 })<CR>
+Keymap nx N <Cmd>call searchx#prev()<CR>
+Keymap nx n <Cmd>call searchx#next()<CR>
 nnoremap <C-l> <Cmd>call searchx#clear()<CR><Cmd>nohlsearch<CR><C-l>
 
 let g:searchx = {}
@@ -227,10 +229,9 @@ smap k <BS>k
 " xmap st <Plug>(vsnip-select-text)
 " nmap sT <Plug>(vsnip-cut-text)
 " xmap sT <Plug>(vsnip-cut-text)
-call <SID>keymap(['i', 's'], '<expr> <C-l>',
-  \ "vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'")
-call <SID>keymap(['n', 'x'], 'st', '<Plug>(vsnip-select-text)')
-call <SID>keymap(['n', 'x'], 'sT', '<Plug>(vsnip-cut-text)')
+Keymap is <expr> <C-l> vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+Keymap nx st <Plug>(vsnip-select-text)
+Keymap nx sT <Plug>(vsnip-cut-text)
 " }}}
 
 " {{{ skkeleton
@@ -320,18 +321,18 @@ let g:dps_dial#augends = [
 " xmap  <C-x>  <Plug>(dps-dial-decrement)
 xmap g<C-a> g<Plug>(dps-dial-increment)
 xmap g<C-x> g<Plug>(dps-dial-decrement)
-call <SID>keymap(['n', 'x'], '<C-a>', '<Plug>(dps-dial-increment)')
-call <SID>keymap(['n', 'x'], '<C-x>', '<Plug>(dps-dial-decrement)')
+Keymap nx <C-a> <Plug>(dps-dial-increment)
+Keymap nx <C-x> <Plug>(dps-dial-decrement)
 " }}}
 
 " {{{ nvim-ts-hint-textobject
 " onoremap m <Cmd>lua require('tsht').nodes()<CR>
 " vnoremap m <Cmd>lua require('tsht').nodes()<CR>
-call <SID>keymap(['o', 'v'], 'm', "<Cmd>lua require('tsht').nodes()<CR>")
+Keymap ov m <Cmd>lua require(tsht).nodes()<CR>
 " }}}
 
 " {{{ openbrowser
-call <SID>keymap(['n', 'x'], 'gx', '<Plug>(openbrowser-smart-search)')
+Keymap nx gx <Plug>(openbrowser-smart-search)
 " }}}
 
 " {{{ vim-asterisk
