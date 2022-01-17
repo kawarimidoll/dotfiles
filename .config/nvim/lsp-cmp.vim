@@ -170,9 +170,9 @@ let g:silicon['output'] = '~/Downloads/silicon-{time:%Y-%m-%d-%H%M%S}.png'
 " let g:denops#debug = 1
 
 " lua vim.keymap.set() API is not released as stable yet
-function! s:keymap(modes, ...) abort
+function! s:keymap(force_map, modes, ...) abort
   let arg = join(a:000, ' ')
-  let cmd = arg !~? '<Plug>' ? 'noremap' : 'map'
+  let cmd = (a:force_map || arg =~? '<Plug>') ? 'map' : 'noremap'
   for mode in split(a:modes, '.\zs')
     if index(split('nvsxoilct', '.\zs'), mode) < 0
       echoerr 'Invalid mode is detected: ' . mode
@@ -181,7 +181,7 @@ function! s:keymap(modes, ...) abort
     execute mode .. cmd arg
   endfor
 endfunction
-command! -nargs=+ Keymap call <SID>keymap(<f-args>)
+command! -nargs=+ -bang Keymap call <SID>keymap(<bang>0, <f-args>)
 
 " {{{ fuzzy-motion.vim
 nnoremap s; <Cmd>FuzzyMotion<CR>
