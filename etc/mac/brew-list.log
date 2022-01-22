@@ -1,4 +1,4 @@
-timestamp: 2022-01-14 06:47:54 JST
+timestamp: 2022-01-23 08:18:36 JST
 tap: a-know/tap
 tap: harelba/q
 tap: homebrew/bundle
@@ -189,6 +189,7 @@ cask: qlvideo
 cask: quicklook-csv
 cask: quicklook-json
 cask: quicklookase
+cask: qview
 cask: rectangle
 cask: scriptql
 cask: shottr
@@ -207,14 +208,15 @@ mas: 1099120373  Exporter           (3.0.6)
 mas: 1158642554  Desktop Lens       (4.0.6)
 mas: 1187772509  stts               (2.3)
 mas: 1200685619  QuickLinks         (2.5)
+mas: 1233965871  ScreenBrush        (1.7.8)
 mas: 1328847392  Processes Monitor  (1.4)
-mas: 1351639930  Gifski             (2.19.4)
-mas: 1429033973  RunCat             (9.4)
+mas: 1351639930  Gifski             (2.20.1)
+mas: 1429033973  RunCat             (9.5)
 mas: 1450640351  Lightweight PDF    (1.0.5)
 mas: 1467796430  Plain Pasta        (1.2.1)
 mas: 1563735522  Charmstone         (0.15)
 mas: 1569290801  ItemStock          (1.0)
-mas: 1575588022  MenubarX           (1.1.6)
+mas: 1575588022  MenubarX           (1.2.0)
 mas: 1581223559  Magic              (2.2)
-mas: 1586304988  Messer             (2.0.5)
+mas: 1586304988  Messer             (2.0.7)
 mas: 409183694   Keynote            (11.2)
