@@ -152,7 +152,6 @@ Plug 'nathom/filetype.nvim'
 Plug 'arthurxavierx/vim-caser'
 Plug 'haya14busa/vim-asterisk'
 Plug 'voldikss/vim-floaterm', #{ on: 'FloatermNew' }
-" Plug 'phaazon/hop.nvim', #{ on: 'Hop' }
 Plug 'monaqa/dps-dial.vim', #{ on: '<Plug>(dps-dial-' }
 Plug 'segeljakt/vim-silicon', #{ on: 'Silicon' }
 Plug 'simeji/winresizer', #{ on: 'WinResizerStartResize' }
@@ -189,14 +188,6 @@ let g:fuzzy_motion_auto_jump = v:true
 " }}}
 
 " {{{ searchx
-" nnoremap ? <Cmd>call searchx#start({ 'dir': 0 })<CR>
-" nnoremap / <Cmd>call searchx#start({ 'dir': 1 })<CR>
-" xnoremap ? <Cmd>call searchx#start({ 'dir': 0 })<CR>
-" xnoremap / <Cmd>call searchx#start({ 'dir': 1 })<CR>
-" nnoremap N <Cmd>call searchx#prev()<CR>
-" nnoremap n <Cmd>call searchx#next()<CR>
-" xnoremap N <Cmd>call searchx#prev()<CR>
-" xnoremap n <Cmd>call searchx#next()<CR>
 Keymap nx ? <Cmd>call searchx#start(#{ dir: 0 })<CR>
 Keymap nx / <Cmd>call searchx#start(#{ dir: 1 })<CR>
 Keymap nx N <Cmd>call searchx#prev()<CR>
@@ -219,16 +210,10 @@ endfunction
 " {{{ vsnip
 " imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
 " smap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
-" imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
-" smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
 " smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
 " smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
 smap j <BS>j
 smap k <BS>k
-" nmap st <Plug>(vsnip-select-text)
-" xmap st <Plug>(vsnip-select-text)
-" nmap sT <Plug>(vsnip-cut-text)
-" xmap sT <Plug>(vsnip-cut-text)
 Keymap is <expr> <C-l> vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
 Keymap nx st <Plug>(vsnip-select-text)
 Keymap nx sT <Plug>(vsnip-cut-text)
@@ -315,10 +300,6 @@ let g:dps_dial#augends = [
 \    cases: ['camelCase', 'PascalCase', 'snake_case', 'kebab-case', 'SCREAMING_SNAKE_CASE']
 \   } },
 \ ]
-" nmap  <C-a>  <Plug>(dps-dial-increment)
-" nmap  <C-x>  <Plug>(dps-dial-decrement)
-" xmap  <C-a>  <Plug>(dps-dial-increment)
-" xmap  <C-x>  <Plug>(dps-dial-decrement)
 xmap g<C-a> g<Plug>(dps-dial-increment)
 xmap g<C-x> g<Plug>(dps-dial-decrement)
 Keymap nx <C-a> <Plug>(dps-dial-increment)
@@ -326,8 +307,6 @@ Keymap nx <C-x> <Plug>(dps-dial-decrement)
 " }}}
 
 " {{{ nvim-ts-hint-textobject
-" onoremap m <Cmd>lua require('tsht').nodes()<CR>
-" vnoremap m <Cmd>lua require('tsht').nodes()<CR>
 Keymap ov m <Cmd>lua require(tsht).nodes()<CR>
 " }}}
 
@@ -365,13 +344,6 @@ nnoremap <Space>: <Cmd>FzfPreviewCommandPaletteRpc<CR>
 xnoremap <Space>? "zy:<C-u>FzfPreviewProjectGrepRpc "<C-r>z"<Left>
 " }}}
 
-" " {{{ hop.nvim
-" nnoremap so :<C-u>HopChar1<CR>
-" nnoremap st :<C-u>HopChar2<CR>
-" nnoremap sl <Cmd>HopLine<CR>
-" nnoremap sw <Cmd>HopWord<CR>
-" " }}}
-
 " {{{ winresizer
 nnoremap <C-e> <Cmd>WinResizerStartResize<CR>
 " }}}
@@ -387,8 +359,8 @@ noremap [Q <Cmd>cfirst<CR>
 noremap ]Q <Cmd>clast<CR>
 map M %
 
-" call <SID>keymap(['n', 'x'], '<expr> ;', "getcharsearch().forward ? ';' : ','")
-" call <SID>keymap(['n', 'x'], '<expr> ,', "getcharsearch().forward ? ',' : ';'")
+" Keymap nx <expr> ; getcharsearch().forward ? ';' : ','
+" Keymap nx <expr> , getcharsearch().forward ? ',' : ';'
 
 " [Vim で q を prefix キーにする - 永遠に未完成](https://thinca.hatenablog.com/entry/q-as-prefix-key-in-vim)
 nnoremap <script> <expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
@@ -800,7 +772,6 @@ require('lualine').setup({
   sections = { lualine_a = { 'mode', 'g:skkeleton#mode' } }
 })
 require('colorizer').setup()
--- require('hop').setup()
 
 require('mini.bufremove').setup()
 require('mini.comment').setup()
