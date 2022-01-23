@@ -422,6 +422,13 @@ require('nvim-treesitter.configs').setup({
   -- {{{ nvim-treesitter
   ensure_installed = "maintained",
   sync_install = false,
+  ignore_install = {
+    "ocaml",
+    "ocaml_interface",
+    "ocamllex",
+    "teal",
+    "tlaplus"
+  },
   highlight = {
     enable = true,
     additional_vim_regex_highlighting = { 'vim' },
