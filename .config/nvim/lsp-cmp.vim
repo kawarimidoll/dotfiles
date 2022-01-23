@@ -742,12 +742,12 @@ lsp_installer.on_server_ready(function(server)
         javascriptreact = { prettier },
       }
     }
-  elseif server.name == "sumneko_lua" then
-    -- -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#sumneko_lua
-    -- opts.settings.Lua.diagnostics = { globals = { 'vim' } }
-    -- opts.settings.Lua.workspace = { library = vim.api.nvim_get_runtime_file("", true) }
-    -- opts.settings.Lua.telemetry = { enable = false }
-    opts = require('lua-dev').setup()
+  -- elseif server.name == "sumneko_lua" then
+  --   -- -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#sumneko_lua
+  --   -- opts.settings.Lua.diagnostics = { globals = { 'vim' } }
+  --   -- opts.settings.Lua.workspace = { library = vim.api.nvim_get_runtime_file("", true) }
+  --   -- opts.settings.Lua.telemetry = { enable = false }
+  --   opts = require('lua-dev').setup()
   end
 
   server:setup(opts)
@@ -830,45 +830,45 @@ require('mini.base16').setup({
 })
 -- require('which-key').setup()
 
-require('filetype').setup({
-  overrides = {
-    extensions = {
-      bashrc = 'bash',
-      env = 'env',
-    },
-    complex = {
-      ["%.env.*"] = "env",
-      ["%.zshrc.*"] = "zsh",
-      [".*shrc"] = "bash",
-      ["git--__.+"] = "bash",
-    },
-  }
-})
-
-local Job = require('plenary.job')
-local karabiner_cli = '/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli'
-function _G.set_karabiner(val)
-  Job:new{
-    command = karabiner_cli,
-    args = {
-      '--set-variables',
-      ('{"neovim_in_insert_mode":%d}'):format(val),
-    },
-  }:start()
-end
-
-function _G.set_karabiner_if_in_insert_mode()
-  local val = vim.fn.mode():match'[icrR]' and 1 or 0
-  _G.set_karabiner(val)
-end
-vim.cmd[[
-augroup skkeleton_karabiner_elements
-  autocmd!
-  autocmd InsertEnter,CmdlineEnter * call v:lua.set_karabiner(1)
-  autocmd InsertLeave,CmdlineLeave,FocusLost * call v:lua.set_karabiner(0)
-  autocmd FocusGained * call v:lua.set_karabiner_if_in_insert_mode()
-augroup END
-]]
+-- require('filetype').setup({
+--   overrides = {
+--     extensions = {
+--       bashrc = 'bash',
+--       env = 'env',
+--     },
+--     complex = {
+--       ["%.env.*"] = "env",
+--       ["%.zshrc.*"] = "zsh",
+--       [".*shrc"] = "bash",
+--       ["git--__.+"] = "bash",
+--     },
+--   }
+-- })
+-- 
+-- local Job = require('plenary.job')
+-- local karabiner_cli = '/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli'
+-- function _G.set_karabiner(val)
+--   Job:new{
+--     command = karabiner_cli,
+--     args = {
+--       '--set-variables',
+--       ('{"neovim_in_insert_mode":%d}'):format(val),
+--     },
+--   }:start()
+-- end
+-- 
+-- function _G.set_karabiner_if_in_insert_mode()
+--   local val = vim.fn.mode():match'[icrR]' and 1 or 0
+--   _G.set_karabiner(val)
+-- end
+-- vim.cmd[[
+-- augroup skkeleton_karabiner_elements
+--   autocmd!
+--   autocmd InsertEnter,CmdlineEnter * call v:lua.set_karabiner(1)
+--   autocmd InsertLeave,CmdlineLeave,FocusLost * call v:lua.set_karabiner(0)
+--   autocmd FocusGained * call v:lua.set_karabiner_if_in_insert_mode()
+-- augroup END
+-- ]]
 EOF
 
 "-----------------
