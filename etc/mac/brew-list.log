@@ -1,4 +1,4 @@
-timestamp: 2022-01-23 08:18:36 JST
+timestamp: 2022-02-04 07:31:40 JST
 tap: a-know/tap
 tap: harelba/q
 tap: homebrew/bundle
@@ -39,6 +39,7 @@ brew: eureka
 brew: exa
 brew: fcp
 brew: fd
+brew: ffmpeg
 brew: findutils
 brew: fnm
 brew: fselect
@@ -146,6 +147,7 @@ cask: appflowy
 cask: arduino
 cask: battery-buddy
 cask: bitwarden
+cask: boop
 cask: brave-browser
 cask: cloudflare-warp
 cask: deepl
@@ -159,7 +161,6 @@ cask: folder-colorizer
 cask: font-cousine-nerd-font
 cask: font-hackgen-nerd
 cask: font-roboto-mono-nerd-font
-cask: fuwari
 cask: gitify
 cask: google-japanese-ime
 cask: hiddenbar
@@ -173,7 +174,6 @@ cask: keycastr
 cask: kitty
 cask: lazpaint
 cask: licecap
-cask: nomachine
 cask: numi
 cask: obsidian
 cask: paintbrush
@@ -206,7 +206,7 @@ cask: xbar
 cask: yippy
 mas: 1099120373  Exporter           (3.0.6)
 mas: 1158642554  Desktop Lens       (4.0.6)
-mas: 1187772509  stts               (2.3)
+mas: 1187772509  stts               (2.4)
 mas: 1200685619  QuickLinks         (2.5)
 mas: 1233965871  ScreenBrush        (1.7.8)
 mas: 1328847392  Processes Monitor  (1.4)
@@ -216,7 +216,7 @@ mas: 1450640351  Lightweight PDF    (1.0.5)
 mas: 1467796430  Plain Pasta        (1.2.1)
 mas: 1563735522  Charmstone         (0.15)
 mas: 1569290801  ItemStock          (1.0)
-mas: 1575588022  MenubarX           (1.2.0)
+mas: 1575588022  MenubarX           (1.2.2)
 mas: 1581223559  Magic              (2.2)
 mas: 1586304988  Messer             (2.0.7)
 mas: 409183694   Keynote            (11.2)
