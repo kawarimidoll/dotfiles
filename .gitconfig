@@ -30,28 +30,28 @@
 	autosquash = rebase -i --autosquash
 	browse = !open $(git remote-url)
 	btf = rebase --continue
-	current-branch = rev-parse --abbrev-ref HEAD
 	cog = config --global --edit
+	current-branch = rev-parse --abbrev-ref HEAD
 	default-branch = !git symbolic-ref refs/remotes/origin/HEAD | sed 's!.*/!!'
 	delete = branch --delete
 	df = !git diff $(git default-branch)...$(git current-branch)
 	discard = restore
+	fixup = !git remember | xargs --no-run-if-empty -I_ git commit --fixup _ && git rebase -i --autosquash
 	fz-branch = __fz-switch
-	fz-switch = __fz-switch
 	fz-delete = __fz-delete
 	fz-merge = __fz-merge
-	graph = log --graph --oneline
+	fz-switch = __fz-switch
 	git = !git
-	fixup = !git remember | xargs --no-run-if-empty -I_ git commit --fixup _ && git rebase -i --autosquash
+	graph = log --graph --oneline
 	history = log --numstat --pretty=format:'%C(auto)%h %C(blue)%cs%C(auto)%d %s %C(blue)[%cn]'
 	home = !git switch $(git default-branch)
 	it = __it
 	latest-tag = describe --tags --abbrev=0
 	list-branch = __list-branch
 	party = shortlog -nse
-	rename-branch = branch --move
 	remember = __remember
 	remote-url = !git remote get-url origin | sed -E 's!^git@(.+):!\\1/!' | sed -e 's/\\.git$//'
+	rename-branch = branch --move
 	rewind = !git remember | xargs --no-run-if-empty git reset --soft
 	root = !pwd
 	save = stash save
