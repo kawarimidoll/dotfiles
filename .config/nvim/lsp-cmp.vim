@@ -814,6 +814,8 @@ require('gitsigns').setup({
 
     -- Text object
     map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+
+    vim.cmd [[ highlight link GitSignsCurrentLineBlame NonText ]]
   end
 })
 require('lualine').setup({
