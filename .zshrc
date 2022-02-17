@@ -136,7 +136,8 @@ oneliners() {
   zle redisplay
 }
 zle -N oneliners
-bindkey '^x' oneliners
+bindkey '^xo' oneliners
+bindkey '^x^o' oneliners
 
 # [zshで特定のコマンドをヒストリに追加しない条件を柔軟に設定する - mollifier delta blog](https://mollifier.hatenablog.com/entry/20090728/p1)
 zshaddhistory() {
