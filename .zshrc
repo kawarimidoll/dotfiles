@@ -117,18 +117,16 @@ bindkey '^r' select-history
 # -----------------
 #  Functions
 # -----------------
-# [Terminalの現在行をエディタで編集して実行する - ハイパーマッスルエンジニアになりたい](https://www.rasukarusan.com/entry/2020/04/20/083000)
+# [zshのコマンドラインを任意のテキストエディタで編集する - Qiita](https://qiita.com/mollifier/items/7b1cfe609a7911a69706)
+autoload -Uz edit-command-line
+zle -N edit-command-line
 edit_current_line() {
-  local tmpfile=$(mktemp)
-  echo "$BUFFER" > $tmpfile
-  nvim $tmpfile --noplugin -u ~/dotfiles/.config/nvim/min-edit.vim -c 'normal! G$' -c "setlocal autowriteall" -c 'set filetype=zsh'
-  BUFFER="$(cat $tmpfile)"
-  CURSOR=${#BUFFER}
-  rm $tmpfile
-  zle reset-prompt
+  EDITOR="nvim --noplugin -u ~/dotfiles/.config/nvim/min-edit.vim -c 'norm! G$' -c 'setl awa' -c 'setf zsh'" \
+    zle edit-command-line
 }
 zle -N edit_current_line
-bindkey '^w' edit_current_line
+bindkey '^xe' edit_current_line
+bindkey '^x^e' edit_current_line
 
 oneliners() {
   local oneliner=$(__get_oneliners) || return 1
