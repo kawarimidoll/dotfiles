@@ -140,6 +140,20 @@ oneliners() {
 zle -N oneliners
 bindkey '^x' oneliners
 
+# [zshで特定のコマンドをヒストリに追加しない条件を柔軟に設定する - mollifier delta blog](https://mollifier.hatenablog.com/entry/20090728/p1)
+zshaddhistory() {
+  local line=${1%%$'\n'}
+  local cmd=${line%% *}
+
+  # 以下の条件をすべて満たすものだけをヒストリに追加する
+  # 全体が5字以上である
+  # コマンドが存在する
+  # 特定のコマンドではない
+  [[ ${#line} -ge 5
+    && "$(command -v $cmd)" != ''
+    && ${cmd} != (man|cd|mv|cp|rm|brew|frg|nv)
+  ]]
+}
 # -----------------
 #  PATH
 # -----------------
