@@ -98,28 +98,28 @@ endif
 
 call jetpack#begin()
 Jetpack 'vim-denops/denops.vim'
-Jetpack 'vim-skk/skkeleton'
-Jetpack 'Shougo/ddc.vim'
+Jetpack 'vim-skk/skkeleton', #{ on: '<Plug>(skkeleton-enable)' }
+Jetpack 'Shougo/ddc.vim', #{ on: ['InsertEnter', 'CmdlineEnter'] }
 
-Jetpack 'hrsh7th/cmp-nvim-lsp'
-Jetpack 'hrsh7th/cmp-buffer'
-Jetpack 'hrsh7th/cmp-path'
-Jetpack 'hrsh7th/cmp-cmdline'
-Jetpack 'hrsh7th/nvim-cmp'
-Jetpack 'hrsh7th/cmp-vsnip'
-Jetpack 'hrsh7th/cmp-nvim-lua'
-Jetpack 'ray-x/cmp-treesitter'
-Jetpack 'tzachar/cmp-tabnine', #{ do: './install.sh' }
-Jetpack 'lukas-reineke/cmp-rg'
-Jetpack 'hrsh7th/cmp-nvim-lsp-document-symbol'
-Jetpack 'f3fora/cmp-spell'
-Jetpack 'octaltree/cmp-look'
-Jetpack 'onsails/lspkind-nvim'
+Jetpack 'hrsh7th/cmp-nvim-lsp', #{ on: ['InsertEnter', 'CmdlineEnter'] }
+Jetpack 'hrsh7th/cmp-buffer', #{ on: ['InsertEnter', 'CmdlineEnter'] }
+Jetpack 'hrsh7th/cmp-path', #{ on: ['InsertEnter', 'CmdlineEnter'] }
+Jetpack 'hrsh7th/cmp-cmdline', #{ on: ['InsertEnter', 'CmdlineEnter'] }
+Jetpack 'hrsh7th/nvim-cmp', #{ on: ['InsertEnter', 'CmdlineEnter'] }
+Jetpack 'hrsh7th/cmp-vsnip', #{ on: ['InsertEnter', 'CmdlineEnter'] }
+Jetpack 'hrsh7th/cmp-nvim-lua', #{ on: ['InsertEnter', 'CmdlineEnter'] }
+Jetpack 'ray-x/cmp-treesitter', #{ on: ['InsertEnter', 'CmdlineEnter'] }
+Jetpack 'tzachar/cmp-tabnine', #{ on: ['InsertEnter', 'CmdlineEnter'], do: './install.sh' }
+Jetpack 'lukas-reineke/cmp-rg', #{ on: ['InsertEnter', 'CmdlineEnter'] }
+Jetpack 'hrsh7th/cmp-nvim-lsp-document-symbol', #{ on: ['InsertEnter', 'CmdlineEnter'] }
+Jetpack 'f3fora/cmp-spell', #{ on: ['InsertEnter', 'CmdlineEnter'] }
+Jetpack 'octaltree/cmp-look', #{ on: ['InsertEnter', 'CmdlineEnter'] }
+Jetpack 'onsails/lspkind-nvim', #{ on: ['InsertEnter', 'CmdlineEnter'] }
 
-Jetpack 'ray-x/lsp_signature.nvim'
-Jetpack 'hrsh7th/vim-vsnip'
-Jetpack 'hrsh7th/vim-vsnip-integ'
-Jetpack 'rafamadriz/friendly-snippets'
+Jetpack 'ray-x/lsp_signature.nvim', #{ on: ['InsertEnter', 'CmdlineEnter'] }
+Jetpack 'hrsh7th/vim-vsnip', #{ on: ['InsertEnter', 'CmdlineEnter'] }
+Jetpack 'hrsh7th/vim-vsnip-integ', #{ on: ['InsertEnter', 'CmdlineEnter'] }
+Jetpack 'rafamadriz/friendly-snippets', #{ on: ['InsertEnter', 'CmdlineEnter'] }
 
 Jetpack 'lewis6991/impatient.nvim'
 Jetpack 'neovim/nvim-lspconfig'
@@ -141,7 +141,7 @@ Jetpack 'lewis6991/spellsitter.nvim'
 Jetpack 'andymass/vim-matchup'
 
 Jetpack 'junegunn/fzf', #{ do: { -> fzf#install() } }
-Jetpack 'yuki-yano/fzf-preview.vim', #{ branch: 'release/rpc' }
+Jetpack 'yuki-yano/fzf-preview.vim', #{ branch: 'release/rpc', on: [] }
 
 Jetpack 'nvim-lua/plenary.nvim'
 Jetpack 'nvim-lualine/lualine.nvim'
@@ -153,15 +153,15 @@ Jetpack 'lewis6991/gitsigns.nvim'
 Jetpack 'kat0h/bufpreview.vim', #{ on: 'PreviewMarkdown' }
 Jetpack 'lambdalisue/gina.vim', #{ on: 'Gina' }
 Jetpack 'kdheepak/lazygit.nvim', #{ on: 'LazyGit' }
-Jetpack 'tyru/open-browser.vim', #{ on: ['OpenBrowser', '<Plug>(openbrowser-'] }
+Jetpack 'tyru/open-browser.vim', #{ on: ['OpenBrowser', '<Plug>(openbrowser-smart-search)'] }
 Jetpack 'tyru/capture.vim', #{ on: 'Capture' }
-Jetpack 'yuki-yano/fuzzy-motion.vim'
+Jetpack 'yuki-yano/fuzzy-motion.vim', #{ on: 'FuzzyMotion' }
 Jetpack 'hrsh7th/vim-searchx'
 Jetpack 'nathom/filetype.nvim'
 Jetpack 'arthurxavierx/vim-caser'
 Jetpack 'haya14busa/vim-asterisk'
 Jetpack 'voldikss/vim-floaterm', #{ on: 'FloatermNew' }
-Jetpack 'monaqa/dps-dial.vim', #{ on: '<Plug>(dps-dial-' }
+Jetpack 'monaqa/dps-dial.vim' ", #{ on: ['<Plug>(dps-dial-increment)', '<Plug>(dps-dial-decrement)'] }
 Jetpack 'segeljakt/vim-silicon', #{ on: 'Silicon' }
 Jetpack 'simeji/winresizer', #{ on: 'WinResizerStartResize' }
 Jetpack 'vim-jp/vimdoc-ja'
@@ -339,18 +339,28 @@ let g:fzf_preview_default_fzf_options = {
       \ '--cycle': v:true,
       \ '--no-sort': v:true,
       \ }
-nnoremap <Space>a <Cmd>FzfPreviewGitActionsRpc<CR>
-nnoremap <Space>b <Cmd>FzfPreviewBuffersRpc<CR>
-nnoremap <Space>B <Cmd>FzfPreviewBufferLinesRpc<CR>
-nnoremap <Space>f <Cmd>FzfPreviewProjectFilesRpc<CR>
-nnoremap <Space>h <Cmd>FzfPreviewProjectMruFilesRpc<CR>
-nnoremap <Space>j <Cmd>FzfPreviewJumpsRpc<CR>
-nnoremap <Space>l <Cmd>FzfPreviewLinesRpc<CR>
-nnoremap <Space>m <Cmd>FzfPreviewMarksRpc<CR>
-nnoremap <Space>/ :<C-u>FzfPreviewProjectGrepRpc ""<Left>
-nnoremap <Space>? :<C-u>FzfPreviewProjectGrepRpc ""<Left><C-r><C-f>
-nnoremap <Space>: <Cmd>FzfPreviewCommandPaletteRpc<CR>
-xnoremap <Space>? "zy:<C-u>FzfPreviewProjectGrepRpc "<C-r>z"<Left>
+
+let s:fzf_preview_loaded = 0
+function s:ensure_fzf() abort
+  if s:fzf_preview_loaded
+    return
+  endif
+  let s:fzf_preview_loaded = 1
+  silent! packadd fzf-preview.vim
+endfunction
+
+nnoremap <Space>a <Cmd>call <SID>ensure_fzf()<CR><Cmd>FzfPreviewGitActionsRpc<CR>
+nnoremap <Space>b <Cmd>call <SID>ensure_fzf()<CR><Cmd>FzfPreviewBuffersRpc<CR>
+nnoremap <Space>B <Cmd>call <SID>ensure_fzf()<CR><Cmd>FzfPreviewBufferLinesRpc<CR>
+nnoremap <Space>f <Cmd>call <SID>ensure_fzf()<CR><Cmd>FzfPreviewProjectFilesRpc<CR>
+nnoremap <Space>h <Cmd>call <SID>ensure_fzf()<CR><Cmd>FzfPreviewProjectMruFilesRpc<CR>
+nnoremap <Space>j <Cmd>call <SID>ensure_fzf()<CR><Cmd>FzfPreviewJumpsRpc<CR>
+nnoremap <Space>l <Cmd>call <SID>ensure_fzf()<CR><Cmd>FzfPreviewLinesRpc<CR>
+nnoremap <Space>m <Cmd>call <SID>ensure_fzf()<CR><Cmd>FzfPreviewMarksRpc<CR>
+nnoremap <Space>/ <Cmd>call <SID>ensure_fzf()<CR>:<C-u>FzfPreviewProjectGrepRpc ""<Left>
+nnoremap <Space>? <Cmd>call <SID>ensure_fzf()<CR>:<C-u>FzfPreviewProjectGrepRpc ""<Left><C-r><C-f>
+nnoremap <Space>: <Cmd>call <SID>ensure_fzf()<CR><Cmd>FzfPreviewCommandPaletteRpc<CR>
+xnoremap <Space>? <Cmd>call <SID>ensure_fzf()<CR>"zy:<C-u>FzfPreviewProjectGrepRpc "<C-r>z"<Left>
 " }}}
 
 " {{{ winresizer
