@@ -88,14 +88,11 @@ let g:markdown_fenced_languages = ['ts=typescript', 'js=javascript']
 " augroup END
 
 " bootstrap for jetpack
-let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
-if empty(glob(data_dir . '/autoload/jetpack.vim'))
-  if !executable('curl')
-    echoerr 'You have to install `curl` to install vim-plug.'
-    execute 'quit!'
-  endif
-  silent execute '!curl -fLo ' . data_dir . '/autoload/jetpack.vim --create-dirs ' .
-      \ ' https://raw.githubusercontent.com/tani/vim-jetpack/master/autoload/jetpack.vim'
+let s:jetpack_dir = (has('nvim') ? stdpath('data') . '/site' : '~/.vim') . '/autoload/jetpack.vim'
+command! JetpackUpgrade silent execute '!curl -fLo' s:jetpack_dir '--create-dirs'
+    \ ' https://raw.githubusercontent.com/tani/vim-jetpack/master/autoload/jetpack.vim'
+if empty(glob(s:jetpack_dir))
+  JetpackUpgrade
   autocmd VimEnter * JetpackSync "| source $MYVIMRC
 endif
 
