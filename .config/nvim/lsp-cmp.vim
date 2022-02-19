@@ -161,7 +161,8 @@ Jetpack 'nathom/filetype.nvim'
 Jetpack 'arthurxavierx/vim-caser'
 Jetpack 'haya14busa/vim-asterisk'
 Jetpack 'voldikss/vim-floaterm', #{ on: 'FloatermNew' }
-Jetpack 'monaqa/dps-dial.vim' ", #{ on: ['<Plug>(dps-dial-increment)', '<Plug>(dps-dial-decrement)'] }
+Jetpack 'monaqa/dps-dial.vim'
+", #{ on: ['<Plug>(dps-dial-increment)', '<Plug>(dps-dial-decrement)'] }
 Jetpack 'segeljakt/vim-silicon', #{ on: 'Silicon' }
 Jetpack 'simeji/winresizer', #{ on: 'WinResizerStartResize' }
 Jetpack 'vim-jp/vimdoc-ja'
