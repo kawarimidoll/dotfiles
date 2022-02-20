@@ -183,26 +183,26 @@ function! s:keymap(force_map, modes, ...) abort
 endfunction
 command! -nargs=+ -bang Keymap call <SID>keymap(<bang>0, <f-args>)
 
+let s:plug_loaded = {}
+function s:ensure_plug(plug_name) abort
+  if get(s:plug_loaded, a:plug_name)
+    return
+  endif
+  call plug#load(a:plug_name)
+  let s:plug_loaded[a:plug_name] = 1
+endfunction
+
 " {{{ fuzzy-motion.vim
 nnoremap s; <Cmd>FuzzyMotion<CR>
 let g:fuzzy_motion_auto_jump = v:true
 " }}}
 
 " {{{ searchx
-let s:searchx_loaded = 0
-function s:ensure_searchx() abort
-  if s:searchx_loaded
-    return
-  endif
-  let s:searchx_loaded = 1
-  call plug#load('vim-searchx')
-endfunction
-
-Keymap nx ? <Cmd>call <SID>ensure_searchx()<CR><Cmd>call searchx#start(#{ dir: 0 })<CR>
-Keymap nx / <Cmd>call <SID>ensure_searchx()<CR><Cmd>call searchx#start(#{ dir: 1 })<CR>
-Keymap nx N <Cmd>call <SID>ensure_searchx()<CR><Cmd>call searchx#prev()<CR>
-Keymap nx n <Cmd>call <SID>ensure_searchx()<CR><Cmd>call searchx#next()<CR>
-nnoremap <C-l> <Cmd>call <SID>ensure_searchx()<CR><Cmd>call searchx#clear()<CR><Cmd>nohlsearch<CR><C-l>
+Keymap nx ? <Cmd>call <SID>ensure_plug('vim-searchx')<CR><Cmd>call searchx#start(#{ dir: 0 })<CR>
+Keymap nx / <Cmd>call <SID>ensure_plug('vim-searchx')<CR><Cmd>call searchx#start(#{ dir: 1 })<CR>
+Keymap nx N <Cmd>call <SID>ensure_plug('vim-searchx')<CR><Cmd>call searchx#prev()<CR>
+Keymap nx n <Cmd>call <SID>ensure_plug('vim-searchx')<CR><Cmd>call searchx#next()<CR>
+nnoremap <C-l> <Cmd>call <SID>ensure_plug('vim-searchx')<CR><Cmd>call searchx#clear()<CR><Cmd>nohlsearch<CR><C-l>
 
 let g:searchx = {}
 let g:searchx.auto_accept = v:true
@@ -341,27 +341,18 @@ let g:fzf_preview_default_fzf_options = {
       \ '--no-sort': v:true,
       \ }
 
-let s:fzf_preview_loaded = 0
-function s:ensure_fzf() abort
-  if s:fzf_preview_loaded
-    return
-  endif
-  let s:fzf_preview_loaded = 1
-  call plug#load('fzf-preview.vim')
-endfunction
-
-nnoremap <Space>a <Cmd>call <SID>ensure_fzf()<CR><Cmd>FzfPreviewGitActionsRpc<CR>
-nnoremap <Space>b <Cmd>call <SID>ensure_fzf()<CR><Cmd>FzfPreviewBuffersRpc<CR>
-nnoremap <Space>B <Cmd>call <SID>ensure_fzf()<CR><Cmd>FzfPreviewBufferLinesRpc<CR>
-nnoremap <Space>f <Cmd>call <SID>ensure_fzf()<CR><Cmd>FzfPreviewProjectFilesRpc<CR>
-nnoremap <Space>h <Cmd>call <SID>ensure_fzf()<CR><Cmd>FzfPreviewProjectMruFilesRpc<CR>
-nnoremap <Space>j <Cmd>call <SID>ensure_fzf()<CR><Cmd>FzfPreviewJumpsRpc<CR>
-nnoremap <Space>l <Cmd>call <SID>ensure_fzf()<CR><Cmd>FzfPreviewLinesRpc<CR>
-nnoremap <Space>m <Cmd>call <SID>ensure_fzf()<CR><Cmd>FzfPreviewMarksRpc<CR>
-nnoremap <Space>/ <Cmd>call <SID>ensure_fzf()<CR>:<C-u>FzfPreviewProjectGrepRpc ""<Left>
-nnoremap <Space>? <Cmd>call <SID>ensure_fzf()<CR>:<C-u>FzfPreviewProjectGrepRpc ""<Left><C-r><C-f>
-nnoremap <Space>: <Cmd>call <SID>ensure_fzf()<CR><Cmd>FzfPreviewCommandPaletteRpc<CR>
-xnoremap <Space>? <Cmd>call <SID>ensure_fzf()<CR>"zy:<C-u>FzfPreviewProjectGrepRpc "<C-r>z"<Left>
+nnoremap <Space>a <Cmd>call <SID>ensure_plug('fzf-preview.vim')<CR><Cmd>FzfPreviewGitActionsRpc<CR>
+nnoremap <Space>b <Cmd>call <SID>ensure_plug('fzf-preview.vim')<CR><Cmd>FzfPreviewBuffersRpc<CR>
+nnoremap <Space>B <Cmd>call <SID>ensure_plug('fzf-preview.vim')<CR><Cmd>FzfPreviewBufferLinesRpc<CR>
+nnoremap <Space>f <Cmd>call <SID>ensure_plug('fzf-preview.vim')<CR><Cmd>FzfPreviewProjectFilesRpc<CR>
+nnoremap <Space>h <Cmd>call <SID>ensure_plug('fzf-preview.vim')<CR><Cmd>FzfPreviewProjectMruFilesRpc<CR>
+nnoremap <Space>j <Cmd>call <SID>ensure_plug('fzf-preview.vim')<CR><Cmd>FzfPreviewJumpsRpc<CR>
+nnoremap <Space>l <Cmd>call <SID>ensure_plug('fzf-preview.vim')<CR><Cmd>FzfPreviewLinesRpc<CR>
+nnoremap <Space>m <Cmd>call <SID>ensure_plug('fzf-preview.vim')<CR><Cmd>FzfPreviewMarksRpc<CR>
+nnoremap <Space>/ <Cmd>call <SID>ensure_plug('fzf-preview.vim')<CR>:<C-u>FzfPreviewProjectGrepRpc ""<Left>
+nnoremap <Space>? <Cmd>call <SID>ensure_plug('fzf-preview.vim')<CR>:<C-u>FzfPreviewProjectGrepRpc ""<Left><C-r><C-f>
+nnoremap <Space>: <Cmd>call <SID>ensure_plug('fzf-preview.vim')<CR><Cmd>FzfPreviewCommandPaletteRpc<CR>
+xnoremap <Space>? <Cmd>call <SID>ensure_plug('fzf-preview.vim')<CR>"zy:<C-u>FzfPreviewProjectGrepRpc "<C-r>z"<Left>
 " }}}
 
 " {{{ winresizer
