@@ -148,7 +148,7 @@ Plug 'kdheepak/lazygit.nvim', #{ on: 'LazyGit' }
 Plug 'tyru/open-browser.vim', #{ on: ['OpenBrowser', '<Plug>(openbrowser-'] }
 Plug 'tyru/capture.vim', #{ on: 'Capture' }
 Plug 'yuki-yano/fuzzy-motion.vim', #{ on: 'FuzzyMotion' }
-Plug 'hrsh7th/vim-searchx'
+Plug 'hrsh7th/vim-searchx', #{ on: [] }
 Plug 'nathom/filetype.nvim'
 " Plug 'arthurxavierx/vim-caser'
 Plug 'haya14busa/vim-asterisk', #{ on: '<Plug>(asterisk-' }
@@ -189,11 +189,20 @@ let g:fuzzy_motion_auto_jump = v:true
 " }}}
 
 " {{{ searchx
-Keymap nx ? <Cmd>call searchx#start(#{ dir: 0 })<CR>
-Keymap nx / <Cmd>call searchx#start(#{ dir: 1 })<CR>
-Keymap nx N <Cmd>call searchx#prev()<CR>
-Keymap nx n <Cmd>call searchx#next()<CR>
-nnoremap <C-l> <Cmd>call searchx#clear()<CR><Cmd>nohlsearch<CR><C-l>
+let s:searchx_loaded = 0
+function s:ensure_searchx() abort
+  if s:searchx_loaded
+    return
+  endif
+  let s:searchx_loaded = 1
+  call plug#load('vim-searchx')
+endfunction
+
+Keymap nx ? <Cmd>call <SID>ensure_searchx()<CR><Cmd>call searchx#start(#{ dir: 0 })<CR>
+Keymap nx / <Cmd>call <SID>ensure_searchx()<CR><Cmd>call searchx#start(#{ dir: 1 })<CR>
+Keymap nx N <Cmd>call <SID>ensure_searchx()<CR><Cmd>call searchx#prev()<CR>
+Keymap nx n <Cmd>call <SID>ensure_searchx()<CR><Cmd>call searchx#next()<CR>
+nnoremap <C-l> <Cmd>call <SID>ensure_searchx()<CR><Cmd>call searchx#clear()<CR><Cmd>nohlsearch<CR><C-l>
 
 let g:searchx = {}
 let g:searchx.auto_accept = v:true
