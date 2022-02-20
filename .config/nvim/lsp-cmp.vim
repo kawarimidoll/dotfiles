@@ -58,115 +58,106 @@ let g:markdown_fenced_languages = ['ts=typescript', 'js=javascript']
 "-----------------
 " Plugs
 "-----------------
-" " [Tips should also describe automatic installation for Neovim|junegunn/vim-plug](https://github.com/junegunn/vim-plug/issues/739)
-" let s:autoload_plug_path = stdpath('config') . '/autoload/plug.vim'
-" if !filereadable(s:autoload_plug_path)
-"   if !executable('curl')
-"     echoerr 'You have to install `curl` to install vim-plug.'
-"     execute 'quit!'
-"   endif
-"   silent execute '!curl -fL --create-dirs -o ' . s:autoload_plug_path .
-"       \ ' https://raw.github.com/junegunn/vim-plug/master/plug.vim'
-" endif
-"
-" " [おい、NeoBundle もいいけど vim-plug 使えよ](https://qiita.com/b4b4r07/items/fa9c8cceb321edea5da0)
-" function! s:AutoPlugInstall() abort
-"   let s:not_installed_plugs = get(g:, 'plugs', {})->items()->copy()
-"       \  ->filter({_,item->!isdirectory(item[1].dir)})
-"       \  ->map({_,item->item[0]})
-"   if empty(s:not_installed_plugs)
-"     return
-"   endif
-"   echo 'Not installed plugs: ' . string(s:not_installed_plugs)
-"   if confirm('Install now?', "yes\nNo", 2) == 1
-"     PlugInstall --sync | close
-"   endif
-" endfunction
-" augroup vimrc_plug
-"   autocmd!
-"   autocmd VimEnter * call s:AutoPlugInstall()
-" augroup END
-
-" bootstrap for jetpack
-let s:jetpack_dir = (has('nvim') ? stdpath('data') . '/site' : '~/.vim') . '/autoload/jetpack.vim'
-command! JetpackUpgrade silent execute '!curl -fLo' s:jetpack_dir '--create-dirs'
-    \ ' https://raw.githubusercontent.com/tani/vim-jetpack/master/autoload/jetpack.vim'
-if empty(glob(s:jetpack_dir))
-  JetpackUpgrade
-  autocmd VimEnter * JetpackSync "| source $MYVIMRC
+" [Tips should also describe automatic installation for Neovim|junegunn/vim-plug](https://github.com/junegunn/vim-plug/issues/739)
+let s:autoload_plug_path = stdpath('config') . '/autoload/plug.vim'
+if !filereadable(s:autoload_plug_path)
+  if !executable('curl')
+    echoerr 'You have to install `curl` to install vim-plug.'
+    execute 'quit!'
+  endif
+  silent execute '!curl -fL --create-dirs -o ' . s:autoload_plug_path .
+      \ ' https://raw.github.com/junegunn/vim-plug/master/plug.vim'
 endif
 
-call jetpack#begin()
-Jetpack 'vim-denops/denops.vim'
-Jetpack 'vim-skk/skkeleton', #{ on: '<Plug>(skkeleton-enable)' }
-Jetpack 'Shougo/ddc.vim', #{ on: ['InsertEnter', 'CmdlineEnter'] }
+" [おい、NeoBundle もいいけど vim-plug 使えよ](https://qiita.com/b4b4r07/items/fa9c8cceb321edea5da0)
+function! s:AutoPlugInstall() abort
+  let s:not_installed_plugs = get(g:, 'plugs', {})->items()->copy()
+      \  ->filter({_,item->!isdirectory(item[1].dir)})
+      \  ->map({_,item->item[0]})
+  if empty(s:not_installed_plugs)
+    return
+  endif
+  echo 'Not installed plugs: ' . string(s:not_installed_plugs)
+  if confirm('Install now?', "yes\nNo", 2) == 1
+    PlugInstall --sync | close
+  endif
+endfunction
+augroup vimrc_plug
+  autocmd!
+  autocmd VimEnter * call s:AutoPlugInstall()
+augroup END
 
-Jetpack 'hrsh7th/cmp-nvim-lsp', #{ on: ['InsertEnter', 'CmdlineEnter'] }
-Jetpack 'hrsh7th/cmp-buffer', #{ on: ['InsertEnter', 'CmdlineEnter'] }
-Jetpack 'hrsh7th/cmp-path', #{ on: ['InsertEnter', 'CmdlineEnter'] }
-Jetpack 'hrsh7th/cmp-cmdline', #{ on: ['InsertEnter', 'CmdlineEnter'] }
-Jetpack 'hrsh7th/nvim-cmp', #{ on: ['InsertEnter', 'CmdlineEnter'] }
-Jetpack 'hrsh7th/cmp-vsnip', #{ on: ['InsertEnter', 'CmdlineEnter'] }
-Jetpack 'hrsh7th/cmp-nvim-lua', #{ on: ['InsertEnter', 'CmdlineEnter'] }
-Jetpack 'ray-x/cmp-treesitter', #{ on: ['InsertEnter', 'CmdlineEnter'] }
-Jetpack 'tzachar/cmp-tabnine', #{ on: ['InsertEnter', 'CmdlineEnter'], do: './install.sh' }
-Jetpack 'lukas-reineke/cmp-rg', #{ on: ['InsertEnter', 'CmdlineEnter'] }
-Jetpack 'hrsh7th/cmp-nvim-lsp-document-symbol', #{ on: ['InsertEnter', 'CmdlineEnter'] }
-Jetpack 'f3fora/cmp-spell', #{ on: ['InsertEnter', 'CmdlineEnter'] }
-Jetpack 'octaltree/cmp-look', #{ on: ['InsertEnter', 'CmdlineEnter'] }
-Jetpack 'onsails/lspkind-nvim', #{ on: ['InsertEnter', 'CmdlineEnter'] }
+call plug#begin(stdpath('config') . '/plugged')
+Plug 'vim-denops/denops.vim'
+Plug 'vim-skk/skkeleton'
+Plug 'Shougo/ddc.vim'
 
-Jetpack 'ray-x/lsp_signature.nvim', #{ on: ['InsertEnter', 'CmdlineEnter'] }
-Jetpack 'hrsh7th/vim-vsnip', #{ on: ['InsertEnter', 'CmdlineEnter'] }
-Jetpack 'hrsh7th/vim-vsnip-integ', #{ on: ['InsertEnter', 'CmdlineEnter'] }
-Jetpack 'rafamadriz/friendly-snippets', #{ on: ['InsertEnter', 'CmdlineEnter'] }
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
 
-Jetpack 'lewis6991/impatient.nvim'
-Jetpack 'neovim/nvim-lspconfig'
-Jetpack 'williamboman/nvim-lsp-installer'
-Jetpack 'kyazdani42/nvim-web-devicons'
-Jetpack 'folke/lsp-colors.nvim'
-Jetpack 'folke/trouble.nvim'
-Jetpack 'folke/lua-dev.nvim', #{ for: 'lua' }
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/cmp-nvim-lua'
+Plug 'ray-x/cmp-treesitter'
+Plug 'tzachar/cmp-tabnine', #{ do: './install.sh' }
+Plug 'lukas-reineke/cmp-rg'
+Plug 'hrsh7th/cmp-nvim-lsp-document-symbol'
+Plug 'f3fora/cmp-spell'
+Plug 'octaltree/cmp-look'
+Plug 'onsails/lspkind-nvim'
 
-Jetpack 'nvim-treesitter/nvim-treesitter', #{ do: ':TSUpdate' }
-Jetpack 'nvim-treesitter/nvim-treesitter-textobjects'
-Jetpack 'nvim-treesitter/nvim-treesitter-refactor'
-Jetpack 'JoosepAlviste/nvim-ts-context-commentstring'
-Jetpack 'p00f/nvim-ts-rainbow'
-Jetpack 'romgrk/nvim-treesitter-context'
-Jetpack 'lukas-reineke/indent-blankline.nvim'
-Jetpack 'mfussenegger/nvim-ts-hint-textobject'
-Jetpack 'lewis6991/spellsitter.nvim'
-Jetpack 'andymass/vim-matchup'
+Plug 'ray-x/lsp_signature.nvim'
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/vim-vsnip-integ'
+Plug 'rafamadriz/friendly-snippets'
 
-Jetpack 'junegunn/fzf', #{ do: { -> fzf#install() } }
-Jetpack 'yuki-yano/fzf-preview.vim', #{ branch: 'release/rpc', on: [] }
+Plug 'lewis6991/impatient.nvim'
+Plug 'neovim/nvim-lspconfig'
+Plug 'williamboman/nvim-lsp-installer'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'folke/lsp-colors.nvim'
+Plug 'folke/trouble.nvim'
+Plug 'folke/lua-dev.nvim', #{ for: 'lua' }
 
-Jetpack 'nvim-lua/plenary.nvim'
-Jetpack 'nvim-lualine/lualine.nvim'
+Plug 'nvim-treesitter/nvim-treesitter', #{ do: ':TSUpdate' }
+Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+Plug 'nvim-treesitter/nvim-treesitter-refactor'
+Plug 'JoosepAlviste/nvim-ts-context-commentstring'
+Plug 'p00f/nvim-ts-rainbow'
+Plug 'romgrk/nvim-treesitter-context'
+Plug 'lukas-reineke/indent-blankline.nvim'
+Plug 'mfussenegger/nvim-ts-hint-textobject'
+Plug 'lewis6991/spellsitter.nvim'
+Plug 'andymass/vim-matchup'
 
-Jetpack 'folke/which-key.nvim'
-Jetpack 'echasnovski/mini.nvim'
-Jetpack 'norcalli/nvim-colorizer.lua'
-Jetpack 'lewis6991/gitsigns.nvim'
-Jetpack 'kat0h/bufpreview.vim', #{ on: 'PreviewMarkdown' }
-Jetpack 'lambdalisue/gina.vim', #{ on: 'Gina' }
-Jetpack 'kdheepak/lazygit.nvim', #{ on: 'LazyGit' }
-Jetpack 'tyru/open-browser.vim', #{ on: ['OpenBrowser', '<Plug>(openbrowser-smart-search)'] }
-Jetpack 'tyru/capture.vim', #{ on: 'Capture' }
-Jetpack 'yuki-yano/fuzzy-motion.vim', #{ on: 'FuzzyMotion' }
-Jetpack 'hrsh7th/vim-searchx'
-Jetpack 'nathom/filetype.nvim'
-Jetpack 'arthurxavierx/vim-caser'
-Jetpack 'haya14busa/vim-asterisk'
-Jetpack 'voldikss/vim-floaterm', #{ on: 'FloatermNew' }
-Jetpack 'monaqa/dps-dial.vim'
-", #{ on: ['<Plug>(dps-dial-increment)', '<Plug>(dps-dial-decrement)'] }
-Jetpack 'segeljakt/vim-silicon', #{ on: 'Silicon' }
-Jetpack 'simeji/winresizer', #{ on: 'WinResizerStartResize' }
-Jetpack 'vim-jp/vimdoc-ja'
-call jetpack#end()
+Plug 'junegunn/fzf', #{ do: { -> fzf#install() } }
+Plug 'yuki-yano/fzf-preview.vim', #{ branch: 'release/rpc', on: [] }
+
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-lualine/lualine.nvim'
+
+Plug 'folke/which-key.nvim'
+Plug 'echasnovski/mini.nvim'
+Plug 'norcalli/nvim-colorizer.lua'
+Plug 'lewis6991/gitsigns.nvim'
+Plug 'kat0h/bufpreview.vim', #{ on: 'PreviewMarkdown' }
+Plug 'lambdalisue/gina.vim', #{ on: 'Gina' }
+Plug 'kdheepak/lazygit.nvim', #{ on: 'LazyGit' }
+Plug 'tyru/open-browser.vim', #{ on: ['OpenBrowser', '<Plug>(openbrowser-'] }
+Plug 'tyru/capture.vim', #{ on: 'Capture' }
+Plug 'yuki-yano/fuzzy-motion.vim', #{ on: 'FuzzyMotion' }
+Plug 'hrsh7th/vim-searchx'
+Plug 'nathom/filetype.nvim'
+" Plug 'arthurxavierx/vim-caser'
+Plug 'haya14busa/vim-asterisk', #{ on: '<Plug>(asterisk-' }
+Plug 'voldikss/vim-floaterm', #{ on: 'FloatermNew' }
+Plug 'monaqa/dps-dial.vim', #{ on: '<Plug>(dps-dial-' }
+Plug 'segeljakt/vim-silicon', #{ on: 'Silicon' }
+Plug 'simeji/winresizer', #{ on: 'WinResizerStartResize' }
+Plug 'vim-jp/vimdoc-ja'
+call plug#end()
 
 let g:vsnip_filetypes = {}
 let g:vsnip_filetypes.javascriptreact = ['javascript']
@@ -347,7 +338,7 @@ function s:ensure_fzf() abort
     return
   endif
   let s:fzf_preview_loaded = 1
-  silent! packadd fzf-preview.vim
+  call plug#load('fzf-preview.vim')
 endfunction
 
 nnoremap <Space>a <Cmd>call <SID>ensure_fzf()<CR><Cmd>FzfPreviewGitActionsRpc<CR>
