@@ -147,7 +147,7 @@ Plug 'lambdalisue/gina.vim', #{ on: 'Gina' }
 Plug 'kdheepak/lazygit.nvim', #{ on: 'LazyGit' }
 Plug 'tyru/open-browser.vim', #{ on: ['OpenBrowser', '<Plug>(openbrowser-'] }
 Plug 'tyru/capture.vim', #{ on: 'Capture' }
-Plug 'yuki-yano/fuzzy-motion.vim', #{ on: 'FuzzyMotion' }
+Plug 'yuki-yano/fuzzy-motion.vim' ", #{ on: 'FuzzyMotion' }
 Plug 'hrsh7th/vim-searchx', #{ on: [] }
 Plug 'nathom/filetype.nvim'
 " Plug 'arthurxavierx/vim-caser'
