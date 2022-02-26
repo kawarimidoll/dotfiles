@@ -15,9 +15,6 @@ brew doctor || die "brew doctor raised error."
 brew update
 
 if [ -e "$brew_list" ]; then
-  # hgrep can't be installed by this script...
-  grep -v hgrep "$brew_list"
-
   grep ^tap: "$brew_list"  | sed 's/tap: //'  | xargs -I_ brew tap _
   grep ^brew: "$brew_list" | sed 's/brew: //' | xargs brew install
   grep ^cask: "$brew_list" | sed 's/cask: //' | xargs brew install --cask
