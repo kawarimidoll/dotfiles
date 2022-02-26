@@ -1,4 +1,4 @@
-timestamp: 2022-02-20 06:48:34 JST
+timestamp: 2022-02-25 07:58:18 JST
 tap: a-know/tap
 tap: harelba/q
 tap: homebrew/bundle
@@ -7,7 +7,6 @@ tap: homebrew/cask-fonts
 tap: homebrew/core
 tap: jesseduffield/lazygit
 tap: px4/px4
-tap: rhysd/hgrep
 brew: a-know/tap/pi
 brew: act
 brew: asdf
@@ -101,7 +100,6 @@ brew: px4/px4/gcc-arm-none-eabi
 brew: qt@5
 brew: rargs
 brew: re2c
-brew: rhysd/hgrep/hgrep
 brew: richmd
 brew: ripgrep
 brew: rmw
@@ -115,7 +113,6 @@ brew: slides
 brew: snowpack
 brew: starship
 brew: svgo
-brew: t-rec
 brew: the_platinum_searcher
 brew: tig
 brew: timewarrior
@@ -146,10 +143,8 @@ cask: alt-tab
 cask: anki
 cask: apparency
 cask: appflowy
-cask: arduino
 cask: battery-buddy
 cask: bitwarden
-cask: boop
 cask: brave-browser
 cask: cloudflare-warp
 cask: deepl
@@ -169,7 +164,6 @@ cask: google-japanese-ime
 cask: hiddenbar
 cask: hot
 cask: iina
-cask: informant
 cask: itsycal
 cask: kap
 cask: karabiner-elements
@@ -177,6 +171,7 @@ cask: keycastr
 cask: kitty
 cask: lazpaint
 cask: licecap
+cask: maccy
 cask: numi
 cask: obsidian
 cask: paintbrush
@@ -208,7 +203,6 @@ cask: vitals
 cask: xbar
 cask: yippy
 mas: 1099120373  Exporter           (3.0.6)
-mas: 1110524423  Battery Widget     (1.1)
 mas: 1158642554  Desktop Lens       (4.0.6)
 mas: 1187772509  stts               (2.4)
 mas: 1200685619  QuickLinks         (2.6)
@@ -218,6 +212,7 @@ mas: 1351639930  Gifski             (2.20.2)
 mas: 1429033973  RunCat             (9.5)
 mas: 1450640351  Lightweight PDF    (1.0.5)
 mas: 1467796430  Plain Pasta        (1.2.1)
+mas: 1481768883  Desktop Stickers   (1.2)
 mas: 1563735522  Charmstone         (0.15)
 mas: 1569290801  ItemStock          (1.0)
 mas: 1575588022  MenubarX           (1.2.4)
