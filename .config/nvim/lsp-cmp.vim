@@ -941,7 +941,7 @@ command! Croc execute '!croc send' expand('%:p')
 function! s:visual_paste(direction) range abort
   let registers = {}
 
-  for name in ['"', '0']
+  for name in ['"', '0', '+', '*']
     let registers[name] = {'type': getregtype(name), 'value': getreg(name)}
   endfor
 
