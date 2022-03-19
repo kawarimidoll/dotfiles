@@ -33,7 +33,7 @@ set formatoptions=tcqmMj1
 set history=2000
 set incsearch
 set infercase
-" set laststatus=2
+set laststatus=3
 set lazyredraw
 set linebreak
 set list
@@ -816,7 +816,8 @@ require('gitsigns').setup({
   -- end
 })
 require('lualine').setup({
-  sections = { lualine_a = { 'mode', 'g:skkeleton#mode' } }
+  sections = { lualine_a = { 'mode', 'g:skkeleton#mode' } },
+  options = { globalstatus = true },
 })
 require('colorizer').setup()
 
