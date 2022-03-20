@@ -1012,3 +1012,5 @@ augroup vimrc
     endif
   endfunction
 augroup END
+
+set laststatus=3 " set on last line to avoid overwritten by plugins
