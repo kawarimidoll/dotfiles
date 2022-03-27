@@ -1,4 +1,4 @@
-timestamp: 2022-03-19 09:48:56 JST
+timestamp: 2022-03-27 08:47:59 JST
 tap: a-know/tap
 tap: harelba/q
 tap: homebrew/bundle
@@ -227,7 +227,7 @@ mas: 1450640351  Lightweight PDF    (1.0.5)
 mas: 1467796430  Plain Pasta        (1.3.0)
 mas: 1563735522  Charmstone         (0.15)
 mas: 1569290801  ItemStock          (1.0)
-mas: 1575588022  MenubarX           (1.3.3)
+mas: 1575588022  MenubarX           (1.3.4)
 mas: 1581223559  Magic              (2.2)
 mas: 1586304988  Messer             (2.1.2)
 mas: 409183694   Keynote            (11.2)

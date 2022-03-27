@@ -157,6 +157,9 @@ Plug 'monaqa/dps-dial.vim', #{ on: '<Plug>(dps-dial-' }
 Plug 'segeljakt/vim-silicon', #{ on: 'Silicon' }
 Plug 'simeji/winresizer', #{ on: 'WinResizerStartResize' }
 Plug 'vim-jp/vimdoc-ja'
+
+Plug 'DanilaMihailov/beacon.nvim'
+Plug 'lambdalisue/reword.vim'
 call plug#end()
 
 let g:vsnip_filetypes = {}
