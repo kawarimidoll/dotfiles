@@ -400,6 +400,8 @@ xnoremap <silent> p <Cmd>call <SID>markdown_link_paste()<CR>
 xnoremap <silent> P <Cmd>call <SID>visual_paste('p')<CR>
 " }}}
 
+xnoremap <silent> Q :normal @q<CR>
+
 function! s:help_or_hover() abort
   if ['vim','help']->index(&filetype) >= 0
     execute 'help' expand('<cword>')
