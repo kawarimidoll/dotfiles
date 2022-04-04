@@ -105,16 +105,18 @@ img_to_webp() {
 
 fpull() {
   fetch
-  if [ "$(git diff HEAD..origin | wc -l)" -gt 1 ]; then
-    if g status -s | grep -q ' \?M';then
-      git stash
-      pull
-      git stash pop
-    else
-      pull
-    fi
-  else
+
+  if git diff --quiet HEAD..origin; then
     echo 'Working tree is up-to-date.'
+    return 0
+  fi
+
+  if git status --short --null --untracked-files=no | grep -q .; then
+    git stash
+    pull
+    git stash pop
+  else
+    pull
   fi
 }
 
@@ -126,9 +128,12 @@ push() {
   git push origin "${1:-$(git current-branch)}"
 }
 
+pushf() {
+  git push --force-with-lease --force-if-includes origin "${1:-$(git current-branch)}"
+}
+
 stash() {
-  [ $# -ne 1 ] && echo 'stash message is required.' && return 1
-  git stash save "$1"
+  git stash save "${1:-$(date +%Y%m%d%H%M%S)}"
 }
 
 frg() {
