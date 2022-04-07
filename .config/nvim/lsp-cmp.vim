@@ -143,7 +143,7 @@ Plug 'echasnovski/mini.nvim'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'kat0h/bufpreview.vim', #{ on: 'PreviewMarkdown' }
-Plug 'lambdalisue/gina.vim', #{ on: 'Gina' }
+Plug 'lambdalisue/gin.vim'
 Plug 'kdheepak/lazygit.nvim', #{ on: 'LazyGit' }
 Plug 'tyru/open-browser.vim', #{ on: ['OpenBrowser', '<Plug>(openbrowser-'] }
 Plug 'tyru/capture.vim', #{ on: 'Capture' }
@@ -158,7 +158,6 @@ Plug 'segeljakt/vim-silicon', #{ on: 'Silicon' }
 Plug 'simeji/winresizer', #{ on: 'WinResizerStartResize' }
 Plug 'vim-jp/vimdoc-ja'
 
-Plug 'DanilaMihailov/beacon.nvim'
 Plug 'lambdalisue/reword.vim'
 call plug#end()
 
@@ -167,7 +166,7 @@ let g:vsnip_filetypes.javascriptreact = ['javascript']
 let g:vsnip_filetypes.typescriptreact = ['typescript']
 let g:asterisk#keeppos = 1
 let g:lazygit_floating_window_scaling_factor = 1
-let g:lazygit_floating_window_winblend = 20
+" let g:lazygit_floating_window_winblend = 20
 let g:silicon = {}
 let g:silicon['output'] = '~/Downloads/silicon-{time:%Y-%m-%d-%H%M%S}.png'
 " let g:denops#debug = 1
