@@ -1,4 +1,4 @@
-timestamp: 2022-04-06 08:30:33 JST
+timestamp: 2022-04-09 08:31:48 JST
 tap: a-know/tap
 tap: harelba/q
 tap: homebrew/bundle
@@ -136,6 +136,7 @@ brew: tmux
 brew: tokei
 brew: tree
 brew: tz
+brew: ugit
 brew: ugrep
 brew: unzip
 brew: vim
@@ -157,8 +158,10 @@ cask: anki
 cask: apparency
 cask: appflowy
 cask: arduino
+cask: audiorelay
 cask: battery-buddy
 cask: bitwarden
+cask: blackhole-2ch
 cask: boop
 cask: brave-browser
 cask: cloudflare-warp
@@ -217,11 +220,12 @@ cask: syntax-highlight
 cask: the-unarchiver
 cask: tiny-player
 cask: vitals
+cask: warp
 cask: xbar
 mas: 1099120373  Exporter           (3.0.6)
 mas: 1110524423  Battery Widget     (1.1)
 mas: 1158642554  Desktop Lens       (4.0.6)
-mas: 1187772509  stts               (2.5)
+mas: 1187772509  stts               (2.6)
 mas: 1200685619  QuickLinks         (2.6)
 mas: 1233965871  ScreenBrush        (1.7.8)
 mas: 1328847392  Processes Monitor  (1.5)
