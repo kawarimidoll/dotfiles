@@ -105,7 +105,8 @@ img_to_webp() {
 
 branch() {
   # https://github.com/junegunn/fzf/issues/1693#issuecomment-699642792
-  git branch "$@" | grep -v HEAD | fzf --print-query --cycle --exit-0 --no-multi \
+  git branch --sort=-authordate "$@" | grep --invert-match HEAD | \
+    fzf --print-query --cycle --exit-0 --no-multi \
     --preview="sed -r 's/. ([^ ]+).*/\1/' <<< {} | \
       xargs git log -40 --pretty=format:'[%ad] %s <%an>' --date=format:'%F'" | \
     tail -1 | \
@@ -121,7 +122,7 @@ fpull() {
     return 0
   fi
 
-  if git status --short --null --untracked-files=no | grep -q .; then
+  if git status --short --null --untracked-files=no | grep --quiet .; then
     git stash
     pull
     git stash pop
