@@ -36,6 +36,7 @@
 	delete = branch --delete
 	df = !git diff $(git default-branch)...$(git current-branch)
 	discard = restore
+	fix-latest-commit-date = __fix-latest-commit-date
 	fixup = !git remember | xargs --no-run-if-empty -I_ git commit --fixup _ && git rebase -i --autosquash
 	fz-branch = __fz-switch
 	fz-delete = __fz-delete

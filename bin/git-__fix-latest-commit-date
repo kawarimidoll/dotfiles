@@ -1,0 +1,11 @@
+#!/bin/bash
+
+git commit --amend --date="$1" --no-edit
+
+if git status --short --null --untracked-files=no | grep --quiet .; then
+  git stash
+  git rebase HEAD~1 --committer-date-is-author-date
+  git stash pop
+else
+  git rebase HEAD~1 --committer-date-is-author-date
+fi
