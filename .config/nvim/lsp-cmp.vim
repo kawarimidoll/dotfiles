@@ -947,7 +947,7 @@ function! s:visual_paste(direction) range abort
   let registers = {}
 
   for name in ['"', '0', '+', '*']
-    let registers[name] = {'type': getregtype(name), 'value': getreg(name)}
+    let registers[name] = #{type: getregtype(name), value: getreg(name)}
   endfor
 
   execute 'normal!' a:direction

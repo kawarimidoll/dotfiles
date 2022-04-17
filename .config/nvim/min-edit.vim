@@ -1,5 +1,7 @@
 set ambiwidth=single
-set clipboard+=unnamedplus
+set clipboard&
+set clipboard^=unnamed
+set clipboard^=unnamedplus
 set expandtab
 set foldcolumn=0
 set ignorecase
