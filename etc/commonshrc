@@ -107,8 +107,9 @@ branch() {
   # https://github.com/junegunn/fzf/issues/1693#issuecomment-699642792
   git branch --sort=-authordate "$@" | grep --invert-match HEAD | \
     fzf --print-query --cycle --exit-0 --no-multi \
+    --header-first --header='Create new branch when query is not matched' \
     --preview="sed -r 's/. ([^ ]+).*/\1/' <<< {} | \
-      xargs git log -40 --pretty=format:'[%ad] %s <%an>' --date=format:'%F'" | \
+      xargs git log -30 --pretty=format:'[%ad] %s <%an>' --date=format:'%F'" | \
     tail -1 | \
     sed -r 's#. (.*origin/)?([^ ]+).*#\2#' | \
     xargs --no-run-if-empty -I_ git switch --force-create _
