@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if ! type deno >/dev/null 2>&1; then
+  echo 'deno is required.'
+  exit 1
+fi
+
+curl -Lo 'deno.jsonc' "https://deno.land/x/deno@v$(deno -V | sed -e 's/deno //')/cli/schemas/config-file.v1.json"
