@@ -933,9 +933,12 @@ command! Trim lua MiniTrailspace.trim()
 command! -bang GhGraph if !exists('g:loaded_floaterm') | call plug#load('vim-floaterm') | endif |
   \ execute 'FloatermNew' '--title=contributions' '--height=13'
   \ '--width=55' 'gh' 'graph' (v:cmdbang ? '--scheme=random' : '')
-command! -nargs=* -bang Dex silent only! | botright 12 split |
-  \ execute 'terminal' (has('nvim') ? '' : '++curwin') 'dex'
-  \   (v:cmdbang ? '--clear' : '') <q-args> expand('%:p') |
+function s:DexComplete(A,L,P)
+  return ['--quiet', '--compat']
+endfunction
+command! -nargs=* -bang -complete=customlist,s:DexComplete Dex silent only! | botright 12 split |
+  \ execute 'terminal' (has('nvim') ? '' : '++curwin') 'deno run --no-check --allow-all'
+  \    '--unstable --watch' (<bang>0 ? '' : '--no-clear-screen') <q-args> expand('%:p') |
   \ stopinsert | execute 'normal! G' | set bufhidden=wipe |
   \ execute 'autocmd BufEnter <buffer> if winnr("$") == 1 | quit! | endif' |
   \ file Dex<bang> | wincmd k
