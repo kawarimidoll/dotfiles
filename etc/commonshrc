@@ -112,7 +112,7 @@ branch() {
       xargs git log -30 --pretty=format:'[%ad] %s <%an>' --date=format:'%F'" | \
     tail -1 | \
     sed -r 's#. (.*origin/)?([^ ]+).*#\2#' | \
-    xargs --no-run-if-empty -I_ git switch --force-create _
+    xargs --no-run-if-empty -I_ git twig _
 }
 
 fpull() {

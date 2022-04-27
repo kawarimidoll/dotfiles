@@ -1,3 +1,3 @@
 #!/bin/bash
 
-git switch --create "$@" || git switch "$@"
+git switch --create "$@" >/dev/null 2>&1 || git switch "$@"
