@@ -1,7 +1,6 @@
 let g:did_install_default_menus = 1
 let g:did_install_syntax_menu   = 1
 let g:did_indent_on             = 1
-let g:did_load_filetypes        = 1
 " load ftplugin to set commentstring
 " let g:did_load_ftplugin         = 1
 let g:loaded_2html_plugin       = 1
@@ -19,6 +18,7 @@ let g:loaded_zipPlugin          = 1
 let g:skip_loading_mswin        = 1
 
 set ambiwidth=single
+set breakindent
 set clipboard&
 set clipboard^=unnamed
 set clipboard^=unnamedplus
@@ -128,6 +128,8 @@ augroup min-edit
 
   autocmd InsertEnter *.tsv setlocal noexpandtab
 
-  " https://jdhao.github.io/2020/05/22/highlight_yank_region_nvim/
-  autocmd TextYankPost * silent! lua vim.highlight.on_yank({ timeout=500 })
+  if has('nvim')
+    " https://jdhao.github.io/2020/05/22/highlight_yank_region_nvim/
+    autocmd TextYankPost * silent! lua vim.highlight.on_yank({ timeout=500 })
+  endif
 augroup END

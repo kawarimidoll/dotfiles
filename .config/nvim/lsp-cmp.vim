@@ -2,6 +2,8 @@ if filereadable(expand('~/dotfiles/.config/nvim/min-edit.vim'))
   source ~/dotfiles/.config/nvim/min-edit.vim
 endif
 
+let g:did_load_filetypes = 0
+let g:do_filetype_lua = 1
 set autoindent
 set autoread
 " set cmdheight=2
@@ -129,7 +131,7 @@ Plug 'tyru/open-browser.vim', #{ on: ['OpenBrowser', '<Plug>(openbrowser-'] }
 Plug 'tyru/capture.vim', #{ on: 'Capture' }
 Plug 'yuki-yano/fuzzy-motion.vim' ", #{ on: 'FuzzyMotion' }
 Plug 'hrsh7th/vim-searchx', #{ on: [] }
-Plug 'nathom/filetype.nvim'
+" Plug 'nathom/filetype.nvim'
 " Plug 'arthurxavierx/vim-caser'
 Plug 'haya14busa/vim-asterisk', #{ on: '<Plug>(asterisk-' }
 Plug 'voldikss/vim-floaterm', #{ on: 'FloatermNew' }
@@ -416,83 +418,81 @@ require('impatient')
 
 require('nvim-treesitter.configs').setup({
   -- {{{ nvim-treesitter
-  ensure_installed = "maintained",
-  sync_install = false,
-  ignore_install = {
-    "ocaml",
-    "ocaml_interface",
-    "ocamllex",
-    "teal",
-    "tlaplus"
+  ensure_installed = {
+    "bash", "css", "comment", "dart", "dockerfile", "go", "gomod", "gowork", "graphql",
+    "help", "html", "http", "java", "javascript", "jsdoc", "json", "jsonc", "lua",
+    "make", "markdown", "pug", "python", "query", "regex", "ruby", "rust", "scss",
+    "solidity", "svelte", "todotxt", "toml", "tsx", "typescript", "vim", "vue", "yaml",
   },
+  sync_install = false,
   highlight = {
     enable = true,
     additional_vim_regex_highlighting = { 'vim' },
   },
-  incremental_selection = {
-    enable = true,
-    keymaps = {
-      init_selection = "gnn",
-      node_incremental = "grn",
-      node_decremental = "grm",
-      scope_incremental = "grc",
-    },
-  },
+  -- incremental_selection = {
+  --   enable = true,
+  --   keymaps = {
+  --     init_selection = "gnn",
+  --     node_incremental = "grn",
+  --     node_decremental = "grm",
+  --     scope_incremental = "grc",
+  --   },
+  -- },
   indent = { enable = true },
   -- }}}
 
-  -- {{{ nvim-treesitter-textobjects
-  textobjects = {
-    select = {
-      enable = true,
-      lookahead = true,
-      keymaps = {
-        ["af"] = "@function.outer",
-        ["if"] = "@function.inner",
-        ["ac"] = "@conditional.outer",
-        ["ic"] = "@conditional.inner",
-        ["ab"] = "@block.outer",
-        ["ib"] = "@block.inner",
-      },
-    },
-    move = {
-      enable = true,
-      set_jumps = true, -- whether to set jumps in the jumplist
-      goto_next_start = {
-        ["]f"] = "@function.outer",
-        ["]i"] = "@conditional.outer",
-      },
-      goto_next_end = {
-        ["]F"] = "@function.outer",
-        ["]I"] = "@conditional.outer",
-      },
-      goto_previous_start = {
-        ["[f"] = "@function.outer",
-        ["[i"] = "@conditional.outer",
-      },
-      goto_previous_end = {
-        ["[F"] = "@function.outer",
-        ["[I"] = "@conditional.outer",
-      },
-    },
-    swap = {
-      enable = true,
-      swap_next = {
-        ["<leader>a"] = "@parameter.inner",
-      },
-      swap_previous = {
-        ["<leader>A"] = "@parameter.inner",
-      },
-    },
-    lsp_interop = {
-      enable = true,
-      peek_definition_code = {
-        ["<leader>df"] = "@function.outer",
-        ["<leader>dF"] = "@class.outer",
-      },
-    },
-  },
-  -- }}}
+  -- -- {{{ nvim-treesitter-textobjects
+  -- textobjects = {
+    -- select = {
+      -- enable = true,
+      -- lookahead = true,
+      -- keymaps = {
+        -- ["af"] = "@function.outer",
+        -- ["if"] = "@function.inner",
+        -- ["ac"] = "@conditional.outer",
+        -- ["ic"] = "@conditional.inner",
+        -- ["ab"] = "@block.outer",
+        -- ["ib"] = "@block.inner",
+      -- },
+    -- },
+    -- move = {
+      -- enable = true,
+      -- set_jumps = true, -- whether to set jumps in the jumplist
+      -- goto_next_start = {
+        -- ["]f"] = "@function.outer",
+        -- ["]i"] = "@conditional.outer",
+      -- },
+      -- goto_next_end = {
+        -- ["]F"] = "@function.outer",
+        -- ["]I"] = "@conditional.outer",
+      -- },
+      -- goto_previous_start = {
+        -- ["[f"] = "@function.outer",
+        -- ["[i"] = "@conditional.outer",
+      -- },
+      -- goto_previous_end = {
+        -- ["[F"] = "@function.outer",
+        -- ["[I"] = "@conditional.outer",
+      -- },
+    -- },
+    -- swap = {
+      -- enable = true,
+      -- swap_next = {
+        -- ["<leader>a"] = "@parameter.inner",
+      -- },
+      -- swap_previous = {
+        -- ["<leader>A"] = "@parameter.inner",
+      -- },
+    -- },
+    -- lsp_interop = {
+      -- enable = true,
+      -- peek_definition_code = {
+        -- ["<leader>df"] = "@function.outer",
+        -- ["<leader>dF"] = "@class.outer",
+      -- },
+    -- },
+  -- },
+  -- -- }}}
 
   -- {{{ nvim-treesitter-refactor
   refactor = {
@@ -534,25 +534,25 @@ require('nvim-treesitter.configs').setup({
   -- }}}
 })
 
-require('treesitter-context').setup({
-  enable = true,
-  throttle = true,
-  max_lines = 0,
-  patterns = {
-    default = {
-      'class',
-      'function',
-      'method',
-      'for',
-      'while',
-      'if',
-      'switch',
-      'case',
-    },
-  },
-})
+-- require('treesitter-context').setup({
+  -- enable = true,
+  -- throttle = true,
+  -- max_lines = 0,
+  -- patterns = {
+    -- default = {
+      -- 'class',
+      -- 'function',
+      -- 'method',
+      -- 'for',
+      -- 'while',
+      -- 'if',
+      -- 'switch',
+      -- 'case',
+    -- },
+  -- },
+-- })
 
-require('spellsitter').setup()
+-- require('spellsitter').setup()
 
 -- https://github.com/hrsh7th/nvim-cmp
 -- Setup nvim-cmp.
@@ -801,8 +801,8 @@ require('gitsigns').setup({
   end
 })
 require('lualine').setup({
-  sections = { lualine_a = { 'mode', 'g:skkeleton#mode' } },
-  options = { globalstatus = true },
+  -- sections = { lualine_a = { 'mode', 'g:skkeleton#mode' } },
+  -- options = { globalstatus = true },
 })
 require('colorizer').setup()
 
@@ -854,7 +854,7 @@ require('mini.base16').setup({
   },
   use_cterm = true,
 })
-require('which-key').setup()
+-- require('which-key').setup()
 
 -- require('filetype').setup({
 --   overrides = {
@@ -986,7 +986,7 @@ augroup vimrc
   " [NeovimのTerminalモードをちょっと使いやすくする](https://zenn.dev/ryo_kawamata/articles/improve-neovmi-terminal)
   autocmd TermOpen * startinsert
 
-  autocmd VimEnter * TSEnableAll *
+  " autocmd VimEnter * TSEnableAll *
 
   " 前回終了位置に復帰
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line('$') | execute 'normal! g`"' | endif
