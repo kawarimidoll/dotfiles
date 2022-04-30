@@ -28,6 +28,7 @@ alias cdot="cd $DOT_DIR"
 alias cdg="cd $(git root)"
 alias cp='cp -i'
 alias dc='docker container'
+alias desk='deno task'
 alias di='docker image'
 alias dp='docker compose'
 alias dr='docker run'
