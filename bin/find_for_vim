@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ignore_exts='png,jpg,jpeg,gif,webp,svg,ico,ttf,otf,woff,woff2,keep,gitkeep'
-if git rev-parse >/dev/null 2>&1; then
+if git inside; then
   (git ls-files; git untracked) | grep -vE "\.(${ignore_exts//,/|})$"
 else
   rg --files --hidden --follow --glob '!**/.git/*' --glob '!'"**/*.{$ignore_exts}"

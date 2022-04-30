@@ -58,6 +58,7 @@
 	root = !pwd
 	save = stash save
 	ss = status --short
+	staged = diff --staged --name-only --diff-filter=ACMR
 	store = __store
 	summary = __summary
 	toggle-branch = switch -
