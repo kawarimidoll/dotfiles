@@ -19,6 +19,8 @@ let g:skip_loading_mswin        = 1
 
 set ambiwidth=single
 set breakindent
+set breakindentopt=min:50,shift:4,sbr
+set showbreak=↪
 set clipboard&
 set clipboard^=unnamed
 set clipboard^=unnamedplus

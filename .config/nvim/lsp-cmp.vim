@@ -988,6 +988,9 @@ augroup vimrc
 
   " autocmd VimEnter * TSEnableAll *
 
+  " autocmd BufNewFile,BufRead .env* setf env
+  autocmd BufNewFile,BufRead commonshrc setf bash
+
   " 前回終了位置に復帰
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line('$') | execute 'normal! g`"' | endif
   autocmd BufReadPost * delmarks!
