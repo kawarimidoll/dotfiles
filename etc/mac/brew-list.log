@@ -1,4 +1,4 @@
-timestamp: 2022-04-17 08:40:37 JST
+timestamp: 2022-05-10 10:17:53 JST
 tap: a-know/tap
 tap: harelba/q
 tap: homebrew/bundle
@@ -6,6 +6,7 @@ tap: homebrew/cask
 tap: homebrew/cask-fonts
 tap: homebrew/core
 tap: itchyny/tap
+tap: jesseduffield/lazydocker
 tap: jesseduffield/lazygit
 tap: px4/px4
 brew: a-know/tap/pi
@@ -75,6 +76,7 @@ brew: gzip
 brew: highlight
 brew: hurl
 brew: itchyny/tap/mmv
+brew: jesseduffield/lazydocker/lazydocker
 brew: jesseduffield/lazygit/lazygit
 brew: jid
 brew: jless
@@ -143,6 +145,7 @@ brew: vim
 brew: viu
 brew: w3m
 brew: wasmer
+brew: watchexec
 brew: wdiff
 brew: wget
 brew: xh
@@ -150,7 +153,6 @@ brew: yarn
 brew: youtubedr
 brew: zsh
 brew: zsh-completions
-cask: accessmenubarapps
 cask: alacritty
 cask: alfred
 cask: alt-tab
@@ -167,7 +169,6 @@ cask: brave-browser
 cask: cloudflare-warp
 cask: deepl
 cask: devtoys
-cask: devutils
 cask: displaperture
 cask: dockey
 cask: dropbox
@@ -181,7 +182,6 @@ cask: font-roboto-mono-nerd-font
 cask: font-udev-gothic
 cask: gitify
 cask: google-japanese-ime
-cask: hiddenbar
 cask: hot
 cask: iina
 cask: informant
@@ -220,24 +220,23 @@ cask: suspicious-package
 cask: syntax-highlight
 cask: the-unarchiver
 cask: tiny-player
-cask: vitals
 cask: warp
 cask: xbar
 mas: 1099120373  Exporter           (3.0.6)
 mas: 1110524423  Battery Widget     (1.1)
 mas: 1158642554  Desktop Lens       (4.0.6)
-mas: 1187772509  stts               (2.6)
-mas: 1200685619  QuickLinks         (2.6)
+mas: 1187772509  stts               (2.7)
+mas: 1200685619  QuickLinks         (2.7)
 mas: 1233965871  ScreenBrush        (1.7.8)
 mas: 1328847392  Processes Monitor  (1.5)
 mas: 1351639930  Gifski             (2.20.2)
 mas: 1429033973  RunCat             (9.6)
 mas: 1450640351  Lightweight PDF    (1.0.5)
 mas: 1467796430  Plain Pasta        (1.3.0)
-mas: 1563735522  Charmstone         (0.15)
+mas: 1563735522  Charmstone         (0.16)
 mas: 1569290801  ItemStock          (1.0)
-mas: 1575588022  MenubarX           (1.3.11)
+mas: 1575588022  MenubarX           (1.4.7)
 mas: 1581223559  Magic              (2.2)
-mas: 1586304988  Messer             (2.1.4)
+mas: 1586304988  Messer             (2.1.18)
 mas: 409183694   Keynote            (12.0)
 mas: 928871589   Noizio             (2.1.0)
