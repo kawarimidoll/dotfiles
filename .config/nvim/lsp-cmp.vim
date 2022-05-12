@@ -409,7 +409,7 @@ nnoremap <space>to <cmd>lua vim.diagnostic.open_float()<CR>
 nnoremap [d        <cmd>lua vim.diagnostic.goto_prev()<CR>
 nnoremap ]d        <cmd>lua vim.diagnostic.goto_next()<CR>
 nnoremap sx        <cmd>lua vim.diagnostic.setloclist()<CR>
-nnoremap <space>p  <cmd>lua vim.lsp.buf.formatting()<CR>
+nnoremap <space>p  <cmd>lua vim.lsp.buf.format({ async = true })<CR>
 
 nnoremap <leader>df <cmd>lua PeekDefinition()<CR>
 
