@@ -175,13 +175,13 @@ cgh() {
 
 nvf() {
   find_for_vim | \
-    fzf --multi --exit-0 --query="$*" --preview="$fzf_preview_cmd" | \
+    fzf --multi --exit-0 --query="$*" --preview="$fzf_preview_cmd" --cycle | \
     xargs --no-run-if-empty --open-tty nvim
 }
 
 vif() {
   find_for_vim | \
-    fzf --multi --exit-0 --query="$*" --preview="$fzf_preview_cmd" | \
+    fzf --multi --exit-0 --query="$*" --preview="$fzf_preview_cmd" --cycle | \
     xargs --no-run-if-empty --open-tty vim
 }
 
