@@ -56,7 +56,7 @@ noremap H ^
 noremap L $
 map M %
 
-nnoremap S :%s/\V<C-r>///g<Left><Left>
+nnoremap S :%s/\V<C-r><C-w>//g<Left><Left>
 nnoremap <script> <expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
 nnoremap <sid>(q)q qq
 nnoremap Q @q
@@ -108,6 +108,9 @@ xnoremap < <gv
 xnoremap > >gv
 xnoremap <silent><C-k> :m'<-2<CR>gv=gv
 xnoremap <silent><C-j> :m'>+1<CR>gv=gv
+" ref: github.com/monaqa/dotfiles/blob/master/.config/nvim/scripts/keymap.vim#L65-L66
+xnoremap * "my/\V<C-R><C-R>=substitute(escape(@m, '/\'), '\_s\+', '\\_s\\+', 'g')<CR><CR>N
+xnoremap R "my:,$s//<C-R><C-R>=escape(@m, '/\&~')<CR>/gce<Bar>1,''-&&<CR>
 
 " operator
 onoremap x d
