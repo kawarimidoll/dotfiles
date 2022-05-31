@@ -108,6 +108,7 @@ xnoremap < <gv
 xnoremap > >gv
 xnoremap <silent><C-k> :m'<-2<CR>gv=gv
 xnoremap <silent><C-j> :m'>+1<CR>gv=gv
+xnoremap s/ "zy:%s/<C-r>z//gce<Left><Left><Left><Left>
 " ref: github.com/monaqa/dotfiles/blob/master/.config/nvim/scripts/keymap.vim#L65-L66
 xnoremap * "my/\V<C-R><C-R>=substitute(escape(@m, '/\'), '\_s\+', '\\_s\\+', 'g')<CR><CR>N
 xnoremap R "my:,$s//<C-R><C-R>=escape(@m, '/\&~')<CR>/gce<Bar>1,''-&&<CR>
@@ -125,6 +126,59 @@ highlight Pmenu      ctermfg=254 ctermbg=237 guifg=#e3e1e4 guibg=#37343a
 highlight PmenuSel   ctermfg=237 ctermbg=254 guifg=#37343a guibg=#e3e1e4
 highlight PmenuSbar  ctermbg=238 guibg=#423f46
 highlight PmenuThumb ctermbg=255 guibg=#f8f8f2
+
+" https://qiita.com/monaqa/items/dcd43a53d3040293142a
+digraphs aa 12354  " あ
+digraphs ii 12356  " い
+digraphs uu 12358  " う
+digraphs ee 12360  " え
+digraphs oo 12362  " お
+digraphs aA 12353  " ぁ
+digraphs iI 12355  " ぃ
+digraphs uU 12357  " ぅ
+digraphs eE 12359  " ぇ
+digraphs oO 12361  " ぉ
+digraphs Aa 12350  " ア
+digraphs Ii 12452  " イ
+digraphs Uu 12454  " ウ
+digraphs Ee 12456  " エ
+digraphs Oo 12458  " オ
+digraphs AA 12349  " ァ
+digraphs II 12451  " ィ
+digraphs UU 12453  " ゥ
+digraphs EE 12455  " ェ
+digraphs OO 12457  " ォ
+digraphs j( 65288  " （
+digraphs j) 65289  " ）
+digraphs j[ 12300  " 「
+digraphs j] 12301  " 」
+digraphs j{ 12302  " 『
+digraphs j} 12303  " 』
+digraphs j< 12304  " 【
+digraphs j> 12305  " 】
+digraphs j, 12289  " 、
+digraphs j. 12290  " 。
+digraphs j! 65281  " ！
+digraphs j? 65311  " ？
+digraphs j: 65306  " ：
+digraphs j0 65296  " ０
+digraphs j1 65297  " １
+digraphs j2 65298  " ２
+digraphs j3 65299  " ３
+digraphs j4 65300  " ４
+digraphs j5 65301  " ５
+digraphs j6 65302  " ６
+digraphs j7 65303  " ７
+digraphs j8 65304  " ８
+digraphs j9 65305  " ９
+digraphs j~ 12316  " 〜
+digraphs j/ 12539  " ・
+digraphs js 12288  " 　
+digraphs jj 106    " j
+noremap fj f<C-k>j
+noremap Fj F<C-k>j
+noremap tj t<C-k>j
+noremap Tj T<C-k>j
 
 augroup min-edit
   autocmd!
