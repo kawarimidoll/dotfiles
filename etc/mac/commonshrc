@@ -34,6 +34,7 @@ fi
 source /tmp/zsh_brew.cache
 source /tmp/zsh_fnm.cache
 
+export HOMEBREW_UPDATE_REPORT_ALL_FORMULAE=1
 export OBSIDIAN_VAULT="${HOME}/Dropbox/Obsidian"
 
 alias brewer="sh ${DOT_OS_DIR}/brewer.sh"
