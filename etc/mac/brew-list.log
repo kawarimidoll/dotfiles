@@ -1,4 +1,4 @@
-timestamp: 2022-06-13 09:41:41 JST
+timestamp: 2022-06-16 10:34:14 JST
 tap: a-know/tap
 tap: harelba/q
 tap: homebrew/bundle
@@ -203,6 +203,7 @@ cask: manila
 cask: numi
 cask: obsidian
 cask: paintbrush
+cask: paletro
 cask: pensela
 cask: pinta
 cask: pixel-picker
