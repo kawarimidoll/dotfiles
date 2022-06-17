@@ -3,9 +3,11 @@ if filereadable(s:source)
   execute 'source' s:source
 endif
 
+let g:did_load_filetypes = 0
+let g:do_filetype_lua = 1
 set autoindent
 set autoread
-set cmdheight=2
+set cmdheight=0
 " set completeopt=longest,menu
 set completeopt=menu,menuone,noselect
 " set cursorline
@@ -15,7 +17,7 @@ set hidden
 set history=2000
 set incsearch
 set infercase
-set laststatus=3
+" set laststatus=3 " set on last line to avoid overwritten by plugins
 set lazyredraw
 set linebreak
 set list
@@ -28,7 +30,7 @@ set signcolumn=yes
 set splitbelow
 set splitright
 set switchbuf=usetab
-set t_Co=256
+" set t_Co=256
 set termguicolors
 set textwidth=0
 set title
@@ -39,6 +41,12 @@ set wildmode=list:longest,full
 let g:my_vimrc = expand('<sfile>:p')
 command! RcEdit execute 'edit' g:my_vimrc
 command! RcReload write | execute 'source' g:my_vimrc | nohlsearch | redraw | echo g:my_vimrc . ' is reloaded.'
+command! CopyFullPath     let @*=expand('%:p') | echo 'copy full path'
+command! CopyDirName      let @*=expand('%:h') | echo 'copy dir name'
+command! CopyFileName     let @*=expand('%:t') | echo 'copy file name'
+command! CopyRelativePath let @*=expand('%:h').'/'.expand('%:t') | echo 'copy relative path'
+command! VimShowHlGroup echo synID(line('.'), col('.'), 1)->synIDtrans()->synIDattr('name')
+command! -nargs=* T split | wincmd j | resize 12 | terminal <args>
 
 if !filereadable(expand('~/.vim/autoload/jetpack.vim'))
   silent execute '!curl -fLo ~/.vim/autoload/jetpack.vim --create-dirs'
@@ -55,13 +63,34 @@ call jetpack#add('tani/vim-jetpack', { 'opt': 1 })
 call jetpack#add('junegunn/fzf.vim')
 call jetpack#add('junegunn/fzf', { 'do': {-> fzf#install()} })
 
-" Plug 'vim-denops/denops.vim'
 " Plug 'vim-skk/skkeleton'
 " Plug 'Shougo/ddc.vim'
+call jetpack#add('vim-denops/denops.vim')
+call jetpack#add('yuki-yano/fuzzy-motion.vim')
+
+call jetpack#add('lewis6991/impatient.nvim')
+call jetpack#add('nvim-lualine/lualine.nvim')
+call jetpack#add('nvim-lua/plenary.nvim')
+call jetpack#add('norcalli/nvim-colorizer.lua')
+call jetpack#add('nvim-treesitter/nvim-treesitter', #{ do: ':TSUpdate' })
+call jetpack#add('nvim-treesitter/nvim-treesitter-refactor')
+call jetpack#add('JoosepAlviste/nvim-ts-context-commentstring')
+call jetpack#add('p00f/nvim-ts-rainbow')
+call jetpack#add('romgrk/nvim-treesitter-context')
+call jetpack#add('lukas-reineke/indent-blankline.nvim')
+call jetpack#add('andymass/vim-matchup')
+call jetpack#add('lewis6991/gitsigns.nvim')
+call jetpack#add('kdheepak/lazygit.nvim', #{ on: 'LazyGit' })
+call jetpack#add('tyru/open-browser.vim', #{ on: ['OpenBrowser', '<Plug>(openbrowser-'] })
+call jetpack#add('tyru/capture.vim', #{ on: 'Capture' })
 call jetpack#add('hrsh7th/vim-searchx')
+call jetpack#add('echasnovski/mini.nvim')
+
 call jetpack#add('sonph/onehalf', { 'rtp': 'vim/' })
 call jetpack#add('vim-jp/vimdoc-ja')
 call jetpack#end()
+
+let g:lazygit_floating_window_scaling_factor = 1
 
 function! s:auto_plug_install() abort
   let s:not_installed_plugs = jetpack#names()->copy()
@@ -129,4 +158,148 @@ function g:searchx.convert(input) abort
 endfunction
 " }}}
 
+" {{{ user owned mappings
+noremap [b <Cmd>bprevious<CR>
+noremap ]b <Cmd>bnext<CR>
+noremap [B <Cmd>bfirst<CR>
+noremap ]B <Cmd>blast<CR>
+noremap [q <Cmd>cprevious<CR>
+noremap ]q <Cmd>cnext<CR>
+noremap [Q <Cmd>cfirst<CR>
+noremap ]Q <Cmd>clast<CR>
+map M %
+
+" [Vim で q を prefix キーにする - 永遠に未完成](https://thinca.hatenablog.com/entry/q-as-prefix-key-in-vim)
+nnoremap <script> <expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
+nnoremap <sid>(q)q qq
+nnoremap Q @q
+nnoremap <sid>(q)b <Cmd>Gitsigns toggle_current_line_blame<CR>
+nnoremap <sid>(q)c <Cmd>cclose<CR>
+nnoremap <sid>(q)m <Cmd>PreviewMarkdownToggle<CR>
+nnoremap <sid>(q)o <Cmd>only<CR>
+nnoremap <sid>(q)t <C-^>
+nnoremap <sid>(q)z <Cmd>lua MiniMisc.zoom()<CR>
+" nnoremap <sid>(q)i <Cmd>call <SID>half_move('center')<CR>
+" nnoremap <sid>(q)h <Cmd>call <SID>half_move('left')<CR>
+" nnoremap <sid>(q)j <Cmd>call <SID>half_move('down')<CR>
+" nnoremap <sid>(q)k <Cmd>call <SID>half_move('up')<CR>
+" nnoremap <sid>(q)l <Cmd>call <SID>half_move('right')<CR>
+
+nnoremap <Space>d <Cmd>lua MiniBufremove.delete()<CR>
+nnoremap <Space>L <Cmd>LazyGit<CR>
+
+" xnoremap <silent> p <Cmd>call <SID>markdown_link_paste()<CR>
+" https://github.com/Shougo/shougo-s-github/blob/master/vim/rc/mappings.rc.vim#L179
+" xnoremap <silent> P <Cmd>call <SID>visual_paste('p')<CR>
+" }}}
+
 colorscheme onehalfdark
+
+lua << EOF
+require('impatient')
+require('nvim-treesitter.configs').setup({
+  -- {{{ nvim-treesitter
+  ensure_installed = {
+    "bash", "css", "comment", "dart", "dockerfile", "go", "gomod", "gowork", "graphql",
+    "help", "html", "http", "java", "javascript", "jsdoc", "json", "jsonc", "lua",
+    "make", "markdown", "pug", "python", "query", "regex", "ruby", "rust", "scss",
+    "solidity", "svelte", "todotxt", "toml", "tsx", "typescript", "vim", "vue", "yaml",
+  },
+  sync_install = false,
+  indent = { enable = true },
+  -- }}}
+
+  -- {{{ nvim-treesitter-refactor
+  refactor = {
+    highlight_definitions = { enable = true },
+    smart_rename = {
+      enable = true,
+      keymaps = {
+        smart_rename = "grr",
+      },
+    },
+    navigation = {
+      enable = true,
+      keymaps = {
+        goto_definition_lsp_fallback = "grd",
+        list_definitions = "grD",
+        list_definitions_toc = "grt",
+        goto_previous_usage = "[u",
+        goto_next_usage = "]u",
+      },
+    },
+  },
+  -- }}}
+
+  -- {{{ nvim-ts-rainbow
+  rainbow = {
+    enable = true,
+    extended_mode = true,
+    max_file_lines = nil,
+  },
+  -- }}}
+
+  -- {{{ ts-context-commentstring
+  context_commentstring = { enable = true },
+  -- }}}
+
+  -- {{{ vim-matchup
+  matchup = { enable = true },
+  -- }}}
+})
+require('lualine').setup()
+require('colorizer').setup()
+require('mini.bufremove').setup()
+require('mini.comment').setup()
+require('mini.cursorword').setup()
+require('mini.surround').setup()
+require('mini.trailspace').setup()
+require('mini.tabline').setup()
+require('mini.pairs').setup()
+require('mini.misc').setup({ make_global = { 'put', 'put_text', 'zoom' } })
+require("indent_blankline").setup({
+  space_char_blankline = " ",
+  show_current_context = true,
+})
+require('gitsigns').setup({
+  signs = {
+    add          = { text = '+' },
+    change       = { text = '~' },
+    delete       = { text = '_' },
+    topdelete    = { text = '‾' },
+    changedelete = { text = '~_' },
+  },
+  current_line_blame = true,
+  on_attach = function(bufnr)
+    local gs = package.loaded.gitsigns
+
+    local function map(mode, l, r, opts)
+      opts = opts or {}
+      opts.buffer = bufnr
+      vim.keymap.set(mode, l, r, opts)
+    end
+
+    -- Navigation
+    map('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", {expr=true})
+    map('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", {expr=true})
+
+    -- Actions
+    map({'n', 'v'}, '<leader>hs', gs.stage_hunk)
+    map({'n', 'v'}, '<leader>hr', gs.reset_hunk)
+    map('n', '<leader>hS', gs.stage_buffer)
+    map('n', '<leader>hu', gs.undo_stage_hunk)
+    map('n', '<leader>hR', gs.reset_buffer)
+    map('n', '<leader>hp', gs.preview_hunk)
+    map('n', '<leader>hb', function() gs.blame_line{full=true} end)
+    map('n', '<leader>tb', gs.toggle_current_line_blame)
+    map('n', '<leader>hd', gs.diffthis)
+    map('n', '<leader>hD', function() gs.diffthis('~') end)
+    map('n', '<leader>td', gs.toggle_deleted)
+
+    -- Text object
+    map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+  end
+})
+EOF
+
+set laststatus=3 " set on last line to avoid overwritten by plugins
