@@ -48,19 +48,30 @@ command! CopyRelativePath let @*=expand('%:h').'/'.expand('%:t') | echo 'copy re
 command! VimShowHlGroup echo synID(line('.'), col('.'), 1)->synIDtrans()->synIDattr('name')
 command! -nargs=* T split | wincmd j | resize 12 | terminal <args>
 
-if !filereadable(expand('~/.vim/autoload/jetpack.vim'))
-  silent execute '!curl -fLo ~/.vim/autoload/jetpack.vim --create-dirs'
-        \ 'https://raw.githubusercontent.com/tani/vim-jetpack/master/autoload/jetpack.vim'
-endif
-if !isdirectory(expand('~/.vim/pack/jetpack/src/vim-jetpack'))
-  silent execute '!git clone --depth 1 https://github.com/tani/vim-jetpack ~/.vim/pack/jetpack/src/vim-jetpack'
-        \ '&& ln -s ~/.vim/pack/jetpack/{src,opt}/vim-jetpack'
+if has('nvim')
+  if !filereadable(expand('~/.config/nvim/plugin/jetpack.vim'))
+    silent execute '!curl -fLo ~/.config/nvim/plugin/jetpack.vim --create-dirs'
+          \ 'https://raw.githubusercontent.com/tani/vim-jetpack/master/autoload/jetpack.vim'
+  endif
+  if !isdirectory(expand('~/.local/share/nvim/site/pack/jetpack/src/vim-jetpack'))
+    silent execute '!git clone --depth 1 https://github.com/tani/vim-jetpack ~/.local/share/nvim/site/pack/jetpack/src/vim-jetpack'
+          \ '&& ln -s ~/.local/share/nvim/site/pack/jetpack/{src,opt}/vim-jetpack'
+  endif
+else
+  if !filereadable(expand('~/.vim/autoload/jetpack.vim'))
+    silent execute '!curl -fLo ~/.vim/autoload/jetpack.vim --create-dirs'
+          \ 'https://raw.githubusercontent.com/tani/vim-jetpack/master/autoload/jetpack.vim'
+  endif
+  if !isdirectory(expand('~/.vim/pack/jetpack/src/vim-jetpack'))
+    silent execute '!git clone --depth 1 https://github.com/tani/vim-jetpack ~/.vim/pack/jetpack/src/vim-jetpack'
+          \ '&& ln -s ~/.vim/pack/jetpack/{src,opt}/vim-jetpack'
+  endif
 endif
 
 call jetpack#begin()
 call jetpack#add('tani/vim-jetpack', { 'opt': 1 })
 
-call jetpack#add('junegunn/fzf.vim')
+call jetpack#add('junegunn/fzf.vim', #{ on: [] })
 call jetpack#add('junegunn/fzf', { 'do': {-> fzf#install()} })
 
 " Plug 'vim-skk/skkeleton'
@@ -83,7 +94,10 @@ call jetpack#add('lewis6991/gitsigns.nvim')
 call jetpack#add('kdheepak/lazygit.nvim', #{ on: 'LazyGit' })
 call jetpack#add('tyru/open-browser.vim', #{ on: ['OpenBrowser', '<Plug>(openbrowser-'] })
 call jetpack#add('tyru/capture.vim', #{ on: 'Capture' })
-call jetpack#add('hrsh7th/vim-searchx')
+call jetpack#add('hrsh7th/vim-searchx', #{ on: [] })
+call jetpack#add('monaqa/dps-dial.vim', #{ on: '<Plug>(dps-dial-' })
+call jetpack#add('segeljakt/vim-silicon', #{ on: 'Silicon' })
+call jetpack#add('simeji/winresizer', #{ on: 'WinResizerStartResize' })
 call jetpack#add('echasnovski/mini.nvim')
 
 call jetpack#add('sonph/onehalf', { 'rtp': 'vim/' })
@@ -91,6 +105,10 @@ call jetpack#add('vim-jp/vimdoc-ja')
 call jetpack#end()
 
 let g:lazygit_floating_window_scaling_factor = 1
+let g:silicon = #{
+  \   font:   'UDEV Gothic 35JPDOC',
+  \   output: '~/Downloads/silicon-{time:%Y-%m-%d-%H%M%S}.png'
+  \ }
 
 function! s:auto_plug_install() abort
   let s:not_installed_plugs = jetpack#names()->copy()
@@ -138,6 +156,18 @@ nnoremap s; <Cmd>FuzzyMotion<CR>
 let g:fuzzy_motion_auto_jump = v:true
 " }}}
 
+" {{{ fzf.vim
+let $FZF_DEFAULT_COMMAND = 'find_for_vim'
+nnoremap <Space>a <Cmd>call <SID>ensure_plug('fzf.vim')<CR><Cmd>GFiles?<CR>
+nnoremap <Space>b <Cmd>call <SID>ensure_plug('fzf.vim')<CR><Cmd>Buffers<CR>
+nnoremap <Space>f <Cmd>call <SID>ensure_plug('fzf.vim')<CR><Cmd>Files<CR>
+nnoremap <Space>h <Cmd>call <SID>ensure_plug('fzf.vim')<CR><Cmd>History<CR>
+nnoremap <Space>/ <Cmd>call <SID>ensure_plug('fzf.vim')<CR>:<C-u>Rg ""<Left>
+nnoremap <Space>? <Cmd>call <SID>ensure_plug('fzf.vim')<CR>:<C-u>Rg ""<Left><C-r><C-f>
+nnoremap <Space>: <Cmd>call <SID>ensure_plug('fzf.vim')<CR><Cmd>Commands<CR>
+xnoremap <Space>? <Cmd>call <SID>ensure_plug('fzf.vim')<CR>"zy:<C-u>Rg "<C-r>z"<Left>
+" }}}
+
 " {{{ searchx
 Keymap nx ? <Cmd>call <SID>ensure_plug('vim-searchx')<CR><Cmd>call searchx#start(#{ dir: 0 })<CR>
 Keymap nx / <Cmd>call <SID>ensure_plug('vim-searchx')<CR><Cmd>call searchx#start(#{ dir: 1 })<CR>
@@ -150,12 +180,37 @@ let g:searchx.auto_accept = v:true
 let g:searchx.scrolloff = &scrolloff
 let g:searchx.scrolltime = 500
 let g:searchx.markers = split('ASDFGHJKLQWERTYUIOPZXCVBNM', '.\zs')
+let g:searchx.nohlsearch = #{ jump: v:false }
 function g:searchx.convert(input) abort
   if a:input !~# '\k'
     return '\V' .. a:input
   endif
-  return a:input->split(' ')->join('.\{-}')
+  return a:input[0] .. substitute(a:input[1:], '\\\@<! ', '.\\{-}', 'g')
 endfunction
+" }}}
+
+" {{{ dps-dial.vim
+let g:dps_dial#augends = [
+\  'decimal',
+\  'date-hyphen',
+\  'date-slash',
+\  #{ kind: 'constant', opts: #{ elements: ['true', 'false'] } },
+\  #{ kind: 'case', opts: #{
+\    cases: ['camelCase', 'PascalCase', 'snake_case', 'kebab-case', 'SCREAMING_SNAKE_CASE']
+\   } },
+\ ]
+xmap g<C-a> g<Plug>(dps-dial-increment)
+xmap g<C-x> g<Plug>(dps-dial-decrement)
+Keymap nx <C-a> <Plug>(dps-dial-increment)
+Keymap nx <C-x> <Plug>(dps-dial-decrement)
+" }}}
+
+" {{{ openbrowser
+Keymap nx gx <Plug>(openbrowser-smart-search)
+" }}}
+
+" {{{ winresizer
+nnoremap <C-e> <Cmd>WinResizerStartResize<CR>
 " }}}
 
 " {{{ user owned mappings
@@ -175,7 +230,7 @@ nnoremap <sid>(q)q qq
 nnoremap Q @q
 nnoremap <sid>(q)b <Cmd>Gitsigns toggle_current_line_blame<CR>
 nnoremap <sid>(q)c <Cmd>cclose<CR>
-nnoremap <sid>(q)m <Cmd>PreviewMarkdownToggle<CR>
+" nnoremap <sid>(q)m <Cmd>PreviewMarkdownToggle<CR>
 nnoremap <sid>(q)o <Cmd>only<CR>
 nnoremap <sid>(q)t <C-^>
 nnoremap <sid>(q)z <Cmd>lua MiniMisc.zoom()<CR>
@@ -301,5 +356,32 @@ require('gitsigns').setup({
   end
 })
 EOF
+
+"-----------------
+" Auto Commands
+"-----------------
+augroup vimrc
+  autocmd!
+  " https://zenn.dev/uochan/articles/2021-12-08-vim-conventional-commits
+  autocmd FileType gitcommit,gina-commit ++once normal! gg
+  autocmd FileType gitcommit,gina-commit nnoremap <buffer> <CR> <Cmd>silent! execute 'normal! ^w"zdiw"_dip"zPA: ' <bar> startinsert!<CR>
+
+  " [NeovimのTerminalモードをちょっと使いやすくする](https://zenn.dev/ryo_kawamata/articles/improve-neovmi-terminal)
+  autocmd TermOpen * startinsert
+
+  autocmd BufNewFile,BufRead commonshrc setf bash
+
+  " 前回終了位置に復帰
+  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line('$') | execute 'normal! g`"' | endif
+  autocmd BufReadPost * delmarks!
+
+  " [vim-jp » Hack #202: 自動的にディレクトリを作成する](https://vim-jp.org/vim-users-jp/2011/02/20/Hack-202.html)
+  autocmd BufWritePre * call s:ensure_dir(expand('<afile>:p:h'), v:cmdbang)
+  function! s:ensure_dir(dir, force)
+    if !isdirectory(a:dir) && (a:force || confirm('"' . a:dir . '" does not exist. Create?', "y\nN"))
+      call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
+    endif
+  endfunction
+augroup END
 
 set laststatus=3 " set on last line to avoid overwritten by plugins
