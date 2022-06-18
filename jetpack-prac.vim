@@ -71,7 +71,7 @@ endif
 call jetpack#begin()
 call jetpack#add('tani/vim-jetpack', { 'opt': 1 })
 
-call jetpack#add('junegunn/fzf.vim', #{ on: [] })
+call jetpack#add('junegunn/fzf.vim')
 call jetpack#add('junegunn/fzf', { 'do': {-> fzf#install()} })
 
 " Plug 'vim-skk/skkeleton'
@@ -94,14 +94,14 @@ call jetpack#add('lewis6991/gitsigns.nvim')
 call jetpack#add('kdheepak/lazygit.nvim', #{ on: 'LazyGit' })
 call jetpack#add('tyru/open-browser.vim', #{ on: ['OpenBrowser', '<Plug>(openbrowser-'] })
 call jetpack#add('tyru/capture.vim', #{ on: 'Capture' })
-call jetpack#add('hrsh7th/vim-searchx', #{ on: [] })
-call jetpack#add('monaqa/dps-dial.vim', #{ on: '<Plug>(dps-dial-' })
+call jetpack#add('hrsh7th/vim-searchx')
+call jetpack#add('monaqa/dial.nvim')
 call jetpack#add('segeljakt/vim-silicon', #{ on: 'Silicon' })
 call jetpack#add('simeji/winresizer', #{ on: 'WinResizerStartResize' })
 call jetpack#add('echasnovski/mini.nvim')
 
-call jetpack#add('sonph/onehalf', { 'rtp': 'vim/' })
-call jetpack#add('vim-jp/vimdoc-ja')
+call jetpack#add('sonph/onehalf', #{ rtp: 'vim/' })
+call jetpack#add('vim-jp/vimdoc-ja', #{ for: 'help' })
 call jetpack#end()
 
 let g:lazygit_floating_window_scaling_factor = 1
@@ -118,7 +118,7 @@ function! s:auto_plug_install() abort
   endif
   echo 'Not installed plugs: ' . string(s:not_installed_plugs)
   if confirm('Install now?', "yes\nno", 2) == 1
-    JetpackSync | close | RcReload
+    JetpackSync | close
   endif
 endfunction
 augroup vimrc_plug
@@ -140,15 +140,6 @@ function! s:keymap(force_map, modes, ...) abort
   endfor
 endfunction
 command! -nargs=+ -bang Keymap call <SID>keymap(<bang>0, <f-args>)
-
-let s:plug_loaded = {}
-function s:ensure_plug(plug_name) abort
-  if get(s:plug_loaded, a:plug_name)
-    return
-  endif
-  call plug#load(a:plug_name)
-  let s:plug_loaded[a:plug_name] = 1
-endfunction
 " }}}
 
 " {{{ fuzzy-motion.vim
@@ -158,22 +149,22 @@ let g:fuzzy_motion_auto_jump = v:true
 
 " {{{ fzf.vim
 let $FZF_DEFAULT_COMMAND = 'find_for_vim'
-nnoremap <Space>a <Cmd>call <SID>ensure_plug('fzf.vim')<CR><Cmd>GFiles?<CR>
-nnoremap <Space>b <Cmd>call <SID>ensure_plug('fzf.vim')<CR><Cmd>Buffers<CR>
-nnoremap <Space>f <Cmd>call <SID>ensure_plug('fzf.vim')<CR><Cmd>Files<CR>
-nnoremap <Space>h <Cmd>call <SID>ensure_plug('fzf.vim')<CR><Cmd>History<CR>
-nnoremap <Space>/ <Cmd>call <SID>ensure_plug('fzf.vim')<CR>:<C-u>Rg ""<Left>
-nnoremap <Space>? <Cmd>call <SID>ensure_plug('fzf.vim')<CR>:<C-u>Rg ""<Left><C-r><C-f>
-nnoremap <Space>: <Cmd>call <SID>ensure_plug('fzf.vim')<CR><Cmd>Commands<CR>
-xnoremap <Space>? <Cmd>call <SID>ensure_plug('fzf.vim')<CR>"zy:<C-u>Rg "<C-r>z"<Left>
+nnoremap <Space>a <Cmd>GFiles?<CR>
+nnoremap <Space>b <Cmd>Buffers<CR>
+nnoremap <Space>f <Cmd>Files<CR>
+nnoremap <Space>h <Cmd>History<CR>
+nnoremap <Space>/ :<C-u>Rg ""<Left>
+nnoremap <Space>? :<C-u>Rg ""<Left><C-r><C-f>
+nnoremap <Space>: <Cmd>Commands<CR>
+xnoremap <Space>? "zy:<C-u>Rg "<C-r>z"<Left>
 " }}}
 
 " {{{ searchx
-Keymap nx ? <Cmd>call <SID>ensure_plug('vim-searchx')<CR><Cmd>call searchx#start(#{ dir: 0 })<CR>
-Keymap nx / <Cmd>call <SID>ensure_plug('vim-searchx')<CR><Cmd>call searchx#start(#{ dir: 1 })<CR>
-Keymap nx N <Cmd>call <SID>ensure_plug('vim-searchx')<CR><Cmd>call searchx#prev()<CR>
-Keymap nx n <Cmd>call <SID>ensure_plug('vim-searchx')<CR><Cmd>call searchx#next()<CR>
-nnoremap <C-l> <Cmd>call <SID>ensure_plug('vim-searchx')<CR><Cmd>call searchx#clear()<CR><Cmd>nohlsearch<CR><C-l>
+Keymap nx ? <Cmd>call searchx#start(#{ dir: 0 })<CR>
+Keymap nx / <Cmd>call searchx#start(#{ dir: 1 })<CR>
+Keymap nx N <Cmd>call searchx#prev()<CR>
+Keymap nx n <Cmd>call searchx#next()<CR>
+nnoremap <C-l> <Cmd>call searchx#clear()<CR><Cmd>nohlsearch<CR><C-l>
 
 let g:searchx = {}
 let g:searchx.auto_accept = v:true
@@ -189,20 +180,39 @@ function g:searchx.convert(input) abort
 endfunction
 " }}}
 
-" {{{ dps-dial.vim
-let g:dps_dial#augends = [
-\  'decimal',
-\  'date-hyphen',
-\  'date-slash',
-\  #{ kind: 'constant', opts: #{ elements: ['true', 'false'] } },
-\  #{ kind: 'case', opts: #{
-\    cases: ['camelCase', 'PascalCase', 'snake_case', 'kebab-case', 'SCREAMING_SNAKE_CASE']
-\   } },
-\ ]
-xmap g<C-a> g<Plug>(dps-dial-increment)
-xmap g<C-x> g<Plug>(dps-dial-decrement)
-Keymap nx <C-a> <Plug>(dps-dial-increment)
-Keymap nx <C-x> <Plug>(dps-dial-decrement)
+" {{{ dial.vim
+lua << EOF
+local augend = require("dial.augend")
+require("dial.config").augends:register_group{
+  default = {
+    augend.integer.alias.decimal,
+    augend.semver.alias.semver,
+    augend.date.alias["%Y/%m/%d"],
+    augend.date.alias["%Y-%m-%d"],
+    augend.date.alias["%m/%d"],
+    augend.date.alias["%-m/%-d"],
+    augend.date.alias["%H:%M:%S"],
+    augend.date.alias["%H:%M"],
+    augend.constant.alias.bool,
+    augend.constant.alias.ja_weekday,
+    augend.constant.alias.ja_weekday_full,
+    augend.constant.new{ elements = {"and", "or"}, },
+    augend.constant.new{
+      elements = {"&&", "||"},
+      word = false,
+    },
+    augend.constant.new{ elements = {"let", "const"}, },
+    augend.case.new{
+      types = {"camelCase", "PascalCase", "snake_case", "kebab-case", "SCREAMING_SNAKE_CASE"},
+    },
+  },
+}
+EOF
+
+xmap g<C-a> g<Plug>(dial-increment)
+xmap g<C-x> g<Plug>(dial-decrement)
+Keymap nx <C-a> <Plug>(dial-increment)
+Keymap nx <C-x> <Plug>(dial-decrement)
 " }}}
 
 " {{{ openbrowser
