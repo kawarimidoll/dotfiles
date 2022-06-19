@@ -79,8 +79,12 @@ call jetpack#add('junegunn/fzf', { 'do': {-> fzf#install()} })
 call jetpack#add('vim-denops/denops.vim')
 call jetpack#add('yuki-yano/fuzzy-motion.vim')
 
+call jetpack#add('neovim/nvim-lspconfig')
+call jetpack#add('williamboman/nvim-lsp-installer')
+
 call jetpack#add('lewis6991/impatient.nvim')
 call jetpack#add('nvim-lualine/lualine.nvim')
+call jetpack#add('folke/which-key.nvim')
 call jetpack#add('nvim-lua/plenary.nvim')
 call jetpack#add('norcalli/nvim-colorizer.lua')
 call jetpack#add('nvim-treesitter/nvim-treesitter', #{ do: ':TSUpdate' })
@@ -308,6 +312,64 @@ require('nvim-treesitter.configs').setup({
   matchup = { enable = true },
   -- }}}
 })
+local nvim_lsp = require('lspconfig')
+-- https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/configs.lua
+local node_root_dir = nvim_lsp.util.root_pattern("package.json", "node_modules")
+local is_node_repo = node_root_dir(vim.api.nvim_buf_get_name(0), vim.api.nvim_get_current_buf()) ~= nil
+local lsp_installer = require("nvim-lsp-installer")
+lsp_installer.on_server_ready(function(server)
+  local opts = {}
+  if server.name == "tsserver" then
+    opts.autostart = is_node_repo
+    opts.settings = { documentFormatting = false }
+    opts.init_options = { hostInfo = "neovim" }
+  elseif server.name == "eslint" then
+    opts.autostart = is_node_repo
+  elseif server.name == "denols" then
+    opts.autostart = not(is_node_repo)
+    opts.init_options = {
+      lint = true,
+      unstable = true,
+      suggest = {
+        imports = {
+          hosts = {
+            ["https://deno.land"] = true,
+            ["https://cdn.nest.land"] = true,
+            ["https://crux.land"] = true
+          }
+        }
+      }
+    }
+  end
+
+  opts.on_attach = function(client, bufnr)
+    -- Enable completion triggered by <c-x><c-o>
+    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+    local bufopts = { noremap=true, silent=true, buffer=bufnr }
+    vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, bufopts)
+    vim.keymap.set('n', ']d', vim.diagnostic.goto_next, bufopts)
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+    vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
+    vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
+    vim.keymap.set('n', '<leader>wl', function()
+      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    end, bufopts)
+    vim.keymap.set('n', 'gtD', vim.lsp.buf.type_definition, bufopts)
+    vim.keymap.set('n', 'grn', vim.lsp.buf.rename, bufopts)
+    vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
+    vim.keymap.set('n', 'grf', vim.lsp.buf.references, bufopts)
+    vim.keymap.set('n', '<space>p', vim.lsp.buf.formatting, bufopts)
+  end
+
+  server:setup(opts)
+  vim.cmd [[ do User LspAttachBuffers ]]
+end)
+require('which-key').setup()
 require('lualine').setup()
 require('colorizer').setup()
 require('mini.bufremove').setup()
