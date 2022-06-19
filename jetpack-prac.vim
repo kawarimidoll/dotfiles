@@ -83,6 +83,20 @@ call jetpack#add('yuki-yano/fuzzy-motion.vim')
 call jetpack#add('neovim/nvim-lspconfig')
 call jetpack#add('williamboman/nvim-lsp-installer')
 
+call jetpack#add('Shougo/ddc.vim')
+call jetpack#add('Shougo/pum.vim')
+call jetpack#add('Shougo/ddc-around')
+call jetpack#add('Shougo/ddc-nvim-lsp')
+call jetpack#add('LumaKernel/ddc-file')
+call jetpack#add('delphinus/ddc-treesitter')
+call jetpack#add('octaltree/cmp-look')
+call jetpack#add('LumaKernel/ddc-tabnine')
+call jetpack#add('Shougo/ddc-matcher_head')
+call jetpack#add('Shougo/ddc-sorter_rank')
+call jetpack#add('Shougo/ddc-converter_remove_overlap')
+call jetpack#add('matsui54/denops-signature_help')
+call jetpack#add('matsui54/denops-popup-preview.vim')
+
 call jetpack#add('lewis6991/impatient.nvim')
 call jetpack#add('nvim-lualine/lualine.nvim')
 call jetpack#add('folke/which-key.nvim')
@@ -137,6 +151,53 @@ function! s:keymap(force_map, modes, ...) abort
   endfor
 endfunction
 command! -nargs=+ -bang Keymap call <SID>keymap(<bang>0, <f-args>)
+" }}}
+
+" {{{ ddc.vim
+call ddc#custom#patch_global('completionMenu', 'pum.vim')
+call ddc#custom#patch_global('sources', [
+  \ 'nvim-lsp',
+  \ 'tabnine',
+  \ 'around',
+  \ 'file',
+  \ 'look',
+  \ ])
+call ddc#custom#patch_global('sourceOptions', {
+  \ '_': {
+  \   'matchers': ['matcher_head'],
+  \   'sorters': ['sorter_rank'],
+  \   'converters': ['converter_remove_overlap'],
+  \ },
+  \ 'nvim-lsp': {
+  \   'mark': 'LSP',
+  \   'forceCompletionPattern': '\.\w*|:\w*|->\w*',
+  \ },
+  \ 'tabnine': {
+  \   'mark': 'TN',
+  \   'maxItems': 5,
+  \   'isVolatile': v:true,
+  \ },
+  \ 'look': {
+  \   'mark': 'look',
+  \   'maxItems': 5,
+  \   'isVolatile': v:true,
+  \ },
+  \ 'file': {
+  \   'mark': 'F',
+  \   'isVolatile': v:true,
+  \   'forceCompletionPattern': '\S/\S*'
+  \ },
+  \ 'around': {'mark': 'A'},
+  \ })
+call ddc#enable()
+call popup_preview#enable()
+call signature_help#enable()
+imap <silent><expr> <Tab>
+      \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<Tab>'
+imap <silent><expr> <S-Tab>
+      \ pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<S-Tab>'
+imap <silent><expr> <CR>
+      \ pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<CR>'
 " }}}
 
 " {{{ fuzzy-motion.vim
