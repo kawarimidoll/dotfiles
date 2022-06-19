@@ -71,8 +71,9 @@ endif
 call jetpack#begin()
 call jetpack#add('tani/vim-jetpack', { 'opt': 1 })
 
-call jetpack#add('junegunn/fzf.vim')
-call jetpack#add('junegunn/fzf', { 'do': {-> fzf#install()} })
+let s:fzf_commands = ['GFiles?', 'Buffers', 'Files', 'History', 'Rg', 'Commands']
+call jetpack#add('junegunn/fzf.vim', #{ on: s:fzf_commands })
+call jetpack#add('junegunn/fzf', #{ do: {-> fzf#install()} })
 
 " Plug 'vim-skk/skkeleton'
 " Plug 'Shougo/ddc.vim'
@@ -114,21 +115,13 @@ let g:silicon = #{
   \   output: '~/Downloads/silicon-{time:%Y-%m-%d-%H%M%S}.png'
   \ }
 
-function! s:auto_plug_install() abort
-  let s:not_installed_plugs = jetpack#names()->copy()
-        \ ->filter({_,name->!jetpack#tap(name)})
-  if empty(s:not_installed_plugs)
-    return
+" auto install plugs
+for name in jetpack#names()
+  if !jetpack#tap(name)
+    call jetpack#sync()
+    break
   endif
-  echo 'Not installed plugs: ' . string(s:not_installed_plugs)
-  if confirm('Install now?', "yes\nno", 2) == 1
-    JetpackSync | close
-  endif
-endfunction
-augroup vimrc_plug
-  autocmd!
-  autocmd VimEnter * call s:auto_plug_install()
-augroup END
+endfor
 command! Plugs echo jetpack#names()
 
 " {{{ keymap()
