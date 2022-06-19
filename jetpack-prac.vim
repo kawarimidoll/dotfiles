@@ -45,6 +45,7 @@ command! CopyFullPath     let @*=expand('%:p') | echo 'copy full path'
 command! CopyDirName      let @*=expand('%:h') | echo 'copy dir name'
 command! CopyFileName     let @*=expand('%:t') | echo 'copy file name'
 command! CopyRelativePath let @*=expand('%:h').'/'.expand('%:t') | echo 'copy relative path'
+command! Trim lua MiniTrailspace.trim()
 command! VimShowHlGroup echo synID(line('.'), col('.'), 1)->synIDtrans()->synIDattr('name')
 command! -nargs=* T split | wincmd j | resize 12 | terminal <args>
 
@@ -115,7 +116,6 @@ call jetpack#add('nvim-treesitter/nvim-treesitter-refactor')
 call jetpack#add('JoosepAlviste/nvim-ts-context-commentstring')
 call jetpack#add('p00f/nvim-ts-rainbow')
 call jetpack#add('romgrk/nvim-treesitter-context')
-call jetpack#add('lukas-reineke/indent-blankline.nvim')
 call jetpack#add('andymass/vim-matchup')
 call jetpack#add('lewis6991/gitsigns.nvim')
 call jetpack#add('kdheepak/lazygit.nvim', #{ on: 'LazyGit' })
@@ -395,6 +395,7 @@ nnoremap <sid>(q)c <Cmd>cclose<CR>
 nnoremap <sid>(q)o <Cmd>only<CR>
 nnoremap <sid>(q)t <C-^>
 nnoremap <sid>(q)z <Cmd>lua MiniMisc.zoom()<CR>
+nnoremap <sid>(q)k <Cmd>syntax off<CR><Cmd>lua MiniJump2d.start(MiniJump2d.builtin_opts.single_character)<CR>
 " nnoremap <sid>(q)i <Cmd>call <SID>half_move('center')<CR>
 " nnoremap <sid>(q)h <Cmd>call <SID>half_move('left')<CR>
 " nnoremap <sid>(q)j <Cmd>call <SID>half_move('down')<CR>
@@ -530,15 +531,17 @@ require('colorizer').setup()
 require('mini.bufremove').setup()
 require('mini.comment').setup()
 require('mini.cursorword').setup()
+require('mini.indentscope').setup()
+require('mini.jump2d').setup({
+  hooks = {
+    after_jump = function() vim.cmd('syntax on') end,
+  },
+})
 require('mini.surround').setup()
 require('mini.trailspace').setup()
 require('mini.tabline').setup()
 require('mini.pairs').setup()
 require('mini.misc').setup({ make_global = { 'put', 'put_text', 'zoom' } })
-require("indent_blankline").setup({
-  space_char_blankline = " ",
-  show_current_context = true,
-})
 require('gitsigns').setup({
   signs = {
     add          = { text = '+' },
@@ -607,4 +610,5 @@ augroup vimrc
   endfunction
 augroup END
 
+highlight MiniJump2dSpot ctermfg=209 ctermbg=NONE cterm=underline,bold guifg=#E27878 guibg=NONE gui=underline,bold
 set laststatus=3 " set on last line to avoid overwritten by plugins
