@@ -71,9 +71,19 @@ endif
 call jetpack#begin()
 call jetpack#add('tani/vim-jetpack', { 'opt': 1 })
 
-let s:fzf_commands = ['GFiles?', 'Buffers', 'Files', 'History', 'Rg', 'Commands']
-call jetpack#add('junegunn/fzf.vim', #{ on: s:fzf_commands })
-call jetpack#add('junegunn/fzf', #{ do: {-> fzf#install()} })
+let s:fzf_preview_commands = [
+      \ 'Buffers',
+      \ 'CommandPalette',
+      \ 'GitStatus',
+      \ 'Jumps',
+      \ 'Lines',
+      \ 'Marks',
+      \ 'ProjectFiles',
+      \ 'ProjectGrep',
+      \ 'ProjectMruFiles',
+      \ ]->map({_,name -> 'FzfPreview' .. name .. 'Rpc'})
+call jetpack#add('yuki-yano/fzf-preview.vim', #{ branch: 'release/rpc', on: s:fzf_preview_commands })
+call jetpack#add('junegunn/fzf', #{ do: {-> fzf#install()}, on: s:fzf_preview_commands })
 
 call jetpack#add('vim-denops/denops.vim')
 call jetpack#add('yuki-yano/fuzzy-motion.vim')
@@ -274,16 +284,28 @@ nnoremap s; <Cmd>FuzzyMotion<CR>
 let g:fuzzy_motion_auto_jump = v:true
 " }}}
 
-" {{{ fzf.vim
-let $FZF_DEFAULT_COMMAND = 'find_for_vim'
-nnoremap <Space>a <Cmd>GFiles?<CR>
-nnoremap <Space>b <Cmd>Buffers<CR>
-nnoremap <Space>f <Cmd>Files<CR>
-nnoremap <Space>h <Cmd>History<CR>
-nnoremap <Space>/ :<C-u>Rg ""<Left>
-nnoremap <Space>? :<C-u>Rg ""<Left><C-r><C-f>
-nnoremap <Space>: <Cmd>Commands<CR>
-xnoremap <Space>? "zy:<C-u>Rg "<C-r>z"<Left>
+" {{{ fzf-preview.vim
+let g:fzf_preview_filelist_command = 'find_for_vim'
+let g:fzf_preview_fzf_preview_window_option = 'down:70%'
+let g:fzf_preview_use_dev_icons = 1
+let g:fzf_preview_default_fzf_options = {
+      \ '--reverse': v:true,
+      \ '--preview-window': 'wrap',
+      \ '--cycle': v:true,
+      \ '--no-sort': v:true,
+      \ }
+
+nnoremap <Space>a <Cmd>FzfPreviewGitStatusRpc<CR>
+nnoremap <Space>b <Cmd>FzfPreviewBuffersRpc<CR>
+nnoremap <Space>f <Cmd>FzfPreviewProjectFilesRpc<CR>
+nnoremap <Space>h <Cmd>FzfPreviewProjectMruFilesRpc<CR>
+nnoremap <Space>j <Cmd>FzfPreviewJumpsRpc<CR>
+nnoremap <Space>l <Cmd>FzfPreviewLinesRpc<CR>
+nnoremap <Space>m <Cmd>FzfPreviewMarksRpc<CR>
+nnoremap <Space>/ :<C-u>FzfPreviewProjectGrepRpc ""<Left>
+nnoremap <Space>? :<C-u>FzfPreviewProjectGrepRpc ""<Left><C-r><C-f>
+nnoremap <Space>: <Cmd>FzfPreviewCommandPaletteRpc<CR>
+xnoremap <Space>? "zy:<C-u>FzfPreviewProjectGrepRpc "<C-r>z"<Left>
 " }}}
 
 " {{{ searchx
