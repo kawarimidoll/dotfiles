@@ -86,6 +86,12 @@ nnoremap <silent><expr> <C-k> '<Cmd>move-1-' . v:count1 . '<CR>=l'
 nnoremap <silent><expr> <C-j> '<Cmd>move+'   . v:count1 . '<CR>=l'
 nnoremap <silent><C-l> :<C-u>nohlsearch<CR>:diffupdate<CR>:syntax sync fromstart<CR><C-l>
 
+" https://github.com/Shougo/shougo-s-github/blob/c327993df755cda22b80d7ee74d131542ef7136c/vim/rc/mappings.rc.vim#L113-L117
+noremap <expr> <C-f> max([winheight(0) - 2, 1])
+      \ . '<C-d>' . (line('w$') >= line('$') ? 'L' : 'M')
+noremap <expr> <C-b> max([winheight(0) - 2, 1])
+      \ . '<C-u>' . (line('w0') <= 1 ? 'H' : 'M')
+
 " command
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
@@ -97,11 +103,19 @@ cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 cnoremap <C-d> <Del>
 cnoremap <C-r><C-r> <C-r><C-r>*
+cnoremap <C-g> <C-c>
+cnoremap <expr> <C-k> repeat("\<Del>", strchars(getcmdline()[getcmdpos() - 1:]))
 
 " insert
 inoremap <silent> <C-r><C-r> <C-r><C-r>*
+" https://github.com/Shougo/shougo-s-github/blob/c327993df755cda22b80d7ee74d131542ef7136c/vim/rc/mappings.rc.vim#L32-L37
+inoremap <C-t> <C-v><TAB>
+inoremap <C-w> <C-g>u<C-w>
+inoremap <C-u> <C-g>u<C-u>
+inoremap <C-k> <C-o>D
 
 " visual
+xnoremap p P
 xnoremap <silent> y y`]
 xnoremap x "_x
 xnoremap < <gv
@@ -174,11 +188,11 @@ digraphs j9 65305  " ９
 digraphs j~ 12316  " 〜
 digraphs j/ 12539  " ・
 digraphs js 12288  " 　
-digraphs jj 106    " j
-noremap fj f<C-k>j
-noremap Fj F<C-k>j
-noremap tj t<C-k>j
-noremap Tj T<C-k>j
+" digraphs jj 106    " j
+noremap f<C-j> f<C-k>j
+noremap F<C-j> F<C-k>j
+noremap t<C-j> t<C-k>j
+noremap T<C-j> T<C-k>j
 
 augroup min-edit
   autocmd!

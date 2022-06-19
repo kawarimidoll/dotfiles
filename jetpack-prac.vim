@@ -252,10 +252,6 @@ nnoremap <sid>(q)z <Cmd>lua MiniMisc.zoom()<CR>
 
 nnoremap <Space>d <Cmd>lua MiniBufremove.delete()<CR>
 nnoremap <Space>L <Cmd>LazyGit<CR>
-
-" xnoremap <silent> p <Cmd>call <SID>markdown_link_paste()<CR>
-" https://github.com/Shougo/shougo-s-github/blob/master/vim/rc/mappings.rc.vim#L179
-" xnoremap <silent> P <Cmd>call <SID>visual_paste('p')<CR>
 " }}}
 
 colorscheme onehalfdark
