@@ -49,19 +49,19 @@ command! VimShowHlGroup echo synID(line('.'), col('.'), 1)->synIDtrans()->synIDa
 command! -nargs=* T split | wincmd j | resize 12 | terminal <args>
 
 if has('nvim')
-  if !filereadable(expand('~/.config/nvim/plugin/jetpack.vim'))
-    silent execute '!curl -fLo ~/.config/nvim/plugin/jetpack.vim --create-dirs'
-          \ 'https://raw.githubusercontent.com/tani/vim-jetpack/master/autoload/jetpack.vim'
-  endif
+  " if !filereadable(expand('~/.config/nvim/plugin/jetpack.vim'))
+  "   silent execute '!curl -fLo ~/.config/nvim/plugin/jetpack.vim --create-dirs'
+  "         \ 'https://raw.githubusercontent.com/tani/vim-jetpack/master/plugin/jetpack.vim'
+  " endif
   if !isdirectory(expand('~/.local/share/nvim/site/pack/jetpack/src/vim-jetpack'))
     silent execute '!git clone --depth 1 https://github.com/tani/vim-jetpack ~/.local/share/nvim/site/pack/jetpack/src/vim-jetpack'
           \ '&& ln -s ~/.local/share/nvim/site/pack/jetpack/{src,opt}/vim-jetpack'
   endif
 else
-  if !filereadable(expand('~/.vim/autoload/jetpack.vim'))
-    silent execute '!curl -fLo ~/.vim/autoload/jetpack.vim --create-dirs'
-          \ 'https://raw.githubusercontent.com/tani/vim-jetpack/master/autoload/jetpack.vim'
-  endif
+  " if !filereadable(expand('~/.vim/plugin/jetpack.vim'))
+  "   silent execute '!curl -fLo ~/.vim/plugin/jetpack.vim --create-dirs'
+  "         \ 'https://raw.githubusercontent.com/tani/vim-jetpack/master/plugin/jetpack.vim'
+  " endif
   if !isdirectory(expand('~/.vim/pack/jetpack/src/vim-jetpack'))
     silent execute '!git clone --depth 1 https://github.com/tani/vim-jetpack ~/.vim/pack/jetpack/src/vim-jetpack'
           \ '&& ln -s ~/.vim/pack/jetpack/{src,opt}/vim-jetpack'
@@ -75,8 +75,6 @@ let s:fzf_commands = ['GFiles?', 'Buffers', 'Files', 'History', 'Rg', 'Commands'
 call jetpack#add('junegunn/fzf.vim', #{ on: s:fzf_commands })
 call jetpack#add('junegunn/fzf', #{ do: {-> fzf#install()} })
 
-" Plug 'vim-skk/skkeleton'
-" Plug 'Shougo/ddc.vim'
 call jetpack#add('vim-denops/denops.vim')
 call jetpack#add('yuki-yano/fuzzy-motion.vim')
 
@@ -132,13 +130,13 @@ let g:silicon = #{
   \ }
 
 " auto install plugs
-for name in jetpack#names()
-  if !jetpack#tap(name)
-    call jetpack#sync()
-    break
-  endif
-endfor
-command! Plugs echo jetpack#names()
+" for name in jetpack#names()
+"   if !jetpack#tap(name)
+"     call jetpack#sync()
+"     break
+"   endif
+" endfor
+command! Plugs echo jetpack#names()->copy()->sort()
 
 " {{{ keymap()
 function! s:keymap(force_map, modes, ...) abort
