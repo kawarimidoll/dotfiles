@@ -82,19 +82,18 @@ call jetpack#add('neovim/nvim-lspconfig')
 call jetpack#add('williamboman/nvim-lsp-installer')
 
 call jetpack#add('Shougo/ddc.vim')
-call jetpack#add('Shougo/pum.vim')
-call jetpack#add('Shougo/ddc-around')
-call jetpack#add('Shougo/ddc-nvim-lsp')
-call jetpack#add('LumaKernel/ddc-file')
-call jetpack#add('delphinus/ddc-treesitter')
-call jetpack#add('octaltree/cmp-look')
+call jetpack#add('Shougo/pum.vim', #{ on: ['InsertEnter', 'CmdlineEnter'] })
+call jetpack#add('Shougo/ddc-around', #{ on: ['InsertEnter', 'CmdlineEnter'] })
+call jetpack#add('Shougo/ddc-nvim-lsp', #{ on: ['InsertEnter', 'CmdlineEnter'] })
+call jetpack#add('LumaKernel/ddc-file', #{ on: ['InsertEnter', 'CmdlineEnter'] })
+call jetpack#add('octaltree/cmp-look', #{ on: ['InsertEnter', 'CmdlineEnter'] })
 call jetpack#add('LumaKernel/ddc-tabnine')
-call jetpack#add('Shougo/ddc-matcher_head')
-call jetpack#add('Shougo/ddc-sorter_rank')
-call jetpack#add('Shougo/ddc-converter_remove_overlap')
+call jetpack#add('Shougo/ddc-matcher_head', #{ on: ['InsertEnter', 'CmdlineEnter'] })
+call jetpack#add('Shougo/ddc-sorter_rank', #{ on: ['InsertEnter', 'CmdlineEnter'] })
+call jetpack#add('Shougo/ddc-converter_remove_overlap', #{ on: ['InsertEnter', 'CmdlineEnter'] })
 call jetpack#add('matsui54/denops-signature_help')
 call jetpack#add('matsui54/denops-popup-preview.vim')
-call jetpack#add('vim-skk/skkeleton')
+call jetpack#add('vim-skk/skkeleton', #{ on: ['InsertEnter', 'CmdlineEnter'] })
 
 call jetpack#add('lewis6991/impatient.nvim')
 call jetpack#add('nvim-lualine/lualine.nvim')
@@ -113,14 +112,14 @@ call jetpack#add('kdheepak/lazygit.nvim', #{ on: 'LazyGit' })
 call jetpack#add('tyru/open-browser.vim', #{ on: ['OpenBrowser', '<Plug>(openbrowser-'] })
 call jetpack#add('tyru/capture.vim', #{ on: 'Capture' })
 call jetpack#add('hrsh7th/vim-searchx')
-call jetpack#add('monaqa/dial.nvim')
+call jetpack#add('monaqa/dial.nvim', #{ on: '<Plug>(dial-' })
 call jetpack#add('segeljakt/vim-silicon', #{ on: 'Silicon' })
 call jetpack#add('simeji/winresizer', #{ on: 'WinResizerStartResize' })
 call jetpack#add('echasnovski/mini.nvim')
 
 " call jetpack#add('sonph/onehalf', #{ rtp: 'vim/' })
 call jetpack#add('sainnhe/edge')
-call jetpack#add('vim-jp/vimdoc-ja', #{ for: 'help' })
+call jetpack#add('vim-jp/vimdoc-ja')
 call jetpack#end()
 
 let g:lazygit_floating_window_scaling_factor = 1
@@ -305,6 +304,7 @@ endfunction
 " }}}
 
 " {{{ dial.vim
+function s:dial_init() abort
 lua << EOF
 local augend = require("dial.augend")
 require("dial.config").augends:register_group{
@@ -332,10 +332,12 @@ require("dial.config").augends:register_group{
   },
 }
 EOF
+endfunction
 xmap g<C-a> g<Plug>(dial-increment)
 xmap g<C-x> g<Plug>(dial-decrement)
 Keymap nx <C-a> <Plug>(dial-increment)
 Keymap nx <C-x> <Plug>(dial-decrement)
+autocmd User JetpackDialNvimPost ++once call <sid>dial_init()
 " }}}
 
 " {{{ openbrowser
