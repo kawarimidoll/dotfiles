@@ -96,6 +96,7 @@ call jetpack#add('Shougo/ddc-sorter_rank')
 call jetpack#add('Shougo/ddc-converter_remove_overlap')
 call jetpack#add('matsui54/denops-signature_help')
 call jetpack#add('matsui54/denops-popup-preview.vim')
+call jetpack#add('vim-skk/skkeleton')
 
 call jetpack#add('lewis6991/impatient.nvim')
 call jetpack#add('nvim-lualine/lualine.nvim')
@@ -153,6 +154,71 @@ endfunction
 command! -nargs=+ -bang Keymap call <SID>keymap(<bang>0, <f-args>)
 " }}}
 
+" {{{ skkeleton
+map! <C-j> <Plug>(skkeleton-enable)
+
+let s:jisyo_dir = stdpath('config')
+let s:jisyo_name = 'SKK-JISYO.L'
+let s:jisyo_path = expand(s:jisyo_dir . '/' . s:jisyo_name)
+if !filereadable(s:jisyo_path)
+  echo "SSK Jisyo does not exists! '" . s:jisyo_path . "' is required!"
+  let s:skk_setup_cmds = [
+    \   "curl -OL https://skk-dev.github.io/dict/SKK-JISYO.L.gz",
+    \   "gunzip SKK-JISYO.L.gz",
+    \   "mkdir -p " . s:jisyo_dir,
+    \   "mv ./SKK-JISYO.L " . s:jisyo_dir,
+    \ ]
+  echo (["To get Jisyo, run:"] + s:skk_setup_cmds + [""])->join("\n")
+
+  if confirm("Run automatically?", "y\nN") == 1
+    echo "Running..."
+    call system(s:skk_setup_cmds->join(" && "))
+    echo "Done."
+  endif
+endif
+
+function! s:skkeleton_init() abort
+  let l:rom_table = {
+    \   'z9': ['（', ''],
+    \   'z0': ['）', ''],
+    \   "z\<Space>": ["\u3000", ''],
+    \ }
+  for char in split('abcdefghijklmnopqrstuvwxyz,._-!?', '.\zs')
+    let l:rom_table['c'.char] = [char, '']
+  endfor
+
+  call skkeleton#config(#{
+    \   eggLikeNewline: v:true,
+    \   globalJisyo: s:jisyo_path,
+    \   immediatelyCancel: v:false,
+    \   registerConvertResult: v:true,
+    \   selectCandidateKeys: '1234567',
+    \   showCandidatesCount: 1,
+    \ })
+  call skkeleton#register_kanatable('rom', l:rom_table)
+endfunction
+
+function! s:skkeleton_enable() abort
+  let restore = ddc#custom#get_buffer()
+  call ddc#custom#patch_buffer(#{
+    \   sources: ['skkeleton'],
+    \   sourceOptions: #{ skkeleton: #{
+    \     matchers: ['skkeleton'],
+    \     sorters: [],
+    \   } },
+    \   autoCompleteEvents: ['TextChangedI', 'TextChangedP', 'CmdlineChanged'],
+    \ })
+
+  autocmd User skkeleton-disable-pre ++once call ddc#custom#set_buffer(restore)
+endfunction
+
+augroup skkeleton
+  autocmd!
+  autocmd User skkeleton-enable-pre call <SID>skkeleton_enable()
+  autocmd User skkeleton-initialize-pre call <SID>skkeleton_init()
+augroup END
+" }}}
+
 " {{{ ddc.vim
 call ddc#custom#patch_global('completionMenu', 'pum.vim')
 call ddc#custom#patch_global('sources', [
@@ -167,6 +233,7 @@ call ddc#custom#patch_global('sourceOptions', {
   \   'matchers': ['matcher_head'],
   \   'sorters': ['sorter_rank'],
   \   'converters': ['converter_remove_overlap'],
+  \   'minAutoCompleteLength': 2,
   \ },
   \ 'nvim-lsp': {
   \   'mark': 'LSP',
@@ -266,7 +333,6 @@ require("dial.config").augends:register_group{
   },
 }
 EOF
-
 xmap g<C-a> g<Plug>(dial-increment)
 xmap g<C-x> g<Plug>(dial-decrement)
 Keymap nx <C-a> <Plug>(dial-increment)
@@ -407,7 +473,7 @@ lsp_installer.on_server_ready(function(server)
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+    -- vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
     vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
     vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
     vim.keymap.set('n', '<leader>wl', function()
@@ -465,7 +531,7 @@ require('gitsigns').setup({
     map({'n', 'v'}, '<leader>hr', gs.reset_hunk)
     map('n', '<leader>hS', gs.stage_buffer)
     map('n', '<leader>hu', gs.undo_stage_hunk)
-    map('n', '<leader>hR', gs.reset_buffer)
+    -- map('n', '<leader>hR', gs.reset_buffer)
     map('n', '<leader>hp', gs.preview_hunk)
     map('n', '<leader>hb', function() gs.blame_line{full=true} end)
     map('n', '<leader>tb', gs.toggle_current_line_blame)
