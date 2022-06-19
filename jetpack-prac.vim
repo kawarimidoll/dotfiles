@@ -120,7 +120,8 @@ call jetpack#add('segeljakt/vim-silicon', #{ on: 'Silicon' })
 call jetpack#add('simeji/winresizer', #{ on: 'WinResizerStartResize' })
 call jetpack#add('echasnovski/mini.nvim')
 
-call jetpack#add('sonph/onehalf', #{ rtp: 'vim/' })
+" call jetpack#add('sonph/onehalf', #{ rtp: 'vim/' })
+call jetpack#add('sainnhe/edge')
 call jetpack#add('vim-jp/vimdoc-ja', #{ for: 'help' })
 call jetpack#end()
 
@@ -378,7 +379,13 @@ nnoremap <Space>d <Cmd>lua MiniBufremove.delete()<CR>
 nnoremap <Space>L <Cmd>LazyGit<CR>
 " }}}
 
-colorscheme onehalfdark
+" {{{ colorscheme
+let g:edge_style = 'aura'
+let g:edge_better_performance = 1
+let g:edge_dim_foreground = 1
+colorscheme edge
+" colorscheme onehalfdark
+" }}}
 
 lua << EOF
 require('impatient')
