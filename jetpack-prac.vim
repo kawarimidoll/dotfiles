@@ -509,20 +509,17 @@ require('nvim-treesitter.configs').setup({
   -- }}}
 })
 local nvim_lsp = require('lspconfig')
--- https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/configs.lua
-local node_root_dir = nvim_lsp.util.root_pattern("package.json", "node_modules")
-local is_node_repo = node_root_dir(vim.api.nvim_buf_get_name(0), vim.api.nvim_get_current_buf()) ~= nil
 local lsp_installer = require("nvim-lsp-installer")
 lsp_installer.on_server_ready(function(server)
   local opts = {}
   if server.name == "tsserver" then
-    opts.autostart = is_node_repo
+    opts.root_dir = nvim_lsp.util.root_pattern("package.json", "node_modules")
     opts.settings = { documentFormatting = false }
     opts.init_options = { hostInfo = "neovim" }
   elseif server.name == "eslint" then
-    opts.autostart = is_node_repo
+    opts.root_dir = nvim_lsp.util.root_pattern("package.json", "node_modules")
   elseif server.name == "denols" then
-    opts.autostart = not(is_node_repo)
+    opts.root_dir = nvim_lsp.util.root_pattern("deno.json", "deno.jsonc", "deps.ts", "import_map.json")
     opts.init_options = {
       lint = true,
       unstable = true,
