@@ -147,6 +147,7 @@ digraphs ii 12356  " い
 digraphs uu 12358  " う
 digraphs ee 12360  " え
 digraphs oo 12362  " お
+digraphs nn 12435  " ん
 digraphs aA 12353  " ぁ
 digraphs iI 12355  " ぃ
 digraphs uU 12357  " ぅ
@@ -157,6 +158,7 @@ digraphs Ii 12452  " イ
 digraphs Uu 12454  " ウ
 digraphs Ee 12456  " エ
 digraphs Oo 12458  " オ
+digraphs Nn 12531  " ン
 digraphs AA 12349  " ァ
 digraphs II 12451  " ィ
 digraphs UU 12453  " ゥ
