@@ -104,13 +104,12 @@ call jetpack#add('Shougo/ddc-sorter_rank', #{ on: ['InsertEnter', 'CmdlineEnter'
 call jetpack#add('Shougo/ddc-converter_remove_overlap', #{ on: ['InsertEnter', 'CmdlineEnter'] })
 call jetpack#add('matsui54/denops-signature_help')
 call jetpack#add('matsui54/denops-popup-preview.vim')
-call jetpack#add('vim-skk/skkeleton', #{ on: ['InsertEnter', 'CmdlineEnter'] })
+call jetpack#add('vim-skk/skkeleton')
 
 call jetpack#add('lewis6991/impatient.nvim')
-call jetpack#add('nvim-lualine/lualine.nvim')
-call jetpack#add('folke/which-key.nvim')
-call jetpack#add('nvim-lua/plenary.nvim')
-call jetpack#add('norcalli/nvim-colorizer.lua')
+call jetpack#add('folke/which-key.nvim', #{ on: 'LazyLoadPlugs' })
+call jetpack#add('nvim-lua/plenary.nvim', #{ on: 'LazyLoadPlugs' })
+call jetpack#add('norcalli/nvim-colorizer.lua', #{ on: 'LazyLoadPlugs' })
 call jetpack#add('nvim-treesitter/nvim-treesitter', #{ do: ':TSUpdate' })
 call jetpack#add('nvim-treesitter/nvim-treesitter-refactor')
 call jetpack#add('JoosepAlviste/nvim-ts-context-commentstring')
@@ -121,7 +120,7 @@ call jetpack#add('lewis6991/gitsigns.nvim')
 call jetpack#add('kdheepak/lazygit.nvim', #{ on: 'LazyGit' })
 call jetpack#add('tyru/open-browser.vim', #{ on: ['OpenBrowser', '<Plug>(openbrowser-'] })
 call jetpack#add('tyru/capture.vim', #{ on: 'Capture' })
-call jetpack#add('hrsh7th/vim-searchx')
+call jetpack#add('hrsh7th/vim-searchx', #{ on: 'CmdlineEnter' })
 call jetpack#add('monaqa/dial.nvim', #{ on: '<Plug>(dial-' })
 call jetpack#add('segeljakt/vim-silicon', #{ on: 'Silicon' })
 call jetpack#add('simeji/winresizer', #{ on: 'WinResizerStartResize' })
@@ -137,6 +136,16 @@ let g:silicon = #{
   \   font:   'UDEV Gothic 35JPDOC',
   \   output: '~/Downloads/silicon-{time:%Y-%m-%d-%H%M%S}.png'
   \ }
+
+function! s:lazy_load_plugs(timer) abort
+  doautocmd User LazyLoadPlugs
+  lua require('which-key').setup()
+  lua require('colorizer').setup()
+endfunction
+if !exists('g:loaded_plugs')
+  call timer_start(20, function("s:lazy_load_plugs"))
+endif
+let g:loaded_plugs = 1
 
 " auto install plugs
 " for name in jetpack#names()
@@ -309,11 +318,14 @@ xnoremap <Space>? "zy:<C-u>FzfPreviewProjectGrepRpc "<C-r>z"<Left>
 " }}}
 
 " {{{ searchx
-Keymap nx ? <Cmd>call searchx#start(#{ dir: 0 })<CR>
-Keymap nx / <Cmd>call searchx#start(#{ dir: 1 })<CR>
-Keymap nx N <Cmd>call searchx#prev()<CR>
-Keymap nx n <Cmd>call searchx#next()<CR>
-nnoremap <C-l> <Cmd>call searchx#clear()<CR><Cmd>nohlsearch<CR><C-l>
+function s:searchx_init() abort
+  Keymap nx ? <Cmd>call searchx#start(#{ dir: 0 })<CR>
+  Keymap nx / <Cmd>call searchx#start(#{ dir: 1 })<CR>
+  Keymap nx N <Cmd>call searchx#prev()<CR>
+  Keymap nx n <Cmd>call searchx#next()<CR>
+  nnoremap <C-l> <Cmd>call searchx#clear()<CR><Cmd>nohlsearch<CR><C-l>
+endfunction
+autocmd User JetpackVimSearchxPost ++once call <sid>searchx_init()
 
 let g:searchx = {}
 let g:searchx.auto_accept = v:true
@@ -525,19 +537,18 @@ lsp_installer.on_server_ready(function(server)
   server:setup(opts)
   vim.cmd [[ do User LspAttachBuffers ]]
 end)
-require('which-key').setup()
-require('lualine').setup()
-require('colorizer').setup()
 require('mini.bufremove').setup()
 require('mini.comment').setup()
 require('mini.cursorword').setup()
 require('mini.indentscope').setup()
 require('mini.jump2d').setup({
-  hooks = {
-    after_jump = function() vim.cmd('syntax on') end,
-  },
+  hooks = { after_jump = function() vim.cmd('syntax on') end },
+  mappings = { start_jumping = '' },
 })
 require('mini.surround').setup()
+require('mini.statusline').setup({
+  set_vim_settings = false,
+})
 require('mini.trailspace').setup()
 require('mini.tabline').setup()
 require('mini.pairs').setup()
@@ -611,4 +622,5 @@ augroup vimrc
 augroup END
 
 highlight MiniJump2dSpot ctermfg=209 ctermbg=NONE cterm=underline,bold guifg=#E27878 guibg=NONE gui=underline,bold
+highlight link MiniStatuslineDevinfo String
 set laststatus=3 " set on last line to avoid overwritten by plugins
