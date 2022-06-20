@@ -624,11 +624,27 @@ require('gitsigns').setup({
 })
 EOF
 
+function! s:collect_yank_history() abort
+  " regs should be start with double quote
+  let regs = '"abcde'->split('\zs')
+  for index in range(len(regs)-1, 1, -1)
+    call setreg(regs[index], getreginfo(regs[index-1]))
+  endfor
+endfunction
+function! s:clear_regs() abort
+  for r in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/'->split('\zs')
+    call setreg(r, [])
+  endfor
+endfunction
+command! ClearRegs call <SID>clear_regs()
+
 "-----------------
 " Auto Commands
 "-----------------
 augroup vimrc
   autocmd!
+  autocmd TextYankPost * call <SID>collect_yank_history()
+  autocmd VimEnter * ClearRegs
   " https://zenn.dev/uochan/articles/2021-12-08-vim-conventional-commits
   autocmd FileType gitcommit,gina-commit ++once normal! gg
   autocmd FileType gitcommit,gina-commit nnoremap <buffer> <CR> <Cmd>silent! execute 'normal! ^w"zdiw"_dip"zPA: ' <bar> startinsert!<CR>
