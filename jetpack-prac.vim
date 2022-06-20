@@ -48,6 +48,15 @@ command! CopyRelativePath let @*=expand('%:h').'/'.expand('%:t') | echo 'copy re
 command! Trim lua MiniTrailspace.trim()
 command! VimShowHlGroup echo synID(line('.'), col('.'), 1)->synIDtrans()->synIDattr('name')
 command! -nargs=* T split | wincmd j | resize 12 | terminal <args>
+function s:DexComplete(A,L,P)
+  return ['--quiet', '--compat']
+endfunction
+command! -nargs=* -bang -complete=customlist,s:DexComplete Dex silent only! | botright 12 split |
+  \ execute 'terminal' (has('nvim') ? '' : '++curwin') 'deno run --no-check --allow-all'
+  \    '--unstable --watch' (<bang>0 ? '' : '--no-clear-screen') <q-args> expand('%:p') |
+  \ stopinsert | execute 'normal! G' | set bufhidden=wipe |
+  \ execute 'autocmd BufEnter <buffer> if winnr("$") == 1 | quit! | endif' |
+  \ file Dex<bang> | wincmd k
 
 if has('nvim')
   " if !filereadable(expand('~/.config/nvim/plugin/jetpack.vim'))
