@@ -373,6 +373,27 @@ require("dial.config").augends:register_group{
       word = false,
     },
     augend.constant.new{ elements = {"let", "const"}, },
+    augend.user.new{
+      find = require("dial.augend.common").find_pattern("%u+"),
+      add = function(text, _, cursor)
+        text = text:lower()
+        return {text = text, cursor = #text}
+      end
+    },
+    augend.user.new{
+      find = require("dial.augend.common").find_pattern("%u%l+"),
+      add = function(text, _, cursor)
+        text = text:upper()
+        return {text = text, cursor = #text}
+      end
+    },
+    augend.user.new{
+      find = require("dial.augend.common").find_pattern("%l+"),
+      add = function(text, _, cursor)
+        text = text:sub(1,1):upper() .. text:sub(2)
+        return {text = text, cursor = #text}
+      end
+    },
     augend.case.new{
       types = {"camelCase", "PascalCase", "snake_case", "kebab-case", "SCREAMING_SNAKE_CASE"},
     },
