@@ -108,9 +108,12 @@ call jetpack#add('Shougo/ddc-nvim-lsp', #{ on: ['InsertEnter', 'CmdlineEnter'] }
 call jetpack#add('LumaKernel/ddc-file', #{ on: ['InsertEnter', 'CmdlineEnter'] })
 call jetpack#add('octaltree/cmp-look', #{ on: ['InsertEnter', 'CmdlineEnter'] })
 call jetpack#add('LumaKernel/ddc-tabnine')
+call jetpack#add('Shougo/ddc-cmdline', #{ on: ['InsertEnter', 'CmdlineEnter'] })
+call jetpack#add('Shougo/ddc-cmdline-history', #{ on: ['InsertEnter', 'CmdlineEnter'] })
 call jetpack#add('Shougo/ddc-matcher_head', #{ on: ['InsertEnter', 'CmdlineEnter'] })
 call jetpack#add('Shougo/ddc-sorter_rank', #{ on: ['InsertEnter', 'CmdlineEnter'] })
 call jetpack#add('Shougo/ddc-converter_remove_overlap', #{ on: ['InsertEnter', 'CmdlineEnter'] })
+call jetpack#add('tani/ddc-fuzzy', #{ on: ['InsertEnter', 'CmdlineEnter'] })
 call jetpack#add('matsui54/denops-signature_help')
 call jetpack#add('matsui54/denops-popup-preview.vim')
 call jetpack#add('vim-skk/skkeleton')
@@ -232,7 +235,6 @@ function! s:skkeleton_enable() abort
     \     matchers: ['skkeleton'],
     \     sorters: [],
     \   } },
-    \   autoCompleteEvents: ['TextChangedI', 'TextChangedP', 'CmdlineChanged'],
     \ })
 
   autocmd User skkeleton-disable-pre ++once call ddc#custom#set_buffer(restore)
@@ -247,6 +249,8 @@ augroup END
 
 " {{{ ddc.vim
 call ddc#custom#patch_global('completionMenu', 'pum.vim')
+call ddc#custom#patch_global('autoCompleteEvents',
+    \ ['InsertEnter', 'TextChangedI', 'TextChangedP', 'CmdlineChanged'])
 call ddc#custom#patch_global('sources', [
   \ 'nvim-lsp',
   \ 'tabnine',
@@ -278,22 +282,69 @@ call ddc#custom#patch_global('sourceOptions', {
   \ 'file': {
   \   'mark': 'F',
   \   'isVolatile': v:true,
-  \   'forceCompletionPattern': '\S/\S*'
+  \   'forceCompletionPattern': '\S/\S*',
+  \   'ignoreCase': v:true,
+  \   'matchers': ['matcher_fuzzy'],
+  \   'sorters': ['sorter_fuzzy'],
+  \   'converters': ['converter_fuzzy']
   \ },
   \ 'around': {'mark': 'A'},
+  \ 'cmdline': {
+  \   'mark': 'CMD',
+  \   'forceCompletionPattern': '\S/\S*',
+  \   'ignoreCase': v:true,
+  \   'matchers': ['matcher_fuzzy'],
+  \   'sorters': ['sorter_fuzzy'],
+  \   'converters': ['converter_fuzzy']
+  \ },
+  \ 'cmdline-history': {
+  \   'mark': 'H',
+  \   'ignoreCase': v:true,
+  \   'sorters': [],
+  \ },
   \ })
+
+nnoremap : <Cmd>call <sid>ddc_commandline_pre()<CR>:
+
+function! s:ddc_commandline_pre() abort
+  " Overwrite sources
+  if !exists('b:prev_buffer_config')
+    let b:prev_buffer_config = ddc#custom#get_buffer()
+  endif
+  call ddc#custom#patch_buffer('cmdlineSources', ['cmdline', 'cmdline-history', 'around', 'file', 'look'])
+
+  autocmd User DDCCmdlineLeave ++once call <sid>ddc_commandline_post()
+  autocmd InsertEnter <buffer> ++once call <sid>ddc_commandline_post()
+
+  " Enable command line completion
+  call ddc#enable_cmdline_completion()
+endfunction
+function! s:ddc_commandline_post() abort
+  " Restore sources
+  if exists('b:prev_buffer_config')
+    call ddc#custom#set_buffer(b:prev_buffer_config)
+    unlet b:prev_buffer_config
+  else
+    call ddc#custom#set_buffer({})
+  endif
+endfunction
+
 call ddc#enable()
 call popup_preview#enable()
 call signature_help#enable()
-imap <silent><expr> <Tab>
+Keymap ic <silent><expr> <Tab>
       \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<Tab>'
-imap <silent><expr> <S-Tab>
+Keymap ic <silent><expr> <S-Tab>
       \ pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<S-Tab>'
-imap <silent><expr> <C-n>
-      \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<C-n>'
-imap <silent><expr> <C-p>
-      \ pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<C-p>'
-imap <silent><expr> <CR>
+Keymap ic <silent><expr> <C-n>
+      \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<Down>'
+Keymap ic <silent><expr> <C-p>
+      \ pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<Up>'
+Keymap ic <silent><expr> <C-y>
+      \ pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<C-y>'
+Keymap ic <silent><expr> <C-e>
+      \ pum#visible() ? '<Cmd>call pum#map#cancel()<CR>'  : '<C-e>'
+Keymap i <silent><expr> <CR>
       \ pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<CR>'
 " }}}
 
