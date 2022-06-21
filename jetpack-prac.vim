@@ -100,6 +100,8 @@ call jetpack#add('yuki-yano/fuzzy-motion.vim')
 
 call jetpack#add('neovim/nvim-lspconfig')
 call jetpack#add('williamboman/nvim-lsp-installer')
+call jetpack#add('folke/trouble.nvim', #{ on: 'TroubleToggle' })
+call jetpack#add('tami5/lspsaga.nvim', #{ on: 'Lspsaga' })
 
 call jetpack#add('Shougo/ddc.vim')
 call jetpack#add('Shougo/pum.vim', #{ on: ['InsertEnter', 'CmdlineEnter'] })
@@ -158,6 +160,8 @@ if !exists('g:loaded_plugs')
   call timer_start(20, function("s:lazy_load_plugs"))
 endif
 let g:loaded_plugs = 1
+autocmd User JetpackTroubleNvimPost lua require('trouble').setup({auto_close = true})
+autocmd User JetpackLspsagaNvimPost lua require('lspsaga').setup()
 
 " auto install plugs
 " for name in jetpack#names()
@@ -336,10 +340,10 @@ Keymap ic <silent><expr> <Tab>
       \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<Tab>'
 Keymap ic <silent><expr> <S-Tab>
       \ pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<S-Tab>'
-Keymap ic <silent><expr> <C-n>
-      \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<Down>'
-Keymap ic <silent><expr> <C-p>
-      \ pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<Up>'
+" Keymap ic <silent><expr> <C-n>
+"       \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<Down>'
+" Keymap ic <silent><expr> <C-p>
+"       \ pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<Up>'
 Keymap ic <silent><expr> <C-y>
       \ pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<C-y>'
 Keymap ic <silent><expr> <C-e>
@@ -484,11 +488,12 @@ nnoremap <sid>(q)q qq
 nnoremap Q @q
 nnoremap <sid>(q)b <Cmd>Gitsigns toggle_current_line_blame<CR>
 nnoremap <sid>(q)c <Cmd>cclose<CR>
-" nnoremap <sid>(q)m <Cmd>PreviewMarkdownToggle<CR>
+nnoremap <sid>(q)d <Cmd>TroubleToggle<CR>
 nnoremap <sid>(q)o <Cmd>only<CR>
 nnoremap <sid>(q)t <C-^>
 nnoremap <sid>(q)z <Cmd>lua MiniMisc.zoom()<CR>
 nnoremap <sid>(q)k <Cmd>syntax off<CR><Cmd>lua MiniJump2d.start(MiniJump2d.builtin_opts.single_character)<CR>
+nnoremap <sid>(q)u <Cmd>TroubleToggle lsp_references<CR>
 " nnoremap <sid>(q)i <Cmd>call <SID>half_move('center')<CR>
 " nnoremap <sid>(q)h <Cmd>call <SID>half_move('left')<CR>
 " nnoremap <sid>(q)j <Cmd>call <SID>half_move('down')<CR>
@@ -507,6 +512,25 @@ colorscheme edge
 " colorscheme onehalfdark
 " }}}
 
+" {{{ lspsaga
+nnoremap <silent> gh <Cmd>Lspsaga lsp_finder<CR>
+nnoremap <silent> grr <Cmd>Lspsaga rename<CR>
+nnoremap <silent> gD <Cmd>Lspsaga preview_definition<CR>
+nnoremap <silent> <leader>ca <Cmd>Lspsaga code_action<CR>
+vnoremap <silent> <leader>ca <Cmd>Lspsaga range_code_action<CR>
+
+nnoremap <silent> <leader>cd <Cmd>Lspsaga show_line_diagnostics<CR>
+nnoremap <silent> <leader>cc <Cmd>Lspsaga show_cursor_diagnostics<CR>
+nnoremap <silent> [d <Cmd>Lspsaga diagnostic_jump_next<CR>
+nnoremap <silent> ]d <Cmd>Lspsaga diagnostic_jump_prev<CR>
+
+nnoremap <silent><expr> K
+      \ &filetype=~'vim\\|help' ? 'K' : '<Cmd>Lspsaga hover_doc<CR>'
+
+nnoremap <silent> <C-f> <Cmd>lua require('lspsaga.action').smart_scroll_with_saga(1, '<C-f>')<CR>
+nnoremap <silent> <C-b> <Cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1, '<C-b>')<CR>
+" }}}
+
 lua << EOF
 require('impatient')
 require('nvim-treesitter.configs').setup({
@@ -523,17 +547,10 @@ require('nvim-treesitter.configs').setup({
 
   -- {{{ nvim-treesitter-refactor
   refactor = {
-    highlight_definitions = { enable = true },
-    smart_rename = {
-      enable = true,
-      keymaps = {
-        smart_rename = "grr",
-      },
-    },
     navigation = {
       enable = true,
       keymaps = {
-        goto_definition_lsp_fallback = "grd",
+        goto_definition_lsp_fallback = "gd",
         list_definitions = "grD",
         list_definitions_toc = "grt",
         goto_previous_usage = "[u",
@@ -587,27 +604,9 @@ lsp_installer.on_server_ready(function(server)
   end
 
   opts.on_attach = function(client, bufnr)
-    -- Enable completion triggered by <c-x><c-o>
-    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-
     local bufopts = { noremap=true, silent=true, buffer=bufnr }
-    vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, bufopts)
-    vim.keymap.set('n', ']d', vim.diagnostic.goto_next, bufopts)
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-    if (vim.bo.filetype ~= 'vim' and vim.bo.filetype ~= 'help') then
-      vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-    end
     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-    vim.keymap.set('n', '<space>ck', vim.lsp.buf.signature_help, bufopts)
-    vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
-    vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
-    vim.keymap.set('n', '<leader>wl', function()
-      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end, bufopts)
     vim.keymap.set('n', 'gtD', vim.lsp.buf.type_definition, bufopts)
-    vim.keymap.set('n', 'grn', vim.lsp.buf.rename, bufopts)
-    vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
     vim.keymap.set('n', 'grf', vim.lsp.buf.references, bufopts)
     vim.keymap.set('n', '<space>p', vim.lsp.buf.formatting, bufopts)
   end
@@ -717,4 +716,5 @@ augroup END
 
 highlight MiniJump2dSpot ctermfg=209 ctermbg=NONE cterm=underline,bold guifg=#E27878 guibg=NONE gui=underline,bold
 highlight link MiniStatuslineDevinfo String
+highlight WinSeparator ctermfg=250 ctermbg=NONE guifg=#97a4b5 guibg=NONE
 set laststatus=3 " set on last line to avoid overwritten by plugins
