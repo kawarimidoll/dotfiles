@@ -671,6 +671,20 @@ require('gitsigns').setup({
 })
 EOF
 
+function! EditProjectMru() abort
+  let cmd = 'git rev-parse --show-superproject-working-tree --show-toplevel 2>/dev/null | head -1'
+  let root = system(cmd)->trim()->expand()
+  if root == ''
+    return
+  endif
+  for file in v:oldfiles
+    if file =~ root && file !~ '\.git/' && filereadable(file)
+      execute 'edit' file
+      break
+    endif
+  endfor
+endfunction
+
 function! s:collect_yank_history() abort
   " regs should be start with double quote
   let regs = '"abcde'->split('\zs')
