@@ -678,7 +678,7 @@ function! EditProjectMru() abort
     return
   endif
   for file in v:oldfiles
-    if file =~ root && file !~ '\.git/' && filereadable(file)
+    if file =~ root .. '/' && file !~ '\.git/' && filereadable(file)
       execute 'edit' file
       break
     endif
