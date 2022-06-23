@@ -95,15 +95,15 @@ let s:fzf_preview_commands = [
 call jetpack#add('yuki-yano/fzf-preview.vim', #{ branch: 'release/rpc', on: s:fzf_preview_commands })
 call jetpack#add('junegunn/fzf', #{ do: {-> fzf#install()}, on: s:fzf_preview_commands })
 
-call jetpack#add('vim-denops/denops.vim')
-call jetpack#add('yuki-yano/fuzzy-motion.vim')
+call jetpack#add('vim-denops/denops.vim', #{ on: 'BufReadPost' })
+call jetpack#add('yuki-yano/fuzzy-motion.vim', #{ on: 'BufReadPost' })
 
 call jetpack#add('neovim/nvim-lspconfig', #{ on: 'BufReadPost' })
-call jetpack#add('williamboman/nvim-lsp-installer', #{ on: 'JetpackNvimLspconfigPre' })
+call jetpack#add('williamboman/nvim-lsp-installer', #{ on: 'BufReadPost' })
 call jetpack#add('folke/trouble.nvim', #{ on: 'TroubleToggle' })
 call jetpack#add('tami5/lspsaga.nvim', #{ on: 'Lspsaga' })
 
-call jetpack#add('Shougo/ddc.vim')
+call jetpack#add('Shougo/ddc.vim', #{ on: 'BufReadPost' })
 call jetpack#add('Shougo/pum.vim', #{ on: ['InsertEnter', 'CmdlineEnter'] })
 call jetpack#add('Shougo/ddc-around', #{ on: ['InsertEnter', 'CmdlineEnter'] })
 call jetpack#add('Shougo/ddc-nvim-lsp', #{ on: ['InsertEnter', 'CmdlineEnter'] })
@@ -116,9 +116,9 @@ call jetpack#add('Shougo/ddc-matcher_head', #{ on: ['InsertEnter', 'CmdlineEnter
 call jetpack#add('Shougo/ddc-sorter_rank', #{ on: ['InsertEnter', 'CmdlineEnter'] })
 call jetpack#add('Shougo/ddc-converter_remove_overlap', #{ on: ['InsertEnter', 'CmdlineEnter'] })
 call jetpack#add('tani/ddc-fuzzy', #{ on: ['InsertEnter', 'CmdlineEnter'] })
-call jetpack#add('matsui54/denops-signature_help')
-call jetpack#add('matsui54/denops-popup-preview.vim')
-call jetpack#add('vim-skk/skkeleton')
+call jetpack#add('matsui54/denops-signature_help', #{ on: 'BufReadPost' })
+call jetpack#add('matsui54/denops-popup-preview.vim', #{ on: 'BufReadPost' })
+call jetpack#add('vim-skk/skkeleton', #{ on: 'BufReadPost' })
 
 call jetpack#add('lewis6991/impatient.nvim')
 call jetpack#add('folke/which-key.nvim', #{ on: 'LazyLoadPlugs' })
@@ -210,104 +210,10 @@ augroup END
 " }}}
 
 " {{{ ddc.vim
-call ddc#custom#patch_global('completionMenu', 'pum.vim')
-call ddc#custom#patch_global('autoCompleteEvents',
-    \ ['InsertEnter', 'TextChangedI', 'TextChangedP', 'CmdlineChanged'])
-call ddc#custom#patch_global('sources', [
-  \ 'nvim-lsp',
-  \ 'tabnine',
-  \ 'around',
-  \ 'file',
-  \ 'look',
-  \ ])
-call ddc#custom#patch_global('sourceOptions', {
-  \ '_': {
-  \   'matchers': ['matcher_head'],
-  \   'sorters': ['sorter_rank'],
-  \   'converters': ['converter_remove_overlap'],
-  \   'minAutoCompleteLength': 2,
-  \ },
-  \ 'nvim-lsp': {
-  \   'mark': 'LSP',
-  \   'forceCompletionPattern': '\.\w*|:\w*|->\w*',
-  \ },
-  \ 'tabnine': {
-  \   'mark': 'TN',
-  \   'maxItems': 5,
-  \   'isVolatile': v:true,
-  \ },
-  \ 'look': {
-  \   'mark': 'look',
-  \   'maxItems': 5,
-  \   'isVolatile': v:true,
-  \ },
-  \ 'file': {
-  \   'mark': 'F',
-  \   'isVolatile': v:true,
-  \   'forceCompletionPattern': '\S/\S*',
-  \   'ignoreCase': v:true,
-  \   'matchers': ['matcher_fuzzy'],
-  \   'sorters': ['sorter_fuzzy'],
-  \   'converters': ['converter_fuzzy']
-  \ },
-  \ 'around': {'mark': 'A'},
-  \ 'cmdline': {
-  \   'mark': 'CMD',
-  \   'forceCompletionPattern': '\S/\S*',
-  \   'ignoreCase': v:true,
-  \   'matchers': ['matcher_fuzzy'],
-  \   'sorters': ['sorter_fuzzy'],
-  \   'converters': ['converter_fuzzy']
-  \ },
-  \ 'cmdline-history': {
-  \   'mark': 'H',
-  \   'ignoreCase': v:true,
-  \   'sorters': [],
-  \ },
-  \ })
-
-nnoremap : <Cmd>call <sid>ddc_commandline_pre()<CR>:
-
-function! s:ddc_commandline_pre() abort
-  " Overwrite sources
-  if !exists('b:prev_buffer_config')
-    let b:prev_buffer_config = ddc#custom#get_buffer()
-  endif
-  call ddc#custom#patch_buffer('cmdlineSources', ['cmdline', 'cmdline-history', 'around', 'file', 'look'])
-
-  autocmd User DDCCmdlineLeave ++once call <sid>ddc_commandline_post()
-  autocmd InsertEnter <buffer> ++once call <sid>ddc_commandline_post()
-
-  " Enable command line completion
-  call ddc#enable_cmdline_completion()
+function! s:ddc_init() abort
+  source ~/dotfiles/.config/nvim/plugin_config/ddc.vim
 endfunction
-function! s:ddc_commandline_post() abort
-  " Restore sources
-  if exists('b:prev_buffer_config')
-    call ddc#custom#set_buffer(b:prev_buffer_config)
-    unlet b:prev_buffer_config
-  else
-    call ddc#custom#set_buffer({})
-  endif
-endfunction
-
-call ddc#enable()
-call popup_preview#enable()
-call signature_help#enable()
-Keymap ic <silent><expr> <Tab>
-      \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<Tab>'
-Keymap ic <silent><expr> <S-Tab>
-      \ pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<S-Tab>'
-" Keymap ic <silent><expr> <C-n>
-"       \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<Down>'
-" Keymap ic <silent><expr> <C-p>
-"       \ pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<Up>'
-Keymap ic <silent><expr> <C-y>
-      \ pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<C-y>'
-Keymap ic <silent><expr> <C-e>
-      \ pum#visible() ? '<Cmd>call pum#map#cancel()<CR>'  : '<C-e>'
-Keymap i <silent><expr> <CR>
-      \ pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<CR>'
+autocmd User DenopsStarted ++once call <sid>ddc_init()
 " }}}
 
 " {{{ fuzzy-motion.vim
