@@ -188,48 +188,7 @@ command! -nargs=+ -bang Keymap call <SID>keymap(<bang>0, <f-args>)
 " }}}
 
 " {{{ skkeleton
-map! <C-j> <Plug>(skkeleton-enable)
-
-let s:jisyo_dir = stdpath('config')
-let s:jisyo_name = 'SKK-JISYO.L'
-let s:jisyo_path = expand(s:jisyo_dir . '/' . s:jisyo_name)
-if !filereadable(s:jisyo_path)
-  echo "SSK Jisyo does not exists! '" . s:jisyo_path . "' is required!"
-  let s:skk_setup_cmds = [
-    \   "curl -OL https://skk-dev.github.io/dict/SKK-JISYO.L.gz",
-    \   "gunzip SKK-JISYO.L.gz",
-    \   "mkdir -p " . s:jisyo_dir,
-    \   "mv ./SKK-JISYO.L " . s:jisyo_dir,
-    \ ]
-  echo (["To get Jisyo, run:"] + s:skk_setup_cmds + [""])->join("\n")
-
-  if confirm("Run automatically?", "y\nN") == 1
-    echo "Running..."
-    call system(s:skk_setup_cmds->join(" && "))
-    echo "Done."
-  endif
-endif
-
-function! s:skkeleton_init() abort
-  let l:rom_table = {
-    \   'z9': ['（', ''],
-    \   'z0': ['）', ''],
-    \   "z\<Space>": ["\u3000", ''],
-    \ }
-  for char in split('abcdefghijklmnopqrstuvwxyz,._-!?', '.\zs')
-    let l:rom_table['c'.char] = [char, '']
-  endfor
-
-  call skkeleton#config(#{
-    \   eggLikeNewline: v:true,
-    \   globalJisyo: s:jisyo_path,
-    \   immediatelyCancel: v:false,
-    \   registerConvertResult: v:true,
-    \   selectCandidateKeys: '1234567',
-    \   showCandidatesCount: 1,
-    \ })
-  call skkeleton#register_kanatable('rom', l:rom_table)
-endfunction
+source ~/dotfiles/.config/nvim/plugin_config/skkeleton.vim
 
 function! s:skkeleton_enable() abort
   let restore = ddc#custom#get_buffer()
@@ -244,10 +203,9 @@ function! s:skkeleton_enable() abort
   autocmd User skkeleton-disable-pre ++once call ddc#custom#set_buffer(restore)
 endfunction
 
-augroup skkeleton
+augroup skkeleton-in-vimrc
   autocmd!
   autocmd User skkeleton-enable-pre call <SID>skkeleton_enable()
-  autocmd User skkeleton-initialize-pre call <SID>skkeleton_init()
 augroup END
 " }}}
 
@@ -388,73 +346,14 @@ function s:searchx_init() abort
   Keymap nx N <Cmd>call searchx#prev()<CR>
   Keymap nx n <Cmd>call searchx#next()<CR>
   nnoremap <C-l> <Cmd>call searchx#clear()<CR><Cmd>nohlsearch<CR><C-l>
+  source ~/dotfiles/.config/nvim/pluin_config/searchx.vim
 endfunction
 autocmd User JetpackVimSearchxPost ++once call <sid>searchx_init()
-
-let g:searchx = {}
-let g:searchx.auto_accept = v:true
-let g:searchx.scrolloff = &scrolloff
-let g:searchx.scrolltime = 500
-let g:searchx.markers = split('ASDFGHJKLQWERTYUIOPZXCVBNM', '.\zs')
-let g:searchx.nohlsearch = #{ jump: v:false }
-function g:searchx.convert(input) abort
-  if a:input !~# '\k'
-    return '\V' .. a:input
-  endif
-  return a:input[0] .. substitute(a:input[1:], '\\\@<! ', '.\\{-}', 'g')
-endfunction
 " }}}
 
 " {{{ dial.vim
 function s:dial_init() abort
-lua << EOF
-local augend = require("dial.augend")
-require("dial.config").augends:register_group{
-  default = {
-    augend.integer.alias.decimal,
-    augend.semver.alias.semver,
-    augend.date.alias["%Y/%m/%d"],
-    augend.date.alias["%Y-%m-%d"],
-    augend.date.alias["%m/%d"],
-    augend.date.alias["%-m/%-d"],
-    augend.date.alias["%H:%M:%S"],
-    augend.date.alias["%H:%M"],
-    augend.constant.alias.bool,
-    augend.constant.alias.ja_weekday,
-    augend.constant.alias.ja_weekday_full,
-    augend.constant.new{ elements = {"and", "or"}, },
-    augend.constant.new{
-      elements = {"&&", "||"},
-      word = false,
-    },
-    augend.constant.new{ elements = {"let", "const"}, },
-    augend.user.new{
-      find = require("dial.augend.common").find_pattern("%u+"),
-      add = function(text, _, cursor)
-        text = text:lower()
-        return {text = text, cursor = #text}
-      end
-    },
-    augend.user.new{
-      find = require("dial.augend.common").find_pattern("%u%l+"),
-      add = function(text, _, cursor)
-        text = text:upper()
-        return {text = text, cursor = #text}
-      end
-    },
-    augend.user.new{
-      find = require("dial.augend.common").find_pattern("%l+"),
-      add = function(text, _, cursor)
-        text = text:sub(1,1):upper() .. text:sub(2)
-        return {text = text, cursor = #text}
-      end
-    },
-    augend.case.new{
-      types = {"camelCase", "PascalCase", "snake_case", "kebab-case", "SCREAMING_SNAKE_CASE"},
-    },
-  },
-}
-EOF
+  luafile ~/dotfiles/.config/nvim/plugin_config/dial.lua
 endfunction
 xmap g<C-a> g<Plug>(dial-increment)
 xmap g<C-x> g<Plug>(dial-decrement)
@@ -531,145 +430,12 @@ nnoremap <silent> <C-f> <Cmd>lua require('lspsaga.action').smart_scroll_with_sag
 nnoremap <silent> <C-b> <Cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1, '<C-b>')<CR>
 " }}}
 
-lua << EOF
-require('impatient')
-require('nvim-treesitter.configs').setup({
-  -- {{{ nvim-treesitter
-  ensure_installed = {
-    "bash", "css", "comment", "dart", "dockerfile", "go", "gomod", "gowork", "graphql",
-    "help", "html", "http", "java", "javascript", "jsdoc", "json", "jsonc", "lua",
-    "make", "markdown", "pug", "python", "query", "regex", "ruby", "rust", "scss",
-    "solidity", "svelte", "todotxt", "toml", "tsx", "typescript", "vim", "vue", "yaml",
-  },
-  sync_install = false,
-  indent = { enable = true },
-  -- }}}
+lua require('impatient')
 
-  -- {{{ nvim-treesitter-refactor
-  refactor = {
-    navigation = {
-      enable = true,
-      keymaps = {
-        goto_definition_lsp_fallback = "gd",
-        list_definitions = "grD",
-        list_definitions_toc = "grt",
-        goto_previous_usage = "[u",
-        goto_next_usage = "]u",
-      },
-    },
-  },
-  -- }}}
-
-  -- {{{ nvim-ts-rainbow
-  rainbow = {
-    enable = true,
-    extended_mode = true,
-    max_file_lines = nil,
-  },
-  -- }}}
-
-  -- {{{ ts-context-commentstring
-  context_commentstring = { enable = true },
-  -- }}}
-
-  -- {{{ vim-matchup
-  matchup = { enable = true },
-  -- }}}
-})
-local nvim_lsp = require('lspconfig')
-local lsp_installer = require("nvim-lsp-installer")
-lsp_installer.on_server_ready(function(server)
-  local opts = {}
-  if server.name == "tsserver" then
-    opts.root_dir = nvim_lsp.util.root_pattern("package.json", "node_modules")
-    opts.settings = { documentFormatting = false }
-    opts.init_options = { hostInfo = "neovim" }
-  elseif server.name == "eslint" then
-    opts.root_dir = nvim_lsp.util.root_pattern("package.json", "node_modules")
-  elseif server.name == "denols" then
-    opts.root_dir = nvim_lsp.util.root_pattern("deno.json", "deno.jsonc", "deps.ts", "import_map.json")
-    opts.init_options = {
-      lint = true,
-      unstable = true,
-      suggest = {
-        imports = {
-          hosts = {
-            ["https://deno.land"] = true,
-            ["https://cdn.nest.land"] = true,
-            ["https://crux.land"] = true
-          }
-        }
-      }
-    }
-  end
-
-  opts.on_attach = function(client, bufnr)
-    local bufopts = { noremap=true, silent=true, buffer=bufnr }
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-    vim.keymap.set('n', 'gtD', vim.lsp.buf.type_definition, bufopts)
-    vim.keymap.set('n', 'grf', vim.lsp.buf.references, bufopts)
-    vim.keymap.set('n', '<space>p', vim.lsp.buf.formatting, bufopts)
-  end
-
-  server:setup(opts)
-  vim.cmd [[ do User LspAttachBuffers ]]
-end)
-require('mini.bufremove').setup()
-require('mini.comment').setup()
-require('mini.cursorword').setup()
-require('mini.indentscope').setup()
-require('mini.jump2d').setup({
-  hooks = { after_jump = function() vim.cmd('syntax on') end },
-  mappings = { start_jumping = '' },
-})
-require('mini.surround').setup()
-require('mini.statusline').setup({
-  set_vim_settings = false,
-})
-require('mini.trailspace').setup()
-require('mini.tabline').setup()
-require('mini.pairs').setup()
-require('mini.misc').setup({ make_global = { 'put', 'put_text', 'zoom' } })
-require('gitsigns').setup({
-  signs = {
-    add          = { text = '+' },
-    change       = { text = '~' },
-    delete       = { text = '_' },
-    topdelete    = { text = '‾' },
-    changedelete = { text = '~_' },
-  },
-  current_line_blame = true,
-  on_attach = function(bufnr)
-    local gs = package.loaded.gitsigns
-
-    local function map(mode, l, r, opts)
-      opts = opts or {}
-      opts.buffer = bufnr
-      vim.keymap.set(mode, l, r, opts)
-    end
-
-    -- Navigation
-    map('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", {expr=true})
-    map('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", {expr=true})
-
-    -- Actions
-    map({'n', 'v'}, '<leader>hs', gs.stage_hunk)
-    map({'n', 'v'}, '<leader>hr', gs.reset_hunk)
-    map('n', '<leader>hS', gs.stage_buffer)
-    map('n', '<leader>hu', gs.undo_stage_hunk)
-    -- map('n', '<leader>hR', gs.reset_buffer)
-    map('n', '<leader>hp', gs.preview_hunk)
-    map('n', '<leader>hb', function() gs.blame_line{full=true} end)
-    map('n', '<leader>tb', gs.toggle_current_line_blame)
-    map('n', '<leader>hd', gs.diffthis)
-    map('n', '<leader>hD', function() gs.diffthis('~') end)
-    map('n', '<leader>td', gs.toggle_deleted)
-
-    -- Text object
-    map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
-  end
-})
-EOF
+luafile ~/dotfiles/.config/nvim/plugin_config/lsp.lua
+luafile ~/dotfiles/.config/nvim/plugin_config/treesitter.lua
+luafile ~/dotfiles/.config/nvim/plugin_config/gitsigns.lua
+luafile ~/dotfiles/.config/nvim/plugin_config/mini.lua
 
 function! EditProjectMru() abort
   let cmd = 'git rev-parse --show-superproject-working-tree --show-toplevel 2>/dev/null | head -1'
@@ -728,7 +494,5 @@ augroup vimrc
   endfunction
 augroup END
 
-highlight MiniJump2dSpot ctermfg=209 ctermbg=NONE cterm=underline,bold guifg=#E27878 guibg=NONE gui=underline,bold
-highlight link MiniStatuslineDevinfo String
 highlight WinSeparator ctermfg=250 ctermbg=NONE guifg=#97a4b5 guibg=NONE
 set laststatus=3 " set on last line to avoid overwritten by plugins
