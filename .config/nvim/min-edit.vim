@@ -70,7 +70,7 @@ nnoremap X "_D
 nnoremap ' `
 
 " https://twitter.com/mo_naqa/status/1467626946293284865
-nnoremap gf gF
+nnoremap gf gFzz
 nnoremap gx :<C-u>!open <C-r><C-a>
 
 nnoremap <Space>g <Cmd>copy.<CR>
@@ -124,8 +124,8 @@ xnoremap <silent><C-k> :m'<-2<CR>gv=gv
 xnoremap <silent><C-j> :m'>+1<CR>gv=gv
 xnoremap s/ "zy:%s/<C-r>z//gce<Left><Left><Left><Left>
 " ref: github.com/monaqa/dotfiles/blob/master/.config/nvim/scripts/keymap.vim#L65-L66
-xnoremap * "my/\V<C-R><C-R>=substitute(escape(@m, '/\'), '\_s\+', '\\_s\\+', 'g')<CR><CR>N
-xnoremap R "my:,$s//<C-R><C-R>=escape(@m, '/\&~')<CR>/gce<Bar>1,''-&&<CR>
+xnoremap * "zy/\V<C-r><C-r>=substitute(escape(@z, '/\'), '\_s\+', '\\_s\\+', 'g')<CR><CR>N
+xnoremap R "zy:,$s//<C-r><C-r>=escape(@z, '/\&~')<CR>/gce<Bar>1,''-&&<CR>
 
 " operator
 onoremap x d
