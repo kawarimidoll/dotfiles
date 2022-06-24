@@ -7,7 +7,7 @@ let g:did_load_filetypes = 0
 let g:do_filetype_lua = 1
 set autoindent
 set autoread
-set cmdheight=0
+" "set cmdheight=0
 " set completeopt=longest,menu
 set completeopt=menu,menuone,noselect
 " set cursorline
@@ -189,7 +189,10 @@ command! -nargs=+ -bang Keymap call <SID>keymap(<bang>0, <f-args>)
 " }}}
 
 " {{{ skkeleton
-source ~/dotfiles/.config/nvim/plugin_config/skkeleton.vim
+function! s:skkeleton_init() abort
+  source ~/dotfiles/.config/nvim/plugin_config/skkeleton.vim
+endfunction
+autocmd User DenopsStarted ++once call <sid>skkeleton_init()
 
 function! s:skkeleton_enable() abort
   let restore = ddc#custom#get_buffer()
@@ -213,6 +216,7 @@ augroup END
 " {{{ ddc.vim
 function! s:ddc_init() abort
   source ~/dotfiles/.config/nvim/plugin_config/ddc.vim
+  call ddc#enable()
 endfunction
 autocmd User DenopsStarted ++once call <sid>ddc_init()
 " }}}
