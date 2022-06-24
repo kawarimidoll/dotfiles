@@ -134,7 +134,7 @@ call jetpack#add('lewis6991/gitsigns.nvim')
 call jetpack#add('kdheepak/lazygit.nvim', #{ on: 'LazyGit' })
 call jetpack#add('tyru/open-browser.vim', #{ on: ['OpenBrowser', '<Plug>(openbrowser-'] })
 call jetpack#add('tyru/capture.vim', #{ on: 'Capture' })
-call jetpack#add('hrsh7th/vim-searchx', #{ on: 'CmdlineEnter' })
+call jetpack#add('hrsh7th/vim-searchx', #{ on: ['CursorHold', 'CmdlineEnter'] })
 call jetpack#add('monaqa/dial.nvim', #{ on: '<Plug>(dial-' })
 call jetpack#add('segeljakt/vim-silicon', #{ on: 'Silicon' })
 call jetpack#add('simeji/winresizer', #{ on: 'WinResizerStartResize' })
@@ -252,7 +252,7 @@ function s:searchx_init() abort
   Keymap nx N <Cmd>call searchx#prev()<CR>
   Keymap nx n <Cmd>call searchx#next()<CR>
   nnoremap <C-l> <Cmd>call searchx#clear()<CR><Cmd>nohlsearch<CR><C-l>
-  source ~/dotfiles/.config/nvim/pluin_config/searchx.vim
+  source ~/dotfiles/.config/nvim/plugin_config/searchx.vim
 endfunction
 autocmd User JetpackVimSearchxPost ++once call <sid>searchx_init()
 " }}}
