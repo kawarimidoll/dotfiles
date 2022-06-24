@@ -121,8 +121,9 @@ call jetpack#add('matsui54/denops-popup-preview.vim', #{ on: 'BufReadPost' })
 call jetpack#add('vim-skk/skkeleton', #{ on: 'BufReadPost' })
 
 call jetpack#add('lewis6991/impatient.nvim')
+call jetpack#add('nvim-telescope/telescope.nvim', #{ on: 'Telescope' })
 call jetpack#add('folke/which-key.nvim', #{ on: 'LazyLoadPlugs' })
-call jetpack#add('nvim-lua/plenary.nvim', #{ on: 'LazyLoadPlugs' })
+call jetpack#add('nvim-lua/plenary.nvim')
 call jetpack#add('norcalli/nvim-colorizer.lua', #{ on: 'LazyLoadPlugs' })
 call jetpack#add('nvim-treesitter/nvim-treesitter', #{ do: ':TSUpdate', on: 'BufReadPost' })
 call jetpack#add('nvim-treesitter/nvim-treesitter-refactor', #{ on: 'BufReadPost' })
@@ -219,6 +220,21 @@ autocmd User DenopsStarted ++once call <sid>ddc_init()
 " {{{ fuzzy-motion.vim
 nnoremap s; <Cmd>FuzzyMotion<CR>
 let g:fuzzy_motion_auto_jump = v:true
+" }}}
+
+" {{{ telescope.nvim
+function! s:telescope_init() abort
+  luafile ~/dotfiles/.config/nvim/plugin_config/telescope.lua
+endfunction
+autocmd User JetpackTelescopeNvimPost ++once call <sid>telescope_init()
+nnoremap <Space><Space>f <cmd>Telescope find_files<cr>
+nnoremap <Space><Space>b <cmd>Telescope buffers<cr>
+nnoremap <Space><Space>h <cmd>Telescope oldfiles only_cwd=true<cr>
+nnoremap <Space><Space>H <cmd>Telescope help_tags<cr>
+nnoremap <Space><Space>: <cmd>Telescope commands<cr>
+nnoremap <Space><Space>/ <cmd>Telescope live_grep<cr>
+nnoremap <Space><Space>? :<C-u>Telescope grep_string search=<C-r><C-f>
+xnoremap <Space><Space>? "zy:<C-u>Telescope grep_string search=<C-r>=substitute(@z, ' ', '\\ ', 'g')<cr>
 " }}}
 
 " {{{ fzf-preview.vim
