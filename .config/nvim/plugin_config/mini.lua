@@ -20,6 +20,7 @@ require('mini.statusline').setup({
 vim.cmd('highlight link MiniStatuslineDevinfo String')
 
 require('mini.trailspace').setup({})
+vim.cmd([[command! Trim lua MiniTrailspace.trim()]])
 
 require('mini.tabline').setup({})
 

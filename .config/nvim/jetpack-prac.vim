@@ -38,25 +38,8 @@ set ttyfast
 set updatetime=300
 set wildmode=list:longest,full
 
+source ~/dotfiles/.config/nvim/commands.vim
 let g:my_vimrc = expand('<sfile>:p')
-command! RcEdit execute 'edit' g:my_vimrc
-command! RcReload write | execute 'source' g:my_vimrc | nohlsearch | redraw | echo g:my_vimrc . ' is reloaded.'
-command! CopyFullPath     let @*=expand('%:p') | echo 'copy full path'
-command! CopyDirName      let @*=expand('%:h') | echo 'copy dir name'
-command! CopyFileName     let @*=expand('%:t') | echo 'copy file name'
-command! CopyRelativePath let @*=expand('%:h').'/'.expand('%:t') | echo 'copy relative path'
-command! Trim lua MiniTrailspace.trim()
-command! VimShowHlGroup echo synID(line('.'), col('.'), 1)->synIDtrans()->synIDattr('name')
-command! -nargs=* T split | wincmd j | resize 12 | terminal <args>
-function s:DexComplete(A,L,P)
-  return ['--quiet', '--compat']
-endfunction
-command! -nargs=* -bang -complete=customlist,s:DexComplete Dex silent only! | botright 12 split |
-  \ execute 'terminal' (has('nvim') ? '' : '++curwin') 'deno run --no-check --allow-all'
-  \    '--unstable --watch' (<bang>0 ? '' : '--no-clear-screen') <q-args> expand('%:p') |
-  \ stopinsert | execute 'normal! G' | set bufhidden=wipe |
-  \ execute 'autocmd BufEnter <buffer> if winnr("$") == 1 | quit! | endif' |
-  \ file Dex<bang> | wincmd k
 
 if has('nvim')
   " if !filereadable(expand('~/.config/nvim/plugin/jetpack.vim'))
@@ -172,21 +155,6 @@ autocmd User JetpackLspsagaNvimPost ++once lua require('lspsaga').setup()
 "   endif
 " endfor
 command! Plugs echo jetpack#names()->copy()->sort()
-
-" {{{ keymap()
-function! s:keymap(force_map, modes, ...) abort
-  let arg = join(a:000, ' ')
-  let cmd = (a:force_map || arg =~? '<Plug>') ? 'map' : 'noremap'
-  for mode in split(a:modes, '.\zs')
-    if index(split('nvsxoilct', '.\zs'), mode) < 0
-      echoerr 'Invalid mode is detected: ' . mode
-      continue
-    endif
-    execute mode .. cmd arg
-  endfor
-endfunction
-command! -nargs=+ -bang Keymap call <SID>keymap(<bang>0, <f-args>)
-" }}}
 
 " {{{ skkeleton
 function! s:skkeleton_init() abort
@@ -363,41 +331,11 @@ luafile ~/dotfiles/.config/nvim/plugin_config/treesitter.lua
 luafile ~/dotfiles/.config/nvim/plugin_config/gitsigns.lua
 luafile ~/dotfiles/.config/nvim/plugin_config/mini.lua
 
-function! EditProjectMru() abort
-  let cmd = 'git rev-parse --show-superproject-working-tree --show-toplevel 2>/dev/null | head -1'
-  let root = system(cmd)->trim()->expand()
-  if root == ''
-    return
-  endif
-  for file in v:oldfiles
-    if file =~ root .. '/' && file !~ '\.git/' && filereadable(file)
-      execute 'edit' file
-      break
-    endif
-  endfor
-endfunction
-
-function! s:collect_yank_history() abort
-  " regs should be start with double quote
-  let regs = '"abcde'->split('\zs')
-  for index in range(len(regs)-1, 1, -1)
-    call setreg(regs[index], getreginfo(regs[index-1]))
-  endfor
-endfunction
-function! s:clear_regs() abort
-  for r in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/'->split('\zs')
-    call setreg(r, [])
-  endfor
-endfunction
-command! ClearRegs call <SID>clear_regs()
-
 "-----------------
 " Auto Commands
 "-----------------
 augroup vimrc
   autocmd!
-  autocmd TextYankPost * call <SID>collect_yank_history()
-  autocmd VimEnter * ClearRegs
   " https://zenn.dev/uochan/articles/2021-12-08-vim-conventional-commits
   autocmd FileType gitcommit,gina-commit ++once normal! gg
   autocmd FileType gitcommit,gina-commit nnoremap <buffer> <CR> <Cmd>silent! execute 'normal! ^w"zdiw"_dip"zPA: ' <bar> startinsert!<CR>
