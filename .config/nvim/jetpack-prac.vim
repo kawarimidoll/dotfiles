@@ -41,26 +41,32 @@ set wildmode=list:longest,full
 source ~/dotfiles/.config/nvim/commands.vim
 let g:my_vimrc = expand('<sfile>:p')
 
-if has('nvim')
-  " if !filereadable(expand('~/.config/nvim/plugin/jetpack.vim'))
-  "   silent execute '!curl -fLo ~/.config/nvim/plugin/jetpack.vim --create-dirs'
-  "         \ 'https://raw.githubusercontent.com/tani/vim-jetpack/master/plugin/jetpack.vim'
-  " endif
-  if !isdirectory(expand('~/.local/share/nvim/site/pack/jetpack/src/vim-jetpack'))
-    silent execute '!git clone --depth 1 https://github.com/tani/vim-jetpack ~/.local/share/nvim/site/pack/jetpack/src/vim-jetpack'
+function! s:init_jetpack() abort
+  if has('nvim')
+    let cmd = 'curl -fLo ~/.config/nvim/plugin/jetpack.vim --create-dirs ' ..
+          \ 'https://raw.githubusercontent.com/tani/vim-jetpack/master/plugin/jetpack.vim ' ..
+          \ '&& git clone --depth 1 https://github.com/tani/vim-jetpack ' ..
+          \ '~/.local/share/nvim/site/pack/jetpack/src/vim-jetpack ' ..
           \ '&& ln -s ~/.local/share/nvim/site/pack/jetpack/{src,opt}/vim-jetpack'
-  endif
-else
-  " if !filereadable(expand('~/.vim/plugin/jetpack.vim'))
-  "   silent execute '!curl -fLo ~/.vim/plugin/jetpack.vim --create-dirs'
-  "         \ 'https://raw.githubusercontent.com/tani/vim-jetpack/master/plugin/jetpack.vim'
-  " endif
-  if !isdirectory(expand('~/.vim/pack/jetpack/src/vim-jetpack'))
-    silent execute '!git clone --depth 1 https://github.com/tani/vim-jetpack ~/.vim/pack/jetpack/src/vim-jetpack'
+  else
+    let cmd = 'curl -fLo ~/.vim/plugin/jetpack.vim --create-dirs ' ..
+          \ 'https://raw.githubusercontent.com/tani/vim-jetpack/master/plugin/jetpack.vim ' ..
+          \ '&& git clone --depth 1 https://github.com/tani/vim-jetpack ' ..
+          \ '~/.vim/pack/jetpack/src/vim-jetpack ' ..
           \ '&& ln -s ~/.vim/pack/jetpack/{src,opt}/vim-jetpack'
   endif
-endif
 
+  if exists('*jobstart')
+    call jobstart(cmd)
+  elseif exists('*job_start')
+    call job_start(cmd)
+  else
+    call system(cmd)
+  end
+endfunction
+command! InitJetpack call <sid>init_jetpack()
+
+runtime */jetpack.vim
 call jetpack#begin()
 call jetpack#add('tani/vim-jetpack', { 'opt': 1 })
 
