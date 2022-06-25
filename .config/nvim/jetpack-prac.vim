@@ -137,10 +137,7 @@ call jetpack#add('vim-jp/vimdoc-ja')
 call jetpack#end()
 
 let g:lazygit_floating_window_scaling_factor = 1
-let g:silicon = #{
-  \   font:   'UDEV Gothic 35JPDOC',
-  \   output: '~/Downloads/silicon-{time:%Y-%m-%d-%H%M%S}.png'
-  \ }
+source ~/dotfiles/.config/nvim/plugin_config/silicon.vim
 
 function! s:lazy_load_plugs(timer) abort
   doautocmd User LazyLoadPlugs
@@ -218,15 +215,7 @@ let g:fuzzy_motion_auto_jump = v:true
 " " }}}
 
 " {{{ fzf-preview.vim
-let g:fzf_preview_filelist_command = 'find_for_vim'
-let g:fzf_preview_fzf_preview_window_option = 'down:70%'
-let g:fzf_preview_use_dev_icons = 1
-let g:fzf_preview_default_fzf_options = {
-      \ '--reverse': v:true,
-      \ '--preview-window': 'wrap',
-      \ '--cycle': v:true,
-      \ '--no-sort': v:true,
-      \ }
+source ~/dotfiles/.config/nvim/plugin_config/fzf_preview.vim
 
 nnoremap <Space>a <Cmd>FzfPreviewGitStatusRpc<CR>
 nnoremap <Space>b <Cmd>FzfPreviewBuffersRpc<CR>
@@ -346,7 +335,6 @@ luafile ~/dotfiles/.config/nvim/plugin_config/mini.lua
 augroup vimrc
   autocmd!
   " https://zenn.dev/uochan/articles/2021-12-08-vim-conventional-commits
-  autocmd FileType gitcommit,gina-commit ++once normal! gg
   autocmd FileType gitcommit,gina-commit nnoremap <buffer> <CR> <Cmd>silent! execute 'normal! ^w"zdiw"_dip"zPA: ' <bar> startinsert!<CR>
 
   " [NeovimのTerminalモードをちょっと使いやすくする](https://zenn.dev/ryo_kawamata/articles/improve-neovmi-terminal)
@@ -354,17 +342,7 @@ augroup vimrc
 
   autocmd BufNewFile,BufRead commonshrc setf bash
 
-  " 前回終了位置に復帰
-  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line('$') | execute 'normal! g`"' | endif
   autocmd BufReadPost * delmarks!
-
-  " [vim-jp » Hack #202: 自動的にディレクトリを作成する](https://vim-jp.org/vim-users-jp/2011/02/20/Hack-202.html)
-  autocmd BufWritePre * call s:ensure_dir(expand('<afile>:p:h'), v:cmdbang)
-  function! s:ensure_dir(dir, force)
-    if !isdirectory(a:dir) && (a:force || confirm('"' . a:dir . '" does not exist. Create?', "y\nN"))
-      call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
-    endif
-  endfunction
 augroup END
 
 highlight WinSeparator ctermfg=250 ctermbg=NONE guifg=#97a4b5 guibg=NONE

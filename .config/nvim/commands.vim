@@ -166,3 +166,20 @@ endfunction
 
 autocmd commands.vim BufNewFile * call <sid>edit_with_number(expand('<afile>'))
 " }}}
+
+" {{{ restore-cursor
+autocmd commands.vim BufReadPost *
+  \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+  \ |   execute 'normal! g`"'
+  \ | endif
+" }}}
+
+" {{{ ensure_dir
+" [vim-jp » Hack #202: 自動的にディレクトリを作成する](https://vim-jp.org/vim-users-jp/2011/02/20/Hack-202.html)
+function! s:ensure_dir(dir, force)
+  if !isdirectory(a:dir) && (a:force || confirm('"' . a:dir . '" does not exist. Create?', "y\nN"))
+    call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
+  endif
+endfunction
+autocmd commands.vim BufWritePre * call s:ensure_dir(expand('<afile>:p:h'), v:cmdbang)
+" }}}"
