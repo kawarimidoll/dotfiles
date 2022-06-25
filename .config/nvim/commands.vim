@@ -167,6 +167,31 @@ endfunction
 autocmd commands.vim BufNewFile * call <sid>edit_with_number(expand('<afile>'))
 " }}}
 
+" {{{ HalfMove
+function! s:half_move(direction) abort
+  let [bufnum, lnum, col, off] = getpos('.')
+  if a:direction == 'left'
+    let col = col / 2
+  elseif a:direction == 'right'
+    let col = (len(getline('.')) + col) / 2
+  elseif a:direction == 'center'
+    let col = len(getline('.')) / 2
+  elseif a:direction == 'up'
+    let lnum = (line('w0') + lnum) / 2
+  elseif a:direction == 'down'
+    let lnum = (line('w$') + lnum) / 2
+  else
+    echoerr "HalfMove direction must be one of ['left', 'right', 'center', 'up', 'down']"
+  endif
+  call setpos('.', [bufnum, lnum, col, off])
+endfunction
+command! -nargs=1 HalfMove call <SID>half_move(<f-args>)
+" }}}
+
+" {{{ CClear
+command! CClear call setqflist([], 'r')
+" }}}
+
 " {{{ restore-cursor
 autocmd commands.vim BufReadPost *
   \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
