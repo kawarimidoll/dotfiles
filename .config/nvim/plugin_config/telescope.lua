@@ -71,6 +71,18 @@ require("telescope").setup({
 
     layout_strategy = 'vertical',
     layout_config = { height = 0.95 },
+
+    vimgrep_arguments = {
+      "rg",
+      "--color=never",
+      "--no-heading",
+      "--with-filename",
+      "--line-number",
+      "--column",
+      "--smart-case",
+      "--hidden",
+      "--trim",
+    },
   },
   pickers = {
     find_files = {
@@ -81,6 +93,9 @@ require("telescope").setup({
       mappings = { i = map_multiopen, },
     },
     live_grep = {
+      mappings = { i = map_multiopen, },
+    },
+    grep_string = {
       mappings = { i = map_multiopen, },
     },
   }
