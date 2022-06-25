@@ -43,6 +43,59 @@ endfunction
 command! -nargs=+ -bang Keymap call <SID>keymap(<bang>0, <f-args>)
 " }}}
 
+" {{{ SmartOpen
+function! s:smart_open() abort
+  " get query
+  if mode() == 'n'
+    let query = expand('<cfile>')
+  else
+    normal! "zy
+    let query = @z->trim()->substitute('[[:space:]]\+', ' ', 'g')
+  endif
+
+  " is file path
+  if filereadable(query->expand())
+    if mode() == 'n'
+      normal gf
+    else
+      execute 'edit' query
+    endif
+    return
+  endif
+
+  " is url
+  if query =~# '^https\?://\S\+\.\S\+'
+    let cmd = 'open "' .. query .. '"'
+  else
+    " encode query
+    " https://gist.github.com/atripes/15372281209daf5678cded1d410e6c16?permalink_comment_id=3634542#gistcomment-3634542
+    let safe_query = ''
+    for char in query->split('.\zs')
+      if char =~ '[-._~[:alnum:]]'
+        let safe_query = safe_query .. char
+      else
+        let safe_query = safe_query .. '%' .. printf('%02x', char2nr(char))
+      endif
+    endfor
+
+    " search online
+    let cmd = 'open "https://google.com/search?q=' .. safe_query .. '"'
+  endif
+
+  " https://github.com/voldikss/vim-browser-search/blob/master/autoload/search.vim
+  if exists('*jobstart')
+    call jobstart(cmd)
+  elseif exists('*job_start')
+    call job_start(cmd)
+  else
+    call system(cmd)
+  end
+
+  echo cmd
+endfunction
+command! SmartOpen call <sid>smart_open()
+" }}}
+
 function! EditProjectMru() abort
   let cmd = 'git rev-parse --show-superproject-working-tree --show-toplevel 2>/dev/null | head -1'
   let root = system(cmd)->trim()->expand()

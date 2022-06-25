@@ -257,7 +257,8 @@ autocmd User JetpackDialNvimPost ++once call <sid>dial_init()
 " }}}
 
 " {{{ openbrowser
-Keymap nx gx <Plug>(openbrowser-smart-search)
+Keymap nx gx <Cmd>SmartOpen<CR>
+" Keymap nx gx <Plug>(openbrowser-smart-search)
 " }}}
 
 " {{{ winresizer
