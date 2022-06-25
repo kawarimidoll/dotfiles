@@ -12,6 +12,7 @@ set completeopt=menu,menuone,noselect
 " set cursorline
 set display=lastline
 set formatoptions=tcqmMj1
+set hidden
 set history=2000
 set incsearch
 set infercase
@@ -36,6 +37,9 @@ set ttyfast
 set updatetime=300
 set wildmode=list:longest,full
 let g:markdown_fenced_languages = ['ts=typescript', 'js=javascript']
+
+source ~/dotfiles/.config/nvim/commands.vim
+let g:my_vimrc = expand('<sfile>:p')
 
 "-----------------
 " Plugs
@@ -114,8 +118,10 @@ Plug 'mfussenegger/nvim-ts-hint-textobject'
 Plug 'lewis6991/spellsitter.nvim'
 Plug 'andymass/vim-matchup'
 
-Plug 'junegunn/fzf', #{ do: { -> fzf#install() } }
+Plug 'junegunn/fzf', #{ do: { -> fzf#install() }, on: [] }
 Plug 'yuki-yano/fzf-preview.vim', #{ branch: 'release/rpc', on: [] }
+Plug 'junegunn/fzf.vim', #{ on: [] }
+Plug 'ryanoasis/vim-devicons', #{ on: [] }
 
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-lualine/lualine.nvim'
@@ -143,38 +149,24 @@ Plug 'vim-jp/vimdoc-ja'
 Plug 'lambdalisue/reword.vim'
 call plug#end()
 
-let g:vsnip_filetypes = {}
-let g:vsnip_filetypes.javascriptreact = ['javascript']
-let g:vsnip_filetypes.typescriptreact = ['typescript']
-let g:asterisk#keeppos = 1
+command! PlugSync PlugUpdate | PlugClean | PlugInstall | PlugUpdate
+
 let g:lazygit_floating_window_scaling_factor = 1
 " let g:lazygit_floating_window_winblend = 20
 let g:silicon = {}
 let g:silicon['output'] = '~/Downloads/silicon-{time:%Y-%m-%d-%H%M%S}.png'
 " let g:denops#debug = 1
 
-" lua vim.keymap.set() API is not released as stable yet
-function! s:keymap(force_map, modes, ...) abort
-  let arg = join(a:000, ' ')
-  let cmd = (a:force_map || arg =~? '<Plug>') ? 'map' : 'noremap'
-  for mode in split(a:modes, '.\zs')
-    if index(split('nvsxoilct', '.\zs'), mode) < 0
-      echoerr 'Invalid mode is detected: ' . mode
-      continue
+let s:plug_loaded = {}
+function s:ensure_plug(...) abort
+  for plug in a:000
+    if !get(s:plug_loaded, plug)
+      call plug#load(plug)
+      let s:plug_loaded[plug] = 1
     endif
-    execute mode .. cmd arg
   endfor
 endfunction
-command! -nargs=+ -bang Keymap call <SID>keymap(<bang>0, <f-args>)
-
-let s:plug_loaded = {}
-function s:ensure_plug(plug_name) abort
-  if get(s:plug_loaded, a:plug_name)
-    return
-  endif
-  call plug#load(a:plug_name)
-  let s:plug_loaded[a:plug_name] = 1
-endfunction
+command! -nargs=+ EnsurePlug call <sid>ensure_plug(<f-args>)
 
 " {{{ fuzzy-motion.vim
 nnoremap s; <Cmd>FuzzyMotion<CR>
@@ -182,11 +174,11 @@ let g:fuzzy_motion_auto_jump = v:true
 " }}}
 
 " {{{ searchx
-Keymap nx ? <Cmd>call <SID>ensure_plug('vim-searchx')<CR><Cmd>call searchx#start(#{ dir: 0 })<CR>
-Keymap nx / <Cmd>call <SID>ensure_plug('vim-searchx')<CR><Cmd>call searchx#start(#{ dir: 1 })<CR>
-Keymap nx N <Cmd>call <SID>ensure_plug('vim-searchx')<CR><Cmd>call searchx#prev()<CR>
-Keymap nx n <Cmd>call <SID>ensure_plug('vim-searchx')<CR><Cmd>call searchx#next()<CR>
-nnoremap <C-l> <Cmd>call <SID>ensure_plug('vim-searchx')<CR><Cmd>call searchx#clear()<CR><Cmd>nohlsearch<CR><C-l>
+Keymap nx ? <Cmd>EnsurePlug vim-searchx<CR><Cmd>call searchx#start(#{ dir: 0 })<CR>
+Keymap nx / <Cmd>EnsurePlug vim-searchx<CR><Cmd>call searchx#start(#{ dir: 1 })<CR>
+Keymap nx N <Cmd>EnsurePlug vim-searchx<CR><Cmd>call searchx#prev()<CR>
+Keymap nx n <Cmd>EnsurePlug vim-searchx<CR><Cmd>call searchx#next()<CR>
+nnoremap <C-l> <Cmd>EnsurePlug vim-searchx<CR><Cmd>call searchx#clear()<CR><Cmd>nohlsearch<CR><C-l>
 
 let g:searchx = {}
 let g:searchx.auto_accept = v:true
@@ -202,6 +194,9 @@ endfunction
 " }}}
 
 " {{{ vsnip
+let g:vsnip_filetypes = {}
+let g:vsnip_filetypes.javascriptreact = ['javascript']
+let g:vsnip_filetypes.typescriptreact = ['typescript']
 " imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
 " smap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
 " smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
@@ -309,6 +304,7 @@ Keymap nx gx <Plug>(openbrowser-smart-search)
 " }}}
 
 " {{{ vim-asterisk
+let g:asterisk#keeppos = 1
 map *  <Plug>(asterisk-z*)
 map #  <Plug>(asterisk-z#)
 map g* <Plug>(asterisk-gz*)
@@ -326,18 +322,26 @@ let g:fzf_preview_default_fzf_options = {
       \ '--no-sort': v:true,
       \ }
 
-nnoremap <Space>a <Cmd>call <SID>ensure_plug('fzf-preview.vim')<CR><Cmd>FzfPreviewGitActionsRpc<CR>
-nnoremap <Space>b <Cmd>call <SID>ensure_plug('fzf-preview.vim')<CR><Cmd>FzfPreviewBuffersRpc<CR>
-nnoremap <Space>B <Cmd>call <SID>ensure_plug('fzf-preview.vim')<CR><Cmd>FzfPreviewBufferLinesRpc<CR>
-nnoremap <Space>f <Cmd>call <SID>ensure_plug('fzf-preview.vim')<CR><Cmd>FzfPreviewProjectFilesRpc<CR>
-nnoremap <Space>h <Cmd>call <SID>ensure_plug('fzf-preview.vim')<CR><Cmd>FzfPreviewProjectMruFilesRpc<CR>
-nnoremap <Space>j <Cmd>call <SID>ensure_plug('fzf-preview.vim')<CR><Cmd>FzfPreviewJumpsRpc<CR>
-nnoremap <Space>l <Cmd>call <SID>ensure_plug('fzf-preview.vim')<CR><Cmd>FzfPreviewLinesRpc<CR>
-nnoremap <Space>m <Cmd>call <SID>ensure_plug('fzf-preview.vim')<CR><Cmd>FzfPreviewMarksRpc<CR>
-nnoremap <Space>/ <Cmd>call <SID>ensure_plug('fzf-preview.vim')<CR>:<C-u>FzfPreviewProjectGrepRpc ""<Left>
-nnoremap <Space>? <Cmd>call <SID>ensure_plug('fzf-preview.vim')<CR>:<C-u>FzfPreviewProjectGrepRpc ""<Left><C-r><C-f>
-nnoremap <Space>: <Cmd>call <SID>ensure_plug('fzf-preview.vim')<CR><Cmd>FzfPreviewCommandPaletteRpc<CR>
-xnoremap <Space>? <Cmd>call <SID>ensure_plug('fzf-preview.vim')<CR>"zy:<C-u>FzfPreviewProjectGrepRpc "<C-r>z"<Left>
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case --hidden --trim -- '.shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview(), <bang>0)
+let g:fzf_preview_window = ['down:70%', 'ctrl-/']
+
+command! EnsureFzf EnsurePlug fzf fzf.vim fzf-preview.vim vim-devicons
+nnoremap <Space>a <Cmd>EnsureFzf<CR><Cmd>FzfPreviewGitActionsRpc<CR>
+nnoremap <Space>b <Cmd>EnsureFzf<CR><Cmd>FzfPreviewBuffersRpc<CR>
+nnoremap <Space>B <Cmd>EnsureFzf<CR><Cmd>FzfPreviewBufferLinesRpc<CR>
+nnoremap <Space>f <Cmd>EnsureFzf<CR><Cmd>FzfPreviewProjectFilesRpc<CR>
+nnoremap <Space>h <Cmd>EnsureFzf<CR><Cmd>FzfPreviewProjectMruFilesRpc<CR>
+nnoremap <Space>H <Cmd>EnsureFzf<CR><Cmd>HelpTags<CR>
+nnoremap <Space>j <Cmd>EnsureFzf<CR><Cmd>FzfPreviewJumpsRpc<CR>
+nnoremap <Space>l <Cmd>EnsureFzf<CR><Cmd>FzfPreviewLinesRpc<CR>
+nnoremap <Space>m <Cmd>EnsureFzf<CR><Cmd>FzfPreviewMarksRpc<CR>
+nnoremap <Space>/ <Cmd>EnsureFzf<CR>:<C-u>FzfPreviewProjectGrepRpc ""<Left>
+nnoremap <Space>? <Cmd>EnsureFzf<CR>:<C-u>FzfPreviewProjectGrepRpc ""<Left><C-r><C-f>
+nnoremap <Space>: <Cmd>EnsureFzf<CR><Cmd>FzfPreviewCommandPaletteRpc<CR>
+xnoremap <Space>? <Cmd>EnsureFzf<CR>"zy:<C-u>FzfPreviewProjectGrepRpc "<C-r>z"<Left>
 " }}}
 
 " {{{ winresizer
@@ -376,10 +380,6 @@ nnoremap <sid>(q)l <Cmd>call <SID>half_move('right')<CR>
 
 nnoremap <Space>d <Cmd>lua MiniBufremove.delete()<CR>
 nnoremap <Space>L <Cmd>LazyGit<CR>
-
-xnoremap <silent> p <Cmd>call <SID>markdown_link_paste()<CR>
-" https://github.com/Shougo/shougo-s-github/blob/master/vim/rc/mappings.rc.vim#L179
-xnoremap <silent> P <Cmd>call <SID>visual_paste('p')<CR>
 " }}}
 
 xnoremap <silent> Q :normal @q<CR>
@@ -900,79 +900,11 @@ EOF
 "-----------------
 " Commands and Functions
 "-----------------
-let g:my_vimrc = expand('<sfile>:p')
-command! RcEdit execute 'edit' g:my_vimrc
-command! RcReload write | execute 'source' g:my_vimrc | nohlsearch | redraw | echo g:my_vimrc . ' is reloaded.'
-command! CopyFullPath     let @*=expand('%:p') | echo 'copy full path'
-command! CopyDirName      let @*=expand('%:h') | echo 'copy dir name'
-command! CopyFileName     let @*=expand('%:t') | echo 'copy file name'
-command! CopyRelativePath let @*=expand('%:h').'/'.expand('%:t') | echo 'copy relative path'
-command! VimShowHlGroup echo synID(line('.'), col('.'), 1)->synIDtrans()->synIDattr('name')
-command! -nargs=* T split | wincmd j | resize 12 | terminal <args>
 command! Nyancat FloatermNew --autoclose=2 nyancat
-command! Trim lua MiniTrailspace.trim()
 command! -bang GhGraph if !exists('g:loaded_floaterm') | call plug#load('vim-floaterm') | endif |
   \ execute 'FloatermNew' '--title=contributions' '--height=13'
   \ '--width=55' 'gh' 'graph' (v:cmdbang ? '--scheme=random' : '')
-function s:DexComplete(A,L,P)
-  return ['--quiet', '--compat']
-endfunction
-command! -nargs=* -bang -complete=customlist,s:DexComplete Dex silent only! | botright 12 split |
-  \ execute 'terminal' (has('nvim') ? '' : '++curwin') 'deno run --no-check --allow-all'
-  \    '--unstable --watch' (<bang>0 ? '' : '--no-clear-screen') <q-args> expand('%:p') |
-  \ stopinsert | execute 'normal! G' | set bufhidden=wipe |
-  \ execute 'autocmd BufEnter <buffer> if winnr("$") == 1 | quit! | endif' |
-  \ file Dex<bang> | wincmd k
 command! Croc execute '!croc send' expand('%:p')
-
-" https://github.com/neovim/neovim/pull/12383#issuecomment-695768082
-" https://github.com/Shougo/shougo-s-github/blob/master/vim/autoload/vimrc.vim#L84
-function! s:visual_paste(direction) range abort
-  let registers = {}
-
-  for name in ['"', '0', '+', '*']
-    let registers[name] = #{type: getregtype(name), value: getreg(name)}
-  endfor
-
-  execute 'normal!' a:direction
-
-  for [name, register] in items(registers)
-    call setreg(name, register.value, register.type)
-  endfor
-endfunction
-
-" https://zenn.dev/skanehira/articles/2021-11-29-vim-paste-clipboard-link
-function! s:markdown_link_paste() abort
-  let link = trim(getreg('*'))
-  if link !~# '^http'
-    call s:visual_paste('p')
-    return
-  endif
-
-  normal! "9y
-  call setreg(9, '[' . getreg(9) . '](' . link . ')')
-  normal! gv"9p
-
-  for name in ['"', '0']
-    call setreg(name, link)
-  endfor
-endfunction
-
-function! s:half_move(direction) abort
-  let [bufnum, lnum, col, off] = getpos('.')
-  if a:direction == 'left'
-    let col = col / 2
-  elseif a:direction == 'right'
-    let col = (len(getline('.')) + col) / 2
-  elseif a:direction == 'center'
-    let col = len(getline('.')) / 2
-  elseif a:direction == 'up'
-    let lnum = (line('w0') + lnum) / 2
-  elseif a:direction == 'down'
-    let lnum = (line('w$') + lnum) / 2
-  endif
-  call setpos('.', [bufnum, lnum, col, off])
-endfunction
 
 "-----------------
 " Auto Commands
