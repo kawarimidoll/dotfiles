@@ -141,3 +141,27 @@ command! ClearRegs call <SID>clear_regs()
 autocmd commands.vim VimEnter * ++once ClearRegs
 " }}}
 
+" {{{ edit_with_number
+" https://github.com/wsdjeg/vim-fetch/blob/master/autoload/fetch.vim
+function s:edit_with_number(filename) abort
+  let regex = '\m\%(:\d\+\)\{1,2}\%(:.*\)\?$'
+
+  let pos_match = a:filename->matchstr(regex)
+  if pos_match == ''
+    return
+  endif
+
+  let positions = pos_match->split(':')
+  let lnum = positions[0]
+  let col = get(positions, 1, 0)
+  let filename = a:filename->substitute(regex, '\1', '')
+
+  echo [filename, lnum, col]
+  set buftype=nowrite
+  set bufhidden=wipe
+  execute 'keepalt edit' fnameescape(filename)
+  call setcharpos('.', [0, lnum, col, ''])
+endfunction
+
+autocmd commands.vim BufNewFile * call <sid>edit_with_number(expand('<afile>'))
+" }}}
