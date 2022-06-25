@@ -21,18 +21,26 @@ local preview_except_binaries = function(filepath, bufnr, opts)
   }):sync()
 end
 
+-- not good...
 -- https://github.com/nvim-telescope/telescope.nvim/issues/1048#issuecomment-993956937
 local actions = require('telescope.actions')
 local action_state = require('telescope.actions.state')
 local telescope_custom_actions = {}
 function telescope_custom_actions._multiopen(prompt_bufnr, open_cmd)
   local picker = action_state.get_current_picker(prompt_bufnr)
-  local num_selections = #picker:get_multi_selection()
-  if not num_selections or num_selections <= 1 then
+  if #picker:get_multi_selection() == 0 then
     actions.add_selection(prompt_bufnr)
   end
-  actions.send_selected_to_qflist(prompt_bufnr)
-  vim.cmd("cfdo " .. open_cmd)
+
+  local selections = picker:get_multi_selection()
+
+  vim.g.selections = ''
+  for _, entry in ipairs(selections) do
+    vim.cmd(string.format(":badd %s", entry.value))
+    vim.g.selections = vim.g.selections .. ', ' .. entry.value
+  end
+  vim.cmd(string.format(":%s! %s", open_cmd, selections[#selections].value ))
+  vim.cmd('stopinsert')
 end
 function telescope_custom_actions.multi_selection_open_vsplit(prompt_bufnr)
   telescope_custom_actions._multiopen(prompt_bufnr, "vsplit")
@@ -66,6 +74,7 @@ require("telescope").setup({
         ["<esc>"] = actions.close,
         ["<C-x>"] = action_layout.toggle_preview,
         ["<C-/>"] = actions.which_key,
+        ["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
       },
     },
 
@@ -93,10 +102,18 @@ require("telescope").setup({
       mappings = { i = map_multiopen, },
     },
     live_grep = {
-      mappings = { i = map_multiopen, },
+      mappings = {
+        i = {
+          ["<CR>"] = actions.add_selection + actions.send_selected_to_qflist + actions.open_qflist,
+        },
+      },
     },
     grep_string = {
-      mappings = { i = map_multiopen, },
+      mappings = {
+        i = {
+          ["<CR>"] = actions.add_selection + actions.send_selected_to_qflist + actions.open_qflist,
+        },
+      },
     },
   }
 })

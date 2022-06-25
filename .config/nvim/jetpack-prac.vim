@@ -301,7 +301,7 @@ nnoremap <sid>(q)u <Cmd>TroubleToggle lsp_references<CR>
 " nnoremap <sid>(q)k <Cmd>call <SID>half_move('up')<CR>
 " nnoremap <sid>(q)l <Cmd>call <SID>half_move('right')<CR>
 
-nnoremap <Space>d <Cmd>lua MiniBufremove.delete()<CR>
+nnoremap <Space>d <Cmd>keepalt lua MiniBufremove.delete()<CR>
 nnoremap <Space>L <Cmd>LazyGit<CR>
 " }}}
 
