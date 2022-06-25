@@ -1,3 +1,7 @@
+augroup commands.vim
+  autocmd!
+augroup END
+
 " to use RcEdit and RcReload, define g:my_vimrc after sourcing
 " source ~/dotfiles/.config/nvim/commands.vim
 " let g:my_vimrc = expand('<sfile>:p')
@@ -96,6 +100,7 @@ endfunction
 command! SmartOpen call <sid>smart_open()
 " }}}
 
+" {{{ EditProjectMru()
 function! EditProjectMru() abort
   let cmd = 'git rev-parse --show-superproject-working-tree --show-toplevel 2>/dev/null | head -1'
   let root = system(cmd)->trim()->expand()
@@ -110,6 +115,11 @@ function! EditProjectMru() abort
   endfor
 endfunction
 
+" remove function because it is only for `$ nvim -c 'call EditProjectMru()'`
+autocmd commands.vim VimEnter * ++once delfunction! EditProjectMru
+" }}}
+
+" {{{ collect_yank_history
 function! s:collect_yank_history() abort
   " regs should be start with double quote
   let regs = '"abcde'->split('\zs')
@@ -117,21 +127,17 @@ function! s:collect_yank_history() abort
     call setreg(regs[index], getreginfo(regs[index-1]))
   endfor
 endfunction
+autocmd commands.vim TextYankPost * call <SID>collect_yank_history()
+" }}}
+
+" {{{ ClearRegs
 function! s:clear_regs() abort
   for r in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/'->split('\zs')
     call setreg(r, [])
   endfor
 endfunction
-
 command! ClearRegs call <SID>clear_regs()
 
-augroup commands.vim
-  autocmd!
-
-  " only for `$ nvim -c 'call EditProjectMru()'`
-  autocmd VimEnter * delfunction! EditProjectMru
-
-  autocmd TextYankPost * call <SID>collect_yank_history()
-  autocmd VimEnter * ClearRegs
-augroup END
+autocmd commands.vim VimEnter * ++once ClearRegs
+" }}}
 
