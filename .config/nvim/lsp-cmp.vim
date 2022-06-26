@@ -77,6 +77,7 @@ augroup END
 call plug#begin(stdpath('config') . '/plugged')
 Plug 'vim-denops/denops.vim', #{ on: [] }
 Plug 'vim-skk/skkeleton', #{ on: [] }
+Plug 'Shougo/ddc.vim', #{ on: [] }
 Plug 'yuki-yano/fuzzy-motion.vim', #{ on: [] }
 
 Plug 'hrsh7th/cmp-nvim-lsp', #{ on: [] }
@@ -104,7 +105,7 @@ Plug 'lewis6991/impatient.nvim'
 Plug 'neovim/nvim-lspconfig', #{ on: [] }
 Plug 'williamboman/nvim-lsp-installer', #{ on: [] }
 Plug 'ray-x/lsp_signature.nvim', #{ on: [] }
-Plug 'kyazdani42/nvim-web-devicons'
+Plug 'kyazdani42/nvim-web-devicons', #{ on: [] }
 Plug 'tami5/lspsaga.nvim', #{ on: 'Lspsaga' }
 " Plug 'folke/lsp-colors.nvim'
 Plug 'folke/trouble.nvim', #{ on: [] }
@@ -116,7 +117,6 @@ Plug 'nvim-treesitter/nvim-treesitter-refactor', #{ on: [] }
 Plug 'JoosepAlviste/nvim-ts-context-commentstring', #{ on: [] }
 Plug 'p00f/nvim-ts-rainbow', #{ on: [] }
 Plug 'romgrk/nvim-treesitter-context', #{ on: [] }
-" Plug 'lukas-reineke/indent-blankline.nvim', #{ on: [] }
 Plug 'mfussenegger/nvim-ts-hint-textobject', #{ on: [] }
 Plug 'andymass/vim-matchup', #{ on: [] }
 
@@ -133,6 +133,7 @@ Plug 'norcalli/nvim-colorizer.lua', #{ on: [] }
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'kat0h/bufpreview.vim', #{ on: 'PreviewMarkdown' }
 Plug 'lambdalisue/gin.vim', #{ on: [] }
+Plug 'lambdalisue/reword.vim', #{ on: [] }
 Plug 'kdheepak/lazygit.nvim', #{ on: 'LazyGit' }
 Plug 'tyru/open-browser.vim', #{ on: ['OpenBrowser', '<Plug>(openbrowser-'] }
 Plug 'tyru/capture.vim', #{ on: 'Capture' }
@@ -145,7 +146,6 @@ Plug 'monaqa/dial.nvim', #{ on: '<Plug>(dial-' }
 Plug 'simeji/winresizer', #{ on: 'WinResizerStartResize' }
 Plug 'vim-jp/vimdoc-ja'
 
-Plug 'lambdalisue/reword.vim'
 call plug#end()
 
 command! PlugSync PlugUpgrade | PlugClean! | PlugInstall | PlugUpdate
@@ -188,8 +188,8 @@ function s:vsnip_init() abort
         \ 'vim-vsnip-integ',
         \ 'friendly-snippets',
         \ )
-"   execute 'source' g:plug_home .. '/vim-vsnip/plugin/vsnip.vim'
-"   execute 'source' g:plug_home .. '/vim-vsnip-integ/plugin/vsnip_integ.vim'
+  " execute 'source' g:plug_home .. '/vim-vsnip/plugin/vsnip.vim'
+  " execute 'source' g:plug_home .. '/vim-vsnip-integ/plugin/vsnip_integ.vim'
 
   let g:vsnip_filetypes = {}
   let g:vsnip_filetypes.javascriptreact = ['javascript']
@@ -204,7 +204,6 @@ function s:vsnip_init() abort
   Keymap nx st <Plug>(vsnip-select-text)
   Keymap nx sT <Plug>(vsnip-cut-text)
 endfunction
-call <sid>vsnip_init()
 
 function s:cmp_init() abort
   call plug#load(
@@ -221,9 +220,9 @@ function s:cmp_init() abort
         \ 'cmp-nvim-lsp-document-symbol',
         \ 'cmp-spell',
         \ 'cmp-look',
-        \ 'cmp-skkeleton',
         \ 'lspkind-nvim',
         \ )
+  " \ 'cmp-skkeleton',
   " execute 'luafile' g:plug_home .. '/nvim-cmp/plugin/cmp.lua'
   luafile ~/dotfiles/.config/nvim/plugin_config/cmp.lua
 endfunction
@@ -233,12 +232,14 @@ function s:lsp_init() abort
         \ 'nvim-lspconfig',
         \ 'nvim-lsp-installer',
         \ 'lsp_signature.nvim',
+        \ 'cmp-nvim-lsp',
         \ )
   lua require("lsp_signature").setup()
   lua lsp_capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
   luafile ~/dotfiles/.config/nvim/plugin_config/lsp.lua
 endfunction
 
+call <sid>vsnip_init()
 call <sid>cmp_init()
 function s:lazy_plug() abort
   call <sid>treesitter_init()
@@ -248,14 +249,18 @@ function s:lazy_plug() abort
         \ 'denops.vim',
         \ 'skkeleton',
         \ 'fuzzy-motion.vim',
+        \ 'ddc.vim',
         \ 'gin.vim',
+        \ 'reword.vim',
         \ 'which-key.nvim',
         \ 'nvim-colorizer.lua',
+        \ 'nvim-web-devicons',
         \ 'trouble.nvim',
         \ 'plenary.nvim',
         \ )
 
   source ~/dotfiles/.config/nvim/plugin_config/skkeleton.vim
+  source ~/dotfiles/.config/nvim/plugin_config/skk_ddc_cmp.vim
   execute 'source' g:plug_home .. '/plenary.nvim/plugin/plenary.vim'
   lua require('which-key').setup()
   lua require('colorizer').setup()

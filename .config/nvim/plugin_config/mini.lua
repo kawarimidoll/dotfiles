@@ -27,3 +27,20 @@ require('mini.tabline').setup({})
 require('mini.pairs').setup({})
 
 require('mini.misc').setup({ make_global = { 'put', 'put_text', 'zoom' } })
+
+-- require('mini.completion').setup({})
+-- vim.api.nvim_set_keymap('i', '<Tab>',   [[pumvisible() ? "\<C-n>" : "\<Tab>"]],   { noremap = true, expr = true })
+-- vim.api.nvim_set_keymap('i', '<S-Tab>', [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { noremap = true, expr = true })
+-- _G.cr_action = function()
+--  if vim.fn.pumvisible() == 0 then
+--    -- If popup is not visible, use `<CR>` in 'mini.pairs'.
+--    return require('mini.pairs').cr()
+--  elseif vim.fn.complete_info()['selected'] ~= -1 then
+--    -- If popup is visible and item is selected, confirm selected item
+--    return vim.api.nvim_replace_termcodes('<C-y>', true, true, true)
+--  else
+--    -- Add new line otherwise
+--    return vim.api.nvim_replace_termcodes('<C-y><CR>', true, true, true)
+--  end
+-- end
+-- vim.api.nvim_set_keymap('i', '<CR>', 'v:lua._G.cr_action()', { noremap = true, expr = true })
