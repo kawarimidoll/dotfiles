@@ -1,8 +1,24 @@
 local lsp_installer = require("nvim-lsp-installer")
 local nvim_lsp = require('lspconfig')
-lsp_installer.setup({})
+lsp_installer.setup({
+  ui = {
+    icons = {
+      server_installed = "✓",
+      server_pending = "➜",
+      server_uninstalled = "✗"
+    }
+  }
+})
+
 for _, server in ipairs(lsp_installer.get_installed_servers()) do
   local opts = {}
+
+  ---@diagnostic disable-next-line: undefined-global
+  if lsp_capabilities ~= nil then
+    ---@diagnostic disable-next-line: undefined-global
+    opts.capabilities = lsp_capabilities
+  end
+
   if server.name == "tsserver" then
     opts.root_dir = nvim_lsp.util.root_pattern("package.json", "node_modules")
     opts.settings = { documentFormatting = false }

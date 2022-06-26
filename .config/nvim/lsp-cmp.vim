@@ -630,7 +630,7 @@ cmp.setup.cmdline(':', {
   }),
 })
 
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+lsp_capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 -- [User contributed tips: Peek Definition](https://github.com/neovim/nvim-lspconfig/wiki/User-contributed-tips#peek-definition)
 function PeekDefinition()
@@ -643,112 +643,6 @@ function PeekDefinition()
 
   return vim.lsp.buf_request(0, 'textDocument/definition', vim.lsp.util.make_position_params(), callback)
 end
-
-local nvim_lsp = require('lspconfig')
-
--- local capabilities = vim.lsp.protocol.make_client_capabilities()
--- capabilities.textDocument.completion.completionItem.snippetSupport = true
--- capabilities.textDocument.completion.completionItem.preselectSupport = true
--- capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
--- capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
--- capabilities.textDocument.completion.completionItem.deprecatedSupport = true
--- capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
--- capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
--- capabilities.textDocument.completion.completionItem.resolveSupport = {
---   properties = { 'documentation', 'detail', 'additionalTextEdits' }
--- }
-
--- [Neovim builtin LSP設定入門](https://zenn.dev/nazo6/articles/c2f16b07798bab)
-local lsp_installer = require("nvim-lsp-installer")
-lsp_installer.settings({
-  ui = {
-    icons = {
-      server_installed = "✓",
-      server_pending = "➜",
-      server_uninstalled = "✗"
-    }
-  }
-})
-
--- https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/configs.lua
-local node_root_dir = nvim_lsp.util.root_pattern("package.json", "node_modules")
-local is_node_repo = node_root_dir(vim.api.nvim_buf_get_name(0), vim.api.nvim_get_current_buf()) ~= nil
-
-lsp_installer.on_server_ready(function(server)
-  local opts = {}
-  -- opts.on_attach = on_attach
-  opts.capabilities = capabilities
-
-  if server.name == "tsserver" or server.name == "eslint" then
-    -- opts.root_dir = nvim_lsp.util.root_pattern("package.json", "node_modules")
-    opts.autostart = is_node_repo
-    if server.name == "tsserver" then
-      opts.settings = { documentFormatting = false }
-      opts.init_options = { hostInfo = "neovim" }
-    end
-  elseif server.name == "denols" then
-    -- opts.root_dir = nvim_lsp.util.root_pattern("deno.jsonc", "deps.ts")
-    opts.autostart = not(is_node_repo)
-    -- opts.single_file_support = true
-    -- opts.filetypes = {
-    --   "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx", "markdown", "json"
-    -- }
-    opts.init_options = {
-      lint = true,
-      unstable = true,
-      config = "./deno.jsonc",
-      suggest = {
-        imports = {
-          hosts = {
-            ["https://deno.land"] = true,
-            ["https://cdn.nest.land"] = true,
-            ["https://crux.land"] = true
-          }
-        }
-      }
-    }
-  elseif server.name == "efm" then
-    -- https://skanehira.github.io/blog/posts/20201116-vim-writing-articles/
-    local prettier = {
-      formatCommand = "prettier --stdin-filepath ${INPUT}",
-      formatStdin = true
-    }
-    opts.filetypes = { "markdown", "typescript", "javascript", "typescriptreact", "javascriptreact" }
-    if not(is_node_repo) then
-      opts.filetypes = { "markdown" }
-    end
-    opts.init_options = { documentFormatting = true, codeAction = true }
-    opts.settings = {
-      rootMarkers = { ".git/" },
-      languages = {
-        markdown = {
-          {
-            lintCommand = "npx --no-install textlint -f unix --stdin --stdin-filename ${INPUT}",
-            lintStdin = true,
-            lintIgnoreExitCode = true,
-            lintFormats = { '%f:%l:%c: %m [%trror/%r]' },
-            -- rootMarkers = { '.textlintrc' },
-            formatCommand = "dprint fmt --config ~/dotfiles/dprint.json --stdin ${INPUT}",
-            formatStdin = true
-          }
-        },
-        typescript = { prettier },
-        javascript = { prettier },
-        typescriptreact = { prettier },
-        javascriptreact = { prettier },
-      }
-    }
-  -- elseif server.name == "sumneko_lua" then
-  --   -- -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#sumneko_lua
-  --   -- opts.settings.Lua.diagnostics = { globals = { 'vim' } }
-  --   -- opts.settings.Lua.workspace = { library = vim.api.nvim_get_runtime_file("", true) }
-  --   -- opts.settings.Lua.telemetry = { enable = false }
-  --   opts = require('lua-dev').setup()
-  end
-
-  server:setup(opts)
-  vim.cmd [[ do User LspAttachBuffers ]]
-end)
 
 require("lsp_signature").setup()
 
@@ -897,6 +791,7 @@ require('mini.base16').setup({
 -- ]]
 EOF
 
+luafile ~/dotfiles/.config/nvim/plugin_config/lsp.lua
 "-----------------
 " Commands and Functions
 "-----------------
