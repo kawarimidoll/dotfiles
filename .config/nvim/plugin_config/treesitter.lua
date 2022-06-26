@@ -1,5 +1,9 @@
 require('nvim-treesitter.configs').setup({
   -- {{{ nvim-treesitter
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = { 'vim' },
+  },
   sync_install = false,
   indent = { enable = true },
   -- }}}
@@ -35,3 +39,20 @@ require('nvim-treesitter.configs').setup({
   matchup = { enable = true },
   -- }}}
 })
+
+-- require('treesitter-context').setup({
+  -- enable = true,
+  -- max_lines = 100,
+  -- patterns = {
+    -- default = {
+      -- 'class',
+      -- 'function',
+      -- 'method',
+      -- 'for',
+      -- 'while',
+      -- 'if',
+      -- 'switch',
+      -- 'case',
+    -- },
+  -- },
+-- })

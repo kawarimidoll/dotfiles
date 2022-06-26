@@ -40,6 +40,7 @@ let g:markdown_fenced_languages = ['ts=typescript', 'js=javascript']
 
 source ~/dotfiles/.config/nvim/commands.vim
 let g:my_vimrc = expand('<sfile>:p')
+Keymap nx gz <Cmd>SmartOpen<CR>
 
 "-----------------
 " Plugs
@@ -74,9 +75,9 @@ augroup vimrc_plug
 augroup END
 
 call plug#begin(stdpath('config') . '/plugged')
-Plug 'vim-denops/denops.vim'
-Plug 'vim-skk/skkeleton'
-Plug 'Shougo/ddc.vim'
+Plug 'vim-denops/denops.vim', #{ on: [] }
+Plug 'vim-skk/skkeleton', #{ on: [] }
+Plug 'yuki-yano/fuzzy-motion.vim', #{ on: [] }
 
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
@@ -92,6 +93,7 @@ Plug 'lukas-reineke/cmp-rg'
 Plug 'hrsh7th/cmp-nvim-lsp-document-symbol'
 Plug 'f3fora/cmp-spell'
 Plug 'octaltree/cmp-look'
+Plug 'rinx/cmp-skkeleton'
 Plug 'onsails/lspkind-nvim'
 
 Plug 'ray-x/lsp_signature.nvim'
@@ -104,19 +106,18 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'williamboman/nvim-lsp-installer'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'folke/lsp-colors.nvim'
-Plug 'folke/trouble.nvim'
+Plug 'folke/trouble.nvim', #{ on: [] }
 Plug 'folke/lua-dev.nvim', #{ for: 'lua' }
 
-Plug 'nvim-treesitter/nvim-treesitter', #{ do: ':TSUpdate' }
-Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-Plug 'nvim-treesitter/nvim-treesitter-refactor'
-Plug 'JoosepAlviste/nvim-ts-context-commentstring'
-Plug 'p00f/nvim-ts-rainbow'
-Plug 'romgrk/nvim-treesitter-context'
-Plug 'lukas-reineke/indent-blankline.nvim'
-Plug 'mfussenegger/nvim-ts-hint-textobject'
-Plug 'lewis6991/spellsitter.nvim'
-Plug 'andymass/vim-matchup'
+Plug 'nvim-treesitter/nvim-treesitter', #{ do: ':TSUpdate', on: [] }
+Plug 'nvim-treesitter/nvim-treesitter-textobjects', #{ on: [] }
+Plug 'nvim-treesitter/nvim-treesitter-refactor', #{ on: [] }
+Plug 'JoosepAlviste/nvim-ts-context-commentstring', #{ on: [] }
+Plug 'p00f/nvim-ts-rainbow', #{ on: [] }
+Plug 'romgrk/nvim-treesitter-context', #{ on: [] }
+" Plug 'lukas-reineke/indent-blankline.nvim', #{ on: [] }
+Plug 'mfussenegger/nvim-ts-hint-textobject', #{ on: [] }
+Plug 'andymass/vim-matchup', #{ on: [] }
 
 Plug 'junegunn/fzf', #{ do: { -> fzf#install() }, on: [] }
 Plug 'yuki-yano/fzf-preview.vim', #{ branch: 'release/rpc', on: [] }
@@ -124,21 +125,17 @@ Plug 'junegunn/fzf.vim', #{ on: [] }
 Plug 'ryanoasis/vim-devicons', #{ on: [] }
 
 Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-lualine/lualine.nvim'
 
-Plug 'folke/which-key.nvim'
+Plug 'folke/which-key.nvim', #{ on: [] }
 Plug 'echasnovski/mini.nvim'
-Plug 'norcalli/nvim-colorizer.lua'
+Plug 'norcalli/nvim-colorizer.lua', #{ on: [] }
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'kat0h/bufpreview.vim', #{ on: 'PreviewMarkdown' }
-Plug 'lambdalisue/gin.vim'
+Plug 'lambdalisue/gin.vim', #{ on: [] }
 Plug 'kdheepak/lazygit.nvim', #{ on: 'LazyGit' }
 Plug 'tyru/open-browser.vim', #{ on: ['OpenBrowser', '<Plug>(openbrowser-'] }
 Plug 'tyru/capture.vim', #{ on: 'Capture' }
-Plug 'yuki-yano/fuzzy-motion.vim' ", #{ on: 'FuzzyMotion' }
 Plug 'hrsh7th/vim-searchx', #{ on: [] }
-" Plug 'nathom/filetype.nvim'
-" Plug 'arthurxavierx/vim-caser'
 Plug 'haya14busa/vim-asterisk', #{ on: '<Plug>(asterisk-' }
 Plug 'voldikss/vim-floaterm', #{ on: 'FloatermNew' }
 Plug 'monaqa/dps-dial.vim', #{ on: '<Plug>(dps-dial-' }
@@ -153,9 +150,7 @@ command! PlugSync PlugUpdate | PlugClean | PlugInstall | PlugUpdate
 
 let g:lazygit_floating_window_scaling_factor = 1
 " let g:lazygit_floating_window_winblend = 20
-let g:silicon = {}
-let g:silicon['output'] = '~/Downloads/silicon-{time:%Y-%m-%d-%H%M%S}.png'
-" let g:denops#debug = 1
+source ~/dotfiles/.config/nvim/plugin_config/silicon.vim
 
 let s:plug_loaded = {}
 function s:ensure_plug(...) abort
@@ -166,31 +161,58 @@ function s:ensure_plug(...) abort
     endif
   endfor
 endfunction
-command! -nargs=+ EnsurePlug call <sid>ensure_plug(<f-args>)
+command! -nargs=+ -bang EnsurePlug call <sid>ensure_plug(<f-args>)
+
+function! s:treesitter_init() abort
+  " https://zenn.dev/kawarimidoll/articles/8e124a88dde820
+  call plug#load(
+        \ 'nvim-treesitter',
+        \ 'nvim-treesitter-textobjects',
+        \ 'nvim-treesitter-refactor',
+        \ 'nvim-ts-context-commentstring',
+        \ 'nvim-ts-rainbow',
+        \ 'nvim-treesitter-context',
+        \ 'nvim-ts-hint-textobject',
+        \ 'vim-matchup',
+        \ )
+  let setup_file = g:plug_home .. '/nvim-treesitter/plugin/nvim-treesitter.lua'
+  execute 'luafile' setup_file
+  luafile ~/dotfiles/.config/nvim/plugin_config/treesitter.lua
+  TSEnable highlight
+endfunction
+
+function s:lazy_plug() abort
+  call plug#load(
+        \ 'denops.vim',
+        \ 'skkeleton',
+        \ 'fuzzy-motion.vim',
+        \ 'gin.vim',
+        \ 'which-key.nvim',
+        \ 'nvim-colorizer.lua',
+        \ 'trouble.nvim',
+        \ )
+
+  source ~/dotfiles/.config/nvim/plugin_config/skkeleton.vim
+  lua require('which-key').setup()
+  lua require('colorizer').setup()
+  lua require('trouble').setup({auto_close = true})
+endfunction
+augroup lazy_plug
+  autocmd!
+  autocmd BufReadPost * call <sid>lazy_plug() | call <sid>treesitter_init() | autocmd! lazy_plug
+augroup END
 
 " {{{ fuzzy-motion.vim
 nnoremap s; <Cmd>FuzzyMotion<CR>
-let g:fuzzy_motion_auto_jump = v:true
 " }}}
 
 " {{{ searchx
+source ~/dotfiles/.config/nvim/plugin_config/searchx.vim
 Keymap nx ? <Cmd>EnsurePlug vim-searchx<CR><Cmd>call searchx#start(#{ dir: 0 })<CR>
 Keymap nx / <Cmd>EnsurePlug vim-searchx<CR><Cmd>call searchx#start(#{ dir: 1 })<CR>
 Keymap nx N <Cmd>EnsurePlug vim-searchx<CR><Cmd>call searchx#prev()<CR>
 Keymap nx n <Cmd>EnsurePlug vim-searchx<CR><Cmd>call searchx#next()<CR>
 nnoremap <C-l> <Cmd>EnsurePlug vim-searchx<CR><Cmd>call searchx#clear()<CR><Cmd>nohlsearch<CR><C-l>
-
-let g:searchx = {}
-let g:searchx.auto_accept = v:true
-let g:searchx.scrolloff = &scrolloff
-let g:searchx.scrolltime = 500
-let g:searchx.markers = split('ASDFGHJKLQWERTYUIOPZXCVBNM', '.\zs')
-function g:searchx.convert(input) abort
-  if a:input !~# '\k'
-    return '\V' .. a:input
-  endif
-  return a:input->split(' ')->join('.\{-}')
-endfunction
 " }}}
 
 " {{{ vsnip
@@ -206,77 +228,6 @@ smap k <BS>k
 Keymap is <expr> <C-l> vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
 Keymap nx st <Plug>(vsnip-select-text)
 Keymap nx sT <Plug>(vsnip-cut-text)
-" }}}
-
-" {{{ skkeleton
-map! <C-j> <Plug>(skkeleton-enable)
-
-let s:jisyo_dir = stdpath('config')
-let s:jisyo_name = 'SKK-JISYO.L'
-let s:jisyo_path = expand(s:jisyo_dir . '/' . s:jisyo_name)
-if !filereadable(s:jisyo_path)
-  echo "SSK Jisyo does not exists! '" . s:jisyo_path . "' is required!"
-  let s:skk_setup_cmds = [
-    \   "curl -OL https://skk-dev.github.io/dict/SKK-JISYO.L.gz",
-    \   "gunzip SKK-JISYO.L.gz",
-    \   "mkdir -p " . s:jisyo_dir,
-    \   "mv ./SKK-JISYO.L " . s:jisyo_dir,
-    \ ]
-  echo (["To get Jisyo, run:"] + s:skk_setup_cmds + [""])->join("\n")
-
-  if confirm("Run automatically?", "y\nN") == 1
-    echo "Running..."
-    call system(s:skk_setup_cmds->join(" && "))
-    echo "Done."
-  endif
-endif
-
-function! s:skkeleton_init() abort
-  let l:rom_table = {
-    \   'z9': ['（', ''],
-    \   'z0': ['）', ''],
-    \   "z\<Space>": ["\u3000", ''],
-    \ }
-  for char in split('abcdefghijklmnopqrstuvwxyz,._-!?', '.\zs')
-    let l:rom_table['c'.char] = [char, '']
-  endfor
-
-  call skkeleton#config(#{
-    \   eggLikeNewline: v:true,
-    \   globalJisyo: s:jisyo_path,
-    \   immediatelyCancel: v:false,
-    \   registerConvertResult: v:true,
-    \   selectCandidateKeys: '1234567',
-    \   showCandidatesCount: 1,
-    \ })
-  call skkeleton#register_kanatable('rom', l:rom_table)
-endfunction
-
-call ddc#enable()
-call ddc#custom#patch_global(#{
-  \   sources: ['skkeleton'],
-  \   sourceOptions: #{ skkeleton: #{ matchers: ['skkeleton'] } },
-  \   autoCompleteEvents: [],
-  \   completionMode: 'manual',
-  \ })
-
-function! s:skkeleton_enable() abort
-  call ddc#custom#patch_buffer(#{
-    \   autoCompleteEvents: ['TextChangedI', 'TextChangedP', 'CmdlineChanged'],
-    \   completionMode: 'popupmenu'
-    \ })
-  lua require('cmp').setup.buffer({ enabled = false })
-
-  autocmd User skkeleton-disable-pre ++once
-    \ call ddc#custom#patch_buffer(#{ autoCompleteEvents: [], completionMode: 'manual' }) |
-    \ lua require('cmp').setup.buffer({ enabled = true })
-endfunction
-
-augroup skkeleton
-  autocmd!
-  autocmd User skkeleton-enable-pre call <SID>skkeleton_enable()
-  autocmd User skkeleton-initialize-pre call <SID>skkeleton_init()
-augroup END
 " }}}
 
 " {{{ dps-dial.vim
@@ -296,11 +247,7 @@ Keymap nx <C-x> <Plug>(dps-dial-decrement)
 " }}}
 
 " {{{ nvim-ts-hint-textobject
-Keymap ov m <Cmd>lua require(tsht).nodes()<CR>
-" }}}
-
-" {{{ openbrowser
-Keymap nx gx <Plug>(openbrowser-smart-search)
+Keymap ov m <Cmd>lua require('tsht').nodes()<CR>
 " }}}
 
 " {{{ vim-asterisk
@@ -312,15 +259,7 @@ map g# <Plug>(asterisk-gz#)
 " }}}
 
 " {{{ fzf-preview.vim
-let g:fzf_preview_filelist_command = 'find_for_vim'
-let g:fzf_preview_fzf_preview_window_option = 'down:70%'
-let g:fzf_preview_use_dev_icons = 1
-let g:fzf_preview_default_fzf_options = {
-      \ '--reverse': v:true,
-      \ '--preview-window': 'wrap',
-      \ '--cycle': v:true,
-      \ '--no-sort': v:true,
-      \ }
+source ~/dotfiles/.config/nvim/plugin_config/fzf_preview.vim
 
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
@@ -334,7 +273,7 @@ nnoremap <Space>b <Cmd>EnsureFzf<CR><Cmd>FzfPreviewBuffersRpc<CR>
 nnoremap <Space>B <Cmd>EnsureFzf<CR><Cmd>FzfPreviewBufferLinesRpc<CR>
 nnoremap <Space>f <Cmd>EnsureFzf<CR><Cmd>FzfPreviewProjectFilesRpc<CR>
 nnoremap <Space>h <Cmd>EnsureFzf<CR><Cmd>FzfPreviewProjectMruFilesRpc<CR>
-nnoremap <Space>H <Cmd>EnsureFzf<CR><Cmd>HelpTags<CR>
+nnoremap <Space>H <Cmd>EnsureFzf<CR><Cmd>Helptags<CR>
 nnoremap <Space>j <Cmd>EnsureFzf<CR><Cmd>FzfPreviewJumpsRpc<CR>
 nnoremap <Space>l <Cmd>EnsureFzf<CR><Cmd>FzfPreviewLinesRpc<CR>
 nnoremap <Space>m <Cmd>EnsureFzf<CR><Cmd>FzfPreviewMarksRpc<CR>
@@ -416,144 +355,6 @@ nnoremap <leader>df <cmd>lua PeekDefinition()<CR>
 lua << EOF
 require('impatient')
 
-require('nvim-treesitter.configs').setup({
-  -- {{{ nvim-treesitter
-  ensure_installed = {
-    "bash", "css", "comment", "dart", "dockerfile", "go", "gomod", "gowork", "graphql",
-    "help", "html", "http", "java", "javascript", "jsdoc", "json", "jsonc", "lua",
-    "make", "markdown", "pug", "python", "query", "regex", "ruby", "rust", "scss",
-    "solidity", "svelte", "todotxt", "toml", "tsx", "typescript", "vim", "vue", "yaml",
-  },
-  sync_install = false,
-  highlight = {
-    enable = true,
-    additional_vim_regex_highlighting = { 'vim' },
-  },
-  -- incremental_selection = {
-  --   enable = true,
-  --   keymaps = {
-  --     init_selection = "gnn",
-  --     node_incremental = "grn",
-  --     node_decremental = "grm",
-  --     scope_incremental = "grc",
-  --   },
-  -- },
-  indent = { enable = true },
-  -- }}}
-
-  -- -- {{{ nvim-treesitter-textobjects
-  -- textobjects = {
-    -- select = {
-      -- enable = true,
-      -- lookahead = true,
-      -- keymaps = {
-        -- ["af"] = "@function.outer",
-        -- ["if"] = "@function.inner",
-        -- ["ac"] = "@conditional.outer",
-        -- ["ic"] = "@conditional.inner",
-        -- ["ab"] = "@block.outer",
-        -- ["ib"] = "@block.inner",
-      -- },
-    -- },
-    -- move = {
-      -- enable = true,
-      -- set_jumps = true, -- whether to set jumps in the jumplist
-      -- goto_next_start = {
-        -- ["]f"] = "@function.outer",
-        -- ["]i"] = "@conditional.outer",
-      -- },
-      -- goto_next_end = {
-        -- ["]F"] = "@function.outer",
-        -- ["]I"] = "@conditional.outer",
-      -- },
-      -- goto_previous_start = {
-        -- ["[f"] = "@function.outer",
-        -- ["[i"] = "@conditional.outer",
-      -- },
-      -- goto_previous_end = {
-        -- ["[F"] = "@function.outer",
-        -- ["[I"] = "@conditional.outer",
-      -- },
-    -- },
-    -- swap = {
-      -- enable = true,
-      -- swap_next = {
-        -- ["<leader>a"] = "@parameter.inner",
-      -- },
-      -- swap_previous = {
-        -- ["<leader>A"] = "@parameter.inner",
-      -- },
-    -- },
-    -- lsp_interop = {
-      -- enable = true,
-      -- peek_definition_code = {
-        -- ["<leader>df"] = "@function.outer",
-        -- ["<leader>dF"] = "@class.outer",
-      -- },
-    -- },
-  -- },
-  -- -- }}}
-
-  -- {{{ nvim-treesitter-refactor
-  refactor = {
-    highlight_definitions = { enable = true },
-    -- highlight_current_scope = { enable = true },
-    smart_rename = {
-      enable = true,
-      keymaps = {
-        smart_rename = "grr",
-      },
-    },
-    navigation = {
-      enable = true,
-      keymaps = {
-        goto_definition_lsp_fallback = 'grd',
-        list_definitions = 'grD',
-        list_definitions_toc = "grt",
-        goto_previous_usage = "[u",
-        goto_next_usage = "]u",
-      },
-    },
-  },
-  -- }}}
-
-  -- {{{ nvim-ts-rainbow
-  rainbow = {
-    enable = true,
-    extended_mode = true,
-    max_file_lines = nil,
-  },
-  -- }}}
-
-  -- {{{ ts-context-commentstring
-  context_commentstring = { enable = true },
-  -- }}}
-
-  -- {{{ vim-matchup
-  matchup = { enable = true },
-  -- }}}
-})
-
--- require('treesitter-context').setup({
-  -- enable = true,
-  -- throttle = true,
-  -- max_lines = 0,
-  -- patterns = {
-    -- default = {
-      -- 'class',
-      -- 'function',
-      -- 'method',
-      -- 'for',
-      -- 'while',
-      -- 'if',
-      -- 'switch',
-      -- 'case',
-    -- },
-  -- },
--- })
-
--- require('spellsitter').setup()
-
 -- https://github.com/hrsh7th/nvim-cmp
 -- Setup nvim-cmp.
 local cmp = require('cmp')
@@ -610,11 +411,12 @@ cmp.setup({
     { name = 'nvim_lua' },
     { name = 'rg' },
     { name = 'spell' },
+    { name = 'skkeleton' },
     { name = 'look', keyword_length = 2, option = { convert_case = true, loud = true } },
   }),
 })
 
-require'cmp'.setup.cmdline('/', {
+cmp.setup.cmdline('/', {
   sources = cmp.config.sources({
     { name = 'nvim_lsp_document_symbol' }
   }, {
@@ -646,69 +448,6 @@ end
 
 require("lsp_signature").setup()
 
-require("lsp-colors").setup()
-require("trouble").setup()
-
-require("indent_blankline").setup({
-  space_char_blankline = " ",
-  show_current_context = true,
-  show_current_context_start = true,
-})
-
-require('gitsigns').setup({
-  signs = {
-    add          = { text = '+' },
-    change       = { text = '~' },
-    delete       = { text = '_' },
-    topdelete    = { text = '‾' },
-    changedelete = { text = '~_' },
-  },
-  current_line_blame = true,
-  on_attach = function(bufnr)
-    local gs = package.loaded.gitsigns
-
-    local function map(mode, l, r, opts)
-      opts = opts or {}
-      opts.buffer = bufnr
-      vim.keymap.set(mode, l, r, opts)
-    end
-
-    -- Navigation
-    map('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", {expr=true})
-    map('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", {expr=true})
-
-    -- Actions
-    map({'n', 'v'}, '<leader>hs', gs.stage_hunk)
-    map({'n', 'v'}, '<leader>hr', gs.reset_hunk)
-    map('n', '<leader>hS', gs.stage_buffer)
-    map('n', '<leader>hu', gs.undo_stage_hunk)
-    map('n', '<leader>hR', gs.reset_buffer)
-    map('n', '<leader>hp', gs.preview_hunk)
-    map('n', '<leader>hb', function() gs.blame_line{full=true} end)
-    map('n', '<leader>tb', gs.toggle_current_line_blame)
-    map('n', '<leader>hd', gs.diffthis)
-    map('n', '<leader>hD', function() gs.diffthis('~') end)
-    map('n', '<leader>td', gs.toggle_deleted)
-
-    -- Text object
-    map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
-  end
-})
-require('lualine').setup({
-  -- sections = { lualine_a = { 'mode', 'g:skkeleton#mode' } },
-  -- options = { globalstatus = true },
-})
-require('colorizer').setup()
-
-require('mini.bufremove').setup()
-require('mini.comment').setup()
-require('mini.cursorword').setup()
-require('mini.surround').setup()
-require('mini.trailspace').setup()
-require('mini.tabline').setup()
-require('mini.pairs').setup()
-require('mini.misc').setup({ make_global = { 'put', 'put_text', 'zoom' } })
--- require('mini.statusline').setup()
 -- https://github.com/sainnhe/sonokai/blob/master/alacritty/README.md shusia
 -- https://github.com/chriskempson/base16/blob/master/styling.md
 require('mini.base16').setup({
@@ -748,50 +487,12 @@ require('mini.base16').setup({
   },
   use_cterm = true,
 })
--- require('which-key').setup()
-
--- require('filetype').setup({
---   overrides = {
---     extensions = {
---       bashrc = 'bash',
---       env = 'env',
---     },
---     complex = {
---       ["%.env.*"] = "env",
---       ["%.zshrc.*"] = "zsh",
---       [".*shrc"] = "bash",
---       ["git--__.+"] = "bash",
---     },
---   }
--- })
--- 
--- local Job = require('plenary.job')
--- local karabiner_cli = '/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli'
--- function _G.set_karabiner(val)
---   Job:new{
---     command = karabiner_cli,
---     args = {
---       '--set-variables',
---       ('{"neovim_in_insert_mode":%d}'):format(val),
---     },
---   }:start()
--- end
--- 
--- function _G.set_karabiner_if_in_insert_mode()
---   local val = vim.fn.mode():match'[icrR]' and 1 or 0
---   _G.set_karabiner(val)
--- end
--- vim.cmd[[
--- augroup skkeleton_karabiner_elements
---   autocmd!
---   autocmd InsertEnter,CmdlineEnter * call v:lua.set_karabiner(1)
---   autocmd InsertLeave,CmdlineLeave,FocusLost * call v:lua.set_karabiner(0)
---   autocmd FocusGained * call v:lua.set_karabiner_if_in_insert_mode()
--- augroup END
--- ]]
 EOF
 
 luafile ~/dotfiles/.config/nvim/plugin_config/lsp.lua
+luafile ~/dotfiles/.config/nvim/plugin_config/gitsigns.lua
+luafile ~/dotfiles/.config/nvim/plugin_config/mini.lua
+
 "-----------------
 " Commands and Functions
 "-----------------
@@ -807,28 +508,15 @@ command! Croc execute '!croc send' expand('%:p')
 augroup vimrc
   autocmd!
   " https://zenn.dev/uochan/articles/2021-12-08-vim-conventional-commits
-  autocmd FileType gitcommit,gina-commit ++once normal! gg
   autocmd FileType gitcommit,gina-commit nnoremap <buffer> <CR> <Cmd>silent! execute 'normal! ^w"zdiw"_dip"zPA: ' <bar> startinsert!<CR>
 
   " [NeovimのTerminalモードをちょっと使いやすくする](https://zenn.dev/ryo_kawamata/articles/improve-neovmi-terminal)
   autocmd TermOpen * startinsert
 
-  " autocmd VimEnter * TSEnableAll *
-
   " autocmd BufNewFile,BufRead .env* setf env
   autocmd BufNewFile,BufRead commonshrc setf bash
 
-  " 前回終了位置に復帰
-  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line('$') | execute 'normal! g`"' | endif
   autocmd BufReadPost * delmarks!
-
-  " [vim-jp » Hack #202: 自動的にディレクトリを作成する](https://vim-jp.org/vim-users-jp/2011/02/20/Hack-202.html)
-  autocmd BufWritePre * call s:ensure_dir(expand('<afile>:p:h'), v:cmdbang)
-  function! s:ensure_dir(dir, force)
-    if !isdirectory(a:dir) && (a:force || confirm('"' . a:dir . '" does not exist. Create?', "y\nN"))
-      call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
-    endif
-  endfunction
 augroup END
 
 set laststatus=3 " set on last line to avoid overwritten by plugins
