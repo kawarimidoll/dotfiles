@@ -60,7 +60,7 @@ function! s:smart_open() abort
   " is file path
   if filereadable(query->expand())
     if mode() == 'n'
-      normal gf
+      normal! gFzz
     else
       execute 'edit' query
     endif

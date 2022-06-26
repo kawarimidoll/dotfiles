@@ -79,33 +79,34 @@ Plug 'vim-denops/denops.vim', #{ on: [] }
 Plug 'vim-skk/skkeleton', #{ on: [] }
 Plug 'yuki-yano/fuzzy-motion.vim', #{ on: [] }
 
-Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/cmp-buffer'
-Plug 'hrsh7th/cmp-path'
-Plug 'hrsh7th/cmp-cmdline'
-Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp', #{ on: [] }
+Plug 'hrsh7th/cmp-buffer', #{ on: [] }
+Plug 'hrsh7th/cmp-path', #{ on: [] }
+Plug 'hrsh7th/cmp-cmdline', #{ on: [] }
+Plug 'hrsh7th/nvim-cmp', #{ on: [] }
 
-Plug 'hrsh7th/cmp-vsnip'
-Plug 'hrsh7th/cmp-nvim-lua'
-Plug 'ray-x/cmp-treesitter'
-Plug 'tzachar/cmp-tabnine', #{ do: './install.sh' }
-Plug 'lukas-reineke/cmp-rg'
-Plug 'hrsh7th/cmp-nvim-lsp-document-symbol'
-Plug 'f3fora/cmp-spell'
-Plug 'octaltree/cmp-look'
-Plug 'rinx/cmp-skkeleton'
-Plug 'onsails/lspkind-nvim'
+Plug 'hrsh7th/cmp-vsnip', #{ on: [] }
+Plug 'hrsh7th/cmp-nvim-lua', #{ on: [] }
+Plug 'ray-x/cmp-treesitter', #{ on: [] }
+Plug 'tzachar/cmp-tabnine', #{ do: './install.sh', on: [] }
+Plug 'lukas-reineke/cmp-rg', #{ on: [] }
+Plug 'hrsh7th/cmp-nvim-lsp-document-symbol', #{ on: [] }
+Plug 'f3fora/cmp-spell', #{ on: [] }
+Plug 'octaltree/cmp-look', #{ on: [] }
+Plug 'rinx/cmp-skkeleton', #{ on: [] }
+Plug 'onsails/lspkind-nvim', #{ on: [] }
 
-Plug 'ray-x/lsp_signature.nvim'
-Plug 'hrsh7th/vim-vsnip'
-Plug 'hrsh7th/vim-vsnip-integ'
-Plug 'rafamadriz/friendly-snippets'
+Plug 'hrsh7th/vim-vsnip', #{ on: [] }
+Plug 'hrsh7th/vim-vsnip-integ', #{ on: [] }
+Plug 'rafamadriz/friendly-snippets', #{ on: [] }
 
 Plug 'lewis6991/impatient.nvim'
-Plug 'neovim/nvim-lspconfig'
-Plug 'williamboman/nvim-lsp-installer'
+Plug 'neovim/nvim-lspconfig', #{ on: [] }
+Plug 'williamboman/nvim-lsp-installer', #{ on: [] }
+Plug 'ray-x/lsp_signature.nvim', #{ on: [] }
 Plug 'kyazdani42/nvim-web-devicons'
-Plug 'folke/lsp-colors.nvim'
+Plug 'tami5/lspsaga.nvim', #{ on: 'Lspsaga' }
+" Plug 'folke/lsp-colors.nvim'
 Plug 'folke/trouble.nvim', #{ on: [] }
 Plug 'folke/lua-dev.nvim', #{ for: 'lua' }
 
@@ -124,7 +125,7 @@ Plug 'yuki-yano/fzf-preview.vim', #{ branch: 'release/rpc', on: [] }
 Plug 'junegunn/fzf.vim', #{ on: [] }
 Plug 'ryanoasis/vim-devicons', #{ on: [] }
 
-Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-lua/plenary.nvim', #{ on: []}
 
 Plug 'folke/which-key.nvim', #{ on: [] }
 Plug 'echasnovski/mini.nvim'
@@ -140,13 +141,14 @@ Plug 'haya14busa/vim-asterisk', #{ on: '<Plug>(asterisk-' }
 Plug 'voldikss/vim-floaterm', #{ on: 'FloatermNew' }
 Plug 'monaqa/dps-dial.vim', #{ on: '<Plug>(dps-dial-' }
 Plug 'segeljakt/vim-silicon', #{ on: 'Silicon' }
+Plug 'monaqa/dial.nvim', #{ on: '<Plug>(dial-' }
 Plug 'simeji/winresizer', #{ on: 'WinResizerStartResize' }
 Plug 'vim-jp/vimdoc-ja'
 
 Plug 'lambdalisue/reword.vim'
 call plug#end()
 
-command! PlugSync PlugUpdate | PlugClean | PlugInstall | PlugUpdate
+command! PlugSync PlugUpgrade | PlugClean! | PlugInstall | PlugUpdate
 
 let g:lazygit_floating_window_scaling_factor = 1
 " let g:lazygit_floating_window_winblend = 20
@@ -175,13 +177,73 @@ function! s:treesitter_init() abort
         \ 'nvim-ts-hint-textobject',
         \ 'vim-matchup',
         \ )
-  let setup_file = g:plug_home .. '/nvim-treesitter/plugin/nvim-treesitter.lua'
-  execute 'luafile' setup_file
+  execute 'luafile' g:plug_home .. '/nvim-treesitter/plugin/nvim-treesitter.lua'
   luafile ~/dotfiles/.config/nvim/plugin_config/treesitter.lua
   TSEnable highlight
 endfunction
 
+function s:vsnip_init() abort
+  call plug#load(
+        \ 'vim-vsnip',
+        \ 'vim-vsnip-integ',
+        \ 'friendly-snippets',
+        \ )
+"   execute 'source' g:plug_home .. '/vim-vsnip/plugin/vsnip.vim'
+"   execute 'source' g:plug_home .. '/vim-vsnip-integ/plugin/vsnip_integ.vim'
+
+  let g:vsnip_filetypes = {}
+  let g:vsnip_filetypes.javascriptreact = ['javascript']
+  let g:vsnip_filetypes.typescriptreact = ['typescript']
+  " imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
+  " smap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
+  " smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+  " smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+  smap j <BS>j
+  smap k <BS>k
+  Keymap is <expr> <C-l> vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+  Keymap nx st <Plug>(vsnip-select-text)
+  Keymap nx sT <Plug>(vsnip-cut-text)
+endfunction
+call <sid>vsnip_init()
+
+function s:cmp_init() abort
+  call plug#load(
+        \ 'cmp-nvim-lsp',
+        \ 'cmp-buffer',
+        \ 'cmp-path',
+        \ 'cmp-cmdline',
+        \ 'nvim-cmp',
+        \ 'cmp-vsnip',
+        \ 'cmp-nvim-lua',
+        \ 'cmp-treesitter',
+        \ 'cmp-tabnine',
+        \ 'cmp-rg',
+        \ 'cmp-nvim-lsp-document-symbol',
+        \ 'cmp-spell',
+        \ 'cmp-look',
+        \ 'cmp-skkeleton',
+        \ 'lspkind-nvim',
+        \ )
+  " execute 'luafile' g:plug_home .. '/nvim-cmp/plugin/cmp.lua'
+  luafile ~/dotfiles/.config/nvim/plugin_config/cmp.lua
+endfunction
+
+function s:lsp_init() abort
+  call plug#load(
+        \ 'nvim-lspconfig',
+        \ 'nvim-lsp-installer',
+        \ 'lsp_signature.nvim',
+        \ )
+  lua require("lsp_signature").setup()
+  lua lsp_capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  luafile ~/dotfiles/.config/nvim/plugin_config/lsp.lua
+endfunction
+
+call <sid>cmp_init()
 function s:lazy_plug() abort
+  call <sid>treesitter_init()
+  call <sid>lsp_init()
+
   call plug#load(
         \ 'denops.vim',
         \ 'skkeleton',
@@ -190,16 +252,18 @@ function s:lazy_plug() abort
         \ 'which-key.nvim',
         \ 'nvim-colorizer.lua',
         \ 'trouble.nvim',
+        \ 'plenary.nvim',
         \ )
 
   source ~/dotfiles/.config/nvim/plugin_config/skkeleton.vim
+  execute 'source' g:plug_home .. '/plenary.nvim/plugin/plenary.vim'
   lua require('which-key').setup()
   lua require('colorizer').setup()
   lua require('trouble').setup({auto_close = true})
 endfunction
 augroup lazy_plug
   autocmd!
-  autocmd BufReadPost * call <sid>lazy_plug() | call <sid>treesitter_init() | autocmd! lazy_plug
+  autocmd BufReadPost * call <sid>lazy_plug() | autocmd! lazy_plug
 augroup END
 
 " {{{ fuzzy-motion.vim
@@ -215,35 +279,15 @@ Keymap nx n <Cmd>EnsurePlug vim-searchx<CR><Cmd>call searchx#next()<CR>
 nnoremap <C-l> <Cmd>EnsurePlug vim-searchx<CR><Cmd>call searchx#clear()<CR><Cmd>nohlsearch<CR><C-l>
 " }}}
 
-" {{{ vsnip
-let g:vsnip_filetypes = {}
-let g:vsnip_filetypes.javascriptreact = ['javascript']
-let g:vsnip_filetypes.typescriptreact = ['typescript']
-" imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
-" smap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
-" smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
-" smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
-smap j <BS>j
-smap k <BS>k
-Keymap is <expr> <C-l> vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
-Keymap nx st <Plug>(vsnip-select-text)
-Keymap nx sT <Plug>(vsnip-cut-text)
-" }}}
-
-" {{{ dps-dial.vim
-let g:dps_dial#augends = [
-\  'decimal',
-\  'date-hyphen',
-\  'date-slash',
-\  #{ kind: 'constant', opts: #{ elements: ['true', 'false'] } },
-\  #{ kind: 'case', opts: #{
-\    cases: ['camelCase', 'PascalCase', 'snake_case', 'kebab-case', 'SCREAMING_SNAKE_CASE']
-\   } },
-\ ]
-xmap g<C-a> g<Plug>(dps-dial-increment)
-xmap g<C-x> g<Plug>(dps-dial-decrement)
-Keymap nx <C-a> <Plug>(dps-dial-increment)
-Keymap nx <C-x> <Plug>(dps-dial-decrement)
+" {{{ dial.nvim
+function s:dial_init() abort
+  luafile ~/dotfiles/.config/nvim/plugin_config/dial.lua
+endfunction
+xmap g<C-a> g<Plug>(dial-increment)
+xmap g<C-x> g<Plug>(dial-decrement)
+Keymap nx <C-a> <Plug>(dial-increment)
+Keymap nx <C-x> <Plug>(dial-decrement)
+autocmd User dial.nvim ++once call <sid>dial_init()
 " }}}
 
 " {{{ nvim-ts-hint-textobject
@@ -305,148 +349,45 @@ map M %
 nnoremap <script> <expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
 nnoremap <sid>(q)q qq
 nnoremap Q @q
+xnoremap <silent> Q :<C-u>normal! @q<CR>
 nnoremap <sid>(q)b <Cmd>Gitsigns toggle_current_line_blame<CR>
-nnoremap <sid>(q)c <Cmd>cclose<CR>
+nnoremap <sid>(q)c <Cmd>TroubleToggle quickfix<CR>
+nnoremap <sid>(q)d <Cmd>TroubleToggle<CR>
 nnoremap <sid>(q)m <Cmd>PreviewMarkdownToggle<CR>
 nnoremap <sid>(q)o <Cmd>only<CR>
 nnoremap <sid>(q)t <C-^>
 nnoremap <sid>(q)z <Cmd>lua MiniMisc.zoom()<CR>
-nnoremap <sid>(q)i <Cmd>call <SID>half_move('center')<CR>
-nnoremap <sid>(q)h <Cmd>call <SID>half_move('left')<CR>
-nnoremap <sid>(q)j <Cmd>call <SID>half_move('down')<CR>
-nnoremap <sid>(q)k <Cmd>call <SID>half_move('up')<CR>
-nnoremap <sid>(q)l <Cmd>call <SID>half_move('right')<CR>
+nnoremap <sid>(q)i <Cmd>HalfMove center<CR>
+nnoremap <sid>(q)h <Cmd>HalfMove left<CR>
+nnoremap <sid>(q)j <Cmd>HalfMove down<CR>
+nnoremap <sid>(q)k <Cmd>HalfMove up<CR>
+nnoremap <sid>(q)l <Cmd>HalfMove right<CR>
 
-nnoremap <Space>d <Cmd>lua MiniBufremove.delete()<CR>
+nnoremap <Space>d <Cmd>keepalt lua MiniBufremove.delete()<CR>
 nnoremap <Space>L <Cmd>LazyGit<CR>
 " }}}
 
-xnoremap <silent> Q :normal @q<CR>
+" {{{ lspsaga
+nnoremap <silent> gh <Cmd>Lspsaga lsp_finder<CR>
+nnoremap <silent> grr <Cmd>Lspsaga rename<CR>
+nnoremap <silent> gD <Cmd>Lspsaga preview_definition<CR>
+nnoremap <silent> <leader>ca <Cmd>Lspsaga code_action<CR>
+vnoremap <silent> <leader>ca <Cmd>Lspsaga range_code_action<CR>
 
-function! s:help_or_hover() abort
-  if ['vim','help']->index(&filetype) >= 0
-    execute 'help' expand('<cword>')
-  else
-    lua vim.lsp.buf.hover()
-  endif
-endfunction
+nnoremap <silent> <leader>cd <Cmd>Lspsaga show_line_diagnostics<CR>
+nnoremap <silent> <leader>cc <Cmd>Lspsaga show_cursor_diagnostics<CR>
+nnoremap <silent> [d <Cmd>Lspsaga diagnostic_jump_next<CR>
+nnoremap <silent> ]d <Cmd>Lspsaga diagnostic_jump_prev<CR>
 
-nnoremap K <Cmd>call <SID>help_or_hover()<CR>
+nnoremap <silent><expr> K
+      \ &filetype=~'vim\\|help' ? 'K' : '<Cmd>Lspsaga hover_doc<CR>'
 
-nnoremap gD        <cmd>lua vim.lsp.buf.declaration()<CR>
-nnoremap gd        <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap gi        <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap gr        <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap gt        <cmd>lua vim.lsp.buf.type_definition()<CR>
-nnoremap gT        <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <space>ta <cmd>lua vim.lsp.buf.add_workspace_folder()<CR>
-nnoremap <space>tr <cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>
-nnoremap <space>tl <cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>
-nnoremap <space>tn <cmd>lua vim.lsp.buf.rename()<CR>
-nnoremap <space>tc <cmd>lua vim.lsp.buf.code_action()<CR>
-nnoremap <space>to <cmd>lua vim.diagnostic.open_float()<CR>
-nnoremap [d        <cmd>lua vim.diagnostic.goto_prev()<CR>
-nnoremap ]d        <cmd>lua vim.diagnostic.goto_next()<CR>
-nnoremap sx        <cmd>lua vim.diagnostic.setloclist()<CR>
-nnoremap <space>p  <cmd>lua vim.lsp.buf.format({ async = true })<CR>
-
-nnoremap <leader>df <cmd>lua PeekDefinition()<CR>
+nnoremap <silent> <C-f> <Cmd>lua require('lspsaga.action').smart_scroll_with_saga(1, '<C-f>')<CR>
+nnoremap <silent> <C-b> <Cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1, '<C-b>')<CR>
+" }}}
 
 lua << EOF
 require('impatient')
-
--- https://github.com/hrsh7th/nvim-cmp
--- Setup nvim-cmp.
-local cmp = require('cmp')
-local lspkind = require('lspkind')
-local has_words_before = function()
-  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-end
-local feedkey = function(key, mode)
-  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
-end
-cmp.setup({
-  formatting = {
-    format = lspkind.cmp_format(),
-  },
-  snippet = {
-    expand = function(args) vim.fn["vsnip#anonymous"](args.body) end,
-  },
-  mapping = {
-    ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-    ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-    ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-    ['<C-y>'] = cmp.config.disable,
-    ['<C-e>'] = cmp.mapping({
-      i = cmp.mapping.abort(),
-      c = cmp.mapping.close(),
-    }),
-    ['<CR>'] = cmp.mapping.confirm({ select = true }),
-    ["<Tab>"] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif vim.fn["vsnip#available"](1) == 1 then
-        feedkey("<Plug>(vsnip-expand-or-jump)", "")
-      elseif has_words_before() then
-        cmp.complete()
-      else
-        fallback()
-      end
-    end, { "i", "s" }),
-    ["<S-Tab>"] = cmp.mapping(function()
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif vim.fn["vsnip#jumpable"](-1) == 1 then
-        feedkey("<Plug>(vsnip-jump-prev)", "")
-      end
-    end, { "i", "s" }),
-  },
-  sources = cmp.config.sources({
-    { name = 'nvim_lsp' },
-    { name = 'vsnip' },
-    { name = 'cmp_tabnine' },
-    { name = 'treesitter' },
-    { name = 'buffer' },
-    { name = 'nvim_lua' },
-    { name = 'rg' },
-    { name = 'spell' },
-    { name = 'skkeleton' },
-    { name = 'look', keyword_length = 2, option = { convert_case = true, loud = true } },
-  }),
-})
-
-cmp.setup.cmdline('/', {
-  sources = cmp.config.sources({
-    { name = 'nvim_lsp_document_symbol' }
-  }, {
-    { name = 'buffer' }
-  }),
-})
-
--- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-cmp.setup.cmdline(':', {
-  sources = cmp.config.sources({
-    { name = 'path' },
-    { name = 'cmdline' },
-  }),
-})
-
-lsp_capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-
--- [User contributed tips: Peek Definition](https://github.com/neovim/nvim-lspconfig/wiki/User-contributed-tips#peek-definition)
-function PeekDefinition()
-  local function callback(_, result)
-    if result == nil or vim.tbl_isempty(result) then
-      return nil
-    end
-    vim.lsp.util.preview_location(result[1])
-  end
-
-  return vim.lsp.buf_request(0, 'textDocument/definition', vim.lsp.util.make_position_params(), callback)
-end
-
-require("lsp_signature").setup()
 
 -- https://github.com/sainnhe/sonokai/blob/master/alacritty/README.md shusia
 -- https://github.com/chriskempson/base16/blob/master/styling.md
@@ -489,7 +430,6 @@ require('mini.base16').setup({
 })
 EOF
 
-luafile ~/dotfiles/.config/nvim/plugin_config/lsp.lua
 luafile ~/dotfiles/.config/nvim/plugin_config/gitsigns.lua
 luafile ~/dotfiles/.config/nvim/plugin_config/mini.lua
 
