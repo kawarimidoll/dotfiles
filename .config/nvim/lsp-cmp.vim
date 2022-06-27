@@ -100,13 +100,14 @@ Plug 'onsails/lspkind-nvim', #{ on: [] }
 Plug 'hrsh7th/vim-vsnip', #{ on: [] }
 Plug 'hrsh7th/vim-vsnip-integ', #{ on: [] }
 Plug 'rafamadriz/friendly-snippets', #{ on: [] }
+Plug 'kevinhwang91/nvim-hclipboard', #{ on: [] }
 
 Plug 'lewis6991/impatient.nvim'
 Plug 'neovim/nvim-lspconfig', #{ on: [] }
 Plug 'williamboman/nvim-lsp-installer', #{ on: [] }
 Plug 'ray-x/lsp_signature.nvim', #{ on: [] }
 Plug 'kyazdani42/nvim-web-devicons', #{ on: [] }
-Plug 'tami5/lspsaga.nvim', #{ on: 'Lspsaga' }
+Plug 'tami5/lspsaga.nvim', #{ on: [] }
 " Plug 'folke/lsp-colors.nvim'
 Plug 'folke/trouble.nvim', #{ on: [] }
 Plug 'folke/lua-dev.nvim', #{ for: 'lua' }
@@ -117,6 +118,7 @@ Plug 'nvim-treesitter/nvim-treesitter-refactor', #{ on: [] }
 Plug 'JoosepAlviste/nvim-ts-context-commentstring', #{ on: [] }
 Plug 'p00f/nvim-ts-rainbow', #{ on: [] }
 Plug 'romgrk/nvim-treesitter-context', #{ on: [] }
+Plug 'David-Kunz/treesitter-unit', #{ on: [] }
 Plug 'mfussenegger/nvim-ts-hint-textobject', #{ on: [] }
 Plug 'andymass/vim-matchup', #{ on: [] }
 
@@ -140,7 +142,7 @@ Plug 'tyru/capture.vim', #{ on: 'Capture' }
 Plug 'hrsh7th/vim-searchx', #{ on: [] }
 Plug 'haya14busa/vim-asterisk', #{ on: '<Plug>(asterisk-' }
 Plug 'voldikss/vim-floaterm', #{ on: 'FloatermNew' }
-Plug 'monaqa/dps-dial.vim', #{ on: '<Plug>(dps-dial-' }
+" Plug 'monaqa/dps-dial.vim', #{ on: '<Plug>(dps-dial-' }
 Plug 'segeljakt/vim-silicon', #{ on: 'Silicon' }
 Plug 'monaqa/dial.nvim', #{ on: '<Plug>(dial-' }
 Plug 'simeji/winresizer', #{ on: 'WinResizerStartResize' }
@@ -174,19 +176,30 @@ function! s:treesitter_init() abort
         \ 'nvim-ts-context-commentstring',
         \ 'nvim-ts-rainbow',
         \ 'nvim-treesitter-context',
+        \ 'treesitter-unit',
         \ 'nvim-ts-hint-textobject',
         \ 'vim-matchup',
         \ )
   execute 'luafile' g:plug_home .. '/nvim-treesitter/plugin/nvim-treesitter.lua'
   luafile ~/dotfiles/.config/nvim/plugin_config/treesitter.lua
   TSEnable highlight
+
+  " do not replace to <cmd>
+  omap     <silent> m :<C-U>lua require('tsht').nodes()<CR>
+  vnoremap <silent> m :lua require('tsht').nodes()<CR>
+  xnoremap iu :lua require"treesitter-unit".select()<CR>
+  xnoremap au :lua require"treesitter-unit".select(true)<CR>
+  onoremap iu :<c-u>lua require"treesitter-unit".select()<CR>
+  onoremap au :<c-u>lua require"treesitter-unit".select(true)<CR>
 endfunction
 
 function s:vsnip_init() abort
+
   call plug#load(
         \ 'vim-vsnip',
         \ 'vim-vsnip-integ',
         \ 'friendly-snippets',
+        \ 'nvim-hclipboard',
         \ )
   " execute 'source' g:plug_home .. '/vim-vsnip/plugin/vsnip.vim'
   " execute 'source' g:plug_home .. '/vim-vsnip-integ/plugin/vsnip_integ.vim'
@@ -203,6 +216,7 @@ function s:vsnip_init() abort
   Keymap is <expr> <C-l> vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
   Keymap nx st <Plug>(vsnip-select-text)
   Keymap nx sT <Plug>(vsnip-cut-text)
+  lua require('hclipboard').start()
 endfunction
 
 function s:cmp_init() abort
@@ -233,6 +247,7 @@ function s:lsp_init() abort
         \ 'nvim-lsp-installer',
         \ 'lsp_signature.nvim',
         \ 'cmp-nvim-lsp',
+        \ 'lspsaga.nvim',
         \ )
   lua require("lsp_signature").setup()
   lua lsp_capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
@@ -293,10 +308,6 @@ xmap g<C-x> g<Plug>(dial-decrement)
 Keymap nx <C-a> <Plug>(dial-increment)
 Keymap nx <C-x> <Plug>(dial-decrement)
 autocmd User dial.nvim ++once call <sid>dial_init()
-" }}}
-
-" {{{ nvim-ts-hint-textobject
-Keymap ov m <Cmd>lua require('tsht').nodes()<CR>
 " }}}
 
 " {{{ vim-asterisk
