@@ -122,10 +122,7 @@ Plug 'David-Kunz/treesitter-unit', #{ on: [] }
 Plug 'mfussenegger/nvim-ts-hint-textobject', #{ on: [] }
 Plug 'andymass/vim-matchup', #{ on: [] }
 
-Plug 'junegunn/fzf', #{ do: { -> fzf#install() }, on: [] }
-Plug 'yuki-yano/fzf-preview.vim', #{ branch: 'release/rpc', on: [] }
-Plug 'junegunn/fzf.vim', #{ on: [] }
-Plug 'ryanoasis/vim-devicons', #{ on: [] }
+Plug 'ibhagwan/fzf-lua', #{ branch: 'main', on: 'FzfLua' }
 
 Plug 'nvim-lua/plenary.nvim', #{ on: []}
 
@@ -318,29 +315,24 @@ map g* <Plug>(asterisk-gz*)
 map g# <Plug>(asterisk-gz#)
 " }}}
 
-" {{{ fzf-preview.vim
-source ~/dotfiles/.config/nvim/plugin_config/fzf_preview.vim
+" {{{ fzf-lua
+autocmd User fzf-lua ++once luafile ~/dotfiles/.config/nvim/plugin_config/fzf_lua.lua
 
-command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always --smart-case --hidden --trim -- '.shellescape(<q-args>), 1,
-  \   fzf#vim#with_preview(), <bang>0)
-let g:fzf_preview_window = ['down:70%', 'ctrl-/']
-
-command! EnsureFzf EnsurePlug fzf fzf.vim fzf-preview.vim vim-devicons
-nnoremap <Space>a <Cmd>EnsureFzf<CR><Cmd>FzfPreviewGitActionsRpc<CR>
-nnoremap <Space>b <Cmd>EnsureFzf<CR><Cmd>FzfPreviewBuffersRpc<CR>
-nnoremap <Space>B <Cmd>EnsureFzf<CR><Cmd>FzfPreviewBufferLinesRpc<CR>
-nnoremap <Space>f <Cmd>EnsureFzf<CR><Cmd>FzfPreviewProjectFilesRpc<CR>
-nnoremap <Space>h <Cmd>EnsureFzf<CR><Cmd>FzfPreviewProjectMruFilesRpc<CR>
-nnoremap <Space>H <Cmd>EnsureFzf<CR><Cmd>Helptags<CR>
-nnoremap <Space>j <Cmd>EnsureFzf<CR><Cmd>FzfPreviewJumpsRpc<CR>
-nnoremap <Space>l <Cmd>EnsureFzf<CR><Cmd>FzfPreviewLinesRpc<CR>
-nnoremap <Space>m <Cmd>EnsureFzf<CR><Cmd>FzfPreviewMarksRpc<CR>
-nnoremap <Space>/ <Cmd>EnsureFzf<CR>:<C-u>FzfPreviewProjectGrepRpc ""<Left>
-nnoremap <Space>? <Cmd>EnsureFzf<CR>:<C-u>FzfPreviewProjectGrepRpc ""<Left><C-r><C-f>
-nnoremap <Space>: <Cmd>EnsureFzf<CR><Cmd>FzfPreviewCommandPaletteRpc<CR>
-xnoremap <Space>? <Cmd>EnsureFzf<CR>"zy:<C-u>FzfPreviewProjectGrepRpc "<C-r>z"<Left>
+nnoremap <Space>a <Cmd>FzfLua git_status<CR>
+nnoremap <Space>b <Cmd>FzfLua buffers<CR>
+nnoremap <Space>B <Cmd>FzfLua blines<CR>
+nnoremap <Space>c <Cmd>FzfLua quickfix<CR>
+nnoremap <Space>f <Cmd>FzfLua files cmd=find_for_vim<CR>
+nnoremap <Space>h <Cmd>FzfLua oldfiles cwd_only=true<CR>
+nnoremap <Space>H <Cmd>FzfLua help_tags<CR>
+nnoremap <Space>j <Cmd>FzfLua jumps<CR>
+nnoremap <Space>l <Cmd>FzfLua lines<CR>
+nnoremap <Space>m <Cmd>FzfLua marks<CR>
+nnoremap <Space>z <Cmd>FzfLua live_grep<CR>
+nnoremap <Space>/ :<C-u>FzfLua grep_project
+nnoremap <Space>? :<C-u>FzfLua grep_project <C-r><C-f>
+nnoremap <Space>: <Cmd>FzfLua commands<CR>
+xnoremap <Space>? "zy:<C-u>FzfLua grep_project <C-r>z
 " }}}
 
 " {{{ winresizer
