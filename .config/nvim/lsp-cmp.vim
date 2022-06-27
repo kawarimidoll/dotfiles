@@ -352,8 +352,8 @@ noremap [b <Cmd>bprevious<CR>
 noremap ]b <Cmd>bnext<CR>
 noremap [B <Cmd>bfirst<CR>
 noremap ]B <Cmd>blast<CR>
-noremap [q <Cmd>cprevious<CR>
-noremap ]q <Cmd>cnext<CR>
+noremap [q <Cmd>CCycle prev<CR>
+noremap ]q <Cmd>CCycle next<CR>
 noremap [Q <Cmd>cfirst<CR>
 noremap ]Q <Cmd>clast<CR>
 map M %

@@ -188,8 +188,83 @@ endfunction
 command! -nargs=1 HalfMove call <SID>half_move(<f-args>)
 " }}}
 
+" {{{ CCycle
+function! s:c_cycle(direction) abort
+  let qf_info = getqflist({ 'idx': 0, 'size': 0 })
+  let idx = qf_info.idx
+  let size = qf_info.size
+  if size == 0
+    return
+  endif
+  if a:direction == 'prev'
+    if idx == 1
+      clast
+    else
+      cprevious
+    endif
+  elseif a:direction == 'next'
+    if idx == size
+      cfirst
+    else
+      cnext
+    endif
+  else
+    echoerr "CCycle direction must be 'prev' or 'next'"
+  endif
+endfunction
+function s:c_cycle_complete(A,L,P)
+  return ['prev', 'next']
+endfunction
+command! -nargs=1 -complete=customlist,s:c_cycle_complete CCycle call s:c_cycle(<q-args>)
+" }}}
+
 " {{{ CClear
-command! CClear call setqflist([], 'r')
+command! CClear call setqflist([], 'r') | cclose
+" }}}
+
+" {{{ CToggle
+" https://github.com/drmingdrmer/vim-toggle-quickfix/blob/master/autoload/togglequickfix.vim
+function! s:c_toggle() abort
+  let qf_info = getqflist({ 'idx': 0, 'size': 0 })
+  let winid = qf_info->get('winid')
+  let size = qf_info->get('size')
+
+  if winid == 0 && size != 0
+    copen
+  else
+    cclose
+  endif
+endfunction
+command! CToggle call s:c_toggle()
+" }}}
+
+" {{{ CAdd
+" h caddexpr
+function! s:c_add() abort
+  caddexpr [expand('%'), line('.'), getline('.')]->join(':')
+  copen
+endfunction
+command! CAdd call s:c_add()
+" }}}
+
+" {{{ CRemove
+" ref: https://stackoverflow.com/a/48817071
+function! s:c_remove() abort
+  let size = getqflist({ 'size': 0 })->get('size')
+  if size < 2
+    CClear
+    return
+  endif
+
+  let idx = line('.') - 1
+  let qfall = getqflist()
+  call remove(qfall, idx)
+  call setqflist(qfall, 'r')
+  copen
+endfunction
+command! CRemove call s:c_remove()
+" Use map <buffer> to only map in the quickfix window like this:
+" autocmd FileType qf nnoremap <buffer> dd <cmd>CRemove<cr>
 " }}}
 
 " {{{ restore-cursor
