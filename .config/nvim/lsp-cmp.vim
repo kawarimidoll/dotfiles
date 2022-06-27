@@ -35,7 +35,7 @@ set textwidth=0
 set title
 set ttyfast
 set updatetime=300
-set wildmode=list:longest,full
+set wildmode=longest,full
 let g:markdown_fenced_languages = ['ts=typescript', 'js=javascript']
 
 source ~/dotfiles/.config/nvim/commands.vim

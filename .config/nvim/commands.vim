@@ -122,7 +122,7 @@ autocmd commands.vim VimEnter * ++once delfunction! EditProjectMru
 " {{{ collect_yank_history
 function! s:collect_yank_history() abort
   " regs should be start with double quote
-  let regs = '"abcde'->split('\zs')
+  let regs = '"abcdefghijk'->split('\zs')
   for index in range(len(regs)-1, 1, -1)
     call setreg(regs[index], getreginfo(regs[index-1]))
   endfor
@@ -282,4 +282,4 @@ function! s:ensure_dir(dir, force)
   endif
 endfunction
 autocmd commands.vim BufWritePre * call s:ensure_dir(expand('<afile>:p:h'), v:cmdbang)
-" }}}"
+" }}}
