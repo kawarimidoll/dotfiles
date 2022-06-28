@@ -356,7 +356,7 @@ nnoremap <C-e> <Cmd>WinResizerStartResize<CR>
 " }}}
 
 " {{{ user owned mappings
-Keymap n <expr> [b '<Cmd>BCycle' - .. v:count1 .. '<CR>'
+Keymap n <expr> [b '<Cmd>BCycle -' .. v:count1 .. '<CR>'
 Keymap n <expr> ]b '<Cmd>BCycle '  .. v:count1 .. '<CR>'
 Keymap n [B <Cmd>bfirst<CR>
 Keymap n ]B <Cmd>blast<CR>
