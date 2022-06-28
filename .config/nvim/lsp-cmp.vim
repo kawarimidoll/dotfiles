@@ -125,7 +125,8 @@ Plug 'andymass/vim-matchup', #{ on: [] }
 
 Plug 'ibhagwan/fzf-lua', #{ branch: 'main', on: 'FzfLua' }
 Plug 'rlane/pounce.nvim', #{ on: 'Pounce' }
-Plug 'kevinhwang91/nvim-bqf'
+Plug 'kevinhwang91/nvim-bqf', #{ for: 'qf'}
+" Plug 'junegunn/fzf', #{ do: { -> fzf#install() } }
 
 Plug 'nvim-lua/plenary.nvim', #{ on: []}
 
@@ -364,7 +365,7 @@ Keymap n <expr> [q '<Cmd>CCycle -' .. v:count1 .. '<CR>'
 Keymap n <expr> ]q '<Cmd>CCycle '  .. v:count1 .. '<CR>'
 Keymap n [Q <Cmd>cfirst<CR>
 Keymap n ]Q <Cmd>clast<CR>
-Keymap nx M %
+map M %
 
 " Keymap nx <expr> ; getcharsearch().forward ? ';' : ','
 " Keymap nx <expr> , getcharsearch().forward ? ',' : ';'
@@ -394,22 +395,22 @@ nnoremap <Space>L <Cmd>LazyGit<CR>
 " }}}
 
 " {{{ lspsaga
-nnoremap <silent> gh <Cmd>Lspsaga lsp_finder<CR>
-nnoremap <silent> grr <Cmd>Lspsaga rename<CR>
-nnoremap <silent> gD <Cmd>Lspsaga preview_definition<CR>
-nnoremap <silent> <leader>ca <Cmd>Lspsaga code_action<CR>
-vnoremap <silent> <leader>ca <Cmd>Lspsaga range_code_action<CR>
+nnoremap gh <Cmd>Lspsaga lsp_finder<CR>
+nnoremap grr <Cmd>Lspsaga rename<CR>
+nnoremap gD <Cmd>Lspsaga preview_definition<CR>
+nnoremap <leader>ca <Cmd>Lspsaga code_action<CR>
+vnoremap <leader>ca <Cmd>Lspsaga range_code_action<CR>
 
-nnoremap <silent> <leader>cd <Cmd>Lspsaga show_line_diagnostics<CR>
-nnoremap <silent> <leader>cc <Cmd>Lspsaga show_cursor_diagnostics<CR>
-nnoremap <silent> [d <Cmd>Lspsaga diagnostic_jump_next<CR>
-nnoremap <silent> ]d <Cmd>Lspsaga diagnostic_jump_prev<CR>
+nnoremap <leader>cd <Cmd>Lspsaga show_line_diagnostics<CR>
+nnoremap <leader>cc <Cmd>Lspsaga show_cursor_diagnostics<CR>
+nnoremap [d <Cmd>Lspsaga diagnostic_jump_next<CR>
+nnoremap ]d <Cmd>Lspsaga diagnostic_jump_prev<CR>
 
-nnoremap <silent><expr> K
+nnoremap <expr> K
       \ &filetype=~'vim\\|help' ? 'K' : '<Cmd>Lspsaga hover_doc<CR>'
 
-nnoremap <silent> <C-f> <Cmd>lua require('lspsaga.action').smart_scroll_with_saga(1, '<C-f>')<CR>
-nnoremap <silent> <C-b> <Cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1, '<C-b>')<CR>
+nnoremap <C-f> <Cmd>lua require('lspsaga.action').smart_scroll_with_saga(1, '<C-f>')<CR>
+nnoremap <C-b> <Cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1, '<C-b>')<CR>
 " }}}
 
 lua require('impatient')
