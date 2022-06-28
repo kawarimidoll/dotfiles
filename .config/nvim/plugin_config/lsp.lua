@@ -22,7 +22,6 @@ for _, server in ipairs(lsp_installer.get_installed_servers()) do
   if server.name == "tsserver" then
     opts.root_dir = nvim_lsp.util.root_pattern("package.json", "node_modules")
     opts.settings = { documentFormatting = false }
-    opts.init_options = { hostInfo = "neovim" }
   elseif server.name == "eslint" then
     opts.root_dir = nvim_lsp.util.root_pattern("package.json", "node_modules")
   elseif server.name == "denols" then

@@ -40,7 +40,7 @@ let g:markdown_fenced_languages = ['ts=typescript', 'js=javascript']
 
 source ~/dotfiles/.config/nvim/commands.vim
 let g:my_vimrc = expand('<sfile>:p')
-Keymap nx gz <Cmd>SmartOpen<CR>
+Keymap nx gf <Cmd>SmartOpen<CR>
 
 "-----------------
 " Plugs
@@ -123,6 +123,7 @@ Plug 'mfussenegger/nvim-ts-hint-textobject', #{ on: [] }
 Plug 'andymass/vim-matchup', #{ on: [] }
 
 Plug 'ibhagwan/fzf-lua', #{ branch: 'main', on: 'FzfLua' }
+Plug 'rlane/pounce.nvim' ", #{ branch: 'main', on: 'FzfLua' }
 
 Plug 'nvim-lua/plenary.nvim', #{ on: []}
 
@@ -153,16 +154,16 @@ let g:lazygit_floating_window_scaling_factor = 1
 " let g:lazygit_floating_window_winblend = 20
 source ~/dotfiles/.config/nvim/plugin_config/silicon.vim
 
-let s:plug_loaded = {}
-function s:ensure_plug(...) abort
-  for plug in a:000
-    if !get(s:plug_loaded, plug)
-      call plug#load(plug)
-      let s:plug_loaded[plug] = 1
-    endif
-  endfor
-endfunction
-command! -nargs=+ -bang EnsurePlug call <sid>ensure_plug(<f-args>)
+" let s:plug_loaded = {}
+" function s:ensure_plug(...) abort
+"   for plug in a:000
+"     if !get(s:plug_loaded, plug)
+"       call plug#load(plug)
+"       let s:plug_loaded[plug] = 1
+"     endif
+"   endfor
+" endfunction
+" command! -nargs=+ -bang EnsurePlug call <sid>ensure_plug(<f-args>)
 
 function! s:treesitter_init() abort
   " https://zenn.dev/kawarimidoll/articles/8e124a88dde820
@@ -269,10 +270,12 @@ function s:lazy_plug() abort
         \ 'nvim-web-devicons',
         \ 'trouble.nvim',
         \ 'plenary.nvim',
+        \ 'vim-searchx',
         \ )
 
   source ~/dotfiles/.config/nvim/plugin_config/skkeleton.vim
   source ~/dotfiles/.config/nvim/plugin_config/skk_ddc_cmp.vim
+  source ~/dotfiles/.config/nvim/plugin_config/searchx.vim
   execute 'source' g:plug_home .. '/plenary.nvim/plugin/plenary.vim'
   lua require('which-key').setup()
   lua require('colorizer').setup()
@@ -288,12 +291,11 @@ nnoremap s; <Cmd>FuzzyMotion<CR>
 " }}}
 
 " {{{ searchx
-source ~/dotfiles/.config/nvim/plugin_config/searchx.vim
-Keymap nx ? <Cmd>EnsurePlug vim-searchx<CR><Cmd>call searchx#start(#{ dir: 0 })<CR>
-Keymap nx / <Cmd>EnsurePlug vim-searchx<CR><Cmd>call searchx#start(#{ dir: 1 })<CR>
-Keymap nx N <Cmd>EnsurePlug vim-searchx<CR><Cmd>call searchx#prev()<CR>
-Keymap nx n <Cmd>EnsurePlug vim-searchx<CR><Cmd>call searchx#next()<CR>
-nnoremap <C-l> <Cmd>EnsurePlug vim-searchx<CR><Cmd>call searchx#clear()<CR><Cmd>nohlsearch<CR><C-l>
+Keymap nx ? <Cmd>call searchx#start(#{ dir: 0 })<CR>
+Keymap nx / <Cmd>call searchx#start(#{ dir: 1 })<CR>
+Keymap nx N <Cmd>call searchx#prev()<CR>
+Keymap nx n <Cmd>call searchx#next()<CR>
+nnoremap <C-l> <Cmd>call searchx#clear()<CR><Cmd>nohlsearch<CR><C-l>
 " }}}
 
 " {{{ dial.nvim
@@ -309,10 +311,10 @@ autocmd User dial.nvim ++once call <sid>dial_init()
 
 " {{{ vim-asterisk
 let g:asterisk#keeppos = 1
-map *  <Plug>(asterisk-z*)
-map #  <Plug>(asterisk-z#)
-map g* <Plug>(asterisk-gz*)
-map g# <Plug>(asterisk-gz#)
+Keymap nx *  <Plug>(asterisk-z*)
+Keymap nx #  <Plug>(asterisk-z#)
+Keymap nx g* <Plug>(asterisk-gz*)
+Keymap nx g# <Plug>(asterisk-gz#)
 " }}}
 
 " {{{ fzf-lua
