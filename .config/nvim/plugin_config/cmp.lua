@@ -53,7 +53,7 @@ cmp.setup({
     { name = 'buffer' },
     { name = 'nvim_lua' },
     { name = 'rg' },
-    { name = 'spell' },
+    -- { name = 'spell' },
     -- { name = 'skkeleton' },
     { name = 'look', keyword_length = 2, option = { convert_case = true, loud = true } },
   }),
