@@ -82,6 +82,10 @@ function! s:smart_open() abort
       endif
     endfor
 
+    if confirm('Are you sure to search: ' .. safe_query, "Yes\nNo", 2) == 2
+      return
+    endif
+
     " search online
     let cmd = 'open "https://google.com/search?q=' .. safe_query .. '"'
   endif
@@ -108,7 +112,7 @@ function! EditProjectMru() abort
     return
   endif
   for file in v:oldfiles
-    if file =~ root && file !~ '\.git/' && filereadable(file)
+    if file =~ root .. '/' && file !~ '\.git/' && filereadable(file)
       execute 'edit' file
       break
     endif
