@@ -38,6 +38,7 @@ set updatetime=300
 set wildmode=longest,full
 let g:markdown_fenced_languages = ['ts=typescript', 'js=javascript']
 
+source ~/dotfiles/.config/nvim/qfutils.vim
 source ~/dotfiles/.config/nvim/commands.vim
 let g:my_vimrc = expand('<sfile>:p')
 Keymap nx gf <Cmd>SmartOpen<CR>
@@ -355,12 +356,12 @@ nnoremap <C-e> <Cmd>WinResizerStartResize<CR>
 " }}}
 
 " {{{ user owned mappings
-Keymap n <expr> [b '<Cmd>' .. v:count1 .. 'bprevious<CR>'
-Keymap n <expr> ]b '<Cmd>' .. v:count1 .. 'bnext<CR>'
+Keymap n <expr> [b '<Cmd>BCycle' - .. v:count1 .. '<CR>'
+Keymap n <expr> ]b '<Cmd>BCycle '  .. v:count1 .. '<CR>'
 Keymap n [B <Cmd>bfirst<CR>
 Keymap n ]B <Cmd>blast<CR>
-Keymap n [q <Cmd>CCycle prev<CR>
-Keymap n ]q <Cmd>CCycle next<CR>
+Keymap n <expr> [q '<Cmd>CCycle -' .. v:count1 .. '<CR>'
+Keymap n <expr> ]q '<Cmd>CCycle '  .. v:count1 .. '<CR>'
 Keymap n [Q <Cmd>cfirst<CR>
 Keymap n ]Q <Cmd>clast<CR>
 Keymap nx M %
@@ -373,8 +374,9 @@ nnoremap <script> <expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
 nnoremap <sid>(q)q qq
 nnoremap Q @q
 " xnoremap <silent> Q :<C-u>normal! @q<CR>
+nnoremap <sid>(q)a <Cmd>CAdd<CR>
 nnoremap <sid>(q)b <Cmd>Gitsigns toggle_current_line_blame<CR>
-nnoremap <sid>(q)c <Cmd>TroubleToggle quickfix<CR>
+nnoremap <sid>(q)c <Cmd>CToggle<CR>
 nnoremap <sid>(q)d <Cmd>TroubleToggle<CR>
 nnoremap <sid>(q)m <Cmd>PreviewMarkdownToggle<CR>
 nnoremap <sid>(q)o <Cmd>only<CR>
@@ -385,6 +387,7 @@ nnoremap <sid>(q)h <Cmd>HalfMove left<CR>
 nnoremap <sid>(q)j <Cmd>HalfMove down<CR>
 nnoremap <sid>(q)k <Cmd>HalfMove up<CR>
 nnoremap <sid>(q)l <Cmd>HalfMove right<CR>
+nnoremap <sid>(q)x <Cmd>CClear<CR>
 
 nnoremap <Space>d <Cmd>keepalt lua MiniBufremove.delete()<CR>
 nnoremap <Space>L <Cmd>LazyGit<CR>
