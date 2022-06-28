@@ -20,4 +20,10 @@ require('fzf-lua').setup({
       ["<S-left>"] = "preview-page-reset",
     },
   },
+  fzf_opts = {
+    ['--cycle'] = '',
+  },
+  grep = {
+    rg_opts = "--column --line-number --no-heading --color=always --smart-case --max-columns=512 --hidden --trim",
+  }
 })

@@ -123,7 +123,8 @@ Plug 'mfussenegger/nvim-ts-hint-textobject', #{ on: [] }
 Plug 'andymass/vim-matchup', #{ on: [] }
 
 Plug 'ibhagwan/fzf-lua', #{ branch: 'main', on: 'FzfLua' }
-Plug 'rlane/pounce.nvim' ", #{ branch: 'main', on: 'FzfLua' }
+Plug 'rlane/pounce.nvim', #{ on: 'Pounce' }
+Plug 'kevinhwang91/nvim-bqf'
 
 Plug 'nvim-lua/plenary.nvim', #{ on: []}
 
@@ -287,7 +288,8 @@ augroup lazy_plug
 augroup END
 
 " {{{ fuzzy-motion.vim
-nnoremap s; <Cmd>FuzzyMotion<CR>
+let g:fuzzy_motion_labels = split('JFKDLSAHGNUVRBYTMICEOXWPQZ', '.\zs')
+Keymap nx s; <Cmd>FuzzyMotion<CR>
 " }}}
 
 " {{{ searchx
@@ -317,6 +319,17 @@ Keymap nx g* <Plug>(asterisk-gz*)
 Keymap nx g# <Plug>(asterisk-gz#)
 " }}}
 
+" {{{ pounce.nvim
+Keymap nx s' <Cmd>Pounce<CR>
+function s:pounce_init() abort
+  highlight PounceMatch      cterm=underline,bold ctermfg=gray ctermbg=214 gui=underline,bold guifg=#555555 guibg=#FFAF60
+  highlight PounceGap        cterm=underline,bold ctermfg=gray ctermbg=209 gui=underline,bold guifg=#555555 guibg=#E27878
+  highlight PounceAccept     cterm=underline,bold ctermfg=214 ctermbg=gray gui=underline,bold guifg=#FFAF60 guibg=#555555
+  highlight PounceAcceptBest cterm=underline,bold ctermfg=196 ctermbg=gray gui=underline,bold guifg=#EE2513 guibg=#555555
+endfunction
+autocmd User pounce.nvim ++once call <sid>pounce_init()
+" }}}
+
 " {{{ fzf-lua
 autocmd User fzf-lua ++once luafile ~/dotfiles/.config/nvim/plugin_config/fzf_lua.lua
 
@@ -331,10 +344,10 @@ nnoremap <Space>j <Cmd>FzfLua jumps<CR>
 nnoremap <Space>l <Cmd>FzfLua lines<CR>
 nnoremap <Space>m <Cmd>FzfLua marks<CR>
 nnoremap <Space>z <Cmd>FzfLua live_grep<CR>
-nnoremap <Space>/ :<C-u>FzfLua grep_project
-nnoremap <Space>? :<C-u>FzfLua grep_project <C-r><C-f>
+nnoremap <Space>/ <Cmd>FzfLua grep<CR>
+nnoremap <Space>? <Cmd>FzfLua grep<CR><C-r><C-f>
 nnoremap <Space>: <Cmd>FzfLua commands<CR>
-xnoremap <Space>? "zy:<C-u>FzfLua grep_project <C-r>z
+xnoremap <Space>? "zy<Cmd>FzfLua grep<CR><C-r>z
 " }}}
 
 " {{{ winresizer
@@ -342,15 +355,15 @@ nnoremap <C-e> <Cmd>WinResizerStartResize<CR>
 " }}}
 
 " {{{ user owned mappings
-noremap [b <Cmd>bprevious<CR>
-noremap ]b <Cmd>bnext<CR>
-noremap [B <Cmd>bfirst<CR>
-noremap ]B <Cmd>blast<CR>
-noremap [q <Cmd>CCycle prev<CR>
-noremap ]q <Cmd>CCycle next<CR>
-noremap [Q <Cmd>cfirst<CR>
-noremap ]Q <Cmd>clast<CR>
-map M %
+Keymap n <expr> [b '<Cmd>' .. v:count1 .. 'bprevious<CR>'
+Keymap n <expr> ]b '<Cmd>' .. v:count1 .. 'bnext<CR>'
+Keymap n [B <Cmd>bfirst<CR>
+Keymap n ]B <Cmd>blast<CR>
+Keymap n [q <Cmd>CCycle prev<CR>
+Keymap n ]q <Cmd>CCycle next<CR>
+Keymap n [Q <Cmd>cfirst<CR>
+Keymap n ]Q <Cmd>clast<CR>
+Keymap nx M %
 
 " Keymap nx <expr> ; getcharsearch().forward ? ';' : ','
 " Keymap nx <expr> , getcharsearch().forward ? ',' : ';'
@@ -359,7 +372,7 @@ map M %
 nnoremap <script> <expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
 nnoremap <sid>(q)q qq
 nnoremap Q @q
-xnoremap <silent> Q :<C-u>normal! @q<CR>
+" xnoremap <silent> Q :<C-u>normal! @q<CR>
 nnoremap <sid>(q)b <Cmd>Gitsigns toggle_current_line_blame<CR>
 nnoremap <sid>(q)c <Cmd>TroubleToggle quickfix<CR>
 nnoremap <sid>(q)d <Cmd>TroubleToggle<CR>

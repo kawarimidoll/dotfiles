@@ -243,10 +243,8 @@ command! CToggle call s:c_toggle()
 " }}}
 
 " {{{ CAdd
-" h caddexpr
 function! s:c_add() abort
-  caddexpr [expand('%'), line('.'), getline('.')]->join(':')
-  copen
+  caddexpr [expand('%'), line('.'), col('.'), getline('.')->trim()]->join(':')
 endfunction
 command! CAdd call s:c_add()
 " }}}
@@ -260,7 +258,12 @@ function! s:c_remove() abort
     return
   endif
 
-  let idx = line('.') - 1
+  if &filetype == 'qf'
+    let idx = line('.') - 1
+  else
+    let idx = getqflist({ 'idx': 0 })->get('idx') - 1
+  endif
+
   let qfall = getqflist()
   call remove(qfall, idx)
   call setqflist(qfall, 'r')
@@ -269,6 +272,7 @@ endfunction
 command! CRemove call s:c_remove()
 " Use map <buffer> to only map in the quickfix window like this:
 " autocmd FileType qf nnoremap <buffer> dd <cmd>CRemove<cr>
+autocmd commands.vim FileType qf set number
 " }}}
 
 " {{{ restore-cursor
