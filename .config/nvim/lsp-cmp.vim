@@ -9,7 +9,7 @@ set autoread
 " set cmdheight=2
 " set completeopt=longest,menu
 set completeopt=menu,menuone,noselect
-" set cursorline
+set cursorline
 set display=lastline
 set formatoptions=tcqmMj1
 set hidden
@@ -22,7 +22,7 @@ set linebreak
 set list
 set listchars=tab:^-,trail:~,extends:»,precedes:«,nbsp:%
 set matchtime=1
-" set number
+set number
 set shiftround
 set shortmess+=c
 set signcolumn=yes
@@ -403,11 +403,10 @@ vnoremap <leader>ca <Cmd>Lspsaga range_code_action<CR>
 
 nnoremap <leader>cd <Cmd>Lspsaga show_line_diagnostics<CR>
 nnoremap <leader>cc <Cmd>Lspsaga show_cursor_diagnostics<CR>
-nnoremap [d <Cmd>Lspsaga diagnostic_jump_next<CR>
-nnoremap ]d <Cmd>Lspsaga diagnostic_jump_prev<CR>
+nnoremap [d <Cmd>Lspsaga diagnostic_jump_prev<CR>
+nnoremap ]d <Cmd>Lspsaga diagnostic_jump_next<CR>
 
-nnoremap <expr> K
-      \ &filetype=~'vim\\|help' ? 'K' : '<Cmd>Lspsaga hover_doc<CR>'
+nnoremap <expr> K &filetype=~'vim\\|help' ? 'K' : '<Cmd>Lspsaga hover_doc<CR>'
 
 nnoremap <C-f> <Cmd>lua require('lspsaga.action').smart_scroll_with_saga(1, '<C-f>')<CR>
 nnoremap <C-b> <Cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1, '<C-b>')<CR>
@@ -442,6 +441,10 @@ augroup vimrc
   autocmd BufNewFile,BufRead commonshrc setf bash
 
   autocmd BufReadPost * delmarks!
+
+  autocmd ModeChanged [vV\x16]*:* let &l:rnu = mode() =~# '^[vV\x16]'
+  autocmd ModeChanged *:[vV\x16]* let &l:rnu = mode() =~# '^[vV\x16]'
+  autocmd WinEnter,WinLeave * let &l:rnu = mode() =~# '^[vV\x16]'
 augroup END
 
 set laststatus=3 " set on last line to avoid overwritten by plugins
