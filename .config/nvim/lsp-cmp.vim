@@ -126,7 +126,10 @@ Plug 'andymass/vim-matchup', #{ on: [] }
 Plug 'ibhagwan/fzf-lua', #{ branch: 'main', on: 'FzfLua' }
 Plug 'rlane/pounce.nvim', #{ on: 'Pounce' }
 Plug 'kevinhwang91/nvim-bqf', #{ for: 'qf'}
-" Plug 'junegunn/fzf', #{ do: { -> fzf#install() } }
+
+Plug 'junegunn/fzf', #{ do: { -> fzf#install() }, on: [] }
+Plug 'yuki-yano/fzf-preview.vim', #{ branch: 'release/rpc', on: [] }
+Plug 'ryanoasis/vim-devicons', #{ on: [] }
 
 Plug 'nvim-lua/plenary.nvim', #{ on: []}
 
@@ -257,15 +260,11 @@ endfunction
 
 call <sid>vsnip_init()
 call <sid>cmp_init()
-function s:lazy_plug() abort
+function s:plug_buf_read_post() abort
   call <sid>treesitter_init()
   call <sid>lsp_init()
 
   call plug#load(
-        \ 'denops.vim',
-        \ 'skkeleton',
-        \ 'fuzzy-motion.vim',
-        \ 'ddc.vim',
         \ 'gin.vim',
         \ 'reword.vim',
         \ 'which-key.nvim',
@@ -276,17 +275,35 @@ function s:lazy_plug() abort
         \ 'vim-searchx',
         \ )
 
-  source ~/dotfiles/.config/nvim/plugin_config/skkeleton.vim
-  source ~/dotfiles/.config/nvim/plugin_config/skk_ddc_cmp.vim
   source ~/dotfiles/.config/nvim/plugin_config/searchx.vim
   execute 'source' g:plug_home .. '/plenary.nvim/plugin/plenary.vim'
   lua require('which-key').setup()
   lua require('colorizer').setup()
   lua require('trouble').setup({auto_close = true})
 endfunction
-augroup lazy_plug
+augroup plug_buf_read_post
   autocmd!
-  autocmd BufReadPost * call <sid>lazy_plug() | autocmd! lazy_plug
+  autocmd BufReadPost * call <sid>plug_buf_read_post() | autocmd! plug_buf_read_post
+augroup END
+
+function s:plug_vim_enter() abort
+  call plug#load(
+        \ 'denops.vim',
+        \ 'skkeleton',
+        \ 'fuzzy-motion.vim',
+        \ 'ddc.vim',
+        \ 'fzf',
+        \ 'fzf-preview.vim',
+        \ 'vim-devicons',
+        \ )
+
+  source ~/dotfiles/.config/nvim/plugin_config/skkeleton.vim
+  source ~/dotfiles/.config/nvim/plugin_config/skk_ddc_cmp.vim
+  source ~/dotfiles/.config/nvim/plugin_config/fzf_preview.vim
+endfunction
+augroup plug_vim_enter
+  autocmd!
+  autocmd BufReadPost * call <sid>plug_vim_enter() | autocmd! plug_vim_enter
 augroup END
 
 " {{{ fuzzy-motion.vim
@@ -332,6 +349,15 @@ endfunction
 autocmd User pounce.nvim ++once call <sid>pounce_init()
 " }}}
 
+" {{{ fzf-preview.vim
+" nnoremap <Space>a <Cmd>EnsureFzf<CR><Cmd>FzfPreviewGitActionsRpc<CR>
+nnoremap <Space>f <Cmd>FzfPreviewProjectFilesRpc<CR>
+nnoremap <Space>h <Cmd>FzfPreviewProjectMruFilesRpc<CR>
+nnoremap <Space>/ :<C-u>FzfPreviewProjectGrepRpc ""<Left>
+nnoremap <Space>? :<C-u>FzfPreviewProjectGrepRpc ""<Left><C-r><C-f>
+xnoremap <Space>? "zy:<C-u>FzfPreviewProjectGrepRpc "<C-r>z"<Left>
+" }}}
+
 " {{{ fzf-lua
 autocmd User fzf-lua ++once luafile ~/dotfiles/.config/nvim/plugin_config/fzf_lua.lua
 
@@ -339,17 +365,12 @@ nnoremap <Space>a <Cmd>FzfLua git_status<CR>
 nnoremap <Space>b <Cmd>FzfLua buffers<CR>
 nnoremap <Space>B <Cmd>FzfLua blines<CR>
 nnoremap <Space>c <Cmd>FzfLua quickfix<CR>
-nnoremap <Space>f <Cmd>FzfLua files cmd=find_for_vim<CR>
-nnoremap <Space>h <Cmd>FzfLua oldfiles cwd_only=true<CR>
 nnoremap <Space>H <Cmd>FzfLua help_tags<CR>
 nnoremap <Space>j <Cmd>FzfLua jumps<CR>
 nnoremap <Space>l <Cmd>FzfLua lines<CR>
 nnoremap <Space>m <Cmd>FzfLua marks<CR>
 nnoremap <Space>z <Cmd>FzfLua live_grep<CR>
-nnoremap <Space>/ <Cmd>FzfLua grep<CR>
-nnoremap <Space>? <Cmd>FzfLua grep<CR><C-r><C-f>
 nnoremap <Space>: <Cmd>FzfLua commands<CR>
-xnoremap <Space>? "zy<Cmd>FzfLua grep<CR><C-r>z
 " }}}
 
 " {{{ winresizer
