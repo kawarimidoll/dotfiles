@@ -192,6 +192,26 @@ endfunction
 command! -nargs=1 HalfMove call <SID>half_move(<f-args>)
 " }}}
 
+" {{{ MergeHighlight
+function! s:merge_highlight(args) abort
+  let l:args = split(a:args)
+  if len(l:args) < 2
+    echoerr '[MergeHighlight] At least 2 arguments are required.'
+    echoerr 'New highlight name and source highlight names.'
+    return
+  endif
+
+  " skip 'links' and 'cleared'
+  execute 'highlight' l:args[0] l:args[1:]
+      \ ->map({_, val -> execute('highlight ' . val)->substitute('^\S\+\s\+xxx\s', '', '')})
+      \ ->filter({_, val -> val !~? '^links to' && val !=? 'cleared'})
+      \ ->join()
+endfunction
+command! -nargs=+ -complete=highlight MergeHighlight call s:merge_highlight(<q-args>)
+" Use like this:
+"  MergeHighlight markdownH1 Red Bold
+" }}}
+
 " " {{{ CCycle
 " function! s:c_cycle(direction) abort
 "   let qf_info = getqflist({ 'idx': 0, 'size': 0 })
