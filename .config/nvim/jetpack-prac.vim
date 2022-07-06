@@ -41,32 +41,14 @@ set wildmode=list:longest,full
 source ~/dotfiles/.config/nvim/commands.vim
 let g:my_vimrc = expand('<sfile>:p')
 
-function! s:init_jetpack() abort
-  if has('nvim')
-    let cmd = 'curl -fLo ~/.config/nvim/plugin/jetpack.vim --create-dirs ' ..
-          \ 'https://raw.githubusercontent.com/tani/vim-jetpack/master/plugin/jetpack.vim ' ..
-          \ '&& git clone --depth 1 https://github.com/tani/vim-jetpack ' ..
-          \ '~/.local/share/nvim/site/pack/jetpack/src/vim-jetpack ' ..
-          \ '&& ln -s ~/.local/share/nvim/site/pack/jetpack/{src,opt}/vim-jetpack'
-  else
-    let cmd = 'curl -fLo ~/.vim/plugin/jetpack.vim --create-dirs ' ..
-          \ 'https://raw.githubusercontent.com/tani/vim-jetpack/master/plugin/jetpack.vim ' ..
-          \ '&& git clone --depth 1 https://github.com/tani/vim-jetpack ' ..
-          \ '~/.vim/pack/jetpack/src/vim-jetpack ' ..
-          \ '&& ln -s ~/.vim/pack/jetpack/{src,opt}/vim-jetpack'
-  endif
+let s:jetpackfile = (has('nvim') ? '~/.local/share/nvim' : '~/.vim') ..
+      \ '/pack/jetpack/opt/vim-jetpack/plugin/jetpack.vim'
+let s:jetpackurl = "https://raw.githubusercontent.com/tani/vim-jetpack/master/plugin/jetpack.vim"
+if !filereadable(s:jetpackfile)
+  call system(printf('curl -fsSLo %s --create-dirs %s', s:jetpackfile, s:jetpackurl))
+endif
 
-  if exists('*jobstart')
-    call jobstart(cmd)
-  elseif exists('*job_start')
-    call job_start(cmd)
-  else
-    call system(cmd)
-  end
-endfunction
-command! InitJetpack call <sid>init_jetpack()
-
-runtime */jetpack.vim
+packadd vim-jetpack
 call jetpack#begin()
 call jetpack#add('tani/vim-jetpack', { 'opt': 1 })
 
