@@ -46,36 +46,18 @@ Keymap nx gf <Cmd>SmartOpen<CR>
 "-----------------
 " Plugs
 "-----------------
-" [Tips should also describe automatic installation for Neovim|junegunn/vim-plug](https://github.com/junegunn/vim-plug/issues/739)
-let s:autoload_plug_path = stdpath('config') . '/autoload/plug.vim'
-if !filereadable(s:autoload_plug_path)
-  if !executable('curl')
-    echoerr 'You have to install `curl` to install vim-plug.'
-    execute 'quit!'
-  endif
-  silent execute '!curl -fL --create-dirs -o ' . s:autoload_plug_path .
-      \ ' https://raw.github.com/junegunn/vim-plug/master/plug.vim'
+" https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
+let s:autoload_plug_path = has('nvim') ? stdpath('data') .. '/site' : '~/.vim'
+if empty(glob(s:autoload_plug_path))
+  silent execute '!curl --create-dirs -fLo ' .. s:autoload_plug_path ..
+        \ ' https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 endif
+" Run PlugInstall if there are missing plugins
+autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+      \ |   PlugInstall --sync | source $MYVIMRC
+      \ | endif
 
-" [おい、NeoBundle もいいけど vim-plug 使えよ](https://qiita.com/b4b4r07/items/fa9c8cceb321edea5da0)
-function! s:AutoPlugInstall() abort
-  let s:not_installed_plugs = get(g:, 'plugs', {})->items()->copy()
-      \  ->filter({_,item->!isdirectory(item[1].dir)})
-      \  ->map({_,item->item[0]})
-  if empty(s:not_installed_plugs)
-    return
-  endif
-  echo 'Not installed plugs: ' . string(s:not_installed_plugs)
-  if confirm('Install now?', "yes\nNo", 2) == 1
-    PlugInstall --sync | close
-  endif
-endfunction
-augroup vimrc_plug
-  autocmd!
-  autocmd VimEnter * call s:AutoPlugInstall()
-augroup END
-
-call plug#begin(stdpath('config') . '/plugged')
+call plug#begin(stdpath('config') .. '/plugged')
 Plug 'vim-denops/denops.vim', #{ on: [] }
 Plug 'vim-skk/skkeleton', #{ on: [] }
 Plug 'Shougo/ddc.vim', #{ on: [] }
@@ -153,8 +135,6 @@ Plug 'simeji/winresizer', #{ on: 'WinResizerStartResize' }
 Plug 'vim-jp/vimdoc-ja'
 
 call plug#end()
-
-command! PlugSync PlugUpgrade | PlugClean! | PlugInstall | PlugUpdate
 
 let g:lazygit_floating_window_scaling_factor = 1
 " let g:lazygit_floating_window_winblend = 20
