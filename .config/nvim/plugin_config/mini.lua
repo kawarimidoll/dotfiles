@@ -28,6 +28,7 @@ require('mini.pairs').setup({})
 
 require('mini.misc').setup({ make_global = { 'put', 'put_text', 'zoom' } })
 
+---@diagnostic disable: unused-local
 -- https://github.com/sainnhe/sonokai/blob/master/alacritty/README.md shusia
 -- https://github.com/chriskempson/base16/blob/master/styling.md
 local shusia = {
@@ -139,6 +140,7 @@ local ayu_mirage = {
   base0E = "#D4BFFF", -- Keywords, Storage, Selector, Markup Italic, Diff Changed
   base0F = "#F29E74", -- Deprecated, Opening/Closing Embedded Language Tags, e.g. <?php ?>
 }
+---@diagnostic enable: unused-local
 
 require('mini.base16').setup({
   palette = ayu_mirage,
