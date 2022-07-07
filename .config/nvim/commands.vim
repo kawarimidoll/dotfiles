@@ -76,11 +76,11 @@ function! s:smart_open() abort
     " encode query
     " https://gist.github.com/atripes/15372281209daf5678cded1d410e6c16?permalink_comment_id=3634542#gistcomment-3634542
     let safe_query = ''
-    for char in query->split('.\zs')
-      if char =~ '[-._~[:alnum:]]'
-        let safe_query = safe_query .. char
+    for i in query->len()->range()
+      if query[i] =~ '[-._~[:alnum:]]'
+        let safe_query ..= query[i]
       else
-        let safe_query = safe_query .. '%' .. printf('%02x', char2nr(char))
+        let safe_query ..= printf('%%%02x', char2nr(query[i]))
       endif
     endfor
 
