@@ -61,11 +61,11 @@ for _, server in ipairs(lsp_installer.get_installed_servers()) do
   end
 
   opts.on_attach = function(_, bufnr)
-    local bufopts = { noremap=true, silent=true, buffer=bufnr }
+    local bufopts = { noremap = true, silent = true, buffer = bufnr }
     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
     vim.keymap.set('n', 'gtD', vim.lsp.buf.type_definition, bufopts)
     vim.keymap.set('n', 'grf', vim.lsp.buf.references, bufopts)
-    vim.keymap.set('n', '<space>p', vim.lsp.buf.formatting, bufopts)
+    vim.keymap.set('n', '<space>p', vim.lsp.buf.format, bufopts)
   end
 
   nvim_lsp[server.name].setup(opts)
