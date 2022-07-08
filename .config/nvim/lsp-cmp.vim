@@ -257,7 +257,7 @@ function s:plug_buf_read_post() abort
 
   source ~/dotfiles/.config/nvim/plugin_config/searchx.vim
   execute 'source' g:plug_home .. '/plenary.nvim/plugin/plenary.vim'
-  lua require('which-key').setup()
+  luafile ~/dotfiles/.config/nvim/plugin_config/which-key.lua
   lua require('colorizer').setup()
   lua require('trouble').setup({auto_close = true})
 endfunction
