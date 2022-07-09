@@ -2,8 +2,8 @@ if filereadable(expand('~/dotfiles/.config/nvim/min-edit.vim'))
   source ~/dotfiles/.config/nvim/min-edit.vim
 endif
 
-let g:did_load_filetypes = 0
-let g:do_filetype_lua = 1
+" let g:did_load_filetypes = 0
+" let g:do_filetype_lua = 1
 set autoindent
 set autoread
 " set cmdheight=2

@@ -11,6 +11,7 @@ require('mini.jump2d').setup({
   mappings = { start_jumping = '' },
 })
 vim.cmd('highlight MiniJump2dSpot ctermfg=209 ctermbg=NONE cterm=underline,bold guifg=#E27878 guibg=NONE gui=underline,bold')
+vim.g.minijump2d_disable = true
 
 require('mini.surround').setup({})
 
