@@ -76,5 +76,5 @@
 [fetch]
 	prune = true
 [commit]
-	template = ~/.gitmessage
+	template = ~/.config/git/message
 	verbose = true
