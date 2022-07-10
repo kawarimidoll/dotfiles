@@ -39,6 +39,7 @@ require('nvim-treesitter.configs').setup({
   matchup = { enable = true },
   -- }}}
 })
+require('hlargs').setup()
 
 -- require('treesitter-context').setup({
   -- enable = true,

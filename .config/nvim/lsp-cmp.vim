@@ -109,6 +109,7 @@ Plug 'p00f/nvim-ts-rainbow', #{ on: [] }
 Plug 'romgrk/nvim-treesitter-context', #{ on: [] }
 Plug 'David-Kunz/treesitter-unit', #{ on: [] }
 Plug 'mfussenegger/nvim-ts-hint-textobject', #{ on: [] }
+Plug 'm-demare/hlargs.nvim', #{ on: [] }
 Plug 'andymass/vim-matchup', #{ on: [] }
 
 Plug 'ibhagwan/fzf-lua', #{ branch: 'main', on: 'FzfLua' }
@@ -168,6 +169,7 @@ function! s:treesitter_init() abort
         \ 'nvim-treesitter-context',
         \ 'treesitter-unit',
         \ 'nvim-ts-hint-textobject',
+        \ 'hlargs.nvim',
         \ 'vim-matchup',
         \ )
   execute 'luafile' g:plug_home .. '/nvim-treesitter/plugin/nvim-treesitter.lua'
