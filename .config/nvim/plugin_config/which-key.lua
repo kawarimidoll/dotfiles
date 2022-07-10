@@ -16,7 +16,7 @@ wk.register({
   ["<C-u>"] = 'User defined completion',
   ["<C-o>"] = 'omni completion',
   ["<C-s>"] = 'Spelling suggestions',
-  ["<C-z>"] = 'stop compression',
+  ["<C-z>"] = 'stop completion',
 }, {
   mode = "i",
   prefix = "<C-x>",
