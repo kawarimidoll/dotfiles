@@ -2,6 +2,11 @@ if filereadable(expand('~/dotfiles/.config/nvim/min-edit.vim'))
   source ~/dotfiles/.config/nvim/min-edit.vim
 endif
 
+" to get dictionary:
+" curl -OL https://raw.githubusercontent.com/first20hours/google-10000-english/master/google-10000-english-no-swears.txt
+" mkdir -p ~/.cache/nvim
+" mv ./google-10000-english-no-swears.txt ~/.cache/nvim
+
 " let g:did_load_filetypes = 0
 " let g:do_filetype_lua = 1
 set autoindent
@@ -11,6 +16,7 @@ set autoread
 set completeopt=menu,menuone,noselect
 set cursorline
 set display=lastline
+set dictionary=~/.cache/nvim/google-10000-english-no-swears.txt
 set formatoptions=tcqmMj1
 set hidden
 set history=2000
