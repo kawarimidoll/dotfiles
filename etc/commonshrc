@@ -3,15 +3,33 @@ has() {
 }
 
 # -----------------
+#  XDG Environments
+# -----------------
+export XDG_DATA_HOME="${HOME}/.local/share"
+export XDG_CONFIG_HOME="${HOME}/.config"
+export XDG_STATE_HOME="${HOME}/.local/state"
+export XDG_CACHE_HOME="${HOME}/.cache"
+# export XDG_RUNTIME_DIR="/run/user/${UID}"
+
+export CARGO_HOME="${XDG_DATA_HOME}/cargo"
+export GEM_HOME="${XDG_DATA_HOME}/gem"
+export GEM_SPEC_CACHE="${XDG_CACHE_HOME}/gem"
+export GOPATH="${XDG_DATA_HOME}/go"
+export LESSHISTFILE="${XDG_CACHE_HOME}/less/history"
+export NPM_CONFIG_USERCONFIG="${XDG_CONFIG_HOME}/npm/npmrc"
+export TERMINFO="${XDG_DATA_HOME}/terminfo"
+export TERMINFO_DIRS="${XDG_DATA_HOME}/terminfo:/usr/share/terminfo"
+
+# -----------------
 #  Paths
 # -----------------
 export EDITOR="nvim"
 # export GOPATH="${HOME}/go"
 PATH="${HOME}/bin:${PATH}"
 PATH="${DOT_DIR}/bin:${PATH}"
-PATH="${HOME}/.cargo/bin:${PATH}"
+PATH="${CARGO_HOME}/bin:${PATH}"
 PATH="${HOME}/.deno/bin:${PATH}"
-PATH="${HOME}/go/bin:${PATH}"
+PATH="${GOPATH}/bin:${PATH}"
 
 PATH="/opt/homebrew/bin:${PATH}" # For Apple Silicon
 
@@ -66,6 +84,7 @@ alias vimrclocal='vim ~/.vimrc.local'
 alias vin='vim -u NONE -N'
 alias vir='vim -c "edit #<1"'
 alias wcl='wc -l'
+alias wget='wget --hsts-file="${XDG_DATA_HOME}/wget-hsts"'
 alias wtf='wtfutil'
 alias x='xplr'
 alias xcd='cd $(xplr)'

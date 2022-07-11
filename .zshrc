@@ -81,6 +81,9 @@ setopt share_history # 同時に起動しているzshの間でhistoryを共有�
 # -----------------
 #  Zstyles
 # -----------------
+# キャッシュファイルの場所
+zstyle ':completion:*' cache-path "${XDG_CACHE_HOME}/zsh/zcompcache"
+
 # 補完時に大文字小文字を区別しない
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
@@ -156,7 +159,7 @@ zshaddhistory() {
 # -----------------
 #  PATH
 # -----------------
-# PATH="/path/to/the/directory:$PATH"
+export HISTFILE="${XDG_STATE_HOME}/zsh/history.zsh"
 
 # -----------------
 #  prompt
@@ -204,6 +207,8 @@ fi
 
 # Set tab name of kitty https://github.com/kovidgoyal/kitty/issues/930
 precmd () { print -Pn "\e]0;%~\a" }
+
+compinit -d "${XDG_CACHE_HOME}/zsh/zcompdump-${ZSH_VERSION}"
 
 # -----------------
 #  Local Setting
