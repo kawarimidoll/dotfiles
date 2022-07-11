@@ -69,6 +69,7 @@ set textwidth=0
 set title
 set ttyfast
 set updatetime=500
+set viminfofile=~/.vim/viminfo
 set whichwrap=b,s,h,l,<,>,[,],~
 set wildmenu
 set wildmode=list:longest,full
