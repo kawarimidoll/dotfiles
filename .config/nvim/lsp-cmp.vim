@@ -291,7 +291,7 @@ function s:plug_vim_enter() abort
 endfunction
 augroup plug_vim_enter
   autocmd!
-  autocmd BufReadPost * call <sid>plug_vim_enter() | autocmd! plug_vim_enter
+  autocmd VimEnter * call <sid>plug_vim_enter() | autocmd! plug_vim_enter
 augroup END
 
 " {{{ fuzzy-motion.vim
