@@ -21,3 +21,26 @@ wk.register({
   mode = "i",
   prefix = "<C-x>",
 })
+
+-- gitsigns
+wk.register({
+  ["s"] = "gitsigns.stage_hunk",
+  ["r"] = "gitsigns.reset_hunk",
+  ["S"] = "gitsigns.stage_buffer",
+  ["u"] = "gitsigns.undo_stage_hunk",
+  ["R"] = "gitsigns.reset_buffer",
+  ["p"] = "gitsigns.preview_hunk",
+  ["b"] = "gitsigns.blame_line{full=true}",
+  ["d"] = "gitsigns.diffthis",
+  ["D"] = "gitsigns.diffthis('~')",
+  ["t"] = "gitsigns.toggle_deleted",
+}, {
+  prefix = "<leader>h",
+})
+wk.register({
+  ["s"] = "gitsigns.stage_hunk",
+  ["r"] = "gitsigns.reset_hunk",
+}, {
+  mode = "i",
+  prefix = "<leader>h",
+})
