@@ -111,6 +111,7 @@ function! EditProjectMru() abort
   let cmd = 'git rev-parse --show-superproject-working-tree --show-toplevel 2>/dev/null | head -1'
   let root = system(cmd)->trim()->expand()
   if root == ''
+    edit #<1
     return
   endif
   for file in v:oldfiles
