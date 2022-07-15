@@ -3,8 +3,8 @@ if filereadable(s:source)
   execute 'source' s:source
 endif
 
-let g:did_load_filetypes = 0
-let g:do_filetype_lua = 1
+" let g:did_load_filetypes = 0
+" let g:do_filetype_lua = 1
 set autoindent
 set autoread
 " "set cmdheight=0
@@ -41,7 +41,7 @@ set wildmode=list:longest,full
 source ~/dotfiles/.config/nvim/commands.vim
 let g:my_vimrc = expand('<sfile>:p')
 
-let s:jetpackfile = (has('nvim') ? '~/.local/share/nvim' : '~/.vim') ..
+let s:jetpackfile = (has('nvim') ? '~/.local/share/nvim/site' : '~/.vim') ..
       \ '/pack/jetpack/opt/vim-jetpack/plugin/jetpack.vim'
 let s:jetpackurl = "https://raw.githubusercontent.com/tani/vim-jetpack/master/plugin/jetpack.vim"
 if !filereadable(s:jetpackfile)
