@@ -172,13 +172,38 @@ for k, _ in pairs(palettes) do
   n = n + 1
   color_names[n] = k
 end
-math.randomseed(os.time())
-vim.g.scheme_name = color_names[math.random(#palettes)]
-local palette = palettes[vim.g.scheme_name]
-require('mini.base16').setup({
-  palette = palette,
-  use_cterm = true,
-})
+table.sort(color_names)
+
+vim.api.nvim_create_user_command(
+  'MiniScheme',
+  function(opts)
+    local palette = palettes[ opts.fargs[1] ]
+    if palette then
+      vim.g.scheme_name = opts.fargs[1]
+    else
+      math.randomseed(os.time())
+      vim.g.scheme_name = color_names[math.random(#color_names)]
+      palette = palettes[vim.g.scheme_name]
+    end
+    require('mini.base16').setup({
+      palette = palette,
+      use_cterm = true,
+    })
+  end,
+  {
+    nargs = '?',
+    complete = function(arg_lead, _, _)
+      local out = {}
+      for _, c in ipairs(color_names) do
+        if vim.startswith(c, arg_lead) then
+          table.insert(out, c)
+        end
+      end
+      return out
+    end
+  }
+)
+vim.api.nvim_cmd({ cmd = 'MiniScheme' }, {})
 
 -- require('mini.completion').setup({})
 -- vim.api.nvim_set_keymap('i', '<Tab>',   [[pumvisible() ? "\<C-n>" : "\<Tab>"]],   { noremap = true, expr = true })
