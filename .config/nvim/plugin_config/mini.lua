@@ -1,33 +1,57 @@
 require('mini.bufremove').setup({})
 
-require('mini.comment').setup({})
+vim.api.nvim_create_autocmd({ 'FileType' }, {
+  pattern = '*',
+  callback = require('mini.comment').setup,
+  once = true
+})
 
-require('mini.cursorword').setup({})
+vim.api.nvim_create_autocmd({ 'CursorHold' }, {
+  pattern = '*',
+  callback = require('mini.cursorword').setup,
+  once = true
+})
+
+vim.api.nvim_create_autocmd({ 'CmdlineEnter' }, {
+  pattern = '*',
+  callback = require('mini.misc').setup,
+  once = true
+})
 
 require('mini.indentscope').setup({})
 
-require('mini.jump2d').setup({
-  hooks = { after_jump = function() vim.cmd('syntax on') end },
-  mappings = { start_jumping = '' },
-})
-vim.cmd('highlight MiniJump2dSpot ctermfg=209 ctermbg=NONE cterm=underline,bold guifg=#E27878 guibg=NONE gui=underline,bold')
-vim.g.minijump2d_disable = true
+-- require('mini.jump2d').setup({
+--   hooks = { after_jump = function() vim.cmd('syntax on') end },
+--   mappings = { start_jumping = '' },
+-- })
+-- vim.api.nvim_set_hl(0, 'MiniJump2dSpot', { ctermfg = 209, fg = '#E27878', underline = true, bold = true, })
+-- vim.g.minijump2d_disable = true
+
+require('mini.starter').setup({})
 
 require('mini.surround').setup({})
 
 require('mini.statusline').setup({
   set_vim_settings = false,
 })
-vim.cmd('highlight link MiniStatuslineDevinfo String')
+vim.api.nvim_set_hl(0, 'MiniStatuslineDevinfo', { link = 'String' })
 
 require('mini.trailspace').setup({})
-vim.cmd([[command! Trim lua MiniTrailspace.trim()]])
+vim.api.nvim_create_user_command('Trim', MiniTrailspace.trim, {})
 
 require('mini.tabline').setup({})
 
-require('mini.pairs').setup({})
+vim.api.nvim_create_autocmd({ 'InsertEnter' }, {
+  pattern = '*',
+  callback = require('mini.pairs').setup,
+  once = true
+})
 
-require('mini.misc').setup({ make_global = { 'put', 'put_text', 'zoom' } })
+vim.api.nvim_create_autocmd({ 'CmdlineEnter' }, {
+  pattern = '*',
+  callback = require('mini.misc').setup,
+  once = true
+})
 
 -- https://github.com/chriskempson/base16/blob/master/styling.md
 local palettes = {
@@ -312,21 +336,46 @@ vim.api.nvim_create_user_command(
     end
   }
 )
-vim.api.nvim_cmd({ cmd = 'MiniScheme' }, {})
+vim.api.nvim_create_autocmd({ 'VimEnter' }, {
+  pattern = '*',
+  command = 'MiniScheme',
+  once = true
+})
 
--- require('mini.completion').setup({})
--- vim.keymap.set('i', '<Tab>', [[pumvisible() ? "\<C-n>" : "\<Tab>"]], { expr = true })
--- vim.keymap.set('i', '<S-Tab>', [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { expr = true })
--- _G.cr_action = function()
---   if vim.fn.pumvisible() == 0 then
---     -- If popup is not visible, use `<CR>` in 'mini.pairs'.
---     return require('mini.pairs').cr()
---   elseif vim.fn.complete_info()['selected'] ~= -1 then
---     -- If popup is visible and item is selected, confirm selected item
---     return vim.api.nvim_replace_termcodes('<C-y>', true, true, true)
---   else
---     -- Add new line otherwise
---     return vim.api.nvim_replace_termcodes('<C-y><CR>', true, true, true)
---   end
+-- local mini_completion_setup = function()
+--   require('mini.fuzzy').setup({})
+--   require('mini.completion').setup({
+--     lsp_completion = {
+--       process_items = MiniFuzzy.process_lsp_items
+--     },
+--   })
+--   vim.keymap.set('i', '<Tab>',
+--     function()
+--       return vim.fn.pumvisible() == 0 and '<Tab>' or '<C-n>'
+--     end
+--     , { expr = true })
+--   vim.keymap.set('i', '<S-Tab>',
+--     function()
+--       return vim.fn.pumvisible() == 0 and '<S-Tab>' or '<C-p>'
+--     end,
+--     { expr = true })
+--   vim.keymap.set('i', '<CR>',
+--     function()
+--       if vim.fn.pumvisible() == 0 then
+--         -- If popup is not visible, use `<CR>` in 'mini.pairs'.
+--         return require('mini.pairs').cr()
+--       elseif vim.fn.complete_info()['selected'] ~= -1 then
+--         -- If popup is visible and item is selected, confirm selected item
+--         return vim.api.nvim_replace_termcodes('<C-y>', true, true, true)
+--       else
+--         -- Add new line otherwise
+--         return vim.api.nvim_replace_termcodes('<C-y><CR>', true, true, true)
+--       end
+--     end,
+--     { expr = true })
 -- end
--- vim.keymap.set('i', '<CR>', 'v:lua._G.cr_action()', { expr = true })
+-- vim.api.nvim_create_autocmd({ 'InsertEnter' }, {
+--   pattern = '*',
+--   callback = mini_completion_setup,
+--   once = true
+-- })
