@@ -42,9 +42,7 @@ for _, server in ipairs(lsp_installer.get_installed_servers()) do
   elseif server.name == "sumneko_lua" then
     -- https://github.com/folke/lua-dev.nvim/blob/main/lua/lua-dev/sumneko.lua
     -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#sumneko_lua
-    local path = {}
-    table.insert(path, "?.lua")
-    table.insert(path, "?/init.lua")
+    local path = { "?.lua", "?/init.lua" }
 
     opts.settings = {
       Lua = {
@@ -61,7 +59,7 @@ for _, server in ipairs(lsp_installer.get_installed_servers()) do
   end
 
   opts.on_attach = function(_, bufnr)
-    local bufopts = { noremap = true, silent = true, buffer = bufnr }
+    local bufopts = { silent = true, buffer = bufnr }
     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
     vim.keymap.set('n', 'gtD', vim.lsp.buf.type_definition, bufopts)
     vim.keymap.set('n', 'grf', vim.lsp.buf.references, bufopts)
@@ -69,5 +67,5 @@ for _, server in ipairs(lsp_installer.get_installed_servers()) do
   end
 
   nvim_lsp[server.name].setup(opts)
-  vim.cmd [[ do User LspAttachBuffers ]]
+  vim.api.nvim_exec_autocmds('User LspAttachBuffers', {})
 end
