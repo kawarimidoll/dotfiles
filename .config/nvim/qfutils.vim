@@ -104,3 +104,22 @@ command! CRemove call s:c_remove()
 autocmd FileType qf nnoremap <buffer> x <cmd>CRemove<CR>
 autocmd qfutils.vim FileType qf set number
 " }}}
+
+" {{{ Qfutils
+function! s:qfutils_comp(ArgLead, CmdLine, CursorPos) abort
+  let qfu_cmds = ['BCycle', 'CCycle', 'CClose', 'CClear', 'CToggle', 'CAdd', 'CRemove']
+  let cmd = a:CmdLine->split('\s')->get(1, '')
+  if qfu_cmds->index(cmd) > -1
+    return ''
+  endif
+  return qfu_cmds->join("\n")
+endfunction
+function! s:qfutils(args) abort
+  let args = a:args->split('\s')
+  let cmd = get(args, 0, '')
+  let arg = get(args, 1, '')
+
+  execute cmd arg
+endfunction
+command! -nargs=+ -complete=custom,s:qfutils_comp Qfutils call s:qfutils(<q-args>)
+" }}}
