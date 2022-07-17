@@ -99,6 +99,7 @@ Plug 'kyazdani42/nvim-web-devicons', #{ on: [] }
 Plug 'tami5/lspsaga.nvim', #{ on: [] }
 " Plug 'folke/lsp-colors.nvim'
 Plug 'folke/trouble.nvim', #{ on: [] }
+Plug 'j-hui/fidget.nvim', #{ on: [] }
 Plug 'folke/lua-dev.nvim', #{ for: 'lua' }
 
 Plug 'nvim-treesitter/nvim-treesitter', #{ do: ':TSUpdate', on: [] }
@@ -111,6 +112,8 @@ Plug 'David-Kunz/treesitter-unit', #{ on: [] }
 Plug 'mfussenegger/nvim-ts-hint-textobject', #{ on: [] }
 Plug 'm-demare/hlargs.nvim', #{ on: [] }
 Plug 'andymass/vim-matchup', #{ on: [] }
+Plug 'yioneko/nvim-yati', #{ on: [] }
+Plug 'haringsrob/nvim_context_vt', #{ on: [] }
 
 Plug 'ibhagwan/fzf-lua', #{ branch: 'main', on: 'FzfLua' }
 Plug 'rlane/pounce.nvim', #{ on: 'Pounce' }
@@ -145,7 +148,7 @@ call plug#end()
 
 let g:lazygit_floating_window_scaling_factor = 1
 " let g:lazygit_floating_window_winblend = 20
-source ~/dotfiles/.config/nvim/plugin_config/silicon.vim
+autocmd User vim-silicon ++once source ~/dotfiles/.config/nvim/plugin_config/silicon.vim
 
 " let s:plug_loaded = {}
 " function s:ensure_plug(...) abort
@@ -171,6 +174,8 @@ function! s:treesitter_init() abort
         \ 'nvim-ts-hint-textobject',
         \ 'hlargs.nvim',
         \ 'vim-matchup',
+        \ 'nvim-yati',
+        \ 'nvim_context_vt',
         \ )
   execute 'luafile' g:plug_home .. '/nvim-treesitter/plugin/nvim-treesitter.lua'
   luafile ~/dotfiles/.config/nvim/plugin_config/treesitter.lua
@@ -239,9 +244,11 @@ function s:lsp_init() abort
         \ 'nvim-lsp-installer',
         \ 'lsp_signature.nvim',
         \ 'cmp-nvim-lsp',
+        \ 'fidget.nvim',
         \ 'lspsaga.nvim',
         \ )
   lua require("lsp_signature").setup()
+  lua require("fidget").setup()
   lua lsp_capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
   luafile ~/dotfiles/.config/nvim/plugin_config/lsp.lua
 endfunction

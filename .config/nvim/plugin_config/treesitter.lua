@@ -5,7 +5,7 @@ require('nvim-treesitter.configs').setup({
     additional_vim_regex_highlighting = { 'vim' },
   },
   sync_install = false,
-  indent = { enable = true },
+  indent = { enable = false }, -- use yati for indent
   -- }}}
 
   -- {{{ nvim-treesitter-refactor
@@ -38,6 +38,11 @@ require('nvim-treesitter.configs').setup({
   -- {{{ vim-matchup
   matchup = { enable = true },
   -- }}}
+
+  -- {{{ nvim-yati
+  yati = { enable = true },
+  -- }}}
+
 })
 require('hlargs').setup()
 
