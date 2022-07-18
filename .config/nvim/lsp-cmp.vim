@@ -195,15 +195,12 @@ function! s:treesitter_init() abort
 endfunction
 
 function s:vsnip_init() abort
-
   call plug#load(
         \ 'vim-vsnip',
         \ 'vim-vsnip-integ',
         \ 'friendly-snippets',
         \ 'nvim-hclipboard',
         \ )
-  " execute 'source' g:plug_home .. '/vim-vsnip/plugin/vsnip.vim'
-  " execute 'source' g:plug_home .. '/vim-vsnip-integ/plugin/vsnip_integ.vim'
 
   let g:vsnip_filetypes = {}
   let g:vsnip_filetypes.javascriptreact = ['javascript']
@@ -257,7 +254,11 @@ function s:lsp_init() abort
   luafile ~/dotfiles/.config/nvim/plugin_config/lsp.lua
 endfunction
 
-call <sid>vsnip_init()
+augroup plug_insert_enter
+  autocmd!
+  autocmd InsertEnter * call <sid>vsnip_init() | autocmd! plug_insert_enter
+augroup END
+" call <sid>vsnip_init()
 call <sid>cmp_init()
 function s:plug_buf_read_post() abort
   call <sid>treesitter_init()
