@@ -107,6 +107,7 @@ noremap <expr> <C-b> max([winheight(0) - 2, 1])
       \ . '<C-u>' . (line('w0') <= 1 ? 'H' : 'M')
 
 " command
+cnoremap <expr> ss getcmdtype() == ':' && getcmdpos() == 1 ? '%s/' : 'ss'
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
 cnoremap <expr> <C-n> wildmenumode() ? "\<C-n>" : "\<Down>"
