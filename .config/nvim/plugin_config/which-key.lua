@@ -41,6 +41,6 @@ wk.register({
   ["s"] = "gitsigns.stage_hunk",
   ["r"] = "gitsigns.reset_hunk",
 }, {
-  mode = "i",
+  mode = "v",
   prefix = "<leader>h",
 })
