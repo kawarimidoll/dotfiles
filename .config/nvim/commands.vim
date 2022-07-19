@@ -215,6 +215,13 @@ command! -nargs=+ -complete=highlight MergeHighlight call s:merge_highlight(<q-a
 "  MergeHighlight markdownH1 Red Bold
 " }}}
 
+" {{{ Rename
+" https://vim-jp.org/vim-users-jp/2009/05/27/Hack-17.html
+command! -nargs=1 -complete=file Rename
+  \ execute 'autocmd BufWritePost <buffer> ++once call delete("' .. expand('%') .. '")' |
+  \ file <args>
+" }}}
+
 " {{{ restore-cursor
 autocmd commands.vim BufReadPost *
   \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
