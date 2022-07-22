@@ -68,7 +68,7 @@ download_dotfiles() {
 
 link_dotfiles() {
   if cd "$DOT_DIR"; then
-    for f in $(find . -not -path '*.git/*' -not -path '*.DS_Store' -path '*/.*' -type f -print | cut -b3-)
+    for f in $(find . -not -path '*.git*' -not -path '*.DS_Store' -path '*/.*' -type f -print | cut -b3-)
     do
       mkdir -p "$HOME/$(dirname "$f")"
       if [ -L "$HOME/$f" ]; then
@@ -92,6 +92,10 @@ fi
 if [[ "$selection" = *"a"* ]] || [[ "$selection" = *"l"* ]]; then
   echo "  begin link dotfiles."
   link_dotfiles
+
+  mkdir -p "${XDG_CACHE_HOME}/less"
+  mkdir -p "${XDG_STATE_HOME}/zsh"
+  mkdir -p "${XDG_DATA_HOME}/terminfo"
   echo -e "  end link dotfiles.\n"
 fi
 if [[ "$selection" = *"a"* ]] || [[ "$selection" = *"s"* ]]; then
