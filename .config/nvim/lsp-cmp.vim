@@ -265,7 +265,6 @@ function s:plug_buf_read_post() abort
   call <sid>lsp_init()
 
   call plug#load(
-        \ 'gin.vim',
         \ 'reword.vim',
         \ 'which-key.nvim',
         \ 'nvim-colorizer.lua',
@@ -292,6 +291,7 @@ function s:plug_vim_enter() abort
         \ 'skkeleton',
         \ 'fuzzy-motion.vim',
         \ 'ddc.vim',
+        \ 'gin.vim',
         \ 'fzf',
         \ 'fzf-preview.vim',
         \ 'vim-devicons',
