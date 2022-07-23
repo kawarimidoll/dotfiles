@@ -1,4 +1,4 @@
-timestamp: 2022-07-05 09:53:01 JST
+timestamp: 2022-07-23 11:13:34 JST
 tap: a-know/tap
 tap: harelba/q
 tap: homebrew/bundle
@@ -64,7 +64,6 @@ brew: git-workspace
 brew: gitbatch
 brew: github-markdown-toc
 brew: globe
-brew: glow
 brew: gnu-sed
 brew: gnu-tar
 brew: gnupg
@@ -74,6 +73,7 @@ brew: gping
 brew: grep
 brew: grex
 brew: gzip
+brew: helix
 brew: highlight
 brew: hurl
 brew: itchyny/tap/mmv
@@ -81,7 +81,6 @@ brew: jesseduffield/lazydocker/lazydocker
 brew: jesseduffield/lazygit/lazygit
 brew: jid
 brew: jless
-brew: jq
 brew: jql
 brew: kalker
 brew: libgsf
@@ -92,6 +91,7 @@ brew: libspng
 brew: lima
 brew: llvm
 brew: lsd
+brew: luajit-openresty
 brew: luarocks
 brew: macchina
 brew: mas
@@ -114,6 +114,7 @@ brew: pngquant
 brew: poppler
 brew: procs
 brew: px4/px4/gcc-arm-none-eabi
+brew: qt
 brew: qt@5
 brew: rargs
 brew: re2c
@@ -151,6 +152,7 @@ brew: wasmer
 brew: watchexec
 brew: wdiff
 brew: wget
+brew: xdg-ninja
 brew: xh
 brew: yarn
 brew: youtubedr
