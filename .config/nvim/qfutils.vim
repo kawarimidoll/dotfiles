@@ -26,7 +26,6 @@ command! -nargs=1 BCycle call s:b_cycle(<q-args>)
 
 " {{{ CCycle
 function! s:c_cycle(count) abort
-  echo a:count
   let qf_info = getqflist({ 'idx': 0, 'size': 0 })
   let size = qf_info->get('size')
   if size == 0

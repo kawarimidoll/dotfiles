@@ -27,7 +27,7 @@ require('mini.indentscope').setup({})
 -- vim.api.nvim_set_hl(0, 'MiniJump2dSpot', { ctermfg = 209, fg = '#E27878', underline = true, bold = true, })
 -- vim.g.minijump2d_disable = true
 
-require('mini.starter').setup({})
+-- require('mini.starter').setup({})
 
 require('mini.surround').setup({})
 
