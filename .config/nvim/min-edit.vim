@@ -60,6 +60,12 @@ set whichwrap=b,s,h,l,<,>,[,],~
 set wildmenu
 set wrap
 set wrapscan
+if executable('rg')
+  set grepprg=rg\ --vimgrep\ --hidden\ --glob\ '!**/.git/*'
+  set grepformat=%f:%l:%c:%m
+endif
+
+command! -nargs=+ Grep silent grep! <args>
 
 noremap j gj
 noremap k gk
@@ -237,6 +243,8 @@ augroup min-edit
   autocmd VimEnter,WinEnter,BufRead * ++once
         \ call matchadd('ExtraWhitespace', "[\u00A0\u2000-\u200B\u3000]")
         \ | highlight default ExtraWhitespace ctermbg=darkmagenta guibg=darkmagenta
+
+  autocmd QuickfixCmdPost make,grep,grepadd,vimgrep if len(getqflist()) != 0 | copen | endif
 
   if has('nvim')
     " https://jdhao.github.io/2020/05/22/highlight_yank_region_nvim/
