@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# https://gist.github.com/kawarimidoll/36430d3016d1c053594b6a69bde83f90
+git switch "$@" 2>/dev/null || \
+  git branch --sort=-authordate --all | grep --invert-match HEAD | \
+  fzf --query="$@" --print-query --cycle --no-multi \
+  --header-first --header='Create new branch when query is not matched' \
+  --preview="echo {} | sed 's/.* //' | \
+    xargs git log -30 --pretty=format:'[%ad] %s <%an>' --date=format:'%F'" | \
+  tail -1 | \
+  sed 's/.* //' | sed 's#remotes/[^/]*/##' | \
+  xargs --no-run-if-empty -I_ sh -c 'git switch _ || git switch --create _'

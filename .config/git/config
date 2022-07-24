@@ -61,6 +61,7 @@
 	staged = diff --staged --name-only --diff-filter=ACMR
 	store = __store
 	summary = __summary
+	sw = __sw
 	toggle-branch = switch -
 	twig = __twig
 	uncommit = reset --soft HEAD^
