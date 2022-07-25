@@ -31,7 +31,7 @@
 	browse = !open $(git remote-url)
 	btf = rebase --continue
 	cog = config --global --edit
-	current-branch = rev-parse --abbrev-ref HEAD
+	current-branch = branch --show-current
 	default-branch = !git symbolic-ref refs/remotes/origin/HEAD | sed 's!.*/!!'
 	delete = branch --delete
 	df = !git diff $(git default-branch)...$(git current-branch)
