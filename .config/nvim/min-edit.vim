@@ -100,7 +100,7 @@ nnoremap <Space>O <Cmd>put! =repeat(nr2char(10), v:count1)<CR>'[
 nnoremap <Space>q <cmd>confirm quit<CR>
 nnoremap <Space>Q <cmd>quitall!<CR>
 nnoremap <Space>w <cmd>w<CR>
-nnoremap <Space>wq <cmd>wq<CR>
+nnoremap <Space>wq <cmd>confirm wqall<CR>
 nnoremap <Space>; @:
 nnoremap <silent><expr> <C-k> '<Cmd>move-1-' . v:count1 . '<CR>=l'
 nnoremap <silent><expr> <C-j> '<Cmd>move+'   . v:count1 . '<CR>=l'

@@ -402,6 +402,7 @@ nnoremap <sid>(q)a <Cmd>Qfutils CAdd<CR>
 nnoremap <sid>(q)b <Cmd>Gitsigns toggle_current_line_blame<CR>
 nnoremap <sid>(q)c <Cmd>Qfutils CToggle<CR>
 nnoremap <sid>(q)d <Cmd>TroubleToggle<CR>
+nnoremap <sid>(q)g :<C-u>global/^/normal
 nnoremap <sid>(q)m <Cmd>PreviewMarkdownToggle<CR>
 nnoremap <sid>(q)o <Cmd>only<CR>
 nnoremap <sid>(q)t <C-^>
