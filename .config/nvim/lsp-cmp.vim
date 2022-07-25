@@ -97,7 +97,8 @@ Plug 'kevinhwang91/nvim-hclipboard', #{ on: [] }
 
 Plug 'lewis6991/impatient.nvim'
 Plug 'neovim/nvim-lspconfig', #{ on: [] }
-Plug 'williamboman/nvim-lsp-installer', #{ on: [] }
+Plug 'williamboman/mason.nvim', #{ on: [] }
+Plug 'williamboman/mason-lspconfig.nvim', #{ on: [] }
 Plug 'ray-x/lsp_signature.nvim', #{ on: [] }
 Plug 'kyazdani42/nvim-web-devicons', #{ on: [] }
 Plug 'tami5/lspsaga.nvim', #{ on: [] }
@@ -242,7 +243,8 @@ endfunction
 function s:lsp_init() abort
   call plug#load(
         \ 'nvim-lspconfig',
-        \ 'nvim-lsp-installer',
+        \ 'mason.nvim',
+        \ 'mason-lspconfig.nvim',
         \ 'lsp_signature.nvim',
         \ 'cmp-nvim-lsp',
         \ 'fidget.nvim',
