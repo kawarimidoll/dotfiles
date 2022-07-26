@@ -99,6 +99,7 @@ Plug 'lewis6991/impatient.nvim'
 Plug 'neovim/nvim-lspconfig', #{ on: [] }
 Plug 'williamboman/mason.nvim', #{ on: [] }
 Plug 'williamboman/mason-lspconfig.nvim', #{ on: [] }
+Plug 'jose-elias-alvarez/null-ls.nvim', #{ on: [] }
 Plug 'ray-x/lsp_signature.nvim', #{ on: [] }
 Plug 'kyazdani42/nvim-web-devicons', #{ on: [] }
 Plug 'tami5/lspsaga.nvim', #{ on: [] }
@@ -297,11 +298,13 @@ function s:plug_vim_enter() abort
         \ 'fzf',
         \ 'fzf-preview.vim',
         \ 'vim-devicons',
+        \ 'null-ls.nvim',
         \ )
 
   source ~/dotfiles/.config/nvim/plugin_config/skkeleton.vim
   source ~/dotfiles/.config/nvim/plugin_config/skk_ddc_cmp.vim
   source ~/dotfiles/.config/nvim/plugin_config/fzf_preview.vim
+  luafile ~/dotfiles/.config/nvim/plugin_config/null_ls.lua
 endfunction
 augroup plug_vim_enter
   autocmd!

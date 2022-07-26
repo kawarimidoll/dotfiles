@@ -1,0 +1,6 @@
+kawarimidoll
+kawarimidots
+deno
+skkeleton
+searchx
+vsnip
