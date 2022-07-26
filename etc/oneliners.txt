@@ -2,3 +2,5 @@
 [Convert svg files in current directory to png files] ls -1 *.svg@ | xargs inkscape --pipe --export-width=40 --export-type='png'
 [Convert png files in current directory to webp files] ls -1 *.png@ | xargs -I_ cwebp _ -o _".webp" >/dev/null 2>&1
 [Remove dead symbolic links in current directory] find -L . -maxdepth 1 -type l -delete@
+[Make directory and move into that] mkdir -p @ && cd "$_"
+[Ripgrep with useful options] rg --hidden --glob '!**/.git/*' @
