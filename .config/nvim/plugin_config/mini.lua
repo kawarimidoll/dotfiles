@@ -2,7 +2,15 @@ require('mini.bufremove').setup({})
 
 vim.api.nvim_create_autocmd({ 'FileType' }, {
   pattern = '*',
-  callback = require('mini.comment').setup,
+  callback = function()
+    require('mini.comment').setup({
+      hooks = {
+        pre = function()
+          require('ts_context_commentstring.internal').update_commentstring({})
+        end,
+      },
+    })
+  end,
   once = true
 })
 
@@ -44,12 +52,6 @@ require('mini.tabline').setup({})
 vim.api.nvim_create_autocmd({ 'InsertEnter' }, {
   pattern = '*',
   callback = require('mini.pairs').setup,
-  once = true
-})
-
-vim.api.nvim_create_autocmd({ 'CmdlineEnter' }, {
-  pattern = '*',
-  callback = require('mini.misc').setup,
   once = true
 })
 
@@ -310,7 +312,7 @@ table.sort(color_names)
 vim.api.nvim_create_user_command(
   'MiniScheme',
   function(opts)
-    local palette = palettes[ opts.fargs[1] ]
+    local palette = palettes[opts.fargs[1]]
     if palette then
       vim.g.scheme_name = opts.fargs[1]
     else
