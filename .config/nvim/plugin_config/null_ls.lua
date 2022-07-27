@@ -39,10 +39,17 @@ local cspell_append = function(opts)
   local dictionary_name = opts.bang and 'dotfiles' or 'user'
 
   io.popen('echo ' .. word .. ' >> ' .. cspell_files[dictionary_name])
-  print('"' .. word .. '" is appended to ' .. dictionary_name .. ' dictionary.')
+  vim.notify(
+    '"' .. word .. '" is appended to ' .. dictionary_name .. ' dictionary.',
+    vim.log.levels.INFO,
+    {}
+  )
 
-  -- redraw current line to reload cspell
-  vim.api.nvim_set_current_line(vim.api.nvim_get_current_line())
+  -- redraw current line (and undo immediately) to reload cspell
+  if vim.api.nvim_get_option_value('modifiable',{}) then
+    vim.api.nvim_set_current_line(vim.api.nvim_get_current_line())
+    vim.api.nvim_command('silent! undo')
+  end
 end
 
 vim.api.nvim_create_user_command(
@@ -57,26 +64,27 @@ local cspell_custom_actions = {
   generator = {
     fn = function(_)
       local lnum = vim.fn.getcurpos()[2] - 1
+      local col = vim.fn.getcurpos()[3]
       local diagnostics = vim.diagnostic.get(0, { lnum = lnum })
-      local cword = vim.call('expand', '<cword>')
-      if not cword or cword == '' then
-        return
-      end
-      -- require('mini.misc').put({ lnum = lnum, cword = cword })
+
+      -- require('mini.misc').put({ pos = vim.fn.getcurpos() })
       -- require('mini.misc').put(diagnostics)
 
-      local found = false
+      local word = ''
+      local regex = '^Unknown word %((%w+)%)$'
       for _, v in pairs(diagnostics) do
-        if v.source == "cspell" and v.message == "Unknown word (" .. cword .. ")" then
-          found = true
+        if v.source == "cspell" and
+            v.col < col and col <= v.end_col and
+            string.match(v.message, regex) then
+          word = string.gsub(v.message, regex, '%1'):lower()
           break
         end
       end
-      if not found then
+
+      if word == '' then
         return
       end
 
-      local word = cword:lower()
       return {
         {
           title = 'Append "' .. word .. '" to user dictionary',

@@ -15,17 +15,17 @@
   "dictionaryDefinitions": [
     {
       "name": "dotfiles",
-      "file": "~/.config/cspell/dotfiles.txt",
+      "path": "~/.config/cspell/dotfiles.txt",
       "description": "dotfiles dictionary"
     },
     {
       "name": "user",
-      "file": "~/.local/share/cspell/user.txt",
+      "path": "~/.local/share/cspell/user.txt",
       "description": "User local dictionary"
     },
     {
       "name": "vim",
-      "file": "~/.local/share/cspell/vim.txt.gz",
+      "path": "~/.local/share/cspell/vim.txt.gz",
       "description": "Vim Script Language dictionary"
     }
   ],
