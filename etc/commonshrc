@@ -82,6 +82,8 @@ alias she="nvim ${shell_rc}"
 alias shl="nvim ${shell_rc}.local"
 alias shs="source ${shell_rc}"
 alias stw="snap-tweet --locale ja --output-dir ~/Downloads"
+alias rgg="rg --hidden --trim --glob '!**/.git/*'"
+alias rgf="rgg --fixed-strings --"
 alias sudo='sudo '
 alias vimrc='vim ~/.vimrc'
 alias vimrclocal='vim ~/.vimrc.local'
@@ -170,10 +172,6 @@ pushf() {
 
 stash() {
   git stash save "${1:-$(date +%Y%m%d%H%M%S)}"
-}
-
-frg() {
-  [ $# -ne 0 ] && rg -F -- "$1"
 }
 
 # -----------------
