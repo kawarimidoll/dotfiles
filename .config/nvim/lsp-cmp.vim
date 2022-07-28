@@ -123,7 +123,8 @@ Plug 'haringsrob/nvim_context_vt', #{ on: [] }
 
 Plug 'ibhagwan/fzf-lua', #{ branch: 'main', on: 'FzfLua' }
 Plug 'rlane/pounce.nvim', #{ on: 'Pounce' }
-Plug 'kevinhwang91/nvim-bqf', #{ for: 'qf'}
+Plug 'kevinhwang91/nvim-bqf', #{ for: 'qf' }
+Plug 'rcarriga/nvim-notify', #{ on: [] }
 
 Plug 'junegunn/fzf', #{ do: { -> fzf#install() }, on: [] }
 Plug 'yuki-yano/fzf-preview.vim', #{ branch: 'release/rpc', on: [] }
@@ -299,12 +300,14 @@ function s:plug_vim_enter() abort
         \ 'fzf-preview.vim',
         \ 'vim-devicons',
         \ 'null-ls.nvim',
+        \ 'nvim-notify',
         \ )
 
   source ~/dotfiles/.config/nvim/plugin_config/skkeleton.vim
   source ~/dotfiles/.config/nvim/plugin_config/skk_ddc_cmp.vim
   source ~/dotfiles/.config/nvim/plugin_config/fzf_preview.vim
   luafile ~/dotfiles/.config/nvim/plugin_config/null_ls.lua
+  lua vim.notify = require("notify")
 endfunction
 augroup plug_vim_enter
   autocmd!
