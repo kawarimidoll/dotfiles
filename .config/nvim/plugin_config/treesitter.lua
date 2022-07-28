@@ -32,7 +32,10 @@ require('nvim-treesitter.configs').setup({
   -- }}}
 
   -- {{{ ts-context-commentstring
-  context_commentstring = { enable = true },
+  context_commentstring = {
+    enable = true,
+    enable_autocmd = false,
+  },
   -- }}}
 
   -- {{{ vim-matchup
