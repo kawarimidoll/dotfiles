@@ -124,7 +124,11 @@ Plug 'haringsrob/nvim_context_vt', #{ on: [] }
 Plug 'ibhagwan/fzf-lua', #{ branch: 'main', on: 'FzfLua' }
 Plug 'rlane/pounce.nvim', #{ on: 'Pounce' }
 Plug 'kevinhwang91/nvim-bqf', #{ for: 'qf' }
+Plug 'ten3roberts/qf.nvim', #{ on: [] }
+Plug 'thinca/vim-qfreplace', #{ for: 'qf' }
 Plug 'rcarriga/nvim-notify', #{ on: [] }
+Plug 'simrat39/symbols-outline.nvim', #{ on: 'SymbolsOutline' }
+Plug 'kyazdani42/nvim-tree.lua', #{ on: [] }
 
 Plug 'junegunn/fzf', #{ do: { -> fzf#install() }, on: [] }
 Plug 'yuki-yano/fzf-preview.vim', #{ branch: 'release/rpc', on: [] }
@@ -300,6 +304,8 @@ function s:plug_vim_enter() abort
         \ 'fzf-preview.vim',
         \ 'vim-devicons',
         \ 'null-ls.nvim',
+        \ 'qf.nvim',
+        \ 'nvim-tree.lua',
         \ 'nvim-notify',
         \ )
 
@@ -307,6 +313,9 @@ function s:plug_vim_enter() abort
   source ~/dotfiles/.config/nvim/plugin_config/skk_ddc_cmp.vim
   source ~/dotfiles/.config/nvim/plugin_config/fzf_preview.vim
   luafile ~/dotfiles/.config/nvim/plugin_config/null_ls.lua
+  " lua require('bqf').setup({ auto_resize_height = true })
+  lua require('qf').setup()
+  lua require('nvim-tree').setup({ filters = { custom = { "^.git$" } } })
   lua vim.notify = require("notify")
 endfunction
 augroup plug_vim_enter
