@@ -61,11 +61,12 @@ set wildmenu
 set wrap
 set wrapscan
 if executable('rg')
-  set grepprg=rg\ --vimgrep\ --hidden\ --glob\ '!**/.git/*'
+  set grepprg=rg\ --vimgrep\ --hidden\ --trim\ --glob\ '!**/.git/*'
   set grepformat=%f:%l:%c:%m
 endif
 
 command! -nargs=+ Grep silent grep! <args>
+command! -nargs=+ GrepF Grep --fixed-strings -- <args>
 
 noremap j gj
 noremap k gk
