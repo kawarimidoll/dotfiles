@@ -20,7 +20,7 @@ command! VimShowHlGroup echo synID(line('.'), col('.'), 1)->synIDtrans()->synIDa
 
 command! -nargs=* T split | wincmd j | resize 12 | terminal <args>
 
-command! DiagnosticToQf <cmd>lua vim.diagnostic.setqflist()<CR>
+command! DiagnosticToQf lua vim.diagnostic.setqflist()
 
 " {{{ Dex
 function s:dex_complete(A,L,P)

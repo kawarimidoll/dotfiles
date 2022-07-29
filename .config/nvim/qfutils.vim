@@ -13,9 +13,13 @@ function! s:b_cycle(count) abort
     let cmd = 'bprevious'
     let count = -a:count
   endif
+  if &filetype == 'qf' || &filetype == 'help'
+    wincmd w
+    let count = count -1
+  endif
   while index < count
     execute cmd
-    if &filetype == 'qf'
+    if &filetype == 'qf' || &filetype == 'help'
       execute cmd
     endif
     let index = index + 1
@@ -47,7 +51,7 @@ command! -nargs=1 CCycle call s:c_cycle(<q-args>)
 
 " {{{ CClear
 command! CClear call setqflist([], 'r') | cclose
-autocmd FileType qf nnoremap <buffer> X <cmd>CClear<CR>
+autocmd qfutils.vim FileType qf nnoremap <buffer> X <cmd>CClear<CR>
 " }}}
 
 " {{{ CToggle
@@ -100,7 +104,7 @@ endfunction
 command! CRemove call s:c_remove()
 " Use map <buffer> to only map in the quickfix window like this:
 " autocmd FileType qf nnoremap <buffer> dd <cmd>CRemove<cr>
-autocmd FileType qf nnoremap <buffer> x <cmd>CRemove<CR>
+autocmd qfutils.vim FileType qf nnoremap <buffer> x <cmd>CRemove<CR>
 autocmd qfutils.vim FileType qf set number
 " }}}
 
