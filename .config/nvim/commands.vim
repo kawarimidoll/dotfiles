@@ -34,6 +34,29 @@ command! -nargs=* -bang -complete=custom,s:dex_complete Dex silent only! | botri
   \ file Dex<bang> | wincmd k
 " }}}
 
+" {{{ async_terminal
+function s:async_terminal(command) abort
+  let cmd = a:command->split(' ')->get(0, '')
+  if !executable(cmd)
+    echohl ErrorMsg
+    echo 'command not found:' cmd
+    echohl None
+    return
+  endif
+  let winnr = winnr()
+  botright 12 split
+  execute 'terminal' (has('nvim') ? '' : '++curwin') a:command
+  stopinsert
+  normal! G
+  set bufhidden=wipe
+  autocmd BufEnter <buffer> if winnr("$") == 1 | quit! | endif
+  execute 'file' a:command
+  execute winnr 'wincmd w'
+endfunction
+command! -nargs=+ AsyncTerminal call s:async_terminal(<q-args>)
+command! -nargs=+ Git call s:async_terminal('git ' .. <q-args>)
+" }}}
+
 " {{{ Keymap
 function! s:keymap(force_map, modes, ...) abort
   let arg = join(a:000, ' ')
