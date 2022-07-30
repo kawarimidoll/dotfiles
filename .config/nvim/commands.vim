@@ -35,26 +35,74 @@ command! -nargs=* -bang -complete=custom,s:dex_complete Dex silent only! | botri
 " }}}
 
 " {{{ async_terminal
-function s:async_terminal(command) abort
-  let cmd = a:command->split(' ')->get(0, '')
-  if !executable(cmd)
+function s:async_terminal(...) abort
+  let opts = []
+  for i in range(a:000->len())
+    let arg = a:000[i]
+    if arg =~ '^-'
+      call add(opts, substitute(arg, '^-\+', '', ''))
+      continue
+    endif
+
+    if !executable(arg)
+      echohl ErrorMsg
+      echomsg '[AsyncTerminal] command not found:' arg
+      echohl None
+      return
+    endif
+
+    let command = a:000[i:]->join(' ')
+    break
+  endfor
+
+  if !exists('command')
     echohl ErrorMsg
-    echo 'command not found:' cmd
+    echomsg '[AsyncTerminal] command is required'
     echohl None
     return
   endif
-  let winnr = winnr()
-  botright 12 split
-  execute 'terminal' (has('nvim') ? '' : '++curwin') a:command
+
+  let buf_open_cmd = #{
+    \   dir: 'botright',
+    \   size: 12,
+    \   split: 'split',
+    \ }
+  let bufhidden = 'wipe'
+  for opt in opts
+    if opt =~ '\d\+' && opt > 3
+      let buf_open_cmd.size = opt
+    elseif opt == 'b'
+      let buf_open_cmd.dir = 'botright'
+      let buf_open_cmd.split = 'split'
+    elseif opt == 'r'
+      let buf_open_cmd.dir = 'botright'
+      let buf_open_cmd.split = 'vsplit'
+    elseif opt == 't'
+      let buf_open_cmd.dir = 'topleft'
+      let buf_open_cmd.split = 'split'
+    elseif opt == 'l'
+      let buf_open_cmd.dir = 'topleft'
+      let buf_open_cmd.split = 'vsplit'
+    elseif opt == 'h'
+      let bufhidden = 'hide'
+    endif
+  endfor
+
+  let winid = win_getid()
+  execute buf_open_cmd.dir buf_open_cmd.size buf_open_cmd.split
+  execute 'terminal' (has('nvim') ? '' : '++curwin') command
   stopinsert
   normal! G
-  set bufhidden=wipe
-  autocmd BufEnter <buffer> if winnr("$") == 1 | quit! | endif
-  execute 'file' a:command
-  execute winnr 'wincmd w'
+  execute 'set bufhidden=' .. bufhidden
+  autocmd WinEnter,BufEnter <buffer>
+    \ if len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) <= 2
+    \ |   quit!
+    \ | endif
+  execute 'file' command
+  call win_gotoid(winid)
 endfunction
-command! -nargs=+ AsyncTerminal call s:async_terminal(<q-args>)
-command! -nargs=+ Git call s:async_terminal('git ' .. <q-args>)
+command! -nargs=+ AsyncTerminal call s:async_terminal(<f-args>)
+command! -nargs=+ Git call s:async_terminal('git', <f-args>)
 " }}}
 
 " {{{ Keymap
