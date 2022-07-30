@@ -77,6 +77,8 @@ noremap H ^
 noremap L $
 map M %
 
+nnoremap s <NOP>
+nnoremap s/ :%s/
 nnoremap S :%s/\V<C-r><C-w>//g<Left><Left>
 nnoremap <script> <expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
 nnoremap <sid>(q)q qq
@@ -101,7 +103,7 @@ nnoremap <Space>O <Cmd>put! =repeat(nr2char(10), v:count1)<CR>'[
 nnoremap <Space>q <cmd>confirm quit<CR>
 nnoremap <Space>Q <cmd>quitall!<CR>
 nnoremap <Space>w <cmd>w<CR>
-nnoremap <Space>wq <cmd>confirm wqall<CR>
+nnoremap <Space>wq <cmd>confirm wq<CR>
 nnoremap <Space>; @:
 nnoremap <silent><expr> <C-k> '<Cmd>move-1-' . v:count1 . '<CR>=l'
 nnoremap <silent><expr> <C-j> '<Cmd>move+'   . v:count1 . '<CR>=l'
@@ -114,8 +116,9 @@ noremap <expr> <C-b> max([winheight(0) - 2, 1])
       \ . '<C-u>' . (line('w0') <= 1 ? 'H' : 'M')
 
 " command
-cnoremap <expr> ss getcmdtype() == ':' && getcmdpos() == 1 ? '%s/' : 'ss'
-cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
+cnoremap <expr> s getcmdtype() == ':' && getcmdline() == 's' ? '<BS>%s/' : 's'
+cnoremap <expr> % getcmdtype() == ':' && getcmdpos() > 2 && getcmdline()[getcmdpos()-2] == '%' ?
+      \ '<BS>' .. expand('%:h') .. '/' : '%'
 cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
 cnoremap <expr> <C-n> wildmenumode() ? "\<C-n>" : "\<Down>"
 cnoremap <expr> <C-p> wildmenumode() ? "\<C-p>" : "\<Up>"
@@ -144,7 +147,7 @@ xnoremap < <gv
 xnoremap > >gv
 xnoremap <silent><C-k> :m'<-2<CR>gv=gv
 xnoremap <silent><C-j> :m'>+1<CR>gv=gv
-xnoremap s/ "zy:%s/<C-r>z//gce<Left><Left><Left><Left>
+xnoremap S "zy:%s/<C-r>z//gce<Left><Left><Left><Left>
 " ref: github.com/monaqa/dotfiles/blob/master/.config/nvim/scripts/keymap.vim#L65-L66
 xnoremap * "zy/\V<C-r><C-r>=substitute(escape(@z, '/\'), '\_s\+', '\\_s\\+', 'g')<CR><CR>N
 xnoremap R "zy:,$s//<C-r><C-r>=escape(@z, '/\&~')<CR>/gce<Bar>1,''-&&<CR>
