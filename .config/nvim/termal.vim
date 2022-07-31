@@ -13,11 +13,17 @@ function! s:ui_select(items, ...) abort
   return [choice, idx]
 endfunction
 
+function! s:echoerr(msg) abort
+  echohl ErrorMsg
+  echomsg a:msg
+  echohl None
+endfunction
+
 function! s:termal_select(...) abort
   let opts = get(a:000, 0, {})
   let len = len(s:termal_terminals)
   if len < 1
-    echoerr 'No terminals of termal are exist.'
+    s:echoerr('No terminals of termal are exist.')
     return {}
   endif
 
@@ -26,8 +32,7 @@ function! s:termal_select(...) abort
   endif
 
   let titles = map(s:termal_terminals[:], 'v:val.title')
-  " if has('nvim') && exists(g:termal_use_nvim_select)
-  if has('nvim')
+  if has('nvim') && !exists('g:termal_not_use_nvim_select')
     let b:termal_titles = titles
     let b:termal_opts = opts
     let b:termal_idx = -1
@@ -44,6 +49,18 @@ function! s:termal_select(...) abort
 endfunction
 command! TermalSelect echo s:termal_select()
 
+if has('nvim')
+  let s:terminal_open_command = 'keepalt terminal'
+  function! s:termal_sendkeys(termal_target, keys) abort
+    call chansend(a:termal_target.job_id, a:keys)
+  endfunction
+else
+  let s:terminal_open_command = 'keepalt terminal ++curwin'
+  function! s:termal_sendkeys(termal_target, keys) abort
+    call term_sendkeys(a:termal_target.bufnr, a:keys)
+  endfunction
+endif
+
 function! s:termal_run(no_run, ...) abort
   if !len(s:termal_terminals)
     call s:termal_open()
@@ -54,25 +71,27 @@ function! s:termal_run(no_run, ...) abort
     return
   endif
 
-  let job_id = termal_target.job_id
-
   let args = []
   for arg in a:000
     call add(args, expand(arg))
   endfor
 
-  let command = args->join(' ')
+  let command = join(args, ' ')
 
-  call chansend(job_id, command .. (a:no_run ? '' : "\<CR>"))
+  call s:termal_sendkeys(termal_target, command .. (a:no_run ? '' : "\<CR>"))
 
-  if command =~ '\s\+'
+  if command =~ '^\s*$'
     return
   endif
 
+  let bufnr = termal_target.bufnr
+  let title = bufnr .. '%' .. command
   for idx in range(len(s:termal_terminals))
-    if s:termal_terminals[idx].job_id == job_id
-      let pid = s:termal_terminals[idx].pid
-      let s:termal_terminals[idx].title = pid .. '%' .. command
+    if s:termal_terminals[idx].bufnr == bufnr
+      let s:termal_terminals[idx].title = title
+      if has('nvim')
+        let b:term_title = title
+      endif
       break
     endif
   endfor
@@ -81,38 +100,108 @@ command! -nargs=* -bang TermalRun call s:termal_run(<bang>0, <f-args>)
 
 function! s:termal_open() abort
   let winid = win_getid()
-  botright 12 split
-  keepalt terminal
+
+  " default: bottom, 12
+  let buf_open_cmd = ['botright', 12, 'split']
+  let termal_dir = get(g:, 'termal_default_dir')
+  if termal_dir == 'bottom'
+    let buf_open_cmd[0] = 'botright'
+    let buf_open_cmd[2] = 'split'
+  elseif termal_dir == 'right'
+    let buf_open_cmd[0] = 'botright'
+    let buf_open_cmd[2] = 'vsplit'
+  elseif termal_dir == 'top'
+    let buf_open_cmd[0] = 'topleft'
+    let buf_open_cmd[2] = 'split'
+  elseif termal_dir == 'left'
+    let buf_open_cmd[0] = 'topleft'
+    let buf_open_cmd[2] = 'vsplit'
+  endif
+
+  let termal_size = get(g:, 'termal_default_size')
+  if termal_size =~ '^[1-9]\+\d*$' && termal_size > 3
+    let buf_open_cmd[1] = termal_size
+  end
+
+  execute join(buf_open_cmd, ' ')
+  execute s:terminal_open_command
   stopinsert
   setlocal nonumber norelativenumber
   normal! G
-  let pid = b:terminal_job_pid
-  let title = pid .. '%' .. &shell
-  execute 'file' title
+  let bufnr = bufnr()
+  let title = bufnr .. '%' .. &shell
+  if has('nvim')
+    let b:term_title = title
+  endif
   call add(s:termal_terminals, {
-    \   'job_id': b:terminal_job_id,
-    \   'pid': pid,
-    \   'bufnr': bufnr(),
+    \   'job_id': get(b:, 'terminal_job_id'),
+    \   'bufnr': bufnr,
     \   'title': title
     \ })
+  execute 'autocmd BufDelete <buffer> call s:remove_from_termal_list(' .. bufnr .. ')'
   call win_gotoid(winid)
 endfunction
 command! TermalOpen call s:termal_open()
 
-function! s:termal_wipe() abort
-  let termal_target = s:termal_select()
-  if empty(termal_target)
-    return
-  endif
-
-  let bufnr = termal_target.bufnr
-  execute bufnr 'bwipeout!'
-
+function! s:remove_from_termal_list(bufnr) abort
   for idx in range(len(s:termal_terminals))
-    if s:termal_terminals[idx].bufnr == bufnr
+    if s:termal_terminals[idx].bufnr == a:bufnr
       unlet s:termal_terminals[idx]
       break
     endif
   endfor
 endfunction
-command! TermalWipe call s:termal_wipe()
+
+function! s:termal_wipe(all_kill) abort
+  if a:all_kill
+    for tarmal_target in s:termal_terminals
+      execute termal_target.bufnr 'bwipeout!'
+    endfor
+    return
+  endif
+
+  let termal_target = s:termal_select()
+  if empty(termal_target)
+    return
+  endif
+
+  execute termal_target.bufnr 'bwipeout!'
+endfunction
+command! -bang TermalWipe call s:termal_wipe(<bang>0)
+
+let s:subcommands = ['open', 'wipe', 'send', 'run', 'select']
+function! s:termal_comp(ArgLead, CmdLine, CursorPos) abort
+  let cmd = get(split(a:CmdLine, '\s\+'), 1, '')
+  if index(s:subcommands, cmd) > -1
+    return ''
+  endif
+  return join(s:subcommands, "\n")
+endfunction
+
+function! s:snake_to_camel(str) abort
+  return substitute(substitute(a:str, '^\l', '\u\0', ''), '_\(\l\)', '\u\1', 'g')
+endfunction
+
+function! termal#do(args) abort
+  if a:args =~ '^\s*$'
+    s:echoerr('[Termal] Subcommand is required')
+    return
+  endif
+
+  let [subcommand; args] = split(a:args, '\s\+')
+  if index(s:subcommands, subcommand) < 0
+    s:echoerr('[Termal] Subcommand not found: ' .. subcommand)
+    return
+  endif
+
+  echo 's:termal_' .. subcommand .. '("' .. join(args, ' ') .. '")'
+
+  call insert(args, 'Termal' .. s:snake_to_camel(subcommand))
+
+  let command = join(args, ' ')
+
+  " execute command
+  echo command
+
+endfunction
+command! -nargs=+ -complete=custom,s:termal_comp Termal call termal#do(<q-args>)
