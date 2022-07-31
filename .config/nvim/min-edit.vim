@@ -109,11 +109,8 @@ nnoremap <silent><expr> <C-k> '<Cmd>move-1-' . v:count1 . '<CR>=l'
 nnoremap <silent><expr> <C-j> '<Cmd>move+'   . v:count1 . '<CR>=l'
 nnoremap <silent><C-l> :<C-u>nohlsearch<CR>:diffupdate<CR>:syntax sync fromstart<CR><C-l>
 
-" https://github.com/Shougo/shougo-s-github/blob/c327993df755cda22b80d7ee74d131542ef7136c/vim/rc/mappings.rc.vim#L113-L117
-noremap <expr> <C-f> max([winheight(0) - 2, 1])
-      \ . '<C-d>' . (line('w$') >= line('$') ? 'L' : 'M')
-noremap <expr> <C-b> max([winheight(0) - 2, 1])
-      \ . '<C-u>' . (line('w0') <= 1 ? 'H' : 'M')
+nnoremap <C-f> <Cmd>set scroll=0<CR><Cmd>execute 'normal!' repeat("\<C-d>", v:count1 * 2)<CR>
+nnoremap <C-b> <Cmd>set scroll=0<CR><Cmd>execute 'normal!' repeat("\<C-u>", v:count1 * 2)<CR>
 
 " command
 cnoremap <expr> s getcmdtype() == ':' && getcmdline() == 's' ? '<BS>%s/' : 's'
