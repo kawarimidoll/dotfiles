@@ -239,3 +239,5 @@ function! s:ensure_dir(dir, force)
 endfunction
 autocmd commands.vim BufWritePre * call s:ensure_dir(expand('<afile>:p:h'), v:cmdbang)
 " }}}
+
+source ~/dotfiles/.config/nvim/termal.vim
