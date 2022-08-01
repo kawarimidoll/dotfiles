@@ -11,9 +11,22 @@ endfunction
 function! utils#echo(msg) abort
   echo a:msg
 endfunction
+function! utils#let(var_name, value, ...) abort
+  let value = a:value
+  let raw_value = get(a:000, 0, 0)
+  if !raw_value
+    let value = '"' .. a:value .. '"'
+  endif
+  execute 'let ' ..a:var_name .. '=' .. value
+endfunction
 
 " example
 " call utils#select(['Fire', 'Air', 'Water', 'Earth'], {}, {item,_->item != v:null ? utils#echo(item) : ''})
+" call utils#select(['Fire', 'Air', 'Water', 'Earth'], {}, {item,num->num > 0 ? utils#let('b:selected', item) : ''})
+" if exists('b:selected')
+"   echo b:selected
+"   unlet b:selected
+" endif
 
 " with options
 " call utils#select(['Fire', 'Air', 'Water', 'Earth'], {
