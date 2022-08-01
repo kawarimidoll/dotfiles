@@ -18,7 +18,7 @@ command! CopyRelativePath let @*=expand('%:h').'/'.expand('%:t') | echo 'copy re
 
 command! VimShowHlGroup echo synID(line('.'), col('.'), 1)->synIDtrans()->synIDattr('name')
 
-command! -nargs=* T split | wincmd j | resize 12 | terminal <args>
+" command! -nargs=* T split | wincmd j | resize 12 | terminal <args>
 
 command! DiagnosticToQf lua vim.diagnostic.setqflist()
 

@@ -153,10 +153,14 @@ Plug 'voldikss/vim-floaterm', #{ on: 'FloatermNew' }
 Plug 'segeljakt/vim-silicon', #{ on: 'Silicon' }
 Plug 'monaqa/dial.nvim', #{ on: '<Plug>(dial-' }
 Plug 'simeji/winresizer', #{ on: 'WinResizerStartResize' }
+Plug 'skanehira/badapple.vim', #{ on: 'BadApple' }
+Plug 'kassio/neoterm', #{ on: ['T', 'Tnew'] }
 Plug 'vim-jp/vimdoc-ja'
 
 call plug#end()
 
+let g:neoterm_default_mod = 'botright'
+let g:neoterm_autoscroll = v:true
 let g:lazygit_floating_window_scaling_factor = 1
 " let g:lazygit_floating_window_winblend = 20
 autocmd User vim-silicon ++once source ~/dotfiles/.config/nvim/plugin_config/silicon.vim
