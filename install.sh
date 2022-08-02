@@ -87,7 +87,8 @@ read -r selection
 if [[ "$selection" = *"a"* ]] || [[ "$selection" = *"d"* ]]; then
   echo "  begin download dotfiles."
   download_dotfiles
-  echo -e "  end download dotfiles.\n"
+  echo "  end download dotfiles."
+  echo ''
 fi
 if [[ "$selection" = *"a"* ]] || [[ "$selection" = *"l"* ]]; then
   echo "  begin link dotfiles."
@@ -96,14 +97,16 @@ if [[ "$selection" = *"a"* ]] || [[ "$selection" = *"l"* ]]; then
   mkdir -p "${XDG_CACHE_HOME}/less"
   mkdir -p "${XDG_STATE_HOME}/zsh"
   mkdir -p "${XDG_DATA_HOME}/terminfo"
-  echo -e "  end link dotfiles.\n"
+  echo "  end link dotfiles."
+  echo ''
 fi
 if [[ "$selection" = *"a"* ]] || [[ "$selection" = *"s"* ]]; then
   echo "  begin setup applications."
 
   os_install_sh="${DOT_DIR}/etc/${OS}/install.sh"
   [ -f "$os_install_sh" ] && sh -c "$os_install_sh"
-  echo -e "  end setup applications.\n"
+  echo "  end setup applications."
+  echo ''
 fi
 
 echo "  finished."
