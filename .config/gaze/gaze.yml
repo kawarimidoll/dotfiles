@@ -1,0 +1,21 @@
+commands:
+  - ext: .go
+    cmd: go run "{{file}}"
+  - ext: .sh
+    cmd: sh "{{file}}"
+  - ext: .py
+    cmd: python "{{file}}"
+  - ext: .rb
+    cmd: ruby "{{file}}"
+  - ext: .js
+    cmd: deno "{{file}}"
+  - ext: .java
+    cmd: java "{{file}}"
+  - ext: .rs
+    cmd: rustc "{{file}}" -o"{{base0}}.out" && ./"{{base0}}.out"
+  - ext: .cpp
+    cmd: gcc "{{file}}" -o"{{base0}}.out" && ./"{{base0}}.out"
+  - ext: .ts
+    cmd: deno "{{file}}"
+  - re: ^Dockerfile$
+    cmd: docker build -f "{{file}}" .

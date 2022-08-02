@@ -1,4 +1,4 @@
-timestamp: 2022-07-23 11:13:34 JST
+timestamp: 2022-08-02 09:52:34 JST
 tap: a-know/tap
 tap: harelba/q
 tap: homebrew/bundle
@@ -49,6 +49,7 @@ brew: findutils
 brew: fnm
 brew: fselect
 brew: gawk
+brew: gaze
 brew: gh
 brew: ghq
 brew: gifsicle
@@ -72,6 +73,7 @@ brew: gojq
 brew: gping
 brew: grep
 brew: grex
+brew: gum
 brew: gzip
 brew: helix
 brew: highlight
@@ -107,6 +109,7 @@ brew: neovim
 brew: ninja
 brew: nyancat
 brew: orc
+brew: page
 brew: pastel
 brew: pget
 brew: pinentry-mac
@@ -145,6 +148,7 @@ brew: tz
 brew: ugit
 brew: ugrep
 brew: unzip
+brew: viddy
 brew: vim
 brew: viu
 brew: w3m
