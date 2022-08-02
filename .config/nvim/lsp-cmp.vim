@@ -49,6 +49,11 @@ function s:load_qfutils(args) abort
   execute 'Qfutils' a:args
 endfunction
 command! -nargs=+ Qfutils call s:load_qfutils(<q-args>)
+function s:load_async_terminal(args) abort
+  source ~/dotfiles/.config/nvim/async_terminal.vim
+  execute 'AsyncTerminal' a:args
+endfunction
+command! -nargs=+ AsyncTerminal call s:load_async_terminal(<q-args>)
 source ~/dotfiles/.config/nvim/commands.vim
 let g:my_vimrc = expand('<sfile>:p')
 Keymap nx gf <Cmd>SmartOpen<CR>
@@ -161,6 +166,8 @@ call plug#end()
 
 let g:neoterm_default_mod = 'botright'
 let g:neoterm_autoscroll = v:true
+let g:neoterm_size = winheight(0)/3
+command! Texit T exit
 let g:lazygit_floating_window_scaling_factor = 1
 " let g:lazygit_floating_window_winblend = 20
 autocmd User vim-silicon ++once source ~/dotfiles/.config/nvim/plugin_config/silicon.vim
@@ -478,7 +485,7 @@ augroup vimrc
   autocmd FileType gitcommit,gina-commit nnoremap <buffer> <CR> <Cmd>silent! execute 'normal! ^w"zdiw"_dip"zPA: ' <bar> startinsert!<CR>
 
   " [NeovimのTerminalモードをちょっと使いやすくする](https://zenn.dev/ryo_kawamata/articles/improve-neovmi-terminal)
-  autocmd TermOpen * startinsert
+  " autocmd TermOpen * startinsert
 
   " autocmd BufNewFile,BufRead .env* setf env
   autocmd BufNewFile,BufRead commonshrc setf bash
