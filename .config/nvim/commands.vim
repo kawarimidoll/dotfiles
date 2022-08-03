@@ -34,6 +34,44 @@ command! -nargs=* -bang -complete=custom,s:dex_complete Dex silent only! | botri
   \ file Dex<bang> | wincmd k
 " }}}
 
+" {{{ Sh
+function! s:sh(cmd, opts) abort
+  if a:cmd == ''
+    return
+  endif
+
+  let cmd = get(a:opts, 'expand_each_word', v:true)
+    \ ? join(map(split(a:cmd, '\s\+'), 'expand(v:val)'), ' ')
+    \ : a:cmd
+  let send_cmd = printf('echo ❯ %s && %s', cmd, cmd)
+  let opts = {}
+
+  execute 'botright' winheight(0)/3 'split +enew'
+  setlocal nonumber norelativenumber
+  let bn = bufnr()
+
+  let sleep_sec = get(a:opts, 'auto_exit_sec', 0)
+  if sleep_sec > 0
+    let cnt = sleep_sec * 10
+    " let sleep_cmd = printf("printf '%s\r';for i in $(seq %s);do;sleep .1;printf '#';done;", repeat('=', cnt), cnt)
+    let sleep_cmd = printf("printf '%%%ss]\r[';%s", cnt+1, repeat('sleep .1;printf =;', cnt))
+    let send_cmd = printf('%s && echo && %s', send_cmd, sleep_cmd)
+    let opts['on_exit'] = {_->execute(bn .. 'bdelete')}
+  endif
+  call termopen(send_cmd, opts)
+
+  stopinsert
+  let b:term_title = bn .. ':' .. cmd
+  execute 'file' b:term_title
+  execute 'normal! G'
+  set bufhidden=wipe
+  execute 'autocmd BufEnter <buffer> if winnr("$") == 1 | quit! | endif'
+  wincmd p
+endfunction
+command! -nargs=+ -bang -count=2 -complete=shellcmd Sh
+  \ call s:sh(<q-args>, { 'expand_each_word': <bang>1, 'auto_exit_sec': <count> })
+" }}}
+
 " {{{ Keymap
 function! s:keymap(force_map, modes, ...) abort
   let arg = join(a:000, ' ')
