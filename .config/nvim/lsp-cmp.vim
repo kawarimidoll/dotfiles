@@ -379,11 +379,11 @@ autocmd User pounce.nvim ++once call <sid>pounce_init()
 
 " {{{ fzf-preview.vim
 " nnoremap <Space>a <Cmd>EnsureFzf<CR><Cmd>FzfPreviewGitActionsRpc<CR>
-nnoremap <Space>f <Cmd>FzfPreviewProjectFilesRpc<CR>
-nnoremap <Space>h <Cmd>FzfPreviewProjectMruFilesRpc<CR>
-nnoremap <Space>/ :<C-u>FzfPreviewProjectGrepRpc ""<Left>
-nnoremap <Space>? :<C-u>FzfPreviewProjectGrepRpc ""<Left><C-r><C-f>
-xnoremap <Space>? "zy:<C-u>FzfPreviewProjectGrepRpc "<C-r>z"<Left>
+" nnoremap <Space>f <Cmd>FzfPreviewProjectFilesRpc<CR>
+" nnoremap <Space>h <Cmd>FzfPreviewProjectMruFilesRpc<CR>
+" nnoremap <Space>/ :<C-u>FzfPreviewProjectGrepRpc ""<Left>
+" nnoremap <Space>? :<C-u>FzfPreviewProjectGrepRpc ""<Left><C-r><C-f>
+" xnoremap <Space>? "zy:<C-u>FzfPreviewProjectGrepRpc "<C-r>z"<Left>
 " }}}
 
 " {{{ fzf-lua
@@ -392,13 +392,20 @@ autocmd User fzf-lua ++once luafile ~/dotfiles/.config/nvim/plugin_config/fzf_lu
 nnoremap <Space>a <Cmd>FzfLua git_status<CR>
 nnoremap <Space>b <Cmd>FzfLua buffers<CR>
 nnoremap <Space>B <Cmd>FzfLua blines<CR>
-nnoremap <Space>c <Cmd>FzfLua quickfix<CR>
+nnoremap <Space>c <Cmd>FzfLua command_history<CR>
+nnoremap <Space>C <Cmd>FzfLua quickfix<CR>
+nnoremap <Space>f <Cmd>FzfLua files<CR>
+nnoremap <Space>F <Cmd>FzfLua builtin<CR>
+nnoremap <Space>h <Cmd>FzfLua oldfiles<CR>
 nnoremap <Space>H <Cmd>FzfLua help_tags<CR>
 nnoremap <Space>j <Cmd>FzfLua jumps<CR>
 nnoremap <Space>l <Cmd>FzfLua lines<CR>
 nnoremap <Space>m <Cmd>FzfLua marks<CR>
 nnoremap <Space>z <Cmd>FzfLua live_grep<CR>
 nnoremap <Space>: <Cmd>FzfLua commands<CR>
+nnoremap <Space>/ <Cmd>FzfLua grep<CR>
+nnoremap <Space>? <Cmd>FzfLua grep_cword<CR>
+xnoremap <Space>? <Cmd>FzfLua grep_visual<CR>
 " }}}
 
 " {{{ winresizer
