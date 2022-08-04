@@ -122,7 +122,7 @@ function! s:smart_open() abort
       endif
     endfor
 
-    if confirm('Are you sure to search: ' .. safe_query, "Yes\nNo", 2) == 2
+    if confirm('Are you sure to search: ' .. safe_query, "Yes\nNo", 2) != 1
       return
     endif
 
