@@ -403,9 +403,6 @@ nnoremap <Space>l <Cmd>FzfLua lines<CR>
 nnoremap <Space>m <Cmd>FzfLua marks<CR>
 nnoremap <Space>z <Cmd>FzfLua live_grep<CR>
 nnoremap <Space>: <Cmd>FzfLua commands<CR>
-nnoremap <Space>/ <Cmd>FzfLua grep<CR>
-nnoremap <Space>? <Cmd>FzfLua grep_cword<CR>
-xnoremap <Space>? <Cmd>FzfLua grep_visual<CR>
 " }}}
 
 " {{{ winresizer
