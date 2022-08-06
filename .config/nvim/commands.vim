@@ -148,7 +148,7 @@ command! SmartOpen call <sid>smart_open()
 function! EditProjectMru() abort
   let cmd = 'git rev-parse --show-superproject-working-tree --show-toplevel 2>/dev/null | head -1'
   let root = system(cmd)->trim()->expand()
-  if root == ''
+  if !isdirectory(root)
     edit #<1
     return
   endif
@@ -162,6 +162,17 @@ endfunction
 
 " remove function because it is only for `$ nvim -c 'call EditProjectMru()'`
 autocmd commands.vim VimEnter * ++once delfunction! EditProjectMru
+" }}}
+
+" {{{ ensure_git_root
+function! s:ensure_git_root() abort
+  let cmd = 'git rev-parse --show-superproject-working-tree --show-toplevel 2>/dev/null | head -1'
+  let root = system(cmd)->trim()->expand()
+  if isdirectory(root) && root != getcwd()
+    execute 'cd' root
+  endif
+endfunction
+autocmd commands.vim VimEnter * ++once call s:ensure_git_root()
 " }}}
 
 " {{{ collect_yank_history
