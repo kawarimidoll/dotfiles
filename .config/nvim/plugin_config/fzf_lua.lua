@@ -1,6 +1,4 @@
 local fzf_lua = require('fzf-lua')
-local actions = require('fzf-lua.actions')
-local config = require('fzf-lua.config')
 
 fzf_lua.setup({
   winopts = {
@@ -49,10 +47,10 @@ fzf_lua.setup({
     },
   },
   grep = {
-    rg_opts = config.get_global('grep.rg_opts') .. " --hidden --trim --glob '!**/.git/*'",
+    rg_opts = fzf_lua.config.get_global('grep.rg_opts') .. " --hidden --trim --glob '!**/.git/*'",
     actions = {
       ["ctrl-g"] = '',
-      ["ctrl-l"] = { actions.grep_lgrep },
+      ["ctrl-l"] = { fzf_lua.actions.grep_lgrep },
     },
   },
   oldfiles = {
@@ -65,3 +63,45 @@ fzf_lua.setup({
     },
   },
 })
+
+local mru_cache = require('mru_cache')
+
+local gen_mru_cmd = function(type)
+  local file = mru_cache.cache_path(type)
+  -- remove current file and cwd
+  return "sed -e '\\|^" .. vim.api.nvim_buf_get_name(0) .. "$|d' -e 's|^"
+      .. vim.fn.getcwd() .. "/||' " .. file
+end
+local gen_mru_opts = function(args)
+  local file_actions = fzf_lua.defaults.actions.files
+  file_actions.default = fzf_lua.actions.file_edit
+
+  local opts = {
+    previewer = "builtin",
+    actions = file_actions,
+    file_icons = true,
+    color_icons = true
+  }
+  for k, v in pairs(args) do
+    opts[k] = v
+  end
+
+  opts.fn_transform = function(x)
+    return fzf_lua.make_entry.file(x, opts)
+  end
+  return opts
+end
+
+fzf_lua.mru = function(args)
+  args.prompt = 'MRU> '
+  local cmd = gen_mru_cmd('mru')
+  local opts = gen_mru_opts(args)
+  fzf_lua.fzf_exec(cmd, opts)
+end
+
+fzf_lua.mrw = function(args)
+  args.prompt = 'MRW> '
+  local cmd = gen_mru_cmd('mrw')
+  local opts = gen_mru_opts(args)
+  fzf_lua.fzf_exec(cmd, opts)
+end

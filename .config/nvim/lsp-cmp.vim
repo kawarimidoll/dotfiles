@@ -399,7 +399,7 @@ nnoremap <Space>c <Cmd>FzfLua command_history<CR>
 nnoremap <Space>C <Cmd>FzfLua quickfix<CR>
 nnoremap <Space>f <Cmd>FzfLua files<CR>
 nnoremap <Space>F <Cmd>FzfLua builtin<CR>
-nnoremap <Space>h <Cmd>FzfLua oldfiles<CR>
+nnoremap <Space>h <Cmd>FzfLua mru cwd_only=true<CR>
 nnoremap <Space>H <Cmd>FzfLua help_tags<CR>
 nnoremap <Space>j <Cmd>FzfLua jumps<CR>
 nnoremap <Space>l <Cmd>FzfLua lines<CR>
