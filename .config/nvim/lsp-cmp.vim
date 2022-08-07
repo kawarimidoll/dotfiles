@@ -134,6 +134,7 @@ Plug 'thinca/vim-qfreplace', #{ for: 'qf' }
 Plug 'rcarriga/nvim-notify', #{ on: [] }
 Plug 'simrat39/symbols-outline.nvim', #{ on: 'SymbolsOutline' }
 Plug 'kyazdani42/nvim-tree.lua', #{ on: [] }
+Plug 'kawarimidoll/mru_cache.lua', #{ on: [] }
 
 Plug 'junegunn/fzf', #{ do: { -> fzf#install() }, on: [] }
 Plug 'yuki-yano/fzf-preview.vim', #{ branch: 'release/rpc', on: [] }
@@ -318,6 +319,7 @@ function s:plug_vim_enter() abort
         \ 'qf.nvim',
         \ 'nvim-tree.lua',
         \ 'nvim-notify',
+        \ 'mru_cache.lua',
         \ )
 
   source ~/dotfiles/.config/nvim/plugin_config/skkeleton.vim
@@ -328,6 +330,7 @@ function s:plug_vim_enter() abort
   lua require('qf').setup()
   lua require('nvim-tree').setup({ filters = { custom = { "^.git$" } } })
   lua vim.notify = require("notify")
+  lua require('mru_cache').setup({ ignore_filetype_list = { "help" }, ignore_regex_list = { "%.git/" } })
 endfunction
 augroup plug_vim_enter
   autocmd!
