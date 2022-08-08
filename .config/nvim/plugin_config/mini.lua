@@ -298,6 +298,7 @@ local palettes = {
   },
   -- :h minischeme
   mini_default = require('mini.base16').mini_palette('#112641', '#e2e98f', 75),
+  minicyan = require('mini.base16').mini_palette('#0A2A2A', '#D0D0D0', 50),
   -- green is from icon, gray is from icon but brightness down
   kawarimidoll = require('mini.base16').mini_palette('#1f1d24', '#8fecd9', 75),
   harukawarimi = require('mini.base16').mini_palette('#1f1d24', '#e68be7', 85),
