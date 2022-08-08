@@ -1,3 +1,5 @@
+require('mini.ai').setup({})
+
 require('mini.bufremove').setup({})
 
 vim.api.nvim_create_autocmd({ 'FileType' }, {
