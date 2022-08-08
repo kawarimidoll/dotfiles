@@ -162,6 +162,7 @@ Plug 'monaqa/dial.nvim', #{ on: '<Plug>(dial-' }
 Plug 'simeji/winresizer', #{ on: 'WinResizerStartResize' }
 Plug 'skanehira/badapple.vim', #{ on: 'BadApple' }
 Plug 'kassio/neoterm', #{ on: ['T', 'Tnew'] }
+Plug 'tkmpypy/chowcho.nvim', #{ on: [] }
 Plug 'vim-jp/vimdoc-ja'
 
 call plug#end()
@@ -322,6 +323,7 @@ function s:plug_vim_enter() abort
         \ 'nvim-notify',
         \ 'mru_cache.lua',
         \ 'reacher.nvim',
+        \ 'chowcho.nvim',
         \ )
 
   source ~/dotfiles/.config/nvim/plugin_config/skkeleton.vim
@@ -329,6 +331,7 @@ function s:plug_vim_enter() abort
   source ~/dotfiles/.config/nvim/plugin_config/fzf_preview.vim
   luafile ~/dotfiles/.config/nvim/plugin_config/null_ls.lua
   luafile ~/dotfiles/.config/nvim/plugin_config/reacher.lua
+  luafile ~/dotfiles/.config/nvim/plugin_config/chowcho.lua
   " lua require('bqf').setup({ auto_resize_height = true })
   lua require('qf').setup()
   lua require('nvim-tree').setup({ filters = { custom = { "^.git$" } } })
