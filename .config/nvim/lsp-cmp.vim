@@ -135,6 +135,7 @@ Plug 'rcarriga/nvim-notify', #{ on: [] }
 Plug 'simrat39/symbols-outline.nvim', #{ on: 'SymbolsOutline' }
 Plug 'kyazdani42/nvim-tree.lua', #{ on: [] }
 Plug 'kawarimidoll/mru_cache.lua', #{ on: [] }
+Plug 'notomo/reacher.nvim', #{ on: [] }
 
 Plug 'junegunn/fzf', #{ do: { -> fzf#install() }, on: [] }
 Plug 'yuki-yano/fzf-preview.vim', #{ branch: 'release/rpc', on: [] }
@@ -320,12 +321,14 @@ function s:plug_vim_enter() abort
         \ 'nvim-tree.lua',
         \ 'nvim-notify',
         \ 'mru_cache.lua',
+        \ 'reacher.nvim',
         \ )
 
   source ~/dotfiles/.config/nvim/plugin_config/skkeleton.vim
   source ~/dotfiles/.config/nvim/plugin_config/skk_ddc_cmp.vim
   source ~/dotfiles/.config/nvim/plugin_config/fzf_preview.vim
   luafile ~/dotfiles/.config/nvim/plugin_config/null_ls.lua
+  luafile ~/dotfiles/.config/nvim/plugin_config/reacher.lua
   " lua require('bqf').setup({ auto_resize_height = true })
   lua require('qf').setup()
   lua require('nvim-tree').setup({ filters = { custom = { "^.git$" } } })
