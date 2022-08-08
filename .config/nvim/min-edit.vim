@@ -61,9 +61,15 @@ set wildmenu
 set wrap
 set wrapscan
 if executable('rg')
-  set grepprg=rg\ --vimgrep\ --hidden\ --trim\ --glob\ '!**/.git/*'
+  set grepprg=rg\ --line-number\ --column\ --no-heading\ --color=never\ --hidden\ --trim\ --glob\ '!**/.git/*'
   set grepformat=%f:%l:%c:%m
 endif
+
+let g:alpha_lower = 'abcdefghijklmnopqrstuvwxyz'
+let g:alpha_upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+let g:digits = '0123456789'
+let g:alpha_all = g:alpha_lower .. g:alpha_upper
+let g:alnum = g:alpha_all .. g:digits
 
 command! -nargs=+ Grep silent grep! <args>
 command! -nargs=+ GrepF Grep --fixed-strings -- <args>
@@ -83,6 +89,9 @@ nnoremap s <NOP>
 nnoremap s/ :%s/
 nnoremap S :%s/\V<C-r><C-w>//g<Left><Left>
 nnoremap <script> <expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
+for c in g:alpha_all->split('\zs')
+  execute 'nnoremap <sid>(q)' .. c '<NOP>'
+endfor
 nnoremap <sid>(q)q qq
 nnoremap Q @q
 
@@ -98,17 +107,21 @@ nnoremap ' `
 nnoremap gf gFzz
 nnoremap gx :<C-u>!open <C-r><C-a>
 
+for c in g:alpha_all->split('\zs')
+  execute 'nnoremap <Space>' .. c '<NOP>'
+endfor
 nnoremap <Space>g <Cmd>copy.<CR>
 nnoremap <Space>G <Cmd>copy-1<CR>
 nnoremap <Space>o <Cmd>put =repeat(nr2char(10), v:count1)<CR>
 nnoremap <Space>O <Cmd>put! =repeat(nr2char(10), v:count1)<CR>'[
+nnoremap <Space>p gg=G<C-o>
 nnoremap <Space>q <cmd>confirm quit<CR>
 nnoremap <Space>Q <cmd>quitall!<CR>
 nnoremap <Space>w <cmd>w<CR>
 nnoremap <Space>wq <cmd>confirm wq<CR>
 nnoremap <Space>; @:
 nnoremap <Space>/ :<C-u>Grep ''<Left>
-nnoremap <Space>? :<C-u>GrepF ''<Left><C-r><C-f>
+nnoremap <Space>? :<C-u>GrepF ''<Left><C-r><C-w>
 xnoremap <Space>? "zy:<C-u>GrepF '<C-r>z'<Left>
 nnoremap <silent><expr> <C-k> '<Cmd>move-1-' . v:count1 . '<CR>=l'
 nnoremap <silent><expr> <C-j> '<Cmd>move+'   . v:count1 . '<CR>=l'
@@ -251,6 +264,7 @@ augroup min-edit
         \ | highlight default ExtraWhitespace ctermbg=darkmagenta guibg=darkmagenta
 
   autocmd QuickfixCmdPost make,grep,grepadd,vimgrep if len(getqflist()) != 0 | copen | endif
+  autocmd QuickfixCmdPost lmake,grep,lgrepadd,lvimgrep if len(getloclist()) != 0 | lopen | endif
 
   if has('nvim')
     " https://jdhao.github.io/2020/05/22/highlight_yank_region_nvim/
