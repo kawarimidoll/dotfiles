@@ -357,14 +357,11 @@ nnoremap <C-l> <Cmd>call searchx#clear()<CR><Cmd>nohlsearch<CR><C-l>
 " }}}
 
 " {{{ dial.nvim
-function s:dial_init() abort
-  luafile ~/dotfiles/.config/nvim/plugin_config/dial.lua
-endfunction
 xmap g<C-a> g<Plug>(dial-increment)
 xmap g<C-x> g<Plug>(dial-decrement)
 Keymap nx <C-a> <Plug>(dial-increment)
 Keymap nx <C-x> <Plug>(dial-decrement)
-autocmd User dial.nvim ++once call <sid>dial_init()
+autocmd User dial.nvim ++once luafile ~/dotfiles/.config/nvim/plugin_config/dial.lua
 " }}}
 
 " {{{ vim-asterisk
@@ -377,13 +374,7 @@ Keymap nx g# <Plug>(asterisk-gz#)
 
 " {{{ pounce.nvim
 Keymap nx s' <Cmd>Pounce<CR>
-function s:pounce_init() abort
-  highlight PounceMatch      cterm=underline,bold ctermfg=gray ctermbg=214 gui=underline,bold guifg=#555555 guibg=#FFAF60
-  highlight PounceGap        cterm=underline,bold ctermfg=gray ctermbg=209 gui=underline,bold guifg=#555555 guibg=#E27878
-  highlight PounceAccept     cterm=underline,bold ctermfg=214 ctermbg=gray gui=underline,bold guifg=#FFAF60 guibg=#555555
-  highlight PounceAcceptBest cterm=underline,bold ctermfg=196 ctermbg=gray gui=underline,bold guifg=#EE2513 guibg=#555555
-endfunction
-autocmd User pounce.nvim ++once call <sid>pounce_init()
+autocmd User pounce.nvim ++once luafile ~/dotfiles/.config/nvim/plugin_config/pounce.lua
 " }}}
 
 " {{{ fzf-preview.vim
