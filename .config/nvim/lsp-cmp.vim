@@ -338,10 +338,10 @@ function s:plug_vim_enter() abort
   luafile ~/dotfiles/.config/nvim/plugin_config/null_ls.lua
   luafile ~/dotfiles/.config/nvim/plugin_config/reacher.lua
   luafile ~/dotfiles/.config/nvim/plugin_config/chowcho.lua
+  luafile ~/dotfiles/.config/nvim/plugin_config/notify.lua
   " lua require('bqf').setup({ auto_resize_height = true })
   lua require('qf').setup()
   lua require('nvim-tree').setup({ filters = { custom = { "^.git$" } } })
-  lua vim.notify = require("notify")
   lua require('mru_cache').setup({ ignore_filetype_list = { "help" }, ignore_regex_list = { "%.git/" } })
   lua require('pretty-fold').setup({})
   lua require('fold-preview').setup({})
