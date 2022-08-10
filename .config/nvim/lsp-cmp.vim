@@ -150,6 +150,9 @@ Plug 'lewis6991/gitsigns.nvim'
 Plug 'kat0h/bufpreview.vim', #{ on: 'PreviewMarkdown' }
 Plug 'lambdalisue/gin.vim', #{ on: [] }
 Plug 'lambdalisue/reword.vim', #{ on: [] }
+Plug 'anuvyklack/pretty-fold.nvim', #{ on: [] }
+Plug 'anuvyklack/fold-preview.nvim', #{ on: [] }
+Plug 'anuvyklack/keymap-amend.nvim', #{ on: [] }
 Plug 'kdheepak/lazygit.nvim', #{ on: 'LazyGit' }
 Plug 'tyru/open-browser.vim', #{ on: ['OpenBrowser', '<Plug>(openbrowser-'] }
 Plug 'tyru/capture.vim', #{ on: 'Capture' }
@@ -324,6 +327,9 @@ function s:plug_vim_enter() abort
         \ 'mru_cache.lua',
         \ 'reacher.nvim',
         \ 'chowcho.nvim',
+        \ 'pretty-fold.nvim',
+        \ 'fold-preview.nvim',
+        \ 'keymap-amend.nvim',
         \ )
 
   source ~/dotfiles/.config/nvim/plugin_config/skkeleton.vim
@@ -337,6 +343,8 @@ function s:plug_vim_enter() abort
   lua require('nvim-tree').setup({ filters = { custom = { "^.git$" } } })
   lua vim.notify = require("notify")
   lua require('mru_cache').setup({ ignore_filetype_list = { "help" }, ignore_regex_list = { "%.git/" } })
+  lua require('pretty-fold').setup({})
+  lua require('fold-preview').setup({})
 endfunction
 augroup plug_vim_enter
   autocmd!
