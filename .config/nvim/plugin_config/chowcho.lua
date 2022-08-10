@@ -7,11 +7,19 @@ end
 
 win_keymap_set('w',
   function()
-    if vim.fn.winnr('$') <= 2 then
-      vim.api.nvim_command('wincmd w')
-      return
+    local wins = 0
+    for i = 1, vim.fn.winnr('$') do
+      local win_id = vim.fn.win_getid(i)
+      local conf = vim.api.nvim_win_get_config(win_id)
+      if conf.focusable then
+        wins = wins + 1
+        if wins > 2 then
+          chowcho_run()
+          return
+        end
+      end
     end
-    chowcho_run()
+    vim.api.nvim_command('wincmd w')
   end
 )
 
