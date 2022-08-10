@@ -433,6 +433,9 @@ map M %
 
 " [Vim で q を prefix キーにする - 永遠に未完成](https://thinca.hatenablog.com/entry/q-as-prefix-key-in-vim)
 nnoremap <script> <expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
+for c in g:alpha_all->split('\zs')
+  execute 'nnoremap <sid>(q)' .. c '<NOP>'
+endfor
 nnoremap <sid>(q)q qq
 nnoremap Q @q
 " xnoremap <silent> Q :<C-u>normal! @q<CR>
@@ -440,7 +443,7 @@ nnoremap <sid>(q)a <Cmd>Qfutils CAdd<CR>
 nnoremap <sid>(q)b <Cmd>Gitsigns toggle_current_line_blame<CR>
 nnoremap <sid>(q)c <Cmd>Qfutils CToggle<CR>
 nnoremap <sid>(q)d <Cmd>TroubleToggle<CR>
-nnoremap <sid>(q)g :<C-u>global/^/normal
+nnoremap <sid>(q)g :<C-u>global/^/normal<Space>
 nnoremap <sid>(q)m <Cmd>PreviewMarkdownToggle<CR>
 nnoremap <sid>(q)o <Cmd>only<CR>
 nnoremap <sid>(q)t <C-^>
@@ -494,7 +497,7 @@ command! Croc execute '!croc send' expand('%:p')
 augroup vimrc
   autocmd!
   " https://zenn.dev/uochan/articles/2021-12-08-vim-conventional-commits
-  autocmd FileType gitcommit,gina-commit nnoremap <buffer> <CR> <Cmd>silent! execute 'normal! ^w"zdiw"_dip"zPA: ' <bar> startinsert!<CR>
+  autocmd FileType *commit nnoremap <buffer> <CR> <Cmd>silent! execute 'normal! ^w"zdiw"_dip"zPA: ' <bar> startinsert!<CR>
 
   " [NeovimのTerminalモードをちょっと使いやすくする](https://zenn.dev/ryo_kawamata/articles/improve-neovmi-terminal)
   " autocmd TermOpen * startinsert

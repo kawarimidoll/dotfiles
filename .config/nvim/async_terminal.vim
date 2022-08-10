@@ -106,4 +106,3 @@ endfunction
 " }}}
 
 command! -nargs=+ AsyncTerminal call s:async_terminal(<f-args>)
-" command! -nargs=+ Git call s:async_terminal('git', <f-args>)

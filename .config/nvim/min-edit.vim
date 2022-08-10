@@ -264,7 +264,7 @@ augroup min-edit
         \ | highlight default ExtraWhitespace ctermbg=darkmagenta guibg=darkmagenta
 
   autocmd QuickfixCmdPost make,grep,grepadd,vimgrep if len(getqflist()) != 0 | copen | endif
-  autocmd QuickfixCmdPost lmake,grep,lgrepadd,lvimgrep if len(getloclist()) != 0 | lopen | endif
+  autocmd QuickfixCmdPost lmake,grep,lgrepadd,lvimgrep if len(getloclist(0)) != 0 | lopen | endif
 
   if has('nvim')
     " https://jdhao.github.io/2020/05/22/highlight_yank_region_nvim/
