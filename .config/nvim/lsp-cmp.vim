@@ -358,10 +358,10 @@ Keymap nx s; <Cmd>FuzzyMotion<CR>
 
 " {{{ searchx
 " Keymap nx ? <Cmd>call searchx#start(#{ dir: 0 })<CR>
-Keymap nx ? <Cmd>call searchx#start(#{ dir: 1 })<CR>
-Keymap nx N <Cmd>call searchx#prev()<CR>
-Keymap nx n <Cmd>call searchx#next()<CR>
-nnoremap <C-l> <Cmd>call searchx#clear()<CR><Cmd>nohlsearch<CR><C-l>
+" Keymap nx ? <Cmd>call searchx#start(#{ dir: 1 })<CR>
+" Keymap nx N <Cmd>call searchx#prev()<CR>
+" Keymap nx n <Cmd>call searchx#next()<CR>
+" nnoremap <C-l> <Cmd>call searchx#clear()<CR><Cmd>nohlsearch<CR><C-l>
 " }}}
 
 " {{{ dial.nvim
