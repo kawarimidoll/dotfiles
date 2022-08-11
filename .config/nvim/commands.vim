@@ -84,7 +84,7 @@ function! s:keymap(force_map, modes, ...) abort
     execute mode .. cmd arg
   endfor
 endfunction
-command! -nargs=+ -bang Keymap call <SID>keymap(<bang>0, <f-args>)
+command! -nargs=+ -bang Keymap call s:keymap(<bang>0, <f-args>)
 " }}}
 
 " {{{ SmartOpen
@@ -183,16 +183,16 @@ function! s:collect_yank_history() abort
     call setreg(regs[index], getreginfo(regs[index-1]))
   endfor
 endfunction
-autocmd commands.vim TextYankPost * call <SID>collect_yank_history()
+autocmd commands.vim TextYankPost * call s:collect_yank_history()
 " }}}
 
 " {{{ ClearRegs
 function! s:clear_regs() abort
-  for r in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/'->split('\zs')
+  for r in split(g:alnum .. '/', '\zs')
     call setreg(r, [])
   endfor
 endfunction
-command! ClearRegs call <SID>clear_regs()
+command! ClearRegs call s:clear_regs()
 
 autocmd commands.vim VimEnter * ++once ClearRegs
 " }}}
@@ -241,7 +241,7 @@ function! s:half_move(direction) abort
   endif
   call setpos('.', [bufnum, lnum, col, off])
 endfunction
-command! -nargs=1 HalfMove call <SID>half_move(<f-args>)
+command! -nargs=1 HalfMove call s:half_move(<f-args>)
 " }}}
 
 " {{{ MergeHighlight
