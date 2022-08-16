@@ -166,6 +166,7 @@ Plug 'simeji/winresizer', #{ on: 'WinResizerStartResize' }
 Plug 'skanehira/badapple.vim', #{ on: 'BadApple' }
 Plug 'kassio/neoterm', #{ on: ['T', 'Tnew'] }
 Plug 'tkmpypy/chowcho.nvim', #{ on: [] }
+Plug 'edluffy/hologram.nvim', #{ on: [] }
 Plug 'vim-jp/vimdoc-ja'
 
 call plug#end()
@@ -327,6 +328,7 @@ function s:plug_vim_enter() abort
         \ 'mru_cache.lua',
         \ 'reacher.nvim',
         \ 'chowcho.nvim',
+        \ 'hologram.nvim',
         \ 'pretty-fold.nvim',
         \ 'fold-preview.nvim',
         \ 'keymap-amend.nvim',
@@ -343,6 +345,7 @@ function s:plug_vim_enter() abort
   lua require('qf').setup()
   lua require('nvim-tree').setup({ filters = { custom = { "^.git$" } } })
   lua require('mru_cache').setup({ ignore_filetype_list = { "help" }, ignore_regex_list = { "%.git/" } })
+  lua require('hologram').setup({})
   lua require('pretty-fold').setup({})
   lua require('fold-preview').setup({})
 endfunction
