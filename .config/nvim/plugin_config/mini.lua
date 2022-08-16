@@ -304,41 +304,27 @@ local palettes = {
   harukawarimi = require('mini.base16').mini_palette('#1f1d24', '#e68be7', 85),
 }
 
-local color_names = {}
-local n = 0
-for k, _ in pairs(palettes) do
-  n = n + 1
-  color_names[n] = k
-end
-table.sort(color_names)
-
+local scheme_names = vim.tbl_keys(palettes)
 vim.api.nvim_create_user_command(
   'MiniScheme',
   function(opts)
-    local palette = palettes[opts.fargs[1]]
-    if palette then
-      vim.g.scheme_name = opts.fargs[1]
+    local key = opts.fargs[1]
+
+    if vim.tbl_contains(scheme_names, key) then
+      vim.g.scheme_name = key
     else
       math.randomseed(os.time())
-      vim.g.scheme_name = color_names[math.random(#color_names)]
-      palette = palettes[vim.g.scheme_name]
+      vim.g.scheme_name = scheme_names[math.random(#scheme_names)]
     end
+
     require('mini.base16').setup({
-      palette = palette,
+      palette = palettes[vim.g.scheme_name],
       use_cterm = true,
     })
   end,
   {
     nargs = '?',
-    complete = function(arg_lead, _, _)
-      local out = {}
-      for _, c in ipairs(color_names) do
-        if vim.startswith(c, arg_lead) then
-          table.insert(out, c)
-        end
-      end
-      return out
-    end
+    complete = function() return scheme_names end
   }
 )
 vim.api.nvim_create_autocmd({ 'VimEnter' }, {
