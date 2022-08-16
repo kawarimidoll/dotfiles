@@ -259,7 +259,7 @@ augroup min-edit
   " u200A ' ' hair space
   " u200B '​' zero-width space
   " u3000 '　' ideographic (zenkaku) space
-  autocmd VimEnter,WinEnter,BufRead * ++once
+  autocmd VimEnter * ++once
         \ call matchadd('ExtraWhitespace', "[\u00A0\u2000-\u200B\u3000]")
         \ | highlight default ExtraWhitespace ctermbg=darkmagenta guibg=darkmagenta
 
@@ -269,8 +269,8 @@ augroup min-edit
   if has('nvim')
     " https://jdhao.github.io/2020/05/22/highlight_yank_region_nvim/
     autocmd TextYankPost * silent! lua vim.highlight.on_yank({ timeout=500 })
-    autocmd TermOpen <buffer> highlight clear ExtraWhitespace
+    " autocmd TermOpen <buffer> highlight clear ExtraWhitespace
   else
-    autocmd TerminalOpen <buffer> highlight clear ExtraWhitespace
+    " autocmd TerminalOpen <buffer> highlight clear ExtraWhitespace
   endif
 augroup END
