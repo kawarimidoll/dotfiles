@@ -110,17 +110,9 @@ local group = 'fzf_lua_augroup'
 vim.api.nvim_create_augroup(group, {})
 vim.api.nvim_create_autocmd({ 'QuickfixCmdPost' }, {
   group = group, pattern = { 'make', 'grep', 'grepadd', 'vimgrep' },
-  callback = function()
-    if #(vim.fn.getqflist()) > 0 then
-      fzf_lua.quickfix()
-    end
-  end,
+  callback = fzf_lua.quickfix,
 })
 vim.api.nvim_create_autocmd({ 'QuickfixCmdPost' }, {
   group = group, pattern = { 'lmake', 'lgrep', 'lgrepadd', 'lvimgrep' },
-  callback = function()
-    if #(vim.fn.getloclist()) > 0 then
-      fzf_lua.loclist()
-    end
-  end,
+  callback = fzf_lua.loclist,
 })
