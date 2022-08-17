@@ -39,6 +39,7 @@ set clipboard&
 set clipboard^=unnamed
 set clipboard^=unnamedplus
 set expandtab
+set fillchars+=eob:\\x20
 set foldcolumn=0
 set ignorecase
 set laststatus=1
