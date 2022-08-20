@@ -64,7 +64,10 @@ fzf_lua.setup({
   },
 })
 
-local mru_cache = require('mru_cache')
+local ok, mru_cache = pcall(require, 'mru_cache')
+if not ok then
+  vim.notify('mru_cache is required to find from mru source!', vim.log.levels.ERROR)
+end
 
 local gen_mru_cmd = function(type)
   local file = mru_cache.cache_path(type)

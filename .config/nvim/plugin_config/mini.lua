@@ -8,7 +8,10 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
     require('mini.comment').setup({
       hooks = {
         pre = function()
-          require('ts_context_commentstring.internal').update_commentstring({})
+          local exists, context_commentstring = pcall(require, 'ts_context_commentstring.internal')
+          if exists then
+            context_commentstring.update_commentstring({})
+          end
         end,
       },
     })
@@ -44,6 +47,7 @@ require('mini.surround').setup({})
 require('mini.statusline').setup({
   set_vim_settings = false,
 })
+vim.opt.laststatus = 3
 vim.api.nvim_set_hl(0, 'MiniStatuslineDevinfo', { link = 'String' })
 
 require('mini.trailspace').setup({})
@@ -327,11 +331,9 @@ vim.api.nvim_create_user_command(
     complete = function() return scheme_names end
   }
 )
-vim.api.nvim_create_autocmd({ 'VimEnter' }, {
-  pattern = '*',
-  command = 'MiniScheme',
-  once = true
-})
+if not vim.g.scheme_name then
+  vim.cmd('MiniScheme')
+end
 
 -- local mini_completion_setup = function()
 --   require('mini.fuzzy').setup({})

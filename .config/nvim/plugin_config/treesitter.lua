@@ -10,10 +10,16 @@ require('nvim-treesitter.configs').setup({
 
   -- {{{ nvim-treesitter-refactor
   refactor = {
+    smart_rename = {
+      enable = true,
+      keymaps = {
+        smart_rename = "grr",
+      },
+    },
     navigation = {
       enable = true,
       keymaps = {
-        goto_definition_lsp_fallback = "gd",
+        goto_definition = "gd",
         list_definitions = "grD",
         list_definitions_toc = "grt",
         goto_previous_usage = "[u",
@@ -48,20 +54,3 @@ require('nvim-treesitter.configs').setup({
 
 })
 require('hlargs').setup()
-
--- require('treesitter-context').setup({
-  -- enable = true,
-  -- max_lines = 100,
-  -- patterns = {
-    -- default = {
-      -- 'class',
-      -- 'function',
-      -- 'method',
-      -- 'for',
-      -- 'while',
-      -- 'if',
-      -- 'switch',
-      -- 'case',
-    -- },
-  -- },
--- })

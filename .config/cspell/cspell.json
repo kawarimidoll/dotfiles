@@ -44,7 +44,8 @@
       "languageId": "vim",
       "locale": "*",
       "ignoreRegExpList": [
-        "/Plug .*/"
+        "/Plug .*/",
+        "/jetpack.*/"
       ],
       "dictionaries": [
         "vim"
