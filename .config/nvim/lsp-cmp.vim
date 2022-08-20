@@ -2,44 +2,27 @@ if filereadable(expand('~/dotfiles/.config/nvim/min-edit.vim'))
   source ~/dotfiles/.config/nvim/min-edit.vim
 endif
 
-" to get dictionary:
-" curl -OL https://raw.githubusercontent.com/first20hours/google-10000-english/master/google-10000-english-no-swears.txt
-" mkdir -p ~/.cache/nvim
-" mv ./google-10000-english-no-swears.txt ~/.cache/nvim
+let s:dict_path = '~/.cache/nvim/google-10000-english-no-swears.txt'
+if !filereadable(expand(s:dict_path))
+  silent execute '!curl --create-dirs -fLo ' .. s:dict_path ..
+    \ 'https://raw.githubusercontent.com/first20hours/google-10000-english/master/google-10000-english-no-swears.txt'
+endif
+execute 'set dictionary+=' .. s:dict_path
 
-" let g:did_load_filetypes = 0
-" let g:do_filetype_lua = 1
 set autoindent
 set autoread
-" set cmdheight=2
-" set completeopt=longest,menu
 set completeopt=menu,menuone,noselect
-set cursorline
-set display=lastline
-set dictionary=~/.cache/nvim/google-10000-english-no-swears.txt
-set formatoptions=tcqmMj1
-set hidden
 set history=2000
-set incsearch
+set inccommand=split
 set infercase
-set laststatus=3
 set lazyredraw
 set linebreak
 set list
 set listchars=tab:^-,trail:~,extends:»,precedes:«,nbsp:%
-set matchtime=1
-set number
-set shiftround
-set shortmess+=c
-set signcolumn=yes
-set splitbelow
-set splitright
-set switchbuf=usetab
-" set t_Co=256
+set scrollback=2000
+set signcolumn=number
+set switchbuf+=usetab
 set termguicolors
-set textwidth=0
-set title
-set ttyfast
 set updatetime=300
 set wildmode=longest,full
 let g:markdown_fenced_languages = ['ts=typescript', 'js=javascript']

@@ -33,14 +33,13 @@ let g:vimsyn_embed              = 1
 
 set ambiwidth=single
 set breakindent
-set breakindentopt=min:50,shift:4,sbr
-set showbreak=↪
+set breakindentopt=min:50,shift:4,sbr,list:-1
 set clipboard&
 set clipboard^=unnamed
 set clipboard^=unnamedplus
 set expandtab
-set fillchars+=eob:\\x20
 set foldcolumn=0
+set formatoptions+=mM1
 set ignorecase
 set laststatus=1
 set nobackup
@@ -51,12 +50,18 @@ set noshowmode
 set noswapfile
 set nowritebackup
 set scrolloff=5
+set shiftround
 set shiftwidth=2
+set shortmess+=scI
+set showbreak=↪
 set showtabline=0
 set smartcase
 set smartindent
 set softtabstop=2
+set splitbelow
+set splitright
 set tabstop=2
+set title
 set whichwrap=b,s,h,l,<,>,[,],~
 set wildmenu
 set wrap
