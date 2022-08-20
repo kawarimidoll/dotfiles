@@ -109,6 +109,15 @@ nnoremap x "_d
 nnoremap X "_D
 nnoremap ' `
 
+nnoremap [b <Cmd>bprevious<CR>
+nnoremap ]b <Cmd>bnext<CR>
+nnoremap [B <Cmd>bfirst<CR>
+nnoremap ]B <Cmd>blast<CR>
+nnoremap [q <Cmd>cprevious<CR>
+nnoremap ]q <Cmd>cnext<CR>
+nnoremap [Q <Cmd>cfirst<CR>
+nnoremap ]Q <Cmd>clast<CR>
+
 " https://twitter.com/mo_naqa/status/1467626946293284865
 nnoremap gf gFzz
 nnoremap gx :<C-u>!open <C-r><C-a>
@@ -116,6 +125,7 @@ nnoremap gx :<C-u>!open <C-r><C-a>
 for c in g:alpha_all->split('\zs')
   execute 'nnoremap <Space>' .. c '<NOP>'
 endfor
+nnoremap <Space>d <Cmd>bdelete<CR>
 nnoremap <Space>g <Cmd>copy.<CR>
 nnoremap <Space>G <Cmd>copy-1<CR>
 nnoremap <Space>o <Cmd>put =repeat(nr2char(10), v:count1)<CR>
