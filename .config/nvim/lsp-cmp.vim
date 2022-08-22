@@ -374,11 +374,8 @@ command! -nargs=+ -complete=command -bang Capture
 " }}}
 
 " {{{ neoterm
-Plug 'kassio/neoterm', #{ 'on': ['T', 'Tnew'] }
-let g:neoterm_default_mod = 'botright'
-let g:neoterm_autoscroll = v:true
-let g:neoterm_size = winheight(0)/3
-command! Texit T exit
+Plug 'kassio/neoterm', { 'on': ['T', 'Tnew'] }
+autocmd User neoterm ++once source ~/dotfiles/.config/nvim/plugin_config/neoterm.vim
 " }}}
 
 " {{{ load immediately
