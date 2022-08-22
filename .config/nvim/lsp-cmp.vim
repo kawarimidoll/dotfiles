@@ -408,15 +408,15 @@ nnoremap <sid>(q)b <Cmd>Gitsigns toggle_current_line_blame<CR>
 nnoremap <sid>(q)c <Cmd>Qfutils CToggle<CR>
 nnoremap <sid>(q)d <Cmd>TroubleToggle<CR>
 nnoremap <sid>(q)g :<C-u>global/^/normal<Space>
-nnoremap <sid>(q)o <Cmd>only<CR>
-nnoremap <sid>(q)t <C-^>
-nnoremap <sid>(q)z <Cmd>lua MiniMisc.zoom()<CR>
-nnoremap <sid>(q)i <Cmd>HalfMove center<CR>
 nnoremap <sid>(q)h <Cmd>HalfMove left<CR>
+nnoremap <sid>(q)i <Cmd>HalfMove center<CR>
 nnoremap <sid>(q)j <Cmd>HalfMove down<CR>
 nnoremap <sid>(q)k <Cmd>HalfMove up<CR>
 nnoremap <sid>(q)l <Cmd>HalfMove right<CR>
+nnoremap <sid>(q)o <Cmd>only<CR>
+nnoremap <sid>(q)t <C-^>
 nnoremap <sid>(q)x <Cmd>Qfutils CClear<CR>
+nnoremap <sid>(q)z <Cmd>lua MiniMisc.zoom()<CR>
 nnoremap <Space>d <Cmd>keepalt lua MiniBufremove.delete()<CR>
 nnoremap <Space>L <Cmd>LazyGit<CR>
 " }}}
