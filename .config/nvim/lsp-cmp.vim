@@ -446,6 +446,29 @@ nnoremap <Space>d <Cmd>keepalt lua MiniBufremove.delete()<CR>
 nnoremap <Space>L <Cmd>LazyGit<CR>
 " }}}
 
+" {{{ terminal_autoclose
+function! s:terminal_autoclose(cmd) abort
+  let bn = bufnr()
+  let cmd = get(a:, 'cmd', '')
+  if cmd == ''
+    let cmd = &shell
+  endif
+
+  let opts = { 'on_exit': { -> { execute(bn .. 'bwipeout', 'silent!') } } }
+  call termopen(cmd, opts)
+  normal! G
+endfunction
+command! -nargs=* TerminalAutoclose call s:terminal_autoclose(<q-args>)
+command! -nargs=* TA call s:terminal_autoclose(<q-args>)
+
+command! Nyancat botright split +enew
+    \ | execute 'TerminalAutoclose nyancat'
+    \ | set bufhidden=wipe | wincmd p
+command! -bang GhGraph botright 10 split +enew
+    \ | execute 'terminal gh graph' (<bang>0 ? ' --scheme=random' : '')
+    \ | set bufhidden=wipe | wincmd p
+" }}}
+
 " {{{ autocmd
 augroup vimrc
   autocmd!
