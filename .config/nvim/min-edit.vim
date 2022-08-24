@@ -77,10 +77,10 @@ let g:digits = '0123456789'
 let g:alpha_all = g:alpha_lower .. g:alpha_upper
 let g:alnum = g:alpha_all .. g:digits
 
-command! -nargs=+ Grep execute 'silent grep! <args>'
-command! -nargs=+ GrepF execute 'silent grep! --fixed-strings -- <args>'
-command! -nargs=+ LGrep execute 'silent lgrep! <args>'
-command! -nargs=+ LGrepF execute 'silent lgrep! --fixed-strings -- <args>'
+command! -nargs=+ Grep silent grep! <args>
+command! -nargs=+ GrepF silent grep! --fixed-strings -- <args>
+command! -nargs=+ LGrep silent lgrep! <args>
+command! -nargs=+ LGrepF silent lgrep! --fixed-strings -- <args>
 
 noremap j gj
 noremap k gk
@@ -136,9 +136,9 @@ nnoremap <Space>Q <cmd>quitall!<CR>
 nnoremap <Space>w <cmd>w<CR>
 nnoremap <Space>wq <cmd>confirm wq<CR>
 nnoremap <Space>; @:
-nnoremap <Space>/ :<C-u>Grep<Space>
-nnoremap <Space>? :<C-u>GrepF <C-r><C-w>
-xnoremap <Space>? "zy:<C-u>GrepF <C-r>z
+nnoremap <Space>/ :<C-u>Grep ''<Left>
+nnoremap <Space>? :<C-u>GrepF ''<Left><C-r><C-w>
+xnoremap <Space>? "zy:<C-u>GrepF ''<Left><C-r>z
 nnoremap <silent><expr> <C-k> '<Cmd>move-1-' . v:count1 . '<CR>=l'
 nnoremap <silent><expr> <C-j> '<Cmd>move+'   . v:count1 . '<CR>=l'
 nnoremap <silent><C-l> :<C-u>nohlsearch<CR>:diffupdate<CR>:syntax sync fromstart<CR><C-l>
