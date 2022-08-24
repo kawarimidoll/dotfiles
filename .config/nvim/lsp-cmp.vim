@@ -378,6 +378,31 @@ Plug 'kassio/neoterm', { 'on': ['T', 'Tnew'] }
 autocmd User neoterm ++once source ~/dotfiles/.config/nvim/plugin_config/neoterm.vim
 " }}}
 
+" {{{ venn.nvim
+Plug 'jbyuki/venn.nvim', { 'on': [] }
+function! s:venn_toggle() abort
+  if !get(g:, 'venn_loaded')
+    call plug#load('venn.nvim')
+    execute 'luafile' g:plug_home .. '/venn.nvim/plugin/venn.lua'
+    let g:venn_loaded = 1
+  endif
+  if get(b:, 'venn_enabled')
+    setlocal virtualedit=
+    mapclear <buffer>
+    unlet! b:venn_enabled
+  else
+    let b:venn_enabled = 1
+    setlocal virtualedit=all
+    nnoremap <buffer><nowait> <C-j> <C-v>j:VBox<CR>
+    nnoremap <buffer><nowait> <C-k> <C-v>k:VBox<CR>
+    nnoremap <buffer><nowait> <C-l> <C-v>l:VBox<CR>
+    nnoremap <buffer><nowait> <C-h> <C-v>h:VBox<CR>
+    vnoremap <buffer><nowait> f :VBox<CR>
+  endif
+endfunction
+command! VToggle call s:venn_toggle()
+" }}}
+
 " {{{ load immediately
 Plug 'lewis6991/impatient.nvim'
 Plug 'echasnovski/mini.nvim'
