@@ -82,6 +82,9 @@ command! -nargs=+ GrepF silent grep! --fixed-strings -- <args>
 command! -nargs=+ LGrep silent lgrep! <args>
 command! -nargs=+ LGrepF silent lgrep! --fixed-strings -- <args>
 
+command! -nargs=1 VDiff vertical diffsplit <args>
+command! VDiffAlt execute 'vertical diffsplit' expand('#')
+
 noremap j gj
 noremap k gk
 noremap gj j
