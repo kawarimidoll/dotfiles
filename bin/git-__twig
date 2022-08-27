@@ -1,3 +1,13 @@
 #!/bin/bash
 
+# `git home` when argument is not specified
+[[ -z "$@" ]] && git home && exit 0
+
+# `git switch` when argument is specified
+git switch "$@" && exit 0
+
+# `git fetch` when branch is not found
+git fetch --all --prune --tags
+
+# `git switch` or create new branch
 git switch "$@" || git switch --create "$@"
