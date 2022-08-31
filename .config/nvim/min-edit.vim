@@ -93,6 +93,7 @@ noremap gV `[v`]
 noremap H ^
 noremap L $
 map M %
+nnoremap / /\v
 
 nnoremap s <NOP>
 nnoremap s/ :%s/
@@ -191,6 +192,8 @@ onoremap x d
 
 " terminal
 tnoremap <C-w><C-n> <C-\><C-n>
+tnoremap <C-p> <Up>
+tnoremap <C-n> <Down>
 
 " colorscheme industry
 

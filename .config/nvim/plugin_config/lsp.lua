@@ -77,7 +77,7 @@ mason_lspconfig.setup_handlers({
       vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
       vim.keymap.set('n', 'gtD', vim.lsp.buf.type_definition, bufopts)
       vim.keymap.set('n', 'grf', vim.lsp.buf.references, bufopts)
-      vim.keymap.set('n', '<space>p', vim.lsp.buf.format, bufopts)
+      vim.keymap.set('n', '<space>p', vim.lsp.buf.format or vim.lsp.buf.formatting, bufopts)
     end
 
     nvim_lsp[server_name].setup(opts)
