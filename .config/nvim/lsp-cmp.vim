@@ -469,6 +469,34 @@ command! -bang GhGraph botright 10 split +enew
     \ | set bufhidden=wipe | wincmd p
 " }}}
 
+" {{{ Dex
+function! s:dex_complete(A,L,P) abort
+  return ['--quiet', '--compat']->join("\n")
+endfunction
+function! s:deno_dex(no_clear, opt_args) abort
+  if expand('%:t') =~ '\v^m?[jt]sx?$'
+    lua vim.notify('This is not executable by deno', vim.log.levels.ERROR)
+    return
+  endif
+
+  let cmd = [
+    \   'deno',
+    \   (expand('%:t:r') =~ '\v^(.*[._])?test$' ? 'test' : 'run'),
+    \   '--no-check --allow-all --unstable --watch',
+    \   (a:no_clear ? '--no-clear-screen' : ''),
+    \   a:opt_args,
+    \   expand('%:p')
+    \ ]->join(' ')
+
+  botright 12 split +enew
+  call s:terminal_autoclose(cmd)
+  set bufhidden=wipe
+  stopinsert
+  execute 'file Dex' .. (a:no_clear ? '!' : '')
+  wincmd p
+endfunction
+command! -nargs=* -bang -complete=custom,s:dex_complete Dex call s:deno_dex(<bang>0, <q-args>)
+" }}}
 " {{{ autocmd
 augroup vimrc
   autocmd!

@@ -22,17 +22,6 @@ command! VimShowHlGroup echo synID(line('.'), col('.'), 1)->synIDtrans()->synIDa
 
 command! DiagnosticToQf lua vim.diagnostic.setqflist()
 
-" {{{ Dex
-function s:dex_complete(A,L,P)
-  return ['--quiet', '--compat']->join("\n")
-endfunction
-command! -nargs=* -bang -complete=custom,s:dex_complete Dex silent only! | botright 12 split |
-  \ execute 'terminal' (has('nvim') ? '' : '++curwin') 'deno run --no-check --allow-all'
-  \    '--unstable --watch' (<bang>0 ? '' : '--no-clear-screen') <q-args> expand('%:p') |
-  \ stopinsert | execute 'normal! G' | set bufhidden=wipe |
-  \ execute 'autocmd BufEnter <buffer> if winnr("$") == 1 | quit! | endif' |
-  \ file Dex<bang> | wincmd k
-" }}}
 
 " {{{ Sh
 function! s:sh(cmd, opts) abort
