@@ -97,7 +97,7 @@ function! s:smart_open() abort
   endif
 
   " is url
-  if query =~# '^https\?://\S\+\.\S\+'
+  if query =~# '^https\?://'
     let cmd = 'open "' .. query .. '"'
   else
     " encode query

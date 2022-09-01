@@ -456,6 +456,7 @@ function! s:terminal_autoclose(cmd) abort
 
   let opts = { 'on_exit': { -> { execute(bn .. 'bwipeout', 'silent!') } } }
   call termopen(cmd, opts)
+  set nobuflisted
   normal! G
 endfunction
 command! -nargs=* TerminalAutoclose call s:terminal_autoclose(<q-args>)
