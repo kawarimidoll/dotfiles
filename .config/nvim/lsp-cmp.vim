@@ -185,7 +185,7 @@ function! s:lsp_init() abort
         \ )
   lua require("lsp_signature").setup()
   lua require("fidget").setup()
-  lua lsp_capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  execute 'luafile' g:plug_home .. '/nvim-lspconfig/plugin/lspconfig.lua'
   luafile ~/dotfiles/.config/nvim/plugin_config/lsp.lua
   luafile ~/dotfiles/.config/nvim/plugin_config/null_ls.lua
 endfunction

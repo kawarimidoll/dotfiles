@@ -10,6 +10,11 @@ mason.setup({
   }
 })
 
+local ok, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
+if ok then
+  local lsp_capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
+end
+
 local mason_lspconfig = require('mason-lspconfig')
 mason_lspconfig.setup_handlers({
   function(server_name)
@@ -18,11 +23,9 @@ mason_lspconfig.setup_handlers({
 
     local opts = {}
 
-    ---@diagnostic disable: undefined-global
     if lsp_capabilities ~= nil then
       opts.capabilities = lsp_capabilities
     end
-    ---@diagnostic enable: undefined-global
 
     if server_name == "tsserver" then
       if not is_node_repo then
