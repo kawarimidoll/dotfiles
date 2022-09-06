@@ -5,7 +5,7 @@ local os = require('os')
 
 -- https://wezfurlong.org/wezterm/config/lua/wezterm/on.html#custom-events
 wezterm.on('trigger-nvim-with-visible-text', function(window, pane)
-  local viewport_text = pane:get_lines_as_text()
+  local viewport_text = pane:get_lines_as_text(2000)
 
   local name = os.tmpname()
   local f = io.open(name, 'w+')
@@ -19,7 +19,15 @@ wezterm.on('trigger-nvim-with-visible-text', function(window, pane)
 
   window:perform_action(
     act.SpawnCommandInNewTab {
-      args = { 'nvim', name },
+      args = {
+        '/opt/homebrew/bin/nvim',
+        '--noplugin',
+        '-u',
+        '~/dotfiles/.config/nvim/min-edit.vim',
+        '-M',
+        '+',
+        name
+      },
     },
     pane
   )
@@ -29,6 +37,8 @@ wezterm.on('trigger-nvim-with-visible-text', function(window, pane)
 end)
 
 return {
+  check_for_updates = false,
+
   font = wezterm.font 'UDEV Gothic 35JPDOC',
   font_size = 18.0,
   color_scheme = 'Catppuccin Mocha',
@@ -42,6 +52,7 @@ return {
 
   keys = {
     { key = 'E', mods = 'CTRL', action = act.EmitEvent 'trigger-nvim-with-visible-text' },
+    { key = 'Q', mods = 'CTRL', action = act.QuickSelect },
   },
 
   key_tables = {
