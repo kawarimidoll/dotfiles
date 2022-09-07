@@ -10,9 +10,10 @@ mason.setup({
   }
 })
 
+local lsp_capabilities = nil
 local ok, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
 if ok then
-  local lsp_capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  lsp_capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
 end
 
 vim.keymap.set('n', '<space>p',
