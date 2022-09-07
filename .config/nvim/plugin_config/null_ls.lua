@@ -27,6 +27,7 @@ table.insert(prettier_configs, 'prettier.config.js')
 table.insert(prettier_configs, 'prettier.config.cjs')
 
 local sources = {
+  -- diagnostics
   null_ls.builtins.diagnostics.cspell.with({
     diagnostics_postprocess = function(diagnostic)
       diagnostic.severity = vim.diagnostic.severity["WARN"]
@@ -36,6 +37,8 @@ local sources = {
     end,
     extra_args = { '--config', cspell_files.config }
   }),
+
+  -- formatting
   null_ls.builtins.formatting.deno_fmt.with {
     filetypes = { "markdown" },
     condition = function(utils)
@@ -66,7 +69,7 @@ local cspell_append = function(opts)
   )
 
   -- redraw current line (and undo immediately) to reload cspell
-  if vim.api.nvim_get_option_value('modifiable',{}) then
+  if vim.api.nvim_get_option_value('modifiable', {}) then
     vim.api.nvim_set_current_line(vim.api.nvim_get_current_line())
     vim.api.nvim_command('silent! undo')
   end
