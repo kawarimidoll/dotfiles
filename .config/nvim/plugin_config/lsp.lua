@@ -15,6 +15,20 @@ if ok then
   local lsp_capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
 end
 
+vim.keymap.set('n', '<space>p',
+  function()
+    if vim.lsp.buf.format then
+      vim.lsp.buf.format({
+        filter = function(client)
+          return client.name ~= 'tsserver'
+        end
+      })
+    else
+      vim.lsp.buf.formatting()
+    end
+  end,
+  { silent = true })
+
 local mason_lspconfig = require('mason-lspconfig')
 mason_lspconfig.setup_handlers({
   function(server_name)
@@ -80,7 +94,7 @@ mason_lspconfig.setup_handlers({
       vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
       vim.keymap.set('n', 'gtD', vim.lsp.buf.type_definition, bufopts)
       vim.keymap.set('n', 'grf', vim.lsp.buf.references, bufopts)
-      vim.keymap.set('n', '<space>p', vim.lsp.buf.format or vim.lsp.buf.formatting, bufopts)
+      -- vim.keymap.set('n', '<space>p', vim.lsp.buf.format or vim.lsp.buf.formatting, bufopts)
     end
 
     nvim_lsp[server_name].setup(opts)

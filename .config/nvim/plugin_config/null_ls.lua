@@ -18,6 +18,14 @@ if vim.fn.filereadable(cspell_files.user) ~= 1 then
 end
 
 local null_ls = require('null-ls')
+
+local prettier_configs = vim.tbl_map(
+  function(ext) return '.prettierrc' .. ext end,
+  { '', '.js', '.cjs', '.json', '.json5', '.yml', '.yaml', '.toml' }
+) or {}
+table.insert(prettier_configs, 'prettier.config.js')
+table.insert(prettier_configs, 'prettier.config.cjs')
+
 local sources = {
   null_ls.builtins.diagnostics.cspell.with({
     diagnostics_postprocess = function(diagnostic)
@@ -28,6 +36,18 @@ local sources = {
     end,
     extra_args = { '--config', cspell_files.config }
   }),
+  null_ls.builtins.formatting.deno_fmt.with {
+    filetypes = { "markdown" },
+    condition = function(utils)
+      return not utils.has_file(prettier_configs)
+    end,
+  },
+  null_ls.builtins.formatting.prettier.with {
+    condition = function(utils)
+      return utils.has_file(prettier_configs)
+    end,
+    prefer_local = "node_modules/.bin",
+  },
 }
 
 local cspell_append = function(opts)

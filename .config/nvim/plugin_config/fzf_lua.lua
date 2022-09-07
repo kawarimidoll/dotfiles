@@ -1,6 +1,9 @@
 local fzf_lua = require('fzf-lua')
 
 fzf_lua.setup({
+  -- https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Compatibility-with-other-plugins#fzf-lua
+  -- make lsp requests synchronous so they work with null-ls
+  lsp = { async_or_timeout = 3000, },
   winopts = {
     height  = 0.90,
     width   = 0.90,
