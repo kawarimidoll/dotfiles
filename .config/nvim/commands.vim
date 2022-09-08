@@ -62,18 +62,17 @@ command! -nargs=+ -bang -count=2 -complete=shellcmd Sh
 " }}}
 
 " {{{ Keymap
-function! s:keymap(force_map, modes, ...) abort
+function! s:keymap(modes, ...) abort
   let arg = join(a:000, ' ')
-  let cmd = (a:force_map || arg =~? '<Plug>') ? 'map' : 'noremap'
   for mode in split(a:modes, '.\zs')
     if index(split('nvsxoilct', '.\zs'), mode) < 0
       echoerr 'Invalid mode is detected: ' . mode
       continue
     endif
-    execute mode .. cmd arg
+    execute mode .. 'noremap' arg
   endfor
 endfunction
-command! -nargs=+ -bang Keymap call s:keymap(<bang>0, <f-args>)
+command! -nargs=+ Keymap call s:keymap(<f-args>)
 " }}}
 
 " {{{ SmartOpen
