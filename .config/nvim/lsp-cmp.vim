@@ -89,6 +89,7 @@ autocmd User pounce.nvim ++once luafile ~/dotfiles/.config/nvim/plugin_config/po
 " }}}
 
 " {{{ load on VimEnter
+Plug 'nvim-lua/plenary.nvim', { 'on': [] }
 Plug 'vim-denops/denops.vim', { 'on': [] }
 Plug 'vim-skk/skkeleton', { 'on': [] }
 Plug 'Shougo/ddc.vim', { 'on': [] }
@@ -97,7 +98,7 @@ Plug 'haya14busa/vim-asterisk', { 'on': [] }
 Plug 'kevinhwang91/nvim-hlslens', { 'on': [] }
 Plug 'petertriho/nvim-scrollbar', { 'on': [] }
 Plug 'folke/which-key.nvim', { 'on': [] }
-Plug 'norcalli/nvim-colorizer.lua', { 'on': [] }
+Plug 'NvChad/nvim-colorizer.lua', { 'on': [] }
 Plug 'kyazdani42/nvim-web-devicons', { 'on': [] }
 Plug 'rcarriga/nvim-notify', { 'on': [] }
 Plug 'lewis6991/gitsigns.nvim', { 'on': [] }
@@ -111,6 +112,7 @@ function! s:vim_enter_plugs() abort
   end
   let g:vim_entered = 1
   call plug#load(
+        \ 'plenary.nvim',
         \ 'denops.vim',
         \ 'skkeleton',
         \ 'ddc.vim',
@@ -267,6 +269,7 @@ function! s:treesitter_init() abort
   xnoremap au :lua require('treesitter-unit').select(true)<CR>
   onoremap iu :<C-u>lua require('treesitter-unit').select()<CR>
   onoremap au :<C-u>lua require('treesitter-unit').select(true)<CR>
+  lua require('hlargs').setup()
 endfunction
 autocmd BufReadPost * ++once call <sid>treesitter_init()
 " }}}
@@ -314,6 +317,7 @@ endfunction
 
 " {{{ vim-vsnip
 Plug 'hrsh7th/vim-vsnip', { 'on': [] }
+Plug 'hrsh7th/vim-vsnip-integ', { 'on': [] }
 Plug 'rafamadriz/friendly-snippets', { 'on': [] }
 Plug 'kevinhwang91/nvim-hclipboard', { 'on': [] }
 function! s:vsnip_init() abort
@@ -323,6 +327,7 @@ function! s:vsnip_init() abort
   let g:vsnip_loaded = 1
   call plug#load(
         \ 'vim-vsnip',
+        \ 'vim-vsnip-integ',
         \ 'friendly-snippets',
         \ 'nvim-hclipboard',
         \ )

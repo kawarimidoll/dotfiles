@@ -53,4 +53,3 @@ require('nvim-treesitter.configs').setup({
   -- }}}
 
 })
-require('hlargs').setup()
