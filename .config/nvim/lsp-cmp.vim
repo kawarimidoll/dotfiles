@@ -124,6 +124,8 @@ function! s:vim_enter_plugs() abort
         \ 'nvim-colorizer.lua',
         \ 'nvim-web-devicons',
         \ 'nvim-notify',
+        \ )
+  call plug#load(
         \ 'gitsigns.nvim',
         \ 'chowcho.nvim',
         \ 'pretty-fold.nvim',

@@ -11,7 +11,7 @@ local map_next_and_lens = function(key)
       ---@diagnostic disable-next-line: missing-parameter
       vim.api.nvim_echo({ { 'E486: Pattern not found: ' .. vim.fn.getreg('/'), 'WarningMsg' } }, true, {})
     end
-  end)
+  end, {})
 end
 
 map_next_and_lens('n')

@@ -153,7 +153,7 @@ zshaddhistory() {
   # 特定のコマンドではない
   [[ ${#line} -ge 5
     && "$(command -v $cmd)" != ''
-    && ${cmd} != (man|cd|mv|cp|rm|brew|rgf|nv)
+    && ${cmd} != (man|cd|mv|cp|rm|brew|rgf|nv|nvim)
   ]]
 }
 # -----------------

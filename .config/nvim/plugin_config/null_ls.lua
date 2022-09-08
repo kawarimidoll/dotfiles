@@ -82,6 +82,7 @@ vim.api.nvim_create_user_command(
 )
 
 local cspell_custom_actions = {
+  name = 'append-to-cspell-dictionary',
   method = null_ls.methods.CODE_ACTION,
   filetypes = {},
   generator = {
