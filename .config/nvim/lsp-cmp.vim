@@ -104,8 +104,8 @@ Plug 'rcarriga/nvim-notify', { 'on': [] }
 Plug 'lewis6991/gitsigns.nvim', { 'on': [] }
 Plug 'tkmpypy/chowcho.nvim', { 'on': [] }
 Plug 'anuvyklack/pretty-fold.nvim', { 'on': [] }
-Plug 'anuvyklack/fold-preview.nvim', { 'on': [] }
-Plug 'anuvyklack/keymap-amend.nvim', { 'on': [] }
+Plug 'levouh/tint.nvim', { 'on': [] }
+Plug 'nvim-colortils/colortils.nvim', { 'on': [] }
 function! s:vim_enter_plugs() abort
   if get(g:, 'vim_entered')
    return
@@ -129,9 +129,12 @@ function! s:vim_enter_plugs() abort
         \ 'gitsigns.nvim',
         \ 'chowcho.nvim',
         \ 'pretty-fold.nvim',
-        \ 'fold-preview.nvim',
-        \ 'keymap-amend.nvim',
+        \ 'colortils.nvim',
         \ )
+  if exists('*nvim_win_set_hl_ns')
+    call plug#load('tint.nvim')
+    lua require("tint").setup()
+  endif
   source ~/dotfiles/.config/nvim/plugin_config/skkeleton.vim
   source ~/dotfiles/.config/nvim/plugin_config/skk_ddc_cmp.vim
   luafile ~/dotfiles/.config/nvim/plugin_config/mru_cache.lua
@@ -144,7 +147,6 @@ function! s:vim_enter_plugs() abort
   luafile ~/dotfiles/.config/nvim/plugin_config/chowcho.lua
   lua require('colorizer').setup()
   lua require('pretty-fold').setup({})
-  lua require('fold-preview').setup({})
 endfunction
 autocmd VimEnter * ++once call <sid>vim_enter_plugs()
 " }}}
@@ -417,6 +419,7 @@ Plug 'vim-jp/vimdoc-ja'
 " }}}
 call plug#end()
 
+command! PlugSync PlugUpgrade | PlugClean! | PlugInstall | PlugUpdate
 lua require('impatient')
 luafile ~/dotfiles/.config/nvim/plugin_config/mini.lua
 call <sid>cmp_init()
