@@ -31,6 +31,18 @@ let g:loaded_zipPlugin          = 1
 let g:skip_loading_mswin        = 1
 let g:vimsyn_embed              = 1
 
+let s:word_1000_dict_path = '~/.cache/nvim/google-10000-english-no-swears.txt'
+if !filereadable(expand(s:word_1000_dict_path))
+  silent execute '!curl --create-dirs -fLo ' .. s:word_1000_dict_path ..
+    \ 'https://raw.githubusercontent.com/first20hours/google-10000-english/master/google-10000-english-no-swears.txt'
+endif
+execute 'set dictionary+=' .. s:word_1000_dict_path
+
+let s:dotfiles_dict_path = '~/dotfiles/.config/cspell/dotfiles.txt'
+if filereadable(expand(s:dotfiles_dict_path))
+  execute 'set dictionary+=' .. s:dotfiles_dict_path
+endif
+
 set ambiwidth=single
 set breakindent
 set breakindentopt=min:50,shift:4,sbr,list:-1

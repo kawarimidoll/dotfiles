@@ -1,4 +1,3 @@
-# prefectures in japan
 aichi
 akita
 aomori
@@ -48,7 +47,6 @@ yamagata
 yamaguchi
 yamanashi
 
-# user words
 kawarimidoll
 kawarimidots
 deno

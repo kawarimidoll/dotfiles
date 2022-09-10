@@ -2,13 +2,6 @@ if filereadable(expand('~/dotfiles/.config/nvim/min-edit.vim'))
   source ~/dotfiles/.config/nvim/min-edit.vim
 endif
 
-let s:dict_path = '~/.cache/nvim/google-10000-english-no-swears.txt'
-if !filereadable(expand(s:dict_path))
-  silent execute '!curl --create-dirs -fLo ' .. s:dict_path ..
-    \ 'https://raw.githubusercontent.com/first20hours/google-10000-english/master/google-10000-english-no-swears.txt'
-endif
-execute 'set dictionary+=' .. s:dict_path
-
 set autoindent
 set autoread
 set completeopt=menu,menuone,noselect
