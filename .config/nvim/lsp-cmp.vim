@@ -415,7 +415,7 @@ call plug#end()
 command! PlugSync PlugUpgrade | PlugClean! | PlugInstall | PlugUpdate
 lua require('impatient')
 luafile ~/dotfiles/.config/nvim/plugin_config/mini.lua
-call <sid>cmp_init()
+" call <sid>cmp_init()
 " }}}
 
 " {{{ user owned mappings

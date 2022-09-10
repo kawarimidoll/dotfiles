@@ -335,40 +335,49 @@ if not vim.g.scheme_name then
   vim.cmd('MiniScheme')
 end
 
--- local mini_completion_setup = function()
---   require('mini.fuzzy').setup({})
---   require('mini.completion').setup({
---     lsp_completion = {
---       process_items = MiniFuzzy.process_lsp_items
---     },
---   })
---   vim.keymap.set('i', '<Tab>',
---     function()
---       return vim.fn.pumvisible() == 0 and '<Tab>' or '<C-n>'
---     end
---     , { expr = true })
---   vim.keymap.set('i', '<S-Tab>',
---     function()
---       return vim.fn.pumvisible() == 0 and '<S-Tab>' or '<C-p>'
---     end,
---     { expr = true })
---   vim.keymap.set('i', '<CR>',
---     function()
---       if vim.fn.pumvisible() == 0 then
---         -- If popup is not visible, use `<CR>` in 'mini.pairs'.
---         return require('mini.pairs').cr()
---       elseif vim.fn.complete_info()['selected'] ~= -1 then
---         -- If popup is visible and item is selected, confirm selected item
---         return vim.api.nvim_replace_termcodes('<C-y>', true, true, true)
---       else
---         -- Add new line otherwise
---         return vim.api.nvim_replace_termcodes('<C-y><CR>', true, true, true)
---       end
---     end,
---     { expr = true })
--- end
--- vim.api.nvim_create_autocmd({ 'InsertEnter' }, {
---   pattern = '*',
---   callback = mini_completion_setup,
---   once = true
--- })
+local keywords_keys = vim.api.nvim_replace_termcodes('<C-x><C-k>', true, true, true)
+local omnifunc_keys = vim.api.nvim_replace_termcodes('<C-x><C-o>', true, true, true)
+
+local mini_completion_setup = function()
+  require('mini.fuzzy').setup({})
+  require('mini.completion').setup({
+    lsp_completion = {
+      -- source_func = 'omnifunc',
+      process_items = MiniFuzzy.process_lsp_items
+    },
+    fallback_action = function()
+      ---@diagnostic disable: param-type-mismatch
+      if vim.api.nvim_get_option_value('omnifunc', {}) == '' then
+        vim.api.nvim_feedkeys(keywords_keys, 'n', false)
+      else
+        vim.api.nvim_feedkeys(omnifunc_keys, 'n', false)
+      end
+      ---@diagnostic enable: param-type-mismatch
+    end,
+  })
+  -- vim.keymap.set('i', '<Tab>', function()
+  --   return vim.fn.pumvisible() == 0 and '<Tab>' or '<C-n>'
+  -- end, { expr = true })
+  -- vim.keymap.set('i', '<S-Tab>', function()
+  --   return vim.fn.pumvisible() == 0 and '<S-Tab>' or '<C-p>'
+  -- end, { expr = true })
+  vim.keymap.set('i', '<Tab>', [[pumvisible() ? "\<C-n>" : "\<Tab>"]], { expr = true })
+  vim.keymap.set('i', '<S-Tab>', [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { expr = true })
+  vim.keymap.set('i', '<CR>', function()
+    if vim.fn.pumvisible() == 0 then
+      -- If popup is not visible, use `<CR>` in 'mini.pairs'.
+      return require('mini.pairs').cr()
+    elseif vim.fn.complete_info()['selected'] ~= -1 then
+      -- If popup is visible and item is selected, confirm selected item
+      return vim.api.nvim_replace_termcodes('<C-y>', true, true, true)
+    else
+      -- Add new line otherwise
+      return vim.api.nvim_replace_termcodes('<C-y><CR>', true, true, true)
+    end
+  end, { expr = true })
+end
+vim.api.nvim_create_autocmd({ 'InsertEnter' }, {
+  pattern = '*',
+  callback = mini_completion_setup,
+  once = true
+})
