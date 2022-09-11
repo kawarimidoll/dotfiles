@@ -215,7 +215,46 @@ nnoremap <leader>cc <Cmd>Lspsaga show_cursor_diagnostics<CR>
 nnoremap [d <Cmd>Lspsaga diagnostic_jump_prev<CR>
 nnoremap ]d <Cmd>Lspsaga diagnostic_jump_next<CR>
 
-nnoremap <expr> K &filetype=~'vim\\|help' ? 'K' : '<Cmd>Lspsaga hover_doc<CR>'
+function! s:ex_help(word) abort
+  if index(['vim', 'help'], &filetype) >= 0
+    execute 'help' a:word
+    return
+  endif
+
+  if &filetype == 'lua'
+    let col = getcurpos('.')[2]
+    let line = getline('.')
+    let pre = substitute(line[:col-1], '^.*[^0-9A-Za-z_.]', '', '')
+    let post = substitute(line[col:], '[^0-9A-Za-z_].*$', '', '')
+    let cword = pre .. post
+
+    if cword =~ '\.'
+      try
+        execute 'help' cword
+        return
+      catch
+        " nop
+      endtry
+    endif
+    try
+      execute 'help' 'luaref-' .. a:word
+      return
+    catch
+      " nop
+    endtry
+    try
+      execute 'help' a:word
+      return
+    catch
+      " nop
+    endtry
+  endif
+
+  " no help in vim
+  Lspsaga hover_doc
+endfunction
+command! -nargs=+ ExHelp call s:ex_help(<q-args>)
+set keywordprg=:ExHelp
 
 function! s:lspsaga_init() abort
   nnoremap <C-n> <Cmd>lua require('lspsaga.action').smart_scroll_with_saga(1, '<C-n>')<CR>
