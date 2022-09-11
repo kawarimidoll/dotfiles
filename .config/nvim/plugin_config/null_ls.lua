@@ -178,9 +178,10 @@ local rg_dictionary_completion = {
         if v ~= '' then
           local path_and_word = vim.split(v, ':')
           local label = path_and_word[2]
-          local detail = string.gsub(path_and_word[1], '.*/', '[dic] ')
-
-          table.insert(candidates, { label = label, detail = detail, kind = kind })
+          if label ~= '' then
+            local detail = string.gsub(path_and_word[1], '.*/', '[dic] ')
+            table.insert(candidates, { label = label, detail = detail, kind = kind })
+          end
         end
       end
       done({ { items = candidates, isIncomplete = #candidates > 0 } })

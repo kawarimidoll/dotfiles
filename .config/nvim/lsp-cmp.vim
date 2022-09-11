@@ -406,6 +406,7 @@ command! VToggle call s:venn_toggle()
 " }}}
 
 " {{{ load immediately
+Plug 'anuvyklack/keymap-amend.nvim'
 Plug 'lewis6991/impatient.nvim'
 Plug 'echasnovski/mini.nvim'
 Plug 'vim-jp/vimdoc-ja'
