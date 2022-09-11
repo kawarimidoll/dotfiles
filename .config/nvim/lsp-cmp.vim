@@ -265,7 +265,6 @@ autocmd User lspsaga.nvim ++once call s:lspsaga_init()
 
 " {{{ treesitter
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate', 'on': [] }
-Plug 'nvim-treesitter/nvim-treesitter-textobjects', { 'on': [] }
 Plug 'nvim-treesitter/nvim-treesitter-refactor', { 'on': [] }
 Plug 'JoosepAlviste/nvim-ts-context-commentstring', { 'on': [] }
 Plug 'p00f/nvim-ts-rainbow', { 'on': [] }
@@ -452,7 +451,7 @@ Plug 'vim-jp/vimdoc-ja'
 " }}}
 call plug#end()
 
-command! PlugSync PlugUpgrade | PlugClean! | PlugInstall | PlugUpdate
+command! PlugSync PlugUpgrade | PlugClean! | PlugInstall --sync | PlugUpdate
 lua require('impatient')
 luafile ~/dotfiles/.config/nvim/plugin_config/mini.lua
 " call <sid>cmp_init()
@@ -506,7 +505,7 @@ command! -nargs=* TerminalAutoclose call s:terminal_autoclose(<q-args>)
 command! -nargs=* TA call s:terminal_autoclose(<q-args>)
 
 command! Nyancat botright split +enew
-    \ | execute 'TerminalAutoclose nyancat'
+    \ | call s:terminal_autoclose('nyancat')
     \ | set bufhidden=wipe | wincmd p
 command! -bang GhGraph botright 10 split +enew
     \ | execute 'terminal gh graph' (<bang>0 ? ' --scheme=random' : '')
@@ -515,7 +514,7 @@ command! -bang GhGraph botright 10 split +enew
 
 " {{{ Dex
 function! s:dex_complete(A,L,P) abort
-  return ['--quiet', '--compat']->join("\n")
+  return ['--quiet']->join("\n")
 endfunction
 function! s:deno_dex(no_clear, opt_args) abort
   if expand('%:t') =~ '\v^m?[jt]sx?$'
