@@ -29,7 +29,7 @@ table.insert(prettier_configs, 'prettier.config.cjs')
 local sources = {
   -- completion
   null_ls.builtins.completion.spell,
-  null_ls.builtins.completion.vsnip,
+  -- null_ls.builtins.completion.vsnip,
 
   -- diagnostics
   null_ls.builtins.diagnostics.cspell.with({
@@ -179,8 +179,12 @@ local rg_dictionary_completion = {
           local path_and_word = vim.split(v, ':')
           local label = path_and_word[2]
           if label ~= '' then
-            local detail = string.gsub(path_and_word[1], '.*/', '[dic] ')
-            table.insert(candidates, { label = label, detail = detail, kind = kind })
+            table.insert(candidates, {
+              label = label,
+              detail = '[dic]',
+              kind = kind,
+              documentation = { value = path_and_word[1], kind = vim.lsp.protocol.MarkupKind.PlainText }
+            })
           end
         end
       end
@@ -190,6 +194,40 @@ local rg_dictionary_completion = {
   },
 }
 null_ls.register(rg_dictionary_completion)
+
+local vsnip_completion = {
+  name = 'vsnip',
+  meta = { description = "vsnip completion source.", },
+  method = null_ls.methods.COMPLETION,
+  filetypes = {},
+  generator = {
+    fn = function(params, done)
+      local items = {}
+      local snips = vim.fn["vsnip#get_complete_items"](params.bufnr)
+      local targets = vim.tbl_filter(function(item)
+        return string.match(item.word, "^" .. params.word_to_complete)
+      end, snips)
+      for _, item in ipairs(targets) do
+        vim.pretty_print(item)
+        local user_data = vim.fn.json_decode(item.user_data or '{}')
+        local value = ''
+        if user_data and user_data.vsnip and user_data.vsnip.snippet then
+          value = vim.fn['vsnip#to_string'](user_data.vsnip.snippet)
+        end
+        table.insert(items, {
+          word = item.word,
+          label = item.abbr,
+          detail = item.menu,
+          kind = vim.lsp.protocol.CompletionItemKind["Snippet"],
+          documentation = { value = value, kind = vim.lsp.protocol.MarkupKind.PlainText }
+        })
+      end
+      done({ { items = items, isIncomplete = #items == 0 } })
+    end,
+    async = true,
+  },
+}
+null_ls.register(vsnip_completion)
 
 local ex_commands_completion = {
   name = 'ex-commands',
@@ -207,6 +245,23 @@ local ex_commands_completion = {
   },
 }
 null_ls.register(ex_commands_completion)
+
+local au_events_completion = {
+  name = 'au-events',
+  meta = { description = "autocmd-events completion source.", },
+  method = null_ls.methods.COMPLETION,
+  filetypes = { 'vim', 'lua' },
+  generator = {
+    fn = function(params, done)
+      local cmds = vim.fn.getcompletion(params.word_to_complete, 'event', 1)
+
+      local candidates = get_candidates(cmds, { detail = '[eve]' })
+      done({ { items = candidates, isIncomplete = #candidates > 0 } })
+    end,
+    async = true,
+  },
+}
+null_ls.register(au_events_completion)
 
 local file_completion = {
   name = 'file',
