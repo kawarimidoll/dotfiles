@@ -1,9 +1,8 @@
 local reacher = require('reacher')
 
-vim.keymap.set("n", "gs", reacher.start_multiple)
+vim.keymap.set("n", "gs", reacher.start_multiple, {})
 
-local group = "reacher_setting"
-vim.api.nvim_create_augroup(group, {})
+local group = vim.api.nvim_create_augroup("reacher_setting", {})
 vim.api.nvim_create_autocmd({ "FileType" }, {
   group = group,
   pattern = { "reacher" },

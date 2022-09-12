@@ -112,8 +112,7 @@ fzf_lua.mrw = function(args)
   fzf_lua.fzf_exec(cmd, opts)
 end
 
-local group = 'fzf_lua_augroup'
-vim.api.nvim_create_augroup(group, {})
+local group = vim.api.nvim_create_augroup('fzf_lua_augroup', {})
 vim.api.nvim_create_autocmd({ 'QuickfixCmdPost' }, {
   group = group, pattern = { 'make', 'grep', 'grepadd', 'vimgrep' },
   callback = fzf_lua.quickfix,
