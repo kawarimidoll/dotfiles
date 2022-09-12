@@ -1,6 +1,14 @@
-require('mini.ai').setup({})
+vim.api.nvim_create_autocmd({ 'VimEnter' }, {
+  pattern = '*',
+  callback = require('mini.ai').setup,
+  once = true
+})
 
-require('mini.bufremove').setup({})
+vim.api.nvim_create_autocmd({ 'VimEnter' }, {
+  pattern = '*',
+  callback = require('mini.bufremove').setup,
+  once = true
+})
 
 vim.api.nvim_create_autocmd({ 'FileType' }, {
   pattern = '*',
@@ -31,7 +39,11 @@ vim.api.nvim_create_autocmd({ 'CmdlineEnter' }, {
   once = true
 })
 
-require('mini.indentscope').setup({})
+vim.api.nvim_create_autocmd({ 'VimEnter' }, {
+  pattern = '*',
+  callback = require('mini.indentscope').setup,
+  once = true
+})
 
 -- require('mini.jump2d').setup({
 --   hooks = { after_jump = function() vim.cmd('syntax on') end },
@@ -42,7 +54,11 @@ require('mini.indentscope').setup({})
 
 -- require('mini.starter').setup({})
 
-require('mini.surround').setup({})
+vim.api.nvim_create_autocmd({ 'VimEnter' }, {
+  pattern = '*',
+  callback = require('mini.surround').setup,
+  once = true
+})
 
 require('mini.statusline').setup({
   set_vim_settings = false,
@@ -50,8 +66,14 @@ require('mini.statusline').setup({
 vim.opt.laststatus = 3
 vim.api.nvim_set_hl(0, 'MiniStatuslineDevinfo', { link = 'String' })
 
-require('mini.trailspace').setup({})
-vim.api.nvim_create_user_command('Trim', MiniTrailspace.trim, {})
+vim.api.nvim_create_autocmd({ 'VimEnter' }, {
+  pattern = '*',
+  callback = function()
+    require('mini.trailspace').setup({})
+    vim.api.nvim_create_user_command('Trim', MiniTrailspace.trim, {})
+  end,
+  once = true
+})
 
 require('mini.tabline').setup({})
 
