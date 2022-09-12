@@ -379,8 +379,8 @@ local mini_completion_setup = function()
       return require('mini.pairs').cr()
     elseif vim.fn.complete_info()['selected'] ~= -1 then
       -- If popup is visible and item is selected, confirm selected item
-
-      if vim.fn['vsnip#available'] and vim.fn['vsnip#available'](1) then
+      local selected = vim.fn.complete_info()['items'][vim.fn.complete_info()['selected'] + 1]
+      if type(selected.user_data) == 'string' and string.match(selected.user_data, '"vsnip"') then
         return '<Plug>(vsnip-expand-or-jump)'
       end
 
