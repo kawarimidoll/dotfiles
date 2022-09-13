@@ -387,7 +387,11 @@ vim.api.nvim_create_user_command(
   end,
   {
     nargs = '?',
-    complete = function() return scheme_names end
+    complete = function(arg_lead, _, _)
+      return vim.tbl_filter(function(item)
+        return vim.startswith(item, arg_lead)
+      end, scheme_names)
+    end
   }
 )
 if not vim.g.scheme_name then
