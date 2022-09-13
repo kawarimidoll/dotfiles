@@ -61,6 +61,43 @@ vim.api.nvim_create_autocmd({ 'VimEnter' }, {
 })
 
 require('mini.statusline').setup({
+  content = {
+    active = function()
+      local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 120 })
+      local git           = MiniStatusline.section_git({ trunc_width = 75 })
+      local diagnostics   = MiniStatusline.section_diagnostics({ trunc_width = 75 })
+      local filename      = MiniStatusline.section_filename({ trunc_width = 140 })
+      local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 120 })
+      local location      = MiniStatusline.section_location({ trunc_width = 75 })
+      local searchcount   = MiniStatusline.section_searchcount({ trunc_width = 75 })
+      if searchcount and searchcount ~= '' then
+        searchcount = '[' .. searchcount .. ']'
+      end
+
+      local jp_mode = ''
+      if vim.b.ime_mode and vim.b.ime_mode ~= '' then
+        jp_mode = '韛'
+      elseif vim.g['skkeleton#mode'] == 'hira' then
+        jp_mode = '▽あ'
+      elseif vim.g['skkeleton#mode'] == 'kata' then
+        jp_mode = '▽ア'
+      elseif vim.g['skkeleton#mode'] == 'hankata' then
+        jp_mode = '▽ｱ'
+      elseif vim.g['skkeleton#mode'] == 'zenkaku' then
+        jp_mode = '▽Ａ'
+      end
+
+      return MiniStatusline.combine_groups({
+        { hl = mode_hl, strings = { mode, jp_mode } },
+        { hl = 'MiniStatuslineDevinfo', strings = { git, diagnostics } },
+        '%<', -- Mark general truncate point
+        { hl = 'MiniStatuslineFilename', strings = { filename } },
+        '%=', -- End left alignment
+        { hl = 'MiniStatuslineFileinfo', strings = { fileinfo } },
+        { hl = mode_hl, strings = { location, searchcount } },
+      })
+    end
+  },
   set_vim_settings = false,
 })
 vim.opt.laststatus = 3
