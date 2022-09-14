@@ -1,33 +1,70 @@
-local action = require("jam.action")
+local mapping = require("jam").mapping
+local jam_in = function()
+  vim.b.minicompletion_disable = true
+  mapping.start()
+end
+local jam_out = function()
+  vim.b.minicompletion_disable = false
+  mapping.exit()
+end
+
 require("jam").setup({
   mappings = {
-    { "<Space>", action.complete, "Input" },
-    { { "<C-CR>", "<C-m>", "<CR>" }, action.confirm, { "Input", "Convert" } },
-    {
-      { "<C-h>", "<BS>" },
-      {
-        Input = action.backspace,
-        Convert = action.cancel,
-      },
+    ["<Space>"] = {
+      Input = mapping.complete,
+      Complete = mapping.insert_next_item,
+      Convert = mapping.complete,
     },
-    {
-      "<Esc>",
-      {
-        PreInput = action.exit,
-        Input = function()
-          action.exit()
-          vim.api.nvim_command('stopinsert')
-        end,
-        Convert = action.cancel,
-      },
+    ["<C-6>"] = mapping(mapping.convert_hira, { "Input", "Complete", "Convert" }),
+    ["<C-7>"] = mapping(mapping.convert_zen_kata, { "Input", "Complete", "Convert" }),
+    ["<C-8>"] = mapping(mapping.convert_han_kata, { "Input", "Complete", "Convert" }),
+    ["<C-9>"] = mapping(mapping.convert_zen_eisuu, { "Input", "Complete", "Convert" }),
+    ["<C-0>"] = mapping(mapping.convert_han_eisuu, { "Input", "Complete", "Convert" }),
+    ["<CR>"] = mapping(mapping.confirm, { "Input", "Complete", "Convert" }),
+    ["<C-m>"] = mapping(mapping.confirm, { "Input", "Complete", "Convert" }),
+    ["<C-CR>"] = mapping(mapping.confirm, { "Input", "Complete", "Convert" }),
+    ["<BS>"] = {
+      Input = mapping.backspace,
+      Complete = mapping.cancel,
+      Convert = mapping.cancel,
     },
-    { { "<C-n>", "<Tab>" }, action.insert_next_item, "Convert" },
-    { { "<C-p>", "<S-Tab>" }, action.insert_prev_item, "Convert" },
-    { { "<C-f>", "<Right>" }, action.goto_next, "Convert" },
-    { { "<C-b>", "<Left>" }, action.goto_prev, "Convert" },
-    { { "<C-e>", "<C-Right>", "<End>" }, action.goto_tail, "Convert" },
-    { { "<C-a>", "<C-Left>", "<Home>" }, action.goto_head, "Convert" },
-    { { "<C-k>", "<S-Right>" }, action.extend, "Convert" },
-    { { "<C-j>", "<S-Left>" }, action.shorten, "Convert" },
+    ["<C-h>"] = {
+      Input = mapping.backspace,
+      Complete = mapping.cancel,
+      Convert = mapping.cancel,
+    },
+    ["<Esc>"] = {
+      PreInput = jam_out,
+      Input = jam_out,
+      Complete = mapping.cancel,
+      Convert = mapping.cancel,
+    },
+    ["<C-n>"] = {
+      Input = mapping.complete,
+      Complete = mapping.insert_next_item,
+    },
+    ["<Tab>"] = {
+      Input = mapping.complete,
+      Complete = mapping.insert_next_item,
+    },
+    ["<C-p>"] = mapping(mapping.insert_prev_item, "Complete"),
+    ["<S-Tab>"] = mapping(mapping.insert_prev_item, "Complete"),
+    ["<C-b>"] = mapping(mapping.goto_prev, { "Input", "Complete", "Convert" }),
+    ["<Left>"] = mapping(mapping.goto_prev, { "Input", "Complete", "Convert" }),
+    ["<C-f>"] = mapping(mapping.goto_next, { "Input", "Complete", "Convert" }),
+    ["<Right>"] = mapping(mapping.goto_next, { "Input", "Complete", "Convert" }),
+    ["<C-a>"] = mapping(mapping.goto_head, { "Input", "Complete", "Convert" }),
+    ["<C-Left>"] = mapping(mapping.goto_head, { "Input", "Complete", "Convert" }),
+    ["<Home>"] = mapping(mapping.goto_head, { "Input", "Complete", "Convert" }),
+    ["<C-e>"] = mapping(mapping.goto_tail, { "Input", "Complete", "Convert" }),
+    ["<C-Right>"] = mapping(mapping.goto_tail, { "Input", "Complete", "Convert" }),
+    ["<End>"] = mapping(mapping.goto_tail, { "Input", "Complete", "Convert" }),
+    ["<C-j>"] = mapping(mapping.shorten, "Complete"),
+    ["<S-Left>"] = mapping(mapping.shorten, "Complete"),
+    ["<C-k>"] = mapping(mapping.extend, "Complete"),
+    ["<S-Right>"] = mapping(mapping.extend, "Complete"),
+    ["<S-Space>"] = mapping(mapping.zenkaku_space, "PreInput"),
   },
 })
+
+vim.keymap.set('i', '<C-q>', jam_in, {})
