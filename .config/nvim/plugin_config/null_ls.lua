@@ -29,7 +29,33 @@ table.insert(prettier_configs, 'prettier.config.cjs')
 local sources = {
   -- completion
   null_ls.builtins.completion.spell,
-  -- null_ls.builtins.completion.vsnip,
+  null_ls.builtins.completion.vsnip.with({
+    generator = {
+      fn = function(params, done)
+        local items = {}
+        local snips = vim.fn["vsnip#get_complete_items"](params.bufnr)
+        local targets = vim.tbl_filter(function(item)
+          return string.match(item.word, "^" .. params.word_to_complete)
+        end, snips)
+        for _, item in ipairs(targets) do
+          local user_data = vim.fn.json_decode(item.user_data or '{}')
+          local value = ''
+          if user_data and user_data.vsnip and user_data.vsnip.snippet then
+            value = vim.fn['vsnip#to_string'](user_data.vsnip.snippet)
+          end
+          table.insert(items, {
+            word = item.word,
+            label = item.abbr,
+            detail = item.menu,
+            kind = vim.lsp.protocol.CompletionItemKind["Snippet"],
+            documentation = { value = value, kind = vim.lsp.protocol.MarkupKind.PlainText }
+          })
+        end
+        done({ { items = items, isIncomplete = #items > 0 } })
+      end,
+      async = true,
+    },
+  }),
 
   -- diagnostics
   null_ls.builtins.diagnostics.cspell.with({
@@ -195,40 +221,6 @@ local rg_dictionary_completion = {
 }
 null_ls.register(rg_dictionary_completion)
 
-local vsnip_completion = {
-  name = 'vsnip',
-  meta = { description = "vsnip completion source.", },
-  method = null_ls.methods.COMPLETION,
-  filetypes = {},
-  generator = {
-    fn = function(params, done)
-      local items = {}
-      local snips = vim.fn["vsnip#get_complete_items"](params.bufnr)
-      local targets = vim.tbl_filter(function(item)
-        return string.match(item.word, "^" .. params.word_to_complete)
-      end, snips)
-      for _, item in ipairs(targets) do
-        vim.pretty_print(item)
-        local user_data = vim.fn.json_decode(item.user_data or '{}')
-        local value = ''
-        if user_data and user_data.vsnip and user_data.vsnip.snippet then
-          value = vim.fn['vsnip#to_string'](user_data.vsnip.snippet)
-        end
-        table.insert(items, {
-          word = item.word,
-          label = item.abbr,
-          detail = item.menu,
-          kind = vim.lsp.protocol.CompletionItemKind["Snippet"],
-          documentation = { value = value, kind = vim.lsp.protocol.MarkupKind.PlainText }
-        })
-      end
-      done({ { items = items, isIncomplete = #items == 0 } })
-    end,
-    async = true,
-  },
-}
-null_ls.register(vsnip_completion)
-
 local ex_commands_completion = {
   name = 'ex-commands',
   meta = { description = "ex-commands completion source.", },
@@ -270,9 +262,23 @@ local file_completion = {
   filetypes = {},
   generator = {
     fn = function(params, done)
-      local cmds = vim.fn.getcompletion(params.word_to_complete, 'file', 1)
+      local line = string.sub(params.content[params.row], 1, params.col)
+      local files = {}
+      local s, t = vim.regex('\\f\\+$'):match_str(line)
+      if s and t then
+        local word_to_complete = line:sub(s + 1, t)
+        files = vim.fn.getcompletion(word_to_complete, 'file', 1)
+      end
 
-      local candidates = get_candidates(cmds, { detail = '[file]' })
+      local candidates = get_candidates(
+        vim.tbl_map(function(item)
+          return item:gsub('/$', ''):gsub('.*/', '')
+        end, files),
+        {
+          detail = '[file]',
+          kind = vim.lsp.protocol.CompletionItemKind['File']
+        }
+      )
       done({ { items = candidates, isIncomplete = #candidates > 0 } })
     end,
     async = true,
