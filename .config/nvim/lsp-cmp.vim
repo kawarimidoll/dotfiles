@@ -126,7 +126,7 @@ function! s:vim_enter_plugs() abort
         \ )
   if exists('*nvim_win_set_hl_ns')
     call plug#load('tint.nvim')
-    lua require("tint").setup()
+    luafile ~/dotfiles/.config/nvim/plugin_config/tint.lua
   endif
   source ~/dotfiles/.config/nvim/plugin_config/skkeleton.vim
   source ~/dotfiles/.config/nvim/plugin_config/skk_ddc_cmp.vim
@@ -415,13 +415,24 @@ autocmd User vim-silicon ++once source ~/dotfiles/.config/nvim/plugin_config/sil
 
 " {{{ capture.vim
 Plug 'tyru/capture.vim', { 'on': [] }
-command! -nargs=+ -complete=command -bang Capture
-  \ call plug#load('capture.vim') | execute 'Capture<bang> <args>'
+autocmd CmdlineEnter * ++once call plug#load('capture.vim')
 " }}}
 
 " {{{ neoterm
 Plug 'kassio/neoterm', { 'on': ['T', 'Tnew'] }
 autocmd User neoterm ++once source ~/dotfiles/.config/nvim/plugin_config/neoterm.vim
+" }}}
+
+" {{{ ccc.nvim
+Plug 'uga-rosa/ccc.nvim', { 'on': ['CccPick'] }
+" }}}
+
+" {{{ vim-floaterm
+Plug 'voldikss/vim-floaterm', { 'on': ['FloatermNew'] }
+" }}}
+
+" {{{ markdown-preview.nvim
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install', 'for': ['markdown'] }
 " }}}
 
 " {{{ venn.nvim
