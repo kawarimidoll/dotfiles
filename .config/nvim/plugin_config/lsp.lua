@@ -73,6 +73,11 @@ mason_lspconfig.setup_handlers({
     elseif server_name == 'sumneko_lua' then
       -- https://github.com/folke/lua-dev.nvim/blob/main/lua/lua-dev/sumneko.lua
       -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#sumneko_lua
+      local library = vim.api.nvim_get_runtime_file('', true)
+      local lua_dev_dir = '/Users/kawarimidoll/.config/nvim/plugged/lua-dev.nvim/types'
+      if vim.fn.isdirectory(lua_dev_dir) == 1 then
+        table.insert(library, lua_dev_dir)
+      end
 
       opts.settings = {
         Lua = {
@@ -82,7 +87,7 @@ mason_lspconfig.setup_handlers({
           },
           completion = { callSnippet = 'Both' },
           diagnostics = { globals = { 'vim' } },
-          workspace = { library = vim.api.nvim_get_runtime_file('', true) },
+          workspace = { library = library },
           telemetry = { enable = false },
         },
       }

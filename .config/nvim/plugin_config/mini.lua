@@ -413,6 +413,9 @@ vim.g.last_completion = '<C-x><C-o>'
 
 local mini_completion_setup = function()
   require('mini.completion').setup({
+    lsp_completion = {
+      process_items = require('mini.fuzzy').process_lsp_items,
+    },
     fallback_action = function()
       if
         vim.g.last_completion == '<C-x><C-o>'
