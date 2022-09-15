@@ -9,7 +9,8 @@ local cspell_files = {
 }
 
 if vim.fn.filereadable(cspell_files.vim) ~= 1 then
-  local vim_dictionary_url = 'https://github.com/iamcco/coc-spell-checker/raw/master/dicts/vim/vim.txt.gz'
+  local vim_dictionary_url =
+    'https://github.com/iamcco/coc-spell-checker/raw/master/dicts/vim/vim.txt.gz'
   io.popen('curl -fsSLo ' .. cspell_files.vim .. ' --create-dirs ' .. vim_dictionary_url)
 end
 if vim.fn.filereadable(cspell_files.user) ~= 1 then
@@ -19,10 +20,9 @@ end
 
 local null_ls = require('null-ls')
 
-local prettier_configs = vim.tbl_map(
-  function(ext) return '.prettierrc' .. ext end,
-  { '', '.js', '.cjs', '.json', '.json5', '.yml', '.yaml', '.toml' }
-) or {}
+local prettier_configs = vim.tbl_map(function(ext)
+  return '.prettierrc' .. ext
+end, { '', '.js', '.cjs', '.json', '.json5', '.yml', '.yaml', '.toml' }) or {}
 table.insert(prettier_configs, 'prettier.config.js')
 table.insert(prettier_configs, 'prettier.config.cjs')
 
@@ -33,9 +33,9 @@ local sources = {
     generator = {
       fn = function(params, done)
         local items = {}
-        local snips = vim.fn["vsnip#get_complete_items"](params.bufnr)
+        local snips = vim.fn['vsnip#get_complete_items'](params.bufnr)
         local targets = vim.tbl_filter(function(item)
-          return string.match(item.word, "^" .. params.word_to_complete)
+          return string.match(item.word, '^' .. params.word_to_complete)
         end, snips)
         for _, item in ipairs(targets) do
           local user_data = vim.fn.json_decode(item.user_data or '{}')
@@ -47,8 +47,8 @@ local sources = {
             word = item.word,
             label = item.abbr,
             detail = item.menu,
-            kind = vim.lsp.protocol.CompletionItemKind["Snippet"],
-            documentation = { value = value, kind = vim.lsp.protocol.MarkupKind.PlainText }
+            kind = vim.lsp.protocol.CompletionItemKind['Snippet'],
+            documentation = { value = value, kind = vim.lsp.protocol.MarkupKind.PlainText },
           })
         end
         done({ { items = items, isIncomplete = #items > 0 } })
@@ -60,33 +60,33 @@ local sources = {
   -- diagnostics
   null_ls.builtins.diagnostics.cspell.with({
     diagnostics_postprocess = function(diagnostic)
-      diagnostic.severity = vim.diagnostic.severity["WARN"]
+      diagnostic.severity = vim.diagnostic.severity['WARN']
     end,
     condition = function()
       return vim.fn.executable('cspell') > 0
     end,
-    extra_args = { '--config', cspell_files.config }
+    extra_args = { '--config', cspell_files.config },
   }),
 
   -- formatting
-  null_ls.builtins.formatting.deno_fmt.with {
-    filetypes = { "markdown" },
+  null_ls.builtins.formatting.deno_fmt.with({
+    filetypes = { 'markdown' },
     condition = function(utils)
       return not utils.has_file(prettier_configs)
     end,
-  },
-  null_ls.builtins.formatting.prettier.with {
+  }),
+  null_ls.builtins.formatting.prettier.with({
     condition = function(utils)
       return utils.has_file(prettier_configs)
     end,
-    prefer_local = "node_modules/.bin",
-  },
+    prefer_local = 'node_modules/.bin',
+  }),
   null_ls.builtins.formatting.stylua,
 }
 
 local cspell_append = function(opts)
   local word = opts.args
-  if not word or word == "" then
+  if not word or word == '' then
     word = vim.call('expand', '<cword>'):lower()
   end
 
@@ -106,11 +106,7 @@ local cspell_append = function(opts)
   end
 end
 
-vim.api.nvim_create_user_command(
-  'CSpellAppend',
-  cspell_append,
-  { nargs = '?', bang = true }
-)
+vim.api.nvim_create_user_command('CSpellAppend', cspell_append, { nargs = '?', bang = true })
 
 local cspell_custom_actions = {
   name = 'append-to-cspell-dictionary',
@@ -128,9 +124,12 @@ local cspell_custom_actions = {
       local word = ''
       local regex = '^Unknown word %((%w+)%)$'
       for _, v in pairs(diagnostics) do
-        if v.source == "cspell" and
-            v.col < col and col <= v.end_col and
-            string.match(v.message, regex) then
+        if
+          v.source == 'cspell'
+          and v.col < col
+          and col <= v.end_col
+          and string.match(v.message, regex)
+        then
           word = string.gsub(v.message, regex, '%1'):lower()
           break
         end
@@ -145,17 +144,17 @@ local cspell_custom_actions = {
           title = 'Append "' .. word .. '" to user dictionary',
           action = function()
             cspell_append({ args = word })
-          end
+          end,
         },
         {
           title = 'Append "' .. word .. '" to dotfiles dictionary',
           action = function()
             cspell_append({ args = word, bang = true })
-          end
-        }
+          end,
+        },
       }
-    end
-  }
+    end,
+  },
 }
 null_ls.register(cspell_custom_actions)
 
@@ -174,7 +173,7 @@ end
 
 local rg_dictionary_completion = {
   name = 'rg-dictionary',
-  meta = { description = "rg-dictionary completion source.", },
+  meta = { description = 'rg-dictionary completion source.' },
   method = null_ls.methods.COMPLETION,
   filetypes = {},
   generator = {
@@ -184,14 +183,10 @@ local rg_dictionary_completion = {
       local pattern = '^' .. params.word_to_complete
 
       -- local file = io.popen('look ' .. params.word_to_complete)
-      local cmd = table.concat({ 'rg',
-        '--ignore-case',
-        '--no-heading',
-        '--no-line-number',
-        '--color=never',
-        pattern,
-        src
-      }, ' ')
+      local cmd = table.concat(
+        { 'rg', '--ignore-case', '--no-heading', '--no-line-number', '--color=never', pattern, src },
+        ' '
+      )
       local file = io.popen(cmd)
       local stdout = ''
       if file then
@@ -210,7 +205,10 @@ local rg_dictionary_completion = {
               label = label,
               detail = '[dic]',
               kind = kind,
-              documentation = { value = path_and_word[1], kind = vim.lsp.protocol.MarkupKind.PlainText }
+              documentation = {
+                value = path_and_word[1],
+                kind = vim.lsp.protocol.MarkupKind.PlainText,
+              },
             })
           end
         end
@@ -224,7 +222,7 @@ null_ls.register(rg_dictionary_completion)
 
 local ex_commands_completion = {
   name = 'ex-commands',
-  meta = { description = "ex-commands completion source.", },
+  meta = { description = 'ex-commands completion source.' },
   method = null_ls.methods.COMPLETION,
   filetypes = { 'vim', 'lua' },
   generator = {
@@ -241,7 +239,7 @@ null_ls.register(ex_commands_completion)
 
 local au_events_completion = {
   name = 'au-events',
-  meta = { description = "autocmd-events completion source.", },
+  meta = { description = 'autocmd-events completion source.' },
   method = null_ls.methods.COMPLETION,
   filetypes = { 'vim', 'lua' },
   generator = {
@@ -258,7 +256,7 @@ null_ls.register(au_events_completion)
 
 local file_completion = {
   name = 'file',
-  meta = { description = "file completion source.", },
+  meta = { description = 'file completion source.' },
   method = null_ls.methods.COMPLETION,
   filetypes = {},
   generator = {
@@ -277,7 +275,7 @@ local file_completion = {
         end, files),
         {
           detail = '[file]',
-          kind = vim.lsp.protocol.CompletionItemKind['File']
+          kind = vim.lsp.protocol.CompletionItemKind['File'],
         }
       )
       done({ { items = candidates, isIncomplete = #candidates > 0 } })
@@ -289,7 +287,7 @@ null_ls.register(file_completion)
 
 local around_completion = {
   name = 'around',
-  meta = { description = "around completion source.", },
+  meta = { description = 'around completion source.' },
   method = null_ls.methods.COMPLETION,
   filetypes = {},
   generator = {
@@ -319,5 +317,5 @@ local around_completion = {
 null_ls.register(around_completion)
 
 null_ls.setup({
-  sources = sources
+  sources = sources,
 })

@@ -3,11 +3,11 @@ local nvim_lsp = require('lspconfig')
 mason.setup({
   ui = {
     icons = {
-      package_installed = "✓",
-      package_pending = "➜",
-      package_uninstalled = "✗"
-    }
-  }
+      package_installed = '✓',
+      package_pending = '➜',
+      package_uninstalled = '✗',
+    },
+  },
 })
 
 local lsp_capabilities = nil
@@ -16,19 +16,17 @@ if ok then
   lsp_capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
 end
 
-vim.keymap.set('n', '<space>p',
-  function()
-    if vim.lsp.buf.format then
-      vim.lsp.buf.format({
-        filter = function(client)
-          return client.name ~= 'tsserver'
-        end
-      })
-    else
-      vim.lsp.buf.formatting()
-    end
-  end,
-  { silent = true })
+vim.keymap.set('n', '<space>p', function()
+  if vim.lsp.buf.format then
+    vim.lsp.buf.format({
+      filter = function(client)
+        return client.name ~= 'tsserver'
+      end,
+    })
+  else
+    vim.lsp.buf.formatting()
+  end
+end, { silent = true })
 
 local mason_lspconfig = require('mason-lspconfig')
 mason_lspconfig.setup_handlers({
@@ -57,7 +55,8 @@ mason_lspconfig.setup_handlers({
         return
       end
 
-      opts.root_dir = nvim_lsp.util.root_pattern('deno.json', 'deno.jsonc', 'deps.ts', 'import_map.json')
+      opts.root_dir =
+        nvim_lsp.util.root_pattern('deno.json', 'deno.jsonc', 'deps.ts', 'import_map.json')
       opts.init_options = {
         lint = true,
         unstable = true,
@@ -66,27 +65,26 @@ mason_lspconfig.setup_handlers({
             hosts = {
               ['https://deno.land'] = true,
               ['https://cdn.nest.land'] = true,
-              ['https://crux.land'] = true
-            }
-          }
-        }
+              ['https://crux.land'] = true,
+            },
+          },
+        },
       }
     elseif server_name == 'sumneko_lua' then
       -- https://github.com/folke/lua-dev.nvim/blob/main/lua/lua-dev/sumneko.lua
       -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#sumneko_lua
-      local path = { '?.lua', '?/init.lua' }
 
       opts.settings = {
         Lua = {
           runtime = {
             version = 'LuaJIT',
-            path = path,
+            path = { 'lua/?.lua', 'lua/?/init.lua' },
           },
           completion = { callSnippet = 'Both' },
           diagnostics = { globals = { 'vim' } },
           workspace = { library = vim.api.nvim_get_runtime_file('', true) },
           telemetry = { enable = false },
-        }
+        },
       }
     end
 
@@ -99,5 +97,5 @@ mason_lspconfig.setup_handlers({
     end
 
     nvim_lsp[server_name].setup(opts)
-  end
+  end,
 })
