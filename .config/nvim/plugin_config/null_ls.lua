@@ -81,6 +81,7 @@ local sources = {
     end,
     prefer_local = "node_modules/.bin",
   },
+  null_ls.builtins.formatting.stylua,
 }
 
 local cspell_append = function(opts)
