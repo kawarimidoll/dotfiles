@@ -60,6 +60,7 @@ vim.api.nvim_create_autocmd({ 'VimEnter' }, {
   once = true,
 })
 
+vim.opt.laststatus = 3
 require('mini.statusline').setup({
   content = {
     active = function()
@@ -100,7 +101,6 @@ require('mini.statusline').setup({
   },
   set_vim_settings = false,
 })
-vim.opt.laststatus = 3
 vim.api.nvim_set_hl(0, 'MiniStatuslineDevinfo', { link = 'String' })
 
 vim.api.nvim_create_autocmd({ 'VimEnter' }, {
@@ -382,6 +382,7 @@ vim.api.nvim_create_user_command('MiniScheme', function(opts)
     palette = palettes[vim.g.scheme_name],
     use_cterm = true,
   })
+  vim.api.nvim_set_hl(0, 'VertSplit', { ctermbg = 'NONE', bg = 'NONE' })
 end, {
   nargs = '?',
   complete = function(arg_lead, _, _)
@@ -401,14 +402,6 @@ local termcodes = function(keys)
   return vim.api.nvim_replace_termcodes(keys, true, true, true)
 end
 
-local keymap_amend = require('keymap-amend')
-local insert_amend = function(keys)
-  keymap_amend('i', keys, function(original)
-    vim.g.last_completion = keys
-    original()
-  end)
-end
-
 vim.g.last_completion = '<C-x><C-o>'
 
 local mini_completion_setup = function()
@@ -426,6 +419,14 @@ local mini_completion_setup = function()
       vim.api.nvim_feedkeys(termcodes(vim.g.last_completion), 'n', false)
     end,
   })
+
+  local keymap_amend = require('keymap-amend')
+  local insert_amend = function(keys)
+    keymap_amend('i', keys, function(original)
+      vim.g.last_completion = keys
+      original()
+    end)
+  end
 
   insert_amend('<C-x><C-f>')
   insert_amend('<C-x><C-i>')
