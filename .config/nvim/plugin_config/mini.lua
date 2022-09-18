@@ -45,15 +45,6 @@ vim.api.nvim_create_autocmd({ 'VimEnter' }, {
   once = true,
 })
 
--- require('mini.jump2d').setup({
---   hooks = { after_jump = function() vim.cmd('syntax on') end },
---   mappings = { start_jumping = '' },
--- })
--- vim.api.nvim_set_hl(0, 'MiniJump2dSpot', { ctermfg = 209, fg = '#E27878', underline = true, bold = true, })
--- vim.g.minijump2d_disable = true
-
--- require('mini.starter').setup({})
-
 vim.api.nvim_create_autocmd({ 'VimEnter' }, {
   pattern = '*',
   callback = require('mini.surround').setup,

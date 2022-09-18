@@ -350,9 +350,7 @@ endfunction
 
 " {{{ load on InsertEnter
 Plug 'hrsh7th/vim-vsnip', { 'on': [] }
-Plug 'hrsh7th/vim-vsnip-integ', { 'on': [] }
 Plug 'rafamadriz/friendly-snippets', { 'on': [] }
-Plug 'kevinhwang91/nvim-hclipboard', { 'on': [] }
 Plug 'Shougo/pum.vim', { 'on': [] }
 Plug 'uga-rosa/jam.nvim', { 'on': [] }
 function! s:insert_enter_plugs() abort
@@ -362,9 +360,7 @@ function! s:insert_enter_plugs() abort
   let g:insert_entered = 1
   call plug#load(
         \ 'vim-vsnip',
-        \ 'vim-vsnip-integ',
         \ 'friendly-snippets',
-        \ 'nvim-hclipboard',
         \ 'pum.vim',
         \ 'jam.nvim',
         \ )
@@ -380,18 +376,12 @@ function! s:insert_enter_plugs() abort
   Keymap is <expr> <C-l> vsnip#available(1) ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
   Keymap nx st <Plug>(vsnip-select-text)
   Keymap nx sT <Plug>(vsnip-cut-text)
-  lua require('hclipboard').start()
 
   execute 'luafile' g:plug_home .. '/jam.nvim/plugin/jam.lua'
   luafile ~/dotfiles/.config/nvim/plugin_config/jam.lua
 endfunction
 autocmd InsertEnter * ++once call <sid>insert_enter_plugs()
 " }}}
-
-" " {{{ lazygit.nvim
-" Plug 'kdheepak/lazygit.nvim', { 'on': 'LazyGit' }
-" autocmd User lazygit.nvim ++once luafile ~/dotfiles/.config/nvim/plugin_config/lazygit.lua
-" " }}}
 
 " {{{ dial.nvim
 Plug 'monaqa/dial.nvim', { 'on': '<Plug>(dial-' }
