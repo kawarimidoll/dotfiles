@@ -98,7 +98,6 @@ Plug 'lewis6991/gitsigns.nvim', { 'on': [] }
 Plug 'tkmpypy/chowcho.nvim', { 'on': [] }
 Plug 'anuvyklack/pretty-fold.nvim', { 'on': [] }
 Plug 'levouh/tint.nvim', { 'on': [] }
-Plug 'nvim-colortils/colortils.nvim', { 'on': [] }
 function! s:vim_enter_plugs() abort
   if get(g:, 'vim_entered')
    return
@@ -122,7 +121,6 @@ function! s:vim_enter_plugs() abort
         \ 'gitsigns.nvim',
         \ 'chowcho.nvim',
         \ 'pretty-fold.nvim',
-        \ 'colortils.nvim',
         \ )
   if exists('*nvim_win_set_hl_ns')
     call plug#load('tint.nvim')
@@ -384,6 +382,7 @@ function! s:insert_enter_plugs() abort
   Keymap nx sT <Plug>(vsnip-cut-text)
   lua require('hclipboard').start()
 
+  execute 'luafile' g:plug_home .. '/jam.nvim/plugin/jam.lua'
   luafile ~/dotfiles/.config/nvim/plugin_config/jam.lua
 endfunction
 autocmd InsertEnter * ++once call <sid>insert_enter_plugs()

@@ -94,7 +94,7 @@ command! -nargs=+ GrepF silent grep! --fixed-strings -- <args>
 command! -nargs=+ LGrep silent lgrep! <args>
 command! -nargs=+ LGrepF silent lgrep! --fixed-strings -- <args>
 
-command! -nargs=1 VDiff vertical diffsplit <args>
+command! -nargs=1 -complete=file VDiff vertical diffsplit <args>
 command! VDiffAlt execute 'vertical diffsplit' expand('#')
 
 noremap j gj
@@ -109,7 +109,7 @@ nnoremap / /\v
 
 nnoremap s <NOP>
 nnoremap s/ :%s/
-nnoremap S :%s/\V<C-r><C-w>//g<Left><Left>
+nnoremap S :%s/\V\<<C-r><C-w>\>//g<Left><Left>
 nnoremap <script> <expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
 for c in g:alpha_all->split('\zs')
   execute 'nnoremap <sid>(q)' .. c '<NOP>'
