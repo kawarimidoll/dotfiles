@@ -96,6 +96,13 @@ function! s:termal_run(no_run, ...) abort
     endif
   endfor
 endfunction
+" function! s:termal_run_one(args) abort
+"   let args = join(map(split(a:args, '\s\+'), 'expand(v:val)'), ' ')
+"   call s:termal_send_one(args .. "\<CR>")
+" endfunction
+" function! s:termal_run_all(args) abort
+"   call s:termal_send_all(args .. "\<CR>")
+" endfunction
 command! -nargs=* -bang TermalRun call s:termal_run(<bang>0, <f-args>)
 
 function! s:termal_open() abort
@@ -152,24 +159,21 @@ function! s:remove_from_termal_list(bufnr) abort
   endfor
 endfunction
 
-function! s:termal_wipe(all_kill) abort
-  if a:all_kill
-    for tarmal_target in s:termal_terminals
-      execute termal_target.bufnr 'bwipeout!'
-    endfor
-    return
-  endif
-
-  let termal_target = s:termal_select()
-  if empty(termal_target)
-    return
-  endif
-
-  execute termal_target.bufnr 'bwipeout!'
+function! s:termal_wipe_all() abort
+  for tarmal_target in s:termal_terminals
+    execute termal_target.bufnr 'bwipeout!'
+  endfor
 endfunction
-command! -bang TermalWipe call s:termal_wipe(<bang>0)
+function! s:termal_wipe_one() abort
+  let termal_target = s:termal_select()
+  if !empty(termal_target)
+    execute termal_target.bufnr 'bwipeout!'
+  endif
+endfunction
+command! TermalWipe call s:termal_wipe_one()
+command! TermalWipeAll call s:termal_wipe_all()
 
-let s:subcommands = ['open', 'wipe', 'send', 'run', 'select']
+let s:subcommands = ['open', 'select', 'wipe', 'wipe_all', 'send', 'send_all', 'run', 'run_all']
 function! s:termal_comp(ArgLead, CmdLine, CursorPos) abort
   let cmd = get(split(a:CmdLine, '\s\+'), 1, '')
   if index(s:subcommands, cmd) > -1
@@ -182,7 +186,7 @@ function! s:snake_to_camel(str) abort
   return substitute(substitute(a:str, '^\l', '\u\0', ''), '_\(\l\)', '\u\1', 'g')
 endfunction
 
-function! termal#do(args) abort
+function! termal#main(args) abort
   if a:args =~ '^\s*$'
     s:echoerr('[Termal] Subcommand is required')
     return
@@ -194,7 +198,7 @@ function! termal#do(args) abort
     return
   endif
 
-  echo 's:termal_' .. subcommand .. '("' .. join(args, ' ') .. '")'
+  echo 'call s:termal_' .. subcommand .. '("' .. join(args, ' ') .. '")'
 
   call insert(args, 'Termal' .. s:snake_to_camel(subcommand))
 
@@ -204,4 +208,4 @@ function! termal#do(args) abort
   echo command
 
 endfunction
-command! -nargs=+ -complete=custom,s:termal_comp Termal call termal#do(<q-args>)
+command! -nargs=+ -complete=custom,s:termal_comp Termal call termal#main(<q-args>)
