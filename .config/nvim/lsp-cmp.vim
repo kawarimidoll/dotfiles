@@ -165,6 +165,7 @@ Plug 'williamboman/mason-lspconfig.nvim', { 'on': [] }
 Plug 'jose-elias-alvarez/null-ls.nvim', { 'on': [] }
 Plug 'ray-x/lsp_signature.nvim', { 'on': [] }
 Plug 'j-hui/fidget.nvim', { 'on': [] }
+Plug 'onsails/lspkind.nvim', { 'on': [] }
 Plug 'folke/lua-dev.nvim', { 'for': 'lua' }
 function! s:lsp_init() abort
   if get(g:, 'lsp_loaded')
@@ -178,10 +179,12 @@ function! s:lsp_init() abort
         \ 'mason-lspconfig.nvim',
         \ 'null-ls.nvim',
         \ 'lsp_signature.nvim',
+        \ 'lspkind.nvim',
         \ 'fidget.nvim',
         \ )
   lua require("lsp_signature").setup()
   lua require("fidget").setup()
+  lua require("lspkind").init({ mode = 'symbol_text' })
   execute 'luafile' g:plug_home .. '/nvim-lspconfig/plugin/lspconfig.lua'
   luafile ~/dotfiles/.config/nvim/plugin_config/lsp.lua
   luafile ~/dotfiles/.config/nvim/plugin_config/null_ls.lua
@@ -321,7 +324,6 @@ Plug 'lukas-reineke/cmp-rg', { 'on': [] }
 Plug 'hrsh7th/cmp-nvim-lsp-document-symbol', { 'on': [] }
 Plug 'f3fora/cmp-spell', { 'on': [] }
 Plug 'octaltree/cmp-look', { 'on': [] }
-Plug 'onsails/lspkind-nvim', { 'on': [] }
 function! s:cmp_init() abort
   if get(g:, 'cmp_loaded')
     return

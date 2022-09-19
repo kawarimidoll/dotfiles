@@ -10,10 +10,21 @@ mason.setup({
   },
 })
 
-local lsp_capabilities = nil
-local ok, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
-if ok then
-  lsp_capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
+-- ref: cmp_nvim_lsp.update_capabilities
+local update_capabilities = function(capabilities)
+  local completionItem = capabilities.textDocument.completion.completionItem
+
+  completionItem.snippetSupport = true
+  completionItem.preselectSupport = true
+  completionItem.insertReplaceSupport = true
+  completionItem.labelDetailsSupport = true
+  completionItem.deprecatedSupport = true
+  completionItem.commitCharactersSupport = true
+  completionItem.tagSupport = { valueSet = { 1 } }
+  completionItem.resolveSupport =
+    { properties = { 'documentation', 'detail', 'additionalTextEdits' } }
+
+  return capabilities
 end
 
 vim.keymap.set('n', '<space>p', function()
@@ -36,9 +47,7 @@ mason_lspconfig.setup_handlers({
 
     local opts = {}
 
-    if lsp_capabilities ~= nil then
-      opts.capabilities = lsp_capabilities
-    end
+    opts.capabilities = update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
     if server_name == 'tsserver' then
       if not is_node_repo then
