@@ -91,7 +91,7 @@ Plug 'haya14busa/vim-asterisk', { 'on': [] }
 Plug 'kevinhwang91/nvim-hlslens', { 'on': [] }
 Plug 'petertriho/nvim-scrollbar', { 'on': [] }
 Plug 'folke/which-key.nvim', { 'on': [] }
-Plug 'NvChad/nvim-colorizer.lua', { 'on': [] }
+Plug 'uga-rosa/ccc.nvim', { 'on': ['CccPick'] }
 Plug 'kyazdani42/nvim-web-devicons', { 'on': [] }
 Plug 'rcarriga/nvim-notify', { 'on': [] }
 Plug 'lewis6991/gitsigns.nvim', { 'on': [] }
@@ -113,7 +113,7 @@ function! s:vim_enter_plugs() abort
         \ 'nvim-hlslens',
         \ 'nvim-scrollbar',
         \ 'which-key.nvim',
-        \ 'nvim-colorizer.lua',
+        \ 'ccc.nvim',
         \ 'nvim-web-devicons',
         \ 'nvim-notify',
         \ )
@@ -136,8 +136,8 @@ function! s:vim_enter_plugs() abort
   luafile ~/dotfiles/.config/nvim/plugin_config/notify.lua
   luafile ~/dotfiles/.config/nvim/plugin_config/gitsigns.lua
   luafile ~/dotfiles/.config/nvim/plugin_config/chowcho.lua
-  lua require('colorizer').setup()
   lua require('pretty-fold').setup({})
+  lua require('ccc').setup({ highlighter = { auto_enable = true } })
 endfunction
 autocmd VimEnter * ++once call <sid>vim_enter_plugs()
 " }}}
@@ -412,10 +412,6 @@ autocmd CmdlineEnter * ++once call plug#load('capture.vim')
 " {{{ neoterm
 Plug 'kassio/neoterm', { 'on': ['T', 'Tnew'] }
 autocmd User neoterm ++once source ~/dotfiles/.config/nvim/plugin_config/neoterm.vim
-" }}}
-
-" {{{ ccc.nvim
-Plug 'uga-rosa/ccc.nvim', { 'on': ['CccPick'] }
 " }}}
 
 " {{{ vim-floaterm
