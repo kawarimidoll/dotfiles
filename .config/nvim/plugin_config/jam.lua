@@ -1,4 +1,5 @@
-local mapping = require("jam").mapping
+local mapping = require('jam').mapping
+
 local open_hint_win = function()
   local buf = vim.api.nvim_create_buf(false, true)
   if buf < 1 then
@@ -49,82 +50,42 @@ local open_hint_win = function()
     focusable = false,
     border = 'rounded',
   }
-  return vim.api.nvim_open_win(buf, false, opts)
+  vim.g.jam_cheat_sheet_win =  vim.api.nvim_open_win(buf, false, opts)
+end
+local close_hint_win = function()
+  if vim.g.jam_cheat_sheet_win > 0 then
+    vim.api.nvim_win_close(vim.g.jam_cheat_sheet_win, true)
+    vim.g.jam_cheat_sheet_win = nil
+  end
 end
 
 local jam_in = function()
-  vim.b.minicompletion_disable = true
-  local win = open_hint_win()
-  if win > 0 then
-    vim.b.jam_cheat_sheet = win
-  end
+  vim.g.minicompletion_disable = true
+  open_hint_win()
+  vim.api.nvim_create_autocmd({ 'ModeChanged' }, { once = true, callback = close_hint_win })
   mapping.start()
 end
 local jam_out = function()
-  vim.b.minicompletion_disable = false
-  if vim.b.jam_cheat_sheet > 0 then
-    vim.api.nvim_win_close(vim.b.jam_cheat_sheet, true)
-    vim.b.jam_cheat_sheet = nil
-  end
+  vim.g.minicompletion_disable = false
+  close_hint_win()
   mapping.exit()
 end
 
-require("jam").setup({
+require('jam').setup({
   mappings = {
-    ["<Space>"] = {
-      Input = mapping.complete,
-      Complete = mapping.insert_next_item,
-      Convert = mapping.complete,
-    },
-    ["<C-6>"] = mapping(mapping.convert_hira, { "Input", "Complete", "Convert" }),
-    ["<C-7>"] = mapping(mapping.convert_zen_kata, { "Input", "Complete", "Convert" }),
-    ["<C-8>"] = mapping(mapping.convert_han_kata, { "Input", "Complete", "Convert" }),
-    ["<C-9>"] = mapping(mapping.convert_zen_eisuu, { "Input", "Complete", "Convert" }),
-    ["<C-0>"] = mapping(mapping.convert_han_eisuu, { "Input", "Complete", "Convert" }),
-    ["<CR>"] = mapping(mapping.confirm, { "Input", "Complete", "Convert" }),
-    ["<C-m>"] = mapping(mapping.confirm, { "Input", "Complete", "Convert" }),
-    ["<C-CR>"] = mapping(mapping.confirm, { "Input", "Complete", "Convert" }),
-    ["<BS>"] = {
-      Input = mapping.backspace,
-      Complete = mapping.cancel,
-      Convert = mapping.cancel,
-    },
-    ["<C-h>"] = {
-      Input = mapping.backspace,
-      Complete = mapping.cancel,
-      Convert = mapping.cancel,
-    },
-    ["<Esc>"] = {
+    ['<C-6>'] = mapping(mapping.convert_hira, { 'Input', 'Complete', 'Convert' }),
+    ['<C-7>'] = mapping(mapping.convert_zen_kata, { 'Input', 'Complete', 'Convert' }),
+    ['<C-8>'] = mapping(mapping.convert_han_kata, { 'Input', 'Complete', 'Convert' }),
+    ['<C-9>'] = mapping(mapping.convert_zen_eisuu, { 'Input', 'Complete', 'Convert' }),
+    ['<C-0>'] = mapping(mapping.convert_han_eisuu, { 'Input', 'Complete', 'Convert' }),
+    ['<Esc>'] = {
       PreInput = jam_out,
       Input = jam_out,
       Complete = mapping.cancel,
       Convert = mapping.cancel,
     },
-    ["<C-n>"] = {
-      Input = mapping.complete,
-      Complete = mapping.insert_next_item,
-    },
-    ["<Tab>"] = {
-      Input = mapping.complete,
-      Complete = mapping.insert_next_item,
-    },
-    ["<C-p>"] = mapping(mapping.insert_prev_item, "Complete"),
-    ["<S-Tab>"] = mapping(mapping.insert_prev_item, "Complete"),
-    ["<C-b>"] = mapping(mapping.goto_prev, { "Input", "Complete", "Convert" }),
-    ["<Left>"] = mapping(mapping.goto_prev, { "Input", "Complete", "Convert" }),
-    ["<C-f>"] = mapping(mapping.goto_next, { "Input", "Complete", "Convert" }),
-    ["<Right>"] = mapping(mapping.goto_next, { "Input", "Complete", "Convert" }),
-    ["<C-a>"] = mapping(mapping.goto_head, { "Input", "Complete", "Convert" }),
-    ["<C-Left>"] = mapping(mapping.goto_head, { "Input", "Complete", "Convert" }),
-    ["<Home>"] = mapping(mapping.goto_head, { "Input", "Complete", "Convert" }),
-    ["<C-e>"] = mapping(mapping.goto_tail, { "Input", "Complete", "Convert" }),
-    ["<C-Right>"] = mapping(mapping.goto_tail, { "Input", "Complete", "Convert" }),
-    ["<End>"] = mapping(mapping.goto_tail, { "Input", "Complete", "Convert" }),
-    ["<C-j>"] = mapping(mapping.shorten, "Complete"),
-    ["<S-Left>"] = mapping(mapping.shorten, "Complete"),
-    ["<C-k>"] = mapping(mapping.extend, "Complete"),
-    ["<S-Right>"] = mapping(mapping.extend, "Complete"),
-    ["<S-Space>"] = mapping(mapping.zenkaku_space, "PreInput"),
+    ['<C-q>'] = { PreInput = jam_out, Input = jam_out },
+    ['<C-CR>'] = { PreInput = mapping.zenkaku_space },
   },
 })
 
