@@ -452,7 +452,7 @@ command! VToggle call s:venn_toggle()
 " }}}
 
 " {{{ load immediately
-Plug 'anuvyklack/keymap-amend.nvim'
+Plug 'anuvyklack/keymap-amend.nvim', { 'on': [] }
 Plug 'lewis6991/impatient.nvim'
 Plug 'echasnovski/mini.nvim'
 Plug 'vim-jp/vimdoc-ja'
@@ -492,6 +492,8 @@ nnoremap <sid>(q)o <Cmd>only<CR>
 nnoremap <sid>(q)t <C-^>
 nnoremap <sid>(q)x <Cmd>Qfutils CClear<CR>
 nnoremap <sid>(q)z <Cmd>lua MiniMisc.zoom()<CR>
+nnoremap <sid>(q): q:
+nnoremap <sid>(q)/ q/
 nnoremap <Space>d <Cmd>keepalt lua MiniBufremove.delete()<CR>
 nnoremap <Space>L <Cmd>LazyGit<CR>
 " }}}
