@@ -18,8 +18,6 @@ command! CopyRelativePath let @*=expand('%:h').'/'.expand('%:t') | echo 'copy re
 
 command! VimShowHlGroup echo synID(line('.'), col('.'), 1)->synIDtrans()->synIDattr('name')
 
-" command! -nargs=* T split | wincmd j | resize 12 | terminal <args>
-
 command! DiagnosticToQf lua vim.diagnostic.setqflist()
 
 " {{{ terminal_autoclose
@@ -187,6 +185,7 @@ command! -nargs=+ -bang -count=2 -complete=shellcmd Sh
 " }}}
 
 " {{{ Keymap
+" https://zenn.dev/kawarimidoll/articles/513d603681ece9
 function! s:keymap(modes, ...) abort
   let arg = join(a:000, ' ')
   for mode in split(a:modes, '.\zs')
@@ -258,6 +257,7 @@ command! SmartOpen call <sid>smart_open()
 " }}}
 
 " {{{ EditProjectMru()
+" https://zenn.dev/kawarimidoll/articles/057e0c26c6d6e3
 function! EditProjectMru() abort
   let cmd = 'git rev-parse --show-superproject-working-tree --show-toplevel 2>/dev/null | head -1'
   let root = system(cmd)->trim()->expand()
@@ -278,6 +278,7 @@ autocmd commands.vim VimEnter * ++once delfunction! EditProjectMru
 " }}}
 
 " {{{ ensure_git_root
+" https://zenn.dev/kawarimidoll/articles/30693f48096eb1
 function! s:ensure_git_root() abort
   let cmd = 'git rev-parse --show-superproject-working-tree --show-toplevel 2>/dev/null | head -1'
   let root = system(cmd)->trim()->expand()
@@ -300,6 +301,7 @@ autocmd commands.vim TextYankPost * call s:collect_yank_history()
 " }}}
 
 " {{{ ClearRegs
+" https://zenn.dev/kawarimidoll/articles/3f42843715c5de
 function! s:clear_regs() abort
   for r in split(g:alnum .. '/', '\zs')
     call setreg(r, [])
@@ -358,6 +360,7 @@ command! -nargs=1 HalfMove call s:half_move(<f-args>)
 " }}}
 
 " {{{ MergeHighlight
+" https://zenn.dev/kawarimidoll/articles/cf6caaa7602239
 function! s:merge_highlight(args) abort
   let l:args = split(a:args)
   if len(l:args) < 2
@@ -385,6 +388,7 @@ command! -nargs=1 -complete=file Rename
 " }}}
 
 " {{{ restore-cursor
+" :h restore-cursor
 autocmd commands.vim BufReadPost *
   \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
   \ |   execute 'normal! g`"'
@@ -393,7 +397,7 @@ autocmd commands.vim BufReadPost *
 " }}}
 
 " {{{ ensure_dir
-" [vim-jp » Hack #202: 自動的にディレクトリを作成する](https://vim-jp.org/vim-users-jp/2011/02/20/Hack-202.html)
+" https://vim-jp.org/vim-users-jp/2011/02/20/Hack-202.html
 function! s:ensure_dir(dir, force)
   if !isdirectory(a:dir) && (a:force || confirm('"' . a:dir . '" does not exist. Create?', "y\nN"))
     call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
