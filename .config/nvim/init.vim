@@ -1,4 +1,4 @@
-let s:source = expand('~/dotfiles/.config/nvim/lsp-cmp.vim')
+let s:source = expand('~/dotfiles/.config/nvim/plugs.vim')
 if filereadable(s:source)
   execute 'source' s:source
 endif
