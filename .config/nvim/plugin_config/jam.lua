@@ -53,7 +53,7 @@ local open_hint_win = function()
   vim.g.jam_cheat_sheet_win =  vim.api.nvim_open_win(buf, false, opts)
 end
 local close_hint_win = function()
-  if vim.g.jam_cheat_sheet_win > 0 then
+  if vim.g.jam_cheat_sheet_win and vim.g.jam_cheat_sheet_win > 0 then
     vim.api.nvim_win_close(vim.g.jam_cheat_sheet_win, true)
     vim.g.jam_cheat_sheet_win = nil
   end
@@ -62,7 +62,7 @@ end
 local jam_in = function()
   vim.g.minicompletion_disable = true
   open_hint_win()
-  vim.api.nvim_create_autocmd({ 'ModeChanged' }, { once = true, callback = close_hint_win })
+  -- vim.api.nvim_create_autocmd({ 'ModeChanged' }, { once = true, callback = close_hint_win })
   mapping.start()
 end
 local jam_out = function()

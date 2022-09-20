@@ -46,6 +46,7 @@ endif
 set ambiwidth=single
 set breakindent
 set breakindentopt=min:50,shift:4,sbr,list:-1
+set cedit=\<C-Q>
 set clipboard&
 set clipboard^=unnamed
 set clipboard^=unnamedplus
