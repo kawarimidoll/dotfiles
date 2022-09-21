@@ -62,3 +62,4 @@ kawarimiku
 zenn
 wezterm
 stylua
+jisyo

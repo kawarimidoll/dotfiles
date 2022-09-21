@@ -45,6 +45,7 @@
       "locale": "*",
       "ignoreRegExpList": [
         "/Plug .*/",
+        "/Jetpack.*/",
         "/jetpack.*/"
       ],
       "dictionaries": [
