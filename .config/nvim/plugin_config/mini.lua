@@ -13,16 +13,15 @@ vim.api.nvim_create_autocmd({ 'VimEnter' }, {
 vim.api.nvim_create_autocmd({ 'FileType' }, {
   pattern = '*',
   callback = function()
-    require('mini.comment').setup({
-      hooks = {
-        pre = function()
-          local exists, context_commentstring = pcall(require, 'ts_context_commentstring.internal')
-          if exists then
-            context_commentstring.update_commentstring({})
-          end
-        end,
-      },
-    })
+    local hooks = {}
+    local exists, context_commentstring = pcall(require, 'ts_context_commentstring.internal')
+    if exists then
+      hooks.pre = function()
+        context_commentstring.update_commentstring({})
+      end
+    end
+
+    require('mini.comment').setup({ hooks = hooks })
   end,
   once = true,
 })
