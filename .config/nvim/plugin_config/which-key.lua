@@ -17,6 +17,8 @@ wk.register({
   ["<C-o>"] = 'omni completion',
   ["<C-s>"] = 'Spelling suggestions',
   ["<C-z>"] = 'stop completion',
+  ["<C-g>"] = 'mini.completion force_twostep',
+  ["<C-x>"] = 'mini.completion force_fallback',
 }, {
   mode = "i",
   prefix = "<C-x>",

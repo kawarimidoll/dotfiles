@@ -408,6 +408,10 @@ local mini_completion_setup = function()
       end
       vim.api.nvim_feedkeys(termcodes(vim.g.last_completion), 'n', false)
     end,
+    mappings = {
+      force_twostep = '<C-x><C-g>', -- Force two-step completion
+      force_fallback = '<C-x><C-x>', -- Force fallback completion
+    },
   })
 
   local keymap_amend = require('keymap-amend')
