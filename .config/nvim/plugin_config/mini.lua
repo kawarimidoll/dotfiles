@@ -436,18 +436,25 @@ local mini_completion_setup = function()
     if vim.fn.pumvisible() == 0 then
       -- If popup is not visible, use `<CR>` in 'mini.pairs'.
       return require('mini.pairs').cr()
-    elseif vim.fn.complete_info()['selected'] ~= -1 then
-      -- If popup is visible and item is selected, confirm selected item
-      local selected = vim.fn.complete_info()['items'][vim.fn.complete_info()['selected'] + 1]
-      if type(selected.user_data) == 'string' and string.match(selected.user_data, '"vsnip"') then
-        return '<Plug>(vsnip-expand-or-jump)'
-      end
-
-      return termcodes('<C-y>')
-    else
-      -- Add new line otherwise
-      return termcodes('<C-y><CR>')
     end
+
+    local complete_info = vim.fn.complete_info({ 'selected', 'items' })
+
+    if complete_info.selected == -1 then
+      -- If popup is visible but item is NOT selected, add new line.
+      return require('mini.pairs').cr()
+    end
+
+    -- If popup is visible and item is selected, get selected item.
+    local selected = complete_info.items[complete_info.selected + 1]
+
+    -- If menu of selected item starts with '[v]', expand by vsnip.
+    if vim.startswith(selected.menu, '[v]') then
+      return '<Plug>(vsnip-expand-or-jump)'
+    end
+
+    -- Confirm selected item otherwise
+    return termcodes('<C-y>')
   end, { expr = true })
 end
 vim.api.nvim_create_autocmd({ 'InsertEnter' }, {
