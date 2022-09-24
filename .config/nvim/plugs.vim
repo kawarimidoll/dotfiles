@@ -80,18 +80,18 @@ autocmd User pounce.nvim ++once luafile ~/dotfiles/.config/nvim/plugin_config/po
 Plug 'nvim-lua/plenary.nvim', { 'on': [] }
 Plug 'vim-denops/denops.vim', { 'on': [] }
 Plug 'vim-skk/skkeleton', { 'on': [] }
-Plug 'kawarimidoll/mru_cache.lua', { 'on': [] }
+Plug 'kawarimidoll/mru_cache.lua'
 Plug 'haya14busa/vim-asterisk', { 'on': [] }
 Plug 'kevinhwang91/nvim-hlslens', { 'on': [] }
-Plug 'petertriho/nvim-scrollbar', { 'on': [] }
+Plug 'petertriho/nvim-scrollbar'
 Plug 'folke/which-key.nvim', { 'on': [] }
-Plug 'uga-rosa/ccc.nvim', { 'on': ['CccPick'] }
+Plug 'uga-rosa/ccc.nvim', { 'on': [] }
 Plug 'kyazdani42/nvim-web-devicons', { 'on': [] }
-Plug 'rcarriga/nvim-notify', { 'on': [] }
-Plug 'lewis6991/gitsigns.nvim', { 'on': [] }
+Plug 'rcarriga/nvim-notify'
+Plug 'lewis6991/gitsigns.nvim'
 Plug 'tkmpypy/chowcho.nvim', { 'on': [] }
-Plug 'anuvyklack/pretty-fold.nvim', { 'on': [] }
-Plug 'levouh/tint.nvim', { 'on': [] }
+Plug 'anuvyklack/pretty-fold.nvim'
+Plug 'levouh/tint.nvim'
 function! s:vim_enter_plugs() abort
   if get(g:, 'vim_entered')
    return
@@ -101,22 +101,13 @@ function! s:vim_enter_plugs() abort
         \ 'plenary.nvim',
         \ 'denops.vim',
         \ 'skkeleton',
-        \ 'mru_cache.lua',
         \ 'vim-asterisk',
         \ 'nvim-hlslens',
-        \ 'nvim-scrollbar',
         \ 'which-key.nvim',
         \ 'ccc.nvim',
-        \ 'nvim-web-devicons',
-        \ 'nvim-notify',
-        \ )
-  call plug#load(
-        \ 'gitsigns.nvim',
         \ 'chowcho.nvim',
-        \ 'pretty-fold.nvim',
         \ )
   if exists('*nvim_win_set_hl_ns')
-    call plug#load('tint.nvim')
     luafile ~/dotfiles/.config/nvim/plugin_config/tint.lua
   endif
   source ~/dotfiles/.config/nvim/plugin_config/skkeleton.vim
@@ -142,9 +133,7 @@ function! s:qf_pre_plugs() abort
    return
   end
   let g:qf_pre_loaded = 1
-  call plug#load(
-        \ 'qf.nvim',
-        \ )
+  call plug#load('qf.nvim')
   lua require('qf').setup()
 endfunction
 autocmd QuickFixCmdPre * ++once call <sid>qf_pre_plugs()
@@ -152,29 +141,21 @@ autocmd QuickFixCmdPre * ++once call <sid>qf_pre_plugs()
 
 " {{{ lsp
 Plug 'neovim/nvim-lspconfig', { 'on': [] }
-Plug 'williamboman/mason.nvim', { 'on': [] }
-Plug 'williamboman/mason-lspconfig.nvim', { 'on': [] }
-Plug 'jose-elias-alvarez/null-ls.nvim', { 'on': [] }
-Plug 'ray-x/lsp_signature.nvim', { 'on': [] }
-Plug 'j-hui/fidget.nvim', { 'on': [] }
-Plug 'onsails/lspkind.nvim', { 'on': [] }
-Plug 'folke/lua-dev.nvim', { 'for': 'lua' }
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
+Plug 'jose-elias-alvarez/null-ls.nvim'
+Plug 'ray-x/lsp_signature.nvim'
+Plug 'j-hui/fidget.nvim'
+Plug 'onsails/lspkind.nvim'
+Plug 'folke/lua-dev.nvim'
 function! s:lsp_init() abort
   if get(g:, 'lsp_loaded')
     return
   end
   let g:lsp_loaded = 1
-  call plug#load(
-        \ 'nvim-lspconfig',
-        \ 'mason.nvim',
-        \ 'mason-lspconfig.nvim',
-        \ 'null-ls.nvim',
-        \ 'lsp_signature.nvim',
-        \ 'lspkind.nvim',
-        \ 'fidget.nvim',
-        \ )
-  lua require("lsp_signature").setup()
-  lua require("lspkind").init({ mode = 'symbol_text' })
+  call plug#load('nvim-lspconfig')
+  lua require('lsp_signature').setup()
+  lua require('lspkind').init({ mode = 'symbol_text' })
   execute 'luafile' g:plug_home .. '/nvim-lspconfig/plugin/lspconfig.lua'
   luafile ~/dotfiles/.config/nvim/plugin_config/lsp.lua
   luafile ~/dotfiles/.config/nvim/plugin_config/null_ls.lua
@@ -261,9 +242,9 @@ Plug 'nvim-treesitter/nvim-treesitter-refactor', { 'on': [] }
 Plug 'JoosepAlviste/nvim-ts-context-commentstring', { 'on': [] }
 Plug 'p00f/nvim-ts-rainbow', { 'on': [] }
 Plug 'romgrk/nvim-treesitter-context', { 'on': [] }
-Plug 'David-Kunz/treesitter-unit', { 'on': [] }
+Plug 'David-Kunz/treesitter-unit'
 Plug 'mfussenegger/nvim-ts-hint-textobject', { 'on': [] }
-Plug 'm-demare/hlargs.nvim', { 'on': [] }
+Plug 'm-demare/hlargs.nvim'
 Plug 'andymass/vim-matchup', { 'on': [] }
 Plug 'yioneko/nvim-yati', { 'on': [] }
 Plug 'haringsrob/nvim_context_vt', { 'on': [] }
@@ -278,9 +259,7 @@ function! s:treesitter_init() abort
         \ 'nvim-treesitter-refactor',
         \ 'nvim-ts-context-commentstring',
         \ 'nvim-ts-rainbow',
-        \ 'treesitter-unit',
         \ 'nvim-ts-hint-textobject',
-        \ 'hlargs.nvim',
         \ 'vim-matchup',
         \ 'nvim-yati',
         \ 'nvim_context_vt',
@@ -304,8 +283,8 @@ autocmd BufReadPost * ++once call <sid>treesitter_init()
 " {{{ load on InsertEnter
 Plug 'hrsh7th/vim-vsnip', { 'on': [] }
 Plug 'hrsh7th/vim-vsnip-integ', { 'on': [] }
-Plug 'rafamadriz/friendly-snippets', { 'on': [] }
-Plug 'Shougo/pum.vim', { 'on': [] }
+Plug 'rafamadriz/friendly-snippets'
+Plug 'Shougo/pum.vim'
 Plug 'uga-rosa/jam.nvim', { 'on': [] }
 function! s:insert_enter_plugs() abort
   if get(g:, 'insert_entered')
@@ -315,8 +294,6 @@ function! s:insert_enter_plugs() abort
   call plug#load(
         \ 'vim-vsnip',
         \ 'vim-vsnip-integ',
-        \ 'friendly-snippets',
-        \ 'pum.vim',
         \ 'jam.nvim',
         \ )
   source ~/dotfiles/.config/nvim/plugin_config/vsnip.vim
