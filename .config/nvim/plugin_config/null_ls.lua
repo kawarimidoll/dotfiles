@@ -171,150 +171,110 @@ local get_candidates = function(entries, opts)
   return items
 end
 
-local rg_dictionary_completion = {
-  name = 'rg-dictionary',
-  meta = { description = 'rg-dictionary completion source.' },
-  method = null_ls.methods.COMPLETION,
-  filetypes = {},
-  generator = {
-    fn = function(params, done)
-      local dictionaries = vim.api.nvim_get_option_value('dictionary', {})
-      local src = vim.fn.substitute(dictionaries, ',', ' ', 'g')
-      local pattern = '^' .. params.word_to_complete
+local register_completion = function(name, fn, filetypes)
+  null_ls.register({
+    name = name,
+    method = null_ls.methods.COMPLETION,
+    filetypes = filetypes or {},
+    generator = { async = true, fn = fn },
+  })
+end
 
-      -- local file = io.popen('look ' .. params.word_to_complete)
-      local cmd = table.concat(
-        { 'rg', '--ignore-case', '--no-heading', '--no-line-number', '--color=never', pattern, src },
-        ' '
-      )
-      local file = io.popen(cmd)
-      local stdout = ''
-      if file then
-        stdout = file:read('a')
-        file:close()
+register_completion('rg-dictionary', function(params, done)
+  local dictionaries = vim.api.nvim_get_option_value('dictionary', {})
+  local src = vim.fn.substitute(dictionaries, ',', ' ', 'g')
+  local pattern = '^' .. params.word_to_complete
+
+  -- local file = io.popen('look ' .. params.word_to_complete)
+  local cmd = table.concat(
+    { 'rg', '--ignore-case', '--no-heading', '--no-line-number', '--color=never', pattern, src },
+    ' '
+  )
+  local file = io.popen(cmd)
+  local stdout = ''
+  if file then
+    stdout = file:read('a')
+    file:close()
+  end
+
+  local kind = vim.lsp.protocol.CompletionItemKind['Text']
+  local candidates = {}
+  for _, v in ipairs(vim.split(stdout, '\r?\n')) do
+    if v ~= '' then
+      local path_and_word = vim.split(v, ':')
+      local label = path_and_word[2]
+      if label ~= '' then
+        table.insert(candidates, {
+          label = label,
+          detail = '[dic]',
+          kind = kind,
+          documentation = {
+            value = path_and_word[1],
+            kind = vim.lsp.protocol.MarkupKind.PlainText,
+          },
+        })
       end
+    end
+  end
+  done({ { items = candidates, isIncomplete = #candidates > 0 } })
+end)
 
-      local kind = vim.lsp.protocol.CompletionItemKind['Text']
-      local candidates = {}
-      for _, v in ipairs(vim.split(stdout, '\r?\n')) do
-        if v ~= '' then
-          local path_and_word = vim.split(v, ':')
-          local label = path_and_word[2]
-          if label ~= '' then
-            table.insert(candidates, {
-              label = label,
-              detail = '[dic]',
-              kind = kind,
-              documentation = {
-                value = path_and_word[1],
-                kind = vim.lsp.protocol.MarkupKind.PlainText,
-              },
-            })
-          end
-        end
+register_completion('ex-commands', function(params, done)
+  local cmds = vim.fn.getcompletion(params.word_to_complete, 'command', 1)
+
+  local candidates = get_candidates(cmds, { detail = '[cmd]' })
+  done({ { items = candidates, isIncomplete = #candidates > 0 } })
+end, { 'vim', 'lua' })
+
+register_completion('au-events', function(params, done)
+  local cmds = vim.fn.getcompletion(params.word_to_complete, 'event', 1)
+
+  local candidates =
+    get_candidates(cmds, { detail = '[eve]', kind = vim.lsp.protocol.CompletionItemKind['Event'] })
+  done({ { items = candidates, isIncomplete = #candidates > 0 } })
+end, { 'vim', 'lua' })
+
+register_completion('file', function(params, done)
+  local line = string.sub(params.content[params.row], 1, params.col)
+  local files = {}
+  local s, t = vim.regex('\\f\\+$'):match_str(line)
+  if s and t then
+    local word_to_complete = line:sub(s + 1, t)
+    files = vim.fn.getcompletion(word_to_complete, 'file', 1)
+  end
+
+  local candidates = get_candidates(
+    vim.tbl_map(function(item)
+      return item:gsub('/$', ''):gsub('.*/', '')
+    end, files),
+    {
+      detail = '[file]',
+      kind = vim.lsp.protocol.CompletionItemKind['File'],
+    }
+  )
+  done({ { items = candidates, isIncomplete = #candidates > 0 } })
+end)
+
+register_completion('around', function(params, done)
+  local term = params.word_to_complete
+  local range = 100
+  local current_line = vim.fn.line('.')
+  local lnum_from = math.max(1, current_line - range)
+  local lnum_to = math.min(vim.fn.line('$'), current_line + range)
+
+  local lines = vim.fn.getline(lnum_from, lnum_to)
+  local aggregated = {}
+  for _, x in ipairs(lines) do
+    for w in string.gmatch(x, '[_%w][_%w]+') do
+      if w ~= term and vim.startswith(w, term) then
+        aggregated[w] = 1
       end
-      done({ { items = candidates, isIncomplete = #candidates > 0 } })
-    end,
-    async = true,
-  },
-}
-null_ls.register(rg_dictionary_completion)
+    end
+  end
 
-local ex_commands_completion = {
-  name = 'ex-commands',
-  meta = { description = 'ex-commands completion source.' },
-  method = null_ls.methods.COMPLETION,
-  filetypes = { 'vim', 'lua' },
-  generator = {
-    fn = function(params, done)
-      local cmds = vim.fn.getcompletion(params.word_to_complete, 'command', 1)
-
-      local candidates = get_candidates(cmds, { detail = '[cmd]' })
-      done({ { items = candidates, isIncomplete = #candidates > 0 } })
-    end,
-    async = true,
-  },
-}
-null_ls.register(ex_commands_completion)
-
-local au_events_completion = {
-  name = 'au-events',
-  meta = { description = 'autocmd-events completion source.' },
-  method = null_ls.methods.COMPLETION,
-  filetypes = { 'vim', 'lua' },
-  generator = {
-    fn = function(params, done)
-      local cmds = vim.fn.getcompletion(params.word_to_complete, 'event', 1)
-
-      local candidates = get_candidates(cmds, { detail = '[eve]' })
-      done({ { items = candidates, isIncomplete = #candidates > 0 } })
-    end,
-    async = true,
-  },
-}
-null_ls.register(au_events_completion)
-
-local file_completion = {
-  name = 'file',
-  meta = { description = 'file completion source.' },
-  method = null_ls.methods.COMPLETION,
-  filetypes = {},
-  generator = {
-    fn = function(params, done)
-      local line = string.sub(params.content[params.row], 1, params.col)
-      local files = {}
-      local s, t = vim.regex('\\f\\+$'):match_str(line)
-      if s and t then
-        local word_to_complete = line:sub(s + 1, t)
-        files = vim.fn.getcompletion(word_to_complete, 'file', 1)
-      end
-
-      local candidates = get_candidates(
-        vim.tbl_map(function(item)
-          return item:gsub('/$', ''):gsub('.*/', '')
-        end, files),
-        {
-          detail = '[file]',
-          kind = vim.lsp.protocol.CompletionItemKind['File'],
-        }
-      )
-      done({ { items = candidates, isIncomplete = #candidates > 0 } })
-    end,
-    async = true,
-  },
-}
-null_ls.register(file_completion)
-
-local around_completion = {
-  name = 'around',
-  meta = { description = 'around completion source.' },
-  method = null_ls.methods.COMPLETION,
-  filetypes = {},
-  generator = {
-    fn = function(params, done)
-      local term = params.word_to_complete
-      local range = 100
-      local current_line = vim.fn.line('.')
-      local lnum_from = math.max(1, current_line - range)
-      local lnum_to = math.min(vim.fn.line('$'), current_line + range)
-
-      local lines = vim.fn.getline(lnum_from, lnum_to)
-      local aggregated = {}
-      for _, x in ipairs(lines) do
-        for w in string.gmatch(x, '[_%w][_%w]+') do
-          if w ~= term and vim.startswith(w, term) then
-            aggregated[w] = 1
-          end
-        end
-      end
-
-      local candidates = get_candidates(vim.tbl_keys(aggregated), { detail = '[A]' })
-      done({ { items = candidates, isIncomplete = #candidates > 0 } })
-    end,
-    async = true,
-  },
-}
-null_ls.register(around_completion)
+  local candidates = get_candidates(vim.tbl_keys(aggregated), { detail = '[A]' })
+  done({ { items = candidates, isIncomplete = #candidates > 0 } })
+end)
 
 null_ls.setup({
   sources = sources,
