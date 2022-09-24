@@ -32,6 +32,10 @@ let g:my_vimrc = expand('<sfile>:p')
 Keymap nx gf <Cmd>SmartOpen<CR>
 " }}}
 
+" {{{ override completion behavior
+luafile ~/dotfiles/.config/nvim/override_neovim_completion.lua
+" }}}
+
 " {{{ Plugs
 " https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
 let s:autoload_plug_path = has('nvim') ? stdpath('data') .. '/site' : '~/.vim'
