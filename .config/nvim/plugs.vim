@@ -170,14 +170,11 @@ function! s:lsp_init() abort
         \ 'fidget.nvim',
         \ )
   lua require("lsp_signature").setup()
-  lua require("fidget").setup()
   lua require("lspkind").init({ mode = 'symbol_text' })
   execute 'luafile' g:plug_home .. '/nvim-lspconfig/plugin/lspconfig.lua'
   luafile ~/dotfiles/.config/nvim/plugin_config/lsp.lua
   luafile ~/dotfiles/.config/nvim/plugin_config/null_ls.lua
-
-  " https://github.com/j-hui/fidget.nvim/issues/86#issuecomment-1220518701
-  autocmd VimLeavePre * silent! FidgetClose
+  luafile ~/dotfiles/.config/nvim/plugin_config/fidget.lua
 endfunction
 autocmd BufReadPost * ++once call <sid>lsp_init()
 " }}}
