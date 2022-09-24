@@ -158,19 +158,6 @@ local cspell_custom_actions = {
 }
 null_ls.register(cspell_custom_actions)
 
-local get_candidates = function(entries, opts)
-  opts = opts or {}
-  local detail = opts.detail or ''
-  local kind = opts.kind or vim.lsp.protocol.CompletionItemKind['Text']
-  local items = {}
-  for _, v in ipairs(entries) do
-    if v ~= '' then
-      table.insert(items, { label = v, detail = detail, kind = kind })
-    end
-  end
-  return items
-end
-
 local register_completion = function(name, fn, filetypes)
   null_ls.register({
     name = name,
@@ -180,58 +167,92 @@ local register_completion = function(name, fn, filetypes)
   })
 end
 
+local Job = require('plenary.job')
 register_completion('rg-dictionary', function(params, done)
-  local dictionaries = vim.api.nvim_get_option_value('dictionary', {})
-  local src = vim.fn.substitute(dictionaries, ',', ' ', 'g')
+  local dictionaries =
+    vim.split(vim.api.nvim_get_option_value('dictionary', {}), ',', { trimempty = true })
+
+  if vim.tbl_isempty(dictionaries) then
+    return
+  end
+
   local pattern = '^' .. params.word_to_complete
 
-  -- local file = io.popen('look ' .. params.word_to_complete)
-  local cmd = table.concat(
-    { 'rg', '--ignore-case', '--no-heading', '--no-line-number', '--color=never', pattern, src },
-    ' '
-  )
-  local file = io.popen(cmd)
-  local stdout = ''
-  if file then
-    stdout = file:read('a')
-    file:close()
+  local args = {
+    '--ignore-case',
+    '--no-heading',
+    '--no-line-number',
+    '--color=never',
+    pattern,
+  }
+  for _, d in ipairs(dictionaries) do
+    table.insert(args, d)
   end
 
-  local kind = vim.lsp.protocol.CompletionItemKind['Text']
-  local candidates = {}
-  for _, v in ipairs(vim.split(stdout, '\r?\n')) do
-    if v ~= '' then
-      local path_and_word = vim.split(v, ':')
-      local label = path_and_word[2]
-      if label ~= '' then
-        table.insert(candidates, {
-          label = label,
-          detail = '[dic]',
-          kind = kind,
-          documentation = {
-            value = path_and_word[1],
-            kind = vim.lsp.protocol.MarkupKind.PlainText,
-          },
-        })
+  local on_exit = function(j, exit_status)
+    if exit_status ~= 0 then
+      return
+    end
+
+    local items = {}
+    for _, v in ipairs(j:result()) do
+      if v ~= '' then
+        local dict_path, word = unpack(vim.split(v, ':'))
+        local item = {
+          label = word,
+          kind = vim.lsp.protocol.CompletionItemKind.Text,
+          detail = '[D]',
+          documentation = dict_path,
+          sortText = '~~~' .. word,
+        }
+        table.insert(items, item)
       end
     end
+
+    done({ { items = items, isIncomplete = #items > 0 } })
   end
-  done({ { items = candidates, isIncomplete = #candidates > 0 } })
+
+  Job:new({
+    command = 'rg',
+    args = args,
+    on_exit = on_exit,
+  }):start()
 end)
 
 register_completion('ex-commands', function(params, done)
   local cmds = vim.fn.getcompletion(params.word_to_complete, 'command', 1)
 
-  local candidates = get_candidates(cmds, { detail = '[cmd]' })
-  done({ { items = candidates, isIncomplete = #candidates > 0 } })
+  local items = {}
+  for _, cmd in ipairs(cmds) do
+    if cmd ~= '' then
+      local item = {
+        label = cmd,
+        detail = '[C]',
+        kind = vim.lsp.protocol.CompletionItemKind.Operator,
+      }
+      table.insert(items, item)
+    end
+  end
+
+  done({ { items = items, isIncomplete = #items > 0 } })
 end, { 'vim', 'lua' })
 
 register_completion('au-events', function(params, done)
-  local cmds = vim.fn.getcompletion(params.word_to_complete, 'event', 1)
+  local events = vim.fn.getcompletion(params.word_to_complete, 'event', 1)
 
-  local candidates =
-    get_candidates(cmds, { detail = '[eve]', kind = vim.lsp.protocol.CompletionItemKind['Event'] })
-  done({ { items = candidates, isIncomplete = #candidates > 0 } })
+  local items = {}
+  for _, event in ipairs(events) do
+    if event ~= '' then
+      local item = {
+        label = event,
+        detail = '[E]',
+        kind = vim.lsp.protocol.CompletionItemKind.Event,
+      }
+      table.insert(items, item)
+    end
+  end
+
+  done({ { items = items, isIncomplete = #items > 0 } })
 end, { 'vim', 'lua' })
 
 register_completion('file', function(params, done)
@@ -239,41 +260,61 @@ register_completion('file', function(params, done)
   local files = {}
   local s, t = vim.regex('\\f\\+$'):match_str(line)
   if s and t then
-    local word_to_complete = line:sub(s + 1, t)
+    local word_to_complete = vim.fs.normalize(string.sub(line, s + 1, t))
     files = vim.fn.getcompletion(word_to_complete, 'file', 1)
   end
+  if vim.tbl_isempty(files) then
+    return
+  end
 
-  local candidates = get_candidates(
-    vim.tbl_map(function(item)
-      return item:gsub('/$', ''):gsub('.*/', '')
-    end, files),
-    {
-      detail = '[file]',
-      kind = vim.lsp.protocol.CompletionItemKind['File'],
-    }
-  )
-  done({ { items = candidates, isIncomplete = #candidates > 0 } })
+  local items = {}
+  for _, file in ipairs(files) do
+    local path = vim.fs.normalize(file)
+    if path ~= '' then
+      local is_dir = vim.fn.isdirectory(path) == 1
+      local item = {
+        label = vim.fs.basename(string.gsub(path, '/$', '')),
+        detail = '[F]',
+        kind = is_dir and vim.lsp.protocol.CompletionItemKind.Folder
+          or vim.lsp.protocol.CompletionItemKind.File,
+        documentation = path,
+      }
+      table.insert(items, item)
+    end
+  end
+
+  done({ { items = items, isIncomplete = #items > 0 } })
 end)
 
 register_completion('around', function(params, done)
   local term = params.word_to_complete
-  local range = 100
-  local current_line = vim.fn.line('.')
-  local lnum_from = math.max(1, current_line - range)
-  local lnum_to = math.min(vim.fn.line('$'), current_line + range)
 
-  local lines = vim.fn.getline(lnum_from, lnum_to)
-  local aggregated = {}
-  for _, x in ipairs(lines) do
-    for w in string.gmatch(x, '[_%w][_%w]+') do
-      if w ~= term and vim.startswith(w, term) then
-        aggregated[w] = 1
+  local range = 100
+  local word_pattern = '%w%w+'
+  local lnum_from = math.max(1, params.row - range)
+  local lnum_to = math.min(#params.content, params.row + range)
+
+  local items = {}
+  local exists = {}
+  for i = lnum_from, lnum_to do
+    local line = params.content[i]
+    for w in string.gmatch(line, word_pattern) do
+      if not exists[w] and string.match(w, '^' .. term .. '.') then
+        -- avoid duplication
+        exists[w] = true
+
+        local item = {
+          label = w,
+          detail = '[A]',
+          kind = vim.lsp.protocol.CompletionItemKind.Keyword,
+          sortText = '~~~~' .. w,
+        }
+        table.insert(items, item)
       end
     end
   end
 
-  local candidates = get_candidates(vim.tbl_keys(aggregated), { detail = '[A]' })
-  done({ { items = candidates, isIncomplete = #candidates > 0 } })
+  done({ { items = items, isIncomplete = #items > 0 } })
 end)
 
 null_ls.setup({
