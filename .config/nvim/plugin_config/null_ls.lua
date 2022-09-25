@@ -28,7 +28,7 @@ table.insert(prettier_configs, 'prettier.config.cjs')
 
 local sources = {
   -- completion
-  null_ls.builtins.completion.spell,
+  -- null_ls.builtins.completion.spell,
   null_ls.builtins.completion.vsnip.with({
     generator = {
       fn = function(params, done)
@@ -81,7 +81,11 @@ local sources = {
     end,
     prefer_local = 'node_modules/.bin',
   }),
-  null_ls.builtins.formatting.stylua,
+  null_ls.builtins.formatting.stylua.with({
+    condition = function()
+      return vim.fn.executable('stylua') > 0
+    end,
+  }),
 }
 
 local cspell_append = function(opts)
@@ -169,25 +173,19 @@ end
 
 local Job = require('plenary.job')
 register_completion('rg-dictionary', function(params, done)
-  local dictionaries =
-    vim.split(vim.api.nvim_get_option_value('dictionary', {}), ',', { trimempty = true })
-
+  local dictionaries = vim.opt.dictionary:get()
   if vim.tbl_isempty(dictionaries) then
     return
   end
-
-  local pattern = '^' .. params.word_to_complete
 
   local args = {
     '--ignore-case',
     '--no-heading',
     '--no-line-number',
     '--color=never',
-    pattern,
+    '^' .. params.word_to_complete,
   }
-  for _, d in ipairs(dictionaries) do
-    table.insert(args, d)
-  end
+  vim.list_extend(args, dictionaries)
 
   local on_exit = function(j, exit_status)
     if exit_status ~= 0 then
@@ -287,19 +285,21 @@ register_completion('file', function(params, done)
 end)
 
 register_completion('around', function(params, done)
-  local term = params.word_to_complete
+  -- local term = params.word_to_complete
 
   local range = 100
-  local word_pattern = '%w%w+'
-  local lnum_from = math.max(1, params.row - range)
-  local lnum_to = math.min(#params.content, params.row + range)
+  local word_pattern = '[%w](_?[%w])+'
+
+  -- no need to limit in 1..#params.content because vim.list_slice do that
+  local lnum_from = params.row - range
+  local lnum_to = params.row + range
 
   local items = {}
   local exists = {}
-  for i = lnum_from, lnum_to do
-    local line = params.content[i]
+  for _, line in ipairs(vim.list_slice(params.content, lnum_from, lnum_to)) do
     for w in string.gmatch(line, word_pattern) do
-      if not exists[w] and string.match(w, '^' .. term .. '.') then
+      -- if not exists[w] and string.match(w, '^' .. term .. '.') then
+      if not exists[w] then
         -- avoid duplication
         exists[w] = true
 
