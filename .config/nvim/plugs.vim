@@ -117,6 +117,7 @@ function! s:vim_enter_plugs() abort
   luafile ~/dotfiles/.config/nvim/plugin_config/gitsigns.lua
   luafile ~/dotfiles/.config/nvim/plugin_config/chowcho.lua
   lua require('pretty-fold').setup({})
+  execute 'luafile' g:plug_home .. '/ccc.nvim/plugin/ccc.lua'
   lua require('ccc').setup({ highlighter = { auto_enable = true } })
 endfunction
 autocmd VimEnter * ++once call <sid>vim_enter_plugs()
@@ -142,10 +143,9 @@ autocmd User skkeleton ++once source ~/dotfiles/.config/nvim/plugin_config/skkel
 Plug 'kevinhwang91/nvim-bqf', { 'for': 'qf' }
 Plug 'ten3roberts/qf.nvim', { 'on': [] }
 function! s:qf_pre_plugs() abort
-  if get(g:, 'qf_pre_loaded')
+  if exists(':Lbelow') == 2
    return
   end
-  let g:qf_pre_loaded = 1
   call plug#load('qf.nvim')
   lua require('qf').setup()
 endfunction
@@ -162,10 +162,9 @@ Plug 'j-hui/fidget.nvim'
 Plug 'onsails/lspkind.nvim'
 Plug 'folke/lua-dev.nvim'
 function! s:lsp_init() abort
-  if get(g:, 'lsp_loaded')
+  if exists(':LspInfo') == 2
     return
   end
-  let g:lsp_loaded = 1
   call plug#load('nvim-lspconfig')
   lua require('lsp_signature').setup()
   lua require('lspkind').init({ mode = 'symbol_text' })
@@ -262,10 +261,9 @@ Plug 'andymass/vim-matchup', { 'on': [] }
 Plug 'yioneko/nvim-yati', { 'on': [] }
 Plug 'haringsrob/nvim_context_vt', { 'on': [] }
 function! s:treesitter_init() abort
-  if get(g:, 'treesitter_loaded')
+  if exists(':TSEnable') == 2
     return
   end
-  let g:treesitter_loaded = 1
   " https://zenn.dev/kawarimidoll/articles/8e124a88dde820
   call plug#load(
         \ 'nvim-treesitter',
