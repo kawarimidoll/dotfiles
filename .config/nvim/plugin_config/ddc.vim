@@ -1,58 +1,6 @@
-call ddc#custom#patch_global('completionMenu', 'pum.vim')
-call ddc#custom#patch_global('autoCompleteEvents',
-    \ ['InsertEnter', 'TextChangedI', 'TextChangedP', 'CmdlineChanged'])
-call ddc#custom#patch_global('sources', [
-  \ 'nvim-lsp',
-  \ 'tabnine',
-  \ 'around',
-  \ 'file',
-  \ 'look',
-  \ ])
-call ddc#custom#patch_global('sourceOptions', {
-  \ '_': {
-  \   'matchers': ['matcher_head'],
-  \   'sorters': ['sorter_rank'],
-  \   'converters': ['converter_remove_overlap'],
-  \   'minAutoCompleteLength': 2,
-  \ },
-  \ 'nvim-lsp': {
-  \   'mark': 'LSP',
-  \   'forceCompletionPattern': '\.\w*|:\w*|->\w*',
-  \ },
-  \ 'tabnine': {
-  \   'mark': 'TN',
-  \   'maxItems': 5,
-  \   'isVolatile': v:true,
-  \ },
-  \ 'look': {
-  \   'mark': 'look',
-  \   'maxItems': 5,
-  \   'isVolatile': v:true,
-  \ },
-  \ 'file': {
-  \   'mark': 'F',
-  \   'isVolatile': v:true,
-  \   'forceCompletionPattern': '\S/\S*',
-  \   'ignoreCase': v:true,
-  \   'matchers': ['matcher_fuzzy'],
-  \   'sorters': ['sorter_fuzzy'],
-  \   'converters': ['converter_fuzzy']
-  \ },
-  \ 'around': {'mark': 'A'},
-  \ 'cmdline': {
-  \   'mark': 'CMD',
-  \   'forceCompletionPattern': '\S/\S*',
-  \   'ignoreCase': v:true,
-  \   'matchers': ['matcher_fuzzy'],
-  \   'sorters': ['sorter_fuzzy'],
-  \   'converters': ['converter_fuzzy']
-  \ },
-  \ 'cmdline-history': {
-  \   'mark': 'H',
-  \   'ignoreCase': v:true,
-  \   'sorters': [],
-  \ },
-  \ })
+let s:config_json = readfile('.config/nvim/plugin_config/ddc.json')
+let s:config = json_decode(join(s:config_json, ''))
+call ddc#custom#patch_global(s:config)
 
 " nnoremap : <Cmd>call <sid>ddc_commandline_pre()<CR>:
 
@@ -83,17 +31,15 @@ call ddc#enable()
 call signature_help#enable()
 call popup_preview#enable()
 
-Keymap i <silent><expr> <Tab>
-      \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<Tab>'
-Keymap i <silent><expr> <S-Tab>
-      \ pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<S-Tab>'
-" Keymap i <silent><expr> <C-n>
-"       \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' : '<Down>'
-" Keymap i <silent><expr> <C-p>
-"       \ pum#visible() ? '<Cmd>call pum#map#insert_relative(-1)<CR>' : '<Up>'
-Keymap i <silent><expr> <C-y>
-      \ pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<C-y>'
-Keymap i <silent><expr> <C-e>
-      \ pum#visible() ? '<Cmd>call pum#map#cancel()<CR>'  : '<C-e>'
-Keymap i <silent><expr> <CR>
-      \ pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' : '<CR>'
+function! s:imap_amend_with_pum(key, amend, ...) abort
+  let fallback = a:0 > 0 ? a:1 : a:key
+  execute printf("inoremap <silent><expr> %s pum#visible()?'%s':'%s'", a:key, a:amend, fallback)
+endfunction
+
+call s:imap_amend_with_pum('<Tab>',   '<Cmd>call pum#map#insert_relative(+1)<CR>')
+call s:imap_amend_with_pum('<S-Tab>', '<Cmd>call pum#map#insert_relative(-1)<CR>')
+call s:imap_amend_with_pum('<C-n>',   '<Cmd>call pum#map#insert_relative(+1)<CR>', '<Down>')
+call s:imap_amend_with_pum('<C-p>',   '<Cmd>call pum#map#insert_relative(-1)<CR>', '<Up>')
+call s:imap_amend_with_pum('<C-y>',   '<Cmd>call pum#map#confirm()<CR>')
+call s:imap_amend_with_pum('<C-e>',   '<Cmd>call pum#map#cancel()<CR>')
+call s:imap_amend_with_pum('<CR>',    '<Cmd>call pum#map#confirm()<CR>')

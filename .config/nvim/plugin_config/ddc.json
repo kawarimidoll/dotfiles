@@ -1,0 +1,86 @@
+{
+  "_TODO": [
+    "error below occurs:",
+    "[ddc] source: skkeleton 'getCompletePosition()' failed",
+    "[ddc] Failed to call 'dispatch' with ['skkeleton','getPreEditLength']: Error: No plugin 'skkeleton' is registered"
+  ],
+  "_dependencies": [
+    "Shougo/ddc.vim",
+    "Shougo/ddc-around",
+    "Shougo/ddc-cmdline",
+    "Shougo/ddc-cmdline-history",
+    "Shougo/ddc-converter_remove_overlap",
+    "Shougo/ddc-matcher_head",
+    "Shougo/ddc-nvim-lsp",
+    "Shougo/ddc-sorter_rank",
+    "gamoutatsumi/ddc-sorter_ascii",
+    "matsui54/ddc-buffer",
+    "matsui54/ddc-dictionary",
+    "matsui54/denops-popup-preview.vim",
+    "matsui54/denops-signature_help",
+    "LumaKernel/ddc-file",
+    "LumaKernel/ddc-registers-words",
+    "LumaKernel/ddc-tabnine",
+    "tani/ddc-fuzzy",
+    "vim-skk/skkeleton"
+  ],
+  "backspaceCompletion": true,
+  "completionMenu": "pum.vim",
+  "_autoCompleteEvents": [
+    "InsertEnter",
+    "TextChangedI",
+    "TextChangedP",
+    "CmdlineChanged"
+  ],
+  "sources": [
+    "nvim-lsp",
+    "tabnine",
+    "around",
+    "file",
+    "buffer",
+    "dictionary",
+    "registers-words",
+    "skkeleton"
+  ],
+  "sourceOptions": {
+    "_": {
+      "matchers": ["matcher_head"],
+      "sorters": ["sorter_rank"],
+      "converters": ["converter_remove_overlap"],
+      "ignoreCase": true
+    },
+    "nvim-lsp": {
+      "mark": "L",
+      "forceCompletionPattern": "\\.\\w*|:\\w*|->\\w*",
+      "minAutoCompleteLength": 1
+    },
+    "tabnine": { "mark": "T", "maxItems": 5, "isVolatile": true },
+    "dictionary": { "mark": "D", "maxItems": 5, "isVolatile": true },
+    "file": {
+      "mark": "F",
+      "isVolatile": true,
+      "forceCompletionPattern": "\\S/\\S*",
+      "matchers": ["matcher_fuzzy"],
+      "sorters": ["sorter_fuzzy"],
+      "converters": ["converter_fuzzy"],
+      "minAutoCompleteLength": 1000
+    },
+    "around": { "mark": "A" },
+    "buffer": { "mark": "B" },
+    "registers-words": { "mark": "R" },
+    "cmdline": {
+      "mark": "C",
+      "forceCompletionPattern": "\\S/\\S*",
+      "matchers": ["matcher_fuzzy"],
+      "sorters": ["sorter_fuzzy"],
+      "converters": ["converter_fuzzy"]
+    },
+    "cmdline-history": { "mark": "H", "sorters": [] },
+    "skkeleton": {
+      "matchers": ["skkeleton"],
+      "sorters": [],
+      "isVolatile": true,
+      "backspaceCompletion": true
+    }
+  }
+}
