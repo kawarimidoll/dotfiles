@@ -31,7 +31,7 @@ vim.keymap.set('n', '<space>p', function()
   if vim.lsp.buf.format then
     vim.lsp.buf.format({
       filter = function(client)
-        return client.name ~= 'tsserver'
+        return client.name ~= 'tsserver' and client.name ~= 'jsonls'
       end,
     })
   else

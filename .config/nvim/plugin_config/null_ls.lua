@@ -70,7 +70,7 @@ local sources = {
 
   -- formatting
   null_ls.builtins.formatting.deno_fmt.with({
-    filetypes = { 'markdown' },
+    filetypes = { 'markdown', 'json', 'jsonc' },
     condition = function(utils)
       return not utils.has_file(prettier_configs)
     end,
