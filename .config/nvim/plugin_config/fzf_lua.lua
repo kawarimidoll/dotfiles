@@ -3,15 +3,15 @@ local fzf_lua = require('fzf-lua')
 fzf_lua.setup({
   -- https://github.com/jose-elias-alvarez/null-ls.nvim/wiki/Compatibility-with-other-plugins#fzf-lua
   -- make lsp requests synchronous so they work with null-ls
-  lsp = { async_or_timeout = 3000, },
+  lsp = { async_or_timeout = 3000 },
   winopts = {
-    height  = 0.90,
-    width   = 0.90,
-    row     = 0.35,
-    col     = 0.50,
+    height = 0.90,
+    width = 0.90,
+    row = 0.35,
+    col = 0.50,
     preview = {
       vertical = 'down:60%',
-      layout = 'vertical'
+      layout = 'vertical',
     },
   },
   keymap = {
@@ -19,14 +19,14 @@ fzf_lua.setup({
     -- no need to set to `false` to disable a bind
     -- delete or modify is sufficient
     builtin = {
-      ["<C-/>"]    = "toggle-help",
-      ["<C-;>"]    = "toggle-preview-wrap",
-      ["<C-'>"]    = "toggle-preview",
-      ["<C-,>"]    = "toggle-preview-ccw",
-      ["<C-.>"]    = "toggle-preview-cw",
-      ["<S-down>"] = "preview-page-down",
-      ["<S-up>"]   = "preview-page-up",
-      ["<S-left>"] = "preview-page-reset",
+      ['<C-/>'] = 'toggle-help',
+      ['<C-;>'] = 'toggle-preview-wrap',
+      ["<C-'>"] = 'toggle-preview',
+      ['<C-,>'] = 'toggle-preview-ccw',
+      ['<C-.>'] = 'toggle-preview-cw',
+      ['<S-down>'] = 'preview-page-down',
+      ['<S-up>'] = 'preview-page-up',
+      ['<S-left>'] = 'preview-page-reset',
     },
   },
   fzf_opts = {
@@ -34,7 +34,7 @@ fzf_lua.setup({
   },
   actions = {
     files = {
-      ["default"] = fzf_lua.actions.file_edit,
+      ['default'] = fzf_lua.actions.file_edit,
     },
   },
   files = {
@@ -42,7 +42,7 @@ fzf_lua.setup({
   },
   git = {
     status = {
-      preview_pager = "delta --width=$FZF_PREVIEW_COLUMNS",
+      preview_pager = 'delta --width=$FZF_PREVIEW_COLUMNS',
       -- actions     = {
       --   ["right"] = { actions.git_unstage, actions.resume },
       --   ["left"]  = { actions.git_stage, actions.resume },
@@ -52,8 +52,8 @@ fzf_lua.setup({
   grep = {
     rg_opts = fzf_lua.config.get_global('grep.rg_opts') .. " --hidden --trim --glob '!**/.git/*'",
     actions = {
-      ["ctrl-g"] = '',
-      ["ctrl-l"] = { fzf_lua.actions.grep_lgrep },
+      ['ctrl-g'] = '',
+      ['ctrl-l'] = { fzf_lua.actions.grep_lgrep },
     },
   },
   oldfiles = {
@@ -62,7 +62,7 @@ fzf_lua.setup({
   blines = {
     fzf_opts = {
       -- hide line no.
-      ["--with-nth"] = '4..',
+      ['--with-nth'] = '4..',
     },
   },
 })
@@ -75,18 +75,22 @@ end
 local gen_mru_cmd = function(type)
   local file = mru_cache.cache_path(type)
   -- remove current file and cwd
-  return "sed -e '\\|^" .. vim.api.nvim_buf_get_name(0) .. "$|d' -e 's|^"
-      .. vim.fn.getcwd() .. "/||' " .. file
+  return "sed -e '\\|^"
+    .. vim.api.nvim_buf_get_name(0)
+    .. "$|d' -e 's|^"
+    .. vim.fn.getcwd()
+    .. "/||' "
+    .. file
 end
 local gen_mru_opts = function(args)
   local file_actions = fzf_lua.defaults.actions.files
   file_actions.default = fzf_lua.actions.file_edit
 
   local opts = {
-    previewer = "builtin",
+    previewer = 'builtin',
     actions = file_actions,
     file_icons = true,
-    color_icons = true
+    color_icons = true,
   }
   for k, v in pairs(args) do
     opts[k] = v
@@ -114,10 +118,12 @@ end
 
 local group = vim.api.nvim_create_augroup('fzf_lua_augroup', {})
 vim.api.nvim_create_autocmd({ 'QuickfixCmdPost' }, {
-  group = group, pattern = { 'make', 'grep', 'grepadd', 'vimgrep' },
+  group = group,
+  pattern = { 'make', 'grep', 'grepadd', 'vimgrep' },
   callback = fzf_lua.quickfix,
 })
 vim.api.nvim_create_autocmd({ 'QuickfixCmdPost' }, {
-  group = group, pattern = { 'lmake', 'lgrep', 'lgrepadd', 'lvimgrep' },
+  group = group,
+  pattern = { 'lmake', 'lgrep', 'lgrepadd', 'lvimgrep' },
   callback = fzf_lua.loclist,
 })
