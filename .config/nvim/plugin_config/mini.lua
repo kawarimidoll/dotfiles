@@ -430,8 +430,8 @@ local mini_completion_setup = function()
   insert_amend('<C-x><C-u>')
   insert_amend('<C-x><C-v>')
 
-  vim.keymap.set('i', '<Tab>', [[pumvisible() ? "\<C-n>" : "\<Tab>"]], { expr = true })
-  vim.keymap.set('i', '<S-Tab>', [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { expr = true })
+  -- vim.keymap.set('i', '<Tab>', [[pumvisible() ? "\<C-n>" : "\<Tab>"]], { expr = true })
+  -- vim.keymap.set('i', '<S-Tab>', [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { expr = true })
   vim.keymap.set('i', '<CR>', function()
     if vim.fn.pumvisible() == 0 then
       -- If popup is not visible, use `<CR>` in 'mini.pairs'.

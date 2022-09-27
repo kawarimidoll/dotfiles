@@ -182,10 +182,12 @@ cnoremap <expr> <C-k> repeat("\<Del>", strchars(getcmdline()[getcmdpos() - 1:]))
 " insert
 inoremap <silent> <C-r><C-r> <C-r><C-r>*
 " https://github.com/Shougo/shougo-s-github/blob/c327993df755cda22b80d7ee74d131542ef7136c/vim/rc/mappings.rc.vim#L32-L37
-inoremap <C-t> <C-v><TAB>
+" inoremap <C-t> <C-v><TAB>
 inoremap <C-w> <C-g>u<C-w>
 inoremap <C-u> <C-g>u<C-u>
 inoremap <C-k> <C-o>D
+inoremap <expr> <Tab>   pumvisible() ? '<C-n>' : '<Tab>'
+inoremap <expr> <S-Tab> pumvisible() ? '<C-p>' : '<S-Tab>'
 
 " visual
 xnoremap p P
@@ -275,6 +277,10 @@ augroup min-edit
   autocmd!
   " https://zenn.dev/kawarimidoll/articles/5490567f8194a4
   autocmd FileType markdown syntax match markdownError '\w\@<=\w\@='
+
+  " https://zenn.dev/kawarimidoll/articles/4564e6e5c2866d
+  autocmd FileType markdown setlocal comments=b:*,b:-,b:+,b:1.,nb:>
+  autocmd FileType markdown setlocal formatoptions-=c formatoptions+=jro
 
   autocmd InsertEnter *.tsv setlocal noexpandtab
 
