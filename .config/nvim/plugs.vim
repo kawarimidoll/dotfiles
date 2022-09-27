@@ -79,6 +79,8 @@ autocmd User pounce.nvim ++once luafile ~/dotfiles/.config/nvim/plugin_config/po
 " {{{ load on VimEnter
 Plug 'nvim-lua/plenary.nvim', { 'on': [] }
 Plug 'vim-denops/denops.vim', { 'on': [] }
+Plug 'Shougo/ddc.vim', { 'on': [] }
+Plug 'vim-skk/skkeleton', { 'on': [] }
 Plug 'kawarimidoll/mru_cache.lua'
 Plug 'haya14busa/vim-asterisk', { 'on': [] }
 Plug 'kevinhwang91/nvim-hlslens', { 'on': [] }
@@ -99,6 +101,8 @@ function! s:vim_enter_plugs() abort
   call plug#load(
         \ 'plenary.nvim',
         \ 'denops.vim',
+        \ 'ddc.vim',
+        \ 'skkeleton',
         \ 'vim-asterisk',
         \ 'nvim-hlslens',
         \ 'which-key.nvim',
@@ -108,6 +112,8 @@ function! s:vim_enter_plugs() abort
   if exists('*nvim_win_set_hl_ns')
     luafile ~/dotfiles/.config/nvim/plugin_config/tint.lua
   endif
+  source ~/dotfiles/.config/nvim/plugin_config/skkeleton.vim
+  source ~/dotfiles/.config/nvim/plugin_config/skk_ddc_mini.vim
   luafile ~/dotfiles/.config/nvim/plugin_config/mru_cache.lua
   let g:asterisk#keeppos = 1
   luafile ~/dotfiles/.config/nvim/plugin_config/hlslens.lua
@@ -121,22 +127,6 @@ function! s:vim_enter_plugs() abort
   lua require('ccc').setup({ highlighter = { auto_enable = true } })
 endfunction
 autocmd VimEnter * ++once call <sid>vim_enter_plugs()
-" }}}
-
-" {{{ load ddc
-Plug 'Shougo/ddc.vim', { 'on': [] }
-function! s:ddc_plugs() abort
-  if exists('*ddc#enable')
-    return
-  end
-  call plug#load('ddc.vim')
-  source ~/dotfiles/.config/nvim/plugin_config/skk_ddc_mini.vim
-endfunction
-autocmd InsertEnter * ++once call <sid>ddc_plugs()
-
-Plug 'vim-skk/skkeleton', { 'on': ['<Plug>(skkeleton-'] }
-Keymap ic <C-j> <Plug>(skkeleton-enable)
-autocmd User skkeleton ++once source ~/dotfiles/.config/nvim/plugin_config/skkeleton.vim
 " }}}
 
 " {{{ load for quickfix

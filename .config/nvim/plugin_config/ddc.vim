@@ -38,8 +38,8 @@ endfunction
 
 call s:imap_amend_with_pum('<Tab>',   '<Cmd>call pum#map#insert_relative(+1)<CR>')
 call s:imap_amend_with_pum('<S-Tab>', '<Cmd>call pum#map#insert_relative(-1)<CR>')
-call s:imap_amend_with_pum('<C-n>',   '<Cmd>call pum#map#insert_relative(+1)<CR>', '<Down>')
-call s:imap_amend_with_pum('<C-p>',   '<Cmd>call pum#map#insert_relative(-1)<CR>', '<Up>')
+call s:imap_amend_with_pum('<C-n>',   '<Cmd>call pum#map#insert_relative(+1)<CR>')
+call s:imap_amend_with_pum('<C-p>',   '<Cmd>call pum#map#insert_relative(-1)<CR>')
 call s:imap_amend_with_pum('<C-y>',   '<Cmd>call pum#map#confirm()<CR>')
 call s:imap_amend_with_pum('<C-e>',   '<Cmd>call pum#map#cancel()<CR>')
 call s:imap_amend_with_pum('<CR>',    '<Cmd>call pum#map#confirm()<CR>')

@@ -1,18 +1,22 @@
+let s:config_json =<< trim JSON
+{
+  "sources": ["skkeleton"],
+  "sourceOptions": {
+    "skkeleton": {
+      "matchers": ["skkeleton"],
+      "sorters": [],
+      "isVolatile": true,
+      "backspaceCompletion": true
+    }
+  },
+  "autoCompleteEvents": [],
+  "completionMode": "manual"
+}
+JSON
+
+let s:config = json_decode(join(s:config_json, ''))
 function! s:ddc_init() abort
-  call ddc#custom#patch_global('sourceOptions', {
-      \   'skkeleton': {
-      \     'matchers': ['skkeleton'],
-      \     'sorters': [],
-      \     'isVolatile': v:true,
-      \     'backspaceCompletion': v:true,
-      \   },
-      \ })
-  call ddc#custom#patch_global({
-        \   'sources': ['skkeleton'],
-        \   'sourceOptions': { 'skkeleton': { 'matchers': ['skkeleton'], 'isVolatile': v:true } },
-        \   'autoCompleteEvents': [],
-        \   'completionMode': 'manual',
-        \ })
+  call ddc#custom#patch_global(s:config)
   call ddc#enable()
 endfunction
 
@@ -28,7 +32,7 @@ function! s:skkeleton_enable() abort
         \ let g:minicompletion_disable = v:false
 endfunction
 
-augroup skkeleton_ddc_cmp
+augroup skkeleton_ddc_mini
   autocmd!
   autocmd User skkeleton-enable-pre call <SID>skkeleton_enable()
   autocmd User skkeleton-initialize-pre ++once call <SID>ddc_init()

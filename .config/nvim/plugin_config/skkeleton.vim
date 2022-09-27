@@ -1,16 +1,21 @@
 Keymap ic <C-j> <Plug>(skkeleton-enable)
 
-let s:jisyo_dir = stdpath('config')
-let s:jisyo_name = 'SKK-JISYO.L'
-let s:jisyo_path = expand(s:jisyo_dir . '/' . s:jisyo_name)
+let s:jisyo_dir = expand('~/.local/share/skk')
+if !isdirectory(s:jisyo_dir)
+  call mkdir(s:jisyo_dir, 'p')
+endif
+
+let s:global_jisyo_path = expand(s:jisyo_dir . '/SKK-JISYO.L')
+let s:user_jisyo_path = expand(s:jisyo_dir . '/SKK-USER')
+
 function! s:skkeleton_init() abort
-  if !filereadable(s:jisyo_path)
-    echo "SSK Jisyo does not exists! '" . s:jisyo_path . "' is required!"
+  if !filereadable(s:global_jisyo_path)
+    echo "SSK Jisyo does not exists! '" .. s:global_jisyo_path .. "' is required!"
     let s:skk_setup_cmds = [
       \   "curl -OL https://skk-dev.github.io/dict/SKK-JISYO.L.gz",
       \   "gunzip SKK-JISYO.L.gz",
-      \   "mkdir -p " . s:jisyo_dir,
-      \   "mv -f ./SKK-JISYO.L " . s:jisyo_dir,
+      \   "mkdir -p " .. s:jisyo_dir,
+      \   "mv -f ./SKK-JISYO.L " .. s:jisyo_dir,
       \ ]
     echo (["To get Jisyo, run:"] + s:skk_setup_cmds + [""])->join("\n")
 
@@ -32,11 +37,12 @@ function! s:skkeleton_init() abort
 
   call skkeleton#config(#{
     \   eggLikeNewline: v:true,
-    \   globalJisyo: s:jisyo_path,
+    \   globalJisyo: s:global_jisyo_path,
     \   immediatelyCancel: v:false,
     \   registerConvertResult: v:true,
     \   selectCandidateKeys: '1234567',
     \   showCandidatesCount: 1,
+    \   userJisyo: s:user_jisyo_path ,
     \ })
   call skkeleton#register_kanatable('rom', l:rom_table)
 endfunction
@@ -44,4 +50,9 @@ endfunction
 augroup skkeleton
   autocmd!
   autocmd User skkeleton-initialize-pre call <SID>skkeleton_init()
+
+  " keepState: v:false does not works in cmdline mode
+  autocmd CmdlineLeave * if skkeleton#is_enabled()
+    \ | call skkeleton#request('disable', [])
+    \ | endif
 augroup END

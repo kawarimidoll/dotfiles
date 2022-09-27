@@ -69,9 +69,9 @@ require('mini.statusline').setup({
       if vim.b.ime_mode and vim.b.ime_mode ~= '' then
         jp_mode = '韛'
       elseif vim.g['skkeleton#mode'] == 'hira' then
-        jp_mode = '▽あ'
+        jp_mode = 'あ'
       elseif vim.g['skkeleton#mode'] == 'kata' then
-        jp_mode = '▽ア'
+        jp_mode = 'ア'
       elseif vim.g['skkeleton#mode'] == 'hankata' then
         jp_mode = '▽ｱ'
       elseif vim.g['skkeleton#mode'] == 'zenkaku' then
