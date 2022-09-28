@@ -38,17 +38,18 @@ luafile ~/dotfiles/.config/nvim/override_neovim_completion.lua
 
 " {{{ Plugs
 " https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
-let s:autoload_plug_path = has('nvim') ? stdpath('data') .. '/site' : '~/.vim'
-if empty(glob(s:autoload_plug_path))
-  silent execute '!curl --create-dirs -fLo ' .. s:autoload_plug_path ..
-        \ ' https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+let s:plug_path = (has('nvim') ? stdpath('data') .. '/site' : '~/.vim') .. '/autoload/plug.vim'
+if empty(glob(s:plug_path))
+  let s:plug_url = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  call system(printf('curl --create-dirs -fLo %s %s', s:plug_path, s:plug_url))
 endif
+
 " Run PlugInstall if there are missing plugins
 autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
       \ |   PlugInstall --sync | source $MYVIMRC
       \ | endif
 
-call plug#begin(stdpath('config') .. '/plugged')
+call plug#begin()
 " {{{ fzf-lua
 Plug 'ibhagwan/fzf-lua', { 'branch': 'main', 'on': 'FzfLua' }
 autocmd QuickFixCmdPre * ++once call plug#load('fzf-lua')
@@ -77,7 +78,7 @@ autocmd User pounce.nvim ++once luafile ~/dotfiles/.config/nvim/plugin_config/po
 " }}}
 
 " {{{ load on VimEnter
-Plug 'nvim-lua/plenary.nvim', { 'on': [] }
+Plug 'nvim-lua/plenary.nvim'
 Plug 'vim-denops/denops.vim', { 'on': [] }
 Plug 'Shougo/ddc.vim', { 'on': [] }
 Plug 'vim-skk/skkeleton', { 'on': [] }
@@ -99,7 +100,6 @@ function! s:vim_enter_plugs() abort
   end
   let g:vim_entered = 1
   call plug#load(
-        \ 'plenary.nvim',
         \ 'denops.vim',
         \ 'ddc.vim',
         \ 'skkeleton',
@@ -368,7 +368,7 @@ command! VToggle call s:venn_toggle()
 " }}}
 
 " {{{ load immediately
-Plug 'anuvyklack/keymap-amend.nvim', { 'on': [] }
+Plug 'anuvyklack/keymap-amend.nvim'
 Plug 'lewis6991/impatient.nvim'
 Plug 'echasnovski/mini.nvim'
 Plug 'vim-jp/vimdoc-ja'
