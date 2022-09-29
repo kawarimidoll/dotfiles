@@ -275,6 +275,16 @@ noremap T<C-j> T<C-k>j
 
 augroup min-edit
   autocmd!
+  " visualize autocmds
+  " autocmd FileType * echomsg 'au FileType '.. expand('<amatch>')
+  " autocmd BufEnter * echomsg 'au BufEnter '.. expand('<amatch>')
+  " autocmd BufRead * echomsg 'au BufRead '.. expand('<amatch>')
+  " autocmd BufWinEnter * echomsg 'au BufWinEnter '.. expand('<amatch>')
+  " autocmd WinEnter * echomsg 'au WinEnter '.. expand('<amatch>')
+  " autocmd TabEnter * echomsg 'au TabEnter '.. expand('<amatch>')
+  " autocmd WinNew * echomsg 'au WinNew '.. expand('<amatch>')
+  " autocmd TabNew * echomsg 'au TabNew '.. expand('<amatch>')
+  " autocmd VimEnter * echomsg 'au VimEnter '.. expand('<amatch>')
 
   autocmd InsertEnter *.tsv setlocal noexpandtab
 
