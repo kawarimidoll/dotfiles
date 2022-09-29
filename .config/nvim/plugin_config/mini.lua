@@ -71,11 +71,13 @@ require('mini.statusline').setup({
       elseif vim.g['skkeleton#mode'] == 'hira' then
         jp_mode = 'あ'
       elseif vim.g['skkeleton#mode'] == 'kata' then
-        jp_mode = 'ア'
+        jp_mode = 'ア'
       elseif vim.g['skkeleton#mode'] == 'hankata' then
-        jp_mode = '▽ｱ'
+        jp_mode = 'ｱ'
       elseif vim.g['skkeleton#mode'] == 'zenkaku' then
-        jp_mode = '▽Ａ'
+        jp_mode = 'Ａ'
+      elseif vim.g['skkeleton#mode'] == 'abbrev' then
+        jp_mode = 'a'
       end
 
       return MiniStatusline.combine_groups({
