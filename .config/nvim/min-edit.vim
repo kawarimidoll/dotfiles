@@ -286,8 +286,6 @@ augroup min-edit
   " autocmd TabNew * echomsg 'au TabNew '.. expand('<amatch>')
   " autocmd VimEnter * echomsg 'au VimEnter '.. expand('<amatch>')
 
-  autocmd InsertEnter *.tsv setlocal noexpandtab
-
   " Highlight extra whitespaces
   " https://zenn.dev/kawarimidoll/articles/450a1c7754bde6
   " u00A0 ' ' no-break space
