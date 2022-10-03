@@ -273,6 +273,61 @@ noremap F<C-j> F<C-k>j
 noremap t<C-j> t<C-k>j
 noremap T<C-j> T<C-k>j
 
+" https://zenn.dev/kawarimidoll/articles/665dbd860c72cd
+function! s:textobject_outline(...) abort
+  let from_parent = index(a:000, 'from_parent') >= 0
+  let with_blank = index(a:000, 'with_blank') >= 0
+
+  " get current line and indent
+  let from = line('.')
+  let indent = indent(from)
+  if indent < 0
+    return
+  endif
+  let to = from
+
+  " search first parent
+  if from_parent && from > 1 && indent > 0
+    let lnum = from - 1
+    while indent <= indent(lnum) || (with_blank && getline(lnum) =~ '^\s*$')
+      let lnum -= 1
+    endwhile
+
+    " update current line and indent
+    let from = lnum
+    call cursor(from, 0)
+    let indent = indent(from)
+  endif
+
+  " search last child
+  let lnum = to + 1
+  while indent < indent(lnum) || (with_blank && getline(lnum) =~ '^\s*$')
+    let to = lnum
+    let lnum += 1
+  endwhile
+
+  " exit visual mode
+  let m = mode()
+  if m ==# 'v' || m ==# 'V' || m == "\<C-v>"
+    execute 'normal! ' .. m
+  endif
+
+  " select with line-visual mode
+  normal! V
+  call cursor(to, 0)
+  normal! o
+endfunction
+command! -nargs=* TextobjectOutline call s:textobject_outline(<f-args>)
+
+xnoremap io <Cmd>TextobjectOutline<CR>
+xnoremap ao <Cmd>TextobjectOutline from_parent<CR>
+xnoremap iO <Cmd>TextobjectOutline with_blank<CR>
+xnoremap aO <Cmd>TextobjectOutline from_parent with_blank<CR>
+onoremap io <Cmd>TextobjectOutline<CR>
+onoremap ao <Cmd>TextobjectOutline from_parent<CR>
+onoremap iO <Cmd>TextobjectOutline with_blank<CR>
+onoremap aO <Cmd>TextobjectOutline from_parent with_blank<CR>
+
 augroup min-edit
   autocmd!
   " visualize autocmds
