@@ -217,19 +217,35 @@ function! s:smart_open(query) abort
   let query = query->trim()->substitute('[[:space:]]\+', ' ', 'g')
 
   " is file path
-  if filereadable(query->expand())
-    if mode() == 'n'
-      normal! gFzz
-    else
-      execute 'edit' query
-    endif
+  let fname = expand(query)
+  if filereadable(fname)
+    execute 'edit' fname
     return
+  endif
+
+  if !exists('*path#normalize')
+    source ~/dotfiles/.config/nvim/path.vim
+  endif
+  let fname = path#normalize(query)
+
+  if filereadable(fname)
+    execute 'edit' fname
+    return
+  endif
+
+  if path#is_node_repo()
+    " resolve node path
+    let node_require = path#resolve_node_require(fname)
+    if node_require != ''
+      execute 'edit' node_require
+      return
+    endif
   endif
 
   if query =~# '^https\?://'
     " is url
     let cmd = 'open "' .. query .. '"'
-  elseif query =~# '\v^[\w][\w.-]*/[\w][\w.-]*$'
+  elseif query =~# '\v^\w([.-]?\w)*/\w([.-]?\w)*$'
     " is repo
     let cmd = 'open "https://github.com/' .. query .. '"'
   else
