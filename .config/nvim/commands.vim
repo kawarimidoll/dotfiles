@@ -200,14 +200,21 @@ command! -nargs=+ Keymap call s:keymap(<f-args>)
 " }}}
 
 " {{{ SmartOpen
-function! s:smart_open() abort
+function! s:smart_open(query) abort
   " get query
-  if mode() == 'n'
-    let query = expand('<cfile>')
-  else
-    normal! "zy
-    let query = @z->trim()->substitute('[[:space:]]\+', ' ', 'g')
+  let query = get(a:, 'query', '')
+  if query == ''
+    let m = mode()
+    if m == 'n'
+      let query = expand('<cfile>')
+    elseif m ==? 'v'
+      normal! "zy
+      let query = @z
+    else
+      throw 'this mode is not supported'
+    endif
   endif
+  let query = query->trim()->substitute('[[:space:]]\+', ' ', 'g')
 
   " is file path
   if filereadable(query->expand())
@@ -219,9 +226,12 @@ function! s:smart_open() abort
     return
   endif
 
-  " is url
   if query =~# '^https\?://'
+    " is url
     let cmd = 'open "' .. query .. '"'
+  elseif query =~# '\v^[\w][\w.-]*/[\w][\w.-]*$'
+    " is repo
+    let cmd = 'open "https://github.com/' .. query .. '"'
   else
     " encode query
     " https://gist.github.com/atripes/15372281209daf5678cded1d410e6c16?permalink_comment_id=3634542#gistcomment-3634542
@@ -253,7 +263,7 @@ function! s:smart_open() abort
 
   echo cmd
 endfunction
-command! SmartOpen call <sid>smart_open()
+command! -nargs=* SmartOpen call <sid>smart_open(<q-args>)
 " }}}
 
 " {{{ EditProjectMru()
