@@ -91,9 +91,7 @@ Plug 'uga-rosa/ccc.nvim', { 'on': [] }
 Plug 'kyazdani42/nvim-web-devicons', { 'on': [] }
 Plug 'rcarriga/nvim-notify'
 Plug 'lewis6991/gitsigns.nvim'
-Plug 'tkmpypy/chowcho.nvim', { 'on': [] }
 Plug 'anuvyklack/pretty-fold.nvim'
-Plug 'levouh/tint.nvim'
 function! s:vim_enter_plugs() abort
   if get(g:, 'vim_entered')
    return
@@ -107,11 +105,7 @@ function! s:vim_enter_plugs() abort
         \ 'nvim-hlslens',
         \ 'which-key.nvim',
         \ 'ccc.nvim',
-        \ 'chowcho.nvim',
         \ )
-  if exists('*nvim_win_set_hl_ns')
-    luafile ~/dotfiles/.config/nvim/plugin_config/tint.lua
-  endif
   source ~/dotfiles/.config/nvim/plugin_config/skkeleton.vim
   source ~/dotfiles/.config/nvim/plugin_config/skk_ddc_mini.vim
   luafile ~/dotfiles/.config/nvim/plugin_config/mru_cache.lua
@@ -121,12 +115,26 @@ function! s:vim_enter_plugs() abort
   luafile ~/dotfiles/.config/nvim/plugin_config/which-key.lua
   luafile ~/dotfiles/.config/nvim/plugin_config/notify.lua
   luafile ~/dotfiles/.config/nvim/plugin_config/gitsigns.lua
-  luafile ~/dotfiles/.config/nvim/plugin_config/chowcho.lua
   lua require('pretty-fold').setup({})
   execute 'luafile' g:plug_home .. '/ccc.nvim/plugin/ccc.lua'
   lua require('ccc').setup({ highlighter = { auto_enable = true } })
 endfunction
 autocmd VimEnter * ++once call <sid>vim_enter_plugs()
+" }}}
+
+" {{{ load on WinEnter
+" Plug 'tkmpypy/chowcho.nvim', { 'on': [] }
+Plug 'levouh/tint.nvim'
+function! s:win_enter_plugs() abort
+  if get(g:, 'win_entered')
+   return
+  end
+  let g:win_entered = 1
+  " call plug#load('chowcho.nvim')
+  " luafile ~/dotfiles/.config/nvim/plugin_config/chowcho.lua
+  luafile ~/dotfiles/.config/nvim/plugin_config/tint.lua
+endfunction
+autocmd WinNew * ++once call <sid>win_enter_plugs()
 " }}}
 
 " {{{ load for quickfix
