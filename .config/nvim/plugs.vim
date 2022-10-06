@@ -79,6 +79,8 @@ autocmd User pounce.nvim ++once luafile ~/dotfiles/.config/nvim/plugin_config/po
 
 " {{{ load on VimEnter
 Plug 'nvim-lua/plenary.nvim'
+Plug 'MunifTanjim/nui.nvim'
+Plug 'folke/noice.nvim'
 Plug 'vim-denops/denops.vim', { 'on': [] }
 Plug 'Shougo/ddc.vim', { 'on': [] }
 Plug 'vim-skk/skkeleton', { 'on': [] }
@@ -114,6 +116,7 @@ function! s:vim_enter_plugs() abort
   luafile ~/dotfiles/.config/nvim/plugin_config/scrollbar.lua
   luafile ~/dotfiles/.config/nvim/plugin_config/which-key.lua
   luafile ~/dotfiles/.config/nvim/plugin_config/notify.lua
+  luafile ~/dotfiles/.config/nvim/plugin_config/noice.lua
   luafile ~/dotfiles/.config/nvim/plugin_config/gitsigns.lua
   lua require('pretty-fold').setup({})
   execute 'luafile' g:plug_home .. '/ccc.nvim/plugin/ccc.lua'
