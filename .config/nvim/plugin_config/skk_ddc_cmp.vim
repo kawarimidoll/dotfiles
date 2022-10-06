@@ -1,11 +1,23 @@
+let s:config_json =<< trim JSON
+{
+  "sources": ["skkeleton"],
+  "sourceOptions": {
+    "skkeleton": {
+      "matchers": ["skkeleton"],
+      "sorters": [],
+      "isVolatile": true,
+      "backspaceCompletion": true
+    }
+  },
+  "autoCompleteEvents": [],
+  "completionMode": "manual"
+}
+JSON
+
+let s:config = json_decode(join(s:config_json, ''))
 function! s:ddc_init() abort
+  call ddc#custom#patch_global(s:config)
   call ddc#enable()
-  call ddc#custom#patch_global(#{
-        \   sources: ['skkeleton'],
-        \   sourceOptions: #{ skkeleton: #{ matchers: ['skkeleton'] } },
-        \   autoCompleteEvents: [],
-        \   completionMode: 'manual',
-        \ })
 endfunction
 
 function! s:skkeleton_enable() abort

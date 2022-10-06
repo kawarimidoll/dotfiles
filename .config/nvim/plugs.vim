@@ -80,7 +80,7 @@ autocmd User pounce.nvim ++once luafile ~/dotfiles/.config/nvim/plugin_config/po
 " {{{ load on VimEnter
 Plug 'nvim-lua/plenary.nvim'
 Plug 'MunifTanjim/nui.nvim'
-Plug 'folke/noice.nvim'
+" Plug 'folke/noice.nvim'
 Plug 'vim-denops/denops.vim', { 'on': [] }
 Plug 'Shougo/ddc.vim', { 'on': [] }
 Plug 'vim-skk/skkeleton', { 'on': [] }
@@ -109,14 +109,15 @@ function! s:vim_enter_plugs() abort
         \ 'ccc.nvim',
         \ )
   source ~/dotfiles/.config/nvim/plugin_config/skkeleton.vim
-  source ~/dotfiles/.config/nvim/plugin_config/skk_ddc_mini.vim
+  " source ~/dotfiles/.config/nvim/plugin_config/skk_ddc_mini.vim
+  source ~/dotfiles/.config/nvim/plugin_config/skk_ddc_cmp.vim
   luafile ~/dotfiles/.config/nvim/plugin_config/mru_cache.lua
   let g:asterisk#keeppos = 1
   luafile ~/dotfiles/.config/nvim/plugin_config/hlslens.lua
   luafile ~/dotfiles/.config/nvim/plugin_config/scrollbar.lua
   luafile ~/dotfiles/.config/nvim/plugin_config/which-key.lua
   luafile ~/dotfiles/.config/nvim/plugin_config/notify.lua
-  luafile ~/dotfiles/.config/nvim/plugin_config/noice.lua
+  " luafile ~/dotfiles/.config/nvim/plugin_config/noice.lua
   luafile ~/dotfiles/.config/nvim/plugin_config/gitsigns.lua
   lua require('pretty-fold').setup({})
   execute 'luafile' g:plug_home .. '/ccc.nvim/plugin/ccc.lua'
@@ -293,6 +294,20 @@ autocmd BufReadPost * ++once call <sid>treesitter_init()
 " }}}
 
 " {{{ load on InsertEnter
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/cmp-nvim-lua'
+Plug 'ray-x/cmp-treesitter'
+Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
+Plug 'lukas-reineke/cmp-rg'
+Plug 'hrsh7th/cmp-nvim-lsp-document-symbol'
+Plug 'f3fora/cmp-spell'
+Plug 'octaltree/cmp-look'
+Plug 'rinx/cmp-skkeleton'
 Plug 'hrsh7th/vim-vsnip', { 'on': [] }
 Plug 'hrsh7th/vim-vsnip-integ', { 'on': [] }
 Plug 'rafamadriz/friendly-snippets'
@@ -309,6 +324,7 @@ function! s:insert_enter_plugs() abort
         \ 'jam.nvim',
         \ )
   source ~/dotfiles/.config/nvim/plugin_config/vsnip.vim
+  luafile ~/dotfiles/.config/nvim/plugin_config/cmp.lua
 
   execute 'luafile' g:plug_home .. '/jam.nvim/plugin/jam.lua'
   luafile ~/dotfiles/.config/nvim/plugin_config/jam.lua

@@ -459,8 +459,8 @@ local mini_completion_setup = function()
     return termcodes('<C-y>')
   end, { expr = true })
 end
-vim.api.nvim_create_autocmd({ 'InsertEnter' }, {
-  pattern = '*',
-  callback = mini_completion_setup,
-  once = true,
-})
+-- vim.api.nvim_create_autocmd({ 'InsertEnter' }, {
+--   pattern = '*',
+--   callback = mini_completion_setup,
+--   once = true,
+-- })
