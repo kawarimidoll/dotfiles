@@ -282,6 +282,45 @@ endfunction
 command! -nargs=* SmartOpen call <sid>smart_open(<q-args>)
 " }}}
 
+" {{{ BackLinks
+function s:back_links() abort
+  if !executable('rg')
+    echoerr 'rg is required.'
+    return
+  endif
+
+  let grep_list = systemlist("rg --vimgrep --hidden --trim --glob '!**/.git/*' " .. expand('%:b'))
+
+  if !exists('*path#normalize')
+    source ~/dotfiles/.config/nvim/path.vim
+  endif
+  let fname = expand('%:p')
+
+  let qflist = []
+  for item in grep_list
+    let [f, lnum, col; m] = split(item, ':')
+    let text = join(m, ':')
+    let detected  = matchstr(text[:col-1], '\v\f+$') .. matchstr(text[col:], '\v^\f+')
+
+    if fname ==# path#normalize(detected)
+      call add(qflist, {'filename': f, 'lnum': lnum, 'col': col, 'text': text})
+    endif
+  endfor
+  if empty(qflist)
+    if has('nvim')
+      lua vim.notify('no back_links are found.')
+    else
+      echo 'no back_links are found.'
+    endif
+    return
+  endif
+
+  call setqflist(qflist, 'r')
+  cwindow
+endfunction
+command! BackLinks call s:back_links()
+" }}}
+
 " {{{ EditProjectMru()
 " https://zenn.dev/kawarimidoll/articles/057e0c26c6d6e3
 function! EditProjectMru() abort
