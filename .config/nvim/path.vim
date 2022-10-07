@@ -61,12 +61,24 @@ function! path#common(paths) abort
   elseif len(a:paths) == 1
     return path#dirname(a:paths[0])
   endif
-  let split_paths = map(copy(a:paths), {_,path->split(path,'/')})
+
+  let is_absolute = 0
+  let split_paths = []
+  for path in a:paths
+    if path[0] == '~' || path[0] == '/'
+      call add(split_paths, expand(path))
+      let is_absolute = 1
+    else
+      call add(split_paths, path)
+    endif
+  endfor
+
+  call map(split_paths, {_,path->split(path,'/')})
   let common_path = []
 
   let i = 0
   let loop = 1
-  while loop
+  while i < len(split_paths[0])
     let current = split_paths[0][i]
     for path_array in split_paths
       if i >= len(path_array) || current !=# path_array[i]
@@ -81,7 +93,7 @@ function! path#common(paths) abort
     let i += 1
   endwhile
 
-  return join(common_path, '/')
+  return (is_absolute ? '/' : '') .. join(common_path, '/')
 endfunction
 
 function! path#is_node_repo() abort
