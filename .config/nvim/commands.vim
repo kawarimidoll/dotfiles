@@ -226,21 +226,26 @@ function! s:smart_open(query) abort
   if !exists('*path#normalize')
     source ~/dotfiles/.config/nvim/path.vim
   endif
-  let fname = path#normalize(query)
 
-  if filereadable(fname)
-    execute 'edit' fname
-    return
-  endif
+  try
+    let fname = path#normalize(query)
 
-  if path#is_node_repo()
-    " resolve node path
-    let node_require = path#resolve_node_require(fname)
-    if node_require != ''
-      execute 'edit' node_require
+    if filereadable(fname)
+      execute 'edit' fname
       return
     endif
-  endif
+
+    if path#is_node_repo()
+      " resolve node path
+      let node_require = path#resolve_node_require(fname)
+      if node_require != ''
+        execute 'edit' node_require
+        return
+      endif
+    endif
+  catch /.*/
+    " nothing to do
+  endtry
 
   if query =~# '^https\?://'
     " is url
