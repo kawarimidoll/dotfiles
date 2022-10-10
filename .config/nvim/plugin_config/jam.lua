@@ -50,7 +50,7 @@ local open_hint_win = function()
     focusable = false,
     border = 'rounded',
   }
-  vim.g.jam_cheat_sheet_win =  vim.api.nvim_open_win(buf, false, opts)
+  vim.g.jam_cheat_sheet_win = vim.api.nvim_open_win(buf, false, opts)
 end
 local close_hint_win = function()
   if vim.g.jam_cheat_sheet_win and vim.g.jam_cheat_sheet_win > 0 then

@@ -17,17 +17,17 @@ require('nvim-treesitter.configs').setup({
     smart_rename = {
       enable = true,
       keymaps = {
-        smart_rename = "grr",
+        smart_rename = 'grr',
       },
     },
     navigation = {
       enable = true,
       keymaps = {
-        goto_definition = "gd",
-        list_definitions = "grD",
-        list_definitions_toc = "grt",
-        goto_previous_usage = "[u",
-        goto_next_usage = "]u",
+        goto_definition = 'gd',
+        list_definitions = 'grD',
+        list_definitions_toc = 'grt',
+        goto_previous_usage = '[u',
+        goto_next_usage = ']u',
       },
     },
   },
@@ -55,5 +55,4 @@ require('nvim-treesitter.configs').setup({
   -- {{{ nvim-yati
   yati = { enable = true },
   -- }}}
-
 })

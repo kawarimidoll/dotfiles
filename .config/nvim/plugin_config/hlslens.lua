@@ -9,7 +9,11 @@ local map_next_and_lens = function(key)
       require('hlslens').start()
     else
       ---@diagnostic disable-next-line: missing-parameter
-      vim.api.nvim_echo({ { 'E486: Pattern not found: ' .. vim.fn.getreg('/'), 'WarningMsg' } }, true, {})
+      vim.api.nvim_echo(
+        { { 'E486: Pattern not found: ' .. vim.fn.getreg('/'), 'WarningMsg' } },
+        true,
+        {}
+      )
     end
   end, {})
 end
@@ -20,7 +24,7 @@ map_next_and_lens('N')
 local map_search_and_lens = function(keys)
   local starter = keys
   if vim.fn.exists('*asterisk#do') then
-    starter = "<Plug>(asterisk-" .. string.gsub(keys, '[*#]', 'z%1') .. ")"
+    starter = '<Plug>(asterisk-' .. string.gsub(keys, '[*#]', 'z%1') .. ')'
   end
 
   vim.keymap.set(
