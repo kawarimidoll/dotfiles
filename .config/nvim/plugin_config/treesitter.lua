@@ -1,8 +1,12 @@
+local parser_install_dir = vim.fn.stdpath('data') .. '/treesitter'
+vim.opt.runtimepath:append(parser_install_dir)
+
 require('nvim-treesitter.configs').setup({
   -- {{{ nvim-treesitter
   highlight = {
     enable = true,
     additional_vim_regex_highlighting = { 'vim' },
+    parser_install_dir = parser_install_dir,
   },
   sync_install = false,
   indent = { enable = false }, -- use yati for indent
