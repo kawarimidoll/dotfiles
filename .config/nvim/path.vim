@@ -96,6 +96,29 @@ function! path#common(paths) abort
   return (is_absolute ? '/' : '') .. join(common_path, '/')
 endfunction
 
+function! path#relative(from, to) abort
+  let common_dir = path#common([a:from, a:to])
+  let from = substitute(a:from, '^' .. common_dir, '', '')
+  let from = substitute(from, '\v^/|/$', '', 'g')
+  let to = substitute(a:to, '^' .. common_dir, '', '')
+  let to = substitute(to, '\v^/|/$', '', 'g')
+  if from == to
+    return ''
+  endif
+
+  if from == ''
+    return to
+  endif
+
+  let from = substitute(from, '\v[^/]+', '..', 'g')
+
+  if to == ''
+    return from
+  endif
+
+  return from .. '/' .. to
+endfunction
+
 function! path#is_node_repo() abort
   if !exists('s:is_node_repo')
     let s:is_node_repo = filereadable('package.json')
