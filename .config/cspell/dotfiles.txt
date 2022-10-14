@@ -64,3 +64,4 @@ wezterm
 stylua
 jisyo
 jinmei
+neodev

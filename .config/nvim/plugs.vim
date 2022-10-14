@@ -161,7 +161,7 @@ Plug 'jose-elias-alvarez/null-ls.nvim'
 Plug 'ray-x/lsp_signature.nvim'
 Plug 'j-hui/fidget.nvim'
 Plug 'onsails/lspkind.nvim'
-Plug 'folke/lua-dev.nvim'
+Plug 'folke/neodev.nvim'
 function! s:lsp_init() abort
   if exists(':LspInfo') == 2
     return
