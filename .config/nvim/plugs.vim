@@ -84,6 +84,8 @@ Plug 'MunifTanjim/nui.nvim'
 Plug 'vim-denops/denops.vim', { 'on': [] }
 Plug 'Shougo/ddc.vim', { 'on': [] }
 Plug 'vim-skk/skkeleton', { 'on': [] }
+Plug 'skk-dev/dict', { 'as': 'skk-dict' }
+let g:skk_dict_dir = g:plugs['skk-dict']['dir']
 Plug 'kawarimidoll/mru_cache.lua'
 Plug 'haya14busa/vim-asterisk', { 'on': [] }
 Plug 'kevinhwang91/nvim-hlslens', { 'on': [] }
@@ -108,9 +110,6 @@ function! s:vim_enter_plugs() abort
         \ 'which-key.nvim',
         \ 'ccc.nvim',
         \ )
-  source ~/dotfiles/.config/nvim/plugin_config/skkeleton.vim
-  " source ~/dotfiles/.config/nvim/plugin_config/skk_ddc_mini.vim
-  source ~/dotfiles/.config/nvim/plugin_config/skk_ddc_cmp.vim
   luafile ~/dotfiles/.config/nvim/plugin_config/mru_cache.lua
   let g:asterisk#keeppos = 1
   luafile ~/dotfiles/.config/nvim/plugin_config/hlslens.lua
@@ -325,6 +324,10 @@ function! s:insert_enter_plugs() abort
         \ )
   source ~/dotfiles/.config/nvim/plugin_config/vsnip.vim
   luafile ~/dotfiles/.config/nvim/plugin_config/cmp.lua
+
+  source ~/dotfiles/.config/nvim/plugin_config/skkeleton.vim
+  let g:skk_ddc_alternative = 'cmp'
+  source ~/dotfiles/.config/nvim/plugin_config/skk_ddc_alt.vim
 
   execute 'luafile' g:plug_home .. '/jam.nvim/plugin/jam.lua'
   luafile ~/dotfiles/.config/nvim/plugin_config/jam.lua

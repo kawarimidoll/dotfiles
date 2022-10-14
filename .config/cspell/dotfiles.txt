@@ -63,3 +63,4 @@ zenn
 wezterm
 stylua
 jisyo
+jinmei
