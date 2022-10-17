@@ -76,5 +76,8 @@ symbol = " "
 [deno]
 symbol = " "
 
+[lua]
+symbol = " "
+
 [status]
 disabled = false
