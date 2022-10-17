@@ -1,21 +1,5 @@
-source ~/dotfiles/.config/nvim/min-edit.vim
+source ~/dotfiles/.vim/vimrc
 
-set autoindent
-set autoread
-set completeopt=menu,menuone,noselect
-set history=2000
-set inccommand=split
-set infercase
-set lazyredraw
-set linebreak
-set list
-set listchars=tab:^-,trail:~,extends:»,precedes:«,nbsp:%
-set scrollback=2000
-set signcolumn=number
-set switchbuf+=usetab
-set termguicolors
-set updatetime=300
-set wildmode=longest,full
 let g:markdown_fenced_languages = ['ts=typescript', 'js=javascript']
 
 " {{{ Qfutils
@@ -444,7 +428,7 @@ nnoremap <Space>L <Cmd>LazyGit<CR>
 " }}}
 
 " {{{ autocmd
-augroup vimrc
+augroup plugs.vim
   autocmd!
   " https://zenn.dev/uochan/articles/2021-12-08-vim-conventional-commits
   autocmd FileType *commit nnoremap <buffer> <CR>
