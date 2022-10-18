@@ -124,7 +124,7 @@ bindkey '^r' select-history
 autoload -Uz edit-command-line
 zle -N edit-command-line
 edit_current_line() {
-  EDITOR="nvim --noplugin -u ~/dotfiles/.config/nvim/min-edit.vim -c 'norm! G$' -c 'setl awa' -c 'setf zsh'" \
+  EDITOR="vim --noplugin -c 'norm! G$' -c 'setl awa' -c 'setf zsh'" \
     zle edit-command-line
 }
 zle -N edit_current_line
@@ -153,7 +153,7 @@ zshaddhistory() {
   # 特定のコマンドではない
   [[ ${#line} -ge 5
     && "$(command -v $cmd)" != ''
-    && ${cmd} != (man|cd|mv|cp|rm|brew|rgf|nv|nvim)
+    && ${cmd} != (man|cd|mv|cp|rm|brew|rgf|nv|nvim|vi|vim)
   ]]
 }
 # -----------------
