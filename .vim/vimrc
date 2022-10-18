@@ -442,8 +442,8 @@ augroup vimrc
   " u200A ' ' hair space
   " u200B '​' zero-width space
   " u3000 '　' ideographic (zenkaku) space
-  autocmd VimEnter * ++once call matchadd('ExtraWhitespace', "[\u00A0\u2000-\u200B\u3000]")
-  autocmd ColorScheme * ++once highlight default ExtraWhitespace ctermbg=darkmagenta guibg=darkmagenta
+  autocmd VimEnter * call matchadd('ExtraWhitespace', "[\u00A0\u2000-\u200B\u3000]")
+  autocmd ColorScheme * highlight default ExtraWhitespace ctermbg=darkmagenta guibg=darkmagenta
 
   autocmd QuickfixCmdPost make,grep,grepadd,vimgrep
         \ if len(getqflist()) != 0
@@ -467,6 +467,8 @@ augroup vimrc
     " https://www.statox.fr/posts/2020/07/vim_flash_yanked_text/
     autocmd TextYankPost * silent! call s:add_highlight_yank()
 
-    colorscheme default
+    if has('vim_starting')
+      execute 'colorscheme' ['desert', 'slate', 'habamax'][rand(srand()) % 3]
+    endif
   endif
 augroup END
