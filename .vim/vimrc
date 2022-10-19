@@ -143,14 +143,28 @@ else
   inoremap <C-w> <C-g>u<C-w>
   nnoremap & :&&<CR>
 
-  function! s:add_highlight_yank() abort
+  " https://github.com/statox/FYT.vim/blob/master/autoload/FYT.vim
+  function! s:add_highlight_yank(event) abort
+    if a:event.operator != 'y' || len(a:event.regtype) == 0
+      return
+    endif
     if (!exists('s:yanked_win_match_ids'))
       let s:yanked_win_match_ids = []
     endif
 
-    let matchId = matchadd('IncSearch', ".\\%>'\\[\\_.*\\%<']..")
     let windowId = winnr()
 
+    let matchPattern = ".\\%>'\\[\\_.*\\%<'].."
+    if a:event.regtype[0] == "\<C-V>"
+      let lineStart = line("'<") - 1
+      let lineStop = line("'>") + 1
+      let columnStart = col("'<") - 1
+      let columnStop = col("'>") + 1
+      " :h /\%l /\%c
+      let matchPattern = "\\%>" .. lineStart .. "l\\%<" .. lineStop .. "l\\%>" .. columnStart .. "c\\%<" .. columnStop .. "c"
+    endif
+
+    let matchId = matchadd('IncSearch', matchPattern)
     call add(s:yanked_win_match_ids, [windowId, matchId])
     call timer_start(500, function('s:delete_highlight_yank'))
   endfunction
@@ -564,7 +578,7 @@ augroup vimrc
     autocmd TextYankPost * silent! lua vim.highlight.on_yank({ timeout=500 })
   else
     " https://www.statox.fr/posts/2020/07/vim_flash_yanked_text/
-    autocmd TextYankPost * silent! call s:add_highlight_yank()
+    autocmd TextYankPost * silent! call s:add_highlight_yank(v:event)
 
     if has('vim_starting')
       execute 'colorscheme' ['desert', 'slate', 'habamax'][rand(srand()) % 3]
