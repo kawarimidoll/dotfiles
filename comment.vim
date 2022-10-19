@@ -1,14 +1,8 @@
-function! s:get_range(from, to) abort
-  let from = a:from
-  let to = a:to
-
-  let another = line('v')
-  if from == to && from != another
-    if another < from
-      let from = another
-    else
-      let to = another
-    endif
+function! s:get_range() abort
+  let from = line('.')
+  let to = line('v')
+  if from > to
+    let [from, to] = [to, from]
   endif
   return [from, to]
 endfunction
@@ -18,18 +12,15 @@ function! s:get_comment_pair() abort
   return [pair[0], get(pair, 1, '')]
 endfunction
 
-function! s:is_comment(lnum) abort
-  let line = getline(a:lnum)
+function! s:is_comment() abort
+  let line = getline('.')
   let [open, close] = s:get_comment_pair()
   return line =~ '^\s*' .. open .. '.*' .. close .. '\s*$'
 endfunction
 
-function! s:comment_on(line1, line2) abort
-  let [from, to] = s:get_range(a:line1, a:line2)
+function! s:comment_on() abort
+  let [from, to] = s:get_range()
   let lines = getline(from, to)
-  "let line = substitute(line, '^\(\s*\)\(.*\)', '\=submatch(1) .. printf(&commentstring, submatch(2))', '')
-  "call setline('.', line)
-
   let min_indent = lines[0]
   for line in lines
     let current_indent = matchstr(line, '\s*')
@@ -70,14 +61,9 @@ function! s:comment_on(line1, line2) abort
   endfor
 endfunction
 
-function! s:comment_off(line1, line2) abort
+function! s:comment_off() abort
   let [open, close] = s:get_comment_pair()
-  " let line = getline('.')
-  " let line = substitute(line, '^\(\s*\)' .. open .. '\s*', '\1', '')
-  " let line = substitute(line, '\s*' .. close .. '\s*$', '', '')
-  " call setline('.', line)
-
-  let [from, to] = s:get_range(a:line1, a:line2)
+  let [from, to] = s:get_range()
   let lines = getline(from, to)
   let lnum = from
   for line in lines
@@ -88,21 +74,13 @@ function! s:comment_off(line1, line2) abort
   endfor
 endfunction
 
-function! s:comment_toggle(line1, line2) abort
-  " let m = mode()
-  " let from = line('.')
-  " let to = (m ==? 'v' || m == "\<C-v>") ? line('v') : line('.')
-  " if from > to
-  "   let [from, to] = [to, from]
-  " endif
-
-  if s:is_comment(a:line1)
-    call s:comment_off(a:line1, a:line2)
+function! s:comment_toggle() abort
+  if s:is_comment()
+    call s:comment_off()
   else
-    call s:comment_on(a:line1, a:line2)
+    call s:comment_on()
   endif
 endfunction
 
-command! -range CommentToggle call s:comment_toggle(<line1>, <line2>)
-nnoremap gcc <Cmd>CommentToggle<CR>
-xnoremap gcc <Cmd>CommentToggle<CR>
+nnoremap gcc <Cmd>call <sid>comment_toggle()<CR>
+xnoremap gcc <Cmd>call <sid>comment_toggle()<CR>

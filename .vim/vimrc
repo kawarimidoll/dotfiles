@@ -236,10 +236,8 @@ else
     endif
   endfunction
 
-  command! -count=1 DialUp call s:dial(<count>)
-  command! -count=1 DialDown call s:dial(-<count>)
-  nnoremap <C-a> <Cmd>execute 'DialUp' v:count1<CR>
-  nnoremap <C-x> <Cmd>execute 'DialDown' v:count1<CR>
+  nnoremap <C-a> <Cmd>call <sid>dial(v:count1)<CR>
+  nnoremap <C-x> <Cmd>call <sid>dial(-v:count1)<CR>
 endif
 
 let g:alpha_lower = 'abcdefghijklmnopqrstuvwxyz'
@@ -442,10 +440,7 @@ noremap t<C-j> t<C-k>j
 noremap T<C-j> T<C-k>j
 
 " https://zenn.dev/kawarimidoll/articles/665dbd860c72cd
-function! s:textobject_outline(...) abort
-  let from_parent = index(a:000, 'from_parent') >= 0
-  let with_blank = index(a:000, 'with_blank') >= 0
-
+function! s:textobject_outline(from_parent, with_blank) abort
   " get current line and indent
   let from = line('.')
   let indent = indent(from)
@@ -455,9 +450,9 @@ function! s:textobject_outline(...) abort
   let to = from
 
   " search first parent
-  if from_parent && from > 1 && indent > 0
+  if a:from_parent && from > 1 && indent > 0
     let lnum = from - 1
-    while indent <= indent(lnum) || (with_blank && getline(lnum) =~ '^\s*$')
+    while indent <= indent(lnum) || (a:with_blank && getline(lnum) =~ '^\s*$')
       let lnum -= 1
     endwhile
 
@@ -469,7 +464,7 @@ function! s:textobject_outline(...) abort
 
   " search last child
   let lnum = to + 1
-  while indent < indent(lnum) || (with_blank && getline(lnum) =~ '^\s*$')
+  while indent < indent(lnum) || (a:with_blank && getline(lnum) =~ '^\s*$')
     let to = lnum
     let lnum += 1
   endwhile
@@ -485,16 +480,14 @@ function! s:textobject_outline(...) abort
   call cursor(to, 0)
   normal! o
 endfunction
-command! -nargs=* TextobjectOutline call s:textobject_outline(<f-args>)
-
-xnoremap io <Cmd>TextobjectOutline<CR>
-xnoremap ao <Cmd>TextobjectOutline from_parent<CR>
-xnoremap iO <Cmd>TextobjectOutline with_blank<CR>
-xnoremap aO <Cmd>TextobjectOutline from_parent with_blank<CR>
-onoremap io <Cmd>TextobjectOutline<CR>
-onoremap ao <Cmd>TextobjectOutline from_parent<CR>
-onoremap iO <Cmd>TextobjectOutline with_blank<CR>
-onoremap aO <Cmd>TextobjectOutline from_parent with_blank<CR>
+xnoremap io <Cmd>call <sid>textobject_outline(0, 0)<CR>
+xnoremap ao <Cmd>call <sid>textobject_outline(1, 0)<CR>
+xnoremap iO <Cmd>call <sid>textobject_outline(0, 1)<CR>
+xnoremap aO <Cmd>call <sid>textobject_outline(1, 1)<CR>
+onoremap io <Cmd>call <sid>textobject_outline(0, 0)<CR>
+onoremap ao <Cmd>call <sid>textobject_outline(1, 0)<CR>
+onoremap iO <Cmd>call <sid>textobject_outline(0, 1)<CR>
+onoremap aO <Cmd>call <sid>textobject_outline(1, 1)<CR>
 
 augroup vimrc
   autocmd!

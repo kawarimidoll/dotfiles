@@ -9,17 +9,11 @@ setlocal comments=nb:>
       \ comments+=b:1.\ [\ ],b:1.\ [x],b:1.
       \ formatoptions-=c formatoptions+=jro
 
-function! s:markdown_checkbox(from, to) abort
-  let from = a:from
-  let to = a:to
-
-  let another = line('v')
-  if from == to && from != another
-    if another < from
-      let from = another
-    else
-      let to = another
-    endif
+function! s:markdown_checkbox() abort
+  let from = line('.')
+  let to = line('v')
+  if from > to
+    let [from, to] = [to, from]
   endif
 
   let curpos = getcursorcharpos()
@@ -55,11 +49,9 @@ function! s:markdown_checkbox(from, to) abort
   endwhile
   call setcursorcharpos(curpos[1], curpos[2])
 endfunction
-command! -buffer -range MarkdownCheckbox call s:markdown_checkbox(<line1>, <line2>)
-
-nnoremap <buffer> <C-CR> <Cmd>MarkdownCheckbox<CR>
-inoremap <buffer> <C-CR> <Cmd>MarkdownCheckbox<CR>
-xnoremap <buffer> <C-CR> <Cmd>MarkdownCheckbox<CR>
+nnoremap <buffer> <C-CR> <Cmd>call <sid>markdown_checkbox()<CR>
+inoremap <buffer> <C-CR> <Cmd>call <sid>markdown_checkbox()<CR>
+xnoremap <buffer> <C-CR> <Cmd>call <sid>markdown_checkbox()<CR>
 
 if exists('b:undo_ftplugin')
   let b:undo_ftplugin ..= '|'
@@ -67,5 +59,4 @@ else
   let b:undo_ftplugin = ''
 endif
 let b:undo_ftplugin ..= 'setlocal comments< formatoptions<'
-let b:undo_ftplugin ..= '| delcommand -buffer MarkdownCheckbox'
 let b:undo_ftplugin ..= '| unmap <buffer> <C-CR>'
