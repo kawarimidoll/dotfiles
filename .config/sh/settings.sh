@@ -274,7 +274,7 @@ elif [ "$(uname -s | cut -c-5)" = 'MINGW' ]; then
   OS='windows'
 fi
 export DOT_OS_DIR="${DOT_DIR}/etc/${OS}"
-__source "${DOT_OS_DIR}/commonshrc"
+__source "${DOT_DIR}/.config/sh/${OS}.sh"
 
 browse() {
   # [git-extras/git-browse](https://github.com/tj/git-extras/blob/master/bin/git-browse)

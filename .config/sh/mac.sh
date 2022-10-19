@@ -1,5 +1,5 @@
 # -----------------
-#  commonshrc for mac
+#  settings.sh for mac
 # -----------------
 
 if [ -f "/opt/homebrew/bin/brew" ]; then

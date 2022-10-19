@@ -1,5 +1,5 @@
 # -----------------
-#  commonshrc for linux
+#  settings.sh for linux
 # -----------------
 
 # [ターミナルで標準出力をクリップボードにコピーする - Qiita](https://qiita.com/sasaplus1/items/137a70e8f51f97a6636f)

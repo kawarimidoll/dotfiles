@@ -10,7 +10,7 @@ __add_fpath() {
 
 export DOT_DIR="${HOME}/dotfiles"
 shell_rc="${HOME}/.zshrc"
-__source "${DOT_DIR}/etc/commonshrc"
+__source "${DOT_DIR}/.config/sh/settings.sh"
 
 # -----------------
 #  Modules
