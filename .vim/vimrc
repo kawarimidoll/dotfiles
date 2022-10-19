@@ -279,6 +279,24 @@ command! -nargs=+ LGrepF call s:lgrep('--fixed-strings -- ' .. <q-args>)
 command! -nargs=1 -complete=file VDiff vertical diffsplit <args>
 command! VDiffAlt execute 'vertical diffsplit' expand('#')
 
+" http://saihoooooooo.hatenablog.com/entry/2013/04/30/001908
+function! s:auto_mark() abort
+  if !exists('b:last_mark')
+    let b:last_mark = -1
+  endif
+  let b:last_mark = (b:last_mark + 1) % len(g:alpha_lower)
+  execute 'mark' g:alpha_lower[b:last_mark]
+endfunction
+function! s:jump_to_last_mark() abort
+  if !exists('b:last_mark')
+    return
+  endif
+  execute 'normal! g`' . g:alpha_lower[b:last_mark]
+endfunction
+nnoremap <silent> mm <Cmd>call <sid>auto_mark()<CR>
+nnoremap <silent> m, <Cmd>call <sid>jump_to_last_mark()<CR>
+nnoremap ml <Cmd>marks<bar>execute 'normal! `' .. input('jump to: ')<CR>
+
 noremap j gj
 noremap k gk
 noremap gj j
@@ -319,6 +337,8 @@ nnoremap [Q <Cmd>cfirst<CR>
 nnoremap ]Q <Cmd>clast<CR>
 nnoremap [w <C-w>w
 nnoremap ]w <C-w>W
+nnoremap [m [`
+nnoremap ]m ]`
 
 " https://twitter.com/mo_naqa/status/1467626946293284865
 nnoremap gf gFzz
