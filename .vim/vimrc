@@ -131,6 +131,7 @@ else
   set nostartofline
   set ruler
   set smarttab
+  set smartcase
   set viminfofile=~/.vim/viminfo
   set ttyfast
   set wildmenu
@@ -304,6 +305,8 @@ nnoremap [q <Cmd>cprevious<CR>
 nnoremap ]q <Cmd>cnext<CR>
 nnoremap [Q <Cmd>cfirst<CR>
 nnoremap ]Q <Cmd>clast<CR>
+nnoremap [w <C-w>w
+nnoremap ]w <C-w>W
 
 " https://twitter.com/mo_naqa/status/1467626946293284865
 nnoremap gf gFzz
@@ -312,7 +315,9 @@ nnoremap gx :<C-u>!open <C-r><C-a>
 for c in g:alpha_all->split('\zs')
   execute 'nnoremap <Space>' .. c '<NOP>'
 endfor
+nnoremap <Space>b :<C-u>buffer<space>
 nnoremap <Space>d <Cmd>bdelete<CR>
+nnoremap <Space>f :<C-u>edit<space>
 nnoremap <Space>g <Cmd>copy.<CR>
 nnoremap <Space>G <Cmd>copy-1<CR>
 nnoremap <Space>o <Cmd>put =repeat(nr2char(10), v:count1)<CR>
