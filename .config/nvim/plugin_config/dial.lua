@@ -47,10 +47,10 @@ require('dial.config').augends:register_group({
     }),
     augend.case.new({
       types = {
-        'camelCase',
         'PascalCase',
-        'snake_case',
+        'camelCase',
         'kebab-case',
+        'snake_case',
         'SCREAMING_SNAKE_CASE',
       },
     }),
