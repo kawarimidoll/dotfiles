@@ -86,10 +86,10 @@ alias stw="snap-tweet --locale ja --output-dir ~/Downloads"
 alias rgg="rg --hidden --trim --glob '!**/.git/*'"
 alias rgf="rgg --fixed-strings --"
 alias sudo='sudo '
-alias vimrc='vim ~/.vimrc'
+alias vimrc='vim ~/.vim/vimrc'
 alias vimrclocal='vim ~/.vimrc.local'
 alias vin='vim -u NONE -N'
-alias vir='vim -c "edit #<1"'
+alias vir="vim -c 'call EditProjectMru()'"
 alias wcl='wc -l'
 alias wget='wget --hsts-file="${XDG_DATA_HOME}/wget-hsts"'
 alias wtf='wtfutil'

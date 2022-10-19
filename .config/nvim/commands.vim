@@ -326,27 +326,6 @@ endfunction
 command! BackLinks call s:back_links()
 " }}}
 
-" {{{ EditProjectMru()
-" https://zenn.dev/kawarimidoll/articles/057e0c26c6d6e3
-function! EditProjectMru() abort
-  let cmd = 'git rev-parse --show-superproject-working-tree --show-toplevel 2>/dev/null | head -1'
-  let root = system(cmd)->trim()->expand()
-  if !isdirectory(root)
-    edit #<1
-    return
-  endif
-  for file in v:oldfiles
-    if file =~ root .. '/' && file !~ '\.git/' && filereadable(file)
-      execute 'edit' file
-      break
-    endif
-  endfor
-endfunction
-
-" remove function because it is only for `$ nvim -c 'call EditProjectMru()'`
-autocmd commands.vim VimEnter * ++once delfunction! EditProjectMru
-" }}}
-
 " {{{ ensure_git_root
 " https://zenn.dev/kawarimidoll/articles/30693f48096eb1
 function! s:ensure_git_root() abort

@@ -489,8 +489,31 @@ onoremap ao <Cmd>call <sid>textobject_outline(1, 0)<CR>
 onoremap iO <Cmd>call <sid>textobject_outline(0, 1)<CR>
 onoremap aO <Cmd>call <sid>textobject_outline(1, 1)<CR>
 
+" {{{ EditProjectMru()
+" https://zenn.dev/kawarimidoll/articles/057e0c26c6d6e3
+function! EditProjectMru() abort
+  let cmd = 'git rev-parse --show-superproject-working-tree --show-toplevel 2>/dev/null | head -1'
+  let root = system(cmd)->trim()->expand()
+  if !isdirectory(root)
+    edit #<1
+    return
+  endif
+  for file in v:oldfiles
+    let file = expand(file)
+    if file =~ root .. '/' && file !~ '\.git/' && filereadable(file)
+      execute 'edit' file
+      break
+    endif
+  endfor
+endfunction
+" }}}
+
 augroup vimrc
   autocmd!
+
+  " remove function because it is only for `$ vim -c 'call EditProjectMru()'`
+  autocmd VimEnter * ++once delfunction! EditProjectMru
+
   " visualize autocmds
   " autocmd FileType * echomsg 'au FileType '.. expand('<amatch>')
   " autocmd BufEnter * echomsg 'au BufEnter '.. expand('<amatch>')
