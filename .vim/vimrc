@@ -264,13 +264,27 @@ let g:alnum = g:alpha_all .. g:digits
 
 function! s:grep(word) abort
   cgetexpr system(printf('%s %s', &grepprg, a:word))
-  call setqflist([], 'r', {'title': a:word})
-  doautocmd QuickfixCmdPost grep
+
+  if len(getqflist()) != 0
+    doautocmd QuickFixCmdPost grep
+    call setqflist([], 'r', {'title': a:word})
+    copen
+  else
+    echowindow 'grep: no matches found.'
+    cclose
+  endif
 endfunction
 function! s:lgrep(word) abort
   lgetexpr system(printf('%s %s', &grepprg, a:word))
-  call setloclist(0, [], 'r', {'title': a:word})
-  doautocmd QuickfixCmdPost lgrep
+
+  if len(getloclist(0)) != 0
+    doautocmd QuickFixCmdPost lgrep
+    call setloclist(0, [], 'r', {'title': a:word})
+    lopen
+  else
+    echowindow 'lgrep: no matches found.'
+    lclose
+  endif
 endfunction
 
 command! -nargs=+ Grep call s:grep(<q-args>)
@@ -584,21 +598,6 @@ augroup vimrc
   autocmd ColorScheme * highlight default ExtraWhitespace ctermbg=darkmagenta guibg=darkmagenta
 
   autocmd FileType qf setlocal nobuflisted
-
-  autocmd QuickfixCmdPost make,grep,grepadd,vimgrep
-        \ if len(getqflist()) != 0
-        \ |   copen
-        \ | else
-        \ |   echo 'no matches found.'
-        \ |   cclose
-        \ | endif
-  autocmd QuickfixCmdPost lmake,lgrep,lgrepadd,lvimgrep
-        \ if len(getloclist(0)) != 0
-        \ |   lopen
-        \ | else
-        \ |   echo 'no matches found.'
-        \ |   lclose
-        \ | endif
 
   if has('nvim')
     " https://jdhao.github.io/2020/05/22/highlight_yank_region_nvim/
