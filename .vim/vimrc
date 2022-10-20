@@ -185,7 +185,7 @@ else
     return join(a:words, '_')
   endfunction
 
-  let s:kebab = {'pattern': '\v^[a-z][a-z0-9]*(-[a-z0-9]+)*$'}
+  let s:kebab = {'pattern': '\v^[a-z][a-z0-9]*(-[a-z0-9]+)+$'}
   function! s:kebab.split(str) abort
     return split(a:str, '-')
   endfunction
@@ -252,6 +252,8 @@ else
 
   nnoremap <C-a> <Cmd>call <sid>dial(v:count1)<CR>
   nnoremap <C-x> <Cmd>call <sid>dial(-v:count1)<CR>
+
+  command! LazyGit tab terminal ++close lazygit
 endif
 
 let g:alpha_lower = 'abcdefghijklmnopqrstuvwxyz'
@@ -308,7 +310,7 @@ map M %
 nnoremap / /\v
 
 nnoremap s <NOP>
-nnoremap so <Cmd>source<CR>
+nnoremap so <Cmd>source<Bar>nohlsearch<CR>
 nnoremap s/ :%s/
 nnoremap S :%s/\V\<<C-r><C-w>\>//g<Left><Left>
 nnoremap <script> <expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
@@ -327,12 +329,12 @@ nnoremap x "_d
 nnoremap X "_D
 nnoremap ' `
 
-nnoremap [b <Cmd>bprevious<CR>
-nnoremap ]b <Cmd>bnext<CR>
+nnoremap <silent><expr> [b '<Cmd>' .. v:count1 .. 'bprevious<CR>'
+nnoremap <silent><expr> ]b '<Cmd>' .. v:count1 .. 'bnext<CR>'
 nnoremap [B <Cmd>bfirst<CR>
 nnoremap ]B <Cmd>blast<CR>
-nnoremap [q <Cmd>cprevious<CR>
-nnoremap ]q <Cmd>cnext<CR>
+nnoremap <silent><expr> [q '<Cmd>try<bar>' .. v:count1 .. 'cprevious<bar>catch<bar>clast<bar>endtry<CR>'
+nnoremap <silent><expr> ]q '<Cmd>try<bar>' .. v:count1 .. 'cnext<bar>catch<bar>cfirst<bar>endtry<CR>'
 nnoremap [Q <Cmd>cfirst<CR>
 nnoremap ]Q <Cmd>clast<CR>
 nnoremap [w <C-w>w
@@ -347,8 +349,9 @@ nnoremap gx :<C-u>!open <C-r><C-a>
 for c in g:alpha_all->split('\zs')
   execute 'nnoremap <Space>' .. c '<NOP>'
 endfor
-nnoremap <Space>b :<C-u>buffer<space>
+nnoremap <Space>b <Cmd>buffers<bar>execute 'buffer' input('open buf num: ')<CR>
 nnoremap <Space>d <Cmd>bdelete<CR>
+nnoremap <Space>D <Cmd>bdelete!<CR>
 nnoremap <Space>f :<C-u>edit<space>
 nnoremap <Space>g <Cmd>copy.<CR>
 nnoremap <Space>G <Cmd>copy-1<CR>
@@ -356,6 +359,7 @@ nnoremap <Space>o <Cmd>put =repeat(nr2char(10), v:count1)<CR>
 nnoremap <Space>O <Cmd>put! =repeat(nr2char(10), v:count1)<CR>'[
 nnoremap <Space>p gg=G<C-o>
 nnoremap <Space>q <cmd>confirm quit<CR>
+nnoremap <Space>r <Cmd>registers<bar>execute 'normal "' .. input('paste reg: ') .. 'p'<CR>
 nnoremap <Space>Q <cmd>quitall!<CR>
 nnoremap <Space>w <cmd>w<CR>
 nnoremap <Space>wq <cmd>confirm wq<CR>
@@ -365,6 +369,7 @@ nnoremap <Space>? :<C-u>GrepF ''<Left><C-r><C-w>
 xnoremap <Space>? "zy:<C-u>GrepF ''<Left><C-r>z
 nnoremap <silent><expr> <C-k> '<Cmd>move-1-' . v:count1 . '<CR>=l'
 nnoremap <silent><expr> <C-j> '<Cmd>move+'   . v:count1 . '<CR>=l'
+nnoremap <Space>L <Cmd>LazyGit<CR>
 
 nnoremap <C-f> <Cmd>set scroll=0<CR><Cmd>execute 'normal!' repeat("\<C-d>", v:count1 * 2)<CR>
 nnoremap <C-b> <Cmd>set scroll=0<CR><Cmd>execute 'normal!' repeat("\<C-u>", v:count1 * 2)<CR>
@@ -577,6 +582,8 @@ augroup vimrc
   " u3000 '　' ideographic (zenkaku) space
   autocmd VimEnter * call matchadd('ExtraWhitespace', "[\u00A0\u2000-\u200B\u3000]")
   autocmd ColorScheme * highlight default ExtraWhitespace ctermbg=darkmagenta guibg=darkmagenta
+
+  autocmd FileType qf setlocal nobuflisted
 
   autocmd QuickfixCmdPost make,grep,grepadd,vimgrep
         \ if len(getqflist()) != 0
