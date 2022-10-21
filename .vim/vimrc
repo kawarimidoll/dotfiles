@@ -116,6 +116,7 @@ endif
 if has('nvim')
   set inccommand=split
   set scrollback=2000
+  set runtimepath+=~/.vim/after
 else
   " :h vim-differences
   set autoindent

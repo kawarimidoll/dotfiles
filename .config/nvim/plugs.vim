@@ -426,14 +426,3 @@ nnoremap <sid>(q)/ q/
 nnoremap <Space>d <Cmd>keepalt lua MiniBufremove.delete()<CR>
 nnoremap <Space>L <Cmd>LazyGit<CR>
 " }}}
-
-" {{{ autocmd
-augroup plugs.vim
-  autocmd!
-  " https://zenn.dev/uochan/articles/2021-12-08-vim-conventional-commits
-  autocmd FileType *commit nnoremap <buffer> <CR>
-    \ <Cmd>silent! execute 'normal! ^w"zdiw"_dip"zPA: ' <bar> startinsert!<CR>
-
-  autocmd BufNewFile,BufRead commonshrc setf bash
-augroup END
-" }}}

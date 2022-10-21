@@ -49,9 +49,12 @@ function! s:markdown_checkbox() abort
   endwhile
   call setcursorcharpos(curpos[1], curpos[2])
 endfunction
-nnoremap <buffer> <C-CR> <Cmd>call <sid>markdown_checkbox()<CR>
-inoremap <buffer> <C-CR> <Cmd>call <sid>markdown_checkbox()<CR>
-xnoremap <buffer> <C-CR> <Cmd>call <sid>markdown_checkbox()<CR>
+
+nnoremap <buffer> <CR> <Cmd>call <sid>markdown_checkbox()<CR>
+xnoremap <buffer> <CR> <Cmd>call <sid>markdown_checkbox()<CR>
+if has('nvim')
+  inoremap <buffer> <C-CR> <Cmd>call <sid>markdown_checkbox()<CR>
+endif
 
 if exists('b:undo_ftplugin')
   let b:undo_ftplugin ..= '|'
@@ -59,4 +62,6 @@ else
   let b:undo_ftplugin = ''
 endif
 let b:undo_ftplugin ..= 'setlocal comments< formatoptions<'
-let b:undo_ftplugin ..= '| unmap <buffer> <C-CR>'
+let b:undo_ftplugin ..= '| nunmap <buffer> <CR>'
+let b:undo_ftplugin ..= '| xunmap <buffer> <CR>'
+let b:undo_ftplugin ..= '| iunmap <buffer> <C-CR>'
