@@ -313,6 +313,15 @@ nnoremap <silent> mm <Cmd>call <sid>auto_mark()<CR>
 nnoremap <silent> m, <Cmd>call <sid>jump_to_last_mark()<CR>
 nnoremap ml <Cmd>marks<bar>execute 'normal! `' .. input('jump to: ')<CR>
 
+function! s:operator_replace(type = '') abort
+  if a:type == ''
+    let &operatorfunc = function('s:operator_replace')
+    return 'g@'
+  endif
+  normal! `[v`]P
+endfunction
+nnoremap <expr> gp <sid>operator_replace()
+
 noremap j gj
 noremap k gk
 noremap gj j
@@ -337,8 +346,8 @@ nnoremap Q @q
 
 nnoremap p ]p`]
 nnoremap P [P`]
-nnoremap gp p
-nnoremap gP P
+"nnoremap gp p
+"nnoremap gP P
 nnoremap x "_d
 nnoremap X "_D
 nnoremap ' `
