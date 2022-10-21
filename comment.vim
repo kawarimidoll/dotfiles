@@ -1,32 +1,22 @@
-function! s:get_range() abort
-  let from = line('.')
-  let to = line('v')
-  if from > to
-    let [from, to] = [to, from]
-  endif
-  return [from, to]
-endfunction
-
 function! s:get_comment_pair() abort
   let pair = split(&commentstring, '%s')
   return [pair[0], get(pair, 1, '')]
 endfunction
 
-function! s:is_comment() abort
-  let line = getline('.')
+function! s:is_comment(lnum) abort
+  let line = getline(a:lnum)
   let [open, close] = s:get_comment_pair()
   return line =~ '^\s*' .. open .. '.*' .. close .. '\s*$'
 endfunction
 
-function! s:comment_on() abort
-  let [from, to] = s:get_range()
-  let lines = getline(from, to)
+function! s:comment_on(from, to) abort
+  let lines = getline(a:from, a:to)
   let min_indent = lines[0]
   for line in lines
-    let current_indent = matchstr(line, '\s*')
-    if len(current_indent) == len(line)
+    if line =~ '^\s*$'
       continue
     endif
+    let current_indent = matchstr(line, '\s*')
     if len(current_indent) >= len(min_indent)
       continue
     endif
@@ -35,7 +25,7 @@ function! s:comment_on() abort
       break
     endif
   endfor
-  "let indent = indent(from)
+  "let indent = indent(a:from)
   "let idx = 1
   "while indent > 0 && idx < len(lines)
   "  if line =~ '^\s*$'
@@ -54,18 +44,17 @@ function! s:comment_on() abort
   endif
 
   let indent_len = len(min_indent)
-  let lnum = from
+  let lnum = a:from
   for line in lines
     call setline(lnum, min_indent .. trim(open .. line[indent_len:] .. close))
     let lnum += 1
   endfor
 endfunction
 
-function! s:comment_off() abort
+function! s:comment_off(from, to) abort
   let [open, close] = s:get_comment_pair()
-  let [from, to] = s:get_range()
-  let lines = getline(from, to)
-  let lnum = from
+  let lines = getline(a:from, a:to)
+  let lnum = a:from
   for line in lines
     let line = substitute(line, open .. '\s\?', '', '')
     let line = substitute(line, '\s*' .. close .. '\s*$', '', '')
@@ -74,13 +63,25 @@ function! s:comment_off() abort
   endfor
 endfunction
 
-function! s:comment_toggle() abort
-  if s:is_comment()
-    call s:comment_off()
+function! s:operator_comment_toggle(type = '') abort
+  if a:type == ''
+    let &operatorfunc = function('s:operator_comment_toggle')
+    return 'g@'
+  endif
+
+  let from = line("'[")
+  let to = line("']")
+  if from > to
+    let [from, to] = [to, from]
+  endif
+
+  if s:is_comment(from)
+    call s:comment_off(from, to)
   else
-    call s:comment_on()
+    call s:comment_on(from, to)
   endif
 endfunction
 
-nnoremap gcc <Cmd>call <sid>comment_toggle()<CR>
-xnoremap gcc <Cmd>call <sid>comment_toggle()<CR>
+nnoremap <expr> gc <sid>operator_comment_toggle()
+nnoremap <expr> gcc <sid>operator_comment_toggle() .. '_'
+xnoremap <expr> gc <sid>operator_comment_toggle()
