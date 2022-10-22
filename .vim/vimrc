@@ -222,6 +222,10 @@ else
   nnoremap <C-x> <Cmd>call <sid>dial(-v:count1)<CR>
 
   command! LazyGit tab terminal ++close lazygit
+
+  nnoremap <expr> gc mi#comment#operator_toggle()
+  nnoremap <expr> gcc mi#comment#operator_toggle() .. '_'
+  xnoremap <expr> gc mi#comment#operator_toggle()
 endif
 
 let g:alpha_lower = 'abcdefghijklmnopqrstuvwxyz'

@@ -4,9 +4,7 @@ function! s:get_comment_pair() abort
 endfunction
 
 function! s:is_comment(lnum) abort
-  let line = getline(a:lnum)
-  let [open, close] = s:get_comment_pair()
-  return line =~ '^\s*' .. open .. '.*' .. close .. '\s*$'
+  return synIDattr(synID(a:lnum, 1, 1), 'name') =~ 'comment'
 endfunction
 
 function! s:comment_on(from, to) abort
@@ -42,6 +40,9 @@ function! s:comment_on(from, to) abort
   if open =~ '\S$'
     let open ..= ' '
   endif
+  if close =~ '^\S'
+    let close = ' ' .. close
+  endif
 
   let indent_len = len(min_indent)
   let lnum = a:from
@@ -75,13 +76,14 @@ function! s:operator_comment_toggle(type = '') abort
     let [from, to] = [to, from]
   endif
 
-  if s:is_comment(from)
+  if s:is_comment(get(s:, 'cursorline', line('.')))
     call s:comment_off(from, to)
   else
     call s:comment_on(from, to)
   endif
 endfunction
 
-nnoremap <expr> gc <sid>operator_comment_toggle()
-nnoremap <expr> gcc <sid>operator_comment_toggle() .. '_'
-xnoremap <expr> gc <sid>operator_comment_toggle()
+function! mi#comment#operator_toggle() abort
+  let s:cursorline = line('.')
+  return s:operator_comment_toggle()
+endfunction
