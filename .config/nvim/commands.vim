@@ -326,18 +326,6 @@ endfunction
 command! BackLinks call s:back_links()
 " }}}
 
-" {{{ ensure_git_root
-" https://zenn.dev/kawarimidoll/articles/30693f48096eb1
-function! s:ensure_git_root() abort
-  let cmd = 'git rev-parse --show-superproject-working-tree --show-toplevel 2>/dev/null | head -1'
-  let root = system(cmd)->trim()->expand()
-  if isdirectory(root) && root != getcwd()
-    execute 'cd' root
-  endif
-endfunction
-autocmd commands.vim VimEnter * ++once call s:ensure_git_root()
-" }}}
-
 " {{{ collect_yank_history
 function! s:collect_yank_history() abort
   " regs should be start with double quote

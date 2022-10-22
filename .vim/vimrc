@@ -87,6 +87,8 @@ set nonumber
 set noshowmode
 set noswapfile
 set nowritebackup
+set runtimepath+=~/dotfiles/.vim
+set runtimepath+=~/dotfiles/.vim/after
 set scrolloff=5
 set shiftround
 set shiftwidth=2
@@ -116,7 +118,6 @@ endif
 if has('nvim')
   set inccommand=split
   set scrollback=2000
-  set runtimepath+=~/.vim/after
 else
   " :h vim-differences
   set autoindent
@@ -143,40 +144,6 @@ else
   inoremap <C-u> <C-g>u<C-u>
   inoremap <C-w> <C-g>u<C-w>
   nnoremap & :&&<CR>
-
-  " https://github.com/statox/FYT.vim/blob/master/autoload/FYT.vim
-  function! s:add_highlight_yank(event) abort
-    if a:event.operator != 'y' || len(a:event.regtype) == 0
-      return
-    endif
-    if (!exists('s:yanked_win_match_ids'))
-      let s:yanked_win_match_ids = []
-    endif
-
-    let windowId = winnr()
-
-    let matchPattern = ".\\%>'\\[\\_.*\\%<'].."
-    if a:event.regtype[0] == "\<C-V>"
-      let lineStart = line("'<") - 1
-      let lineStop = line("'>") + 1
-      let columnStart = col("'<") - 1
-      let columnStop = col("'>") + 1
-      " :h /\%l /\%c
-      let matchPattern = "\\%>" .. lineStart .. "l\\%<" .. lineStop .. "l\\%>" .. columnStart .. "c\\%<" .. columnStop .. "c"
-    endif
-
-    let matchId = matchadd('IncSearch', matchPattern)
-    call add(s:yanked_win_match_ids, [windowId, matchId])
-    call timer_start(500, function('s:delete_highlight_yank'))
-  endfunction
-  function! s:delete_highlight_yank(timer_id) abort
-    while !empty(s:yanked_win_match_ids)
-      try
-        let [windowId, matchId] = remove(s:yanked_win_match_ids, 0)
-        call matchdelete(matchId, windowId)
-      endtry
-    endwhile
-  endfunction
 
   let s:snake = {'pattern': '\v^[a-z][a-z0-9]*(_[a-z0-9]+)*$'}
   function! s:snake.split(str) abort
@@ -314,14 +281,7 @@ nnoremap <silent> mm <Cmd>call <sid>auto_mark()<CR>
 nnoremap <silent> m, <Cmd>call <sid>jump_to_last_mark()<CR>
 nnoremap ml <Cmd>marks<bar>execute 'normal! `' .. input('jump to: ')<CR>
 
-function! s:operator_replace(type = '') abort
-  if a:type == ''
-    let &operatorfunc = function('s:operator_replace')
-    return 'g@'
-  endif
-  normal! `[v`]P
-endfunction
-nnoremap <expr> gp <sid>operator_replace()
+nnoremap <expr> gp mi#operator#replace()
 
 noremap j gj
 noremap k gk
@@ -609,12 +569,14 @@ augroup vimrc
 
   autocmd FileType qf setlocal nobuflisted
 
+  autocmd VimEnter * ++once call mi#git#ensure_root()
+
   if has('nvim')
     " https://jdhao.github.io/2020/05/22/highlight_yank_region_nvim/
     autocmd TextYankPost * silent! lua vim.highlight.on_yank({ timeout=500 })
   else
     " https://www.statox.fr/posts/2020/07/vim_flash_yanked_text/
-    autocmd TextYankPost * silent! call s:add_highlight_yank(v:event)
+    autocmd TextYankPost * silent! call mi#highlight#on_yank({ 'timeout': 500 })
 
     if has('vim_starting')
       execute 'colorscheme' ['desert', 'slate', 'habamax'][rand(srand()) % 3]
