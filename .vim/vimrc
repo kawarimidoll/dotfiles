@@ -515,19 +515,7 @@ onoremap aO <Cmd>call <sid>textobject_outline(1, 1)<CR>
 " {{{ EditProjectMru()
 " https://zenn.dev/kawarimidoll/articles/057e0c26c6d6e3
 function! EditProjectMru() abort
-  let cmd = 'git rev-parse --show-superproject-working-tree --show-toplevel 2>/dev/null | head -1'
-  let root = system(cmd)->trim()->expand()
-  if !isdirectory(root)
-    edit #<1
-    return
-  endif
-  for file in v:oldfiles
-    let file = expand(file)
-    if file =~ root .. '/' && file !~ '\.git/' && filereadable(file)
-      execute 'edit' file
-      break
-    endif
-  endfor
+  execute 'edit' get(mi#mru#list(), 0, '')
 endfunction
 " }}}
 
@@ -536,6 +524,8 @@ augroup vimrc
 
   " remove function because it is only for `$ vim -c 'call EditProjectMru()'`
   autocmd VimEnter * ++once delfunction! EditProjectMru
+
+  autocmd BufEnter,BufReadPost * call mi#mru#save()
 
   " visualize autocmds
   " autocmd FileType * echomsg 'au FileType '.. expand('<amatch>')
