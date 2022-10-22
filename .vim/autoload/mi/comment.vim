@@ -3,8 +3,15 @@ function! s:get_comment_pair() abort
   return [pair[0], get(pair, 1, '')]
 endfunction
 
-function! s:is_comment(lnum) abort
-  return synIDattr(synID(a:lnum, 1, 1), 'name') =~ 'comment'
+function! s:is_comment(from, to) abort
+  let lnum = a:from
+  while lnum <= a:to
+    if synIDattr(synID(lnum, 1, 1), 'name') !~ 'comment'
+      return v:false
+    endif
+    let lnum += 1
+  endwhile
+  return v:true
 endfunction
 
 function! s:comment_on(from, to) abort
@@ -64,9 +71,10 @@ function! s:comment_off(from, to) abort
   endfor
 endfunction
 
-function! s:operator_comment_toggle(type = '') abort
+function! mi#comment#operator_toggle(context = {}, type = '') abort
   if a:type == ''
-    let &operatorfunc = function('s:operator_comment_toggle')
+    let context = { 'dot_command': v:false }
+    let &operatorfunc = function('mi#comment#operator_toggle', [context])
     return 'g@'
   endif
 
@@ -76,14 +84,10 @@ function! s:operator_comment_toggle(type = '') abort
     let [from, to] = [to, from]
   endif
 
-  if s:is_comment(get(s:, 'cursorline', line('.')))
+  if s:is_comment(from, to)
     call s:comment_off(from, to)
   else
     call s:comment_on(from, to)
   endif
-endfunction
-
-function! mi#comment#operator_toggle() abort
-  let s:cursorline = line('.')
-  return s:operator_comment_toggle()
+  let a:context.dot_command = v:true
 endfunction
