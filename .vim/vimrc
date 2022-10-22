@@ -161,35 +161,13 @@ let g:digits = '0123456789'
 let g:alpha_all = g:alpha_lower .. g:alpha_upper
 let g:alnum = g:alpha_all .. g:digits
 
-function! s:grep(word) abort
-  cgetexpr system(printf('%s %s', &grepprg, a:word))
 
-  if len(getqflist()) != 0
-    doautocmd QuickFixCmdPost grep
-    call setqflist([], 'r', {'title': a:word})
-    copen
-  else
-    echowindow 'grep: no matches found.'
-    cclose
-  endif
-endfunction
-function! s:lgrep(word) abort
-  lgetexpr system(printf('%s %s', &grepprg, a:word))
 
-  if len(getloclist(0)) != 0
-    doautocmd QuickFixCmdPost lgrep
-    call setloclist(0, [], 'r', {'title': a:word})
-    lopen
-  else
-    echowindow 'lgrep: no matches found.'
-    lclose
-  endif
-endfunction
 
-command! -nargs=+ Grep call s:grep(<q-args>)
-command! -nargs=+ GrepF call s:grep('--fixed-strings -- ' .. <q-args>)
-command! -nargs=+ LGrep call s:lgrep(<q-args>)
-command! -nargs=+ LGrepF call s:lgrep('--fixed-strings -- ' .. <q-args>)
+command! -nargs=+ Grep call mi#qf#grep(<q-args>)
+command! -nargs=+ GrepF call mi#qf#grep('--fixed-strings -- ' .. <q-args>)
+command! -nargs=+ LGrep call mi#qf#lgrep(<q-args>)
+command! -nargs=+ LGrepF call mi#qf#lgrep('--fixed-strings -- ' .. <q-args>)
 
 command! -nargs=1 -complete=file VDiff vertical diffsplit <args>
 command! VDiffAlt execute 'vertical diffsplit' expand('#')
@@ -218,9 +196,12 @@ nnoremap <script> <expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
 "   execute 'nnoremap <sid>(q)' .. c '<NOP>'
 " endfor
 nnoremap <sid>(q)q qq
+nnoremap Q @q
+nnoremap <sid>(q)a <Cmd>mi#qf#add_curpos()<CR>
+nnoremap <sid>(q)c <Cmd>mi#qf#toggle()<CR>
 nnoremap <sid>(q)o <Cmd>only!<CR>
 nnoremap <sid>(q)t <C-^>
-nnoremap Q @q
+nnoremap <sid>(q)x <Cmd>mi#qf#clear()<CR>
 
 nnoremap p ]p`]
 nnoremap P [P`]
@@ -234,8 +215,8 @@ nnoremap <silent><expr> [b '<Cmd>' .. v:count1 .. 'bprevious<CR>'
 nnoremap <silent><expr> ]b '<Cmd>' .. v:count1 .. 'bnext<CR>'
 nnoremap [B <Cmd>bfirst<CR>
 nnoremap ]B <Cmd>blast<CR>
-nnoremap <silent><expr> [q '<Cmd>try<bar>' .. v:count1 .. 'cprevious<bar>catch<bar>clast<bar>endtry<CR>'
-nnoremap <silent><expr> ]q '<Cmd>try<bar>' .. v:count1 .. 'cnext<bar>catch<bar>cfirst<bar>endtry<CR>'
+nnoremap [q <Cmd>mi#qf#cycle(v:count1)<CR>
+nnoremap ]q <Cmd>mi#qf#cycle(-v:count1)<CR>
 nnoremap [Q <Cmd>cfirst<CR>
 nnoremap ]Q <Cmd>clast<CR>
 nnoremap [w <C-w>w
@@ -481,8 +462,6 @@ augroup vimrc
   " u3000 '　' ideographic (zenkaku) space
   autocmd VimEnter * call matchadd('ExtraWhitespace', "[\u00A0\u2000-\u200B\u3000]")
   autocmd ColorScheme * highlight default ExtraWhitespace ctermbg=darkmagenta guibg=darkmagenta
-
-  autocmd FileType qf setlocal nobuflisted
 
   autocmd VimEnter * ++once call mi#git#ensure_root()
 
