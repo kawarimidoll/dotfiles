@@ -417,30 +417,4 @@ command! -nargs=+ -complete=highlight MergeHighlight call s:merge_highlight(<q-a
 "  MergeHighlight markdownH1 Red Bold
 " }}}
 
-" {{{ Rename
-" https://vim-jp.org/vim-users-jp/2009/05/27/Hack-17.html
-command! -nargs=1 -complete=file Rename
-  \ execute 'autocmd BufWritePost <buffer> ++once call delete("' .. expand('%') .. '")' |
-  \ file <args>
-" }}}
-
-" {{{ restore-cursor
-" :h restore-cursor
-autocmd commands.vim BufReadPost *
-  \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
-  \ |   execute 'normal! g`"'
-  \ |   execute 'normal! zz'
-  \ | endif
-" }}}
-
-" {{{ ensure_dir
-" https://vim-jp.org/vim-users-jp/2011/02/20/Hack-202.html
-function! s:ensure_dir(dir, force)
-  if !isdirectory(a:dir) && (a:force || confirm('"' . a:dir . '" does not exist. Create?', "y\nN"))
-    call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
-  endif
-endfunction
-autocmd commands.vim BufWritePre * call s:ensure_dir(expand('<afile>:p:h'), v:cmdbang)
-" }}}
-
 " source ~/dotfiles/.config/nvim/termal.vim

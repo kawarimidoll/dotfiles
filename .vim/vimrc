@@ -512,6 +512,13 @@ onoremap ao <Cmd>call <sid>textobject_outline(1, 0)<CR>
 onoremap iO <Cmd>call <sid>textobject_outline(0, 1)<CR>
 onoremap aO <Cmd>call <sid>textobject_outline(1, 1)<CR>
 
+" {{{ Rename
+" https://vim-jp.org/vim-users-jp/2009/05/27/Hack-17.html
+command! -nargs=1 -complete=file Rename
+      \ execute 'autocmd BufWritePost <buffer> ++once call delete("' .. expand('%') .. '")' |
+      \ file <args>
+" }}}
+
 " {{{ EditProjectMru()
 " https://zenn.dev/kawarimidoll/articles/057e0c26c6d6e3
 function! EditProjectMru() abort
@@ -571,5 +578,24 @@ augroup vimrc
     if has('vim_starting')
       execute 'colorscheme' ['desert', 'slate', 'habamax'][rand(srand()) % 3]
     endif
+
+    " {{{ restore-cursor
+    " :h restore-cursor
+    autocmd BufReadPost *
+          \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+          \ |   execute 'normal! g`"'
+          \ |   execute 'normal! zz'
+          \ | endif
+    " }}}
+
+    " {{{ ensure_dir
+    " https://vim-jp.org/vim-users-jp/2011/02/20/Hack-202.html
+    function! s:ensure_dir(dir)
+      if !isdirectory(a:dir) && confirm('"' . a:dir . '" does not exist. Create?', "y\nN")
+        call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
+      endif
+    endfunction
+    autocmd BufWritePre * call s:ensure_dir(expand('<afile>:p:h'))
+ " }}}
   endif
 augroup END
