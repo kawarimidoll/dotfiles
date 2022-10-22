@@ -6,15 +6,15 @@ augroup END
 " source ~/dotfiles/.config/nvim/commands.vim
 " let g:my_vimrc = expand('<sfile>:p')
 
-let g:my_vimrc = $MYVIMRC
-
-command! RcEdit execute 'edit' g:my_vimrc
-command! RcReload write | execute 'source' g:my_vimrc | nohlsearch | redraw | echo g:my_vimrc . ' is reloaded.'
-
-command! CopyFullPath     let @*=expand('%:p') | echo 'copy full path'
-command! CopyDirName      let @*=expand('%:h') | echo 'copy dir name'
-command! CopyFileName     let @*=expand('%:t') | echo 'copy file name'
-command! CopyRelativePath let @*=expand('%:h').'/'.expand('%:t') | echo 'copy relative path'
+" let g:my_vimrc = $MYVIMRC
+"
+" command! RcEdit execute 'edit' g:my_vimrc
+" command! RcReload write | execute 'source' g:my_vimrc | nohlsearch | redraw | echo g:my_vimrc . ' is reloaded.'
+"
+" command! CopyFullPath     let @*=expand('%:p') | echo 'copy full path'
+" command! CopyDirName      let @*=expand('%:h') | echo 'copy dir name'
+" command! CopyFileName     let @*=expand('%:t') | echo 'copy file name'
+" command! CopyRelativePath let @*=expand('%:h').'/'.expand('%:t') | echo 'copy relative path'
 
 command! VimShowHlGroup echo synID(line('.'), col('.'), 1)->synIDtrans()->synIDattr('name')
 

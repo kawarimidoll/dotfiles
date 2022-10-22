@@ -161,8 +161,15 @@ let g:digits = '0123456789'
 let g:alpha_all = g:alpha_lower .. g:alpha_upper
 let g:alnum = g:alpha_all .. g:digits
 
+let g:my_vimrc = $MYVIMRC
 
+command! RcEdit execute 'edit' g:my_vimrc
+command! RcReload write | execute 'source' g:my_vimrc | nohlsearch | redraw | echo g:my_vimrc . ' is reloaded.'
 
+command! CopyFullPath     let @*=expand('%:p') | echo 'copy full path'
+command! CopyDirName      let @*=expand('%:h') | echo 'copy dir name'
+command! CopyFileName     let @*=expand('%:t') | echo 'copy file name'
+command! CopyRelativePath let @*=expand('%:h').'/'.expand('%:t') | echo 'copy relative path'
 
 command! -nargs=+ Grep call mi#qf#grep(<q-args>)
 command! -nargs=+ GrepF call mi#qf#grep('--fixed-strings -- ' .. <q-args>)
