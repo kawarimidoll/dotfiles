@@ -53,7 +53,7 @@ let g:vimsyn_embed              = 1
 let s:word_1000_dict_path = '~/.cache/nvim/google-10000-english-no-swears.txt'
 if !filereadable(expand(s:word_1000_dict_path))
   silent execute '!curl --create-dirs -fLo ' .. s:word_1000_dict_path ..
-    \ 'https://raw.githubusercontent.com/first20hours/google-10000-english/master/google-10000-english-no-swears.txt'
+        \ 'https://raw.githubusercontent.com/first20hours/google-10000-english/master/google-10000-english-no-swears.txt'
 endif
 execute 'set dictionary+=' .. s:word_1000_dict_path
 
@@ -137,7 +137,7 @@ else
   set viminfofile=~/.vim/viminfo
   set ttyfast
   set wildmenu
-  set wildoptions=fuzzy,pum,tagfile
+  set wildoptions=pum,tagfile
 
   nnoremap Y y$
   nnoremap <C-l> <Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-l><CR>
@@ -214,11 +214,12 @@ nnoremap so <Cmd>source<Bar>nohlsearch<CR>
 nnoremap s/ :%s/
 nnoremap S :%s/\V\<<C-r><C-w>\>//g<Left><Left>
 nnoremap <script> <expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
-for c in g:alpha_all->split('\zs')
-  execute 'nnoremap <sid>(q)' .. c '<NOP>'
-endfor
+" for c in g:alpha_all->split('\zs')
+"   execute 'nnoremap <sid>(q)' .. c '<NOP>'
+" endfor
 nnoremap <sid>(q)q qq
 nnoremap <sid>(q)o <Cmd>only!<CR>
+nnoremap <sid>(q)t <C-^>
 nnoremap Q @q
 
 nnoremap p ]p`]
@@ -246,13 +247,13 @@ nnoremap ]m ]`
 nnoremap gf gFzz
 nnoremap gx :<C-u>!open <C-r><C-a>
 
-for c in g:alpha_all->split('\zs')
-  execute 'nnoremap <Space>' .. c '<NOP>'
-endfor
+"for c in g:alpha_all->split('\zs')
+"  execute 'nnoremap <Space>' .. c '<NOP>'
+"endfor
 nnoremap <Space>b <Cmd>buffers<bar>execute 'buffer' input('open buf num: ')<CR>
 nnoremap <Space>d <Cmd>bdelete<CR>
 nnoremap <Space>D <Cmd>bdelete!<CR>
-nnoremap <Space>f :<C-u>edit<space>
+"nnoremap <Space>f :<C-u>edit<space>
 nnoremap <Space>g <Cmd>copy.<CR>
 nnoremap <Space>G <Cmd>copy-1<CR>
 nnoremap <Space>m <Cmd>marks<bar>execute 'normal! `' .. input('jump to: ')<CR>
