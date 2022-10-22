@@ -199,94 +199,6 @@ endfunction
 command! -nargs=+ Keymap call s:keymap(<f-args>)
 " }}}
 
-" {{{ SmartOpen
-function! s:smart_open(query) abort
-  " get query
-  let query = get(a:, 'query', '')
-  if query == ''
-    let m = mode()
-    if m == 'n'
-      let query = expand('<cfile>')
-    elseif m ==? 'v'
-      normal! "zy
-      let query = @z
-    else
-      throw 'this mode is not supported'
-    endif
-  endif
-  let query = query->trim()->substitute('[[:space:]]\+', ' ', 'g')
-
-  " is file path
-  let fname = expand(query)
-  if filereadable(fname)
-    execute 'edit' fname
-    return
-  endif
-
-  if !exists('*path#normalize')
-    source ~/dotfiles/.config/nvim/path.vim
-  endif
-
-  try
-    let fname = path#normalize(query)
-
-    if filereadable(fname)
-      execute 'edit' fname
-      return
-    endif
-
-    if path#is_node_repo()
-      " resolve node path
-      let node_require = path#resolve_node_require(fname)
-      if node_require != ''
-        execute 'edit' node_require
-        return
-      endif
-    endif
-  catch /.*/
-    " nothing to do
-  endtry
-
-  if query =~# '^https\?://'
-    " is url
-    let cmd = 'open "' .. query .. '"'
-  elseif query =~# '\v^\w([.-]?\w)*/\w([.-]?\w)*$'
-    " is repo
-    let cmd = 'open "https://github.com/' .. query .. '"'
-  else
-    " encode query
-    " https://gist.github.com/atripes/15372281209daf5678cded1d410e6c16?permalink_comment_id=3634542#gistcomment-3634542
-    let safe_query = ''
-    for i in query->len()->range()
-      if query[i] =~ '[-._~[:alnum:]]'
-        let safe_query ..= query[i]
-      else
-        let safe_query ..= printf('%%%02x', char2nr(query[i]))
-      endif
-    endfor
-
-    if confirm('Are you sure to search: ' .. safe_query, "Yes\nNo", 2) != 1
-      return
-    endif
-
-    " search online
-    let cmd = 'open "https://google.com/search?q=' .. safe_query .. '"'
-  endif
-
-  " https://github.com/voldikss/vim-browser-search/blob/master/autoload/search.vim
-  if exists('*jobstart')
-    call jobstart(cmd)
-  elseif exists('*job_start')
-    call job_start(cmd)
-  else
-    call system(cmd)
-  end
-
-  echo cmd
-endfunction
-command! -nargs=* SmartOpen call <sid>smart_open(<q-args>)
-" }}}
-
 " {{{ BackLinks
 function s:back_links() abort
   if !executable('rg')
@@ -324,32 +236,6 @@ function s:back_links() abort
   cwindow
 endfunction
 command! BackLinks call s:back_links()
-" }}}
-
-" {{{ edit_with_number
-" https://github.com/wsdjeg/vim-fetch/blob/master/autoload/fetch.vim
-function! s:edit_with_number(filename) abort
-  let regex = '\m\%(:\d\+\)\{1,2}\%(:.*\)\?$'
-
-  let pos_match = a:filename->matchstr(regex)
-  if pos_match == ''
-    return
-  endif
-
-  let positions = pos_match->split(':')
-  let lnum = positions[0]
-  let col = get(positions, 1, 0)
-  let filename = a:filename->substitute(regex, '\1', '')
-
-  set buftype=nowrite
-  set bufhidden=delete
-  execute 'keepalt edit' fnameescape(filename)
-  call setcharpos('.', [0, lnum, col, ''])
-  autocmd BufReadPost * ++once edit
-  " NOTE: currently re-opening the file is need to set file type
-endfunction
-
-autocmd commands.vim BufNewFile * call <sid>edit_with_number(expand('<afile>'))
 " }}}
 
 " {{{ HalfMove

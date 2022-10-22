@@ -225,8 +225,11 @@ nnoremap [m [`
 nnoremap ]m ]`
 
 " https://twitter.com/mo_naqa/status/1467626946293284865
-nnoremap gf gFzz
-nnoremap gx :<C-u>!open <C-r><C-a>
+" nnoremap gf gFzz
+" nnoremap gx :<C-u>!open <C-r><C-a>
+command! -nargs=* SmartOpen call mi#open#smart_open(<q-args>)
+nnoremap gf <Cmd>call mi#open#smart_open()<CR>
+xnoremap gf <Cmd>call mi#open#smart_open()<CR>
 
 "for c in g:alpha_all->split('\zs')
 "  execute 'nnoremap <Space>' .. c '<NOP>'
@@ -467,6 +470,8 @@ augroup vimrc
 
   autocmd TextYankPost * call mi#register#collect_yank_history(10)
   autocmd VimEnter * ++once call mi#register#clear()
+
+  " autocmd BufNewFile * call mi#open#reopen_with_lnum()
 
   if has('nvim')
     " https://jdhao.github.io/2020/05/22/highlight_yank_region_nvim/
