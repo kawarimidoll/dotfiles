@@ -554,6 +554,9 @@ augroup vimrc
 
   autocmd VimEnter * ++once call mi#git#ensure_root()
 
+  autocmd TextYankPost * call mi#register#collect_yank_history(10)
+  autocmd VimEnter * ++once call mi#register#clear()
+
   if has('nvim')
     " https://jdhao.github.io/2020/05/22/highlight_yank_region_nvim/
     autocmd TextYankPost * silent! lua vim.highlight.on_yank({ timeout=500 })

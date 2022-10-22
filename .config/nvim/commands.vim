@@ -326,29 +326,6 @@ endfunction
 command! BackLinks call s:back_links()
 " }}}
 
-" {{{ collect_yank_history
-function! s:collect_yank_history() abort
-  " regs should be start with double quote
-  let regs = '"abcdefghijk'->split('\zs')
-  for index in range(len(regs)-1, 1, -1)
-    call setreg(regs[index], getreginfo(regs[index-1]))
-  endfor
-endfunction
-autocmd commands.vim TextYankPost * call s:collect_yank_history()
-" }}}
-
-" {{{ ClearRegs
-" https://zenn.dev/kawarimidoll/articles/3f42843715c5de
-function! s:clear_regs() abort
-  for r in split(g:alnum .. '/', '\zs')
-    call setreg(r, [])
-  endfor
-endfunction
-command! ClearRegs call s:clear_regs()
-
-autocmd commands.vim VimEnter * ++once ClearRegs
-" }}}
-
 " {{{ edit_with_number
 " https://github.com/wsdjeg/vim-fetch/blob/master/autoload/fetch.vim
 function! s:edit_with_number(filename) abort
