@@ -241,9 +241,9 @@ nnoremap <Space>D <Cmd>call mi#buf#delete({'force': v:true})<CR>
 nnoremap <Space>g <Cmd>copy.<CR>
 nnoremap <Space>G <Cmd>copy-1<CR>
 nnoremap <Space>m <Cmd>marks<bar>execute 'normal! `' .. input('jump to: ')<CR>
-nnoremap <Space>o <Cmd>put =repeat(nr2char(10), v:count1)<CR>
-nnoremap <Space>O <Cmd>put! =repeat(nr2char(10), v:count1)<CR>'[
-nnoremap <Space>p gg=G<C-o>
+nnoremap <expr> <Space>o mi#blank#below(v:count1)
+nnoremap <expr> <Space>O mi#blank#above(v:count1)
+nnoremap <Space>p mzgg=G`z
 nnoremap <Space>q <cmd>confirm quit<CR>
 nnoremap <Space>r <Cmd>registers<bar>execute 'normal "' .. input('paste reg: ') .. 'p'<CR>
 nnoremap <Space>Q <cmd>quitall!<CR>
