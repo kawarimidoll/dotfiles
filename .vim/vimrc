@@ -251,8 +251,8 @@ nnoremap gx :<C-u>!open <C-r><C-a>
 "  execute 'nnoremap <Space>' .. c '<NOP>'
 "endfor
 nnoremap <Space>b <Cmd>buffers<bar>execute 'buffer' input('open buf num: ')<CR>
-nnoremap <Space>d <Cmd>bdelete<CR>
-nnoremap <Space>D <Cmd>bdelete!<CR>
+nnoremap <Space>d <Cmd>call mi#buf#delete()<CR>
+nnoremap <Space>D <Cmd>call mi#buf#delete({'force': v:true})<CR>
 "nnoremap <Space>f :<C-u>edit<space>
 nnoremap <Space>g <Cmd>copy.<CR>
 nnoremap <Space>G <Cmd>copy-1<CR>
