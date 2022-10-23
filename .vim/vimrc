@@ -244,7 +244,7 @@ xnoremap gf <Cmd>call mi#open#smart_open()<CR>
 nnoremap <Space>b <Cmd>buffers<bar>execute 'buffer' input('open buf num: ')<CR>
 nnoremap <Space>d <Cmd>call mi#buf#delete()<CR>
 nnoremap <Space>D <Cmd>call mi#buf#delete({'force': v:true})<CR>
-"nnoremap <Space>f :<C-u>edit<space>
+nnoremap <Space>f <Cmd>call mi#fzf#files()<CR>
 nnoremap <Space>g <Cmd>copy.<CR>
 nnoremap <Space>G <Cmd>copy-1<CR>
 nnoremap <Space>m <Cmd>marks<bar>execute 'normal! `' .. input('jump to: ')<CR>
