@@ -494,6 +494,7 @@ augroup vimrc
     endif
 
     autocmd InsertEnter * ++once call mi#pair#keymap_set()
+    autocmd InsertEnter * ++once call mi#pair#keymap_quote_set()
 
     autocmd FileType qf call mi#qf#fit_window(3, 10)
     autocmd BufEnter qf call mi#qf#quit_if_last_buf()
