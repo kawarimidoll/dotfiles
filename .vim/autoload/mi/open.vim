@@ -65,7 +65,7 @@ function! mi#open#smart_open(query = '') abort
     return
   endif
 
-  echowindow cmd
+  echo cmd
 
   " https://github.com/voldikss/vim-browser-search/blob/master/autoload/search.vim
   if exists('*jobstart')
@@ -95,12 +95,7 @@ function! mi#open#reopen_with_lnum() abort
   let filename = substitute(filename, regex, '', '')
 
   set buftype=nowrite bufhidden=delete
-  " autocmd BufReadPost * ++once edit
-  execute 'edit' fnameescape(filename)
-  echomsg fnameescape(filename)
-  echomsg filename
-  " execute 'keepalt edit' fnameescape(filename)
-  " call setcharpos('.', [0, lnum, col, 0])
-  " NOTE: currently re-opening the file is need to set file type
+  execute 'keepalt edit' fnameescape(filename)
+  call setcharpos('.', [0, lnum, col, 0])
 endfunction
 " }}}
