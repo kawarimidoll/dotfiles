@@ -153,6 +153,9 @@ else
   nnoremap <expr> gc mi#comment#operator_toggle()
   nnoremap <expr> gcc mi#comment#operator_toggle() .. '_'
   xnoremap <expr> gc mi#comment#operator_toggle()
+
+  nnoremap <expr> sa mi#surround#add()
+  xnoremap <expr> sa mi#surround#add()
 endif
 
 let g:alpha_lower = 'abcdefghijklmnopqrstuvwxyz'
