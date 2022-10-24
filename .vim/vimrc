@@ -204,11 +204,11 @@ nnoremap <script> <expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
 " endfor
 nnoremap <sid>(q)q qq
 nnoremap Q @q
-nnoremap <sid>(q)a <Cmd>mi#qf#add_curpos()<CR>
-nnoremap <sid>(q)c <Cmd>mi#qf#toggle()<CR>
+nnoremap <sid>(q)a <Cmd>call mi#qf#add_curpos()<CR>
+nnoremap <sid>(q)c <Cmd>call mi#qf#toggle()<CR>
 nnoremap <sid>(q)o <Cmd>only!<CR>
 nnoremap <sid>(q)t <C-^>
-nnoremap <sid>(q)x <Cmd>mi#qf#clear()<CR>
+nnoremap <sid>(q)x <Cmd>call mi#qf#clear()<CR>
 
 nnoremap p ]p`]
 nnoremap P [P`]
@@ -222,8 +222,8 @@ nnoremap <silent><expr> [b '<Cmd>' .. v:count1 .. 'bprevious<CR>'
 nnoremap <silent><expr> ]b '<Cmd>' .. v:count1 .. 'bnext<CR>'
 nnoremap [B <Cmd>bfirst<CR>
 nnoremap ]B <Cmd>blast<CR>
-nnoremap [q <Cmd>mi#qf#cycle(v:count1)<CR>
-nnoremap ]q <Cmd>mi#qf#cycle(-v:count1)<CR>
+nnoremap [q <Cmd>call mi#qf#cycle(-v:count1)<CR>
+nnoremap ]q <Cmd>call mi#qf#cycle(v:count1)<CR>
 nnoremap [Q <Cmd>cfirst<CR>
 nnoremap ]Q <Cmd>clast<CR>
 nnoremap [w <C-w>w
@@ -490,6 +490,9 @@ augroup vimrc
     if has('vim_starting')
       execute 'colorscheme' ['desert', 'slate', 'habamax'][rand(srand()) % 3]
     endif
+
+    autocmd FileType qf call mi#qf#fit_window(3, 10)
+    autocmd BufEnter qf call mi#qf#quit_if_last_buf()
 
     " {{{ restore-cursor
     " :h restore-cursor

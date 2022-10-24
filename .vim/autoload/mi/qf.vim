@@ -6,7 +6,7 @@ function! mi#qf#grep(word) abort
     call setqflist([], 'r', {'title': a:word})
     copen
   else
-    echowindow 'grep: no matches found.'
+    echo 'grep: no matches found.'
     cclose
   endif
 endfunction
@@ -19,21 +19,21 @@ function! mi#qf#lgrep(word) abort
     call setloclist(0, [], 'r', {'title': a:word})
     lopen
   else
-    echowindow 'lgrep: no matches found.'
+    echo 'lgrep: no matches found.'
     lclose
   endif
 endfunction
 
 function! mi#qf#cycle(count) abort
-  let qf_info = getqflist({ 'idx': 1, 'size': 1 })
+  let qf_info = getqflist({ 'all': 1 })
   if qf_info.size == 0
     return
   endif
 
-  let num = (qf_info.idx + qf_info.size + a:count) % size
+  let num = (qf_info.idx + qf_info.size + a:count) % qf_info.size
 
   if num == 0
-    let num = size
+    let num = qf_info.size
   endif
 
   execute num .. 'cc'
@@ -89,5 +89,15 @@ function! mi#qf#remove() abort
 
   if &filetype == 'qf'
     execute 'normal! ' .. (idx + 1) .. 'G'
+  endif
+endfunction
+
+function! mi#qf#fit_window(min, max)
+  execute 'resize' min([max([a:min, len(getqflist())]), a:max])
+endfunction
+
+function! mi#qf#quit_if_last_buf()
+  if len(filter(copy(getbufinfo({'buflisted': 1})), 'v:val.bufnr!=' .. bufnr())) == 0
+    quit
   endif
 endfunction
