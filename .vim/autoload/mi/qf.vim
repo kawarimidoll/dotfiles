@@ -97,7 +97,7 @@ function! mi#qf#fit_window(min, max)
 endfunction
 
 function! mi#qf#quit_if_last_buf()
-  if len(filter(copy(getbufinfo({'buflisted': 1})), 'v:val.bufnr!=' .. bufnr())) == 0
+  if winnr('$') == 1 && &buftype == 'quickfix'
     quit
   endif
 endfunction

@@ -443,7 +443,8 @@ augroup vimrc
   " remove function because it is only for `$ vim -c 'call EditProjectMru()'`
   autocmd VimEnter * ++once delfunction! EditProjectMru
 
-  autocmd BufEnter,BufReadPost * call mi#mru#save()
+  autocmd VimEnter * ++once
+        \ execute 'autocmd BufEnter,BufReadPost * call mi#mru#save()'
 
   " visualize autocmds
   " autocmd FileType * echomsg 'au FileType '.. expand('<amatch>')
@@ -494,28 +495,27 @@ augroup vimrc
     endif
 
     autocmd InsertEnter * ++once call mi#pair#keymap_set()
-    autocmd InsertEnter * ++once call mi#pair#keymap_quote_set()
 
     autocmd FileType qf call mi#qf#fit_window(3, 10)
-    autocmd BufEnter qf call mi#qf#quit_if_last_buf()
-
-    " {{{ restore-cursor
-    " :h restore-cursor
-    autocmd BufReadPost *
-          \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
-          \ |   execute 'normal! g`"'
-          \ |   execute 'normal! zz'
-          \ | endif
-    " }}}
-
-    " {{{ ensure_dir
-    " https://vim-jp.org/vim-users-jp/2011/02/20/Hack-202.html
-    function! s:ensure_dir(dir)
-      if !isdirectory(a:dir) && confirm('"' . a:dir . '" does not exist. Create?', "y\nN")
-        call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
-      endif
-    endfunction
-    autocmd BufWritePre * call s:ensure_dir(expand('<afile>:p:h'))
- " }}}
+    autocmd WinEnter * call mi#qf#quit_if_last_buf()
   endif
+
+  " {{{ restore-cursor
+  " :h restore-cursor
+  autocmd BufReadPost *
+        \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+        \ |   execute 'normal! g`"'
+        \ |   execute 'normal! zz'
+        \ | endif
+  " }}}
+
+  " {{{ ensure_dir
+  " https://vim-jp.org/vim-users-jp/2011/02/20/Hack-202.html
+  function! s:ensure_dir(dir)
+    if !isdirectory(a:dir) && confirm('"' . a:dir . '" does not exist. Create?', "y\nN")
+      call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
+    endif
+  endfunction
+  autocmd BufWritePre * call s:ensure_dir(expand('<afile>:p:h'))
+  " }}}
 augroup END
