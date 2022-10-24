@@ -156,6 +156,17 @@ else
 
   nnoremap <expr> sa mi#surround#add()
   xnoremap <expr> sa mi#surround#add()
+
+  let s:jetpackfile = expand('<sfile>:p:h') .. '/pack/jetpack/opt/vim-jetpack/plugin/jetpack.vim'
+  let s:jetpackurl = "https://raw.githubusercontent.com/tani/vim-jetpack/master/plugin/jetpack.vim"
+  if !filereadable(s:jetpackfile)
+    call system(printf('curl -fsSLo %s --create-dirs %s', s:jetpackfile, s:jetpackurl))
+  endif
+  packadd vim-jetpack
+  call jetpack#begin()
+  call jetpack#add('tani/vim-jetpack', {'opt': 1})
+  call jetpack#add('vim-jp/vimdoc-ja')
+  call jetpack#end()
 endif
 
 let g:alpha_lower = 'abcdefghijklmnopqrstuvwxyz'
