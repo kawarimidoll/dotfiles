@@ -62,5 +62,5 @@ if !has('nvim')
   endfunction
 
   command! EditMru call s:selector_with_num()
-  nnoremap <space>h <Cmd>EditMru<CR>
+  " nnoremap <space>h <Cmd>EditMru<CR>
 endif

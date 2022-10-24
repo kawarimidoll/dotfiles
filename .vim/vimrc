@@ -242,12 +242,13 @@ xnoremap gf <Cmd>call mi#open#smart_open()<CR>
 "for c in g:alpha_all->split('\zs')
 "  execute 'nnoremap <Space>' .. c '<NOP>'
 "endfor
-nnoremap <Space>b <Cmd>buffers<bar>execute 'buffer' input('open buf num: ')<CR>
+nnoremap <Space>b <Cmd>call mi#fzf#bufs()<CR>
 nnoremap <Space>d <Cmd>call mi#buf#delete()<CR>
 nnoremap <Space>D <Cmd>call mi#buf#delete({'force': v:true})<CR>
 nnoremap <Space>f <Cmd>call mi#fzf#files()<CR>
 nnoremap <Space>g <Cmd>copy.<CR>
 nnoremap <Space>G <Cmd>copy-1<CR>
+nnoremap <space>h <Cmd>call mi#fzf#mru()<CR>
 nnoremap <Space>m <Cmd>marks<bar>execute 'normal! `' .. input('jump to: ')<CR>
 nnoremap <expr> <Space>o mi#blank#below(v:count1)
 nnoremap <expr> <Space>O mi#blank#above(v:count1)

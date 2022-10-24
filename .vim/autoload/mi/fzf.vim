@@ -1,13 +1,36 @@
-function! mi#fzf#files() abort
+function! mi#fzf#run(arg = {}) abort
   let fzf_preview_cmd='head -50'
   if executable('bat')
     let fzf_preview_cmd='bat --color=always --style=header,grid --line-range :50 {}'
   endif
   let s:winid_to_open = win_getid()
 
-  execute 'terminal ++norestore ++close ++shell find_for_vim'
+  let list_cmd = ''
+  if has_key(a:arg, 'cmd')
+    let list_cmd = a:arg.cmd
+  elseif has_key(a:arg, 'list')
+    let list_cmd = 'echo -e "' .. join(a:arg.list, '\\n') .. '"'
+  else
+    throw 'cmd or list is required'
+    return
+  endif
+
+  execute 'terminal ++norestore ++close ++shell ' .. list_cmd
         \ .. " | FZF_DEFAULT_OPTS='' fzf --multi --exit-0 --cycle --reverse --preview='" .. fzf_preview_cmd
         \ .. "' | xargs --no-run-if-empty -I{} echo -e '\\x1b]51;[\"call\", \"Tapi_fzf_file_open\", [\"{}\"]]\\x07'"
+endfunction
+
+function! mi#fzf#files() abort
+  call mi#fzf#run({'cmd': 'find_for_vim'})
+endfunction
+
+function! mi#fzf#mru() abort
+  call mi#fzf#run({'list': mi#mru#list()})
+endfunction
+
+function! mi#fzf#bufs() abort
+  let bufs = getbufinfo({'buflisted': 1})
+  call mi#fzf#run({'list': map(bufs, 'v:val.name')})
 endfunction
 
 " tr "\n" ","
