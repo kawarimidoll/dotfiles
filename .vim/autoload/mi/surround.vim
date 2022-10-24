@@ -20,7 +20,7 @@ function! mi#surround#add(type = '') abort
   endif
   let char = nr2char(getchar())
   if char !~ '\p'
-    return
+    return "\<esc>"
   endif
 
   let tail = getpos("']")

@@ -148,7 +148,7 @@ else
   nnoremap <C-a> <Cmd>call mi#dial#increment(v:count1)<CR>
   nnoremap <C-x> <Cmd>call mi#dial#decrement(v:count1)<CR>
 
-  command! LazyGit tab terminal ++close lazygit
+  command! LazyGit tab terminal ++close ++norestore lazygit
 
   nnoremap <expr> gc mi#comment#operator_toggle()
   nnoremap <expr> gcc mi#comment#operator_toggle() .. '_'
