@@ -13,7 +13,12 @@ function! s:motion_right() abort
   if s:last_find.till
     let off = 1
   endif
-  let idx = match(line, '\c' .. c, col + off) + 1
+
+  let idx = stridx(line, tolower(c), col + off) + 1
+  let idx_u = stridx(line, toupper(c), col + off) + 1
+  if idx < 1 || (1 < idx_u && idx_u < idx)
+    let idx = idx_u
+  endif
 
   if idx > 0
     let off = 0
@@ -55,42 +60,50 @@ function! s:motion_left() abort
 endfunction
 
 function! mi#motion#f() abort
-  let c = nr2char(getchar())
-  if c !~ '\p'
-    return
-  endif
+  if !exists('g:mi#dot_repeating')
+    let c = nr2char(getchar())
+    if c !~ '\p'
+      return
+    endif
 
-  let s:last_find = {'direction': 'right', 'char': c, 'till': v:false}
+    let s:last_find = {'direction': 'right', 'char': c, 'till': v:false}
+  endif
   call s:motion_right()
 endfunction
 
 function! mi#motion#F() abort
-  let c = nr2char(getchar())
-  if c !~ '\p'
-    return
-  endif
+  if !exists('g:mi#dot_repeating')
+    let c = nr2char(getchar())
+    if c !~ '\p'
+      return
+    endif
 
-  let s:last_find = {'direction': 'left', 'char': c, 'till': v:false}
-  call s:motion_left()
+    let s:last_find = {'direction': 'left', 'char': c, 'till': v:false}
+    call s:motion_left()
+  endif
 endfunction
 
 function! mi#motion#t() abort
-  let c = nr2char(getchar())
-  if c !~ '\p'
-    return
-  endif
+  if !exists('g:mi#dot_repeating')
+    let c = nr2char(getchar())
+    if c !~ '\p'
+      return
+    endif
 
-  let s:last_find = {'direction': 'right', 'char': c, 'till': v:true}
+    let s:last_find = {'direction': 'right', 'char': c, 'till': v:true}
+  endif
   call s:motion_right()
 endfunction
 
 function! mi#motion#T() abort
-  let c = nr2char(getchar())
-  if c !~ '\p'
-    return
-  endif
+  if !exists('g:mi#dot_repeating')
+    let c = nr2char(getchar())
+    if c !~ '\p'
+      return
+    endif
 
-  let s:last_find = {'direction': 'left', 'char': c, 'till': v:true}
+    let s:last_find = {'direction': 'left', 'char': c, 'till': v:true}
+  endif
   call s:motion_left()
 endfunction
 
@@ -116,6 +129,7 @@ function! mi#motion#comma() abort
     normal! ,
   endif
 endfunction
+
 function! mi#motion#original(char) abort
   if stridx('fFtT', a:char) < 0
     return
