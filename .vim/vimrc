@@ -337,12 +337,14 @@ tnoremap <C-w><C-n> <C-\><C-n>
 tnoremap <C-p> <Up>
 tnoremap <C-n> <Down>
 
-highlight Reverse    cterm=reverse gui=reverse
-highlight Pmenu      ctermfg=254 ctermbg=237 guifg=#e3e1e4 guibg=#37343a
-highlight PmenuSel   ctermfg=237 ctermbg=254 guifg=#37343a guibg=#e3e1e4
-highlight PmenuSbar  ctermbg=238 guibg=#423f46
-highlight PmenuThumb ctermbg=255 guibg=#f8f8f2
-highlight Underlined cterm=underline gui=underline
+function! s:apply_user_highlight() abort
+  highlight Reverse    cterm=reverse gui=reverse
+  highlight Pmenu      ctermfg=254 ctermbg=237 guifg=#e3e1e4 guibg=#37343a
+  highlight PmenuSel   ctermfg=237 ctermbg=254 guifg=#37343a guibg=#e3e1e4
+  highlight PmenuSbar  ctermbg=238 guibg=#423f46
+  highlight PmenuThumb ctermbg=255 guibg=#f8f8f2
+  highlight Underlined ctermfg=NONE cterm=underline guifg=NONE gui=underline
+endfunction
 
 " https://qiita.com/monaqa/items/dcd43a53d3040293142a
 digraphs aa 12354  " あ
@@ -501,6 +503,7 @@ augroup vimrc
   " u3000 '　' ideographic (zenkaku) space
   autocmd VimEnter * call matchadd('ExtraWhitespace', "[\u00A0\u2000-\u200B\u3000]")
   autocmd ColorScheme * highlight default ExtraWhitespace ctermbg=darkmagenta guibg=darkmagenta
+  autocmd ColorScheme * call s:apply_user_highlight()
 
   autocmd VimEnter * ++once call mi#git#ensure_root()
 

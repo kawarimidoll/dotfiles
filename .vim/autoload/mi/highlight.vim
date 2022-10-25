@@ -60,11 +60,14 @@ function! mi#highlight#cursorword(hlgroup)
   silent! let b:highlight_cursor_word_id = matchadd(a:hlgroup, pattern)
   let b:highlight_cursor_word = word
 
-  if !exists('s:clear_autocmd_set')
-    autocmd BufLeave,WinLeave,InsertEnter * call s:clear_hl_cursorword()
-    let s:clear_autocmd_set = 1
-  endif
 endfunction
+
+if !exists('s:clear_autocmd_set')
+  augroup mi#highlight#augroup
+    autocmd BufLeave,WinLeave,InsertEnter * call s:clear_hl_cursorword()
+  augroup END
+  let s:clear_autocmd_set = 1
+endif
 
 function! s:clear_hl_cursorword()
   if exists('b:highlight_cursor_word_id') && exists('b:highlight_cursor_word')
