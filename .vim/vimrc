@@ -342,6 +342,7 @@ highlight Pmenu      ctermfg=254 ctermbg=237 guifg=#e3e1e4 guibg=#37343a
 highlight PmenuSel   ctermfg=237 ctermbg=254 guifg=#37343a guibg=#e3e1e4
 highlight PmenuSbar  ctermbg=238 guibg=#423f46
 highlight PmenuThumb ctermbg=255 guibg=#f8f8f2
+highlight Underlined cterm=underline gui=underline
 
 " https://qiita.com/monaqa/items/dcd43a53d3040293142a
 digraphs aa 12354  " あ
@@ -523,6 +524,8 @@ augroup vimrc
 
     autocmd FileType qf call mi#qf#fit_window(3, 10)
     autocmd WinEnter * call mi#qf#quit_if_last_buf()
+
+    autocmd CursorMoved * call mi#highlight#cursorword('Underlined')
   endif
 
   " {{{ restore-cursor

@@ -30,10 +30,46 @@ function! mi#highlight#on_yank(options = {}) abort
 endfunction
 
 function! s:delete_highlight_yank(timer_id) abort
+  if (!exists('s:yanked_win_match_ids'))
+    let s:yanked_win_match_ids = []
+  endif
   while !empty(s:yanked_win_match_ids)
     try
       let [windowId, matchId] = remove(s:yanked_win_match_ids, 0)
       call matchdelete(matchId, windowId)
     endtry
   endwhile
+endfunction
+
+" https://osyo-manga.hatenadiary.org/entry/20140121/1390309901
+function! mi#highlight#cursorword(hlgroup)
+  let c_char = getline('.')[col('.') - 1]
+  if c_char !~ '\k'
+    call s:clear_hl_cursorword()
+    return
+  endif
+
+  let word = expand('<cword>')
+  if get(b:, 'highlight_cursor_word', '') ==# word
+    return
+  endif
+
+  call s:clear_hl_cursorword()
+
+  let pattern = printf("\\<%s\\>", word)
+  silent! let b:highlight_cursor_word_id = matchadd(a:hlgroup, pattern)
+  let b:highlight_cursor_word = word
+
+  if !exists('s:clear_autocmd_set')
+    autocmd BufLeave,WinLeave,InsertEnter * call s:clear_hl_cursorword()
+    let s:clear_autocmd_set = 1
+  endif
+endfunction
+
+function! s:clear_hl_cursorword()
+  if exists('b:highlight_cursor_word_id') && exists('b:highlight_cursor_word')
+    silent! call matchdelete(b:highlight_cursor_word_id)
+    unlet! b:highlight_cursor_word_id
+    unlet! b:highlight_cursor_word
+  endif
 endfunction
