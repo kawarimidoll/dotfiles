@@ -157,6 +157,17 @@ else
   nnoremap <expr> sa mi#surround#add()
   xnoremap <expr> sa mi#surround#add()
 
+  noremap f <cmd>call mi#motion#f()<CR>
+  noremap F <cmd>call mi#motion#F()<CR>
+  noremap t <cmd>call mi#motion#t()<CR>
+  noremap T <cmd>call mi#motion#T()<CR>
+  noremap sf <cmd>call mi#motion#origial('f')<CR>
+  noremap sF <cmd>call mi#motion#origial('F')<CR>
+  noremap st <cmd>call mi#motion#origial('t')<CR>
+  noremap sT <cmd>call mi#motion#origial('T')<CR>
+  noremap ; <cmd>call mi#motion#semicolon()<CR>
+  noremap , <cmd>call mi#motion#comma()<CR>
+
   let s:jetpackfile = expand('<sfile>:p:h') .. '/pack/jetpack/opt/vim-jetpack/plugin/jetpack.vim'
   let s:jetpackurl = "https://raw.githubusercontent.com/tani/vim-jetpack/master/plugin/jetpack.vim"
   if !filereadable(s:jetpackfile)
