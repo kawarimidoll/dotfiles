@@ -157,16 +157,16 @@ else
   nnoremap <expr> sa mi#surround#add()
   xnoremap <expr> sa mi#surround#add()
 
-  noremap f <cmd>call mi#motion#smart('f')<CR>
-  noremap F <cmd>call mi#motion#smart('F')<CR>
-  noremap t <cmd>call mi#motion#smart('t')<CR>
-  noremap T <cmd>call mi#motion#smart('T')<CR>
-  noremap sf <cmd>call mi#motion#original('f')<CR>
-  noremap sF <cmd>call mi#motion#original('F')<CR>
-  noremap st <cmd>call mi#motion#original('t')<CR>
-  noremap sT <cmd>call mi#motion#original('T')<CR>
-  noremap ; <cmd>call mi#motion#repeat(';')<CR>
-  noremap , <cmd>call mi#motion#repeat(',')<CR>
+  noremap f <cmd>call mi#ft#smart('f')<CR>
+  noremap F <cmd>call mi#ft#smart('F')<CR>
+  noremap t <cmd>call mi#ft#smart('t')<CR>
+  noremap T <cmd>call mi#ft#smart('T')<CR>
+  noremap sf <cmd>call mi#ft#exact('f')<CR>
+  noremap sF <cmd>call mi#ft#exact('F')<CR>
+  noremap st <cmd>call mi#ft#exact('t')<CR>
+  noremap sT <cmd>call mi#ft#exact('T')<CR>
+  noremap ; <cmd>call mi#ft#repeat(';')<CR>
+  noremap , <cmd>call mi#ft#repeat(',')<CR>
 
   nnoremap . <cmd>call mi#common#dot_repeat()<cr>
 

@@ -1,6 +1,6 @@
 " inspired by :h getchar()
 
-function! s:motion_right() abort
+function! s:ft_right() abort
   if !exists('s:last_find')
     return
   endif
@@ -35,7 +35,7 @@ function! s:motion_right() abort
   endif
 endfunction
 
-function! s:motion_left() abort
+function! s:ft_left() abort
   if !exists('s:last_find')
     return
   endif
@@ -64,7 +64,7 @@ function! s:motion_left() abort
   endif
 endfunction
 
-function! s:motion_start(starter, smart) abort
+function! s:ft_start(starter, smart) abort
   if stridx('fFtT', a:starter) < 0
     return
   endif
@@ -79,27 +79,27 @@ function! s:motion_start(starter, smart) abort
     let till = a:starter ==? 't'
     let s:last_find = {'right': right, 'char': c, 'till': till, 'smart': a:smart}
   endif
-  call mi#motion#repeat(';')
+  call mi#ft#repeat(';')
 endfunction
 
-function! mi#motion#original(starter) abort
-  call s:motion_start(a:starter, 0)
+function! mi#ft#exact(starter) abort
+  call s:ft_start(a:starter, 0)
 endfunction
 
-function! mi#motion#smart(starter) abort
-  call s:motion_start(a:starter, 1)
+function! mi#ft#smart(starter) abort
+  call s:ft_start(a:starter, 1)
 endfunction
 
-function! mi#motion#repeat(starter) abort
+function! mi#ft#repeat(starter) abort
   if stridx(';,', a:starter) < 0
     return
   endif
   if exists('s:last_find')
     if (s:last_find.right && a:starter == ';') ||
           \ (!s:last_find.right && a:starter == ',')
-      call s:motion_right()
+      call s:ft_right()
     else
-      call s:motion_left()
+      call s:ft_left()
     endif
   else
     execute 'normal!' a:starter
