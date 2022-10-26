@@ -14,8 +14,8 @@ function! s:motion_right() abort
     let off = 1
   endif
 
-  let idx = stridx(line, tolower(c), col + off) + 1
-  let idx_u = stridx(line, toupper(c), col + off) + 1
+  let idx = stridx(line, mi#utils#lower_key(c), col + off) + 1
+  let idx_u = stridx(line, mi#utils#upper_key(c), col + off) + 1
   if idx < 1 || (1 < idx_u && idx_u < idx)
     let idx = idx_u
   endif
@@ -46,8 +46,8 @@ function! s:motion_left() abort
     let off = -3
   endif
   let idx = max([
-        \   strridx(line, tolower(c), col + off),
-        \   strridx(line, toupper(c), col + off),
+        \   strridx(line, mi#utils#lower_key(c), col + off),
+        \   strridx(line, mi#utils#upper_key(c), col + off),
         \ ]) + 1
 
   if idx > 0
