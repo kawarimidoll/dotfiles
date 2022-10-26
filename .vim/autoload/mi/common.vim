@@ -9,12 +9,12 @@ endfunction
 
 function! mi#common#trim(ignore = {}) abort
   if !has_key(a:ignore, 'trailing_white_spaces')
-    %s/\s\+$//
+    silent! %s/\s\+$//
   endif
   if !has_key(a:ignore, 'multiple_blank_line')
-    %s/^\n\zs\n\+//
+    silent! %s/^\n\zs\n\+//
   endif
   if !has_key(a:ignore, 'blank_line_eof')
-    %s/\n\+\%$//
+    silent! %s/\n\+\%$//
   endif
 endfunction

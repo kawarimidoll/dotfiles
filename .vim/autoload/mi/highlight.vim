@@ -56,10 +56,9 @@ function! mi#highlight#cursorword(hlgroup)
 
   call s:clear_hl_cursorword()
 
-  let pattern = printf("\\<%s\\>", word)
-  silent! let b:highlight_cursor_word_id = matchadd(a:hlgroup, pattern)
+  let pattern = printf("\\V\\<%s\\>", word)
+  silent! let b:highlight_cursor_word_id = matchadd(a:hlgroup, pattern, -1)
   let b:highlight_cursor_word = word
-
 endfunction
 
 if !exists('s:clear_autocmd_set')
