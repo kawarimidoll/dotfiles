@@ -533,6 +533,7 @@ augroup vimrc
     autocmd WinEnter * call mi#qf#quit_if_last_buf()
 
     autocmd CursorMoved * call mi#highlight#cursorword('Underlined')
+    autocmd CursorMoved,CursorMovedI * call mi#highlight#match_paren('Underlined')
   endif
 
   " {{{ restore-cursor

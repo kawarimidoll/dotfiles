@@ -82,6 +82,7 @@ function! mi#highlight#range(hlgroup, start, finish)
 endfunction
 
 " https://osyo-manga.hatenadiary.org/entry/20140121/1390309901
+" https://github.com/echasnovski/mini.nvim/blob/main/lua/mini/cursorword.lua
 function! mi#highlight#cursorword(hlgroup)
   let c_char = getline('.')[col('.') - 1]
   if c_char !~ '\k'
@@ -101,13 +102,6 @@ function! mi#highlight#cursorword(hlgroup)
   let b:highlight_cursor_word = word
 endfunction
 
-if !exists('s:clear_autocmd_set')
-  augroup mi#highlight#augroup
-    autocmd BufLeave,WinLeave,InsertEnter * call s:clear_hl_cursorword()
-  augroup END
-  let s:clear_autocmd_set = 1
-endif
-
 function! s:clear_hl_cursorword()
   if exists('b:highlight_cursor_word_id') && exists('b:highlight_cursor_word')
     silent! call matchdelete(b:highlight_cursor_word_id)
@@ -115,3 +109,76 @@ function! s:clear_hl_cursorword()
     unlet! b:highlight_cursor_word
   endif
 endfunction
+
+function! mi#highlight#syn_attr(expr, trans)
+  let [lnum, col] = getpos(a:expr)[1:2]
+  let id = synID(lnum, col, a:trans)
+  return { 'name': synIDattr(id, 'name'),
+        \  'fg': synIDattr(id, 'fg'),
+        \  'bg': synIDattr(id, 'bg'),
+        \  'font': synIDattr(id, 'font'),
+        \  'sp': synIDattr(id, 'sp'),
+        \  'ul': synIDattr(id, 'ul'),
+        \  'fg#': synIDattr(id, 'fg#'),
+        \  'bg#': synIDattr(id, 'bg#'),
+        \  'sp#': synIDattr(id, 'sp#'),
+        \  'bold': synIDattr(id, 'bold'),
+        \  'italic': synIDattr(id, 'italic'),
+        \  'reverse': synIDattr(id, 'reverse'),
+        \  'inverse': synIDattr(id, 'inverse'),
+        \  'standout': synIDattr(id, 'standout'),
+        \  'underline': synIDattr(id, 'underline'),
+        \  'undercurl': synIDattr(id, 'undercurl'),
+        \  'strike': synIDattr(id, 'strike'),
+        \ }
+endfunction
+
+" :h match-parens
+function! mi#highlight#match_paren(hlgroup) abort
+  call s:clear_hl_paren()
+
+  let [c_lnum, c_col] = getpos('.')[1:2]
+
+  let current_char = getline(c_lnum)[c_col - 1]
+  let plist = split(&matchpairs, ':\|,')
+  let i = index(plist, current_char)
+  if i < 0
+    return
+  endif
+
+  if i % 2 == 0
+    let s_flags = 'nW'
+    let p_open = current_char
+    let p_close = plist[i + 1]
+  else
+    let s_flags = 'nbW'
+    let p_open = plist[i - 1]
+    let p_close = current_char
+  endif
+
+  if p_open == '['
+    let p_open = '\['
+    let p_close = '\]'
+  endif
+
+  let [m_lnum, m_col] = searchpairpos(p_open, '', p_close, s_flags)
+
+  if m_lnum > 0 && m_lnum >= line('w0') && m_lnum <= line('w$')
+    let s:paren_hl_id = matchaddpos(a:hlgroup, [[c_lnum, c_col], [m_lnum, m_col]])
+  endif
+endfunction
+
+function! s:clear_hl_paren()
+  if exists('s:paren_hl_id')
+    silent! call matchdelete(s:paren_hl_id)
+    unlet! s:paren_hl_id
+  endif
+endfunction
+
+if !exists('s:clear_autocmd_set')
+  augroup mi#highlight#augroup
+    autocmd BufLeave,WinLeave,InsertEnter * call s:clear_hl_cursorword()
+    autocmd InsertEnter * call s:clear_hl_paren()
+  augroup END
+  let s:clear_autocmd_set = 1
+endif
