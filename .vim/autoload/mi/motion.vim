@@ -14,10 +14,13 @@ function! s:motion_right() abort
     let off = 1
   endif
 
-  let idx = stridx(line, mi#utils#lower_key(c), col + off) + 1
-  let idx_u = stridx(line, mi#utils#upper_key(c), col + off) + 1
-  if idx < 1 || (1 < idx_u && idx_u < idx)
-    let idx = idx_u
+  let idx = stridx(line, c, col + off) + 1
+
+  if s:last_find.smart && c ==# mi#utils#lower_key(c)
+    let idx_u = stridx(line, mi#utils#upper_key(c), col + off) + 1
+    if idx < 1 || (1 < idx_u && idx_u < idx)
+      let idx = idx_u
+    endif
   endif
 
   if idx > 0
@@ -45,10 +48,12 @@ function! s:motion_left() abort
   if s:last_find.till
     let off = -3
   endif
-  let idx = max([
-        \   strridx(line, mi#utils#lower_key(c), col + off),
-        \   strridx(line, mi#utils#upper_key(c), col + off),
-        \ ]) + 1
+
+  let idx = strridx(line, c, col + off) + 1
+
+  if s:last_find.smart && c ==# mi#utils#lower_key(c)
+    let idx = max([idx, strridx(line, mi#utils#upper_key(c), col + off) + 1])
+  endif
 
   if idx > 0
     let off = 0
@@ -59,81 +64,44 @@ function! s:motion_left() abort
   endif
 endfunction
 
-function! mi#motion#f() abort
-  if !exists('g:mi#dot_repeating')
-    let c = nr2char(getchar())
-    if c !~ '\p'
-      return
-    endif
-
-    let s:last_find = {'direction': 'right', 'char': c, 'till': v:false}
-  endif
-  call s:motion_right()
-endfunction
-
-function! mi#motion#F() abort
-  if !exists('g:mi#dot_repeating')
-    let c = nr2char(getchar())
-    if c !~ '\p'
-      return
-    endif
-
-    let s:last_find = {'direction': 'left', 'char': c, 'till': v:false}
-    call s:motion_left()
-  endif
-endfunction
-
-function! mi#motion#t() abort
-  if !exists('g:mi#dot_repeating')
-    let c = nr2char(getchar())
-    if c !~ '\p'
-      return
-    endif
-
-    let s:last_find = {'direction': 'right', 'char': c, 'till': v:true}
-  endif
-  call s:motion_right()
-endfunction
-
-function! mi#motion#T() abort
-  if !exists('g:mi#dot_repeating')
-    let c = nr2char(getchar())
-    if c !~ '\p'
-      return
-    endif
-
-    let s:last_find = {'direction': 'left', 'char': c, 'till': v:true}
-  endif
-  call s:motion_left()
-endfunction
-
-function! mi#motion#semicolon() abort
-  if exists('s:last_find')
-    if s:last_find.direction == 'right'
-      call s:motion_right()
-    else
-      call s:motion_left()
-    endif
-  else
-    normal! ;
-  endif
-endfunction
-function! mi#motion#comma() abort
-  if exists('s:last_find')
-    if s:last_find.direction == 'right'
-      call s:motion_left()
-    else
-      call s:motion_right()
-    endif
-  else
-    normal! ,
-  endif
-endfunction
-
-function! mi#motion#original(char) abort
-  if stridx('fFtT', a:char) < 0
+function! s:motion_start(starter, smart) abort
+  if stridx('fFtT', a:starter) < 0
     return
   endif
-  unlet! s:last_find
-  execute 'normal!' a:char
+
+  if !exists('g:mi#dot_repeating')
+    let c = nr2char(getchar())
+    if c !~ '\p'
+      return
+    endif
+
+    let right = a:starter ==# 'f' || a:starter ==# 't'
+    let till = a:starter ==? 't'
+    let s:last_find = {'right': right, 'char': c, 'till': till, 'smart': a:smart}
+  endif
+  call mi#motion#repeat(';')
+endfunction
+
+function! mi#motion#original(starter) abort
+  call s:motion_start(a:starter, 0)
+endfunction
+
+function! mi#motion#smart(starter) abort
+  call s:motion_start(a:starter, 1)
+endfunction
+
+function! mi#motion#repeat(starter) abort
+  if stridx(';,', a:starter) < 0
+    return
+  endif
+  if exists('s:last_find')
+    if (s:last_find.right && a:starter == ';') ||
+          \ (!s:last_find.right && a:starter == ',')
+      call s:motion_right()
+    else
+      call s:motion_left()
+    endif
+  else
+    execute 'normal!' a:starter
+  endif
 endfunction
