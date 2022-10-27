@@ -9,7 +9,6 @@ function! s:init_mru() abort
   for file in v:oldfiles
     let file = expand(file)
     if file =~ root_pattern && file !~ '\.git/' && filereadable(file)
-      let file = substitute(file, root_pattern, '', '')
       call add(mru, file)
     endif
   endfor
@@ -28,11 +27,22 @@ function! mi#mru#save(file = '%') abort
   endif
 endfunction
 
-function! mi#mru#list() abort
+function! mi#mru#list(full_path = v:false) abort
   if !exists('s:project_mru')
     let s:project_mru = s:init_mru()
   endif
-  return s:project_mru
+  if a:full_path
+    return s:project_mru
+  endif
+
+  let root = mi#git#get_root()
+
+  if root == ''
+    return s:project_mru
+  endif
+
+  let root_pattern = '^' .. root
+  return mapnew(s:project_mru, "substitute(v:val, root_pattern, '', '')")
 endfunction
 
 if !has('nvim')
