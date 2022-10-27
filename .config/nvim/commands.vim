@@ -184,21 +184,6 @@ command! -nargs=+ -bang -count=2 -complete=shellcmd Sh
   \ call s:sh(<q-args>, { 'expand_each_word': <bang>1, 'auto_exit_sec': <count> })
 " }}}
 
-" {{{ Keymap
-" https://zenn.dev/kawarimidoll/articles/513d603681ece9
-function! s:keymap(modes, ...) abort
-  let arg = join(a:000, ' ')
-  for mode in split(a:modes, '.\zs')
-    if index(split('nvsxoilct', '.\zs'), mode) < 0
-      echoerr 'Invalid mode is detected: ' . mode
-      continue
-    endif
-    execute mode .. 'noremap' arg
-  endfor
-endfunction
-command! -nargs=+ Keymap call s:keymap(<f-args>)
-" }}}
-
 " {{{ BackLinks
 function s:back_links() abort
   if !executable('rg')

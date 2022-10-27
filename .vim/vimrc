@@ -50,6 +50,21 @@ let g:loaded_zipPlugin          = 1
 let g:skip_loading_mswin        = 1
 let g:vimsyn_embed              = 1
 
+" {{{ Keymap
+" https://zenn.dev/kawarimidoll/articles/513d603681ece9
+function! s:keymap(modes, ...) abort
+  let arg = join(a:000, ' ')
+  for mode in split(a:modes, '.\zs')
+    if index(split('nvsxoilct', '.\zs'), mode) < 0
+      echoerr 'Invalid mode is detected: ' . mode
+      continue
+    endif
+    execute mode .. 'noremap' arg
+  endfor
+endfunction
+command! -nargs=+ Keymap call s:keymap(<f-args>)
+" }}}
+
 let s:word_1000_dict_path = '~/.cache/nvim/google-10000-english-no-swears.txt'
 if !filereadable(expand(s:word_1000_dict_path))
   silent execute '!curl --create-dirs -fLo ' .. s:word_1000_dict_path ..
@@ -150,12 +165,10 @@ else
 
   command! LazyGit tab terminal ++close ++norestore lazygit
 
-  nnoremap <expr> gc mi#comment#operator_toggle()
+  Keymap nx <expr> gc mi#comment#operator_toggle()
   nnoremap <expr> gcc mi#comment#operator_toggle() .. '_'
-  xnoremap <expr> gc mi#comment#operator_toggle()
 
-  nnoremap <expr> sa mi#surround#add()
-  xnoremap <expr> sa mi#surround#add()
+  Keymap nx <expr> sa mi#surround#add()
 
   noremap f <cmd>call mi#ft#smart('f')<CR>
   noremap F <cmd>call mi#ft#smart('F')<CR>
@@ -265,8 +278,7 @@ nnoremap ]m ]`
 " nnoremap gf gFzz
 " nnoremap gx :<C-u>!open <C-r><C-a>
 command! -nargs=* SmartOpen call mi#open#smart_open(<q-args>)
-nnoremap gf <Cmd>call mi#open#smart_open()<CR>
-xnoremap gf <Cmd>call mi#open#smart_open()<CR>
+Keymap nx gf <Cmd>call mi#open#smart_open()<CR>
 
 "for c in g:alpha_all->split('\zs')
 "  execute 'nnoremap <Space>' .. c '<NOP>'
