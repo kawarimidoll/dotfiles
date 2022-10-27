@@ -197,12 +197,6 @@ else
   call jetpack#end()
 endif
 
-let g:alpha_lower = 'abcdefghijklmnopqrstuvwxyz'
-let g:alpha_upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-let g:digits = '0123456789'
-let g:alpha_all = g:alpha_lower .. g:alpha_upper
-let g:alnum = g:alpha_all .. g:digits
-
 let g:my_vimrc = $MYVIMRC
 
 command! RcEdit execute 'edit' g:my_vimrc
@@ -242,7 +236,7 @@ nnoremap so <Cmd>source<Bar>nohlsearch<CR>
 nnoremap s/ :%s/
 nnoremap S :%s/\V\<<C-r><C-w>\>//g<Left><Left>
 nnoremap <script> <expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
-" for c in g:alpha_all->split('\zs')
+" for c in g:mi#const#alpha_all->split('\zs')
 "   execute 'nnoremap <sid>(q)' .. c '<NOP>'
 " endfor
 nnoremap <sid>(q)q qq
@@ -280,7 +274,7 @@ nnoremap ]m ]`
 command! -nargs=* SmartOpen call mi#open#smart_open(<q-args>)
 Keymap nx gf <Cmd>call mi#open#smart_open()<CR>
 
-"for c in g:alpha_all->split('\zs')
+"for c in g:mi#const#alpha_all->split('\zs')
 "  execute 'nnoremap <Space>' .. c '<NOP>'
 "endfor
 nnoremap <Space>b <Cmd>call mi#fzf#bufs()<CR>
