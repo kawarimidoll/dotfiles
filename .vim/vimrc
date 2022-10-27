@@ -417,55 +417,8 @@ noremap F<C-j> F<C-k>j
 noremap t<C-j> t<C-k>j
 noremap T<C-j> T<C-k>j
 
-" https://zenn.dev/kawarimidoll/articles/665dbd860c72cd
-function! s:textobject_outline(from_parent, with_blank) abort
-  " get current line and indent
-  let from = line('.')
-  let indent = indent(from)
-  if indent < 0
-    return
-  endif
-  let to = from
-
-  " search first parent
-  if a:from_parent && from > 1 && indent > 0
-    let lnum = from - 1
-    while indent <= indent(lnum) || (a:with_blank && getline(lnum) =~ '^\s*$')
-      let lnum -= 1
-    endwhile
-
-    " update current line and indent
-    let from = lnum
-    call cursor(from, 0)
-    let indent = indent(from)
-  endif
-
-  " search last child
-  let lnum = to + 1
-  while indent < indent(lnum) || (a:with_blank && getline(lnum) =~ '^\s*$')
-    let to = lnum
-    let lnum += 1
-  endwhile
-
-  " exit visual mode
-  let m = mode()
-  if m ==# 'v' || m ==# 'V' || m == "\<C-v>"
-    execute 'normal! ' .. m
-  endif
-
-  " select with line-visual mode
-  normal! V
-  call cursor(to, 0)
-  normal! o
-endfunction
-xnoremap io <Cmd>call <sid>textobject_outline(0, 0)<CR>
-xnoremap ao <Cmd>call <sid>textobject_outline(1, 0)<CR>
-xnoremap iO <Cmd>call <sid>textobject_outline(0, 1)<CR>
-xnoremap aO <Cmd>call <sid>textobject_outline(1, 1)<CR>
-onoremap io <Cmd>call <sid>textobject_outline(0, 0)<CR>
-onoremap ao <Cmd>call <sid>textobject_outline(1, 0)<CR>
-onoremap iO <Cmd>call <sid>textobject_outline(0, 1)<CR>
-onoremap aO <Cmd>call <sid>textobject_outline(1, 1)<CR>
+Keymap xo io <Cmd>call mi#textobject#outline()<CR>
+Keymap xo ao <Cmd>call mi#textobject#outline({'from_parent': 1, 'with_blank': 1})<CR>
 
 " {{{ Rename
 " https://vim-jp.org/vim-users-jp/2009/05/27/Hack-17.html
