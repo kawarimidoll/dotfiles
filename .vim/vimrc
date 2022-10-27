@@ -417,6 +417,15 @@ noremap F<C-j> F<C-k>j
 noremap t<C-j> t<C-k>j
 noremap T<C-j> T<C-k>j
 
+Keymap xo il <Cmd>call mi#textobject#line()<CR>
+Keymap xo al <Cmd>call mi#textobject#line({'no_trim': 1})<CR>
+Keymap xo iu <Cmd>call mi#textobject#fname()<CR>
+Keymap xo ia <Cmd>call mi#textobject#alphabet()<CR>
+Keymap xo aa <Cmd>call mi#textobject#alphabet({'with_num': 1})<CR>
+Keymap xo ie <Cmd>call mi#textobject#entire()<CR>
+Keymap xo ae <Cmd>call mi#textobject#entire({'charwise': 1})<CR>
+Keymap xo iS <Cmd>call mi#textobject#space()<CR>
+Keymap xo aS <Cmd>call mi#textobject#space({'with_tab': 1})<CR>
 Keymap xo io <Cmd>call mi#textobject#outline()<CR>
 Keymap xo ao <Cmd>call mi#textobject#outline({'from_parent': 1, 'with_blank': 1})<CR>
 

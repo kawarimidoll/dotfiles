@@ -1,3 +1,10 @@
+function! s:exit_visual_mode() abort
+  let m = mode()
+  if m ==? 'v' || m == "\<C-v>"
+    execute 'normal!' m
+  endif
+endfunction
+
 " https://zenn.dev/kawarimidoll/articles/665dbd860c72cd
 function! mi#textobject#outline(params = {}) abort
   let from_parent = get(a:params, 'from_parent', 0)
@@ -31,14 +38,80 @@ function! mi#textobject#outline(params = {}) abort
     let lnum += 1
   endwhile
 
-  " exit visual mode
-  let m = mode()
-  if m ==# 'v' || m ==# 'V' || m == "\<C-v>"
-    execute 'normal! ' .. m
-  endif
+  call s:exit_visual_mode()
 
   " select with line-visual mode
   normal! V
   call cursor(to, 0)
   normal! o
+endfunction
+
+" https://github.com/kana/vim-textobj-line
+function! mi#textobject#line(params = {}) abort
+  let no_trim = get(a:params, 'no_trim', 0)
+
+  call s:exit_visual_mode()
+
+  " select with visual mode
+  execute 'normal!' (no_trim ? '0' : '^') .. 'v' .. (no_trim ? '$' : 'g_')
+endfunction
+
+" https://github.com/kana/vim-textobj-entire
+function! mi#textobject#entire(params = {}) abort
+  let charwise = get(a:params, 'charwise', 0)
+
+  call s:exit_visual_mode()
+
+  " select with visual/line-visual mode
+  execute 'normal!' 'gg0' (charwise ? 'v' : 'V') .. 'G$'
+endfunction
+
+" https://github.com/saihoooooooo/vim-textobj-space/blob/master/plugin/textobj/space.vim
+function! mi#textobject#space(params = {}) abort
+  let with_tab = get(a:params, 'with_tab', 0)
+
+  let pattern = with_tab ? '\s\+' : ' \+'
+  let col = search(pattern, 'cn')
+  if col == 0
+    return
+  endif
+
+  call s:exit_visual_mode()
+
+  let b_flag = col > getpos('.')[2] ? '' : 'b'
+  call search(pattern, 'sc' .. b_flag)
+  normal! v
+  call search(pattern, 'ce')
+endfunction
+
+function! mi#textobject#alphabet(params = {}) abort
+  let with_num = get(a:params, 'with_num', 0)
+
+  let pattern = with_num ? '(\a\|\d)\+' : '\a\+'
+  let col = search(pattern, 'cn')
+  if col == 0
+    return
+  endif
+
+  call s:exit_visual_mode()
+
+  let b_flag = col > getpos('.')[2] ? '' : 'b'
+  call search(pattern, 'sc' .. b_flag)
+  normal! v
+  call search(pattern, 'ce')
+endfunction
+
+function! mi#textobject#fname() abort
+  let fname = expand('<cfile>')
+  if fname == ''
+    return
+  endif
+
+  call s:exit_visual_mode()
+  let lnum = getpos('.')[1]
+  let col = stridx(getline('.'), fname) + 1
+
+  call cursor(lnum, col)
+  normal! v
+  call cursor(lnum, col + strlen(fname) - 1)
 endfunction
