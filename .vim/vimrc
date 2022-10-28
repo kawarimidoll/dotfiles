@@ -186,8 +186,8 @@ else
 
   nnoremap <c-e> <cmd>call mi#window#resize()<cr>
 
-  let s:jetpackfile = expand('<sfile>:p:h') .. '/pack/jetpack/opt/vim-jetpack/plugin/jetpack.vim'
-  let s:jetpackurl = "https://raw.githubusercontent.com/tani/vim-jetpack/master/plugin/jetpack.vim"
+  let s:jetpackfile = expand('~/.vim/pack/jetpack/opt/vim-jetpack/plugin/jetpack.vim')
+  let s:jetpackurl = 'https://raw.githubusercontent.com/tani/vim-jetpack/master/plugin/jetpack.vim'
   if !filereadable(s:jetpackfile)
     call system(printf('curl -fsSLo %s --create-dirs %s', s:jetpackfile, s:jetpackurl))
   endif
@@ -428,6 +428,11 @@ Keymap xo ao <Cmd>call mi#textobject#outline({'from_parent': 1, 'with_blank': 1}
 if !has('nvim')
   Keymap xo i<space> <cmd>call mi#textobject#between(' ', 0)<cr>
   Keymap xo a<space> <cmd>call mi#textobject#between(' ', 1)<cr>
+  Keymap xo i<bar> <cmd>call mi#textobject#between("\<bar>", 0)<cr>
+  Keymap xo a<bar> <cmd>call mi#textobject#between("\<bar>", 1)<cr>
+  " does not works <bslash>...
+  " Keymap xo i<bslash> <cmd>call mi#textobject#between("\<bslash>", 0)<cr>
+  " Keymap xo a<bslash> <cmd>call mi#textobject#between("\<bslash>", 1)<cr>
   for i in range(33, 126)
     let c = nr2char(i)
     if c !~ '[[:punct:]]' || stridx('\|<>(){}[]"`''', c) >= 0
