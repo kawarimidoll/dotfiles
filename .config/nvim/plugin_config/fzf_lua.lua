@@ -86,15 +86,12 @@ local gen_mru_opts = function(args)
   local file_actions = fzf_lua.defaults.actions.files
   file_actions.default = fzf_lua.actions.file_edit
 
-  local opts = {
+  local opts = vim.tbl_extend('force', {
     previewer = 'builtin',
     actions = file_actions,
     file_icons = true,
     color_icons = true,
-  }
-  for k, v in pairs(args) do
-    opts[k] = v
-  end
+  }, args)
 
   opts.fn_transform = function(x)
     return fzf_lua.make_entry.file(x, opts)
