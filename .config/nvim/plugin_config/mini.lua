@@ -374,6 +374,7 @@ vim.api.nvim_create_user_command('MiniScheme', function(opts)
     palette = palettes[vim.g.scheme_name],
     use_cterm = true,
   })
+  vim.api.nvim_exec_autocmds('ColorScheme', {})
   vim.api.nvim_set_hl(0, 'VertSplit', { ctermbg = 'NONE', bg = 'NONE' })
 end, {
   nargs = '?',

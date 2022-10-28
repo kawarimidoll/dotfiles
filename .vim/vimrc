@@ -488,7 +488,9 @@ augroup vimrc
   " u200A ' ' hair space
   " u200B '​' zero-width space
   " u3000 '　' ideographic (zenkaku) space
-  autocmd VimEnter * call matchadd('ExtraWhitespace', "[\u00A0\u2000-\u200B\u3000]")
+  autocmd VimEnter,WinEnter * if !exists('w:highlight_extra_whitespace')
+        \ | let w:highlight_extra_whitespace = matchadd('ExtraWhitespace', "[\u00A0\u2000-\u200B\u3000]")
+        \ | endif
   autocmd ColorScheme * highlight default ExtraWhitespace ctermbg=darkmagenta guibg=darkmagenta
   autocmd ColorScheme * call s:apply_user_highlight()
 
@@ -502,6 +504,9 @@ augroup vimrc
   if has('nvim')
     " https://jdhao.github.io/2020/05/22/highlight_yank_region_nvim/
     autocmd TextYankPost * silent! lua vim.highlight.on_yank({ timeout=500 })
+    autocmd TermOpen * if exists('w:highlight_extra_whitespace') && exists('b:terminal_job_id')
+          \ | silent! call matchdelete(w:highlight_extra_whitespace)
+          \ | endif
   else
     " https://www.statox.fr/posts/2020/07/vim_flash_yanked_text/
     autocmd TextYankPost * silent! call mi#highlight#on_yank({ 'timeout': 500 })
