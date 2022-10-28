@@ -27,11 +27,19 @@ function! s:is_inside_quotes() abort
   return s:prev_char() == s:next_char() && index(s:get_quotes(), s:prev_char()) >= 0
 endfunction
 
+function! s:arrow(key) abort
+  let key = {'right': "\<right>", 'left': "\<left>"}[a:key]
+  if mode() == 'i'
+    let key = "\<C-g>U" .. key
+  endif
+  return key
+endfunction
+
 function! mi#pair#open(char) abort
   if s:prev_char() == '\'
     return a:char
   endif
-  return a:char .. s:get_pairs()[a:char] .. "\<left>"
+  return a:char .. s:get_pairs()[a:char] .. s:arrow('left')
 endfunction
 
 function! mi#pair#close(char) abort
@@ -39,7 +47,7 @@ function! mi#pair#close(char) abort
     return a:char
   endif
   if s:next_char() == a:char
-    return "\<right>"
+    return s:arrow('right')
   endif
   return a:char
 endfunction
@@ -49,13 +57,13 @@ function! mi#pair#quote(char) abort
     return a:char
   endif
   if s:next_char() == a:char
-    return "\<right>"
+    return s:arrow('right')
   endif
   if s:prev_char() == a:char
     return a:char
   endif
 
-  return a:char .. a:char .. "\<left>"
+  return a:char .. a:char .. s:arrow('left')
 endfunction
 
 function! mi#pair#cr() abort
@@ -67,9 +75,9 @@ endfunction
 
 function! mi#pair#bs() abort
   if s:is_inside_pairs() || s:is_inside_quotes()
-    return "\<right>\<bs>\<bs>"
+    return s:arrow('right') .. "\<bs>\<bs>"
   endif
-  return  "\<bs>"
+  return "\<bs>"
 endfunction
 
 function! mi#pair#keymap_set(list = []) abort
