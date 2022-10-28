@@ -13,14 +13,25 @@ function! s:putstr(lnum, col, str) abort
   call setline(a:lnum, strpart(line, 0, a:col - 1) .. a:str .. strpart(line, a:col - 1))
 endfunction
 
+function! mi#surround#operator(task) abort
+  let s:cache = {}
+  let &operatorfunc = function('mi#surround#' .. a:task)
+  return 'g@'
+endfunction
+
 function! mi#surround#add(type = '') abort
   if a:type == ''
     let &operatorfunc = function('mi#surround#add')
     return 'g@'
   endif
-  let char = nr2char(getchar())
-  if char !~ '\p'
-    return "\<esc>"
+
+  let char = get(s:cache, 'add', '')
+  if char == ''
+    let char = nr2char(getchar())
+    if char !~ '\p'
+      return "\<esc>"
+    endif
+    let s:cache.add = char
   endif
 
   let tail = getpos("']")

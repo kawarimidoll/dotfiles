@@ -168,7 +168,8 @@ else
   Keymap nx <expr> gc mi#comment#operator_toggle()
   nnoremap <expr> gcc mi#comment#operator_toggle() .. '_'
 
-  Keymap nx <expr> sa mi#surround#add()
+  " Keymap nx <expr> sa mi#surround#add()
+  Keymap nx <expr> sa mi#surround#operator('add')
 
   noremap f <cmd>call mi#ft#smart('f')<CR>
   noremap F <cmd>call mi#ft#smart('F')<CR>
