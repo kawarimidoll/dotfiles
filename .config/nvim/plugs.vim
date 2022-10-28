@@ -402,7 +402,7 @@ Keymap n <expr> ]q '<Cmd>Qfutils CCycle '  .. v:count1 .. '<CR>'
 
 " [Vim で q を prefix キーにする - 永遠に未完成](https://thinca.hatenablog.com/entry/q-as-prefix-key-in-vim)
 nnoremap <script> <expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
-for c in g:alpha_all->split('\zs')
+for c in g:mi#const#alpha_all->split('\zs')
   execute 'nnoremap <sid>(q)' .. c '<NOP>'
 endfor
 nnoremap <sid>(q)q qq
