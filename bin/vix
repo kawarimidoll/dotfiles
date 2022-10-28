@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [[ -n "$VIM_TERMINAL" ]]; then
+ # in vim
+ vim "$*"
+else
+  nvim "$*"
+fi

@@ -11,7 +11,7 @@
 	pager = delta
 	preloadindex = true
 	quotepath = false
-	editor = nvim
+	editor = vix
 [ghq]
 	root = ~/ghq
 [delta]
