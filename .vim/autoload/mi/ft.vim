@@ -1,6 +1,7 @@
 " inspired by :h getchar()
+" TODO: use setcharsearch() / getcharsearch()
 
-function! s:ft_right() abort
+function! s:ft_forward() abort
   if !exists('s:last_find')
     return
   endif
@@ -10,7 +11,7 @@ function! s:ft_right() abort
   let [lnum, col] = getpos('.')[1:2]
 
   let off = 0
-  if s:last_find.till
+  if s:last_find.until
     let off = 1
   endif
 
@@ -28,14 +29,14 @@ function! s:ft_right() abort
     if mode(1) =~ 'o'
       let off += 1
     endif
-    if s:last_find.till
+    if s:last_find.until
       let off -= 1
     endif
     call cursor(lnum, idx + off)
   endif
 endfunction
 
-function! s:ft_left() abort
+function! s:ft_backward() abort
   if !exists('s:last_find')
     return
   endif
@@ -45,7 +46,7 @@ function! s:ft_left() abort
   let [lnum, col] = getpos('.')[1:2]
 
   let off = -2
-  if s:last_find.till
+  if s:last_find.until
     let off = -3
   endif
 
@@ -57,7 +58,7 @@ function! s:ft_left() abort
 
   if idx > 0
     let off = 0
-    if s:last_find.till
+    if s:last_find.until
       let off += 1
     endif
     call cursor(lnum, idx + off)
@@ -75,9 +76,9 @@ function! s:ft_start(starter, smart) abort
       return
     endif
 
-    let right = a:starter ==# 'f' || a:starter ==# 't'
-    let till = a:starter ==? 't'
-    let s:last_find = {'right': right, 'char': c, 'till': till, 'smart': a:smart}
+    let forward = a:starter ==# 'f' || a:starter ==# 't'
+    let until = a:starter ==? 't'
+    let s:last_find = {'forward': forward, 'char': c, 'until': until, 'smart': a:smart}
   endif
   call mi#ft#repeat(';')
 endfunction
@@ -95,11 +96,11 @@ function! mi#ft#repeat(starter) abort
     return
   endif
   if exists('s:last_find')
-    if (s:last_find.right && a:starter == ';') ||
-          \ (!s:last_find.right && a:starter == ',')
-      call s:ft_right()
+    if (s:last_find.forward && a:starter == ';') ||
+          \ (!s:last_find.forward && a:starter == ',')
+      call s:ft_forward()
     else
-      call s:ft_left()
+      call s:ft_backward()
     endif
   else
     execute 'normal!' a:starter
