@@ -425,6 +425,19 @@ Keymap xo aS <Cmd>call mi#textobject#space({'with_tab': 1})<CR>
 Keymap xo io <Cmd>call mi#textobject#outline()<CR>
 Keymap xo ao <Cmd>call mi#textobject#outline({'from_parent': 1, 'with_blank': 1})<CR>
 
+if !has('nvim')
+  Keymap xo i<space> <cmd>call mi#textobject#between(' ', 0)<cr>
+  Keymap xo a<space> <cmd>call mi#textobject#between(' ', 1)<cr>
+  for i in range(33, 126)
+    let c = nr2char(i)
+    if c !~ '[[:punct:]]' || stridx('\|<>(){}[]"`''', c) >= 0
+      continue
+    endif
+    execute 'Keymap xo i' .. c .. ' <cmd>call mi#textobject#between(''' .. c .. ''', 0)<cr>'
+    execute 'Keymap xo a' .. c .. ' <cmd>call mi#textobject#between(''' .. c .. ''', 1)<cr>'
+  endfor
+endif
+
 " {{{ Rename
 " https://vim-jp.org/vim-users-jp/2009/05/27/Hack-17.html
 command! -nargs=1 -complete=file Rename
