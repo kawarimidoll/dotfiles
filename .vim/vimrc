@@ -219,6 +219,7 @@ nnoremap <silent> mm <Cmd>call mi#mark#auto_set()<CR>
 nnoremap <silent> m, <Cmd>call mi#mark#jump_to_last()<CR>
 
 nnoremap <expr> gp mi#operator#replace()
+nnoremap <expr> J mi#operator#join()
 
 noremap j gj
 noremap k gk

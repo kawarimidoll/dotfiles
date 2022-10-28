@@ -7,3 +7,11 @@ function! mi#operator#replace(type = '') abort
   normal! `[v`]P
 endfunction
 " }}}
+
+function! mi#operator#join(type = '') abort
+  if a:type == ''
+    let &operatorfunc = function('mi#operator#join')
+    return 'g@'
+  endif
+  normal! `[v`]J
+endfunction
