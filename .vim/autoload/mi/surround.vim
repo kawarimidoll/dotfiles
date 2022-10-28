@@ -15,13 +15,13 @@ endfunction
 
 function! mi#surround#operator(task) abort
   let s:cache = {}
-  let &operatorfunc = function('mi#surround#' .. a:task)
+  set operatorfunc=function('mi#surround#' .. a:task)
   return 'g@'
 endfunction
 
 function! mi#surround#add(type = '') abort
   if a:type == ''
-    let &operatorfunc = function('mi#surround#add')
+    set operatorfunc=function('mi#surround#add')
     return 'g@'
   endif
 
