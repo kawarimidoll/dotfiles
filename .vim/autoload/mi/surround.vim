@@ -15,7 +15,7 @@ endfunction
 
 function! mi#surround#operator(task) abort
   let s:cache = {}
-  set operatorfunc=function('mi#surround#' .. a:task)
+  execute "set operatorfunc=function('mi#surround#" .. a:task .. "')"
   return 'g@'
 endfunction
 
