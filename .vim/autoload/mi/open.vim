@@ -38,6 +38,8 @@ function! mi#open#smart_open(query = '') abort
         return
       endif
     endif
+  catch
+    " skip error
   endtry
 
   if query =~# '^https\?://'
