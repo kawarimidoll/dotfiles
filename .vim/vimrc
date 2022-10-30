@@ -171,16 +171,19 @@ else
   " Keymap nx <expr> sa mi#surround#add()
   Keymap nx <expr> sa mi#surround#operator('add')
 
+  let g:mi#ft#multiline = 1
   noremap f <cmd>call mi#ft#smart('f')<CR>
   noremap F <cmd>call mi#ft#smart('F')<CR>
   noremap t <cmd>call mi#ft#smart('t')<CR>
   noremap T <cmd>call mi#ft#smart('T')<CR>
-  noremap sf <cmd>call mi#ft#exact('f')<CR>
-  noremap sF <cmd>call mi#ft#exact('F')<CR>
-  noremap st <cmd>call mi#ft#exact('t')<CR>
-  noremap sT <cmd>call mi#ft#exact('T')<CR>
   noremap ; <cmd>call mi#ft#repeat(';')<CR>
   noremap , <cmd>call mi#ft#repeat(',')<CR>
+  noremap sf f
+  noremap sF F
+  noremap st t
+  noremap sT T
+  noremap s; ;
+  noremap s, ,
 
   nnoremap . <cmd>call mi#common#dot_repeat()<cr>
 
@@ -370,13 +373,13 @@ digraphs iI 12355  " ぃ
 digraphs uU 12357  " ぅ
 digraphs eE 12359  " ぇ
 digraphs oO 12361  " ぉ
-digraphs Aa 12350  " ア
+digraphs Aa 12450  " ア
 digraphs Ii 12452  " イ
 digraphs Uu 12454  " ウ
 digraphs Ee 12456  " エ
 digraphs Oo 12458  " オ
 digraphs Nn 12531  " ン
-digraphs AA 12349  " ァ
+digraphs AA 12449  " ァ
 digraphs II 12451  " ィ
 digraphs UU 12453  " ゥ
 digraphs EE 12455  " ェ

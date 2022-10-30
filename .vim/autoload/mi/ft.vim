@@ -1,4 +1,70 @@
-" inspired by :h getchar()
+let g:mi#ft#key_table = {
+      \  '1': '!１！①',
+      \  '2': '@２＠②',
+      \  '3': '#３＃③',
+      \  '4': '$４＄④',
+      \  '5': '%５％⑤',
+      \  '6': '^６＾⑥',
+      \  '7': '&７＆⑦',
+      \  '8': '*８＊⑧',
+      \  '9': '(９（⑨',
+      \  '0': ')０）',
+      \  '`': '~〜',
+      \  'a': 'AａＡぁあァア',
+      \  'b': 'BｂＢばびぶべぼバビブベボ',
+      \  'c': 'CｃＣ',
+      \  'd': 'DｄＤだぢづでどダヂヅデド',
+      \  'e': 'EｅＥぇえェエ',
+      \  'f': 'FｆＦ',
+      \  'g': 'GｇＧがぎぐげごガギグゲゴ',
+      \  'h': 'HｈＨはひふへほハヒフヘホ',
+      \  'i': 'IｉＩぃいィイ',
+      \  'j': 'JｊＪ〄',
+      \  'k': 'KｋＫかきくけこカキクケコヵヶ',
+      \  'l': 'LｌＬ',
+      \  'm': 'MｍＭまみむめもマミムメモ',
+      \  'n': 'NｎＮなにぬねのナニヌネノんン',
+      \  'o': 'OｏＯぉおォオ',
+      \  'p': 'PｐＰぱぴぷぺぽパピプペポ',
+      \  'q': 'QｑＱ',
+      \  'r': 'RｒＲらりるれろラリルレロ',
+      \  's': 'SｓＳさしすせそサシスセソ',
+      \  't': 'TｔＴたちっつてとタチッツテト',
+      \  'u': 'UｕＵぅうゥウ',
+      \  'v': 'VゔｖＶヴ',
+      \  'w': 'WｗＷゎわゐゑをヮワヰヱヲ',
+      \  'x': 'XｘＸ',
+      \  'y': 'Yｙｚゃやゅゆょよャヤュユョヨ',
+      \  'z': 'ZＹＺざじずぜぞザジズゼゾ',
+      \  '=': '+＋＝',
+      \  '\': '|＼｜',
+      \  ';': ':：；',
+      \  "'": '"゜゛',
+      \  ',': '<、，〈《',
+      \  '.': '>。．〉》',
+      \  '/': '?・？／',
+      \  '-': '_ー＿',
+      \  '[': '{｛「『【〔〖',
+      \  ']': '}｝」』】〕〗',
+      \  ' ': '　',
+      \  }
+
+let s:defaults = {
+      \  'fix_direction': 0,
+      \  'multiline': 0,
+      \  'digraph_marker': "\<C-k>",
+      \  }
+
+" # variables
+"
+" when enable this, ';' always search forward, ',' always search backward.
+" let g:mi#ft#fix_direction = 0
+"
+" when enable this, search char in visible lines, not only current line.
+" let g:mi#ft#multiline = 0
+"
+" the key to use digraph
+" let g:mi#ft#digraph_marker = "\<C-k>"
 
 function! mi#ft#repeat(key) abort
   if a:key != ';' && a:key != ','
@@ -6,108 +72,94 @@ function! mi#ft#repeat(key) abort
   endif
 
   let charsearch = getcharsearch()
-  if !exists('s:lastchar')
-    let s:lastchar = charsearch.char
-  endif
 
-  let char = s:lastchar
+  let char = charsearch.char
   if char == ''
     return
   endif
 
-  let direction = (charsearch.forward && a:key == ';') ||
-        \ (!charsearch.forward && a:key == ',') ? 1 : -1
-
-  let line = getline('.')
-  let [lnum, col] = getpos('.')[1:2]
-
-  " search_off = -2 has a bit difference from default behavior using T,
-  " but it is no problem basically.
-  let search_off = direction > 0 ? 0 : -2
-  if charsearch.until
-    let search_off += direction
+  if get(g:, 'mi#ft#fix_direction', s:defaults.fix_direction)
+    let direction = a:key == ';' ? 1 : -1
+  else
+    let direction = (charsearch.forward && a:key == ';') ||
+          \ (!charsearch.forward && a:key == ',') ? 1 : -1
   endif
-  let s:searcher = direction > 0 ? function('stridx') : function('strridx')
 
-  if s:smart
-    " search upper case
-    let u_char = mi#utils#upper_key(char)
-    let u_col = s:searcher(line, u_char, col + search_off) + 1
-    if char ==# u_char
-      " if input char is already upper case, skip lower case
-      let l_col = 0
-    else
-      " if input char is lower case, search it
-      let l_col = s:searcher(line, char, col + search_off) + 1
+  let pattern = char
+  if has_key(g:mi#ft#key_table, char)
+    let pattern = '[' .. char .. g:mi#ft#key_table[char] .. ']'
+  endif
+
+  if direction > 0
+    let flag = 'W'
+    if charsearch.until
+      let pattern = '\_.\ze' .. pattern
     endif
   else
-    let l_col = s:searcher(line, char, col + search_off) + 1
-    let u_col = 0
+    let flag = 'beW'
+    if charsearch.until
+      let pattern = pattern .. '\@<=\_.'
+    endif
   endif
 
-  if l_col == 0 && u_col == 0
+  if !get(g:, 'mi#ft#multiline', s:defaults.multiline)
+    " in current line
+    let stopline = line('.')
+  elseif direction > 0
+    " to visible bottom
+    let stopline = line('w$')
+  else
+    " to visible top
+    let stopline = line('w0')
+  endif
+  let [lnum, col] = searchpos(pattern, flag, stopline)
+
+  if lnum == 0
     " not found
     return
-  elseif u_col == 0
-    " lower found
-    let col = l_col
-    let charsearch.char = char
-  elseif l_col == 0
-    " upper found
-    let col = u_col
-    let charsearch.char = u_char
-  elseif l_col * direction < u_col * direction
-    " lower found
-    let col = l_col
-    let charsearch.char = char
-  else
-    " upper found
-    let col = u_col
-    let charsearch.char = u_char
   endif
 
-  call setcharsearch(charsearch)
-
-  if charsearch.until
-    let col -= direction
-  endif
   if direction > 0 && mode(1) =~ 'o'
+    while getline(lnum)[col+1] !~ '\p' && 0 < col && col <= col('$')
+      let col += direction
+    endwhile
+    " to focus last character of line
+    let save_ve = &virtualedit
+    set virtualedit=onemore
+    execute 'autocmd ModeChanged * ++once set virtualedit=' .. save_ve
     let col += 1
-    if col >= col('$')
-      " to focus last character of line
-      let save_ve = &virtualedit
-      set virtualedit=onemore
-      execute 'autocmd ModeChanged * ++once set virtualedit=' .. save_ve
-    endif
   endif
+
   call cursor(lnum, col)
 endfunction
 
-function! s:ft_start(key, smart) abort
+function! mi#ft#smart(key) abort
   if a:key !=? 'f' && a:key !=? 't'
     return
   endif
 
   if !exists('g:mi#dot_repeating')
     let char = nr2char(getchar())
+    if char == get(g:, 'mi#ft#digraph_marker', s:defaults.digraph_marker)
+      echo 'input digraph:'
+      let d1 = nr2char(getchar())
+      redraw
+      echo 'input digraph:' d1
+      let d2 = nr2char(getchar())
+      let char = split(digraph_get(d1 .. d2))[0]
+      redraw
+      echo 'input digraph:' d1 d2 '->' char
+    endif
     if char !~ '\p'
       return
     endif
 
     let forward = a:key ==# 'f' || a:key ==# 't'
     let until = a:key ==? 't'
+    call setcharsearch({'char': ''})
     call setcharsearch({'forward': forward, 'char': char, 'until': until})
     let s:lastchar = char
-    let s:smart = a:smart
   endif
 
   call mi#ft#repeat(';')
-endfunction
-
-function! mi#ft#exact(starter) abort
-  call s:ft_start(a:starter, 0)
-endfunction
-
-function! mi#ft#smart(starter) abort
-  call s:ft_start(a:starter, 1)
 endfunction
