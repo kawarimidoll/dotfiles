@@ -112,23 +112,15 @@ function! mi#ft#repeat(key) abort
     " to visible top
     let stopline = line('w0')
   endif
-  let [lnum, col] = searchpos(pattern, flag, stopline)
 
-  if lnum == 0
-    " not found
-    return
-  endif
+  for i in range(v:count1)
+    let [lnum, col] = searchpos(pattern, flag, stopline)
 
-  if direction > 0 && mode(1) =~ 'o'
-    while getline(lnum)[col+1] !~ '\p' && 0 < col && col <= col('$')
-      let col += direction
-    endwhile
-    " to focus last character of line
-    let save_ve = &virtualedit
-    set virtualedit=onemore
-    execute 'autocmd ModeChanged * ++once set virtualedit=' .. save_ve
-    let col += 1
-  endif
+    if lnum == 0
+      " not found
+      return
+    endif
+  endfor
 
   call cursor(lnum, col)
 endfunction
@@ -163,3 +155,12 @@ function! mi#ft#smart(key) abort
 
   call mi#ft#repeat(';')
 endfunction
+
+function! mi#ft#smart_expr(key) abort
+  return "v\<cmd>call mi#ft#smart('" .. a:key .. "')\<CR>"
+endfunction
+function! mi#ft#repeat_expr(key) abort
+  return "v\<cmd>call mi#ft#repeat('" .. a:key .. "')\<CR>"
+endfunction
+
+" https://github.com/echasnovski/mini.nvim/blob/main/lua/mini/jump.lua

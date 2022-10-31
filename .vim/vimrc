@@ -172,12 +172,18 @@ else
   Keymap nx <expr> sa mi#surround#operator('add')
 
   let g:mi#ft#multiline = 1
-  noremap f <cmd>call mi#ft#smart('f')<CR>
-  noremap F <cmd>call mi#ft#smart('F')<CR>
-  noremap t <cmd>call mi#ft#smart('t')<CR>
-  noremap T <cmd>call mi#ft#smart('T')<CR>
-  noremap ; <cmd>call mi#ft#repeat(';')<CR>
-  noremap , <cmd>call mi#ft#repeat(',')<CR>
+  Keymap nx f <cmd>call mi#ft#smart('f')<CR>
+  Keymap nx F <cmd>call mi#ft#smart('F')<CR>
+  Keymap nx t <cmd>call mi#ft#smart('t')<CR>
+  Keymap nx T <cmd>call mi#ft#smart('T')<CR>
+  Keymap nx ; <cmd>call mi#ft#repeat(';')<CR>
+  Keymap nx , <cmd>call mi#ft#repeat(',')<CR>
+  onoremap <expr> f mi#ft#smart_expr('f')
+  onoremap <expr> F mi#ft#smart_expr('F')
+  onoremap <expr> t mi#ft#smart_expr('t')
+  onoremap <expr> T mi#ft#smart_expr('T')
+  onoremap <expr> ; mi#ft#repeat_expr(';')
+  onoremap <expr> , mi#ft#repeat_expr(',')
   noremap sf f
   noremap sF F
   noremap st t
