@@ -1,4 +1,4 @@
-timestamp: 2022-10-09 07:44:40 JST
+timestamp: 2022-10-31 08:11:53 JST
 tap: a-know/tap
 tap: harelba/q
 tap: homebrew/bundle
@@ -172,6 +172,7 @@ cask: alt-tab
 cask: anki
 cask: apparency
 cask: appflowy
+cask: arc
 cask: arduino
 cask: audiorelay
 cask: battery-buddy
@@ -244,7 +245,7 @@ cask: tiny-player
 cask: warp
 cask: wezterm
 cask: xbar
-mas: 1099120373  Exporter           (3.0.6)
+mas: 1099120373  Exporter           (3.0.7)
 mas: 1110524423  Battery Widget     (1.1)
 mas: 1158642554  Desktop Lens       (4.0.6)
 mas: 1187772509  stts               (2.10)
@@ -263,7 +264,7 @@ mas: 1581223559  Magic              (2.2)
 mas: 1586304988  Messer             (2.1.19)
 mas: 1596706466  Speediness         (1.4.2)
 mas: 1611378436  Pure Paste         (1.4.0)
-mas: 1615988943  Folder Peek        (1.5.0)
+mas: 1615988943  Folder Peek        (1.5.1)
 mas: 1621370168  WorldWideWeb       (1.0.1)
 mas: 409183694   Keynote            (12.1)
 mas: 928871589   Noizio             (2.1.0)
