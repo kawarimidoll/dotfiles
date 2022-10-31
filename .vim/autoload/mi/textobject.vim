@@ -84,6 +84,12 @@ function! mi#textobject#fname() abort
   call s:select_by_char_pattern(pattern)
 endfunction
 
+" https://github.com/gilligan/textobj-lastpaste
+function! mi#textobject#lastpaste() abort
+  call s:exit_visual_mode()
+  normal! `[v`]
+endfunction
+
 function! mi#textobject#between(char, around) abort
   let char = a:char
   if stridx('^$[.*\', char) > 0
