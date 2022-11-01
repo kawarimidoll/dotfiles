@@ -90,6 +90,33 @@ function! mi#textobject#lastpaste() abort
   normal! `[v`]
 endfunction
 
+" https://github.com/kana/vim-textobj-datetime
+function! mi#textobject#datetime() abort
+  call s:exit_visual_mode()
+
+  let patterns = [
+        \  [
+        \    '\(\d\d\d\d[-_/]\)\?\d\d[-_/]\d\d',
+        \    '[^-_/0-9]',
+        \  ],
+        \  [
+        \    '\d\d\:\d\d\(:\d\d\)\?',
+        \    '[^:0-9]',
+        \  ],
+        \]
+
+  for [pat, not_pat] in patterns
+    let [lnum, col] = searchpos(pat, 'bcn', line('.'))
+    if lnum == 0 || col < searchpos(not_pat, 'bcn', line('.'))[1]
+      continue
+    endif
+    call cursor(lnum, col)
+    normal! v
+    call searchpos(pat, 'ce', line('.'))
+    break
+  endfor
+endfunction
+
 function! mi#textobject#between(char, around) abort
   let char = a:char
   if stridx('^$[.*\', char) > 0
