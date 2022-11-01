@@ -1,3 +1,17 @@
+function! mi#path#separator() abort
+  if !exists('s:sep')
+    let s:sep = fnamemodify('.', ':p')[-1:]
+  endif
+  return s:sep
+endfunction
+
+function! mi#path#ensure_last_separator(path) abort
+  return mi#path#trim_last_separator(path) .. mi#path#separator()
+endfunction
+function! mi#path#trim_last_separator(path) abort
+  return substitute(a:path, mi#path#separator() .. '\+$', '', '')
+endfunction
+
 function! mi#path#normalize(fname, ...) abort
   let fname = expand(a:fname)
 
@@ -7,7 +21,7 @@ function! mi#path#normalize(fname, ...) abort
     let fname = substitute(fname, '\v/[^/]+/\.\./', '/', 'g')
   endwhile
 
-  if fname[0] == '/'
+  if fname[0] == mi#path#separator()
     return fname
   endif
 
@@ -24,13 +38,13 @@ function! mi#path#normalize(fname, ...) abort
     let modifier ..= ':h'
   endwhile
 
-  return fnamemodify(base, modifier) .. '/' .. fname
+  return fnamemodify(base, modifier) .. mi#path#separator() .. fname
 endfunction
 
 function! s:_join(paths) abort
   let joined = ''
-  for e in a:paths
-    let joined ..= substitute(e, '[^/]$', '/', '')
+  for path in a:paths
+    let joined ..= mi#path#ensure_last_separator(path)
   endfor
   return joined
 endfunction
@@ -44,11 +58,11 @@ function! mi#path#resolve(...) abort
 endfunction
 
 function! mi#path#dirname(path) abort
-  return substitute(a:path, '\v/[^/]+$', '', '')
+  return substitute(a:path, '\v/[^' .. mi#path#separator() .. ']+$', '', '')
 endfunction
 
 function! mi#path#basename(path) abort
-  return substitute(a:path, '\v.*/', '', '')
+  return substitute(a:path, '\v.*' .. mi#path#separator(), '', '')
 endfunction
 
 function! mi#path#extname(path) abort
@@ -62,10 +76,12 @@ function! mi#path#common(paths) abort
     return mi#path#dirname(a:paths[0])
   endif
 
+  let sep = mi#path#separator()
+
   let is_absolute = 0
   let split_paths = []
   for path in a:paths
-    if path[0] == '~' || path[0] == '/'
+    if path[0] == '~' || path[0] == sep
       call add(split_paths, expand(path))
       let is_absolute = 1
     else
@@ -73,7 +89,7 @@ function! mi#path#common(paths) abort
     endif
   endfor
 
-  call map(split_paths, {_,path->split(path,'/')})
+  call map(split_paths, {_,path->split(path, sep)})
   let common_path = []
 
   let i = 0
@@ -93,15 +109,17 @@ function! mi#path#common(paths) abort
     let i += 1
   endwhile
 
-  return (is_absolute ? '/' : '') .. join(common_path, '/')
+  return (is_absolute ? sep : '') .. join(common_path, sep)
 endfunction
 
 function! mi#path#relative(from, to) abort
   let common_dir = mi#path#common([a:from, a:to])
+  let sep = mi#path#separator()
+  let pat =  '\v^' .. sep .. '|' .. sep .. '$'
   let from = substitute(a:from, '^' .. common_dir, '', '')
-  let from = substitute(from, '\v^/|/$', '', 'g')
+  let from = substitute(from, sep, '', 'g')
   let to = substitute(a:to, '^' .. common_dir, '', '')
-  let to = substitute(to, '\v^/|/$', '', 'g')
+  let to = substitute(to, sep, '', 'g')
   if from == to
     return ''
   endif
@@ -110,13 +128,13 @@ function! mi#path#relative(from, to) abort
     return to
   endif
 
-  let from = substitute(from, '\v[^/]+', '..', 'g')
+  let from = substitute(from, '\v[^' .. sep .. ']+', '..', 'g')
 
   if to == ''
     return from
   endif
 
-  return from .. '/' .. to
+  return from .. sep .. to
 endfunction
 
 function! mi#path#is_node_repo() abort
@@ -127,7 +145,7 @@ function! mi#path#is_node_repo() abort
 endfunction
 
 function! mi#path#resolve_node_require(basename) abort
-  for b in ['.', '/index.']
+  for b in ['.', mi#path#separator() .. 'index.']
     for x in ['js', 'ts', 'jsx', 'tsx']
       if filereadable(a:basename .. b .. x)
         return a:basename .. b .. x
