@@ -1,5 +1,13 @@
-function! s:init_mru() abort
+function! s:project_root() abort
   let root = mi#git#get_root()
+  if root == ''
+    return root
+  endif
+  return mi#path#ensure_last_separator(root)
+endfunction
+
+function! s:init_mru() abort
+  let root = s:project_root()
   if root == ''
     return v:oldfiles
   endif
@@ -19,7 +27,7 @@ function! mi#mru#save(file = '%') abort
   if !exists('s:project_mru')
     let s:project_mru = s:init_mru()
   endif
-  let root_pattern = '^' .. mi#git#get_root()
+  let root_pattern = '^' .. s:project_root()
   let file = fnamemodify(expand(a:file), ':p')
   if file =~ root_pattern && file !~ '\.git/' && filereadable(file)
     let file = substitute(file, root_pattern, '', '')
@@ -35,14 +43,14 @@ function! mi#mru#list(full_path = v:false) abort
     return s:project_mru
   endif
 
-  let root = mi#git#get_root()
+  let root = s:project_root()
 
   if root == ''
     return s:project_mru
   endif
 
   let root_pattern = '^' .. root
-  return mapnew(s:project_mru, "substitute(v:val, root_pattern, '', '')")
+  return map(copy(s:project_mru), "substitute(v:val, root_pattern, '', '')")
 endfunction
 
 if !has('nvim')

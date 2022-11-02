@@ -6,7 +6,7 @@ function! mi#path#separator() abort
 endfunction
 
 function! mi#path#ensure_last_separator(path) abort
-  return mi#path#trim_last_separator(path) .. mi#path#separator()
+  return mi#path#trim_last_separator(a:path) .. mi#path#separator()
 endfunction
 function! mi#path#trim_last_separator(path) abort
   return substitute(a:path, mi#path#separator() .. '\+$', '', '')
