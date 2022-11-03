@@ -205,6 +205,14 @@ else
   call jetpack#add('tani/vim-jetpack', {'opt': 1})
   call jetpack#add('vim-jp/vimdoc-ja')
   call jetpack#end()
+
+  " prev/next use
+  nnoremap [u *NNzz<cmd>nohlsearch<cr>
+  nnoremap ]u *zz<cmd>nohlsearch<cr>
+
+  " word search keep positions
+  nnoremap * *``zz
+  nnoremap # #``zz
 endif
 
 let g:my_vimrc = $MYVIMRC
@@ -347,7 +355,8 @@ xnoremap <silent><C-k> :m'<-2<CR>gv=gv
 xnoremap <silent><C-j> :m'>+1<CR>gv=gv
 xnoremap S "zy:%s/<C-r>z//gce<Left><Left><Left><Left>
 " ref: github.com/monaqa/dotfiles/blob/master/.config/nvim/scripts/keymap.vim#L65-L66
-xnoremap * "zy/\V<C-r><C-r>=substitute(escape(@z, '/\'), '\_s\+', '\\_s\\+', 'g')<CR><CR>N
+xnoremap * "zy/\V<C-r><C-r>=substitute(escape(@z, '/\'), '\_s\+', '\\_s\\+', 'g')<CR><CR>``
+xnoremap # "zy?\V<C-r><C-r>=substitute(escape(@z, '/\'), '\_s\+', '\\_s\\+', 'g')<CR><CR>``
 xnoremap R "zy:,$s//<C-r><C-r>=escape(@z, '/\&~')<CR>/gce<Bar>1,''-&&<CR>
 
 " operator
