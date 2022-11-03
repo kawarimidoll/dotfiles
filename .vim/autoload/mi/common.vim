@@ -18,3 +18,24 @@ function! mi#common#trim(ignore = {}) abort
     silent! %s/\n\+\%$//
   endif
 endfunction
+
+function! mi#common#half_move(direction, count = 1) abort
+  let [lnum, col] = getpos('.')[1:2]
+
+  for i in range(a:count)
+    if a:direction == 'left'
+      let col = col / 2
+    elseif a:direction == 'right'
+      let col = (len(getline('.')) + col) / 2
+    elseif a:direction == 'center'
+      let col = len(getline('.')) / 2
+    elseif a:direction == 'up'
+      let lnum = (line('w0') + lnum) / 2
+    elseif a:direction == 'down'
+      let lnum = (line('w$') + lnum) / 2
+    else
+      echoerr "half_move: direction must be one of ['left', 'right', 'center', 'up', 'down']"
+    endif
+  endfor
+  call cursor(lnum, col)
+endfunction

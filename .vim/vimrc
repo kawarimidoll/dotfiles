@@ -262,6 +262,11 @@ nnoremap <sid>(q)q qq
 nnoremap Q @q
 nnoremap <sid>(q)a <Cmd>call mi#qf#add_curpos()<CR>
 nnoremap <sid>(q)c <Cmd>call mi#qf#toggle()<CR>
+nnoremap <sid>(q)h <Cmd>call mi#common#half_move('left', v:count1)<CR>
+nnoremap <sid>(q)i <Cmd>call mi#common#half_move('center', v:count1)<CR>
+nnoremap <sid>(q)j <Cmd>call mi#common#half_move('down', v:count1)<CR>
+nnoremap <sid>(q)k <Cmd>call mi#common#half_move('up', v:count1)<CR>
+nnoremap <sid>(q)l <Cmd>call mi#common#half_move('right', v:count1)<CR>
 nnoremap <sid>(q)o <Cmd>only!<CR>
 nnoremap <sid>(q)t <C-^>
 nnoremap <sid>(q)x <Cmd>call mi#qf#clear()<CR>
