@@ -382,55 +382,19 @@ function! s:apply_user_highlight() abort
 endfunction
 
 " https://qiita.com/monaqa/items/dcd43a53d3040293142a
-digraphs aa 12354  " あ
-digraphs ii 12356  " い
-digraphs uu 12358  " う
-digraphs ee 12360  " え
-digraphs oo 12362  " お
-digraphs nn 12435  " ん
-digraphs aA 12353  " ぁ
-digraphs iI 12355  " ぃ
-digraphs uU 12357  " ぅ
-digraphs eE 12359  " ぇ
-digraphs oO 12361  " ぉ
-digraphs Aa 12450  " ア
-digraphs Ii 12452  " イ
-digraphs Uu 12454  " ウ
-digraphs Ee 12456  " エ
-digraphs Oo 12458  " オ
-digraphs Nn 12531  " ン
-digraphs AA 12449  " ァ
-digraphs II 12451  " ィ
-digraphs UU 12453  " ゥ
-digraphs EE 12455  " ェ
-digraphs OO 12457  " ォ
-digraphs j( 65288  " （
-digraphs j) 65289  " ）
-digraphs j[ 12300  " 「
-digraphs j] 12301  " 」
-digraphs j{ 12302  " 『
-digraphs j} 12303  " 』
-digraphs j< 12304  " 【
-digraphs j> 12305  " 】
-digraphs j, 12289  " 、
-digraphs j. 12290  " 。
-digraphs j! 65281  " ！
-digraphs j? 65311  " ？
-digraphs j: 65306  " ：
-digraphs j0 65296  " ０
-digraphs j1 65297  " １
-digraphs j2 65298  " ２
-digraphs j3 65299  " ３
-digraphs j4 65300  " ４
-digraphs j5 65301  " ５
-digraphs j6 65302  " ６
-digraphs j7 65303  " ７
-digraphs j8 65304  " ８
-digraphs j9 65305  " ９
-digraphs j~ 12316  " 〜
-digraphs j/ 12539  " ・
-digraphs js 12288  " 　
-" digraphs jj 106    " j
+let s:jp_digraphs = [
+      \    ['aa', 'あ'], ['ii', 'い'], ['uu', 'う'], ['ee', 'え'], ['oo', 'お'],
+      \    ['aA', 'ぁ'], ['iI', 'ぃ'], ['uU', 'ぅ'], ['eE', 'ぇ'], ['oO', 'ぉ'],
+      \    ['Aa', 'ア'], ['Ii', 'イ'], ['Uu', 'ウ'], ['Ee', 'エ'], ['Oo', 'オ'],
+      \    ['AA', 'ァ'], ['II', 'ィ'], ['UU', 'ゥ'], ['EE', 'ェ'], ['OO', 'ォ'],
+      \    ['nn', 'ん'], ['Nn', 'ン'], ['j(', '（'], ['j)', '）'], ['j[', '「'],
+      \    ['j]', '」'], ['j{', '『'], ['j}', '』'], ['j<', '【'], ['j>', '】'],
+      \    ['j,', '、'], ['j.', '。'], ['j!', '！'], ['j?', '？'], ['j:', '：'],
+      \    ['j0', '０'], ['j1', '１'], ['j2', '２'], ['j3', '３'], ['j4', '４'],
+      \    ['j5', '５'], ['j6', '６'], ['j7', '７'], ['j8', '８'], ['j9', '９'],
+      \    ['j~', '〜'], ['j/', '・'], ['j ', '　'],
+      \  ]
+call digraph_setlist(s:jp_digraphs)
 noremap f<C-j> f<C-k>j
 noremap F<C-j> F<C-k>j
 noremap t<C-j> t<C-k>j

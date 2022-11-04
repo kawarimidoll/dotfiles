@@ -138,7 +138,7 @@ function! mi#ft#smart(key) abort
       redraw
       echo 'input digraph:' d1
       let d2 = nr2char(getchar())
-      let char = split(digraph_get(d1 .. d2))[0]
+      let char = get(split(digraph_get(d1 .. d2)), 0, '')
       redraw
       echo 'input digraph:' d1 d2 '->' char
     endif
