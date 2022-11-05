@@ -218,12 +218,12 @@ endif
 let g:my_vimrc = $MYVIMRC
 
 command! RcEdit execute 'edit' g:my_vimrc
-command! RcReload write | execute 'source' g:my_vimrc | nohlsearch | redraw | echo g:my_vimrc . ' is reloaded.'
+command! RcReload write | execute 'source' g:my_vimrc | nohlsearch | redraw | echo g:my_vimrc .. ' is reloaded.'
 
 command! CopyFullPath     let @*=expand('%:p') | echo 'copy full path'
 command! CopyDirName      let @*=expand('%:h') | echo 'copy dir name'
 command! CopyFileName     let @*=expand('%:t') | echo 'copy file name'
-command! CopyRelativePath let @*=expand('%:h').'/'.expand('%:t') | echo 'copy relative path'
+command! CopyRelativePath let @*=expand('%:h')..'/'..expand('%:t') | echo 'copy relative path'
 
 command! -nargs=+ Grep call mi#qf#grep(<q-args>)
 command! -nargs=+ GrepF call mi#qf#grep('--fixed-strings -- ' .. <q-args>)
@@ -321,12 +321,12 @@ nnoremap <Space>; @:
 nnoremap <Space>/ :<C-u>Grep ''<Left>
 nnoremap <Space>? :<C-u>GrepF ''<Left><C-r><C-w>
 xnoremap <Space>? "zy:<C-u>GrepF ''<Left><C-r>z
-nnoremap <silent><expr> <C-k> '<Cmd>move-1-' . v:count1 . '<CR>=l'
-nnoremap <silent><expr> <C-j> '<Cmd>move+'   . v:count1 . '<CR>=l'
+nnoremap <silent><expr> <C-k> '<Cmd>move-1-' .. v:count1 .. '<CR>=l'
+nnoremap <silent><expr> <C-j> '<Cmd>move+'   .. v:count1 .. '<CR>=l'
 nnoremap <Space>L <Cmd>LazyGit<CR>
 
-nnoremap <C-f> <Cmd>set scroll=0<CR><Cmd>execute 'normal!' repeat("\<C-d>", v:count1 * 2)<CR>
-nnoremap <C-b> <Cmd>set scroll=0<CR><Cmd>execute 'normal!' repeat("\<C-u>", v:count1 * 2)<CR>
+nnoremap <C-f> <Cmd>set scroll=0<CR><Cmd>execute 'normal!' repeat('<C-d>', v:count1 * 2)<CR>
+nnoremap <C-b> <Cmd>set scroll=0<CR><Cmd>execute 'normal!' repeat('<C-u>', v:count1 * 2)<CR>
 
 " command
 cnoremap <expr> s getcmdtype() == ':' && getcmdline() == 's' ? '<BS>%s/' : 's'
@@ -342,7 +342,7 @@ cnoremap <C-e> <End>
 cnoremap <C-d> <Del>
 cnoremap <C-r><C-r> <C-r><C-r>*
 cnoremap <C-g> <C-c>
-cnoremap <expr> <C-k> repeat("\<Del>", strchars(getcmdline()[getcmdpos() - 1:]))
+cnoremap <expr> <C-k> repeat('<Del>', strchars(getcmdline()[getcmdpos() - 1:]))
 
 " insert
 inoremap <silent> <C-r><C-r> <C-r><C-r>*
@@ -371,15 +371,6 @@ onoremap x d
 tnoremap <C-w><C-n> <C-\><C-n>
 tnoremap <C-p> <Up>
 tnoremap <C-n> <Down>
-
-function! s:apply_user_highlight() abort
-  highlight Reverse    cterm=reverse gui=reverse
-  highlight Pmenu      ctermfg=254 ctermbg=237 guifg=#e3e1e4 guibg=#37343a
-  highlight PmenuSel   ctermfg=237 ctermbg=254 guifg=#37343a guibg=#e3e1e4
-  highlight PmenuSbar  ctermbg=238 guibg=#423f46
-  highlight PmenuThumb ctermbg=255 guibg=#f8f8f2
-  highlight Underlined ctermfg=NONE cterm=underline guifg=NONE gui=underline
-endfunction
 
 " https://qiita.com/monaqa/items/dcd43a53d3040293142a
 let s:jp_digraphs = [
@@ -446,6 +437,16 @@ function! EditProjectMru() abort
 endfunction
 " }}}
 
+function! s:apply_user_highlight() abort
+  highlight Reverse    cterm=reverse gui=reverse
+  highlight Pmenu      ctermfg=254 ctermbg=237 guifg=#e3e1e4 guibg=#37343a
+  highlight PmenuSel   ctermfg=237 ctermbg=254 guifg=#37343a guibg=#e3e1e4
+  highlight PmenuSbar  ctermbg=238 guibg=#423f46
+  highlight PmenuThumb ctermbg=255 guibg=#f8f8f2
+  highlight Underlined ctermfg=NONE cterm=underline guifg=NONE gui=underline
+  highlight ExtraWhitespace ctermbg=darkmagenta guibg=darkmagenta
+endfunction
+
 augroup vimrc
   autocmd!
 
@@ -485,7 +486,6 @@ augroup vimrc
   autocmd VimEnter,WinEnter * if !exists('w:highlight_extra_whitespace')
         \ | let w:highlight_extra_whitespace = matchadd('ExtraWhitespace', "[\u00A0\u2000-\u200B\u3000]")
         \ | endif
-  autocmd ColorScheme * highlight default ExtraWhitespace ctermbg=darkmagenta guibg=darkmagenta
   autocmd ColorScheme * call s:apply_user_highlight()
 
   autocmd VimEnter * ++once call mi#git#ensure_root()
