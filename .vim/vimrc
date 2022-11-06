@@ -254,14 +254,16 @@ nnoremap s <NOP>
 nnoremap so <Cmd>source<Bar>nohlsearch<CR>
 nnoremap s/ :%s/
 nnoremap S :%s/\V\<<C-r><C-w>\>//g<Left><Left>
+
+" https://thinca.hatenablog.com/entry/q-as-prefix-key-in-vim
 nnoremap <script> <expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
-" for c in g:mi#const#alpha_all->split('\zs')
-"   execute 'nnoremap <sid>(q)' .. c '<NOP>'
-" endfor
 nnoremap <sid>(q)q qq
 nnoremap Q @q
+nnoremap <sid>(q)/ q/
+nnoremap <sid>(q): q:
 nnoremap <sid>(q)a <Cmd>call mi#qf#add_curpos()<CR>
 nnoremap <sid>(q)c <Cmd>call mi#qf#toggle()<CR>
+nnoremap <sid>(q)g :<C-u>global/^/normal<Space>
 nnoremap <sid>(q)h <Cmd>call mi#common#half_move('left', v:count1)<CR>
 nnoremap <sid>(q)i <Cmd>call mi#common#half_move('center', v:count1)<CR>
 nnoremap <sid>(q)j <Cmd>call mi#common#half_move('down', v:count1)<CR>
@@ -270,6 +272,12 @@ nnoremap <sid>(q)l <Cmd>call mi#common#half_move('right', v:count1)<CR>
 nnoremap <sid>(q)o <Cmd>only!<CR>
 nnoremap <sid>(q)t <C-^>
 nnoremap <sid>(q)x <Cmd>call mi#qf#clear()<CR>
+" reserve for neovim
+if has('nvim')
+  for c in ['d', 'z']
+    execute printf('nnoremap <sid>(q)%s <Plug>(rc-q-%s)', c, c)
+  endfor
+endif
 
 nnoremap p ]p`]
 nnoremap P [P`]

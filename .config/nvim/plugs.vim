@@ -400,29 +400,6 @@ Keymap n <expr> ]b '<Cmd>Qfutils BCycle '  .. v:count1 .. '<CR>'
 Keymap n <expr> [q '<Cmd>Qfutils CCycle -' .. v:count1 .. '<CR>'
 Keymap n <expr> ]q '<Cmd>Qfutils CCycle '  .. v:count1 .. '<CR>'
 
-" [Vim で q を prefix キーにする - 永遠に未完成](https://thinca.hatenablog.com/entry/q-as-prefix-key-in-vim)
-nnoremap <script> <expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
-for c in g:mi#const#alpha_all->split('\zs')
-  execute 'nnoremap <sid>(q)' .. c '<NOP>'
-endfor
-nnoremap <sid>(q)q qq
-nnoremap Q @q
-nnoremap <sid>(q)a <Cmd>Qfutils CAdd<CR>
-nnoremap <sid>(q)b <Cmd>Gitsigns toggle_current_line_blame<CR>
-nnoremap <sid>(q)c <Cmd>Qfutils CToggle<CR>
-nnoremap <sid>(q)d <Cmd>TroubleToggle<CR>
-nnoremap <sid>(q)g :<C-u>global/^/normal<Space>
-nnoremap <sid>(q)h <Cmd>HalfMove left<CR>
-nnoremap <sid>(q)i <Cmd>HalfMove center<CR>
-nnoremap <sid>(q)j <Cmd>HalfMove down<CR>
-nnoremap <sid>(q)k <Cmd>HalfMove up<CR>
-nnoremap <sid>(q)l <Cmd>HalfMove right<CR>
-nnoremap <sid>(q)o <Cmd>only<CR>
-nnoremap <sid>(q)t <C-^>
-nnoremap <sid>(q)x <Cmd>Qfutils CClear<CR>
-nnoremap <sid>(q)z <Cmd>lua MiniMisc.zoom()<CR>
-nnoremap <sid>(q): q:
-nnoremap <sid>(q)/ q/
-nnoremap <Space>d <Cmd>keepalt lua MiniBufremove.delete()<CR>
-nnoremap <Space>L <Cmd>LazyGit<CR>
+nnoremap <Plug>(rc-q-d) <Cmd>TroubleToggle<CR>
+nnoremap <Plug>(rc-q-z) <Cmd>lua require('mini.misc').zoom()<CR>
 " }}}
