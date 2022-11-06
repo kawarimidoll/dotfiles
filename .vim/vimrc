@@ -216,6 +216,7 @@ else
 endif
 
 let g:my_vimrc = $MYVIMRC
+let g:vimrc_snr = expand('<SID>')
 
 command! RcEdit execute 'edit' g:my_vimrc
 command! RcReload write | execute 'source' g:my_vimrc | nohlsearch | redraw | echo g:my_vimrc .. ' is reloaded.'

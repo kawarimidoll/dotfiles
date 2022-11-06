@@ -24,6 +24,11 @@ wk.register({
   prefix = '<C-x>',
 })
 
+wk.register({
+  [vim.g.vimrc_snr .. '(q)d'] = 'TroubleToggle',
+  [vim.g.vimrc_snr .. '(q)z'] = 'mini.zoom',
+})
+
 -- gitsigns
 wk.register({
   ['s'] = 'gitsigns.stage_hunk',
