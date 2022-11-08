@@ -213,6 +213,29 @@ else
   " word search keep positions
   nnoremap * *``zz
   nnoremap # #``zz
+
+  " :h termcap-cursor-shape@en
+  " https://vim.fandom.com/wiki/Change_cursor_shape_in_different_modes
+  if &term =~ 'xterm' || &term == 'win32'
+    " Use DECSCUSR escape sequences
+    " vertical bar in insert mode
+    let &t_SI = "\e[5 q"
+    " underline in replace mode
+    let &t_SR = "\e[3 q"
+    " block in normal mode
+    let &t_EI = "\e[1 q"
+    " change shape enter / escape termcap
+    let &t_ti ..= "\e[1 q"
+    let &t_te ..= "\e[0 q"
+    "  0 -> default (depends on terminal, normally blinking block)
+    "  1 -> blinking block
+    "  2 -> solid block
+    "  3 -> blinking underscore
+    "  4 -> solid underscore
+    "  5 -> blinking vertical bar
+    "  6 -> solid vertical bar
+  endif
+
 endif
 
 let g:my_vimrc = $MYVIMRC
