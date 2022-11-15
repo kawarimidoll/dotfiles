@@ -2,14 +2,6 @@ source ~/dotfiles/.vim/vimrc
 
 let g:markdown_fenced_languages = ['ts=typescript', 'js=javascript']
 
-" {{{ Qfutils
-function! s:load_qfutils(args) abort
-  source ~/dotfiles/.config/nvim/qfutils.vim
-  execute 'Qfutils' a:args
-endfunction
-command! -nargs=+ Qfutils call s:load_qfutils(<q-args>)
-" }}}
-
 " {{{ commands.vim
 source ~/dotfiles/.config/nvim/commands.vim
 let g:my_vimrc = expand('<sfile>:p')
@@ -395,11 +387,6 @@ luafile ~/dotfiles/.config/nvim/plugin_config/mini.lua
 " }}}
 
 " {{{ user owned mappings
-Keymap n <expr> [b '<Cmd>Qfutils BCycle -' .. v:count1 .. '<CR>'
-Keymap n <expr> ]b '<Cmd>Qfutils BCycle '  .. v:count1 .. '<CR>'
-Keymap n <expr> [q '<Cmd>Qfutils CCycle -' .. v:count1 .. '<CR>'
-Keymap n <expr> ]q '<Cmd>Qfutils CCycle '  .. v:count1 .. '<CR>'
-
 nnoremap <Plug>(rc-q-d) <Cmd>TroubleToggle<CR>
 nnoremap <Plug>(rc-q-z) <Cmd>lua require('mini.misc').zoom()<CR>
 " }}}
