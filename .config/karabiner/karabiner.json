@@ -355,6 +355,66 @@
             ]
           },
           {
+            "description": "Ctrl+BSを押したときに、escキーと英数キーを送信する",
+            "manipulators": [
+              {
+                "conditions": [
+                  {
+                    "keyboard_types": [
+                      "ansi",
+                      "iso"
+                    ],
+                    "type": "keyboard_type_if"
+                  }
+                ],
+                "from": {
+                  "key_code": "delete_or_backspace",
+                  "modifiers": {
+                    "mandatory": [
+                      "control"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "escape"
+                  },
+                  {
+                    "key_code": "japanese_eisuu"
+                  }
+                ],
+                "type": "basic"
+              },
+              {
+                "conditions": [
+                  {
+                    "keyboard_types": [
+                      "jis"
+                    ],
+                    "type": "keyboard_type_if"
+                  }
+                ],
+                "from": {
+                  "key_code": "delete_or_backspace",
+                  "modifiers": {
+                    "mandatory": [
+                      "control"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "escape"
+                  },
+                  {
+                    "key_code": "japanese_eisuu"
+                  }
+                ],
+                "type": "basic"
+              }
+            ]
+          },
+          {
             "description": "コマンドキーを単体で押したときに、英数・かなキーを送信する。（左コマンドキーは英数、右コマンドキーはかな） (rev 3)",
             "manipulators": [
               {
