@@ -65,15 +65,15 @@ endfunction
 command! -nargs=+ Keymap call s:keymap(<f-args>)
 " }}}
 
-let s:word_1000_dict_path = '~/.cache/nvim/google-10000-english-no-swears.txt'
-if !filereadable(expand(s:word_1000_dict_path))
-  silent execute '!curl --create-dirs -fLo ' .. s:word_1000_dict_path ..
-        \ 'https://raw.githubusercontent.com/first20hours/google-10000-english/master/google-10000-english-no-swears.txt'
+let s:word_1000_dict_path = expand('~/.cache/nvim/google-10000-english-no-swears.txt')
+let s:word_1000_dict_url = 'https://raw.githubusercontent.com/first20hours/google-10000-english/master/google-10000-english-no-swears.txt'
+if !filereadable(s:word_1000_dict_path)
+  call system(printf('curl -fsSLo %s --create-dirs %s', s:word_1000_dict_path, s:word_1000_dict_url))
 endif
 execute 'set dictionary+=' .. s:word_1000_dict_path
 
-let s:dotfiles_dict_path = '~/dotfiles/.config/cspell/dotfiles.txt'
-if filereadable(expand(s:dotfiles_dict_path))
+let s:dotfiles_dict_path = expand('~/dotfiles/.config/cspell/dotfiles.txt')
+if filereadable(s:dotfiles_dict_path)
   execute 'set dictionary+=' .. s:dotfiles_dict_path
 endif
 
