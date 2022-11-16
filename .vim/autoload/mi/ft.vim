@@ -85,7 +85,7 @@ function! mi#ft#repeat(key) abort
           \ (!charsearch.forward && a:key == ',') ? 1 : -1
   endif
 
-  let pattern = char
+  let pattern = escape(char, '*\\')
   if has_key(g:mi#ft#key_table, char)
     let pattern = '[' .. char .. g:mi#ft#key_table[char] .. ']'
   endif
