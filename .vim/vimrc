@@ -310,7 +310,7 @@ nnoremap P [P`]
 "nnoremap gP P
 nnoremap x "_d
 nnoremap X "_D
-nnoremap ' `
+" nnoremap ' `
 
 nnoremap <silent><expr> [b '<Cmd>' .. v:count1 .. 'bprevious<CR>'
 nnoremap <silent><expr> ]b '<Cmd>' .. v:count1 .. 'bnext<CR>'
@@ -324,6 +324,12 @@ nnoremap [w <C-w>w
 nnoremap ]w <C-w>W
 nnoremap [m [`
 nnoremap ]m ]`
+nnoremap [p {
+nnoremap ]p }
+
+" for 40% keyboard
+nmap <BS> [
+nmap ' ]
 
 " https://twitter.com/mo_naqa/status/1467626946293284865
 " nnoremap gf gFzz
