@@ -125,25 +125,45 @@ function! mi#ft#repeat(key) abort
   call cursor(lnum, col)
 endfunction
 
+function! s:echo_one(...) abort
+  echo a:1
+  let s:message_enable = 1
+endfunction
+
 function! mi#ft#smart(key) abort
   if a:key !=? 'f' && a:key !=? 't'
     return
   endif
 
   if !exists('g:mi#dot_repeating')
+    let timer_id = timer_start(1000, funcref('s:echo_one', ['[ft] input search char:']))
     let char = nr2char(getchar())
+    call timer_stop(timer_id)
     if char == get(g:, 'mi#ft#digraph_marker', s:defaults.digraph_marker)
-      echo 'input digraph:'
+      unlet! s:message_enable
+      redraw
+      echo '[ft] input digraph:'
       let d1 = nr2char(getchar())
       redraw
-      echo 'input digraph:' d1
+      if d1 !~ '\p'
+        return
+      endif
+      echo '[ft] input digraph:' d1
       let d2 = nr2char(getchar())
-      let char = get(split(digraph_get(d1 .. d2)), 0, '')
       redraw
-      echo 'input digraph:' d1 d2 '->' char
+      if d2 !~ '\p'
+        return
+      endif
+      let char = get(split(digraph_get(d1 .. d2)), 0, '')
+      echo '[ft] input digraph:' d1 d2 '->' char
     endif
     if char !~ '\p'
       return
+    endif
+    if exists('s:message_enable')
+      redraw
+      echo '[ft] input search char:' char
+      unlet! s:message_enable
     endif
 
     let forward = a:key ==# 'f' || a:key ==# 't'
