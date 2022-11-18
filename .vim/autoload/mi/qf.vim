@@ -2,9 +2,9 @@ function! mi#qf#grep(word) abort
   cgetexpr system(printf('%s %s', &grepprg, a:word))
 
   if len(getqflist()) != 0
-    silent! doautocmd QuickFixCmdPost grep
     call setqflist([], 'r', {'title': a:word})
     copen
+    silent! doautocmd QuickFixCmdPost grep
   else
     echo 'grep: no matches found.'
     cclose
@@ -15,9 +15,9 @@ function! mi#qf#lgrep(word) abort
   lgetexpr system(printf('%s %s', &grepprg, a:word))
 
   if len(getloclist(0)) != 0
-    silent! doautocmd QuickFixCmdPost lgrep
     call setloclist(0, [], 'r', {'title': a:word})
     lopen
+    silent! doautocmd QuickFixCmdPost lgrep
   else
     echo 'lgrep: no matches found.'
     lclose
