@@ -175,6 +175,28 @@ function! s:clear_hl_paren()
   endif
 endfunction
 
+" {{{ MergeHighlight
+" https://zenn.dev/kawarimidoll/articles/cf6caaa7602239
+function! s:merge_highlight(args) abort
+  let l:args = split(a:args)
+  if len(l:args) < 2
+    echoerr '[MergeHighlight] At least 2 arguments are required.'
+    echoerr 'New highlight name and source highlight names.'
+    return
+  endif
+
+  " skip 'links' and 'cleared'
+  execute 'highlight' l:args[0] l:args[1:]
+      \ ->map({_, val -> execute('highlight ' .. val)->substitute('^\S\+\s\+xxx\s', '', '')})
+      \ ->filter({_, val -> val !~? '^links to' && val !=? 'cleared'})
+      \ ->join()
+endfunction
+" Set in vimrc:
+"  command! -nargs=+ -complete=highlight MergeHighlight call s:merge_highlight(<q-args>)
+" Use like this:
+"  MergeHighlight markdownH1 Red Bold
+" }}}
+
 if !exists('s:clear_autocmd_set')
   augroup mi#highlight#augroup
     autocmd BufLeave,WinLeave,InsertEnter * call s:clear_hl_cursorword()
