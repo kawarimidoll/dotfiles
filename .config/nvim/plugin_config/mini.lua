@@ -50,32 +50,32 @@ vim.api.nvim_create_autocmd({ 'VimEnter' }, {
   once = true,
 })
 
-vim.api.nvim_create_autocmd({ 'VimEnter' }, {
-  pattern = '*',
-  callback = function()
-    local ok, mini_map = pcall(require, 'mini.map')
-    if not ok then
-      return
-    end
-
-    mini_map.setup({
-      integrations = {
-        mini_map.gen_integration.builtin_search(),
-        mini_map.gen_integration.gitsigns(),
-        mini_map.gen_integration.diagnostic(),
-      },
-      symbols = {
-        encode = mini_map.gen_encode_symbols.dot('4x2'),
-        scroll_line = '▶',
-        scroll_view = '┃',
-      },
-    })
-    vim.keymap.set('n', 'sm', MiniMap.toggle, { desc = 'Toggle mini.map' })
-    vim.keymap.set('n', 'sM', MiniMap.toggle_focus, { desc = 'Toggle focus on mini.map' })
-    MiniMap.open()
-  end,
-  once = true,
-})
+-- vim.api.nvim_create_autocmd({ 'VimEnter' }, {
+--   pattern = '*',
+--   callback = function()
+--     local ok, mini_map = pcall(require, 'mini.map')
+--     if not ok then
+--       return
+--     end
+--
+--     mini_map.setup({
+--       integrations = {
+--         mini_map.gen_integration.builtin_search(),
+--         mini_map.gen_integration.gitsigns(),
+--         mini_map.gen_integration.diagnostic(),
+--       },
+--       symbols = {
+--         encode = mini_map.gen_encode_symbols.dot('4x2'),
+--         scroll_line = '▶',
+--         scroll_view = '┃',
+--       },
+--     })
+--     vim.keymap.set('n', 'sm', MiniMap.toggle, { desc = 'Toggle mini.map' })
+--     vim.keymap.set('n', 'sM', MiniMap.toggle_focus, { desc = 'Toggle focus on mini.map' })
+--     MiniMap.open()
+--   end,
+--   once = true,
+-- })
 
 vim.opt.laststatus = 3
 require('mini.statusline').setup({
