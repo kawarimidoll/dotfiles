@@ -17,6 +17,7 @@ JSON
 
 let s:config = json_decode(join(s:config_json, ''))
 function! s:ddc_init() abort
+  call ddc#custom#patch_global('ui', 'pum')
   call ddc#custom#patch_global(s:config)
   call ddc#enable()
 endfunction
