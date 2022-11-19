@@ -14,12 +14,27 @@ function! s:skkeleton_init() abort
   endif
 
   let l:rom_table = {
-    \   'z9': ['（', ''],
-    \   'z0': ['）', ''],
-    \   "z\<Space>": ["\u3000", ''],
-    \ }
+        \   'la':  ['ぁ'],
+        \   'le':  ['ぇ'],
+        \   'li':  ['ぃ'],
+        \   'lka': ['か'],
+        \   'lke': ['け'],
+        \   'lo':  ['ぉ'],
+        \   'ltu': ['っ'],
+        \   'lu':  ['ぅ'],
+        \   'lwa': ['ゎ'],
+        \   'lwe': ['ゑ'],
+        \   'lwi': ['ゐ'],
+        \   'll': 'disable',
+        \   'lya': ['ゃ'],
+        \   'lyo': ['ょ'],
+        \   'lyu': ['ゅ'],
+        \   'z9': ['（'],
+        \   'z0': ['）'],
+        \   "z\<Space>": ["\u3000"],
+        \ }
   for char in split('abcdefghijklmnopqrstuvwxyz,._-!?', '.\zs')
-    let l:rom_table['c'.char] = [char, '']
+    let l:rom_table['c' .. char] = [char, '']
   endfor
 
   call skkeleton#config({
@@ -40,6 +55,7 @@ function! s:skkeleton_init() abort
     \  'userJisyo': s:user_jisyo_path ,
     \ })
   call skkeleton#register_kanatable('rom', l:rom_table)
+  call skkeleton#register_keymap('input', "x", 'disable')
 endfunction
 
 augroup skkeleton
