@@ -1,16 +1,8 @@
 function! s:has_window_to(direction) abort
-  if a:direction !~ '[hjkl]'
+  if a:direction !~# '[hjkl]'
     throw 'invalid direction'
   endif
-  if winnr('$') == 1
-    return v:false
-  endif
-
-  let from = winnr()
-  execute 'wincmd' a:direction
-  let to = winnr()
-  execute from 'wincmd w'
-  return from != to
+  return winnr() != winnr(a:direction)
 endfunction
 
 " https://github.com/simeji/winresizer/blob/master/plugin/winresizer.vim
