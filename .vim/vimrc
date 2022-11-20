@@ -50,6 +50,9 @@ let g:loaded_zipPlugin          = 1
 let g:skip_loading_mswin        = 1
 let g:vimsyn_embed              = 1
 
+" avoid to set expandtab in default ftplugin
+let g:markdown_recommended_style = 0
+
 " {{{ Keymap
 " https://zenn.dev/kawarimidoll/articles/513d603681ece9
 function! s:keymap(modes, ...) abort
