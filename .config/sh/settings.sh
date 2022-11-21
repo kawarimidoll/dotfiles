@@ -125,6 +125,11 @@ fi
 # -----------------
 #  Functions
 # -----------------
+ma() {
+  # https://rcmdnk.com/blog/2014/07/20/computer-vim/
+  man "$@" | col -bx | vim -RM --not-a-term -c 'set ft=man nolist nonumber' -
+}
+
 img_to_webp() {
   find . -maxdepth 1 \( -name \*.png -or -name \*.jpg -or -name \*.jpeg \) \
     | xargs -I_ sh -c 'printf _" -> "_".webp ..."; cwebp _ -o _".webp" >/dev/null 2>&1; echo " done."'
