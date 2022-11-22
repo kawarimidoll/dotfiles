@@ -391,4 +391,6 @@ luafile ~/dotfiles/.config/nvim/plugin_config/mini.lua
 " {{{ user owned mappings
 nnoremap <Plug>(rc-q-d) <Cmd>TroubleToggle<CR>
 nnoremap <Plug>(rc-q-z) <Cmd>lua require('mini.misc').zoom()<CR>
+
+cabbrev lup lua<space>=
 " }}}
