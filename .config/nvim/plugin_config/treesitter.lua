@@ -7,17 +7,17 @@ require('nvim-treesitter.configs').setup({
     enable = true,
     disable = function(lang, buf)
       -- disable in large files
-      local max_filesize = 100 * 1024 -- 100 KB
-      local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-      if ok and stats and stats.size > max_filesize then
+      local max_filesize = 512 * 1024 -- 512 KB
+      local ok, byte_size = pcall(vim.fn.getfsize, vim.api.nvim_buf_get_name(buf))
+      if ok and byte_size and byte_size > max_filesize then
         return true
       end
 
       -- disable when parse failed
-      local parse_success = pcall(function()
+      ok = pcall(function()
         vim.treesitter.get_query(lang, 'highlights')
       end)
-      if not parse_success then
+      if not ok then
         return true
       end
 
