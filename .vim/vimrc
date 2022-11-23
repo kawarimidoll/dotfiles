@@ -495,8 +495,19 @@ function! s:apply_user_highlight() abort
   highlight ExtraWhitespace ctermbg=darkmagenta guibg=darkmagenta
 endfunction
 
+" https://zenn.dev/hokorobi/articles/98f79339d7d114
+function! s:syntax_off_on_heavy_file()
+  if getfsize(@%) > 512 * 1000
+    setlocal syntax=OFF
+    call interrupt()
+    echo 'syntax off: too heavy file.'
+  endif
+endfunction
+
 augroup vimrc
   autocmd!
+
+  autocmd! BufEnter * call s:syntax_off_on_heavy_file()
 
   " remove function because it is only for `$ vim -c 'call EditProjectMru()'`
   autocmd VimEnter * ++once delfunction! EditProjectMru
