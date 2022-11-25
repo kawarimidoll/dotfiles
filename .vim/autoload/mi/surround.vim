@@ -25,18 +25,40 @@ function! mi#surround#add(type = '') abort
     return 'g@'
   endif
 
-  let char = get(s:cache, 'add', '')
-  if char == ''
+  let pair = get(s:cache, 'add', [])
+  if empty(pair)
     let char = nr2char(getchar())
+    let fname = ''
+
     if char !~ '\p'
       return "\<esc>"
+    elseif char ==? 'f'
+      let fname = input('function name: ')
+      if fname !~ '\p'
+        return "\<esc>"
+      endif
+      let char = char ==# 'F' ? '(' : ')'
     endif
-    let s:cache.add = char
+
+    let open = fname .. get(s:invert(s:pairs), char, char)
+    let close = get(s:pairs, char, char)
+
+    if has_key(s:pairs, char)
+      " wrap with blank by open-bracket
+      let open = open .. ' '
+      let close = ' ' .. close
+    endif
+
+    let s:cache.add = [open, close]
+  else
+    let [open, close] = pair
   endif
 
   let tail = getpos("']")
-  call s:putstr(tail[1], tail[2] + 1, get(s:pairs, char, char))
+  call s:putstr(tail[1], tail[2] + 1, close)
 
   let head = getpos("'[")
-  call s:putstr(head[1], head[2], get(s:invert(s:pairs), char, char))
+  call s:putstr(head[1], head[2], open)
+
+  call cursor(tail[1], tail[2] + 1 + strchars(open))
 endfunction
