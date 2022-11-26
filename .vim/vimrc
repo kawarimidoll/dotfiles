@@ -173,6 +173,8 @@ else
 
   " Keymap nx <expr> sa mi#surround#add()
   Keymap nx <expr> sa mi#surround#operator('add')
+  nnoremap <expr> sd mi#surround#operator('delete') .. ' '
+  nnoremap <expr> sr mi#surround#operator('replace') .. ' '
 
   let g:mi#ft#multiline = 1
   Keymap nx f <cmd>call mi#ft#smart('f')<CR>
