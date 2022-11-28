@@ -16,6 +16,7 @@ if !has('nvim')
   runtime macros/matchit.vim
   syntax enable
 endif
+language ja_JP.UTF-8
 
 let g:did_install_default_menus = 1
 let g:did_install_syntax_menu   = 1
