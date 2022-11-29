@@ -25,7 +25,8 @@ export TERMINFO_DIRS="${XDG_DATA_HOME}/terminfo:/usr/share/terminfo"
 # -----------------
 #  Paths
 # -----------------
-export EDITOR="nvim"
+export EDITOR="vim"
+# export EDITOR="nvim"
 # export GOPATH="${HOME}/go"
 PATH="${HOME}/bin:${PATH}"
 PATH="${DOT_DIR}/bin:${PATH}"
@@ -128,6 +129,18 @@ fi
 ma() {
   # https://rcmdnk.com/blog/2014/07/20/computer-vim/
   man "$@" | col -bx | vim -RM --not-a-term -c 'set ft=man nolist nonumber' -
+}
+
+# fuzzy edit gist
+fest() {
+  gh gist list "$@" | fzf --with-nth=-2,-4,-3,2..-5 | awk '{print $1}' \
+    | xargs --no-run-if-empty --open-tty gh gist edit
+}
+
+# view web gist
+vest() {
+  gh gist list "$@" | fzf --with-nth=-2,-4,-3,2..-5 | awk '{print $1}' \
+    | xargs --no-run-if-empty gh gist view --web
 }
 
 if has 'llama'; then
