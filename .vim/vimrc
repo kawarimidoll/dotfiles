@@ -393,8 +393,8 @@ cnoremap <expr> <C-k> repeat('<Del>', strchars(getcmdline()[getcmdpos() - 1:]))
 " insert
 inoremap <silent> <C-r><C-r> <C-r><C-r>*
 inoremap <C-k> <C-o>D
-inoremap <expr> <Tab>   pumvisible() ? '<C-n>' : '<Tab>'
-inoremap <expr> <S-Tab> pumvisible() ? '<C-p>' : '<S-Tab>'
+inoremap <expr> <Tab>   pumvisible() ? '<C-n>' : '<C-t>'
+inoremap <expr> <S-Tab> pumvisible() ? '<C-p>' : '<C-d>'
 
 inoremap <C-g><C-u> <esc>gUvbgi
 inoremap <C-g><C-l> <esc>guvbgi
