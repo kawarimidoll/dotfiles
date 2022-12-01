@@ -1,6 +1,6 @@
 function! s:has_window_to(direction) abort
   if a:direction !~# '[hjkl]'
-    throw 'invalid direction'
+    return v:false
   endif
   return winnr() != winnr(a:direction)
 endfunction
@@ -8,35 +8,38 @@ endfunction
 " https://github.com/simeji/winresizer/blob/master/plugin/winresizer.vim
 function! mi#window#resize(size = {}) abort
   if winnr('$') == 1
-    echo 'only one window'
+    echo '[window] only one window'
     return
   endif
   let restcmd = winrestcmd()
+  let original_win = winnr()
 
   let v_resize = get(a:size, 'v', 10)
   let h_resize = get(a:size, 'h', 3)
 
   while 1
-    echo 'hj: expand kl: shrink HJKL-focus q-cancel other-exit'
+    echo '[window] hjkl: resize, HJKL: focus, q: cancel, other: exit'
     redraw
     let c = getcharstr()
 
-    if c ==# 'h'
-      execute 'vertical resize +' .. v_resize
-    elseif c ==# 'j'
-      execute 'resize +' .. h_resize
-    elseif c ==# 'k'
-      execute 'resize -' .. h_resize
-    elseif c ==# 'l'
-      execute 'vertical resize -' .. v_resize
+    if stridx('hjkl', c) >= 0
+      let sign = s:has_window_to(c) ? '+' : '-'
+      let size = c =~# '[jk]' ? h_resize : v_resize
+      let cmd = c =~# '[jk]' ? 'resize' : 'vertical resize'
+      execute cmd sign .. size
     elseif stridx('HJKL', c) >= 0
       execute 'wincmd' tolower(c)
     elseif c ==# 'q'
       execute restcmd
+      execute original_win .. 'wincmd w'
+      let msg = 'cancelled.'
       break
     else
+      let msg = 'done.'
       break
     endif
   endwhile
   redraw
+
+  echo '[window]' msg
 endfunction
