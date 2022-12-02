@@ -14,7 +14,7 @@ let s:surround_specs = {
       \ 'a': { 'finder': ['<\s*', '\s*>'], 'wrapper': ['<', '>'] },
       \ 'q': { 'finder': ['"', '"', '''', '''', '`', '`'], 'wrapper': ['''', ''''] },
       \ 'f': { 'finder': ['\<\k\+(\s*', '\s*)'], 'wrapper': ['function_name(', ')', 'function_name'] },
-      \ 'F': { 'finder': ['\<\k\+(\s*', '\s*)'], 'wrapper': ['function_name( ', ' )', 'function_name'] },
+      \ 'F': { 'finder': ['\<\k\+(\s*', '\s*)'], 'wrapper': ['$CURSOR(', ')'], 'after_wrap': 'startinsert' },
       \ 't': { 'finder': ['<\w\+[^>]*\/\@<!>', '</\w\+>'], 'wrapper': ['<tag_name>', '</tag_name>', 'tag_name'] },
       \ }
 
@@ -71,6 +71,10 @@ function! s:get_wrapper() abort
     let close = substitute(close, replace_mark, user_input, '')
   endfor
 
+  if has_key(s:surround_specs[char], 'after_wrap')
+    let s:after_wrap = s:surround_specs[char]['after_wrap']
+  endif
+
   let s:cache.add = [open, close]
   return s:cache.add
 endfunction
@@ -113,13 +117,34 @@ function! mi#surround#add(type = '') abort
   endif
   let [open, close] = wrapper
 
-  let tail = getpos("']")
-  call s:putstr(tail[1], tail[2] + 1, close)
+  let [head_lnum, head_col] = getpos("'[")[1:2]
+  let [tail_lnum, tail_col] = getpos("']")[1:2]
 
-  let head = getpos("'[")
-  call s:putstr(head[1], head[2], open)
+  let c_lnum = head_lnum
+  let c_col = head_col
 
-  call cursor(tail[1], tail[2] + 1 + strchars(open))
+  " cursor set on start of close wrapper by default
+  " cursor position can be specified by $CURSOR
+  let CURSOR_MARK = '$CURSOR'
+  let cursor_in_wrapper = stridx(open, CURSOR_MARK)
+  if cursor_in_wrapper < 0
+    let c_lnum = tail_lnum
+    let c_col = tail_col + 1 + strchars(open)
+    let cursor_in_wrapper = stridx(close, CURSOR_MARK)
+  endif
+  let open = substitute(open, CURSOR_MARK, '', '')
+  let close = substitute(close, CURSOR_MARK, '', '')
+  let c_col += max([cursor_in_wrapper, 0])
+
+  call s:putstr(tail_lnum, tail_col + 1, close)
+  call s:putstr(head_lnum, head_col, open)
+
+  call setcursorcharpos(c_lnum, c_col)
+
+  if exists('s:after_wrap')
+    execute s:after_wrap
+    unlet! s:after_wrap
+  endif
 endfunction
 
 function! mi#surround#find_pair() abort
