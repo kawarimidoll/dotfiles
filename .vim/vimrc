@@ -56,17 +56,18 @@ let g:markdown_recommended_style = 0
 
 " {{{ Keymap
 " https://zenn.dev/kawarimidoll/articles/513d603681ece9
-function! s:keymap(modes, ...) abort
+function! s:keymap(force_map, modes, ...) abort
   let arg = join(a:000, ' ')
+  let cmd = a:force_map ? 'map' : 'noremap'
   for mode in split(a:modes, '.\zs')
-    if index(split('nvsxoilct', '.\zs'), mode) < 0
-      echoerr 'Invalid mode is detected: ' . mode
+    if stridx('nvsxoilct', mode) < 0
+      echoerr '[keymap] invalid mode is detected: ' mode arg
       continue
     endif
-    execute mode .. 'noremap' arg
+    execute mode .. cmd arg
   endfor
 endfunction
-command! -nargs=+ Keymap call s:keymap(<f-args>)
+command! -nargs=+ -bang Keymap call s:keymap(<bang>0, <f-args>)
 " }}}
 
 let s:word_1000_dict_path = expand('~/.cache/nvim/google-10000-english-no-swears.txt')
