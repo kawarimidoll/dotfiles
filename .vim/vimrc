@@ -388,7 +388,6 @@ cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 cnoremap <C-d> <Del>
 cnoremap <C-r><C-r> <C-r><C-r>*
-cnoremap <C-g> <C-c>
 cnoremap <expr> <C-k> repeat('<Del>', strchars(getcmdline()[getcmdpos() - 1:]))
 
 " insert
