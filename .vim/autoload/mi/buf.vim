@@ -38,8 +38,7 @@ function! mi#buf#delete(option = {}) abort
     endif
 
     " otherwise create unlisted buffer
-    enew
-    setlocal nobuflisted
+    call mi#buf#scratch()
   endfor
 
   execute cur_winnr .. 'wincmd w'
@@ -48,4 +47,10 @@ function! mi#buf#delete(option = {}) abort
     let cmd ..= '!'
   endif
   execute cmd bufnr
+endfunction
+
+function! mi#buf#scratch() abort
+  enew
+  setlocal nobuflisted
+  file [scratch]
 endfunction
