@@ -395,7 +395,6 @@ inoremap <silent> <C-r><C-r> <C-r><C-r>*
 inoremap <C-k> <C-o>D
 inoremap <expr> <Tab>   pumvisible() ? '<C-n>' : '<C-t>'
 inoremap <expr> <S-Tab> pumvisible() ? '<C-p>' : '<C-d>'
-
 inoremap <C-g><C-u> <esc>gUvbgi
 inoremap <C-g><C-l> <esc>guvbgi
 
@@ -573,7 +572,7 @@ augroup vimrc
 
     autocmd InsertEnter * ++once call mi#pair#keymap_set(['{}', '[]', '()', "''", '""', '``'])
 
-    autocmd FileType qf call mi#qf#fit_window(3, 10)
+    autocmd FileType qf call mi#qf#fit_window({ 'min': 3, 'max': 10 })
     autocmd WinEnter * call mi#qf#quit_if_last_buf()
 
     autocmd CursorMoved * call mi#highlight#cursorword('Underlined')

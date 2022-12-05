@@ -1,7 +1,7 @@
 function! mi#qf#grep(word) abort
   cgetexpr system(printf('%s %s', &grepprg, a:word))
 
-  if len(getqflist()) != 0
+  if getqflist({ 'size': 1 }).size != 0
     call setqflist([], 'r', {'title': a:word})
     copen
     silent! doautocmd QuickFixCmdPost grep
@@ -92,8 +92,12 @@ function! mi#qf#remove() abort
   endif
 endfunction
 
-function! mi#qf#fit_window(min, max)
-  execute 'resize' min([max([a:min, len(getqflist())]), a:max])
+let s:fit_window_size = [3, 10]
+function! mi#qf#fit_window(size = {})
+  let size_min = get(a:size, 'min', s:fit_window_size[0])
+  let size_max = get(a:size, 'max', s:fit_window_size[1])
+  let s:fit_window_size = [size_min, size_max]
+  execute 'resize' min([max([size_min, getqflist({ 'size': 1 }).size]), size_max])
 endfunction
 
 function! mi#qf#quit_if_last_buf()
