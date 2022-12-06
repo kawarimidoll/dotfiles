@@ -36,7 +36,7 @@ function! s:removestr(from_pos, to_pos) abort
   let after = strpart(getline(to_pos[0]), to_pos[1])
   call setline(from_pos[0],  before .. after)
   if from_pos[0] < to_pos[0]
-    execute string(to_pos[0]) 'delete _' (to_pos[0] - from_pos[0])
+    call deletebufline(bufnr(), from_pos[0] + 1, to_pos[0])
   endif
 endfunction
 
