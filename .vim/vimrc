@@ -256,10 +256,10 @@ command! CopyDirName      let @*=expand('%:h') | echo 'copy dir name'
 command! CopyFileName     let @*=expand('%:t') | echo 'copy file name'
 command! CopyRelativePath let @*=expand('%:h')..'/'..expand('%:t') | echo 'copy relative path'
 
-command! -nargs=+ Grep call mi#qf#grep(<q-args>)
-command! -nargs=+ GrepF call mi#qf#grep('--fixed-strings -- ' .. <q-args>)
-command! -nargs=+ LGrep call mi#qf#lgrep(<q-args>)
-command! -nargs=+ LGrepF call mi#qf#lgrep('--fixed-strings -- ' .. <q-args>)
+command! -nargs=+ -bang Grep call mi#qf#grep(<bang>0, <q-args>)
+command! -nargs=+ -bang GrepF call mi#qf#grep(<bang>0, '--fixed-strings -- ' .. <q-args>)
+command! -nargs=+ -bang LGrep call mi#qf#lgrep(<bang>0, <q-args>)
+command! -nargs=+ -bang LGrepF call mi#qf#lgrep(<bang>0, '--fixed-strings -- ' .. <q-args>)
 
 command! -nargs=1 -complete=file VDiff vertical diffsplit <args>
 command! VDiffAlt execute 'vertical diffsplit' expand('#')

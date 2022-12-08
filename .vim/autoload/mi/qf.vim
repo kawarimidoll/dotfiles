@@ -1,5 +1,9 @@
-function! mi#qf#grep(word) abort
-  cgetexpr system(printf('%s %s', &grepprg, a:word))
+function! mi#qf#grep(add, word) abort
+  if a:add
+    caddexpr system(printf('%s %s', &grepprg, a:word))
+  else
+    cgetexpr system(printf('%s %s', &grepprg, a:word))
+  endif
 
   if getqflist({ 'size': 1 }).size != 0
     call setqflist([], 'r', {'title': a:word})
@@ -11,8 +15,12 @@ function! mi#qf#grep(word) abort
   endif
 endfunction
 
-function! mi#qf#lgrep(word) abort
-  lgetexpr system(printf('%s %s', &grepprg, a:word))
+function! mi#qf#lgrep(add, word) abort
+  if a:add
+    laddexpr system(printf('%s %s', &grepprg, a:word))
+  else
+    lgetexpr system(printf('%s %s', &grepprg, a:word))
+  endif
 
   if len(getloclist(0)) != 0
     call setloclist(0, [], 'r', {'title': a:word})
