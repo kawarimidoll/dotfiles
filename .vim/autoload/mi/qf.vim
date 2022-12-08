@@ -1,3 +1,7 @@
+function! mi#qf#is_qf_buf() abort
+  return &l:buftype ==# 'quickfix'
+endfunction
+
 function! mi#qf#grep(add, word) abort
   if a:add
     caddexpr system(printf('%s %s', &grepprg, a:word))
@@ -33,7 +37,7 @@ function! mi#qf#lgrep(add, word) abort
 endfunction
 
 function! mi#qf#cycle(count) abort
-  let qf_info = getqflist({ 'all': 1 })
+  let qf_info = getqflist({ 'idx': 1, 'size': 1 })
   if qf_info.size == 0
     return
   endif
@@ -84,7 +88,7 @@ function! mi#qf#remove() abort
     return
   endif
 
-  if &filetype == 'qf'
+  if mi#qf#is_qf_buf()
     let idx = line('.') - 1
   else
     let idx = qf_info.idx - 1
@@ -95,7 +99,8 @@ function! mi#qf#remove() abort
   call setqflist(qfall, 'r')
   copen
 
-  if &filetype == 'qf'
+  if mi#qf#is_qf_buf()
+    call mi#qf#fit_window()
     execute 'normal! ' .. (idx + 1) .. 'G'
   endif
 endfunction
@@ -109,7 +114,7 @@ function! mi#qf#fit_window(size = {})
 endfunction
 
 function! mi#qf#quit_if_last_buf()
-  if winnr('$') == 1 && &buftype == 'quickfix'
+  if winnr('$') == 1 && mi#qf#is_qf_buf()
     quit
   endif
 endfunction
