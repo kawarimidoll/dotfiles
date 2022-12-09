@@ -251,10 +251,23 @@ let g:vimrc_snr = expand('<SID>')
 command! RcEdit execute 'edit' g:my_vimrc
 command! RcReload write | execute 'source' g:my_vimrc | nohlsearch | redraw | echo g:my_vimrc .. ' is reloaded.'
 
-command! CopyFullPath     let @*=expand('%:p') | echo 'copy full path'
-command! CopyDirName      let @*=expand('%:h') | echo 'copy dir name'
-command! CopyFileName     let @*=expand('%:t') | echo 'copy file name'
-command! CopyRelativePath let @*=expand('%:h')..'/'..expand('%:t') | echo 'copy relative path'
+function! s:copy_path(target, with_lnum) abort
+  let expr = '%'
+  if a:target == 'full path'
+    let expr ..= ':p'
+  elseif a:target == 'dir name'
+    let expr ..= ':h'
+  elseif a:target == 'file name'
+    let expr ..= ':t'
+  endif
+
+  let @*=expand(expr) .. (a:with_lnum ? ':' .. line('.') : '')
+  echo 'copy ' .. a:target .. (a:with_lnum ? ' with line num' : '')
+endfunction
+command! -bang CopyFullPath     call s:copy_path('full path', <bang>0)
+command! -bang CopyDirName      call s:copy_path('dir name', <bang>0)
+command! -bang CopyFileName     call s:copy_path('file name', <bang>0)
+command! -bang CopyRelativePath call s:copy_path('relative path', <bang>0)
 
 command! -nargs=+ -bang Grep call mi#qf#grep(<bang>0, <q-args>)
 command! -nargs=+ -bang GrepF call mi#qf#grep(<bang>0, '--fixed-strings -- ' .. <q-args>)
