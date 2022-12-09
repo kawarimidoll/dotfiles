@@ -106,14 +106,14 @@ function! mi#qf#remove() abort
 endfunction
 
 let s:fit_window_size = [3, 10]
-function! mi#qf#fit_window(size = {})
+function! mi#qf#fit_window(size = {}) abort
   let size_min = get(a:size, 'min', s:fit_window_size[0])
   let size_max = get(a:size, 'max', s:fit_window_size[1])
   let s:fit_window_size = [size_min, size_max]
   execute 'resize' min([max([size_min, getqflist({ 'size': 1 }).size]), size_max])
 endfunction
 
-function! mi#qf#quit_if_last_buf()
+function! mi#qf#quit_if_last_buf() abort
   if winnr('$') == 1 && mi#qf#is_qf_buf()
     quit
   endif
