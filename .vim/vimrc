@@ -587,6 +587,7 @@ augroup vimrc
 
     autocmd FileType qf call mi#qf#fit_window({ 'min': 3, 'max': 10 })
     autocmd WinEnter * call mi#qf#quit_if_last_buf()
+    autocmd FileType qf call mi#qf#preview()
 
     autocmd CursorMoved * call mi#highlight#cursorword('Underlined')
     autocmd CursorMoved,CursorMovedI * call mi#highlight#match_paren('Underlined')

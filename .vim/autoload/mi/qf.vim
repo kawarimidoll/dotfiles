@@ -118,3 +118,53 @@ function! mi#qf#quit_if_last_buf() abort
     quit
   endif
 endfunction
+
+function! mi#qf#get_current_item() abort
+  try
+    if mi#qf#is_qf_buf()
+      return getqflist()[line('.') - 1]
+    endif
+  catch
+    " do nothing
+  endtry
+  return {}
+endfunction
+
+let s:preview_highlights = []
+function! mi#qf#preview() abort
+  let item = mi#qf#get_current_item()
+  if empty(item)
+    return
+  endif
+
+  let fname = bufname(item.bufnr)
+  silent! noautocmd execute 'aboveleft pedit' fname
+  silent! noautocmd wincmd P
+  doautocmd BufRead
+  let height = get(g:, 'mi#qf#preview#size', 7)
+  execute 'resize' height
+  execute 'setlocal scrolloff=' .. height
+  execute item.lnum
+
+  for match_id in s:preview_highlights
+    silent! call matchdelete(match_id)
+  endfor
+  let s:preview_highlights = []
+  if item.end_lnum && item.end_col
+    " TODO: highlight multi-line range
+    call add(s:preview_highlights, matchaddpos('Visual', [[item.lnum, item.col, item.end_col - item.col]]))
+  else
+    call add(s:preview_highlights, matchaddpos('Visual', [item.lnum]))
+    call add(s:preview_highlights, matchaddpos('Search', [[item.lnum, item.col]]))
+  endif
+
+  silent! noautocmd wincmd p
+
+  let qf_id = getqflist({ 'id': 1 }).id
+  if get(s:, 'au_qf_id') != qf_id
+    nnoremap <buffer> <cr> <cmd>pclose<cr><cr>
+    let s:au_qf_id = qf_id
+    autocmd CursorMoved <buffer> call mi#qf#preview()
+    execute 'autocmd WinClosed,WinLeave <buffer> silent! pclose | if win_getid() ==' win_getid() '| wincmd w | endif'
+  endif
+endfunction
