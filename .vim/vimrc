@@ -336,10 +336,10 @@ nnoremap <silent><expr> [b '<Cmd>' .. v:count1 .. 'bprevious<CR>'
 nnoremap <silent><expr> ]b '<Cmd>' .. v:count1 .. 'bnext<CR>'
 nnoremap [B <Cmd>bfirst<CR>
 nnoremap ]B <Cmd>blast<CR>
-nnoremap [q <Cmd>call mi#qf#cycle(-v:count1)<CR>
-nnoremap ]q <Cmd>call mi#qf#cycle(v:count1)<CR>
-nnoremap [Q <Cmd>cfirst<CR>
-nnoremap ]Q <Cmd>clast<CR>
+nnoremap [q <Cmd>call mi#qf#cycle_p()<CR>
+nnoremap ]q <Cmd>call mi#qf#cycle_n()<CR>
+nnoremap <silent><expr> [Q '<Cmd>' .. v:count1 .. 'colder<CR>'
+nnoremap <silent><expr> ]Q '<Cmd>' .. v:count1 .. 'cnewer<CR>'
 nnoremap [w <C-w>w
 nnoremap ]w <C-w>W
 nnoremap [m [`

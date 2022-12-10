@@ -36,19 +36,33 @@ function! mi#qf#lgrep(add, word) abort
   endif
 endfunction
 
-function! mi#qf#cycle(count) abort
-  let qf_info = getqflist({ 'idx': 1, 'size': 1 })
-  if qf_info.size == 0
+function! s:qf_cycle(direction, cnt) abort
+  if getqflist({ 'size': 1 }).size == 0
+    echo '[qf#cycle] no items.'
     return
   endif
 
-  let num = (qf_info.idx + qf_info.size + a:count) % qf_info.size
-
-  if num == 0
-    let num = qf_info.size
+  if a:direction == 'next'
+    let cmd = 'cnext'
+    let cycle_cmd = 'cfirst'
+  else
+    let cmd = 'cprevious'
+    let cycle_cmd = 'clast'
   endif
 
-  execute num .. 'cc'
+  for i in range(a:cnt)
+    try
+      execute cmd
+    catch /^Vim\%((\a\+)\)\=:E553/
+      execute cycle_cmd
+    endtry
+  endfor
+endfunction
+function! mi#qf#cycle_p(cnt = v:count1) abort
+  call s:qf_cycle('previous', a:cnt)
+endfunction
+function! mi#qf#cycle_n(cnt = v:count1) abort
+  call s:qf_cycle('next', a:cnt)
 endfunction
 
 function! mi#qf#from_loc() abort
