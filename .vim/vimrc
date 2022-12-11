@@ -525,9 +525,9 @@ augroup vimrc
   autocmd! BufEnter * call s:syntax_off_on_heavy_file()
 
   " remove function because it is only for `$ vim -c 'call EditProjectMru()'`
-  autocmd VimEnter * ++once delfunction! EditProjectMru
+  autocmd CursorHold * ++once delfunction! EditProjectMru
 
-  autocmd VimEnter * ++once
+  autocmd CursorHold * ++once
         \ execute 'autocmd BufEnter,BufReadPost * call mi#mru#save()'
 
   " visualize autocmds
@@ -562,10 +562,10 @@ augroup vimrc
         \ | endif
   autocmd ColorScheme * call s:apply_user_highlight()
 
-  autocmd VimEnter * ++once call mi#git#ensure_root()
+  autocmd CursorHold * ++once call mi#git#ensure_root()
 
   autocmd TextYankPost * call mi#register#collect_yank_history(10)
-  autocmd VimEnter * ++once call mi#register#clear()
+  autocmd CursorHold * ++once call mi#register#clear()
 
   autocmd BufNewFile * ++nested call mi#open#reopen_with_lnum()
 
@@ -589,8 +589,9 @@ augroup vimrc
     autocmd WinEnter * call mi#qf#quit_if_last_buf()
     autocmd FileType qf call mi#qf#preview()
 
-    autocmd CursorMoved * call mi#highlight#cursorword('Underlined')
-    autocmd CursorMoved,CursorMovedI * call mi#highlight#match_paren('Underlined')
+    autocmd CursorHold * ++once
+          \ execute 'autocmd CursorMoved * call mi#highlight#cursorword(''Underlined'')'
+          \ | execute 'autocmd CursorMoved,CursorMovedI * call mi#highlight#match_paren(''Underlined'')'
   endif
 
   " {{{ restore-cursor
