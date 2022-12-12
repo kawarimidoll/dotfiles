@@ -403,6 +403,34 @@ cnoremap <C-d> <Del>
 cnoremap <C-r><C-r> <C-r><C-r>*
 cnoremap <expr> <C-k> repeat('<Del>', strchars(getcmdline()[getcmdpos() - 1:]))
 
+" https://zenn.dev/kawarimidoll/articles/b723f9e93afa90
+function! s:toggle_magic_search() abort
+  if getcmdtype() !~ '[/?]'
+    return ''
+  endif
+
+  let query = getcmdline()
+  let pos = getcmdpos()
+
+  if query[:1] ==# '\v'
+    " \v -> \V
+    let query = '\V' .. query[2:]
+  elseif query[:1] ==# '\V'
+    " \V -> \v
+    let query = '\v' .. query[2:]
+  else
+    " add \v
+    let query = '\v' .. query
+    let pos += 2
+  endif
+  call setcmdline(query, pos)
+
+  " to update search, type space and remove it
+  return " \<bs>"
+endfunction
+
+cnoremap <expr> <C-x> <sid>toggle_magic_search()
+
 " insert
 inoremap <silent> <C-r><C-r> <C-r><C-r>*
 inoremap <C-k> <C-o>D
