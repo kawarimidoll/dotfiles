@@ -294,10 +294,12 @@ noremap <silent><expr> H getline('.')[:col('.')-2] =~# '^\s\+$' ? '0' : '^'
 noremap L $
 map M %
 nnoremap / /\v
+nnoremap ? /\V
 
 nnoremap s <NOP>
 nnoremap so <Cmd>source<Bar>nohlsearch<CR>
-nnoremap s/ :%s/
+nnoremap s/ :%s/\v
+nnoremap s? :%s/\V
 nnoremap S :%s/\V\<<C-r><C-w>\>//g<Left><Left>
 
 " https://thinca.hatenablog.com/entry/q-as-prefix-key-in-vim
