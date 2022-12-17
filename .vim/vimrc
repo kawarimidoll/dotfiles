@@ -523,6 +523,30 @@ function! s:syntax_off_on_heavy_file()
   endif
 endfunction
 
+function! s:visualize_autocmds()
+  let events = [
+        \ 'FileType', 'BufNewFile', 'BufEnter', 'BufRead', 'BufWinEnter', 'WinEnter',
+        \ 'TabEnter', 'WinNew', 'TabNew', 'VimEnter',
+        \ ]
+
+  augroup v_au
+    if exists('s:enable_v_au')
+      autocmd!
+      unlet! s:enable_v_au
+      echo 'disable visualize autocmds'
+    else
+      for event in events
+        execute printf('autocmd %s * echomsg ''au %s'' expand(''<amatch>'')', event, event)
+      endfor
+      let s:enable_v_au = 1
+      echo 'enable visualize autocmds'
+    endif
+  augroup END
+endfunction
+command! VisualizeAutocmds call s:visualize_autocmds()
+" enable when vim is starting
+" call s:visualize_autocmds()
+
 augroup vimrc
   autocmd!
 
@@ -533,17 +557,6 @@ augroup vimrc
 
   autocmd CursorHold * ++once
         \ execute 'autocmd BufEnter,BufReadPost * call mi#mru#save()'
-
-  " visualize autocmds
-  " autocmd FileType * echomsg 'au FileType '.. expand('<amatch>')
-  " autocmd BufEnter * echomsg 'au BufEnter '.. expand('<amatch>')
-  " autocmd BufRead * echomsg 'au BufRead '.. expand('<amatch>')
-  " autocmd BufWinEnter * echomsg 'au BufWinEnter '.. expand('<amatch>')
-  " autocmd WinEnter * echomsg 'au WinEnter '.. expand('<amatch>')
-  " autocmd TabEnter * echomsg 'au TabEnter '.. expand('<amatch>')
-  " autocmd WinNew * echomsg 'au WinNew '.. expand('<amatch>')
-  " autocmd TabNew * echomsg 'au TabNew '.. expand('<amatch>')
-  " autocmd VimEnter * echomsg 'au VimEnter '.. expand('<amatch>')
 
   " Highlight extra whitespaces
   " https://zenn.dev/kawarimidoll/articles/450a1c7754bde6
