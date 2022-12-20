@@ -200,7 +200,7 @@ endfunction
 if !exists('s:clear_autocmd_set')
   augroup mi#highlight#augroup
     autocmd BufLeave,WinLeave,InsertEnter * call s:clear_hl_cursorword()
-    autocmd InsertEnter * call s:clear_hl_paren()
+    autocmd BufLeave,WinLeave,InsertEnter * call s:clear_hl_paren()
   augroup END
   let s:clear_autocmd_set = 1
 endif
