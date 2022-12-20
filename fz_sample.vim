@@ -32,11 +32,11 @@ function! s:recursive_fuzzy_match(line, query, off = 0) abort
   " マッチ範囲に再度マッチさせてスコアを再計算する
   " これだと必ず単語頭マッチになってしまってよくないか？
   let score = matchfuzzypos([matched], a:query)[2][0]
-  call add(matches, {'score': score, 'cols': cols, 'matched': matched, 'len': len})
+  call add(matches, {'score': score, 'cols': map(cols, 'v:val+' .. a:off), 'matched': matched, 'len': len})
 
   " マッチ前後の範囲で再帰的にマッチを探す
   call extend(matches, s:recursive_fuzzy_match(pre_matched, a:query))
-  call extend(matches, s:recursive_fuzzy_match(post_matched, a:query))
+  call extend(matches, s:recursive_fuzzy_match(post_matched, a:query, to))
   return matches
 endfunction
 
@@ -59,4 +59,49 @@ function! s:fuzzy_match_buffer(query) abort
   return matches
 endfunction
 
-echo s:fuzzy_match_buffer('cewo')
+function! s:highlight_fuzzy_matches(match_specs) abort
+  let s:match_ids = []
+  for match_spec in a:match_specs
+    call add(s:match_ids, matchaddpos('Visual', [[match_spec.lnum, match_spec.cols[0], match_spec.len]]))
+    for col in match_spec.cols
+      call add(s:match_ids, matchaddpos('IncSearch', [[match_spec.lnum, col]]))
+    endfor
+  endfor
+
+  let scores = map(a:match_specs, 'v:val.score')
+  call win_execute(win_getid(winnr('$')), 'call append(0, "' .. join(scores, ' ') .. '")')
+endfunction
+
+function! s:silent_match_highlights() abort
+  let ids = get(s:, 'match_ids', [])
+  for id in ids
+    silent! call matchdelete(id)
+  endfor
+endfunction
+
+function! s:do_fuzzy_match(query) abort
+  call s:silent_match_highlights()
+  let s:last_input = a:query
+  if a:query[-1:] =~# '\u'
+    call feedkeys("\<bs>\<cr>", 'n')
+  elseif a:query != ''
+    call s:highlight_fuzzy_matches(s:fuzzy_match_buffer(a:query))
+  endif
+  redraw
+endfunction
+
+function! s:start_fuzzy_match(repeat = 0) abort
+  augroup cmd_input
+    autocmd CursorMoved * ++once call s:silent_match_highlights()
+    autocmd CmdlineChanged @ call s:do_fuzzy_match(getcmdline())
+  augroup END
+  autocmd CmdlineLeave @ ++once call s:silent_match_highlights() | autocmd! cmd_input
+
+  let q = a:repeat ? get(s:, 'last_input', '') : ''
+  let last_input = input('fuzzy match > ', q)
+  if last_input != ''
+    let s:last_input = last_input
+  endif
+endfunction
+nnoremap f<cr> <cmd>call <sid>start_fuzzy_match()<cr>
+nnoremap f<tab> <cmd>call <sid>start_fuzzy_match(1)<cr>
