@@ -42,14 +42,15 @@ endfunction
 
 " super long long sentence that has query at once owo super long long sentence that has query at once super long long sentence that has query at once
 
-function! s:fuzzy_match_buffer(query) abort
-  let lnum = line('w0')
+let s:jump_markers = 'ABCDEFGHIJKLMNO'
 
+function! s:gen_fuzzy_match_specs(query) abort
   let matches = []
   if a:query == ''
     return matches
   endif
 
+  let lnum = line('w0')
   for line in getline('w0', 'w$')
     let match = s:recursive_fuzzy_match_in_line(line, a:query)
     if !empty(match)
@@ -61,71 +62,88 @@ function! s:fuzzy_match_buffer(query) abort
   " rank: short length is strong, high score is strong in same length
   call sort(matches, {a,b -> a.len == b.len ? b.score - a.score : a.len - b.len})
 
+  let matches = matches[:strlen(s:jump_markers)-1]
+  let idx = 0
+  for spec in matches
+    let spec.mark = s:jump_markers[idx]
+    let idx += 1
+  endfor
+
   return matches
 endfunction
 
-function! s:add_highlights(match_specs) abort
+function! s:add_highlights() abort
   let s:match_ids = []
   for lnum in range(line('w0'), line('w$'))
     call add(s:match_ids, matchaddpos('Comment', [lnum]))
   endfor
-  for match_spec in a:match_specs
+  for match_spec in s:match_specs
     call add(s:match_ids, matchaddpos('Visual', [[match_spec.lnum, match_spec.cols[0], match_spec.len]]))
     for col in match_spec.cols
       call add(s:match_ids, matchaddpos('IncSearch', [[match_spec.lnum, col]]))
     endfor
   endfor
-  let s:match_specs = a:match_specs
-
-  " let scores = map(a:match_specs, 'v:val.score')
-  " call win_execute(win_getid(winnr('$')), 'call append(0, "' .. join(scores, ' ') .. '")')
 endfunction
 
 function! s:clear_highlights() abort
-  let ids = get(s:, 'match_ids', [])
-  for id in ids
+  for id in get(s:, 'match_ids', [])
     silent! call matchdelete(id)
   endfor
 endfunction
 
-let s:select_marks = 'ABCDEFGHIJKLMNO'
-
-function! s:on_input(query) abort
+function! s:on_input() abort
   call s:clear_highlights()
-  let s:last_query = a:query
-  if a:query[-1:] =~# '\u'
+
+  let query = getcmdline()
+  let s:last_query = query
+  let last_char = query[-1:]
+
+  if last_char =~# '\u'
     let keys = "\<bs>"
-    if s:select_marks =~# a:query[-1:]
-      let s:selected_mark = a:query[-1:]
+    if s:jump_markers =~# last_char
+      let s:selected_marker = last_char
       let keys ..= "\<cr>"
     endif
     call feedkeys(keys, 'n')
   else
-    call s:add_highlights(s:fuzzy_match_buffer(a:query))
+    let s:match_specs = s:gen_fuzzy_match_specs(query)
+    call s:add_highlights()
   endif
+
   redraw
 endfunction
 
-function! s:start_fuzzy_match(repeat = 0) abort
-  augroup cmd_input
-    " autocmd CursorMoved * ++once call s:clear_highlights()
-    autocmd CmdlineEnter,CmdlineChanged @ call s:on_input(getcmdline())
-  augroup END
-  autocmd CmdlineLeave @ ++once call s:clear_highlights() | autocmd! cmd_input
+function! s:on_leave() abort
+  call s:clear_highlights()
+  autocmd! fuzzy_jump_augroup
+endfunction
 
-  let s:selected_mark = ''
+function! s:on_enter() abort
+  call s:on_input()
+endfunction
+
+function! s:start_fuzzy_match(repeat = 0) abort
+  augroup fuzzy_jump_augroup
+    autocmd CmdlineEnter @ call s:on_enter()
+    autocmd CmdlineChanged @ call s:on_input()
+  augroup END
+  autocmd CmdlineLeave @ ++once call s:on_leave()
+
+  let s:selected_marker = ''
 
   let q = a:repeat ? get(s:, 'last_query', '') : ''
   let last_query = input('fuzzy match > ', q)
-  if last_query != ''
-    let s:last_query = last_query
-    if s:selected_mark == ''
-      let s:selected_mark = s:select_marks[0]
-    endif
-    if exists('s:match_specs')
-      let match_spec = s:match_specs[stridx(s:select_marks, s:selected_mark)]
-      call cursor(match_spec.lnum, match_spec.cols[0])
-    endif
+  if last_query == ''
+    return
+  endif
+  let s:last_query = last_query
+  if s:selected_marker == ''
+    let s:selected_marker = s:jump_markers[0]
+  endif
+  if exists('s:match_specs')
+    let match_spec = s:match_specs[stridx(s:jump_markers, s:selected_marker)]
+    call cursor(match_spec.lnum, match_spec.cols[0])
+    unlet! s:match_specs
   endif
 endfunction
 nnoremap f<cr> <cmd>call <sid>start_fuzzy_match()<cr>
