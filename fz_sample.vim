@@ -12,7 +12,7 @@ endfunction
 
 " let text='hello world super owo end one two three'
 
-function! s:recursive_fuzzy_match(line, query, off = 0) abort
+function! s:recursive_fuzzy_match_in_line(line, query, off = 0) abort
   let line = a:line
   let [match, cols, scores] = matchfuzzypos([line], a:query)
   if empty(match)
@@ -35,8 +35,8 @@ function! s:recursive_fuzzy_match(line, query, off = 0) abort
   call add(matches, {'score': score, 'cols': map(cols, 'v:val+' .. a:off), 'matched': matched, 'len': len})
 
   " マッチ前後の範囲で再帰的にマッチを探す
-  call extend(matches, s:recursive_fuzzy_match(pre_matched, a:query))
-  call extend(matches, s:recursive_fuzzy_match(post_matched, a:query, to))
+  call extend(matches, s:recursive_fuzzy_match_in_line(pre_matched, a:query))
+  call extend(matches, s:recursive_fuzzy_match_in_line(post_matched, a:query, to))
   return matches
 endfunction
 
@@ -44,9 +44,14 @@ endfunction
 
 function! s:fuzzy_match_buffer(query) abort
   let lnum = line('w0')
+
   let matches = []
+  if a:query == ''
+    return matches
+  endif
+
   for line in getline('w0', 'w$')
-    let match = s:recursive_fuzzy_match(line, a:query)
+    let match = s:recursive_fuzzy_match_in_line(line, a:query)
     if !empty(match)
       call extend(matches, map(match, {_,v ->extend(v, {'lnum': lnum}) } ))
     endif
@@ -59,49 +64,69 @@ function! s:fuzzy_match_buffer(query) abort
   return matches
 endfunction
 
-function! s:highlight_fuzzy_matches(match_specs) abort
+function! s:add_highlights(match_specs) abort
   let s:match_ids = []
+  for lnum in range(line('w0'), line('w$'))
+    call add(s:match_ids, matchaddpos('Comment', [lnum]))
+  endfor
   for match_spec in a:match_specs
     call add(s:match_ids, matchaddpos('Visual', [[match_spec.lnum, match_spec.cols[0], match_spec.len]]))
     for col in match_spec.cols
       call add(s:match_ids, matchaddpos('IncSearch', [[match_spec.lnum, col]]))
     endfor
   endfor
+  let s:match_specs = a:match_specs
 
-  let scores = map(a:match_specs, 'v:val.score')
-  call win_execute(win_getid(winnr('$')), 'call append(0, "' .. join(scores, ' ') .. '")')
+  " let scores = map(a:match_specs, 'v:val.score')
+  " call win_execute(win_getid(winnr('$')), 'call append(0, "' .. join(scores, ' ') .. '")')
 endfunction
 
-function! s:silent_match_highlights() abort
+function! s:clear_highlights() abort
   let ids = get(s:, 'match_ids', [])
   for id in ids
     silent! call matchdelete(id)
   endfor
 endfunction
 
-function! s:do_fuzzy_match(query) abort
-  call s:silent_match_highlights()
-  let s:last_input = a:query
+let s:select_marks = 'ABCDEFGHIJKLMNO'
+
+function! s:on_input(query) abort
+  call s:clear_highlights()
+  let s:last_query = a:query
   if a:query[-1:] =~# '\u'
-    call feedkeys("\<bs>\<cr>", 'n')
-  elseif a:query != ''
-    call s:highlight_fuzzy_matches(s:fuzzy_match_buffer(a:query))
+    let keys = "\<bs>"
+    if s:select_marks =~# a:query[-1:]
+      let s:selected_mark = a:query[-1:]
+      let keys ..= "\<cr>"
+    endif
+    call feedkeys(keys, 'n')
+  else
+    call s:add_highlights(s:fuzzy_match_buffer(a:query))
   endif
   redraw
 endfunction
 
 function! s:start_fuzzy_match(repeat = 0) abort
   augroup cmd_input
-    autocmd CursorMoved * ++once call s:silent_match_highlights()
-    autocmd CmdlineChanged @ call s:do_fuzzy_match(getcmdline())
+    " autocmd CursorMoved * ++once call s:clear_highlights()
+    autocmd CmdlineEnter,CmdlineChanged @ call s:on_input(getcmdline())
   augroup END
-  autocmd CmdlineLeave @ ++once call s:silent_match_highlights() | autocmd! cmd_input
+  autocmd CmdlineLeave @ ++once call s:clear_highlights() | autocmd! cmd_input
 
-  let q = a:repeat ? get(s:, 'last_input', '') : ''
-  let last_input = input('fuzzy match > ', q)
-  if last_input != ''
-    let s:last_input = last_input
+  let s:selected_mark = ''
+
+  let q = a:repeat ? get(s:, 'last_query', '') : ''
+  let last_query = input('fuzzy match > ', q)
+  if last_query != ''
+    let s:last_query = last_query
+    if s:selected_mark == ''
+      let s:selected_mark = s:select_marks[0]
+    endif
+    if exists('s:match_specs')
+      let match_spec = s:match_specs[stridx(s:select_marks, s:selected_mark)]
+      call cursor(match_spec.lnum, match_spec.cols[0])
+    endif
   endif
 endfunction
 nnoremap f<cr> <cmd>call <sid>start_fuzzy_match()<cr>
-nnoremap f<tab> <cmd>call <sid>start_fuzzy_match(1)<cr>
+nnoremap f<bs> <cmd>call <sid>start_fuzzy_match(1)<cr>
