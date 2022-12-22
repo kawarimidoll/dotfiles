@@ -1,3 +1,9 @@
+" TODO
+" handle multiwidth characters
+" handle multiple windows
+" handle folded
+" support neovim (extmark)
+
 function! s:double(num) abort
   return a:num * a:num
 endfunction
