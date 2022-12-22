@@ -1,9 +1,23 @@
 " TODO
 " handle multiwidth characters
 " handle multiple windows
-" handle folded
 " support neovim (extmark)
 
+function! s:getlines_except_folded(from, to)
+  let lines = []
+  let from = type(a:from) == v:t_number ? a:from : line(a:from)
+  let to = type(a:to) == v:t_number ? a:to : line(a:to)
+
+  for lnum in range(from, to)
+    let fold_end = foldclosedend(lnum)
+    if fold_end > -1
+      let lnum = fold_end
+    else
+      call add(lines, {'lnum': lnum, 'line': getline(lnum)})
+    endif
+  endfor
+  return lines
+endfunction
 function! s:double(num) abort
   return a:num * a:num
 endfunction
@@ -81,13 +95,11 @@ function! s:gen_fuzzy_match_specs(query) abort
     return matches
   endif
 
-  let lnum = line('w0')
-  for line in getline('w0', 'w$')
-    let match = s:recursive_fuzzy_match_in_line(line, a:query)
+  for line_spec in s:getlines_except_folded('w0', 'w$')
+    let match = s:recursive_fuzzy_match_in_line(line_spec.line, a:query)
     if !empty(match)
-      call extend(matches, map(match, {_,v ->extend(v, {'lnum': lnum}) } ))
+      call extend(matches, map(match, {_,v ->extend(v, {'lnum': line_spec.lnum}) } ))
     endif
-    let lnum += 1
   endfor
 
   " rank: short length is strong, high score is strong in same length
