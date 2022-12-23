@@ -1,4 +1,5 @@
 " helpers
+
 function! s:match_ranges(expr, pat, multiple = 0)
   let match_from = match(a:expr, a:pat)
   if match_from < 0
@@ -18,6 +19,22 @@ function! s:match_ranges(expr, pat, multiple = 0)
   endwhile
 
   return matches
+endfunction
+
+function! s:getlines_except_folded(from, to)
+  let lines = []
+  let from = type(a:from) == v:t_number ? a:from : line(a:from)
+  let to = type(a:to) == v:t_number ? a:to : line(a:to)
+
+  for lnum in range(from, to)
+    let fold_end = foldclosedend(lnum)
+    if fold_end > -1
+      let lnum = fold_end
+    else
+      call add(lines, {'lnum': lnum, 'line': getline(lnum)})
+    endif
+  endfor
+  return lines
 endfunction
 
 " regex helpers
@@ -81,7 +98,7 @@ function! s:on_input()
   endif
   let delim = cmdline[delimiter_idx-1]
 
-  let [_; elements] = split(cmdline, delim)
+  let elements = split(slice(cmdline, delimiter_idx), delim)
   if len(elements) < 2
     return
   endif
@@ -96,13 +113,11 @@ function! s:on_input()
   let multiple = flags =~ 'g'
 
   let s:conceal_match_ids = []
-  let lnum = line('w0')
-  for line in getline('w0', 'w$')
-    for [match_from, match_to] in s:match_ranges(line, sub_from, multiple)
-      call add(s:conceal_match_ids, matchaddpos('Conceal', [[lnum, match_from+1, match_to-match_from]], 20))
-      call prop_add(lnum, match_from+1, {'type': s:prop_type, 'text': sub_to})
+  for line_spec in s:getlines_except_folded('w0', 'w$')
+    for [match_from, match_to] in s:match_ranges(line_spec.line, sub_from, multiple)
+      call add(s:conceal_match_ids, matchaddpos('Conceal', [[line_spec.lnum, match_from+1, match_to-match_from]], 20))
+      call prop_add(line_spec.lnum, match_from+1, {'type': s:prop_type, 'text': sub_to})
     endfor
-    let lnum += 1
   endfor
 endfunction
 

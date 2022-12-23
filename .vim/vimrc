@@ -609,6 +609,8 @@ augroup vimrc
     autocmd CursorHold * ++once
           \ execute 'autocmd CursorMoved * call mi#highlight#cursorword(''Underlined'')'
           \ | execute 'autocmd CursorMoved,CursorMovedI * call mi#highlight#match_paren(''Underlined'')'
+
+    autocmd CmdlineEnter : ++once source ~/dotfiles/.vim/autoload/mi/substitutor.vim
   endif
 
   " {{{ restore-cursor
