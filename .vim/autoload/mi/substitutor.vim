@@ -77,14 +77,24 @@ let s:cmdline_pattern = '^' .. s:range_pattern ..
       \ 's\%[ubstitute] *' .. s:delimiter_pattern
 
 function! s:range_item_to_lnum(range_item)
-" TODO: handle range items like below
-" 1+2
-" /function/
+  " TODO: handle range items like below
+  " /function/
 
-  if a:range_item =~ '^\d\+$'
-    return eval(a:range_item)
+  let range_diff_start = match(a:range_item, '[+-]\d\+$')
+  if range_diff_start < 0
+    let range_main = a:range_item
+    let range_diff = 0
+  else
+    let range_main = a:range_item[:range_diff_start-1]
+    let range_diff = eval(a:range_item[range_diff_start:])
   endif
-  return line(a:range_item)
+
+  if range_main =~ '^\d\+$'
+    let lnum = eval(range_main)
+  else
+    let lnum = line(range_main)
+  endif
+  return lnum + range_diff
 endfunction
 
 function! s:get_cmd_range(cmdline)
