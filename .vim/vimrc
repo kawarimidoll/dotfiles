@@ -284,10 +284,16 @@ nnoremap <silent> RR R
 nnoremap <expr> R mi#operator#replace()
 nnoremap <expr> J mi#operator#join()
 
-noremap j gj
-noremap k gk
-noremap gj j
-noremap gk k
+" https://zenn.dev/mattn/articles/83c2d4c7645faa
+nmap gj gj<SID>g
+nmap gk gk<SID>g
+nnoremap <script> <SID>gj gj<SID>g
+nnoremap <script> <SID>gk gk<SID>g
+nmap <SID>g <Nop>
+" noremap j gj
+" noremap k gk
+" noremap gj j
+" noremap gk k
 noremap gV `[v`]
 " https://github.com/yuki-yano/zero.vim/blob/main/plugin/zero.vim
 noremap <silent><expr> H getline('.')[:col('.')-2] =~# '^\s\+$' ? '0' : '^'
