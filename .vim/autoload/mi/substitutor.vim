@@ -76,6 +76,38 @@ let s:delimiter_pattern = "[!@$%^&*()=+~`',.;:<>/?_-]"
 let s:cmdline_pattern = '^' .. s:range_pattern ..
       \ 's\%[ubstitute] *' .. s:delimiter_pattern
 
+function! s:range_item_to_lnum(range_item)
+" TODO: handle range items like below
+" 1+2
+" /function/
+
+  if a:range_item =~ '^\d\+$'
+    return eval(a:range_item)
+  endif
+  return line(a:range_item)
+endfunction
+
+function! s:get_cmd_range(cmdline)
+  let range_str_end = matchend(a:cmdline, '^' .. s:range_pattern)
+
+  if range_str_end < 1
+    return [line('.'), line('.')]
+  endif
+  let range_str = a:cmdline[:range_str_end-1]
+  let range_from_end = matchend(range_str, s:range_item)
+  let range_from = range_str[:range_from_end-1]
+  if range_from == '%'
+    return [1, line('$')]
+  endif
+  if range_from_end < strlen(range_str)
+    let range_to = range_str[range_from_end+1:]
+  else
+    let range_to = range_from
+  endif
+
+  return [s:range_item_to_lnum(range_from), s:range_item_to_lnum(range_to)]
+endfunction
+
 function! s:init_highlight()
   if exists('s:conceal_match_ids')
     for id in s:conceal_match_ids
@@ -83,7 +115,7 @@ function! s:init_highlight()
     endfor
     unlet! s:conceal_match_ids
   endif
-  silent! call prop_remove({'all': 1, 'type': s:prop_type}, line('w0'), line('w$'))
+  silent! call prop_remove({'all': 1, 'type': s:prop_type})
 endfunction
 
 let s:prop_type = 'substitutor#prop_type'
@@ -113,7 +145,8 @@ function! s:on_input()
   let multiple = flags =~ 'g'
 
   let s:conceal_match_ids = []
-  for line_spec in s:getlines_except_folded('w0', 'w$')
+  let [range_from, range_to] = s:get_cmd_range(cmdline)
+  for line_spec in s:getlines_except_folded(range_from, range_to)
     for [match_from, match_to] in s:match_ranges(line_spec.line, sub_from, multiple)
       call add(s:conceal_match_ids, matchaddpos('Conceal', [[line_spec.lnum, match_from+1, match_to-match_from]], 20))
       call prop_add(line_spec.lnum, match_from+1, {'type': s:prop_type, 'text': sub_to})
@@ -144,5 +177,4 @@ endfunction
 augroup substitutor#augroup
   autocmd!
   autocmd CmdlineChanged : call s:on_input()
-  " autocmd CmdlineEnter,CmdlineChanged : call s:on_input()
 augroup end
