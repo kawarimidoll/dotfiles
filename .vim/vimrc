@@ -553,6 +553,11 @@ command! VisualizeAutocmds call s:visualize_autocmds()
 " enable when vim is starting
 " call s:visualize_autocmds()
 
+" skip autocmds after vim is started
+if !has('vim_starting')
+  finish
+endif
+
 augroup vimrc
   autocmd!
 
