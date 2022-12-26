@@ -1,20 +1,25 @@
 " helpers
 
 function! s:match_ranges(expr, pat, multiple = 0)
-  let match_from = match(a:expr, a:pat)
+  if &ignorecase && &smartcase && a:pat !~ '\c'
+    let pat = '\C' .. a:pat
+  else
+    let pat = a:pat
+  endif
+  let match_from = match(a:expr, pat)
   if match_from < 0
     return []
   endif
-  let match_to = matchend(a:expr, a:pat)
+  let match_to = matchend(a:expr, pat)
 
   let matches = [[match_from, match_to]]
 
   while a:multiple
-    let match_from = match(a:expr, a:pat, match_to)
+    let match_from = match(a:expr, pat, match_to)
     if match_from < 0
       break
     endif
-    let match_to = matchend(a:expr, a:pat, match_to)
+    let match_to = matchend(a:expr, pat, match_to)
     call add(matches, [match_from, match_to])
   endwhile
 
