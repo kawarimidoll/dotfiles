@@ -202,12 +202,14 @@ else
 
   nnoremap <c-e> <cmd>call mi#window#resize()<cr>
 
-  let s:jetpackfile = expand('~/.vim/pack/jetpack/opt/vim-jetpack/plugin/jetpack.vim')
-  let s:jetpackurl = 'https://raw.githubusercontent.com/tani/vim-jetpack/master/plugin/jetpack.vim'
-  if !filereadable(s:jetpackfile)
+  try
+    packadd vim-jetpack
+  catch /^Vim\%((\a\+)\)\=:E919:/
+    let s:jetpackfile = expand('~/.vim/pack/jetpack/opt/vim-jetpack/plugin/jetpack.vim')
+    let s:jetpackurl = 'https://raw.githubusercontent.com/tani/vim-jetpack/master/plugin/jetpack.vim'
     call system(printf('curl -fsSLo %s --create-dirs %s', s:jetpackfile, s:jetpackurl))
-  endif
-  packadd vim-jetpack
+    packadd vim-jetpack
+  endtry
   call jetpack#begin()
   call jetpack#add('tani/vim-jetpack', {'opt': 1})
   call jetpack#add('vim-jp/vimdoc-ja')
