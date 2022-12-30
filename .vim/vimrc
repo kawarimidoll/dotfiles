@@ -509,6 +509,7 @@ command! -nargs=1 -complete=file Rename
 
 " {{{ EditProjectMru()
 " https://zenn.dev/kawarimidoll/articles/057e0c26c6d6e3
+" remove function after startup because it is only for `$ vim -c 'call EditProjectMru()'`
 function! EditProjectMru() abort
   execute 'edit' get(mi#mru#list(v:true), 0, '')
 endfunction
@@ -569,12 +570,6 @@ augroup vimrc
 
   autocmd! BufEnter * call s:syntax_off_on_heavy_file()
 
-  " remove function because it is only for `$ vim -c 'call EditProjectMru()'`
-  autocmd CursorHold * ++once delfunction! EditProjectMru
-
-  autocmd CursorHold * ++once
-        \ execute 'autocmd BufEnter,BufReadPost * call mi#mru#save()'
-
   " Highlight extra whitespaces
   " https://zenn.dev/kawarimidoll/articles/450a1c7754bde6
   " u00A0 ' ' no-break space
@@ -596,10 +591,12 @@ augroup vimrc
         \ | endif
   autocmd ColorScheme * call s:apply_user_highlight()
 
-  autocmd CursorHold * ++once call mi#git#ensure_root()
-
-  autocmd TextYankPost * call mi#register#collect_yank_history(10)
-  autocmd CursorHold * ++once call mi#register#clear()
+  autocmd User VimReady
+        \ delfunction! EditProjectMru
+        \ | call mi#git#ensure_root()
+        \ | call mi#register#clear()
+        \ | execute 'autocmd TextYankPost * call mi#register#collect_yank_history(10)'
+        \ | execute 'autocmd BufEnter,BufReadPost * call mi#mru#save()'
 
   autocmd BufNewFile * ++nested call mi#open#reopen_with_lnum()
 
@@ -610,25 +607,22 @@ augroup vimrc
           \ | silent! call matchdelete(w:highlight_extra_whitespace)
           \ | endif
   else
-    " https://www.statox.fr/posts/2020/07/vim_flash_yanked_text/
-    autocmd TextYankPost * silent! call mi#highlight#on_yank({ 'timeout': 500 })
 
     if has('vim_starting')
       execute 'colorscheme' ['desert', 'slate', 'habamax'][rand(srand()) % 3]
     endif
 
-    autocmd InsertEnter * ++once call mi#pair#keymap_set(['{}', '[]', '()', "''", '""', '``'])
-
-    autocmd FileType qf call mi#qf#fit_window({ 'min': 3, 'max': 10 })
-    autocmd WinEnter * call mi#qf#quit_if_last_buf()
-    autocmd FileType qf call mi#qf#preview()
-
-    autocmd CursorHold * ++once
+    " https://www.statox.fr/posts/2020/07/vim_flash_yanked_text/
+    autocmd User VimReady
           \ execute 'autocmd CursorMoved * call mi#highlight#cursorword(''Underlined'')'
           \ | execute 'autocmd CursorMoved,CursorMovedI * call mi#highlight#match_paren(''Underlined'')'
-
-    autocmd CmdlineEnter,CursorHold * ++once source ~/dotfiles/.vim/autoload/mi/searchprop.vim
-    autocmd CmdlineEnter : ++once source ~/dotfiles/.vim/autoload/mi/substitutor.vim
+          \ | execute 'autocmd TextYankPost * silent! call mi#highlight#on_yank({''timeout'': 500})'
+          \ | execute 'autocmd WinEnter * call mi#qf#quit_if_last_buf()'
+          \ | execute 'autocmd FileType qf call mi#qf#fit_window({''min'': 3, ''max'': 10})'
+          \ | execute 'autocmd FileType qf call mi#qf#preview()'
+          \ | source ~/dotfiles/.vim/autoload/mi/searchprop.vim
+          \ | source ~/dotfiles/.vim/autoload/mi/substitutor.vim
+          \ | call mi#pair#keymap_set(['{}', '[]', '()', "''", '""', '``'])
   endif
 
   " {{{ restore-cursor
@@ -649,3 +643,5 @@ augroup vimrc
   autocmd BufWritePre * call s:ensure_dir(expand('<afile>:p:h'))
   " }}}
 augroup END
+
+call timer_start(100, {->execute('doautocmd User VimReady')})
