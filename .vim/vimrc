@@ -302,6 +302,8 @@ map M %
 nnoremap / /\v
 nnoremap ? /\V
 
+nnoremap <C-g> 2<C-g>
+
 nnoremap s <NOP>
 nnoremap so <Cmd>source<Bar>nohlsearch<CR>
 nnoremap s/ :%s/\v
@@ -427,8 +429,8 @@ xnoremap <silent> y y`]
 xnoremap x "_x
 xnoremap < <gv
 xnoremap > >gv
-xmap <Tab>   >
-xmap <S-Tab> <
+" xmap <Tab>   >
+" xmap <S-Tab> <
 xnoremap <silent><C-k> :m'<-2<CR>gv=gv
 xnoremap <silent><C-j> :m'>+1<CR>gv=gv
 xnoremap S "zy:%s/<C-r>z//gce<Left><Left><Left><Left>
@@ -631,8 +633,7 @@ augroup vimrc
   " :h restore-cursor
   autocmd BufReadPost *
         \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
-        \ |   execute 'normal! g`"'
-        \ |   execute 'normal! zz'
+        \ |   execute 'normal! g`"zz'
         \ | endif
   " }}}
 
