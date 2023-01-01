@@ -40,6 +40,7 @@ PATH="/opt/homebrew/bin:${PATH}" # For Apple Silicon
 #  Aliases
 # -----------------
 # [9 Evil Bash Commands Explained](https://qiita.com/rana_kualu/items/be32f8302017b7aa2763)
+# https://vim-jp.org/vim-users-jp/2009/11/07/Hack-99.html
 alias bg='batgrep'
 alias bx='bundle exec'
 alias cdd='cd ..'
@@ -74,7 +75,7 @@ alias mkdir='mkdir -pv'
 alias mv='mv -i'
 alias nv='nvim'
 alias nvmin='nvim -u ~/dotfiles/.config/nvim/min-edit.vim'
-alias dein_reinstall='rm -rf ~/.cache/dein && sh ~/dein_installer.sh ~/.cache/dein'
+alias nvimprofile='nvim --cmd "profile start profile.txt" --cmd "profile file ~/.config/nvim/init.vim" -c quit'
 alias nvinit='nvim ~/.config/nvim/init.vim'
 alias nvr="nvim -c 'call EditProjectMru()'"
 alias rc='bundle exec rails console'
@@ -89,6 +90,7 @@ alias rgf="rgg --fixed-strings --"
 alias sudo='sudo '
 alias vimrc='vim ~/.vim/vimrc'
 alias vimrclocal='vim ~/.vimrc.local'
+alias vimprofile='vim --cmd "profile start profile.txt" --cmd "profile file ~/.vim/vimrc" -c quit'
 alias vin='vim -u NONE -N'
 alias vir="vim -c 'call EditProjectMru()'"
 alias wcl='wc -l'
