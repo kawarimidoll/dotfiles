@@ -131,7 +131,7 @@ set wildmode=longest,full
 set wrap
 set wrapscan
 if executable('rg')
-  set grepprg=rg\ --line-number\ --column\ --no-heading\ --color=never\ --hidden\ --trim\ --glob\ '!**/.git/*'
+  set grepprg=rg\ --vimgrep\ --trim\ --hidden\ --glob=!.git
   set grepformat=%f:%l:%c:%m
 endif
 
