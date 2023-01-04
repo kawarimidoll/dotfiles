@@ -13,7 +13,7 @@ if !has('nvim')
   set encoding=utf-8
   scriptencoding utf-8
   filetype plugin indent on
-  runtime macros/matchit.vim
+  packadd matchit
   syntax enable
 endif
 language ja_JP.UTF-8
@@ -48,6 +48,7 @@ let g:loaded_vimball            = 1
 let g:loaded_vimballPlugin      = 1
 let g:loaded_zip                = 1
 let g:loaded_zipPlugin          = 1
+let g:skip_defaults_vim         = 1
 let g:skip_loading_mswin        = 1
 let g:vimsyn_embed              = 1
 
