@@ -2,6 +2,66 @@ function! mi#qf#is_qf_buf() abort
   return &l:buftype ==# 'quickfix'
 endfunction
 
+function! s:post_grep(add, old_size)
+  let size = getqflist({'size': 1}).size
+  if size != a:old_size
+    echo printf('[grep] %s hits found.', size - a:old_size)
+    execute printf('silent! doautocmd QuickFixCmdPost grep%s', a:add ? 'add' : '')
+  else
+    echo '[grep] no matches found.'
+    if size == 0
+      cclose
+    endif
+  endif
+endfunction
+
+function! mi#qf#async_grep(query, opts = {}) abort
+  let title = 'Grep'
+  " let addexpr = 'caddexpr data | copen'
+  " let get_list = function('getqflist')
+  " let set_list = function('setqflist')
+  let is_loc = get(a:opts, 'loc', 0)
+  if is_loc
+    echoerr 'currently not supported'
+    " let title = 'L' .. title
+    " let addexpr = 'laddexpr data | lopen'
+    " let get_list = function('getloclist', [0])
+    " let set_list = function('setloclist', [0])
+  endif
+
+  let fix_query = get(a:opts, 'fixed', 0)
+  if fix_query
+    let title ..= 'F'
+  endif
+
+  let add_qf = get(a:opts, 'add', 0)
+  if add_qf
+    let title ..= '!'
+    let size = getqflist({'size': 1}).size
+  else
+    call setqflist([], 'r')
+    let size = 0
+  endif
+  call setqflist([], 'r', {'title': title .. ' ' .. a:query})
+
+  copen
+  let cmd = split(&grepprg, ' ')
+  if &smartcase
+    call add(cmd, '--smart-case')
+  elseif &ignorecase
+    call add(cmd, '--ignore-case')
+  endif
+  if fix_query
+    call add(cmd, '--fixed-strings')
+    call add(cmd, '--')
+  endif
+  call add(cmd, a:query)
+  call mi#job#start(cmd, {
+        \ 'out': {data->execute('caddexpr data')},
+        \ 'exit': {data->s:post_grep(add_qf, size)},
+        \ })
+endfunction
+
 function! mi#qf#grep(add, word) abort
   if a:add
     caddexpr system(printf('%s %s', &grepprg, a:word))
