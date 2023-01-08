@@ -205,12 +205,16 @@ function! mi#qf#get_current_item() abort
 endfunction
 
 let s:preview_highlights = []
+let s:unlisted_buffers = []
 function! mi#qf#preview() abort
   let item = mi#qf#get_current_item()
   if empty(item)
     return
   endif
 
+  if !buflisted(item.bufnr)
+    call add(s:unlisted_buffers, item.bufnr)
+  endif
   let fname = bufname(item.bufnr)
   silent! noautocmd execute 'aboveleft pedit' fname
   silent! noautocmd wincmd P
@@ -239,6 +243,17 @@ function! mi#qf#preview() abort
     nnoremap <buffer> <cr> <cmd>pclose<cr><cr>
     let s:au_qf_id = qf_id
     autocmd CursorMoved <buffer> call mi#qf#preview()
-    execute 'autocmd WinClosed,WinLeave <buffer> silent! pclose | if win_getid() ==' win_getid() '| wincmd w | endif'
+    autocmd WinClosed,WinLeave <buffer> call s:on_leave_preview()
   endif
+endfunction
+function! s:on_leave_preview() abort
+  let current_id = win_getid()
+  silent! pclose
+  if win_getid() == current_id
+    wincmd w
+  endif
+  for bufnr in s:unlisted_buffers
+    execute 'silent! bdelete!' bufnr
+  endfor
+  let s:unlisted_buffers = []
 endfunction
