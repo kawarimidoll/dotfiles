@@ -72,7 +72,7 @@ let s:range_elements = [
       \ '\d\+', '[.$%]', "'[a-zA-Z<>'`]",
       \ '/[^/]\+/', '?[^?]\+?', '\[/?&]'
       \ ]
-let s:range_item = s:x_oneof(s:range_elements) .. s:x_opt('[+-]\d\+')
+let s:range_item = s:x_oneof(s:range_elements) .. s:x_any('[+-]\d\+')
 let s:range_pattern = s:x_opt(s:range_item .. s:x_any('[,;]' .. s:range_item))
 
 " :h pattern-delimiter
@@ -83,11 +83,15 @@ let s:cmdline_pattern = '^' .. s:range_pattern ..
 
 function! s:range_item_to_lnum(range_item)
   " TODO: handle range items like below
-  " /function/
+  " 7;/pattern/ -> the line that matches to pattern after line 7
+  " NOTE: \& is not supported
 
-  let range_diff_start = match(a:range_item, '[+-]\d\+$')
-  if range_diff_start < 0
-    let range_main = a:range_item
+  let range_diff_start = match(a:range_item, '\%([+-]\d\+\)*$')
+  if range_diff_start == 0
+    let range_main = '.'
+    let range_diff = eval(a:range_item)
+  elseif range_diff_start == strlen(a:range_item)
+    let range_main = a:range_item[:range_diff_start-1]
     let range_diff = 0
   else
     let range_main = a:range_item[:range_diff_start-1]
@@ -96,6 +100,14 @@ function! s:range_item_to_lnum(range_item)
 
   if range_main =~ '^\d\+$'
     let lnum = eval(range_main)
+  elseif range_main =~ '^/.\+/$'
+    let lnum = search(slice(range_main, 1, -1), 'nW', 0, 0, 'line(''.'') == ' .. getpos('.')[2])
+  elseif range_main =~ '^?.\+?$'
+    let lnum = search(slice(range_main, 1, -1), 'bnW', 0, 0, 'line(''.'') == ' .. getpos('.')[2])
+  elseif range_main == '\/'
+    let lnum = search(getreg('/'), 'nW', 0, 0, 'line(''.'') == ' .. getpos('.')[2])
+  elseif range_main == '\?'
+    let lnum = search(getreg('/'), 'bnW', 0, 0, 'line(''.'') == ' .. getpos('.')[2])
   else
     let lnum = line(range_main)
   endif
