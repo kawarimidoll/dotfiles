@@ -64,17 +64,28 @@ else
 
   function! mi#job#start(cmd, opts = {}) abort
     let buf = []
-    let On_out = get(a:opts, 'out', {data->0})
-    let On_err = get(a:opts, 'err', {data->0})
-    let On_exit = get(a:opts, 'exit', {data->0})
-    let job = job_start(a:cmd, {
-          \   'in_io': 'null',
+
+    let On_out = get(a:opts, 'out', {_->0})
+    let On_err = get(a:opts, 'err', {_->0})
+    let On_exit = get(a:opts, 'exit', {_->0})
+
+    let job_opts = {
           \   'out_mode': 'raw',
           \   'out_cb': {_, data -> [extend(buf, split(data, "\n")), On_out(split(data, "\n"))]},
           \   'err_mode': 'raw',
           \   'err_cb': {_, data -> [extend(buf, split(data, "\n")), On_err(split(data, "\n"))]},
           \   'exit_cb': function('s:job_exit_cb', [buf, On_exit])
-          \ })
+          \ }
+    let in_opts = get(a:opts, 'in', {})
+    if has_key(in_opts, 'buf')
+      let job_opts['in_io'] = 'buffer'
+      let job_opts['in_buf'] = in_opts['buf']
+      let job_opts['in_top'] = get(in_opts, 'top', 1)
+      let job_opts['in_bot'] = get(in_opts, 'bot', line('$'))
+    else
+      let job_opts['in_io'] = 'null'
+    endif
+    let job = job_start(a:cmd, job_opts)
     let s:jobs[s:job_id(job)] = job
     return job
   endfunction

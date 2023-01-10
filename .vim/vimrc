@@ -586,6 +586,39 @@ function! s:pin_help_buffer()
   echomsg 'all buffers are pinned.'
 endfunction
 
+if !has('nvim')
+  function! s:silicon(line1, line2, args, highlight_lines)
+    let cmd = ['silicon']
+    if &filetype != ''
+      call add(cmd, '--language')
+      call add(cmd, &filetype)
+    endif
+
+    " TODO: use args
+    let output = printf('~/Downloads/silicon-%s.png', strftime('%Y%m%d-%H%M%S'))
+    call add(cmd, '--font')
+    call add(cmd, 'UDEV Gothic 35JPDOC')
+    call add(cmd, '--output')
+    call add(cmd, output)
+
+    let in_opts =  { 'buf': bufnr() }
+    if a:highlight_lines
+      call add(cmd, '--highlight-lines')
+      call add(cmd, a:line1 .. '-' .. a:line2)
+    else
+      let in_opts['top'] = a:line1
+      let in_opts['bot'] = a:line2
+    endif
+
+    let opts = {
+          \ 'in': in_opts,
+          \ 'exit': {_->execute(printf('echo "[silicon] output to %s"', output), '')}
+          \ }
+    call mi#job#start(cmd, opts)
+  endfunction
+  command! -range=% -bang Silicon call s:silicon(<line1>, <line2>, <q-args>, <bang>0)
+endif
+
 " skip autocmds after vim is started
 if !has('vim_starting')
   finish
