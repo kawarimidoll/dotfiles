@@ -37,6 +37,7 @@ end)
 
 return {
   check_for_updates = false,
+  front_end = "WebGpu",
 
   font = wezterm.font 'UDEV Gothic 35JPDOC',
   font_size = 18.0,
