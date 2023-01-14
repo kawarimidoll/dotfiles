@@ -98,6 +98,7 @@ alias wget='wget --hsts-file="${XDG_DATA_HOME}/wget-hsts"'
 alias wtf='wtfutil'
 alias x='xplr'
 alias xcd='cd $(xplr)'
+alias yq='gojq --yaml-input --yaml-output'
 
 if has 'lsd'; then
   alias ls='lsd'
@@ -131,6 +132,12 @@ fi
 ma() {
   # https://rcmdnk.com/blog/2014/07/20/computer-vim/
   man "$@" | col -bx | vim -RM --not-a-term -c 'set ft=man nolist nonumber' -
+}
+
+silica() {
+  fname="~/Downloads/silicon-$(date +%Y%m%d-%H%M%S).png"
+  silicon --font 'UDEV Gothic 35JPDOC' --output "$fname" "$@"
+  echo "silicon saved: $fname"
 }
 
 # fuzzy edit gist
