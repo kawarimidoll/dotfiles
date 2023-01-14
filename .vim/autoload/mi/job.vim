@@ -80,8 +80,12 @@ else
     if has_key(in_opts, 'buf')
       let job_opts['in_io'] = 'buffer'
       let job_opts['in_buf'] = in_opts['buf']
-      let job_opts['in_top'] = get(in_opts, 'top', 1)
-      let job_opts['in_bot'] = get(in_opts, 'bot', line('$'))
+      if has_key(in_opts, 'top')
+        let job_opts['in_top'] = in_opts['top']
+      endif
+      if has_key(in_opts, 'bot')
+        let job_opts['in_bot'] = in_opts['bot']
+      endif
     else
       let job_opts['in_io'] = 'null'
     endif
