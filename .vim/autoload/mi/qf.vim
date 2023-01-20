@@ -57,7 +57,7 @@ function! mi#qf#async_grep(query, opts = {}) abort
   endif
   call add(cmd, a:query)
   call mi#job#start(cmd, {
-        \ 'out': {data->execute('caddexpr data')},
+        \ 'out': {data->execute('caddexpr filter(data, ''!empty(v:val)'')')},
         \ 'exit': {data->s:post_grep(add_qf, size)},
         \ })
 endfunction
