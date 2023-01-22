@@ -1,4 +1,4 @@
-timestamp: 2023-01-18 07:57:19 JST
+timestamp: 2023-01-22 09:33:47 JST
 tap: a-know/tap
 tap: harelba/q
 tap: homebrew/bundle
@@ -22,6 +22,7 @@ brew: caire
 brew: cask
 brew: cfitsio
 brew: cgif
+brew: check-jsonschema
 brew: choose-rust
 brew: clog
 brew: cmake
@@ -90,7 +91,6 @@ brew: jesseduffield/lazygit/lazygit
 brew: jid
 brew: jless
 brew: jql
-brew: jsonschema
 brew: kalker
 brew: libcaca
 brew: libgsf
