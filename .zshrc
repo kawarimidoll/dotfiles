@@ -22,6 +22,9 @@ compinit -u
 autoload -Uz zmv
 autoload -Uz colors && colors
 
+__source /opt/homebrew/share/zsh-autopair/autopair.zsh
+__source /opt/homebrew/opt/zsh-fast-syntax-highlighting/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+
 # -----------------
 #  Alias
 # -----------------

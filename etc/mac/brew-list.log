@@ -1,4 +1,4 @@
-timestamp: 2023-01-22 09:33:47 JST
+timestamp: 2023-01-25 14:49:33 JST
 tap: a-know/tap
 tap: harelba/q
 tap: homebrew/bundle
@@ -174,7 +174,9 @@ brew: xh
 brew: yarn
 brew: youtubedr
 brew: zsh
+brew: zsh-autopair
 brew: zsh-completions
+brew: zsh-fast-syntax-highlighting
 cask: alacritty
 cask: aldente
 cask: alfred
@@ -223,6 +225,7 @@ cask: lazpaint
 cask: licecap
 cask: maccy
 cask: manila
+cask: menuwhere
 cask: numi
 cask: obsidian
 cask: paintbrush
