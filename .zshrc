@@ -27,16 +27,47 @@ autoload -Uz colors && colors
 # -----------------
 alias zmv='noglob zmv -W'
 
+# ref: https://grml.org/zsh/zsh-lovers.html
+# `|&` is shorthand for `2>&1 |`, this connects not only stdout, but also stderr.
+alias -g C='| wc -l'
 alias -g CP='| tee >(pbcopy)'
+alias -g D='DISPLAY=:0.0'
+alias -g DN=/dev/null
+alias -g ED='export DISPLAY=:0.0'
+alias -g EG='|& egrep'
+alias -g EH='|& head'
+alias -g EL='|& less'
+alias -g ELS='|& less -S'
+alias -g ET='|& tail'
+alias -g ETL='|& tail -20'
 alias -g F='| fzf'
-alias -g G='| grep'
+alias -g FMT='| fmt -'
+alias -g G='| egrep'
 alias -g H='| head'
+alias -g HL='|& head -20'
 alias -g J='| jq'
 alias -g L='| less -R'
+alias -g LL='2>&1 | less'
+alias -g LS='| less -S'
+alias -g M='| more'
+alias -g MM='| most'
+alias -g NE='2> /dev/null'
+alias -g NS='| sort -n'
+alias -g NUL='> /dev/null 2>&1'
+alias -g PIPE='|'
+alias -g R=' > /c/aaa/tee.txt'
+alias -g RNS='| sort -nr'
 alias -g S='| sort'
+alias -g Sk='*~(*.bz2|*.gz|*.tgz|*.zip|*.z)'
 alias -g T='| tail'
+alias -g TL='| tail -20'
+alias -g US='| sort -u'
 alias -g V='| view'
+alias -g VM=/var/log/messages
+alias -g X0='| xargs -0'
+alias -g X0G='| xargs -0 egrep'
 alias -g X='| xargs'
+alias -g XG='| xargs egrep'
 
 # 独自コマンド
 # findで明らかに検索しなくて良さそうなものを対象から外す
