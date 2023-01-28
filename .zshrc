@@ -210,6 +210,12 @@ precmd () { print -Pn "\e]0;%~\a" }
 compinit -d "${XDG_CACHE_HOME}/zsh/zcompdump-${ZSH_VERSION}"
 
 # -----------------
+#  tabtab completion
+# -----------------
+# uninstall by removing these lines
+__source ~/.config/tabtab/zsh/__tabtab.zsh
+
+# -----------------
 #  Local Setting
 # -----------------
 __source ~/.zshrc.local

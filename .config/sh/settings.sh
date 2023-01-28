@@ -21,6 +21,7 @@ export NPM_CONFIG_USERCONFIG="${XDG_CONFIG_HOME}/npm/npmrc"
 export PYTHONSTARTUP="${XDG_CONFIG_HOME}/python/pythonrc.py"
 export TERMINFO="${XDG_DATA_HOME}/terminfo"
 export TERMINFO_DIRS="${XDG_DATA_HOME}/terminfo:/usr/share/terminfo"
+export PNPM_HOME="${XDG_DATA_HOME}/pnpm"
 
 # -----------------
 #  Paths
@@ -33,6 +34,7 @@ PATH="${DOT_DIR}/bin:${PATH}"
 PATH="${CARGO_HOME}/bin:${PATH}"
 PATH="${HOME}/.deno/bin:${PATH}"
 PATH="${GOPATH}/bin:${PATH}"
+PATH="${PNPM_HOME}:${PATH}"
 
 # -----------------
 #  Aliases
