@@ -34,6 +34,10 @@ fi
 source /tmp/zsh_brew.cache
 source /tmp/zsh_fnm.cache
 
+__source "${BREW_PREFIX}/share/zsh-autopair/autopair.zsh"
+__source "${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+__source "${BREW_PREFIX}/opt/zsh-fast-syntax-highlighting/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
+
 export HOMEBREW_UPDATE_REPORT_ALL_FORMULAE=1
 export OBSIDIAN_VAULT="${HOME}/Dropbox/Obsidian"
 
@@ -41,7 +45,10 @@ alias brewer="sh ${DOT_OS_DIR}/brewer.sh"
 alias cob="cd ${OBSIDIAN_VAULT}"
 alias ds_store_all_delete="find . -name '.DS_Store' -type f -delete"
 alias notify="osascript -e 'display notification \"Done!\" with title \"Terminal\"'"
+alias -g NOTIFY="&& notify"
+# alias -g NOTIFY="&& osascript -e 'display notification \"Done!\" with title \"Terminal\"'"
 
+PATH="${BREW_PREFIX}/bin:$PATH"
 PATH="${BREW_PREFIX}/sbin:$PATH"
 
 # Define PATH to coreutils/findutils by using symlinks to avoid brew warnings

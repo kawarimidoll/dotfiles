@@ -22,9 +22,6 @@ compinit -u
 autoload -Uz zmv
 autoload -Uz colors && colors
 
-__source /opt/homebrew/share/zsh-autopair/autopair.zsh
-__source /opt/homebrew/opt/zsh-fast-syntax-highlighting/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
-
 # -----------------
 #  Alias
 # -----------------
@@ -40,7 +37,6 @@ alias -g S='| sort'
 alias -g T='| tail'
 alias -g V='| view'
 alias -g X='| xargs'
-alias -g NOTIFY="&& osascript -e 'display notification \"Done!\" with title \"Terminal\"'"
 
 # 独自コマンド
 # findで明らかに検索しなくて良さそうなものを対象から外す

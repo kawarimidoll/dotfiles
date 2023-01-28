@@ -34,8 +34,6 @@ PATH="${CARGO_HOME}/bin:${PATH}"
 PATH="${HOME}/.deno/bin:${PATH}"
 PATH="${GOPATH}/bin:${PATH}"
 
-PATH="/opt/homebrew/bin:${PATH}" # For Apple Silicon
-
 # -----------------
 #  Aliases
 # -----------------
