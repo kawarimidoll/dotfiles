@@ -183,4 +183,5 @@ function! mi#ft#repeat_expr(key) abort
   return "v\<cmd>call mi#ft#repeat('" .. a:key .. "')\<CR>"
 endfunction
 
+" :h getchar()
 " https://github.com/echasnovski/mini.nvim/blob/main/lua/mini/jump.lua
