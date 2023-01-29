@@ -203,18 +203,35 @@ else
 
   nnoremap <c-e> <cmd>call mi#window#resize()<cr>
 
-  try
-    packadd vim-jetpack
-  catch /^Vim\%((\a\+)\)\=:E919:/
-    let s:jetpackfile = expand('~/.vim/pack/jetpack/opt/vim-jetpack/plugin/jetpack.vim')
-    let s:jetpackurl = 'https://raw.githubusercontent.com/tani/vim-jetpack/master/plugin/jetpack.vim'
-    call system(printf('curl -fsSLo %s --create-dirs %s', s:jetpackfile, s:jetpackurl))
-    packadd vim-jetpack
-  endtry
-  call jetpack#begin()
-  call jetpack#add('tani/vim-jetpack', {'opt': 1})
-  call jetpack#add('vim-jp/vimdoc-ja')
-  call jetpack#end()
+  " try
+  "   packadd vim-jetpack
+  " catch /^Vim\%((\a\+)\)\=:E919:/
+  "   let s:jetpackfile = expand('~/.vim/pack/jetpack/opt/vim-jetpack/plugin/jetpack.vim')
+  "   let s:jetpackurl = 'https://raw.githubusercontent.com/tani/vim-jetpack/master/plugin/jetpack.vim'
+  "   call system(printf('curl -fsSLo %s --create-dirs %s', s:jetpackfile, s:jetpackurl))
+  "   packadd vim-jetpack
+  " endtry
+  " call jetpack#begin()
+  " call jetpack#add('tani/vim-jetpack', {'opt': 1})
+  " call jetpack#add('vim-jp/vimdoc-ja')
+  " call jetpack#end()
+
+  let s:help_dir = expand('~/.vim/vimdoc-ja')
+  execute 'set runtimepath+=' .. s:help_dir
+  function! s:ja_doc_update() abort
+    if isdirectory(s:help_dir)
+      echo '[ja_doc] pull latest version...'
+      echo system(printf('git -C %s reset --hard', s:help_dir))
+      echo system(printf('git -C %s pull --rebase', s:help_dir))
+      echo system(printf('git -C %s gc --prune=now', s:help_dir))
+    else
+      echo '[ja_doc] clone latest version...'
+      echo system(printf('git clone --depth 1 https://github.com/vim-jp/vimdoc-ja.git %s', s:help_dir))
+    endif
+    execute 'helptags' s:help_dir .. '/doc'
+    echo '[ja_doc] successfully updated.'
+  endfunction
+  command! JaDocUpdate call s:ja_doc_update()
 
   " prev/next use
   nnoremap [u *NNzz<cmd>nohlsearch<cr>
