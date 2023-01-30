@@ -54,11 +54,6 @@ mason_lspconfig.setup_handlers({
         return
       end
       opts.settings = { documentFormatting = false }
-    elseif server_name == 'eslint' then
-      if not is_node_repo then
-        return
-      end
-      opts.root_dir = node_root_dir
     elseif server_name == 'denols' then
       if is_node_repo then
         return

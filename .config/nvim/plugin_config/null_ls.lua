@@ -67,6 +67,9 @@ local sources = {
     end,
     extra_args = { '--config', cspell_files.config },
   }),
+  null_ls.builtins.diagnostics.eslint.with({
+    prefer_local = 'node_modules/.bin',
+  }),
 
   -- formatting
   null_ls.builtins.formatting.deno_fmt.with({
