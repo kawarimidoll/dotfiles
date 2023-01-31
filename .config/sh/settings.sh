@@ -22,6 +22,7 @@ export PYTHONSTARTUP="${XDG_CONFIG_HOME}/python/pythonrc.py"
 export TERMINFO="${XDG_DATA_HOME}/terminfo"
 export TERMINFO_DIRS="${XDG_DATA_HOME}/terminfo:/usr/share/terminfo"
 export PNPM_HOME="${XDG_DATA_HOME}/pnpm"
+export NI_CONFIG_FILE="$HOME/.config/ni/nirc"
 
 # -----------------
 #  Paths
