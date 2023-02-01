@@ -327,6 +327,9 @@ nmap <SID>g <Nop>
 noremap gV `[v`]
 " https://github.com/yuki-yano/zero.vim/blob/main/plugin/zero.vim
 noremap <silent><expr> H getline('.')[:col('.')-2] =~# '^\s\+$' ? '0' : '^'
+" https://github.com/yuki-yano/dotfiles/blob/c56b219116de1693c45c20b03b109497896d5b16/.vimrc#L602-L605
+nnoremap <expr> i len(getline('.')) ? 'i' : '"_cc'
+nnoremap <expr> A len(getline('.')) ? 'A' : '"_cc'
 noremap L $
 map M %
 nnoremap / /\v
@@ -657,6 +660,10 @@ augroup vimrc
   autocmd BufEnter * call s:pin_help_buffer()
   autocmd WinLeave,WinClosed * unlet! w:pin_buf_type
   autocmd BufEnter * call s:syntax_off_on_heavy_file()
+
+  " https://github.com/NI57721/dotfiles/blob/a695ab1d29465dc54254c933f13ac46911a07afd/.vimrc#L255-L260
+  autocmd Filetype xml,html,vue inoremap <buffer><expr> </
+        \ &completeopt=~'noinsert\\|noselect' ? '</<C-x><C-o><C-n><ESC>==o' : '</<C-x><C-o><ESC>==o'
 
   " Highlight extra whitespaces
   " https://zenn.dev/kawarimidoll/articles/450a1c7754bde6
