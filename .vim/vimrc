@@ -154,6 +154,7 @@ else
   set background=dark
   set backspace=indent,eol,start
   set belloff=all
+  set completeopt+=popuphidden
   set display=lastline
   set hidden
   set hlsearch
@@ -163,6 +164,7 @@ else
   set ruler
   set smarttab
   set smartcase
+  set viminfo='20,<50,s10,h
   set viminfofile=~/.vim/viminfo
   set ttyfast
   set wildmenu
