@@ -59,3 +59,23 @@ function! mi#utils#get_current_selection() abort
 
   return result
 endfunction
+
+" echo as function
+function! mi#utils#echohl(hl) abort
+  execute 'echohl' a:hl
+endfunction
+function! mi#utils#echo(...) abort
+  execute 'echo' join(map(copy(a:000), 'string(v:val)'))
+endfunction
+function! mi#utils#echomsg(...) abort
+  execute 'echomsg' join(map(copy(a:000), 'string(v:val)'))
+endfunction
+
+" use [text, hlgroup] like nvim_echo
+function! mi#utils#echo_with_hl(...) abort
+  for arg in a:000
+    execute 'echohl' get(arg, 1, 'None')
+    echon arg[0]
+  endfor
+  echohl None
+endfunction
