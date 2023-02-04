@@ -298,6 +298,7 @@ command! -bang CopyFullPath     call s:copy_path('full path', <bang>0)
 command! -bang CopyDirName      call s:copy_path('dir name', <bang>0)
 command! -bang CopyFileName     call s:copy_path('file name', <bang>0)
 command! -bang CopyRelativePath call s:copy_path('relative path', <bang>0)
+command! CopyLastCmd let @* = @:
 
 command! -nargs=+ -bang Grep  call mi#qf#async_grep(<q-args>, {'add': <bang>0})
 command! -nargs=+ -bang GrepF call mi#qf#async_grep(<q-args>, {'add': <bang>0, 'fixed': 1})
