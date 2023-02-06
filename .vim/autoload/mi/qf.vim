@@ -150,9 +150,24 @@ function! mi#qf#toggle() abort
   endif
 endfunction
 
-function! mi#qf#add_curpos() abort
-  caddexpr join([expand('%'), line('.'), col('.'), trim(getline('.'))], ':')
+function! mi#qf#add(line1, line2, allow_blank) abort
+  let filename = expand('%:p')
+  let list = []
+
+  for lnum in range(a:line1, a:line2)
+    let text = getline(lnum)
+    if !a:allow_blank
+      let text = trim(text)
+      if text == ''
+        continue
+      endif
+    endif
+    call add(list, {'filename': filename, 'lnum': lnum, 'text': text})
+  endfor
+
+  call setqflist(list, 'a')
 endfunction
+command! -range -bang Qfadd call mi#qf#add(<line1>, <line2>, <bang>0)
 
 " https://stackoverflow.com/a/48817071
 function! mi#qf#remove() abort
