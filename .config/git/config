@@ -43,7 +43,7 @@
 	fz-merge = __fz-merge
 	fz-switch = __fz-switch
 	git = !git
-	gone = !git fetch --all --prune && git branch -vv | awk '/: gone]/{print $1}' | xargs git branch -D
+	gone = !git fetch --all --prune && git branch -vv | awk '/: gone]/{print $1}' | xargs --no-run-if-empty git branch -D
 	graph = log --graph --oneline
 	history = log --numstat --pretty=format:'%C(auto)%h %C(blue)%cs%C(auto)%d %s %C(blue)[%cn]'
 	home = !git switch $(git default-branch)
