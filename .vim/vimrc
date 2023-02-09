@@ -100,6 +100,7 @@ set clipboard^=unnamed
 set clipboard^=unnamedplus
 set completeopt=menu,menuone,noselect
 set expandtab
+set fillchars+=eob:\\x20
 set foldcolumn=0
 set formatoptions+=jmM1
 set history=2000
@@ -658,6 +659,7 @@ endif
 augroup vimrc
   autocmd!
 
+  autocmd BufEnter *.sh set filetype=bash
   autocmd BufEnter * call s:pin_help_buffer()
   autocmd WinLeave,WinClosed * unlet! w:pin_buf_type
   autocmd BufEnter * call s:syntax_off_on_heavy_file()
