@@ -47,7 +47,6 @@ alias bx='bundle exec'
 alias cdd='cd ..'
 alias cddd='cd ../..'
 alias cdddd='cd ../../..'
-alias cdf="cd $OLDPWD"
 alias cdg="cd $(git root)"
 alias cdot="cd $DOT_DIR"
 alias chmod='chmod --preserve-root'
@@ -227,6 +226,12 @@ cgh() {
   local dir
   dir=$(ghq list | fzf --no-multi --exit-0 --query="$*" --preview="ls -FA1 $(ghq root)/{}")
   [ -n "$dir" ] && cd "$(ghq root)/$dir" || return
+}
+
+cdf() {
+  local dir
+  dir=$(cdr -l | awk '{ print $2 }' | fzf --no-multi --exit-0 --query="$*" --preview="echo {} | sed 's#~#$HOME#' | xargs -I_ ls -FA1 _")
+  [ -n "$dir" ] && cd "${dir/\~/$HOME}" || return
 }
 
 nvf() {
