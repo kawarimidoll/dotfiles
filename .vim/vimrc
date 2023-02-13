@@ -618,6 +618,26 @@ function! s:pin_help_buffer()
   echomsg 'all buffers are pinned.'
 endfunction
 
+function! s:deno_fmt(line1, line2)
+  " range specification may cause error
+  try
+    let ft =  {
+          \ 'typescript': 'ts',
+          \ 'typescriptreact': 'tsx',
+          \ 'javascript': 'js',
+          \ 'javascriptreact': 'jsx',
+          \ 'markdown': 'md',
+          \ 'json': 'json',
+          \ 'jsonc': 'jsonc',
+          \  }[&filetype]
+  catch /^Vim\%((\a\+)\)\=:E716:/
+    echo '[deno_fmt] filetype ' .. &filetype .. ' is not suppported'
+    return
+  endtry
+  execute printf('%s,%s!deno fmt --ext %s -', a:line1, a:line2, ft)
+endfunction
+command! -range=% DenoFmt call s:deno_fmt(<line1>, <line2>)
+
 if !has('nvim')
   function! s:silicon(line1, line2, args, highlight_lines)
     let cmd = ['silicon']
@@ -721,6 +741,8 @@ augroup vimrc
           \ | source ~/dotfiles/.vim/autoload/mi/searchprop.vim
           \ | source ~/dotfiles/.vim/autoload/mi/substitutor.vim
           \ | call mi#pair#keymap_set(['{}', '[]', '()', "''", '""', '``'])
+   autocmd Filetype typescript,typescriptreact,javascript,javascriptreact,markdown,json,jsonc
+          \ nnoremap <buffer> <space>p <cmd>DenoFmt<cr>
   endif
 
   " {{{ restore-cursor
