@@ -48,6 +48,7 @@ mason_lspconfig.setup_handlers({
     local opts = {}
 
     opts.capabilities = update_capabilities(vim.lsp.protocol.make_client_capabilities())
+    -- vim.api.nvim_echo({{'server_name'}, {server_name, 'warningmsg'}}, true, {})
 
     if server_name == 'tsserver' then
       if not is_node_repo then
@@ -74,14 +75,9 @@ mason_lspconfig.setup_handlers({
           },
         },
       }
-    elseif server_name == 'sumneko_lua' then
-      -- https://github.com/folke/neodev.nvim/blob/main/lua/neodev/sumneko.lua
-      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#sumneko_lua
+    elseif server_name == 'lua_ls' then
+      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#lua_ls
       local library = vim.api.nvim_get_runtime_file('', true)
-      local neodev_dir = '/Users/kawarimidoll/.config/nvim/plugged/neodev.nvim/types'
-      if vim.fn.isdirectory(neodev_dir) == 1 then
-        table.insert(library, neodev_dir)
-      end
 
       opts.settings = {
         Lua = {
