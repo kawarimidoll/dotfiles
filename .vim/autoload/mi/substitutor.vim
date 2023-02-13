@@ -30,6 +30,9 @@ function! s:getlines_except_folded(from, to)
   let lines = []
   let from = type(a:from) == v:t_number ? a:from : line(a:from)
   let to = type(a:to) == v:t_number ? a:to : line(a:to)
+  if from > to
+    let [from, to] = [to, from]
+  endif
 
   for lnum in range(from, to)
     let fold_end = foldclosedend(lnum)
