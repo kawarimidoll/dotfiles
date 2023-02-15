@@ -346,9 +346,9 @@ nnoremap s? :%s/\V
 nnoremap S :%s/\V\<<C-r><C-w>\>//g<Left><Left>
 
 " https://thinca.hatenablog.com/entry/q-as-prefix-key-in-vim
-nnoremap <script> <expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
+nnoremap <script><expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
 nnoremap <sid>(q)q qq
-nnoremap Q @q
+nnoremap <script><expr> Q empty(reg_recording()) ? '@q' : 'q@q'
 nnoremap <sid>(q)/ q/
 nnoremap <sid>(q): q:
 nnoremap <sid>(q)a <Cmd>call mi#qf#add_curpos()<CR>
