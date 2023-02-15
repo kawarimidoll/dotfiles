@@ -315,6 +315,8 @@ nnoremap <silent> m, <Cmd>call mi#mark#jump_to_last()<CR>
 nnoremap <silent> RR R
 nnoremap <expr> R mi#operator#replace()
 nnoremap <expr> J mi#operator#join()
+nnoremap <expr> JJ mi#operator#join() .. 'j'
+xnoremap <expr> J mi#operator#join()
 
 " https://zenn.dev/mattn/articles/83c2d4c7645faa
 nmap gj gj<SID>g
