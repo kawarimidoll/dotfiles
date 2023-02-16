@@ -79,3 +79,29 @@ function! mi#utils#echo_with_hl(...) abort
   endfor
   echohl None
 endfunction
+
+" run last one call in wait time
+" https://github.com/lambdalisue/gin.vim/blob/d0fc41cc65d6e08f0291fec7f146f5f6a8129108/autoload/gin/util.vim#L23-L27
+let s:debounce_timers = {}
+function! mi#utils#debounce(fn, wait, args = []) abort
+  let timer_name = string(funcref(a:fn))
+  let timer = get(s:debounce_timers, timer_name, 0)
+  call timer_stop(timer)
+  let s:debounce_timers[timer_name] = timer_start(a:wait, {_ -> [
+        \ call(a:fn, a:args),
+        \ execute('unlet! s:debounce_timers[a:timer_name]', 'silent!')
+        \ ]})
+endfunction
+
+" run first one call in wait time
+let s:throttle_timers = {}
+function! mi#utils#throttle(fn, wait, args = []) abort
+  let timer_name = string(funcref(a:fn))
+  if get(s:throttle_timers, timer_name, 0)
+    return
+  endif
+  let s:throttle_timers[timer_name] = timer_start(a:wait, {_ -> [
+        \ call(a:fn, a:args),
+        \ execute('unlet! s:throttle_timers[a:timer_name]', 'silent!')
+        \ ]})
+endfunction
