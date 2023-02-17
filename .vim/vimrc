@@ -309,6 +309,8 @@ command! -nargs=+ -bang LGrepF call mi#qf#async_grep(<q-args>, {'add': <bang>0, 
 command! -nargs=1 -complete=file VDiff vertical diffsplit <args>
 command! VDiffAlt execute 'vertical diffsplit' expand('#')
 
+command! SudoWrite write !sudo tee > /dev/null %
+
 nnoremap <silent> mm <Cmd>call mi#mark#auto_set()<CR>
 nnoremap <silent> m, <Cmd>call mi#mark#jump_to_last()<CR>
 
