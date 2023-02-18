@@ -68,3 +68,4 @@ neodev
 jsonls
 alacritty
 nofile
+vtsls
