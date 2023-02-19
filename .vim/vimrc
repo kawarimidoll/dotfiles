@@ -647,6 +647,17 @@ function! s:deno_fmt(line1, line2)
 endfunction
 command! -range=% DenoFmt call s:deno_fmt(<line1>, <line2>)
 
+" function! s:dprint(line1, line2)
+"   if &filetype !~ '\v^%(%(type|java)script(react)?|markdown|jsonc?|toml|dockerfile)$'
+"     echo '[dprint] filetype ' .. &filetype .. ' is not suppported'
+"     return
+"   endif
+"   let curpos = getpos('.')[1:2]
+"   execute printf('%s,%s!dprint fmt --stdin %s', a:line1, a:line2, @%)
+"   call cursor(curpos[0], curpos[1])
+" endfunction
+" command! -range=% Dprint call s:dprint(<line1>, <line2>)
+
 if !has('nvim')
   function! s:silicon(line1, line2, args, highlight_lines)
     let cmd = ['silicon']
