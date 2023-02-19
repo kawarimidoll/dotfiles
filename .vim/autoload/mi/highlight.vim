@@ -110,7 +110,7 @@ function! s:clear_hl_cursorword()
   endif
 endfunction
 
-function! mi#highlight#syn_attr(expr, trans)
+function! mi#highlight#syn_attr(expr = '.', trans = 1)
   let [lnum, col] = getpos(a:expr)[1:2]
   let id = synID(lnum, col, a:trans)
   return { 'name': synIDattr(id, 'name'),

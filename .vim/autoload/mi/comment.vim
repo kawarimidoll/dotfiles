@@ -6,7 +6,7 @@ endfunction
 function! s:is_comment(from, to) abort
   let lnum = a:from
   while lnum <= a:to
-    if synIDattr(synID(lnum, 1, 1), 'name') !~ 'comment'
+    if synIDattr(synID(lnum, indent(lnum) + 1, 1), 'name') !~ 'comment'
       return v:false
     endif
     let lnum += 1

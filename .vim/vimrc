@@ -344,7 +344,7 @@ nnoremap ? /\V
 nnoremap <C-g> 2<C-g>
 
 nnoremap s <NOP>
-nnoremap so <Cmd>source<Bar>nohlsearch<CR>
+nnoremap so <Cmd>execute 'source' (filereadable(@%) ? @% : '')<Bar>nohlsearch<CR>
 nnoremap s/ :%s/\v
 nnoremap s? :%s/\V
 nnoremap S :%s/\V\<<C-r><C-w>\>//g<Left><Left>
