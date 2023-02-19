@@ -39,13 +39,16 @@ return {
   check_for_updates = false,
   front_end = "WebGpu",
 
-  font = wezterm.font 'UDEV Gothic 35JPDOC',
+  font = wezterm.font_with_fallback({
+    'UDEV Gothic 35NF',
+    'Symbols Nerd Font Mono',
+  }),
   font_size = 18.0,
   color_scheme = 'Catppuccin Mocha',
   hide_tab_bar_if_only_one_tab = true,
 
   window_frame = {
-    font = wezterm.font 'UDEV Gothic 35JPDOC',
+    font = wezterm.font 'UDEV Gothic 35NF',
     -- The size of the font in the tab bar.
     font_size = 16.0,
   },

@@ -1,10 +1,8 @@
-timestamp: 2023-02-02 07:45:39 JST
+timestamp: 2023-02-19 08:24:08 JST
 tap: a-know/tap
 tap: harelba/q
 tap: homebrew/bundle
-tap: homebrew/cask
 tap: homebrew/cask-fonts
-tap: homebrew/core
 tap: itchyny/tap
 tap: jesseduffield/lazydocker
 tap: jesseduffield/lazygit
@@ -132,6 +130,7 @@ brew: px4/px4/gcc-arm-none-eabi
 brew: qt
 brew: qt@5
 brew: rargs
+brew: rbenv
 brew: re2c
 brew: rich-cli
 brew: ripgrep
@@ -174,6 +173,7 @@ brew: xh
 brew: yarn
 brew: youtubedr
 brew: zsh
+brew: zsh-autocomplete
 brew: zsh-autopair
 brew: zsh-autosuggestions
 brew: zsh-completions
@@ -210,7 +210,9 @@ cask: font-cousine-nerd-font
 cask: font-hackgen-nerd
 cask: font-plemol-jp-nf
 cask: font-roboto-mono-nerd-font
+cask: font-symbols-only-nerd-font
 cask: font-udev-gothic
+cask: font-udev-gothic-nf
 cask: gitify
 cask: google-japanese-ime
 cask: hot

@@ -658,7 +658,7 @@ if !has('nvim')
     " TODO: use args
     let output = printf('~/Downloads/silicon-%s.png', strftime('%Y%m%d-%H%M%S'))
     call add(cmd, '--font')
-    call add(cmd, 'UDEV Gothic 35JPDOC')
+    call add(cmd, 'UDEV Gothic 35NF')
     call add(cmd, '--output')
     call add(cmd, output)
 
