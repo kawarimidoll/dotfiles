@@ -56,10 +56,6 @@ if has('nvim')
   inoremap <buffer> <C-CR> <Cmd>call <sid>markdown_checkbox()<CR>
 endif
 
-function! s:sort_qf(a, b) abort
-  return a:a.lnum > a:b.lnum ? 1 : -1
-endfunction
-
 function! s:markdown_outline() abort
   let fname = @%
   let current_win_id = win_getid()
@@ -82,7 +78,7 @@ function! s:markdown_outline() abort
   call filter(qflist,
         \ 'synIDattr(synID(v:val.lnum, v:val.col, 1), "name") != "markdownCodeBlock"'
         \ )
-  call sort(qflist, funcref('s:sort_qf'))
+  call sort(qflist, {a,b -> a.lnum - b.lnum})
   call setqflist(qflist)
   call setqflist([], 'r', {'title': fname .. ' TOC'})
   copen
@@ -96,7 +92,7 @@ else
   let b:undo_ftplugin = ''
 endif
 let b:undo_ftplugin ..= 'setlocal comments< formatoptions<'
-let b:undo_ftplugin ..= '| nunmap <buffer> <CR>'
-let b:undo_ftplugin ..= '| xunmap <buffer> <CR>'
-let b:undo_ftplugin ..= '| iunmap <buffer> <C-CR>'
-let b:undo_ftplugin ..= '| nunmap <buffer> gO'
+let b:undo_ftplugin ..= '| silent! nunmap <buffer> <CR>'
+let b:undo_ftplugin ..= '| silent! xunmap <buffer> <CR>'
+let b:undo_ftplugin ..= '| silent! iunmap <buffer> <C-CR>'
+let b:undo_ftplugin ..= '| silent! nunmap <buffer> gO'
