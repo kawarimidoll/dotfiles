@@ -37,6 +37,9 @@ PATH="${HOME}/.deno/bin:${PATH}"
 PATH="${GOPATH}/bin:${PATH}"
 PATH="${PNPM_HOME}:${PATH}"
 
+# to detect formulae for apple silicon
+PATH="/opt/homebrew/bin:$PATH"
+
 # -----------------
 #  Aliases
 # -----------------
