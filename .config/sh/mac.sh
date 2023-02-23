@@ -38,6 +38,21 @@ __source "${BREW_PREFIX}/share/zsh-autopair/autopair.zsh"
 __source "${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 __source "${BREW_PREFIX}/opt/zsh-fast-syntax-highlighting/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
 
+# zsh-autocomplete
+# Installation
+# 1. Add at or near the top of your .zshrc file (before any calls to compdef):
+#   source /opt/homebrew/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+# 2. Remove any calls to compinit from your .zshrc file.
+# 3. If you're using Ubuntu, add to your .zshenv file:
+#   skip_global_compinit=1
+# Then restart your shell.
+# For more details, see:
+#   https://github.com/marlonrichert/zsh-autocomplete
+
+# https://techracho.bpsinc.jp/hachi8833/2022_12_02/124761
+export MAKEFLAGS="--jobs $(sysctl -n hw.ncpu)"
+export RUBY_CONFIGURE_OPTS="--disable-install-doc --disable-install-rdoc"
+
 export HOMEBREW_UPDATE_REPORT_ALL_FORMULAE=1
 export OBSIDIAN_VAULT="${HOME}/Dropbox/Obsidian"
 
@@ -82,6 +97,18 @@ __add_fpath "${BREW_PREFIX}/share/zsh/site-functions"
 __add_fpath "${BREW_PREFIX}/opt/curl/share/zsh/site-functions"
 
 export PKG_CONFIG_PATH="${BREW_PREFIX}/opt/curl/lib/pkgconfig"
+
+# PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+# export LDFLAGS="$LDFLAGS:-L/opt/homebrew/opt/libpq/lib"
+# export CPPFLAGS="$CPPFLAGS:-I/opt/homebrew/opt/libpq/include"
+# export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/opt/homebrew/opt/libpq/lib/pkgconfig"
+
+PATH="${BREW_PREFIX}/opt/openjdk/bin:$PATH"
+export CPPFLAGS="-I/${BREW_PREFIX}/opt/openjdk/include:${CPPFLAGS}"
+
+[[ -d ~/.rbenv ]] && \
+  PATH="$HOME/.rbenv/bin:$PATH" && \
+  eval "$(rbenv init -)"
 
 # -----------------
 #  asdf
