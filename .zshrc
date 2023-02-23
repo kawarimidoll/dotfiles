@@ -23,6 +23,7 @@ autoload -Uz zmv
 autoload -Uz colors && colors
 
 # https://wada811.blogspot.com/2014/09/zsh-cdr.html
+# cdr実行準備： mkdir -p $HOME/.cache/shell/
 # cdr, add-zsh-hook を有効にする
 autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
 add-zsh-hook chpwd chpwd_recent_dirs

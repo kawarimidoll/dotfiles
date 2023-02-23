@@ -22,7 +22,7 @@ local update_capabilities = function(capabilities)
   completionItem.commitCharactersSupport = true
   completionItem.tagSupport = { valueSet = { 1 } }
   completionItem.resolveSupport =
-  { properties = { 'documentation', 'detail', 'additionalTextEdits' } }
+    { properties = { 'documentation', 'detail', 'additionalTextEdits' } }
 
   return capabilities
 end
@@ -50,7 +50,7 @@ mason_lspconfig.setup_handlers({
     opts.capabilities = update_capabilities(vim.lsp.protocol.make_client_capabilities())
     -- vim.api.nvim_echo({{'server_name'}, {server_name, 'warningmsg'}}, true, {})
 
-    if server_name == 'vtsls' then
+    if server_name == 'vtsls' or server_name == 'tsserver' then
       if not is_node_repo then
         return
       end
@@ -65,7 +65,7 @@ mason_lspconfig.setup_handlers({
       end
 
       opts.root_dir =
-          nvim_lsp.util.root_pattern('deno.json', 'deno.jsonc', 'deps.ts', 'import_map.json')
+        nvim_lsp.util.root_pattern('deno.json', 'deno.jsonc', 'deps.ts', 'import_map.json')
       opts.init_options = {
         lint = true,
         unstable = true,

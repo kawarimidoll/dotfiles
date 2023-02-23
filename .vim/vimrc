@@ -462,6 +462,7 @@ cnoremap <expr> <C-k> repeat('<Del>', strchars(getcmdline()[getcmdpos() - 1:]))
 cnoremap <expr> <C-x> mi#magic#expr()
 
 " insert
+imap <c-h> <bs>
 inoremap <silent> <C-r><C-r> <C-r><C-r>*
 inoremap <C-k> <C-o>D
 inoremap <expr> <Tab>   pumvisible() ? '<C-n>' : '<C-t>'

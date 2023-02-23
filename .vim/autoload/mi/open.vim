@@ -99,5 +99,6 @@ function! mi#open#reopen_with_lnum() abort
   set buftype=nowrite bufhidden=delete
   execute 'keepalt edit' fnameescape(filename)
   call setcharpos('.', [0, lnum, col, 0])
+  normal! zz
 endfunction
 " }}}
