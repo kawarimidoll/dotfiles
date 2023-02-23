@@ -327,8 +327,12 @@ nnoremap <script> <SID>gj gj<SID>g
 nnoremap <script> <SID>gk gk<SID>g
 nmap <SID>g <Nop>
 
+noremap h <cmd>call mi#hjkl#h(v:count1)<cr>
+noremap l <cmd>call mi#hjkl#l(v:count1)<cr>
 noremap j <cmd>call mi#hjkl#j(v:count1)<cr>
 noremap k <cmd>call mi#hjkl#k(v:count1)<cr>
+noremap sj <cmd>call mi#hjkl#j(v:count1, v:true)<cr>
+noremap sk <cmd>call mi#hjkl#k(v:count1, v:true)<cr>
 
 " noremap gj j
 " noremap gk k
