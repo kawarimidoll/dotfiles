@@ -60,6 +60,10 @@ function! mi#utils#get_current_selection() abort
   return result
 endfunction
 
+function! mi#utils#pick_one(list) abort
+  return a:list[rand(srand()) % len(a:list)]
+endfunction
+
 " echo as function
 function! mi#utils#echohl(hl) abort
   execute 'echohl' a:hl

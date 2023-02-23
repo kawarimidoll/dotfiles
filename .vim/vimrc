@@ -731,6 +731,7 @@ augroup vimrc
   " u200A ' ' hair space
   " u200B '​' zero-width space
   " u3000 '　' ideographic (zenkaku) space
+  highlight ExtraWhitespace ctermbg=darkmagenta guibg=darkmagenta
   autocmd VimEnter,WinEnter * if !exists('w:highlight_extra_whitespace')
         \ | let w:highlight_extra_whitespace = matchadd('ExtraWhitespace', "[\u00A0\u2000-\u200B\u3000]")
         \ | endif
@@ -752,11 +753,6 @@ augroup vimrc
           \ | silent! call matchdelete(w:highlight_extra_whitespace)
           \ | endif
   else
-
-    if has('vim_starting')
-      execute 'colorscheme' ['desert', 'slate', 'habamax'][rand(srand()) % 3]
-    endif
-
     " https://www.statox.fr/posts/2020/07/vim_flash_yanked_text/
     autocmd User VimReady
           \ execute 'autocmd CursorMoved * call mi#highlight#cursorword(''Underlined'')'
@@ -772,6 +768,9 @@ augroup vimrc
           \ | highlight! link StatusLineNC GamingFg
           \ | call mi#gaming#start()
 
+   autocmd Filetype * ++once
+         \ execute 'colorscheme' mi#utils#pick_one(['desert', 'slate', 'habamax'])
+         \ | doautocmd ColorScheme
    autocmd Filetype typescript,typescriptreact,javascript,javascriptreact,markdown,json,jsonc
           \ nnoremap <buffer> <space>p <cmd>DenoFmt<cr>
   endif
