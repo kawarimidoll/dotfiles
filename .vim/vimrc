@@ -106,7 +106,7 @@ set formatoptions+=jmM1
 set history=2000
 set ignorecase
 set infercase
-set laststatus=1
+set laststatus=2
 set lazyredraw
 set linebreak
 set list
@@ -768,6 +768,10 @@ augroup vimrc
           \ | source ~/dotfiles/.vim/autoload/mi/searchprop.vim
           \ | source ~/dotfiles/.vim/autoload/mi/substitutor.vim
           \ | call mi#pair#keymap_set(['{}', '[]', '()', "''", '""', '``'])
+          \ | highlight! link StatusLine GamingBg
+          \ | highlight! link StatusLineNC GamingFg
+          \ | call mi#gaming#start()
+
    autocmd Filetype typescript,typescriptreact,javascript,javascriptreact,markdown,json,jsonc
           \ nnoremap <buffer> <space>p <cmd>DenoFmt<cr>
   endif
