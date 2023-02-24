@@ -113,6 +113,16 @@ function! mi#gaming#toggle() abort
   endif
 endfunction
 
-" command! GameStart call mi#gaming#start()
-" command! GameStop call mi#gaming#stop()
-" command! GameToggle call mi#gaming#toggle()
+" stop gaming to avoid break IncSearch
+function! s:stop_in_cmdline() abort
+  if !exists('s:timer_id')
+    return
+  endif
+  call mi#gaming#stop()
+  autocmd CmdlineLeave * ++once call mi#gaming#start()
+endfunction
+
+augroup mi#augroup#gaming
+  autocmd!
+  autocmd CmdlineEnter * call s:stop_in_cmdline()
+augroup END
