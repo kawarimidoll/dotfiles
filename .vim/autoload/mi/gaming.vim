@@ -89,9 +89,9 @@ function! s:set_color(_timer) abort
   execute printf('highlight GamingFg guifg=%s', s:colors[s:counter])
   execute printf('highlight GamingBg guibg=%s', s:colors[s:counter])
 endfunction
-highlight Gaming guibg=black guifg=white
-highlight GamingFg guibg=black guifg=white
-highlight GamingBg guibg=black guifg=white
+highlight Gaming guibg=NONE guifg=NONE
+highlight GamingFg guibg=NONE guifg=NONE
+highlight GamingBg guibg=NONE guifg=NONE
 
 function! mi#gaming#start() abort
   if exists('s:timer_id')
