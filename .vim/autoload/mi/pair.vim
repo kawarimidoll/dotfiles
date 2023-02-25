@@ -1,10 +1,16 @@
 " https://original-game.com/how-to-make-a-complementary-function-of-vim/2/
 
 function! s:next_char() abort
+  if mode() == 'c'
+    return getcmdline()[getcmdpos()-1]
+  endif
   return getline('.')[col('.') - 1]
 endfunction
 
 function! s:prev_char() abort
+  if mode() == 'c'
+    return getcmdline()[getcmdpos()-2]
+  endif
   let col = col('.') - 2
   if col < 0
     return ''
@@ -98,15 +104,18 @@ function! mi#pair#keymap_set(list = []) abort
     endif
   endfor
 
+  " noremap! = inoremap + cnoremap
+
   for [open_char, close_char] in items(s:pairs)
-    execute printf("inoremap <expr> %s mi#pair#open(\"\\%s\")", open_char, open_char)
-    execute printf("inoremap <expr> %s mi#pair#close(\"\\%s\")", close_char, close_char)
+    execute printf("noremap! <expr> %s mi#pair#open(\"\\%s\")", open_char, open_char)
+    execute printf("noremap! <expr> %s mi#pair#close(\"\\%s\")", close_char, close_char)
   endfor
 
   for quote in s:quotes
-    execute printf("inoremap <expr> %s mi#pair#quote(\"\\%s\")", quote, quote)
+    execute printf("noremap! <expr> %s mi#pair#quote(\"\\%s\")", quote, quote)
   endfor
 
+  " cr is not needed to map in cmdline
   inoremap <expr> <cr> mi#pair#cr()
-  inoremap <expr> <bs> mi#pair#bs()
+  noremap! <expr> <bs> mi#pair#bs()
 endfunction
