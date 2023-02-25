@@ -1,10 +1,11 @@
 " https://github.com/tyru/capture.vim
 function! mi#capture#run(force_new, cmd = '') abort
   try
-    let cmd = a:cmd == '' ? getreg(':') : a:cmd
-    if cmd =~ '^C\%[apture]'
+    if get(s:, 'running', v:false)
       throw '[Capture] nesting is not allowed.'
     endif
+    let s:running = v:true
+    let cmd = a:cmd == '' ? getreg(':') : a:cmd
     let output = execute(cmd)
     let s:capture_buf = get(s:, 'capture_buf', -1)
     let is_new_buf = a:force_new || !bufloaded(s:capture_buf)
@@ -34,6 +35,7 @@ function! mi#capture#run(force_new, cmd = '') abort
     else
       call cursor(lastline, 0)
     endif
+    let s:running = v:false
   catch
     echohl ErrorMsg
     echomsg v:exception
