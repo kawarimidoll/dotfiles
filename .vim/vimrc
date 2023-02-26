@@ -768,6 +768,9 @@ augroup vimrc
           \ | highlight! link StatusLineNC GamingFg
           \ | call mi#gaming#start()
 
+  autocmd WinEnter,BufEnter * setlocal statusline=%!mi#statusline#active()
+  autocmd WinLeave,BufLeave * setlocal statusline=%!mi#statusline#inactive()
+
    autocmd Filetype * ++once
          \ execute 'colorscheme' mi#utils#pick_one(['desert', 'slate', 'habamax'])
          \ | doautocmd ColorScheme
