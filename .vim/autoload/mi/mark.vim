@@ -54,7 +54,7 @@ else
 
   function! mi#mark#clear_overlay(ns = '') abort
     let ns = a:ns ==# '' ? s:marker_ns : a:ns
-    call prop_remove({'type': ns, 'all': v:true})
+    silent! call prop_remove({'type': ns, 'all': v:true})
     call prop_type_delete(ns)
   endfunction
 endif
