@@ -164,6 +164,7 @@ else
   set nostartofline
   set ruler
   set smarttab
+  set showcmd
   set smartcase
   set viminfo='20,<50,s10,h
   set viminfofile=~/.vim/viminfo
