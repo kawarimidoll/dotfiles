@@ -246,7 +246,7 @@ else
   command! JaDocUpdate call s:ja_doc_update()
 
   " prev/next use
-  nnoremap [u *NNzz<cmd>nohlsearch<cr>
+  nnoremap [u *2Nzz<cmd>nohlsearch<cr>
   nnoremap ]u *zz<cmd>nohlsearch<cr>
 
   " word search keep positions
@@ -308,7 +308,7 @@ command! -nargs=+ -bang LGrep  call mi#qf#async_grep(<q-args>, {'add': <bang>0, 
 command! -nargs=+ -bang LGrepF call mi#qf#async_grep(<q-args>, {'add': <bang>0, 'loc': 1, 'fixed': 1})
 
 command! -nargs=1 -complete=file VDiff vertical diffsplit <args>
-command! VDiffAlt execute 'vertical diffsplit' expand('#')
+command! VDiffAlt vertical diffsplit #
 
 command! SudoWrite write !sudo tee > /dev/null %
 
@@ -330,8 +330,8 @@ nmap <SID>g <Nop>
 
 noremap h <cmd>call mi#hjkl#h(v:count1)<cr>
 noremap l <cmd>call mi#hjkl#l(v:count1)<cr>
-noremap j <cmd>call mi#hjkl#j(v:count1)<cr>
-noremap k <cmd>call mi#hjkl#k(v:count1)<cr>
+" noremap j <cmd>call mi#hjkl#j(v:count1)<cr>
+" noremap k <cmd>call mi#hjkl#k(v:count1)<cr>
 noremap sj <cmd>call mi#hjkl#j(v:count1, v:true)<cr>
 noremap sk <cmd>call mi#hjkl#k(v:count1, v:true)<cr>
 
