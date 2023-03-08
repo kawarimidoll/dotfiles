@@ -738,6 +738,10 @@ augroup vimrc
         \ | endif
   autocmd ColorScheme * call s:apply_user_highlight()
 
+  " https://zenn.dev/kawarimidoll/articles/5490567f8194a4
+  " this not works in ftplugin
+  autocmd FileType markdown syntax match markdownError '\w\@<=\w\@='
+
   autocmd User VimReady
         \ delfunction! EditProjectMru
         \ | call mi#git#ensure_root()

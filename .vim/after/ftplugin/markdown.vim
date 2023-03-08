@@ -1,6 +1,3 @@
-" https://zenn.dev/kawarimidoll/articles/5490567f8194a4
-autocmd FileType markdown syntax match markdownError '\w\@<=\w\@='
-
 " https://zenn.dev/kawarimidoll/articles/4564e6e5c2866d
 setlocal comments=nb:>
       \ comments+=b:*\ [\ ],b:*\ [x],b:*
