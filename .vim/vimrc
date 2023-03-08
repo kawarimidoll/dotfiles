@@ -655,6 +655,12 @@ function! s:deno_fmt(line1, line2)
 endfunction
 command! -range=% DenoFmt call s:deno_fmt(<line1>, <line2>)
 
+function! s:sql_fmt()
+  " range specification is not supported
+  %!sql-formatter --config ~/dotfiles/.config/sql_formatter/sql_formatter.json
+endfunction
+command! SqlFmt call s:sql_fmt()
+
 " function! s:dprint(line1, line2)
 "   if &filetype !~ '\v^%(%(type|java)script(react)?|markdown|jsonc?|toml|dockerfile)$'
 "     echo '[dprint] filetype ' .. &filetype .. ' is not suppported'
@@ -781,6 +787,8 @@ augroup vimrc
          \ | doautocmd ColorScheme
    autocmd Filetype typescript,typescriptreact,javascript,javascriptreact,markdown,json,jsonc
           \ nnoremap <buffer> <space>p <cmd>DenoFmt<cr>
+   autocmd Filetype sql
+          \ nnoremap <buffer> <space>p <cmd>SqlFmt<cr>
   endif
 
   " {{{ restore-cursor
