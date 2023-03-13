@@ -672,6 +672,15 @@ command! SqlFmt call s:sql_fmt()
 " endfunction
 " command! -range=% Dprint call s:dprint(<line1>, <line2>)
 
+function! s:cased_substitute(query, line1, line2) abort
+  let [from, to] = split(a:query, '/')
+  execute printf('silent! %s,%ss/\C%s/%s/g', a:line1, a:line2, toupper(from), toupper(to))
+  execute printf('silent! %s,%ss/\C%s/%s/g', a:line1, a:line2, toupper(from[0]) .. from[1:], toupper(to[0]) .. to[1:])
+  execute printf('silent! %s,%ss/\C%s/%s/g', a:line1, a:line2, tolower(from), tolower(to)))
+endfunction
+command! -range -nargs=* CasedSubstitute call s:cased_substitute(<q-args>, <line1>, <line2>)
+command! -range -nargs=* CS call s:cased_substitute(<q-args>, <line1>, <line2>)
+
 if !has('nvim')
   function! s:silicon(line1, line2, args, highlight_lines)
     let cmd = ['silicon']
