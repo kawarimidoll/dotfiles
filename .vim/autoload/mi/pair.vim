@@ -68,6 +68,9 @@ function! mi#pair#quote(char) abort
   if s:prev_char() == a:char
     return a:char
   endif
+  if mode() == 'c' && getcmdline() =~# '^h\%[elp]'
+    return a:char
+  endif
 
   return a:char .. a:char .. s:arrow('left')
 endfunction
@@ -107,12 +110,12 @@ function! mi#pair#keymap_set(list = []) abort
   " noremap! = inoremap + cnoremap
 
   for [open_char, close_char] in items(s:pairs)
-    execute printf("noremap! <expr> %s mi#pair#open(\"\\%s\")", open_char, open_char)
-    execute printf("noremap! <expr> %s mi#pair#close(\"\\%s\")", close_char, close_char)
+    execute printf('noremap! <expr> %s mi#pair#open("\%s")', open_char, open_char)
+    execute printf('noremap! <expr> %s mi#pair#close("\%s")', close_char, close_char)
   endfor
 
   for quote in s:quotes
-    execute printf("noremap! <expr> %s mi#pair#quote(\"\\%s\")", quote, quote)
+    execute printf('noremap! <expr> %s mi#pair#quote("\%s")', quote, quote)
   endfor
 
   " cr is not needed to map in cmdline

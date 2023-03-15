@@ -461,6 +461,7 @@ cnoremap <C-f> <Right>
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 cnoremap <C-d> <Del>
+cmap <c-h> <bs>
 cnoremap <C-r><C-r> <C-r><C-r>*
 cnoremap <expr> <C-k> repeat('<Del>', strchars(getcmdline()[getcmdpos() - 1:]))
 
