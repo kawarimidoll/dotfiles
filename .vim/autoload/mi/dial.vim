@@ -50,19 +50,21 @@ function! s:dial(cnt, sign) abort
 
   let idx = 0
   for case_obj in cases
-    if word =~# case_obj.pattern
-      let words = case_obj.split(word)
-      let lnum = pos[1]
-
-      let replacement = cases[(idx + a:cnt * a:sign) % len(cases)].join(words)
-      let pre_match_idx = col-1-len(pre_cursor)
-      let pre_match = pre_match_idx >= 0 ? line[:pre_match_idx] : ''
-      let post_match = line[col+len(post_cursor):]
-      call setline(lnum, pre_match .. replacement .. post_match)
-
-      return
+    if word !~# case_obj.pattern
+      let idx += 1
+      continue
     endif
-    let idx += 1
+
+    let words = case_obj.split(word)
+    let lnum = pos[1]
+
+    let replacement = cases[(idx + a:cnt * a:sign) % len(cases)].join(words)
+    let pre_match_idx = col-1-len(pre_cursor)
+    let pre_match = pre_match_idx >= 0 ? line[:pre_match_idx] : ''
+    let post_match = line[col+len(post_cursor):]
+    call setline(lnum, pre_match .. replacement .. post_match)
+
+    return
   endfor
 
   if a:sign > 0
@@ -78,4 +80,3 @@ endfunction
 function! mi#dial#decrement(cnt) abort
   call s:dial(a:cnt, -1)
 endfunction
-
