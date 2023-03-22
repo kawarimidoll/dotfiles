@@ -764,6 +764,7 @@ augroup vimrc
         \ | call mi#register#clear()
         \ | execute 'autocmd TextYankPost * call mi#register#collect_yank_history(10)'
         \ | execute 'autocmd BufEnter,BufReadPost * call mi#mru#save()'
+        \ | execute 'autocmd FileType qf ++once packadd cfilter'
 
   autocmd BufNewFile * ++nested call mi#open#reopen_with_lnum()
 
