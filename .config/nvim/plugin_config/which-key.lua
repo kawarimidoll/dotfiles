@@ -42,12 +42,12 @@ wk.register({
   ['D'] = "gitsigns.diffthis('~')",
   ['t'] = 'gitsigns.toggle_deleted',
 }, {
-  prefix = '<leader>h',
+  prefix = 'mh',
 })
 wk.register({
   ['s'] = 'gitsigns.stage_hunk',
   ['r'] = 'gitsigns.reset_hunk',
 }, {
   mode = 'v',
-  prefix = '<leader>h',
+  prefix = 'mh',
 })

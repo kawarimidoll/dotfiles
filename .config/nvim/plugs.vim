@@ -158,11 +158,11 @@ autocmd BufReadPost * ++once call <sid>lsp_init()
 " {{{ trouble.nvim
 Plug 'folke/trouble.nvim', { 'on': ['Trouble', 'TroubleToggle'] }
 autocmd User trouble.nvim ++once luafile ~/dotfiles/.config/nvim/plugin_config/trouble.lua
-nnoremap <leader>xx <Cmd>TroubleToggle<CR>
-nnoremap <leader>xw <Cmd>TroubleToggle workspace_diagnostics<CR>
-nnoremap <leader>xd <Cmd>TroubleToggle document_diagnostics<CR>
-nnoremap <leader>xq <Cmd>TroubleToggle quickfix<CR>
-nnoremap <leader>xl <Cmd>TroubleToggle loclist<CR>
+nnoremap mxx <Cmd>TroubleToggle<CR>
+nnoremap mxw <Cmd>TroubleToggle workspace_diagnostics<CR>
+nnoremap mxd <Cmd>TroubleToggle document_diagnostics<CR>
+nnoremap mxq <Cmd>TroubleToggle quickfix<CR>
+nnoremap mxl <Cmd>TroubleToggle loclist<CR>
 nnoremap gR <Cmd>TroubleToggle lsp_references<CR>
 " }}}
 
@@ -171,11 +171,11 @@ Plug 'tami5/lspsaga.nvim', { 'on': ['Lspsaga'] }
 nnoremap gh <Cmd>Lspsaga lsp_finder<CR>
 " nnoremap grr <Cmd>Lspsaga rename<CR>
 nnoremap gD <Cmd>Lspsaga preview_definition<CR>
-nnoremap <leader>ca <Cmd>Lspsaga code_action<CR>
-vnoremap <leader>ca <Cmd>Lspsaga range_code_action<CR>
+nnoremap ma <Cmd>Lspsaga code_action<CR>
+vnoremap ma <Cmd>Lspsaga range_code_action<CR>
 
-nnoremap <leader>cd <Cmd>Lspsaga show_line_diagnostics<CR>
-nnoremap <leader>cc <Cmd>Lspsaga show_cursor_diagnostics<CR>
+nnoremap mcd <Cmd>Lspsaga show_line_diagnostics<CR>
+nnoremap mcc <Cmd>Lspsaga show_cursor_diagnostics<CR>
 nnoremap [d <Cmd>Lspsaga diagnostic_jump_prev<CR>
 nnoremap ]d <Cmd>Lspsaga diagnostic_jump_next<CR>
 
