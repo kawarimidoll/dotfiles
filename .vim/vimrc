@@ -464,6 +464,7 @@ cnoremap <C-d> <Del>
 cmap <c-h> <bs>
 cnoremap <C-r><C-r> <C-r><C-r>*
 cnoremap <expr> <C-k> repeat('<Del>', strchars(getcmdline()[getcmdpos() - 1:]))
+cnoremap <S-CR> <cmd>call mi#cmdline#toggle_bang()<CR><CR>
 
 cnoremap <expr> <C-x> mi#magic#expr()
 
