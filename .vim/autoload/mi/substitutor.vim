@@ -45,98 +45,8 @@ function! s:getlines_except_folded(from, to)
   return lines
 endfunction
 
-" regex helpers
-
-" enclosure without capture
-function! s:x_enc(str) abort
-  return '\%(' .. a:str .. '\)'
-endfunction
-
-" joiner
-function! s:x_oneof(patterns) abort
-  return s:x_enc(join(a:patterns, '\|'))
-endfunction
-
-" optional
-function! s:x_opt(str) abort
-  return s:x_enc(a:str) .. '\?'
-endfunction
-
-" zero or more
-function! s:x_any(str) abort
-  return s:x_enc(a:str) .. '*'
-endfunction
-
-" regex patterns
-
-"  number, current line, end of buffer, whole buffer, mark,
-"  forward search, backward search, last search
-let s:range_elements = [
-      \ '\d\+', '[.$%]', "'[a-zA-Z<>'`]",
-      \ '/[^/]\+/', '?[^?]\+?', '\[/?&]'
-      \ ]
-let s:range_item = s:x_oneof(s:range_elements) .. s:x_any('[+-]\d\+')
-let s:range_pattern = s:x_opt(s:range_item .. s:x_any('[,;]' .. s:range_item))
-
 " :h pattern-delimiter
 let s:delimiter_pattern = "[!@$%^&*()=+~`',.;:<>/?_-]"
-
-let s:cmdline_pattern = '^' .. s:range_pattern ..
-      \ 's\%[ubstitute] *' .. s:delimiter_pattern
-
-function! s:range_item_to_lnum(range_item)
-  " TODO: handle range items like below
-  " 7;/pattern/ -> the line that matches to pattern after line 7
-  " NOTE: \& is not supported
-
-  let range_diff_start = match(a:range_item, '\%([+-]\d\+\)*$')
-  if range_diff_start == 0
-    let range_main = '.'
-    let range_diff = eval(a:range_item)
-  elseif range_diff_start == strlen(a:range_item)
-    let range_main = a:range_item[:range_diff_start-1]
-    let range_diff = 0
-  else
-    let range_main = a:range_item[:range_diff_start-1]
-    let range_diff = eval(a:range_item[range_diff_start:])
-  endif
-
-  if range_main =~ '^\d\+$'
-    let lnum = eval(range_main)
-  elseif range_main =~ '^/.\+/$'
-    let lnum = search(slice(range_main, 1, -1), 'nW', 0, 0, 'line(''.'') == ' .. getpos('.')[2])
-  elseif range_main =~ '^?.\+?$'
-    let lnum = search(slice(range_main, 1, -1), 'bnW', 0, 0, 'line(''.'') == ' .. getpos('.')[2])
-  elseif range_main == '\/'
-    let lnum = search(getreg('/'), 'nW', 0, 0, 'line(''.'') == ' .. getpos('.')[2])
-  elseif range_main == '\?'
-    let lnum = search(getreg('/'), 'bnW', 0, 0, 'line(''.'') == ' .. getpos('.')[2])
-  else
-    let lnum = line(range_main)
-  endif
-  return lnum + range_diff
-endfunction
-
-function! s:get_cmd_range(cmdline)
-  let range_str_end = matchend(a:cmdline, '^' .. s:range_pattern)
-
-  if range_str_end < 1
-    return [line('.'), line('.')]
-  endif
-  let range_str = a:cmdline[:range_str_end-1]
-  let range_from_end = matchend(range_str, s:range_item)
-  let range_from = range_str[:range_from_end-1]
-  if range_from == '%'
-    return [1, line('$')]
-  endif
-  if range_from_end < strlen(range_str)
-    let range_to = range_str[range_from_end+1:]
-  else
-    let range_to = range_from
-  endif
-
-  return [s:range_item_to_lnum(range_from), s:range_item_to_lnum(range_to)]
-endfunction
 
 function! s:init_highlight()
   if exists('s:conceal_match_ids')
@@ -152,15 +62,16 @@ let s:prop_type = 'substitutor#prop_type'
 
 function! s:on_input()
   call s:init_highlight()
-  let cmdline = getcmdline()
-  let delimiter_idx = matchend(cmdline, s:cmdline_pattern)
 
-  if delimiter_idx <= 0
+  const cmd_spec = mi#cmdline#extract()
+  if cmd_spec.cmd == '' ||
+        \ cmd_spec.cmd !~# '^s\%[ubstitute]$' ||
+        \ strlen(cmd_spec.args) < 2 ||
+        \ cmd_spec.args[0] !~# s:delimiter_pattern
     return
   endif
-  let delim = cmdline[delimiter_idx-1]
 
-  let elements = split(slice(cmdline, delimiter_idx), delim)
+  let elements = split(cmd_spec.args, cmd_spec.args[0])
   if len(elements) < 2
     return
   endif
@@ -175,7 +86,7 @@ function! s:on_input()
   let multiple = flags =~ 'g'
 
   let s:conceal_match_ids = []
-  let [range_from, range_to] = s:get_cmd_range(cmdline)
+  let [range_from, range_to] = [cmd_spec.range_from, cmd_spec.range_to]
   for line_spec in s:getlines_except_folded(range_from, range_to)
     for [match_from, match_to] in s:match_ranges(line_spec.line, sub_from, multiple)
       call add(s:conceal_match_ids, matchaddpos('Conceal', [[line_spec.lnum, match_from+1, match_to-match_from]], 20))
