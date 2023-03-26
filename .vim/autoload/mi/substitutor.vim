@@ -63,8 +63,8 @@ let s:prop_type = 'substitutor#prop_type'
 function! s:on_input()
   call s:init_highlight()
 
-  const cmd_spec = mi#cmdline#extract()
-  if cmd_spec.cmd == '' ||
+  const cmd_spec = mi#cmdline#get_spec()
+  if get(cmd_spec, 'cmd', '') ==# '' ||
         \ cmd_spec.cmd !~# '^s\%[ubstitute]$' ||
         \ strlen(cmd_spec.args) < 2 ||
         \ cmd_spec.args[0] !~# s:delimiter_pattern

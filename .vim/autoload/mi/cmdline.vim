@@ -134,8 +134,27 @@ function! s:range_str_to_lnum_pair(range_str) abort
   endtry
 endfunction
 
-function! s:extract(cmdline) abort
-  const matched = matchlist(a:cmdline, s:cmdline_pattern)
+" }}}
+
+" public functions {{{
+
+function! mi#cmdline#regex() abort
+  return s:cmdline_pattern
+endfunction
+
+function! mi#cmdline#get_spec() abort
+  if getcmdtype() != ':'
+    return {
+          \ 'whole': getcmdline(),
+          \ 'range': '',
+          \ 'cmd': '',
+          \ 'args': '',
+          \ 'range_from': '',
+          \ 'range_to': '',
+          \ }
+  endif
+
+  const matched = matchlist(getcmdline(), s:cmdline_pattern)
   const range = get(matched, 1, '')
   const [range_from, range_to] = s:range_str_to_lnum_pair(range)
   return {
@@ -148,21 +167,6 @@ function! s:extract(cmdline) abort
         \ }
 endfunction
 
-" }}}
-
-" public functions {{{
-
-function! mi#cmdline#regex() abort
-  return s:cmdline_pattern
-endfunction
-
-function! mi#cmdline#extract() abort
-  if getcmdtype() != ':'
-    return {}
-  endif
-  return s:extract(getcmdline())
-endfunction
-
 function! mi#cmdline#bang(mod) abort
   const ON = 'ON'
   const OFF = 'OFF'
@@ -171,8 +175,8 @@ function! mi#cmdline#bang(mod) abort
     throw '[mi#cmdline] use mod one of [ON, OFF, TOGGLE].'
   endif
 
-  const cmd_spec = mi#cmdline#extract()
-  if cmd_spec.cmd == ''
+  const cmd_spec = mi#cmdline#get_spec()
+  if get(cmd_spec, 'cmd', '') ==# ''
     return
   endif
 
