@@ -70,7 +70,8 @@ Plug 'petertriho/nvim-scrollbar'
 Plug 'folke/which-key.nvim', { 'on': [] }
 Plug 'uga-rosa/ccc.nvim', { 'on': [] }
 Plug 'nvim-tree/nvim-web-devicons', { 'on': [] }
-Plug 'rcarriga/nvim-notify'
+" Plug 'rcarriga/nvim-notify'
+Plug 'vigoux/notifier.nvim'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'anuvyklack/pretty-fold.nvim'
 function! s:vim_enter_plugs() abort
@@ -94,12 +95,13 @@ function! s:vim_enter_plugs() abort
   luafile ~/dotfiles/.config/nvim/plugin_config/hlslens.lua
   luafile ~/dotfiles/.config/nvim/plugin_config/scrollbar.lua
   luafile ~/dotfiles/.config/nvim/plugin_config/which-key.lua
-  luafile ~/dotfiles/.config/nvim/plugin_config/notify.lua
+  " luafile ~/dotfiles/.config/nvim/plugin_config/notify.lua
   " luafile ~/dotfiles/.config/nvim/plugin_config/noice.lua
   luafile ~/dotfiles/.config/nvim/plugin_config/gitsigns.lua
   lua require('pretty-fold').setup({})
   execute 'luafile' g:plug_home .. '/ccc.nvim/plugin/ccc.lua'
   lua require('ccc').setup({ highlighter = { auto_enable = true } })
+  lua require('notifier').setup({})
 endfunction
 autocmd VimEnter * ++once call <sid>vim_enter_plugs()
 " }}}
