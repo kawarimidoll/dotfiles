@@ -345,6 +345,8 @@ nnoremap <expr> i len(getline('.')) ? 'i' : '"_cc'
 nnoremap <expr> A len(getline('.')) ? 'A' : '"_cc'
 noremap L $
 map M %
+map gM g%
+noremap gm gM
 nnoremap / /\v
 nnoremap ? /\V
 
