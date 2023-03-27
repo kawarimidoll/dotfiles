@@ -5,7 +5,7 @@ let g:markdown_fenced_languages = ['ts=typescript', 'js=javascript']
 " {{{ commands.vim
 source ~/dotfiles/.config/nvim/commands.vim
 let g:my_vimrc = expand('<sfile>:p')
-Keymap nx gf <Cmd>SmartOpen<CR>
+" Keymap nx gf <Cmd>SmartOpen<CR>
 " }}}
 
 " {{{ override completion behavior
@@ -350,7 +350,7 @@ Plug 'voldikss/vim-floaterm', { 'on': ['FloatermNew'] }
 " }}}
 
 " {{{ markdown-preview.nvim
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install', 'for': ['markdown'] }
+" Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install', 'for': ['markdown'] }
 " }}}
 
 " {{{ venn.nvim
