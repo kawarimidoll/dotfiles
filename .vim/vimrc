@@ -8,7 +8,9 @@
 " https://twitter.com/kawarimidoll
 " https://github.com/kawarimidoll
 
-if !has('nvim')
+if has('nvim')
+  lua if vim.loader then vim.loader.enable() end
+else
   set nocompatible
   set encoding=utf-8
   scriptencoding utf-8
