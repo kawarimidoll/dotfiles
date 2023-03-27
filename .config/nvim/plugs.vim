@@ -69,7 +69,7 @@ Plug 'kevinhwang91/nvim-hlslens', { 'on': [] }
 Plug 'petertriho/nvim-scrollbar'
 Plug 'folke/which-key.nvim', { 'on': [] }
 Plug 'uga-rosa/ccc.nvim', { 'on': [] }
-Plug 'kyazdani42/nvim-web-devicons', { 'on': [] }
+Plug 'nvim-tree/nvim-web-devicons', { 'on': [] }
 Plug 'rcarriga/nvim-notify'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'anuvyklack/pretty-fold.nvim'
@@ -86,6 +86,7 @@ function! s:vim_enter_plugs() abort
         \ 'vim-asterisk',
         \ 'nvim-hlslens',
         \ 'which-key.nvim',
+        \ 'nvim-web-devicons',
         \ 'ccc.nvim',
         \ )
   luafile ~/dotfiles/.config/nvim/plugin_config/mru_cache.lua
