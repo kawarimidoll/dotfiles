@@ -10,43 +10,21 @@ function! s:x_oneof(patterns) abort
   return s:x_enc(join(a:patterns, '\|'))
 endfunction
 
-" optional
-function! s:x_opt(str) abort
-  return s:x_enc(a:str) .. '\?'
-endfunction
-
-" zero or more
-function! s:x_any(str) abort
-  return s:x_enc(a:str) .. '*'
-endfunction
-
 " regex patterns
-
-"  number, current line, end of buffer, whole buffer, mark,
-"  forward search, backward search, last search
-let s:range_elements = [
-      \ '\d\+', '[.$%]', "'[a-zA-Z<>'`]",
-      \ '/[^/]\+/', '?[^?]\+?', '\[/?&]'
-      \ ]
-let s:range_item = s:x_oneof(s:range_elements) .. s:x_opt('[+-]\d\+')
-let s:range_pattern = s:x_opt(s:range_item .. s:x_any('[,;]' .. s:range_item))
 
 " global, vglobal, sort, substitute,
 " vimgrep, vimgrepadd, lvimgrep, lvimgrepadd
 let s:cmd_patterns = [
-      \ 'g\%[lobal]!\? *',
-      \ 'v\%[global] *',
-      \ 'sor\%[t]!\?[ bfilnorux]*',
-      \ 's\%[ubstitute] *',
-      \ 'vim\%[grepadd]!\? *',
-      \ 'l\%[vimgrepadd]!\? *',
+      \ 'g\%[lobal]!\?',
+      \ 'v\%[global]',
+      \ 'sor\%[t]!\?',
+      \ 's\%[ubstitute]',
+      \ 'vim\%[grepadd]!\?',
+      \ 'l\%[vimgrepadd]!\?',
       \ ]
 
 " :h pattern-delimiter
 let s:delimiter_pattern = "[!@$%^&*()=+~`',.;:<>/?_-]"
-
-let s:cmdline_pattern = '^' .. s:range_pattern ..
-      \ s:x_oneof(s:cmd_patterns) .. s:delimiter_pattern
 
 " functions
 
@@ -69,15 +47,20 @@ function! mi#magic#expr() abort
   endif
 
   if getcmdtype() ==# ':'
-    let query = getcmdline()
-    let matchidx = matchend(query, s:cmdline_pattern)
-    if matchidx < 1
-      " not listed command
-      return ''
+    const cmd_spec = mi#cmdline#get_spec()
+    if cmd_spec.cmd == '' ||
+          \ cmd_spec.cmd !~# '^' .. s:x_oneof(s:cmd_patterns) .. '$'
+      return
     endif
-    let before_query = query[:matchidx - 1]
-    let [query, pos_diff] = s:update_magic(query[matchidx:])
-    let query = before_query .. query
+
+    let delim_idx = matchend(cmd_spec.args, s:delimiter_pattern)
+    if delim_idx < 1
+      return
+    endif
+    " :sort may have args except query
+    let before_delim = cmd_spec.args[:delim_idx - 1]
+    let [query, pos_diff] = s:update_magic(cmd_spec.args[delim_idx:])
+    let query = cmd_spec.range .. cmd_spec.cmd .. before_delim .. query
   else
     " / or ?
     let [query, pos_diff] = s:update_magic(getcmdline())
