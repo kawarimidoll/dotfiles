@@ -90,7 +90,17 @@ function! s:on_input()
   for line_spec in s:getlines_except_folded(range_from, range_to)
     for [match_from, match_to] in s:match_ranges(line_spec.line, sub_from, multiple)
       call add(s:conceal_match_ids, matchaddpos('Conceal', [[line_spec.lnum, match_from+1, match_to-match_from]], 20))
-      call prop_add(line_spec.lnum, match_from+1, {'type': s:prop_type, 'text': sub_to})
+      try
+        if sub_to =~# '\'
+          let text = substitute(line_spec.line[match_from:match_to-1], sub_from, sub_to, '')
+        else
+          let text = sub_to
+        endif
+      catch
+        " echomsg 'caught ' .. v:exception
+        let text = '<expr>'
+      endtry
+      call prop_add(line_spec.lnum, match_from+1, {'type': s:prop_type, 'text': text})
     endfor
   endfor
 endfunction
