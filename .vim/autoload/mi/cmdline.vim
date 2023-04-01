@@ -148,6 +148,7 @@ function! mi#cmdline#get_spec() abort
           \ 'whole': getcmdline(),
           \ 'range': '',
           \ 'cmd': '',
+          \ 'bang': v:false,
           \ 'args': '',
           \ 'range_from': '',
           \ 'range_to': '',
@@ -157,10 +158,12 @@ function! mi#cmdline#get_spec() abort
   const matched = matchlist(getcmdline(), s:cmdline_pattern)
   const range = get(matched, 1, '')
   const [range_from, range_to] = s:range_str_to_lnum_pair(range)
+  const cmd_part = get(matched, 2, '')
   return {
         \ 'whole': get(matched, 0, ''),
         \ 'range': range,
-        \ 'cmd': get(matched, 2, ''),
+        \ 'cmd': substitute(cmd_part, '!$', '', ''),
+        \ 'bang': cmd_part =~# '!$',
         \ 'args': get(matched, 3, ''),
         \ 'range_from': range_from,
         \ 'range_to': range_to
