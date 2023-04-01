@@ -170,6 +170,18 @@ function! mi#cmdline#get_spec() abort
         \ }
 endfunction
 
+function! mi#cmdline#set_by_spec(spec) abort
+  const cmd = get(a:spec, 'cmd', '')
+  if empty(cmd)
+    throw '[mi#cmdline] cmd is required'
+  endif
+  const range = get(a:spec, 'range', '')
+  const bang = get(a:spec, 'bang', v:false) ? '!' : ''
+  const args = empty(get(a:spec, 'args', '')) ? '' : ' ' .. a:spec.args
+
+  call setcmdline(printf('%s%s%s%s', range, cmd, bang, args))
+endfunction
+
 function! mi#cmdline#bang(mod) abort
   const ON = 'ON'
   const OFF = 'OFF'
