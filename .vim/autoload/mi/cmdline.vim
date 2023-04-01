@@ -191,21 +191,12 @@ function! mi#cmdline#bang(mod) abort
   endif
 
   const cmd_spec = mi#cmdline#get_spec()
-  if get(cmd_spec, 'cmd', '') ==# ''
+  if empty(get(cmd_spec, 'cmd', ''))
     return
   endif
 
-  const has_bang = cmd_spec.cmd[-1:] ==# '!'
-  if has_bang && s:includes([OFF, TOGGLE], a:mod)
-    const cmd = cmd_spec.cmd[:-2]
-  elseif !has_bang && s:includes([ON, TOGGLE], a:mod)
-    const cmd = cmd_spec.cmd .. '!'
-  else
-    const cmd = cmd_spec.cmd
-  endif
-
-  const args = cmd_spec.args ==# '' ? '' : (' ' .. cmd_spec.args)
-  call setcmdline(printf('%s%s%s', cmd_spec.range, cmd, args))
+  const bang = a:mod ==# TOGGLE ? !cmd_spec.bang : (a:mod ==# ON)
+  call mi#cmdline#set_by_spec(extend({'bang': bang}, cmd_spec, 'keep'))
 endfunction
 
 " }}}
