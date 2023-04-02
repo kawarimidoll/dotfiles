@@ -1,15 +1,3 @@
-" array helpers {{{
-
-function! s:includes(heystack, needle) abort
-  return index(a:heystack, a:needle) >= 0
-endfunction
-
-function! s:excludes(heystack, needle) abort
-  return !s:includes(a:heystack, a:needle)
-endfunction
-
-" }}}
-
 " regex helpers {{{
 
 " capture group
@@ -183,10 +171,7 @@ function! mi#cmdline#set_by_spec(spec) abort
 endfunction
 
 function! mi#cmdline#bang(mod) abort
-  const ON = 'ON'
-  const OFF = 'OFF'
-  const TOGGLE = 'TOGGLE'
-  if s:excludes([ON, OFF, TOGGLE], a:mod)
+  if a:mod !~# '^ON\|OFF\|TOGGLE$'
     throw '[mi#cmdline] use mod one of [ON, OFF, TOGGLE].'
   endif
 
@@ -195,7 +180,7 @@ function! mi#cmdline#bang(mod) abort
     return
   endif
 
-  const bang = a:mod ==# TOGGLE ? !cmd_spec.bang : (a:mod ==# ON)
+  const bang = a:mod ==# 'TOGGLE' ? !cmd_spec.bang : (a:mod ==# 'ON')
   call mi#cmdline#set_by_spec(extend({'bang': bang}, cmd_spec, 'keep'))
 endfunction
 
