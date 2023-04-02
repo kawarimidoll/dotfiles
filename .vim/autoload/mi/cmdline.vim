@@ -158,10 +158,13 @@ function! mi#cmdline#get_spec() abort
         \ }
 endfunction
 
-function! mi#cmdline#set_by_spec(spec) abort
+function! mi#cmdline#set_by_spec(spec, throw_if_empty = v:false) abort
   const cmd = get(a:spec, 'cmd', '')
   if empty(cmd)
-    throw '[mi#cmdline] cmd is required'
+    if a:throw_if_empty
+      throw '[mi#cmdline] cmd is required'
+    endif
+    return
   endif
   const range = get(a:spec, 'range', '')
   const bang = get(a:spec, 'bang', v:false) ? '!' : ''
