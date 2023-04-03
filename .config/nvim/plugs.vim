@@ -381,6 +381,7 @@ command! VToggle call s:venn_toggle()
 " {{{ load immediately
 Plug 'anuvyklack/keymap-amend.nvim'
 Plug 'echasnovski/mini.nvim'
+Plug 'Shougo/context_filetype.vim'
 Plug 'vim-jp/vimdoc-ja'
 " }}}
 call plug#end()

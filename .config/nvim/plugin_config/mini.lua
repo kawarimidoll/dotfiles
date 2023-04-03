@@ -10,6 +10,19 @@ vim.api.nvim_create_autocmd({ 'VimEnter' }, {
   once = true,
 })
 
+vim.api.nvim_set_var('context_filetype#search_offset', 2000)
+local function vue_update_context_commentstring()
+  local filetypes = vim.fn['context_filetype#get_filetypes']()
+  local cts = '<!-- %s -->'
+  if vim.tbl_contains(filetypes, 'pug') then
+    cts = '//- %s'
+  elseif vim.tbl_contains(filetypes, 'javascript') then
+    cts = '// %s'
+  elseif vim.tbl_contains(filetypes, 'css') then
+    cts = '/* %s */'
+  end
+  vim.api.nvim_buf_set_option(0, 'commentstring', cts)
+end
 vim.api.nvim_create_autocmd({ 'FileType' }, {
   pattern = '*',
   callback = function()
@@ -17,7 +30,11 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
     local exists, context_commentstring = pcall(require, 'ts_context_commentstring.internal')
     if exists then
       hooks.pre = function()
-        context_commentstring.update_commentstring({})
+        if vim.fn['context_filetype#get_filetypes'] and vim.bo.filetype == 'vue' then
+          vue_update_context_commentstring()
+        else
+          context_commentstring.update_commentstring({})
+        end
       end
     end
 
