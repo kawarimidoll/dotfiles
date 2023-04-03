@@ -15,7 +15,7 @@ require('nvim-treesitter.configs').setup({
 
       -- disable when parse failed
       ok = pcall(function()
-        vim.treesitter.get_query(lang, 'highlights')
+        vim.treesitter.query.get(lang, 'highlights')
       end)
       if not ok then
         return true
