@@ -60,6 +60,7 @@ Plug 'MunifTanjim/nui.nvim'
 Plug 'vim-denops/denops.vim', { 'on': [] }
 Plug 'Shougo/ddc.vim', { 'on': [] }
 Plug 'Shougo/ddc-ui-pum', { 'on': [] }
+Plug 'Shougo/ddc-source-around', { 'on': [] }
 Plug 'vim-skk/skkeleton', { 'on': [] }
 Plug 'skk-dev/dict', { 'as': 'skk-dict' }
 let g:skk_dict_dir = g:plugs['skk-dict']['dir']
@@ -83,6 +84,7 @@ function! s:vim_enter_plugs() abort
         \ 'denops.vim',
         \ 'ddc.vim',
         \ 'ddc-ui-pum',
+        \ 'ddc-source-around',
         \ 'skkeleton',
         \ 'vim-asterisk',
         \ 'nvim-hlslens',

@@ -1,17 +1,16 @@
 let s:config_json =<< trim JSON
 {
-  "sources": ["skkeleton"],
+  "sources": ["around", "skkeleton"],
+  "keywordPattern": "[ァ-ヮア-ンー]+",
   "sourceOptions": {
     "skkeleton": {
       "matchers": ["skkeleton"],
       "sorters": [],
-      "isVolatile": true,
-      "backspaceCompletion": true
+      "isVolatile": true
     }
   },
   "autoCompleteEvents": [],
-  "completionMenu": "pum.vim",
-  "completionMode": "manual"
+  "ui": "pum"
 }
 JSON
 
@@ -29,7 +28,6 @@ endif
 function! s:skkeleton_enable() abort
   call ddc#custom#patch_buffer({
         \   'autoCompleteEvents': ['InsertEnter', 'TextChangedI', 'TextChangedP'],
-        \   'completionMode': 'popupmenu'
         \ })
 
   inoremap <buffer> <Tab> <Cmd>call pum#map#insert_relative(+1)<CR>
@@ -48,7 +46,7 @@ function! s:skkeleton_enable() abort
 endfunction
 
 function! s:skkeleton_disable() abort
-  call ddc#custom#patch_buffer({'autoCompleteEvents': [], 'completionMode': 'manual'})
+  call ddc#custom#patch_buffer({'autoCompleteEvents': []})
 
   iunmap <buffer> <Tab>
   iunmap <buffer> <S-Tab>
