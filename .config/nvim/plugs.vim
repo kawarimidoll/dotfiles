@@ -104,6 +104,7 @@ function! s:vim_enter_plugs() abort
   execute 'luafile' g:plug_home .. '/ccc.nvim/plugin/ccc.lua'
   lua require('ccc').setup({ highlighter = { auto_enable = true } })
   lua require('notifier').setup({})
+  command! NotifierQuickfix execute 'NotifierReplay!' | copen
 endfunction
 autocmd VimEnter * ++once call <sid>vim_enter_plugs()
 " }}}
