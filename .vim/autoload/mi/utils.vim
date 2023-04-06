@@ -40,6 +40,18 @@ function! mi#utils#lower_key(key) abort
   return get(s:key_table_inv, a:key, tolower(a:key))
 endfunction
 
+function! mi#utils#capitalize(str) abort
+  return toupper(a:str[0]) .. a:str[1:]
+endfunction
+
+function! mi#utils#includes(heystack, needle) abort
+  return index(a:heystack, a:needle) >= 0
+endfunction
+
+function! mi#utils#excludes(heystack, needle) abort
+  return !mi#utils#includes(a:heystack, a:needle)
+endfunction
+
 " https://zenn.dev/kawarimidoll/articles/4357f07f210d2f
 function! mi#utils#get_current_selection() abort
   if mode() !~# '^[vV\x16]'
