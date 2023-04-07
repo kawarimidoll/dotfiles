@@ -468,7 +468,11 @@ cnoremap <C-d> <Del>
 cmap <c-h> <bs>
 cnoremap <C-r><C-r> <C-r><C-r>*
 cnoremap <expr> <C-k> repeat('<Del>', strchars(getcmdline()[getcmdpos() - 1:]))
-cnoremap <s-cr> <cmd>call mi#cmdline#bang('ON')<cr><cr>
+cnoremap <s-cr> <cmd>call mi#cmdline#set_by_spec(extend(mi#cmdline#get_spec(), {'bang': v:true}))<cr><cr>
+if has('nvim')
+  call mi#cmdline#proxy_let('L[spInfo]', 'LspInfo')
+endif
+cnoremap <cr> <cmd>call mi#cmdline#proxy_convert()<cr><cr>
 
 cnoremap <expr> <C-x> mi#magic#expr()
 

@@ -187,4 +187,50 @@ function! mi#cmdline#bang(mod) abort
   call mi#cmdline#set_by_spec(extend({'bang': bang}, cmd_spec, 'keep'))
 endfunction
 
+let s:proxy_list = {}
+let s:proxy_anonymous_key = 0
+
+function! s:proxy_key(key) abort
+  if empty(a:key)
+    let s:proxy_anonymous_key += 1
+    return s:proxy_anonymous_key
+  endif
+  return a:key
+endfunction
+
+function! mi#cmdline#proxy_list() abort
+  return s:proxy_list
+endfunction
+
+function! mi#cmdline#proxy_let(from, to, key = '') abort
+  let s:proxy_list[s:proxy_key(a:key)] = [a:from, a:to]
+  return s:proxy_list
+endfunction
+
+function! mi#cmdline#proxy_unlet(key) abort
+  unlet! s:proxy_list[a:key]
+  return s:proxy_list
+endfunction
+
+function! mi#cmdline#proxy_clear() abort
+  let s:proxy_list = {}
+  return s:proxy_list
+endfunction
+
+function! mi#cmdline#proxy_convert() abort
+  const cmd_spec = mi#cmdline#get_spec()
+  if empty(get(cmd_spec, 'cmd', ''))
+    return
+  endif
+  for [from, to] in values(s:proxy_list)
+    if cmd_spec.cmd =~# substitute(printf('^%s$', from), '[', '\\%[', '')
+      call mi#cmdline#set_by_spec(extend({'cmd': to}, cmd_spec, 'keep'))
+      return
+    endif
+  endfor
+endfunction
+
+" command! -nargs=+ Echo echo string(<args>) .. '!!!'
+" call mi#cmdline#proxy_let('ec[ho]', 'Echo')
+
 " }}}
