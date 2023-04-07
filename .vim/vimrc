@@ -484,6 +484,7 @@ inoremap <expr> <Tab>   pumvisible() ? '<C-n>' : '<C-t>'
 inoremap <expr> <S-Tab> pumvisible() ? '<C-p>' : '<C-d>'
 inoremap <C-g><C-u> <esc>gUvbgi
 inoremap <C-g><C-l> <esc>guvbgi
+inoremap <expr> %<c-x> "\<bs>" .. @%
 
 " visual
 xnoremap p P
@@ -543,7 +544,8 @@ Keymap xo io <Cmd>call mi#textobject#outline()<CR>
 Keymap xo ao <Cmd>call mi#textobject#outline({'from_parent': 1, 'with_blank': 1})<CR>
 
 if !has('nvim')
-  Keymap xo i<space> <cmd>call mi#textobject#between(' ', 0)<cr>
+  Keymap xo i<space> iW
+  " Keymap xo i<space> <cmd>call mi#textobject#between(' ', 0)<cr>
   Keymap xo a<space> <cmd>call mi#textobject#between(' ', 1)<cr>
   Keymap xo i<bar> <cmd>call mi#textobject#between("\<bar>", 0)<cr>
   Keymap xo a<bar> <cmd>call mi#textobject#between("\<bar>", 1)<cr>
