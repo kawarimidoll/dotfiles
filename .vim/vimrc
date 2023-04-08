@@ -484,6 +484,47 @@ inoremap <expr> <Tab>   pumvisible() ? '<C-n>' : '<C-t>'
 inoremap <expr> <S-Tab> pumvisible() ? '<C-p>' : '<C-d>'
 inoremap <C-g><C-u> <esc>gUvbgi
 inoremap <C-g><C-l> <esc>guvbgi
+inoremap <right> <c-g>U<right>
+inoremap <left> <c-g>U<left>
+inoremap <home> <c-g>U<home>
+inoremap <end> <c-g>U<end>
+imap <c-f> <right>
+imap <c-b> <left>
+imap <c-a> <home>
+imap <c-e> <end>
+inoremap <c-j> <del>
+
+function! s:imap_up() abort
+  if line('.') == 1
+    call feedkeys("\<c-g>U\<home>", 't')
+    return
+  endif
+  if exists('g:mi#dot_repeating')
+    call feedkeys("\<up>", 't')
+    return
+  endif
+  call appendbufline(0, line('.'), getline('.'))
+  call setbufline(0, line('.'), getline(line('.')-1))
+  call deletebufline(0, line('.')-1)
+endfunction
+function! s:imap_down() abort
+  if line('.') == line('$')
+    call feedkeys("\<c-g>U\<end>", 't')
+    return
+  endif
+  if exists('g:mi#dot_repeating')
+    call feedkeys("\<down>", 't')
+    return
+  endif
+  call appendbufline(0, line('.')-1, getline('.'))
+  call setbufline(0, line('.'), getline(line('.')+1))
+  call deletebufline(0, line('.')+1)
+endfunction
+if !has('nvim')
+  inoremap <c-l> <c-@>
+  inoremap <up> <cmd>call <sid>imap_up()<cr>
+  inoremap <down> <cmd>call <sid>imap_down()<cr>
+endif
 
 let s:ft_expand_targets = {
       \ 'javascript': {
