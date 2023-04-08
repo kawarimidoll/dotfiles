@@ -484,7 +484,51 @@ inoremap <expr> <Tab>   pumvisible() ? '<C-n>' : '<C-t>'
 inoremap <expr> <S-Tab> pumvisible() ? '<C-p>' : '<C-d>'
 inoremap <C-g><C-u> <esc>gUvbgi
 inoremap <C-g><C-l> <esc>guvbgi
-inoremap <expr> %<c-x> "\<bs>" .. @%
+
+let s:ft_expand_targets = {
+      \ 'javascript': {
+      \ ';p': "console.log()\<left>",
+      \ ';if': "if() {}\<left>\<cr>\<c-o>\<up>\<home>\<c-o>f)",
+      \ },
+      \ 'vim': {
+      \ ';p': 'echomsg ',
+      \ ';if': "if\<cr>endif\<c-o>\<up>\<end> ",
+      \ ';fun': "function!  abort\nendfunction\<up>\<c-o>E\<right>",
+      \ },
+      \ }
+let s:expand_targets = {
+      \ '%': { ->@% },
+      \ ';p': "print()\<left>",
+      \ }
+let s:ft_aliases = {
+      \ 'typescript': 'javascript',
+      \ 'javascriptreact': 'javascript',
+      \ 'typescriptreact': 'javascript',
+      \ }
+
+function! s:expand_fname(fallback) abort
+  const prev_idx = getcharpos('.')[2] - 2
+  if prev_idx < 0
+    return a:fallback
+  endif
+  const line = getline('.')
+  const prev_cursor = line[:prev_idx]
+  const prev_len = strlen(prev_cursor)
+  const filetype = get(s:ft_aliases, &filetype, &filetype)
+  const targets_current_ft = get(s:ft_expand_targets, filetype, {})
+  const targets = extend(copy(s:expand_targets), targets_current_ft)
+  for target_key in keys(targets)
+    let match_idx = strridx(prev_cursor, target_key)
+    if match_idx >= 0 && match_idx + strlen(target_key) == prev_len
+      const replacement = type(targets[target_key]) == v:t_func ? targets[target_key]()
+            \ : type(targets[target_key]) == v:t_list ? join(targets[target_key], "\<cr>")
+            \ : targets[target_key]
+      return repeat("\<bs>", strcharlen(target_key)) .. replacement
+    endif
+  endfor
+  return a:fallback
+endfunction
+inoremap <expr> <c-x> <sid>expand_fname("\<c-x>")
 
 " visual
 xnoremap p P
