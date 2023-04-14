@@ -53,6 +53,9 @@ return {
     font_size = 16.0,
   },
 
+  use_ime = true,
+  macos_forward_to_ime_modifier_mask = "SHIFT|CTRL",
+
   keys = {
     { key = 'E', mods = 'CTRL', action = act.EmitEvent 'trigger-vim-with-visible-text' },
     { key = 'Q', mods = 'CTRL', action = act.QuickSelect },
