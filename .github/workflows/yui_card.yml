@@ -12,4 +12,7 @@ jobs:
       - uses: denoland/setup-deno@v1
       - name: post to bsky
         working-directory: ./deno
+        env:
+          BSKY_USERNAME: ${{ secrets.BSKY_USERNAME }}
+          BSKY_PASSWORD: ${{ secrets.BSKY_PASSWORD }}
         run: deno task yui

@@ -1,6 +1,6 @@
 import AtprotoAPI from "npm:@atproto/api";
 const { BskyAgent, RichText } = AtprotoAPI;
-import "https://deno.land/std@0.183.0/dotenv/load.ts";
+// import "https://deno.land/std@0.183.0/dotenv/load.ts";
 
 const service = "https://bsky.social";
 const agent = new BskyAgent({ service });
