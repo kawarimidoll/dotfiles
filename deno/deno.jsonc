@@ -1,5 +1,5 @@
 {
   "tasks": {
-    "yui": "deno run --allow-env=BSKY_IDENTIFIER,BSKY_PASSWORD --allow-net=bsky.social yui_card.ts"
+    "yui": "deno run --allow-env=BLUESKY_IDENTIFIER,BLUESKY_PASSWORD --allow-net=bsky.social yui_card.ts"
   }
 }
