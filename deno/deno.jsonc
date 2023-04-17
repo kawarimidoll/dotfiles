@@ -1,0 +1,5 @@
+{
+  "tasks": {
+    "yui": "deno run --allow-env --allow-read=.env,.env.defaults,.env.example --allow-net=bsky.social yui_card.ts"
+  }
+}

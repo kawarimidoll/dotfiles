@@ -1,0 +1,117 @@
+{
+  "version": "2",
+  "remote": {
+    "https://deno.land/std@0.182.0/fmt/colors.ts": "d67e3cd9f472535241a8e410d33423980bec45047e343577554d3356e1f0ef4e",
+    "https://deno.land/std@0.182.0/testing/_diff.ts": "1a3c044aedf77647d6cac86b798c6417603361b66b54c53331b312caeb447aea",
+    "https://deno.land/std@0.182.0/testing/_format.ts": "a69126e8a469009adf4cf2a50af889aca364c349797e63174884a52ff75cf4c7",
+    "https://deno.land/std@0.182.0/testing/asserts.ts": "e16d98b4d73ffc4ed498d717307a12500ae4f2cbe668f1a215632d19fcffc22f",
+    "https://deno.land/std@0.183.0/collections/filter_values.ts": "5b9feaf17b9a6e5ffccdd36cf6f38fa4ffa94cff2602d381c2ad0c2a97929652",
+    "https://deno.land/std@0.183.0/collections/without_all.ts": "a89f5da0b5830defed4f59666e188df411d8fece35a5f6ca69be6ca71a95c185",
+    "https://deno.land/std@0.183.0/dotenv/load.ts": "0636983549b98f29ab75c9a22a42d9723f0a389ece5498fe971e7bb2556a12e2",
+    "https://deno.land/std@0.183.0/dotenv/mod.ts": "e4c3cdbe11f05340e1217a4ebe2e6f2eef49e11c8d7d2595bb977923a396e18b"
+  },
+  "npm": {
+    "specifiers": {
+      "@atproto/api": "@atproto/api@0.2.7",
+      "chalk@5.0.1": "chalk@5.0.1"
+    },
+    "packages": {
+      "@atproto/api@0.2.7": {
+        "integrity": "sha512-Sz+lLD5apC2f0FSClkElIrt4w+aLgzqJ/wqtFO7xuQH8+hGfxdfGuVIK5GEDQ7epeDlWvVhVSouP6ZdGSKKtSA==",
+        "dependencies": {
+          "@atproto/common-web": "@atproto/common-web@0.1.0",
+          "@atproto/uri": "@atproto/uri@0.0.2",
+          "@atproto/xrpc": "@atproto/xrpc@0.1.0",
+          "tlds": "tlds@1.238.0",
+          "typed-emitter": "typed-emitter@2.1.0"
+        }
+      },
+      "@atproto/common-web@0.1.0": {
+        "integrity": "sha512-qD6xF60hvH+cP++fk/mt+0S9cxs94KsK+rNWypNlgnlp7r9By4ltXwtDSR/DNTA8mwDeularUno4VbTd2IWIzA==",
+        "dependencies": {
+          "multiformats": "multiformats@9.9.0",
+          "uint8arrays": "uint8arrays@3.0.0",
+          "zod": "zod@3.21.4"
+        }
+      },
+      "@atproto/identifier@0.1.0": {
+        "integrity": "sha512-3LV7+4E6S0k8Rru7NBkyDF6Zf6NHVUXVS9d4l9fiXWMC49ghZMjq0vPmz80xjG1rRuFdJFbpRf4ApFciGxLIyQ==",
+        "dependencies": {
+          "@atproto/common-web": "@atproto/common-web@0.1.0"
+        }
+      },
+      "@atproto/lexicon@0.1.0": {
+        "integrity": "sha512-Iy+gV9w42xLhrZrmcbZh7VFoHjXuzWvecGHIfz44owNjjv7aE/d2P5BbOX/XicSkmQ8Qkpg0BqwYDD1XBVS+DQ==",
+        "dependencies": {
+          "@atproto/common-web": "@atproto/common-web@0.1.0",
+          "@atproto/identifier": "@atproto/identifier@0.1.0",
+          "@atproto/nsid": "@atproto/nsid@0.0.1",
+          "@atproto/uri": "@atproto/uri@0.0.2",
+          "iso-datestring-validator": "iso-datestring-validator@2.2.2",
+          "multiformats": "multiformats@9.9.0",
+          "zod": "zod@3.21.4"
+        }
+      },
+      "@atproto/nsid@0.0.1": {
+        "integrity": "sha512-t5M6/CzWBVYoBbIvfKDpqPj/+ZmyoK9ydZSStcTXosJ27XXwOPhz0VDUGKK2SM9G5Y7TPes8S5KTAU0UdVYFCw==",
+        "dependencies": {}
+      },
+      "@atproto/uri@0.0.2": {
+        "integrity": "sha512-/6otLZF7BLpT9suSdHuXLbL12nINcWPsLmcOI+dctqovWUjH+XIRVNXDQgBYSrPVetxMiknuEwWelmnA33AEXg==",
+        "dependencies": {
+          "@atproto/identifier": "@atproto/identifier@0.1.0",
+          "@atproto/nsid": "@atproto/nsid@0.0.1"
+        }
+      },
+      "@atproto/xrpc@0.1.0": {
+        "integrity": "sha512-LhBeZkQwPezjEtricGYnG62udFglOqlnmMSS0KyWgEAPi4KMp4H2F4jNoXcf5NPtZ9S4N4hJaErHX4PJYv2lfA==",
+        "dependencies": {
+          "@atproto/lexicon": "@atproto/lexicon@0.1.0",
+          "zod": "zod@3.21.4"
+        }
+      },
+      "chalk@5.0.1": {
+        "integrity": "sha512-Fo07WOYGqMfCWHOzSXOt2CxDbC6skS/jO9ynEcmpANMoPrD+W1r1K6Vx7iNm+AQmETU1Xr2t+n8nzkV9t6xh3w==",
+        "dependencies": {}
+      },
+      "iso-datestring-validator@2.2.2": {
+        "integrity": "sha512-yLEMkBbLZTlVQqOnQ4FiMujR6T4DEcCb1xizmvXS+OxuhwcbtynoosRzdMA69zZCShCNAbi+gJ71FxZBBXx1SA==",
+        "dependencies": {}
+      },
+      "multiformats@9.9.0": {
+        "integrity": "sha512-HoMUjhH9T8DDBNT+6xzkrd9ga/XiBI4xLr58LJACwK6G3HTOPeMz4nB4KJs33L2BelrIJa7P0VuNaVF3hMYfjg==",
+        "dependencies": {}
+      },
+      "rxjs@7.8.0": {
+        "integrity": "sha512-F2+gxDshqmIub1KdvZkaEfGDwLNpPvk9Fs6LD/MyQxNgMds/WH9OdDDXOmxUZpME+iSK3rQCctkL0DYyytUqMg==",
+        "dependencies": {
+          "tslib": "tslib@2.5.0"
+        }
+      },
+      "tlds@1.238.0": {
+        "integrity": "sha512-lFPF9pZFhLrPodaJ0wt9QIN0l8jOxqmUezGZnm7BfkDSVd9q667oVIJukLVzhF+4oW7uDlrLlfJrL5yu9RWwew==",
+        "dependencies": {}
+      },
+      "tslib@2.5.0": {
+        "integrity": "sha512-336iVw3rtn2BUK7ORdIAHTyxHGRIHVReokCR3XjbckJMK7ms8FysBfhLR8IXnAgy7T0PTPNBWKiH514FOW/WSg==",
+        "dependencies": {}
+      },
+      "typed-emitter@2.1.0": {
+        "integrity": "sha512-g/KzbYKbH5C2vPkaXGu8DJlHrGKHLsM25Zg9WuC9pMGfuvT+X25tZQWo5fK1BjBm8+UrVE9LDCvaY0CQk+fXDA==",
+        "dependencies": {
+          "rxjs": "rxjs@7.8.0"
+        }
+      },
+      "uint8arrays@3.0.0": {
+        "integrity": "sha512-HRCx0q6O9Bfbp+HHSfQQKD7wU70+lydKVt4EghkdOvlK/NlrF90z+eXV34mUd48rNvVJXwkrMSPpCATkct8fJA==",
+        "dependencies": {
+          "multiformats": "multiformats@9.9.0"
+        }
+      },
+      "zod@3.21.4": {
+        "integrity": "sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==",
+        "dependencies": {}
+      }
+    }
+  }
+}
