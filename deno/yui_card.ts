@@ -5,8 +5,8 @@ const { BskyAgent, RichText } = AtprotoAPI;
 const service = "https://bsky.social";
 const agent = new BskyAgent({ service });
 
-const identifier = Deno.env.get("BSKY_IDENTIFIER");
-const password = Deno.env.get("BSKY_PASSWORD");
+const identifier = Deno.env.get("BLUESKY_IDENTIFIER");
+const password = Deno.env.get("BLUESKY_PASSWORD");
 await agent.login({ identifier, password });
 
 const richPost = async (text) => {
