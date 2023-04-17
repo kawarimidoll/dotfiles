@@ -1,0 +1,15 @@
+name: draw-yui-card
+
+on:
+  schedule:
+    - cron: "30 2 * * *"
+
+jobs:
+  udd:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: denoland/setup-deno@v1
+      - name: post to bsky
+        working-directory: ./deno
+        run: deno task yui
