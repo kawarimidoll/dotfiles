@@ -76,6 +76,10 @@ function! mi#utils#pick_one(list) abort
   return a:list[rand(srand()) % len(a:list)]
 endfunction
 
+function! mi#utils#not_q() abort
+  return empty(reg_recording()) && empty(reg_executing())
+endfunction
+
 " echo as function
 function! mi#utils#echohl(hl) abort
   execute 'echohl' a:hl

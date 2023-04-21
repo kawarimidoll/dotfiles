@@ -341,7 +341,7 @@ noremap sk <cmd>call mi#hjkl#k(v:count1, v:true)<cr>
 " noremap gk k
 noremap gV `[v`]
 " https://github.com/yuki-yano/zero.vim/blob/main/plugin/zero.vim
-noremap <silent><expr> H getline('.')[:col('.')-2] =~# '^\s\+$' ? '0' : '^'
+noremap <silent><expr> H (mi#utils#not_q() && getline('.')[:col('.')-2] =~# '^\s\+$')? '0' : '^'
 " https://github.com/yuki-yano/dotfiles/blob/c56b219116de1693c45c20b03b109497896d5b16/.vimrc#L602-L605
 nnoremap <expr> i len(getline('.')) ? 'i' : '"_cc'
 nnoremap <expr> A len(getline('.')) ? 'A' : '"_cc'
