@@ -14,7 +14,8 @@ jobs:
         working-directory: ./deno
         run: >
           deno run -A https://deno.land/x/udd/main.ts
-          $(find . -name "*.ts") --test="deno test -Ar"
+          $(find . -name "*.ts")
+          # $(find . -name "*.ts") --test="deno test -Ar" # currently no tests
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
