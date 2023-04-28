@@ -1,0 +1,72 @@
+div[data-testid="replyBtn"] {
+  >div {
+    visibility: hidden;
+  }
+  &:hover {
+    >div {
+      visibility: visible;
+    }
+  }
+}
+
+div[data-testid="repostBtn"] {
+  >div {
+    visibility: hidden;
+  }
+  &:hover {
+    >div {
+      visibility: visible;
+    }
+  }
+}
+div[data-testid="repostModal"] > div > div[data-testid="repostBtn"] > div {
+  visibility: visible;
+}
+
+div[data-testid="likeBtn"] {
+  >div {
+    visibility: hidden;
+  }
+  &:hover {
+    >div {
+      visibility: visible;
+    }
+  }
+}
+
+div[data-testid="profileHeaderFollowersButton"] {
+  >div:nth-child(1) {
+    visibility: hidden;
+  }
+  &:hover {
+    >div:nth-child(1) {
+      visibility: visible;
+    }
+  }
+}
+
+div[data-testid="profileHeaderFollowsButton"] {
+  >div:nth-child(1) {
+    visibility: hidden;
+  }
+  &:hover {
+    >div:nth-child(1) {
+      visibility: visible;
+    }
+  }
+}
+
+div.css-175oi2r.r-iphfwy.r-779j7e.r-tskmnb>div:nth-child(4)>div:nth-child(3) {
+  >div:nth-child(1) {
+    visibility: hidden;
+  }
+  &:hover {
+    >div:nth-child(1) {
+      visibility: visible;
+    }
+  }
+}
+
+div.css-175oi2r.r-u8s1d.r-c6jqw7.r-1ki14p2.r-1w88a7h>div.css-175oi2r.r-1i6wzkk.r-lrvibr.r-1loqt21.r-1otgn73.r-zg41ew.r-f727ji.r-cfp7ip::after {
+  content: '💙🦢';
+}
