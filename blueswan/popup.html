@@ -6,53 +6,72 @@
 body {
   font-size: 1rem;
   overflow: hidden;
-  margin: 0px;
-  padding: 0px;
+  margin: 20px;
   background: white;
-  width: 440px;
+  width: 280px;
+}
+.select-group {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px;
 }
     </style>
   </head>
   <body>
     <div>Blueswan options</div>
 
-    <div>
-      <span>Replys</span>
-      <select name="replys">
+    <div class="select-group">
+      <div>Replys</div>
+      <select id="select-replys" name="select-replys">
         <option value="hide">HIDE</option>
         <option value="hover">HOVER</option>
         <option value="show">SHOW</option>
       </select>
     </div>
-    <div>
-      <span>Reposts</span>
-      <select name="reposts">
+    <div class="select-group">
+      <div>Reposts</div>
+      <select id="select-reposts" name="select-reposts">
         <option value="hide">HIDE</option>
         <option value="hover">HOVER</option>
         <option value="show">SHOW</option>
       </select>
     </div>
-    <div>
-      <span>Likes</span>
-      <select name="likes">
+    <div class="select-group">
+      <div>Likes</div>
+      <select id="select-likes" name="select-likes">
         <option value="hide">HIDE</option>
         <option value="hover">HOVER</option>
         <option value="show">SHOW</option>
       </select>
     </div>
-    <div>
-      <span>Followings</span>
-      <select name="followings">
+    <div class="select-group">
+      <div>Followers</div>
+      <select id="select-followers" name="select-followers">
         <option value="hide">HIDE</option>
         <option value="hover">HOVER</option>
         <option value="show">SHOW</option>
       </select>
     </div>
-    <div>
-      <span>Followings</span>
-      <select name="followings">
+    <div class="select-group">
+      <div>Following</div>
+      <select id="select-following" name="select-following">
         <option value="hide">HIDE</option>
         <option value="hover">HOVER</option>
+        <option value="show">SHOW</option>
+      </select>
+    </div>
+    <div class="select-group">
+      <div>Posts</div>
+      <select id="select-posts" name="select-posts">
+        <option value="hide">HIDE</option>
+        <option value="hover">HOVER</option>
+        <option value="show">SHOW</option>
+      </select>
+    </div>
+    <div class="select-group">
+      <div>💙🦢</div>
+      <select id="select-title" name="select-title">
+        <option value="hide">HIDE</option>
         <option value="show">SHOW</option>
       </select>
     </div>
