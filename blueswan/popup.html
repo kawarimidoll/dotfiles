@@ -1,28 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <meta charset="utf-8">
+    <title>Blueswan options</title>
     <style>
 body {
   font-size: 1rem;
   overflow: hidden;
-  margin: 20px;
-  background: white;
+  margin: 10px;
   width: 280px;
+  font-family: sans-serif;
+}
+h1 {
+  font-size: 1.25em;
+  text-align: center;
 }
 .select-group {
   display: flex;
   justify-content: space-between;
-  margin: 5px;
+  margin: 10px;
+}
+select {
+  width: 90px;
 }
     </style>
   </head>
   <body>
-    <div>Blueswan options</div>
+    <h1>Blueswan options</h1>
 
     <div class="select-group">
       <div>Replys</div>
-      <select id="select-replys" name="select-replys">
+      <select id="select-replys" name="select-replys" aria-label="select-replys">
         <option value="hide">HIDE</option>
         <option value="hover">HOVER</option>
         <option value="show">SHOW</option>
@@ -30,7 +38,7 @@ body {
     </div>
     <div class="select-group">
       <div>Reposts</div>
-      <select id="select-reposts" name="select-reposts">
+      <select id="select-reposts" name="select-reposts" aria-label="select-reposts">
         <option value="hide">HIDE</option>
         <option value="hover">HOVER</option>
         <option value="show">SHOW</option>
@@ -38,7 +46,7 @@ body {
     </div>
     <div class="select-group">
       <div>Likes</div>
-      <select id="select-likes" name="select-likes">
+      <select id="select-likes" name="select-likes" aria-label="select-likes">
         <option value="hide">HIDE</option>
         <option value="hover">HOVER</option>
         <option value="show">SHOW</option>
@@ -46,7 +54,7 @@ body {
     </div>
     <div class="select-group">
       <div>Followers</div>
-      <select id="select-followers" name="select-followers">
+      <select id="select-followers" name="select-followers" aria-label="select-followers">
         <option value="hide">HIDE</option>
         <option value="hover">HOVER</option>
         <option value="show">SHOW</option>
@@ -54,7 +62,7 @@ body {
     </div>
     <div class="select-group">
       <div>Following</div>
-      <select id="select-following" name="select-following">
+      <select id="select-following" name="select-following" aria-label="select-following">
         <option value="hide">HIDE</option>
         <option value="hover">HOVER</option>
         <option value="show">SHOW</option>
@@ -62,7 +70,7 @@ body {
     </div>
     <div class="select-group">
       <div>Posts</div>
-      <select id="select-posts" name="select-posts">
+      <select id="select-posts" name="select-posts" aria-label="select-posts">
         <option value="hide">HIDE</option>
         <option value="hover">HOVER</option>
         <option value="show">SHOW</option>
@@ -70,12 +78,12 @@ body {
     </div>
     <div class="select-group">
       <div>💙🦢</div>
-      <select id="select-blueswan" name="select-blueswan">
-        <option value="hide">HIDE</option>
-        <option value="show">SHOW</option>
+      <select id="select-blueswan" name="select-blueswan" aria-label="select-blueswan">
+        <option value="hide">HIDE </option>
+        <option value="show">SHOW </option>
       </select>
     </div>
 
-    <script src="./popup.js"></script>
+    <script defer src="./popup.js"></script>
   </body>
 </html>
