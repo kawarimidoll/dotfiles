@@ -5,6 +5,7 @@ const names = [
   "followers",
   "following",
   "posts",
+  "blueswan",
 ];
 
 function ensureValue(value) {
@@ -19,12 +20,16 @@ function load() {
         option.selected = option.value === ensureValue(data[name])
       );
       select.addEventListener("change", (event) => {
-        // body.classList.add(`${ensureValue(data[name])}-${name}`);
+        const { value } = event.target;
+        chrome.storage.local.set({ [name]: value }, () => ({}));
 
-        chrome.storage.local.set(
-          { [name]: event.target.value },
-          function () {},
-        );
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+          console.log({ tabs });
+          const tabId = tabs[0]?.id;
+          if (tabId) {
+            chrome.tabs.sendMessage(tabId, { name, value }, () => ({}));
+          }
+        });
       });
     });
   });
