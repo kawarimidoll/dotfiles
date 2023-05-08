@@ -587,6 +587,8 @@ xnoremap * "zy/\V<C-r><C-r>=substitute(escape(@z, '/\'), '\_s\+', '\\_s\\+', 'g'
 xnoremap # "zy?\V<C-r><C-r>=substitute(escape(@z, '/\'), '\_s\+', '\\_s\\+', 'g')<CR><CR>``
 xnoremap R "zy:,$s//<C-r><C-r>=escape(@z, '/\&~')<CR>/gce<Bar>1,''-&&<CR>
 
+xnoremap so :source<cr><cmd>nohlsearch<cr>gv
+
 " operator
 onoremap x d
 
