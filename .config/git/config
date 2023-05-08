@@ -71,6 +71,7 @@
 	untracked = ls-files --others --exclude-standard
 	upstream-branch = rev-parse --abbrev-ref --symbolic-full-name @{u}
 	whoami = !git config --get-regexp user | cut -c6- | sed -e 's/key .*/key ***/' | sed -e 's/ / = /' | awk '!A[$1]++' | column -t
+	zip = __zip
 [push]
 	default = current
 	useForceIfIncludes = true

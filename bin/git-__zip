@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# https://gist.github.com/LeonardoCardoso/6c083b90a8c327d8c82f
+# if no argument is passed, use git root directory name for archive
+git archive -o "${1:-$(basename $(git root))}".zip HEAD
