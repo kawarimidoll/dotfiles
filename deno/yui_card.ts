@@ -21,4 +21,6 @@ const richPost = async (text: string) => {
 };
 
 await richPost("@yui.bsky.social /card");
+await richPost("@yui.bsky.social /card -r");
 await richPost("@yui.bsky.social /card -b");
+await richPost("@yui.bsky.social /card ai");
