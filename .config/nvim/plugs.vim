@@ -386,6 +386,8 @@ Plug 'anuvyklack/keymap-amend.nvim'
 Plug 'echasnovski/mini.nvim'
 Plug 'Shougo/context_filetype.vim'
 Plug 'vim-jp/vimdoc-ja'
+
+Plug 'github/copilot.vim'
 " }}}
 call plug#end()
 
