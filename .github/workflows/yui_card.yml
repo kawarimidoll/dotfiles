@@ -3,7 +3,7 @@ name: draw-yui-card
 on:
   workflow_dispatch:
   schedule:
-    - cron: "30 15 * * *"
+    - cron: "1 15 * * *"
 
 jobs:
   yui_card:
