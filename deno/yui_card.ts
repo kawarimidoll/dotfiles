@@ -20,7 +20,10 @@ const richPost = async (text: string) => {
   });
 };
 
-await richPost("@yui.bsky.social /card");
-await richPost("@yui.bsky.social /card -r");
-await richPost("@yui.bsky.social /card -b");
-await richPost("@yui.bsky.social /card ai");
+if (new Date().getHours() === 11) {
+  await richPost("@yui.bsky.social /card -r");
+} else {
+  await richPost("@yui.bsky.social /card");
+  await richPost("@yui.bsky.social /card -b");
+  await richPost("@yui.bsky.social /card ai");
+}
