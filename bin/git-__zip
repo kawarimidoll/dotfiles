@@ -1,5 +1,11 @@
 #!/bin/bash
 
-# https://gist.github.com/LeonardoCardoso/6c083b90a8c327d8c82f
+# ref: https://gist.github.com/LeonardoCardoso/6c083b90a8c327d8c82f
+
 # if no argument is passed, use git root directory name for archive
-git archive -o "${1:-$(basename $(git root))}".zip HEAD
+tag="$(git describe --tags 2>/dev/null)"
+if [ -n "$tag" ]; then
+  tag="-${tag}"
+fi
+name="${1:-$(basename $(git root))$tag}"
+git archive -o "${name}".zip HEAD
