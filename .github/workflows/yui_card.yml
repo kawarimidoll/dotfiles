@@ -1,10 +1,11 @@
 name: draw-yui-card
 
 on:
-  workflow_dispatch:
   schedule:
-    - cron: "0 11 * * *"
     - cron: "30 19 * * *"
+  repository_dispatch:
+    types:
+      - raid
 
 jobs:
   yui_card:
@@ -13,8 +14,16 @@ jobs:
       - uses: actions/checkout@master
       - uses: denoland/setup-deno@v1
       - name: post to bsky
+        if: ${{ github.event_name == 'schedule' }}
         working-directory: ./deno
         env:
           BLUESKY_IDENTIFIER: ${{ secrets.BLUESKY_IDENTIFIER }}
           BLUESKY_PASSWORD: ${{ secrets.BLUESKY_PASSWORD }}
         run: deno task yui
+      - name: raid battle
+        if: ${{ github.event_name == 'repository_dispatch' }}
+        working-directory: ./deno
+        env:
+          BLUESKY_IDENTIFIER: ${{ secrets.BLUESKY_IDENTIFIER }}
+          BLUESKY_PASSWORD: ${{ secrets.BLUESKY_PASSWORD }}
+        run: deno task yui raid

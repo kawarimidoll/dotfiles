@@ -20,10 +20,10 @@ const richPost = async (text: string) => {
   });
 };
 
-if (new Date().getHours() === 11) {
-  await richPost("@yui.bsky.social /card -r");
+if (Deno.args.includes('raid')) {
+  await richPost("@yui.bsky.social card -r");
 } else {
-  await richPost("@yui.bsky.social /card");
-  await richPost("@yui.bsky.social /card -b");
-  await richPost("@yui.bsky.social /card ai");
+  await richPost("@yui.bsky.social card");
+  await richPost("@yui.bsky.social card -b");
+  await richPost("@yui.bsky.social card ai");
 }
