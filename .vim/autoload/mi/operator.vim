@@ -49,4 +49,7 @@ function! mi#operator#join(type = '') abort
   endif
   execute printf('silent! %ssubstitute/%s//', range, remove_pattern)
   execute expr
+
+  " remove trailing comma
+  silent! substitute/\v,(\s*[])}])/\1/
 endfunction
