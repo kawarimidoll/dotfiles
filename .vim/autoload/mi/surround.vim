@@ -34,8 +34,8 @@ function! s:removestr(from_pos, to_pos) abort
   if a:from_pos[0] > a:to_pos[0]
     let [from_pos, to_pos] = [to_pos, from_pos]
   endif
-  let before = strpart(getline(from_pos[0]), 0, from_pos[1] - 1)
-  let after = strpart(getline(to_pos[0]), to_pos[1])
+  let before = strcharpart(getline(from_pos[0]), 0, from_pos[1] - 1)
+  let after = strcharpart(getline(to_pos[0]), to_pos[1])
   call setline(from_pos[0],  before .. after)
   if from_pos[0] < to_pos[0]
     call deletebufline(bufnr(), from_pos[0] + 1, to_pos[0])
@@ -44,7 +44,7 @@ endfunction
 
 function! s:putstr(lnum, col, str) abort
   let line = getline(a:lnum)
-  call setline(a:lnum, strpart(line, 0, a:col - 1) .. a:str .. strpart(line, a:col - 1))
+  call setline(a:lnum, strcharpart(line, 0, a:col - 1) .. a:str .. strcharpart(line, a:col - 1))
 endfunction
 
 function! s:get_wrapper() abort
@@ -119,8 +119,8 @@ function! mi#surround#add(type = '') abort
   endif
   let [open, close] = wrapper
 
-  let [head_lnum, head_col] = getpos("'[")[1:2]
-  let [tail_lnum, tail_col] = getpos("']")[1:2]
+  let [head_lnum, head_col] = getcharpos("'[")[1:2]
+  let [tail_lnum, tail_col] = getcharpos("']")[1:2]
 
   let c_lnum = head_lnum
   let c_col = head_col
