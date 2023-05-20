@@ -1,5 +1,7 @@
 {
   "tasks": {
-    "yui": "deno run --allow-env=BLUESKY_IDENTIFIER,BLUESKY_PASSWORD --allow-net=bsky.social yui_card.ts"
+    "post": "deno run --allow-env=BLUESKY_IDENTIFIER,BLUESKY_PASSWORD,GITHUB_ACTIONS --allow-net=bsky.social bsky_post.ts",
+    "post_local": "deno run --allow-env --allow-read --allow-net=bsky.social bsky_post.ts",
+    "yui": "deno run --allow-env=BLUESKY_IDENTIFIER,BLUESKY_PASSWORD,GITHUB_ACTIONS --allow-net=bsky.social yui_card.ts"
   }
 }
