@@ -1,8 +1,9 @@
 name: update-deno-dependencies
 
 on:
-  schedule:
-    - cron: "0 0 * * *"
+  # schedule:
+  #   - cron: "0 0 * * *"
+  repository_dispatch:
 
 jobs:
   udd:
