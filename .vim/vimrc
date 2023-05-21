@@ -826,10 +826,6 @@ augroup vimrc
   autocmd WinLeave,WinClosed * unlet! w:pin_buf_type
   autocmd BufEnter * call s:syntax_off_on_heavy_file()
 
-  " https://github.com/NI57721/dotfiles/blob/a695ab1d29465dc54254c933f13ac46911a07afd/.vimrc#L255-L260
-  autocmd Filetype xml,html,vue inoremap <buffer><expr> </
-        \ &completeopt=~'noinsert\\|noselect' ? '</<C-x><C-o><C-n><ESC>==o' : '</<C-x><C-o><ESC>==o'
-
   " Highlight extra whitespaces
   " https://zenn.dev/kawarimidoll/articles/450a1c7754bde6
   " u00A0 ' ' no-break space
@@ -888,15 +884,19 @@ augroup vimrc
           \ | highlight! link StatusLineNC GamingFg
           \ | call mi#gaming#start()
 
-  autocmd WinEnter,BufEnter * setlocal statusline=%!mi#statusline#active()
-  autocmd WinLeave,BufLeave * setlocal statusline=%!mi#statusline#inactive()
+    " https://github.com/NI57721/dotfiles/blob/a695ab1d29465dc54254c933f13ac46911a07afd/.vimrc#L255-L260
+    autocmd Filetype xml,html,vue inoremap <buffer><expr> </
+          \ &completeopt=~'noinsert\\|noselect' ? '</<C-x><C-o><C-n><ESC>==o' : '</<C-x><C-o><ESC>==o'
 
-   autocmd Filetype * ++once
-         \ execute 'colorscheme' mi#utils#pick_one(['desert', 'slate', 'habamax'])
-         \ | doautocmd ColorScheme
-   autocmd Filetype typescript,typescriptreact,javascript,javascriptreact,markdown,json,jsonc
+    autocmd WinEnter,BufEnter * setlocal statusline=%!mi#statusline#active()
+    autocmd WinLeave,BufLeave * setlocal statusline=%!mi#statusline#inactive()
+
+    autocmd Filetype * ++once
+          \ execute 'colorscheme' mi#utils#pick_one(['desert', 'slate', 'habamax'])
+          \ | doautocmd ColorScheme
+    autocmd Filetype typescript,typescriptreact,javascript,javascriptreact,markdown,json,jsonc
           \ nnoremap <buffer> <space>p <cmd>DenoFmt<cr>
-   autocmd Filetype sql
+    autocmd Filetype sql
           \ nnoremap <buffer> <space>p <cmd>SqlFmt<cr>
   endif
 
