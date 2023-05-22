@@ -852,14 +852,6 @@ augroup vimrc
   " this not works in ftplugin
   autocmd FileType markdown syntax match markdownError '\w\@<=\w\@='
 
-  autocmd User VimReady
-        \ delfunction! EditProjectMru
-        \ | call mi#git#ensure_root()
-        \ | call mi#register#clear()
-        \ | execute 'autocmd TextYankPost * call mi#register#collect_yank_history(10)'
-        \ | execute 'autocmd BufEnter,BufReadPost * call mi#mru#save()'
-        \ | execute 'autocmd FileType qf ++once packadd cfilter'
-
   autocmd BufNewFile * ++nested call mi#open#reopen_with_lnum()
 
   if has('nvim')
@@ -869,21 +861,6 @@ augroup vimrc
           \ | silent! call matchdelete(w:highlight_extra_whitespace)
           \ | endif
   else
-    " https://www.statox.fr/posts/2020/07/vim_flash_yanked_text/
-    autocmd User VimReady
-          \ execute 'autocmd CursorMoved * call mi#highlight#cursorword(''Underlined'')'
-          \ | execute 'autocmd CursorMoved,CursorMovedI * call mi#highlight#match_paren(''Underlined'')'
-          \ | execute 'autocmd TextYankPost * silent! call mi#highlight#on_yank({''timeout'': 500})'
-          \ | execute 'autocmd WinEnter * call mi#qf#quit_if_last_buf()'
-          \ | execute 'autocmd FileType qf call mi#qf#fit_window({''min'': 3, ''max'': 10})'
-          \ | execute 'autocmd FileType qf call mi#qf#preview()'
-          \ | source ~/dotfiles/.vim/autoload/mi/searchprop.vim
-          \ | source ~/dotfiles/.vim/autoload/mi/substitutor.vim
-          \ | call mi#pair#keymap_set(['{}', '[]', '()', "''", '""', '``'])
-          \ | highlight! link StatusLine GamingBg
-          \ | highlight! link StatusLineNC GamingFg
-          \ | call mi#gaming#start()
-
     " https://github.com/NI57721/dotfiles/blob/a695ab1d29465dc54254c933f13ac46911a07afd/.vimrc#L255-L260
     autocmd Filetype xml,html,vue inoremap <buffer><expr> </
           \ &completeopt=~'noinsert\\|noselect' ? '</<C-x><C-o><C-n><ESC>==o' : '</<C-x><C-o><ESC>==o'
@@ -919,4 +896,4 @@ augroup vimrc
   " }}}
 augroup END
 
-call timer_start(100, {->execute('doautocmd User VimReady')})
+call timer_start(100, {->execute('source ~/dotfiles/.vim/ready.vim')})
