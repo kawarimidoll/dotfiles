@@ -251,9 +251,15 @@ else
   nnoremap [u *2Nzz<cmd>nohlsearch<cr>
   nnoremap ]u *zz<cmd>nohlsearch<cr>
 
-  " word search keep positions
-  nnoremap * *``zz
-  nnoremap # #``zz
+  " word search with keep positions
+  " https://twitter.com/Bakudankun/status/1207057884581900289
+  " `doautocmd CursorMoved` is required to show searchprop
+  nnoremap <silent><expr> * v:count ? '*' :
+        \ '<cmd>silent execute "keepjump normal! *" <bar> call winrestview('
+        \ .. string(winsaveview()) .. ')<cr><cmd>doautocmd CursorMoved<cr>'
+  nnoremap <silent><expr> # v:count ? '#' :
+        \ '<cmd>silent execute "keepjump normal! #" <bar> call winrestview('
+        \ .. string(winsaveview()) .. ')<cr><cmd>doautocmd CursorMoved<cr>'
 
   " :h termcap-cursor-shape@en
   " https://vim.fandom.com/wiki/Change_cursor_shape_in_different_modes
