@@ -7,15 +7,23 @@ function! mi#common#dot_repeat() abort
   endtry
 endfunction
 
-function! mi#common#trim(ignore = {}) abort
-  if !has_key(a:ignore, 'trailing_white_spaces')
-    silent! %s/\s\+$//
+function! mi#common#__compl_trim(_a, cmdline, _p) abort
+  const list = filter(['ignore_trailing_white_spaces', 'ignore_multiple_blank_line', 'ignore_blank_line_eof'],
+        \ {_,val -> stridx(a:cmdline, val) == -1})
+  return join(list, "\n")
+endfunction
+
+function! mi#common#trim(ignores = []) abort range
+  const prefix = a:firstline .. ',' .. a:lastline .. 's/'
+  echomsg a:firstline a:lastline
+  if index(a:ignores, 'ignore_trailing_white_spaces') < 0
+    silent! execute prefix .. '\s\+$//'
   endif
-  if !has_key(a:ignore, 'multiple_blank_line')
-    silent! %s/^\n\zs\n\+//
+  if index(a:ignores, 'ignore_multiple_blank_line') < 0
+    silent! execute prefix .. '^\n\zs\n\+//'
   endif
-  if !has_key(a:ignore, 'blank_line_eof')
-    silent! %s/\n\+\%$//
+  if index(a:ignores, 'ignore_blank_line_eof') < 0 && a:lastline >= line('$')
+    silent! execute '%s/\n\+\%$//'
   endif
 endfunction
 
