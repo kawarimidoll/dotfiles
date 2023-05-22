@@ -27,6 +27,10 @@ function! mi#common#trim(ignores = []) abort range
   endif
 endfunction
 
+function! mi#common#delete_blank_lines() abort range
+  execute a:firstline .. ',' .. a:lastline .. 'global/^$/delete _'
+endfunction
+
 function! mi#common#half_move(direction, count = 1) abort
   let [lnum, col] = getpos('.')[1:2]
 

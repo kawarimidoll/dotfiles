@@ -19,6 +19,7 @@ if has('nvim')
 " currently no commands
 else
   command! -nargs=* -range=% -complete=custom,mi#common#__compl_trim Trim <line1>,<line2>call mi#common#trim([<f-args>])
+  command! -range=% DeleteBlankLines <line1>,<line2>call mi#common#delete_blank_lines()
 
   " https://www.statox.fr/posts/2020/07/vim_flash_yanked_text/
   autocmd CursorMoved * call mi#highlight#cursorword('Underlined')
