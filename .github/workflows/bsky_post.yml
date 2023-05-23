@@ -1,0 +1,19 @@
+name: bsky_post
+
+on:
+  repository_dispatch:
+    types:
+      - bsky_post
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: denoland/setup-deno@v1
+      - name: post to bsky
+        working-directory: ./deno
+        env:
+          BLUESKY_IDENTIFIER: ${{ secrets.BLUESKY_IDENTIFIER }}
+          BLUESKY_PASSWORD: ${{ secrets.BLUESKY_PASSWORD }}
+        run: deno task post ${{ github.event.client_payload.message }}
