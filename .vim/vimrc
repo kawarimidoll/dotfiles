@@ -329,6 +329,15 @@ nnoremap <expr> J mi#operator#join()
 nnoremap <expr> JJ mi#operator#join() .. 'j'
 xnoremap <expr> J mi#operator#join()
 
+" https://zenn.dev/yahomi_dev/articles/216231f2902f32
+function! s:split_line() abort
+  normal! mz
+  call execute('s/\v\{\zs\s?|,\zs\s|\s?\ze\}/\r/g', 'silent!')
+  normal! =`z
+  nohlsearch
+endfunction
+nnoremap Jp <cmd>call <sid>split_line()<cr>
+
 " https://zenn.dev/mattn/articles/83c2d4c7645faa
 nmap gj gj<SID>g
 nmap gk gk<SID>g
