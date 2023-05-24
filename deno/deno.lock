@@ -12,12 +12,22 @@
   },
   "npm": {
     "specifiers": {
-      "@atproto/api": "@atproto/api@0.2.7",
+      "@atproto/api": "@atproto/api@0.3.7",
       "chalk@5.0.1": "chalk@5.0.1"
     },
     "packages": {
       "@atproto/api@0.2.7": {
         "integrity": "sha512-Sz+lLD5apC2f0FSClkElIrt4w+aLgzqJ/wqtFO7xuQH8+hGfxdfGuVIK5GEDQ7epeDlWvVhVSouP6ZdGSKKtSA==",
+        "dependencies": {
+          "@atproto/common-web": "@atproto/common-web@0.1.0",
+          "@atproto/uri": "@atproto/uri@0.0.2",
+          "@atproto/xrpc": "@atproto/xrpc@0.1.0",
+          "tlds": "tlds@1.238.0",
+          "typed-emitter": "typed-emitter@2.1.0"
+        }
+      },
+      "@atproto/api@0.3.7": {
+        "integrity": "sha512-JHN3rHNGro4AaJWU64hsmpTUzd2+FbfMBiDkqyBmoKtj972ueBJeH8tz6WdnPcsIRfCj1kRthKFj2yJwgt6aSQ==",
         "dependencies": {
           "@atproto/common-web": "@atproto/common-web@0.1.0",
           "@atproto/uri": "@atproto/uri@0.0.2",
