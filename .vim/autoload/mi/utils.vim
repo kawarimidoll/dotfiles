@@ -80,6 +80,12 @@ function! mi#utils#not_q() abort
   return empty(reg_recording()) && empty(reg_executing())
 endfunction
 
+" :h abbreviations
+function! mi#utils#eatchar(pat) abort
+   const c = nr2char(getchar(0))
+   return (c =~ a:pat) ? '' : c
+endfunc
+
 " echo as function
 function! mi#utils#echohl(hl) abort
   execute 'echohl' a:hl
