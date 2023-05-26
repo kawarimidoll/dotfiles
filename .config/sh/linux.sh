@@ -8,6 +8,9 @@ alias pbpaste='xsel --clipboard --output'
 
 alias arwer="yay -Qeq > ${DOT_OS_DIR}/yay-list.log"
 
+# https://github.com/keybase/keybase-issues/issues/2798
+export GPG_TTY=$(tty)
+
 __source /usr/share/zsh/plugins/zsh-autopair/autopair.zsh
 __source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
 __source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
