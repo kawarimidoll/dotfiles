@@ -218,6 +218,9 @@ function! mi#cmdline#proxy_clear() abort
 endfunction
 
 function! mi#cmdline#proxy_convert() abort
+  " expand abbreviations
+  call feedkeys(' ', 'i')
+
   const cmd_spec = mi#cmdline#get_spec()
   if empty(get(cmd_spec, 'cmd', ''))
     return
