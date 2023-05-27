@@ -219,7 +219,7 @@ endfunction
 
 function! mi#cmdline#proxy_convert() abort
   " expand abbreviations
-  call feedkeys(' ', 'i')
+  call feedkeys(" \<br>", 'i')
 
   const cmd_spec = mi#cmdline#get_spec()
   if empty(get(cmd_spec, 'cmd', ''))
@@ -233,7 +233,7 @@ function! mi#cmdline#proxy_convert() abort
   endfor
 endfunction
 
-" command! -nargs=+ Echo echo string(<args>) .. '!!!'
-" call mi#cmdline#proxy_let('ec[ho]', 'Echo')
+" command! -nargs=+ LoudEcho  echo string(<args>) .. '!!!'
+" call mi#cmdline#proxy_let('ec[ho]', 'LoudEcho ')
 
 " }}}
