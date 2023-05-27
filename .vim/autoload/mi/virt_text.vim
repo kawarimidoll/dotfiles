@@ -4,8 +4,7 @@
 " nnoremap sn <cmd>call mi#virt_text#clear('aak')<cr>
 
 function! s:valid_pos_arg(pos) abort
-  " currently 'right_align' is not supported
-  return index(['eol', 'overlay', 'inline'], a:pos)
+  return index(['eol', 'right_align', 'overlay', 'inline'], a:pos) >= 0
 endfunction
 
 let s:namespaces = {}
@@ -60,15 +59,70 @@ if has('nvim')
           \ })
   endfunction
 else
-  function! mi#virt_text#add_group(group) abort
-    call prop_type_delete(a:group, {})
-    call prop_type_add(a:group, {})
-    call add(s:namespace_list, a:group)
+  function! mi#virt_text#add_group(group, hl = g:default_highlight) abort
+    " call prop_type_add(a:group, {})
+    call prop_type_add(a:group, {'highlight': a:hl})
+    let s:namespaces[a:group] = {
+          \ 'marker_ids': [],
+          \ 'highlight': a:hl
+          \ }
   endfunction
 
-  function! mi#virt_text#clear_group(group) abort
-    call prop_clear(1, line('$'), {'type': a:group})
+  function! mi#virt_text#clear(group) abort
+    " call prop_clear(1, line('$'), {'type': a:group})
+    call prop_remove({'type': a:group, 'all': v:true})
+  endfunction
+
+  function! mi#virt_text#delete_group(group) abort
     call prop_type_delete(a:group, {})
-    call filter(s:namespace_list, {_,val -> val !=# a:group})
+    if has_key(s:namespaces, a:group)
+      unlet! s:namespaces[a:group]
+    endif
+  endfunction
+
+  function! mi#virt_text#display(lnum, col, text, group, pos = 'eol') abort
+    if !s:valid_pos_arg(a:pos)
+      throw '[mi#virt_text] Invalid position argument: ' .. a:pos
+    endif
+
+    if !has_key(s:namespaces, a:group)
+      call mi#virt_text#add_group(a:group)
+    endif
+
+    let s:marker_id += 1
+
+    if a:pos ==# 'overlay'
+      call s:add_overlay(a:lnum, a:col, a:text, a:group)
+      return
+    endif
+
+    let col = a:pos ==# 'inline' ? a:col : 0
+    let opts =  {
+          \ 'type': a:group,
+          \ 'id': s:marker_id,
+          \ 'text': a:text,
+          \ }
+    if a:pos ==# 'eol'
+      let opts.text_align = 'after'
+      let opts.text_padding_left = 1
+    elseif a:pos ==# 'right_align'
+      let opts.text_align = 'right'
+    endif
+
+    call prop_add(a:lnum, col, opts)
+  endfunction
+
+  function! s:add_overlay(lnum, col, text, group) abort
+    call prop_add(a:lnum, a:col, {
+          \ 'type': a:group,
+          \ 'id': s:marker_id,
+          \ })
+    let p_id = popup_create(a:text, {
+          \ 'line': -1,
+          \ 'col': 0,
+          \ 'textprop': a:group,
+          \ 'textpropid': s:marker_id,
+          \ 'highlight': s:namespaces[a:group].highlight
+          \ })
   endfunction
 endif
