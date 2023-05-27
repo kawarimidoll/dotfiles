@@ -1,9 +1,9 @@
 " " sample
-" nnoremap s1 <cmd>call mi#virt_text#display(line('.'), col('.'), 'foo', 'my_group', 'IncSearch', 'overlay')<cr>
-" nnoremap s2 <cmd>call mi#virt_text#display(line('.'), col('.'), 'bar', 'my_group', 'IncSearch', 'inline')<cr>
-" nnoremap s3 <cmd>call mi#virt_text#display(line('.'), col('.'), 'baz', 'my_group', 'IncSearch', 'eol')<cr>
-" nnoremap s4 <cmd>call mi#virt_text#display(line('.'), col('.'), 'quz', 'my_group', 'IncSearch', 'right_align')<cr>
-" nnoremap sn <cmd>call mi#virt_text#clear('my_group')<cr>
+" nnoremap s1 <cmd>call mi#virt_mark#display(line('.'), col('.'), 'foo', 'my_group', 'IncSearch', 'overlay')<cr>
+" nnoremap s2 <cmd>call mi#virt_mark#display(line('.'), col('.'), 'bar', 'my_group', 'Visual', 'inline')<cr>
+" nnoremap s3 <cmd>call mi#virt_mark#display(line('.'), col('.'), 'baz', 'my_group', 'Search', 'eol')<cr>
+" nnoremap s4 <cmd>call mi#virt_mark#display(line('.'), col('.'), 'quz', 'my_group', 'ErrorMsg', 'right_align')<cr>
+" nnoremap sn <cmd>call mi#virt_mark#clear('my_group')<cr>
 
 function! s:valid_pos_arg(pos) abort
   return index(['eol', 'right_align', 'overlay', 'inline'], a:pos) >= 0
@@ -14,7 +14,7 @@ let s:marker_id = 0
 if has('nvim')
   let s:ns_ids = {}
 
-  function! mi#virt_text#clear(group) abort
+  function! mi#virt_mark#clear(group) abort
     if !has_key(s:ns_ids, a:group)
       return
     endif
@@ -22,9 +22,9 @@ if has('nvim')
     unlet! s:ns_ids[a:group]
   endfunction
 
-  function! mi#virt_text#display(lnum, col, text, group, hl, pos) abort
+  function! mi#virt_mark#display(lnum, col, text, group, hl, pos) abort
     if !s:valid_pos_arg(a:pos)
-      throw '[mi#virt_text] Invalid position argument: ' .. a:pos
+      throw '[mi#virt_mark] Invalid position argument: ' .. a:pos
     endif
 
     if !has_key(s:ns_ids, a:group)
@@ -50,7 +50,7 @@ if has('nvim')
 else
   let s:prop_types = {}
 
-  function! mi#virt_text#clear(group) abort
+  function! mi#virt_mark#clear(group) abort
     if !has_key(s:prop_types, a:group)
       return
     endif
@@ -60,9 +60,9 @@ else
     unlet! s:prop_types[a:group]
   endfunction
 
-  function! mi#virt_text#display(lnum, col, text, group, hl, pos) abort
+  function! mi#virt_mark#display(lnum, col, text, group, hl, pos) abort
     if !s:valid_pos_arg(a:pos)
-      throw '[mi#virt_text] Invalid position argument: ' .. a:pos
+      throw '[mi#virt_mark] Invalid position argument: ' .. a:pos
     endif
 
     let prop_type = a:group .. '-' .. a:hl
