@@ -13,11 +13,12 @@ let g:default_highlight = 'IncSearch'
 let s:marker_id = 0
 
 if has('nvim')
-  function! mi#virt_text#add_group(group, hl) abort
+  function! mi#virt_text#add_group(group, hl = g:default_highlight) abort
     let s:namespaces[a:group] = {
           \ 'ns_id': nvim_create_namespace(a:group),
           \ 'marker_ids': [],
-          \ 'highlight': a:hl}
+          \ 'highlight': a:hl
+          \ }
   endfunction
 
   function! mi#virt_text#clear(group) abort
@@ -27,17 +28,19 @@ if has('nvim')
   endfunction
 
   function! mi#virt_text#delete_group(group) abort
-    call nvim_buf_clear_namespace(0, a:group, 0, -1)
-    unlet! s:namespaces[a:group]
+    call nvim_buf_clear_namespace(0, s:namespaces[a:group].ns_id, 0, -1)
+    if has_key(s:namespaces, a:group)
+      unlet! s:namespaces[a:group]
+    endif
   endfunction
 
   function! mi#virt_text#display(lnum, col, text, group, pos = 'eol') abort
     if !s:valid_pos_arg(a:pos)
-      throw 'Invalid position argument'
+      throw '[mi#virt_text] Invalid position argument: ' .. a:pos
     endif
 
     if !has_key(s:namespaces, a:group)
-      call mi#virt_text#add_group(a:group, g:default_highlight)
+      call mi#virt_text#add_group(a:group)
     endif
 
     let s:marker_id += 1
