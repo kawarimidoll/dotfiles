@@ -218,8 +218,12 @@ function! mi#cmdline#proxy_clear() abort
 endfunction
 
 function! mi#cmdline#proxy_convert() abort
+  if getcmdtype() !=# ':'
+    return
+  endif
   " expand abbreviations
-  call feedkeys(" \<br>", 'i')
+  " :h expr-quote
+  call feedkeys(" \b", 'i')
 
   const cmd_spec = mi#cmdline#get_spec()
   if empty(get(cmd_spec, 'cmd', ''))
