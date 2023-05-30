@@ -3,8 +3,6 @@ if exists('g:mi#ready')
 endif
 const g:mi#ready = 1
 
-delfunction! EditProjectMru
-
 call mi#git#ensure_root()
 call mi#register#clear()
 

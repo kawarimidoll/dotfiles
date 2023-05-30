@@ -680,6 +680,7 @@ command! -nargs=1 -complete=file Rename
 " remove function after startup because it is only for `$ vim -c 'call EditProjectMru()'`
 function! EditProjectMru() abort
   execute 'edit' get(mi#mru#list(v:true), 0, '')
+  call timer_start(10, {->execute('delfunction! EditProjectMru')})
 endfunction
 " }}}
 
