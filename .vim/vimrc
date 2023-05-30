@@ -102,6 +102,7 @@ set clipboard^=unnamed
 set clipboard^=unnamedplus
 set completeopt=menu,menuone,noselect
 set expandtab
+set fileencodings=ucs-bom,utf-8,iso-2022-jp-3,euc-jp,cp932
 set fillchars+=eob:\\x20
 set foldcolumn=0
 set formatoptions+=jmM1
@@ -490,6 +491,9 @@ endif
 cnoremap <cr> <cmd>call mi#cmdline#proxy_convert()<cr><cr>
 
 cnoremap <expr> <C-x> mi#magic#expr()
+
+" https://zenn.dev/monaqa/articles/2020-12-22-vim-abbrev
+cnoreabbrev <expr> w getcmdtype() ==# ':' && getcmdline() ==# "'<,'>w" ? "\<C-u>w" : 'w'
 
 " insert
 imap <c-h> <bs>
