@@ -91,6 +91,7 @@ alias stw="snap-tweet --locale ja --output-dir ~/Downloads"
 alias rgg="rg --hidden --trim --glob '!**/.git/*'"
 alias rgf="rgg --fixed-strings --"
 alias sudo='sudo '
+alias vi='vim'
 alias vimrc='vim ~/.vim/vimrc'
 alias vimrclocal='vim ~/.vimrc.local'
 alias vimprofile='vim --cmd "profile start profile.txt" --cmd "profile file ~/.vim/vimrc" -c quit'
