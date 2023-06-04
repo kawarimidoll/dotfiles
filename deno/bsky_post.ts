@@ -1,3 +1,4 @@
+import { chunk } from "https://deno.land/std@0.190.0/collections/chunk.ts";
 import AtprotoAPI from "npm:@atproto/api";
 import type { Facet } from "npm:@atproto/api";
 const { BskyAgent, RichText } = AtprotoAPI;
@@ -22,7 +23,7 @@ type ReplyRef = {
   parent: { cid: string; uri: string };
 };
 
-export const richPost = async (
+const doRichPost = async (
   text: string,
   opts: { plain?: boolean; facets?: Facet[]; reply?: ReplyRef } = {},
 ) => {
@@ -39,6 +40,26 @@ export const richPost = async (
     facets: facets,
     reply: opts.reply,
   });
+};
+
+export const richPost = async (
+  text: string,
+  opts: { plain?: boolean; facets?: Facet[]; reply?: ReplyRef } = {},
+) => {
+  if ([...text].length <= 300) {
+    return await doRichPost(text, opts);
+  }
+  const threadMarker = "[🧵]";
+  const chunks = chunk([...text], 297).map((c) => c.join(""));
+
+  const first = await doRichPost(chunks[0] + threadMarker, opts);
+  const reply = { root: opts.reply?.root || first, parent: first };
+  for (const chunk of chunks.slice(1, -1)) {
+    const parent = await doRichPost(chunk + threadMarker, { ...opts, reply });
+    reply.parent = parent;
+  }
+  await doRichPost(chunks.at(-1)!, { ...opts, reply });
+  return first;
 };
 
 const convertMdLink = (src: string) => {
