@@ -17,14 +17,27 @@ if (!identifier || !password) {
 
 await agent.login({ identifier, password });
 
-export const richPost = async (text: string, facets: Facet[] = []) => {
-  const rt = new RichText({ text, facets });
-  // automatically detects mentions and links
-  await rt.detectFacets(agent);
+type ReplyRef = {
+  root: { cid: string; uri: string };
+  parent: { cid: string; uri: string };
+};
+
+export const richPost = async (
+  text: string,
+  opts: { plain?: boolean; facets?: Facet[]; reply?: ReplyRef } = {},
+) => {
+  const rt = new RichText({ text, facets: opts.facets || [] });
+  if (!opts.plain) {
+    // automatically detects mentions and links
+    await rt.detectFacets(agent);
+  }
+  // opts.facets is used if exists (overwrites detected facets)
+  const facets = [...(rt.facets || []), ...(opts.facets || [])];
   return await agent.post({
     $type: "app.bsky.feed.post",
     text: rt.text,
-    facets: [...(rt?.facets || []), ...facets],
+    facets: facets,
+    reply: opts.reply,
   });
 };
 
@@ -56,7 +69,7 @@ const convertMdLink = (src: string) => {
 
 export const mdLinkPost = async (src: string) => {
   const { text, facets } = convertMdLink(src);
-  return await richPost(text, facets);
+  return await richPost(text, { facets });
 };
 // const { text, facets } = convertMdLink(
 //   `link test
