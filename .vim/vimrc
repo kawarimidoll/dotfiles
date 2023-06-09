@@ -368,7 +368,21 @@ noremap gm gM
 nnoremap / /\v
 nnoremap ? /\V
 
-nnoremap <C-g> 2<C-g>
+nnoremap <script> <c-g> 2<c-g><sid>(cg)
+nnoremap <sid>(cg)<c-g> <cmd>echomsg 'hello'<cr>
+nnoremap <sid>(cg)e <cmd>echomsg 'hello'<cr>
+nnoremap <sid>(cg)p <cmd>CopyFullPath<cr>
+nnoremap <sid>(cg)P <cmd>CopyFullPath!<cr>
+nnoremap <sid>(cg)d <cmd>CopyDirName<cr>
+nnoremap <sid>(cg)D <cmd>CopyDirName!<cr>
+nnoremap <sid>(cg)f <cmd>CopyFileName<cr>
+nnoremap <sid>(cg)F <cmd>CopyFileName!<cr>
+nnoremap <sid>(cg)r <cmd>CopyRelativePath<cr>
+nnoremap <sid>(cg)R <cmd>CopyRelativePath!<cr>
+nnoremap <sid>(cg)c <cmd>CopyLastCmd<cr>
+nnoremap <sid>(cg)C <cmd>CopyLastCmd!<cr>
+" nnoremap <script> <sid><c-g><c-g> <cmd>let @*=expand("%:~:.")<cr>
+nmap <sid>(cg) <nop>
 
 nnoremap s <NOP>
 nnoremap so <Cmd>execute 'source' (filereadable(@%) ? @% : '')<Bar>nohlsearch<CR>
