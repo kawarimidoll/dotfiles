@@ -398,6 +398,8 @@ nnoremap <sid>(q)/ q/
 nnoremap <sid>(q): q:
 nnoremap <sid>(q)a <Cmd>call mi#qf#add_curpos()<CR>
 nnoremap <sid>(q)c <Cmd>call mi#qf#toggle()<CR>
+nnoremap <sid>(q)d <Cmd>quit<CR>
+nnoremap <sid>(q)D <Cmd>quitall!<CR>
 nnoremap <sid>(q)g :<C-u>global/^/normal<Space>
 nnoremap <sid>(q)h <Cmd>call mi#common#half_move('left', v:count1)<CR>
 nnoremap <sid>(q)i <Cmd>call mi#common#half_move('center', v:count1)<CR>
@@ -407,6 +409,7 @@ nnoremap <sid>(q)l <Cmd>call mi#common#half_move('right', v:count1)<CR>
 nnoremap <sid>(q)o <Cmd>only!<CR>
 nnoremap <sid>(q)t <C-^>
 nnoremap <sid>(q)x <Cmd>call mi#qf#clear()<CR>
+nnoremap <sid>(q)w <Cmd>write<CR>
 " reserve for neovim
 if has('nvim')
   for c in ['d', 'z']
@@ -497,6 +500,7 @@ cnoremap <C-e> <End>
 cnoremap <C-d> <Del>
 cmap <c-h> <bs>
 cnoremap <C-r><C-r> <C-r><C-r>*
+cnoremap <c-c> <home>Capture <cr>
 cnoremap <expr> <C-k> repeat('<Del>', strchars(getcmdline()[getcmdpos() - 1:]))
 cnoremap <s-cr> <cmd>call mi#cmdline#set_by_spec(extend(mi#cmdline#get_spec(), {'bang': v:true}))<cr><cr>
 if has('nvim')
