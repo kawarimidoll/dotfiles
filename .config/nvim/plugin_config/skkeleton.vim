@@ -12,6 +12,10 @@ function! s:skkeleton_init() abort
     echoerr 'g:skk_dict_dir is not exists'
     return
   endif
+  if !exists('g:skk_wiki_dict_dir')
+    echoerr 'g:skk_wiki_dict_dir is not exists'
+    return
+  endif
 
   let l:rom_table = {
         \   'la':  ['ぁ'],
@@ -46,7 +50,8 @@ function! s:skkeleton_init() abort
     \     g:skk_dict_dir .. 'SKK-JISYO.propernoun',
     \     g:skk_dict_dir .. 'SKK-JISYO.geo',
     \     g:skk_dict_dir .. 'SKK-JISYO.station',
-    \     g:skk_dict_dir .. 'SKK-JISYO.jinmei'
+    \     g:skk_dict_dir .. 'SKK-JISYO.jinmei',
+    \     g:skk_wiki_dict_dir .. 'SKK-JISYO.jawiki'
     \  ],
     \  'immediatelyCancel': v:false,
     \  'registerConvertResult': v:true,

@@ -64,6 +64,8 @@ Plug 'Shougo/ddc-source-around', { 'on': [] }
 Plug 'vim-skk/skkeleton', { 'on': [] }
 Plug 'skk-dev/dict', { 'as': 'skk-dict' }
 let g:skk_dict_dir = g:plugs['skk-dict']['dir']
+Plug 'tokuhirom/jawiki-kana-kanji-dict', { 'as': 'skk-wiki-dict' }
+let g:skk_wiki_dict_dir = g:plugs['skk-wiki-dict']['dir']
 Plug 'kawarimidoll/mru_cache.lua'
 Plug 'haya14busa/vim-asterisk', { 'on': [] }
 Plug 'kevinhwang91/nvim-hlslens', { 'on': [] }
