@@ -397,7 +397,8 @@ Plug 'vim-jp/vimdoc-ja'
 " }}}
 call plug#end()
 
-command! PlugSync PlugUpgrade | PlugClean! | PlugInstall --sync | PlugUpdate
+command! PlugSync call system('cd ' .. g:plugs['vimdoc-ja']['dir'] .. ' && git reset --hard')
+      \ | PlugUpgrade | PlugClean! | PlugInstall --sync | PlugUpdate
 luafile ~/dotfiles/.config/nvim/plugin_config/mini.lua
 " }}}
 
