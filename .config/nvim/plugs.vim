@@ -73,6 +73,7 @@ Plug 'petertriho/nvim-scrollbar'
 Plug 'folke/which-key.nvim', { 'on': [] }
 Plug 'uga-rosa/ccc.nvim', { 'on': [] }
 Plug 'nvim-tree/nvim-web-devicons', { 'on': [] }
+Plug 'tzachar/highlight-undo.nvim'
 " Plug 'rcarriga/nvim-notify'
 Plug 'vigoux/notifier.nvim'
 Plug 'lewis6991/gitsigns.nvim'
@@ -93,6 +94,7 @@ function! s:vim_enter_plugs() abort
         \ 'which-key.nvim',
         \ 'nvim-web-devicons',
         \ 'ccc.nvim',
+        \ 'highlight-undo.nvim',
         \ )
   luafile ~/dotfiles/.config/nvim/plugin_config/mru_cache.lua
   let g:asterisk#keeppos = 1
@@ -107,6 +109,7 @@ function! s:vim_enter_plugs() abort
   lua require('ccc').setup({ highlighter = { auto_enable = true } })
   lua require('notifier').setup({})
   command! NotifierQuickfix execute 'NotifierReplay!' | copen
+  lua require('highlight-undo').setup({})
 endfunction
 autocmd VimEnter * ++once call <sid>vim_enter_plugs()
 " }}}
