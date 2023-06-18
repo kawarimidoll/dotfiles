@@ -888,7 +888,7 @@ augroup vimrc
 
   " https://zenn.dev/kawarimidoll/articles/5490567f8194a4
   " this not works in ftplugin
-  autocmd FileType markdown syntax match markdownError '\w\@<=\w\@='
+  autocmd BufNew,BufEnter * if &filetype == 'markdown' | syntax match markdownError '\w\@<=\w\@=' | endif
 
   autocmd BufNewFile * ++nested call mi#open#reopen_with_lnum()
 
