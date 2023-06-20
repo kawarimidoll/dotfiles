@@ -5,8 +5,6 @@ if !isdirectory(s:jisyo_dir)
   call mkdir(s:jisyo_dir, 'p')
 endif
 
-let s:user_jisyo_path = expand(s:jisyo_dir . '/SKK-USER')
-
 function! s:skkeleton_init() abort
   if !exists('g:skk_dict_dir')
     echoerr 'g:skk_dict_dir is not exists'
@@ -57,7 +55,8 @@ function! s:skkeleton_init() abort
     \  'registerConvertResult': v:true,
     \  'selectCandidateKeys': '1234567',
     \  'showCandidatesCount': 1,
-    \  'userJisyo': s:user_jisyo_path ,
+    \  'userJisyo': expand(s:jisyo_dir . '/SKK-USER'),
+    \  'completionRankFile': expand(s:jisyo_dir . '/rank.json'),
     \ })
   call skkeleton#register_kanatable('rom', l:rom_table)
   call skkeleton#register_keymap('input', "x", 'disable')
