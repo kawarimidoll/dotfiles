@@ -434,6 +434,21 @@ function! s:neighbor_submode_map(key, prev_rhs, next_rhs) abort
   execute printf('nnoremap <script> <SID>]%s %s<SID>]', a:key, a:next_rhs)
 endfunction
 
+" 概念的には問題ないはずだが40%キーボードで<bs>を使っているため微妙
+" function! s:neighbor_submode_map(key, prev_rhs, next_rhs) abort
+"   let sid_map = printf('<sid>(neighbor-%s)', a:key)
+"   execute printf('nmap %s <Nop>', sid_map)
+"   execute printf('nmap [%s %s%s', a:key, a:prev_rhs, sid_map)
+"   execute printf('nmap ]%s %s%s', a:key, a:next_rhs, sid_map)
+"   execute printf('nnoremap <script> %s[ %s%s', sid_map, a:prev_rhs, sid_map)
+"   execute printf('nnoremap <script> %s] %s%s', sid_map, a:next_rhs, sid_map)
+"   " for 40% keyboard
+"   execute printf('nmap <bs>%s %s%s', a:key, a:prev_rhs, sid_map)
+"   execute printf('nmap ''%s %s%s', a:key, a:next_rhs, sid_map)
+"   execute printf('nnoremap <script> %s<bs> %s%s', sid_map, a:prev_rhs, sid_map)
+"   execute printf('nnoremap <script> %s'' %s%s', sid_map, a:next_rhs, sid_map)
+" endfunction
+
 call s:neighbor_submode_map('b', '<cmd>bprevious<cr>', '<cmd>bnext<cr>')
 call s:neighbor_submode_map('q', '<cmd>call mi#qf#cycle_p()<cr>', '<cmd>call mi#qf#cycle_n()<cr>')
 call s:neighbor_submode_map('w', '<c-w>w', '<c-w>W')
