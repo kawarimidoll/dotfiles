@@ -25,6 +25,10 @@ function! mi#subs#titute(line1, line2, args) abort
   endif
 
   const args = split(a:args, delimiter)
+  if a:args[1] ==# delimiter
+    " use last search pattern
+    call insert(args, getreg('/'))
+  endif
   const from = get(args, 0, '')
   const to = get(args, 1, '')
   const flags = get(args, 2, '')
