@@ -12,6 +12,8 @@ autocmd FileType qf ++once packadd cfilter
 
 call mi#cmdline#proxy_let('trim', 'Trim')
 call mi#cmdline#proxy_let('cfilter', 'Cfilter')
+call mi#cmdline#proxy_let('s[ubstitute]', 'Substitute')
+source ~/dotfiles/.vim/autoload/mi/subs.vim
 
 if has('nvim')
 " currently no commands
