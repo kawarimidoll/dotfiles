@@ -60,18 +60,26 @@ endfunction
 
 let s:prop_type = 'substitutor#prop_type'
 
+function! s:capitalize(str) abort
+  return toupper(a:str[0]) .. a:str[1:]
+endfunction
+
 function! s:on_input()
   call s:init_highlight()
 
   const cmd_spec = mi#cmdline#get_spec()
   if get(cmd_spec, 'cmd', '') ==# '' ||
-        \ cmd_spec.cmd !~# '^s\%[ubstitute]$' ||
+        \ cmd_spec.cmd !~# '^[sS]\%[ubstitute]$' ||
         \ strlen(cmd_spec.args) < 2 ||
         \ cmd_spec.args[0] !~# s:delimiter_pattern
     return
   endif
 
-  let elements = split(cmd_spec.args, cmd_spec.args[0])
+  const elements = split(cmd_spec.args, cmd_spec.args[0])
+  if cmd_spec.args[1] ==# cmd_spec.args
+    " use last search pattern
+    call insert(elements, getreg('/'))
+  endif
   if len(elements) < 2
     return
   endif
@@ -85,17 +93,31 @@ function! s:on_input()
   let flags = get(elements, 2, '')
   let multiple = flags =~ 'g'
 
+  const [_flags, user_flags] = mi#subs#parse_flags(flags)
+  echomsg 'user_flags: ' .. user_flags
+  const flags_joiner = stridx(sub_from, '\v') >= 0 ? '|' : '\|'
+  let user_from_list = []
+  for user_flag in split(user_flags, '\zs')
+    let convert_list = mi#subs#flags_list()
+    if has_key(convert_list, user_flag)
+      let [user_from, _to] = convert_list[user_flag]('', sub_from, sub_to, '')
+      call add(user_from_list, user_from .. flags_joiner)
+    endif
+  endfor
+  let match_range_from = join(user_from_list, '') .. sub_from
+
+  " echomsg 'sub_from: ' .. sub_from
+  " echomsg 'sub_to: ' .. sub_to
+  " echomsg 'flags: ' .. flags
+  " echomsg 'match_range_from: ' .. match_range_from
+
   let s:conceal_match_ids = []
   let [range_from, range_to] = [cmd_spec.range_from, cmd_spec.range_to]
   for line_spec in s:getlines_except_folded(range_from, range_to)
-    for [match_from, match_to] in s:match_ranges(line_spec.line, sub_from, multiple)
+    for [match_from, match_to] in s:match_ranges(line_spec.line, match_range_from, multiple)
       call add(s:conceal_match_ids, matchaddpos('Conceal', [[line_spec.lnum, match_from+1, match_to-match_from]], 20))
       try
-        if sub_to =~# '\'
-          let text = substitute(line_spec.line[match_from:match_to-1], sub_from, sub_to, '')
-        else
-          let text = sub_to
-        endif
+        let text = mi#subs#line(line_spec.line[match_from:match_to-1], sub_from, sub_to, substitute(flags, 'g', '', 'g'))
       catch
         " echomsg 'caught ' .. v:exception
         let text = '<expr>'
@@ -103,6 +125,11 @@ function! s:on_input()
       call prop_add(line_spec.lnum, match_from+1, {'type': s:prop_type, 'text': text})
     endfor
   endfor
+
+  if cmd_spec.cmd[0] ==# 'S'
+    " workaround: `substitute` seems to do redraw automatically, but other commands are not so.
+    redraw
+  endif
 endfunction
 
 function! s:on_leave()
