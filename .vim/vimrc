@@ -943,6 +943,32 @@ augroup vimrc
   endfunction
   autocmd BufWritePre * call s:ensure_dir(expand('<afile>:p:h'))
   " }}}
+
+  " {{{ validate_filename
+  function! s:errormsg(message) abort
+    echohl ErrorMsg
+    echomsg a:message
+    echohl None
+  endfunction
+
+  function! s:validate_filename(filename) abort
+    const invalid_chars = '!&()[]{}<>^*=+:;''",`~?|'
+    for char in split(invalid_chars, '\zs')
+      if stridx(a:filename, char) >= 0
+        throw 'Invalid filename: ' .. a:filename
+      endif
+    endfor
+
+    const valid_extension = '\.\?[[:alnum:]]\+$'
+    if a:filename !~ valid_extension
+      throw 'Invalid filename: ' .. a:filename
+    endif
+
+    " execute 'write' a:filename
+  endfunction
+  autocmd BufWritePre * call s:validate_filename(expand('<afile>:p'))
+  " autocmd BufWriteCmd * call s:validate_filename(expand('<afile>:p'))
+  " }}}
 augroup END
 
 call timer_start(100, {->execute('source ~/dotfiles/.vim/ready.vim')})
