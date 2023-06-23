@@ -19,7 +19,7 @@ function! s:make_cases(str) abort
 endfunction
 
 const s:s_flags_pattern = '[#&cegiIlnpr]'
-function! s:partition_flags(flags) abort
+function! mi#subs#parse_flags(flags) abort
   return [
         \ substitute(a:flags, '[^#&cegiIlnpr]', '', 'g'),
         \ substitute(a:flags, s:s_flags_pattern, '', 'g'),
@@ -54,12 +54,15 @@ endfunction
 
 function! mi#subs#line(line, from, to, flags) abort
   " ensure 'e' flag to avoid to display unmatch error
-  const [builtin_flags, user_flags] = s:partition_flags(a:flags .. 'e')
+  const [builtin_flags, user_flags] = mi#subs#parse_flags(a:flags .. 'e')
+
 
   let line = a:line
   for user_flag in split(user_flags, '\zs')
     if has_key(s:subs_user_flags, user_flag)
-      let line = s:subs_user_flags[user_flag](line, a:from, a:to, builtin_flags)
+      " let line = s:subs_user_flags[user_flag](line, a:from, a:to, builtin_flags)
+      let [from, to] = mi#subs#flags_list(user_flag)(line, a:from, a:to, builtin_flags)
+      let line = substitute(line, from, to, builtin_flags)
     else
       " just skip undefined flags
       " call s:echoerr(printf('[mi#subs] undefined flag: %s. see :h s_flag', user_flag))
@@ -72,13 +75,13 @@ endfunction
 augroup subs#augroup#cased
   autocmd!
 augroup END
-function! mi#subs#cased(line, from, to, flags) abort
+function! mi#subs#cased(_line, from, to, _flags) abort
   const from = substitute(a:from, '\\<\|\\>', '', 'g')
+  const from_cases = s:make_cases(from)
+  const to_cases = s:make_cases(a:to)
   if get(g:, '_subs_last_from', '') !=# from || get(g:, '_subs_last_to', '') !=# a:to
     let g:_subs_last_from = from
     let g:_subs_last_to = a:to
-    const from_cases = s:make_cases(from)
-    const to_cases = s:make_cases(a:to)
     let g:_subs_case_dict = {}
     for i in range(len(from_cases))
       let g:_subs_case_dict[from_cases[i]] = to_cases[i]
@@ -88,11 +91,15 @@ function! mi#subs#cased(line, from, to, flags) abort
           \ unlet! g:_subs_case_dict g:_subs_last_from g:_subs_last_to
   endif
 
-  return substitute(
-        \ a:line,
+  return [
         \ printf('\C%s', join(from_cases, '\|')),
         \ printf('\=get(g:_subs_case_dict, submatch(0), submatch(0))'),
-        \ a:flags)
+        \ ]
+  " return substitute(
+  "       \ a:line,
+  "       \ printf('\C%s', join(from_cases, '\|')),
+  "       \ printf('\=get(g:_subs_case_dict, submatch(0), submatch(0))'),
+  "       \ a:flags)
 endfunction
 
 let s:subs_user_flags = {}
@@ -120,7 +127,7 @@ call mi#subs#flags_let('j', funcref('mi#subs#cased'))
 
 command! -range -nargs=+ Substitute call mi#subs#titute(<line1>, <line2>, <q-args>)
 
-" two_love TWO_LOVE TwoLove twoLove two-love two.love
+" one_hart ONE_HART OneHart oneHart one-hart one.hart
 " TWO_TIME TwoTime twoTime two-time two_time
 " two_time TWO_TIME twoTime two-time TwoTime
 " two_time TwoTime twoTime two-time TWO_TIME
