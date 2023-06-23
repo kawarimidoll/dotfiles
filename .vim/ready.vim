@@ -12,11 +12,13 @@ autocmd FileType qf ++once packadd cfilter
 
 call mi#cmdline#proxy_let('trim', 'Trim')
 call mi#cmdline#proxy_let('cfilter', 'Cfilter')
-call mi#cmdline#proxy_let('s[ubstitute]', 'Substitute')
+" call mi#cmdline#proxy_let('s[ubstitute]', 'Substitute')
 source ~/dotfiles/.vim/autoload/mi/subs.vim
 
 if has('nvim')
-" currently no commands
+  call mi#cmdline#proxy_let('L[spInfo]', 'LspInfo')
+  call mi#cmdline#proxy_let('P[lugSync]', 'PlugSync')
+  call mi#cmdline#proxy_let('p[lugsync]', 'PlugSync')
 else
   command! -nargs=* -range=% -complete=custom,mi#common#__compl_trim Trim <line1>,<line2>call mi#common#trim([<f-args>])
   command! -range=% DeleteBlankLines <line1>,<line2>call mi#common#delete_blank_lines()
