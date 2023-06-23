@@ -47,30 +47,33 @@ function! mi#subs#titute(line1, line2, args) abort
     return s:echoerr('[mi#subs] trailling characters. see :h E488')
   endif
 
-  const [builtin_flags, user_flags] = s:partition_flags(flags)
-
-  for user_flag in split(user_flags, '\zs')
-    if !has_key(s:subs_user_flags, user_flag)
-      return s:echoerr(printf('[mi#subs] undefined flag: %s. see :h s_flag', user_flag))
-    endif
-    for i in range(a:line1, a:line2)
-      call setline(i, s:subs_user_flags[user_flag](getline(i), from, to, builtin_flags))
-    endfor
+  for i in range(a:line1, a:line2)
+    call setline(i, mi#subs#line(getline(i), from, to, flags))
   endfor
-
-  execute join([
-        \ printf('%s,%s substitute', a:line1, a:line2),
-        \ from,
-        \ to,
-        \ builtin_flags .. 'e'
-        \ ], delimiter)
 endfunction
 
-augroup mi#subs#cased
+function! mi#subs#line(line, from, to, flags) abort
+  " ensure 'e' flag to avoid to display unmatch error
+  const [builtin_flags, user_flags] = s:partition_flags(a:flags .. 'e')
+
+  let line = a:line
+  for user_flag in split(user_flags, '\zs')
+    if has_key(s:subs_user_flags, user_flag)
+      let line = s:subs_user_flags[user_flag](line, a:from, a:to, builtin_flags)
+    else
+      " just skip undefined flags
+      " call s:echoerr(printf('[mi#subs] undefined flag: %s. see :h s_flag', user_flag))
+    endif
+  endfor
+
+  return substitute(line, a:from, a:to, builtin_flags)
+endfunction
+
+augroup subs#augroup#cased
   autocmd!
 augroup END
 function! mi#subs#cased(line, from, to, flags) abort
-  const from = substitute(from, '\\<\|\\>', '', 'g')
+  const from = substitute(a:from, '\\<\|\\>', '', 'g')
   if get(g:, '_subs_last_from', '') !=# from || get(g:, '_subs_last_to', '') !=# a:to
     let g:_subs_last_from = from
     let g:_subs_last_to = a:to
@@ -80,8 +83,8 @@ function! mi#subs#cased(line, from, to, flags) abort
     for i in range(len(from_cases))
       let g:_subs_case_dict[from_cases[i]] = to_cases[i]
     endfor
-    autocmd! mi#subs#cased
-    autocmd mi#subs#cased CmdlineLeave : ++once
+    autocmd! subs#augroup#cased
+    autocmd subs#augroup#cased CmdlineLeave : ++once
           \ unlet! g:_subs_case_dict g:_subs_last_from g:_subs_last_to
   endif
 
