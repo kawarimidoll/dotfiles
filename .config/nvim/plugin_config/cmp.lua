@@ -57,10 +57,33 @@ cmp.setup({
     { name = 'nvim_lua' },
     { name = 'rg' },
     -- { name = 'spell' },
-    -- { name = 'skkeleton' },
-    { name = 'look', keyword_length = 2, option = { convert_case = true, loud = true } },
+    -- { name = 'look', keyword_length = 2, option = { convert_case = true, loud = true } },
   }),
 })
+
+CmpSetSkkeleton = function()
+  vim.notify('cmp skk')
+  cmp.setup.buffer({
+    sources = cmp.config.sources({
+      { name = 'skkeleton' }
+    })
+  })
+end
+
+CmpSetCommon = function()
+  vim.notify('cmp common')
+  cmp.setup.buffer({
+    sources = cmp.config.sources({
+      { name = 'nvim_lsp' },
+      { name = 'vsnip' },
+      { name = 'cmp_tabnine' },
+      { name = 'treesitter' },
+      { name = 'buffer' },
+      { name = 'nvim_lua' },
+      { name = 'rg' },
+    })
+  })
+end
 
 -- cmp.setup.cmdline('/', {
 --   mapping = cmp.mapping.preset.cmdline(),

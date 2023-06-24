@@ -61,7 +61,7 @@ Plug 'vim-denops/denops.vim', { 'on': [] }
 Plug 'Shougo/ddc.vim', { 'on': [] }
 Plug 'Shougo/ddc-ui-pum', { 'on': [] }
 Plug 'Shougo/ddc-source-around', { 'on': [] }
-Plug 'vim-skk/skkeleton', { 'on': [] }
+Plug 'vim-skk/skkeleton', { 'branch': 'terminal', 'on': [] }
 Plug 'skk-dev/dict', { 'as': 'skk-dict' }
 let g:skk_dict_dir = g:plugs['skk-dict']['dir']
 Plug 'tokuhirom/jawiki-kana-kanji-dict', { 'as': 'skk-wiki-dict' }
@@ -295,7 +295,7 @@ Plug 'lukas-reineke/cmp-rg'
 Plug 'hrsh7th/cmp-nvim-lsp-document-symbol'
 Plug 'f3fora/cmp-spell'
 Plug 'octaltree/cmp-look'
-Plug 'rinx/cmp-skkeleton'
+Plug 'uga-rosa/cmp-skkeleton'
 Plug 'hrsh7th/vim-vsnip', { 'on': [] }
 Plug 'hrsh7th/vim-vsnip-integ', { 'on': [] }
 Plug 'rafamadriz/friendly-snippets'
@@ -318,8 +318,8 @@ function! s:insert_enter_plugs() abort
   luafile ~/dotfiles/.config/nvim/plugin_config/cmp.lua
 
   source ~/dotfiles/.config/nvim/plugin_config/skkeleton.vim
-  let g:skk_ddc_alternative = 'cmp'
-  source ~/dotfiles/.config/nvim/plugin_config/skk_ddc_alt.vim
+  " let g:skk_ddc_alternative = 'cmp'
+  " source ~/dotfiles/.config/nvim/plugin_config/skk_ddc_alt.vim
 
   execute 'luafile' g:plug_home .. '/jam.nvim/plugin/jam.lua'
   luafile ~/dotfiles/.config/nvim/plugin_config/jam.lua

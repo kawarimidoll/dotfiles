@@ -66,8 +66,11 @@ augroup skkeleton
   autocmd!
   autocmd User skkeleton-initialize-pre call <SID>skkeleton_init()
 
+  autocmd User skkeleton-enable-pre lua CmpSetSkkeleton()
+  autocmd User skkeleton-disable-pre lua CmpSetCommon()
+
   " keepState: v:false does not works in cmdline mode
-  autocmd CmdlineLeave * if skkeleton#is_enabled()
-    \ | call skkeleton#request('disable', [])
-    \ | endif
+  " autocmd CmdlineLeave * if skkeleton#is_enabled()
+  "   \ | call skkeleton#request('disable', [])
+  "   \ | endif
 augroup END
