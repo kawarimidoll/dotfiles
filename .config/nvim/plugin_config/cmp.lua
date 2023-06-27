@@ -10,6 +10,18 @@ local feedkey = function(key, mode)
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
 end
 
+local copilot_common_sources = {
+  { name = 'nvim_lsp' },
+  { name = 'vsnip' },
+  { name = 'cmp_tabnine' },
+  { name = 'treesitter' },
+  { name = 'buffer' },
+  { name = 'nvim_lua' },
+  { name = 'rg' },
+  -- { name = 'spell' },
+  -- { name = 'look', keyword_length = 2, option = { convert_case = true, loud = true } },
+}
+
 cmp.setup({
   formatting = {
     format = lspkind.cmp_format(),
@@ -48,17 +60,7 @@ cmp.setup({
       end
     end, { 'i', 's' }),
   },
-  sources = cmp.config.sources({
-    { name = 'nvim_lsp' },
-    { name = 'vsnip' },
-    { name = 'cmp_tabnine' },
-    { name = 'treesitter' },
-    { name = 'buffer' },
-    { name = 'nvim_lua' },
-    { name = 'rg' },
-    -- { name = 'spell' },
-    -- { name = 'look', keyword_length = 2, option = { convert_case = true, loud = true } },
-  }),
+  sources = cmp.config.sources(copilot_common_sources)
 })
 
 CmpSetSkkeleton = function()
@@ -73,15 +75,7 @@ end
 CmpSetCommon = function()
   vim.notify('cmp common')
   cmp.setup.buffer({
-    sources = cmp.config.sources({
-      { name = 'nvim_lsp' },
-      { name = 'vsnip' },
-      { name = 'cmp_tabnine' },
-      { name = 'treesitter' },
-      { name = 'buffer' },
-      { name = 'nvim_lua' },
-      { name = 'rg' },
-    })
+    sources = cmp.config.sources(copilot_common_sources)
   })
 end
 
