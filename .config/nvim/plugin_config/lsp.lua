@@ -27,17 +27,7 @@ local update_capabilities = function(capabilities)
   return capabilities
 end
 
-vim.keymap.set('n', '<space>p', function()
-  if vim.lsp.buf.format then
-    vim.lsp.buf.format({
-      filter = function(client)
-        return client.name ~= 'vtsls' and client.name ~= 'jsonls'
-      end,
-    })
-  else
-    vim.lsp.buf.formatting()
-  end
-end, { silent = true })
+vim.keymap.set('n', '<space>p', vim.lsp.buf.format, { silent = true })
 
 local mason_lspconfig = require('mason-lspconfig')
 mason_lspconfig.setup_handlers({
