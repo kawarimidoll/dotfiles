@@ -301,7 +301,8 @@ Plug 'hrsh7th/vim-vsnip-integ', { 'on': [] }
 Plug 'rafamadriz/friendly-snippets'
 Plug 'Shougo/pum.vim'
 Plug 'uga-rosa/jam.nvim', { 'on': [] }
-Plug 'github/copilot.vim', { 'on': [] }
+Plug 'zbirenbaum/copilot.lua'
+Plug 'zbirenbaum/copilot-cmp'
 let g:copilot_no_tab_map = v:true
 function! s:insert_enter_plugs() abort
   if get(g:, 'insert_entered')
@@ -312,7 +313,6 @@ function! s:insert_enter_plugs() abort
         \ 'vim-vsnip',
         \ 'vim-vsnip-integ',
         \ 'jam.nvim',
-        \ 'copilot.vim',
         \ )
   source ~/dotfiles/.config/nvim/plugin_config/vsnip.vim
   luafile ~/dotfiles/.config/nvim/plugin_config/cmp.lua
@@ -324,7 +324,7 @@ function! s:insert_enter_plugs() abort
   execute 'luafile' g:plug_home .. '/jam.nvim/plugin/jam.lua'
   luafile ~/dotfiles/.config/nvim/plugin_config/jam.lua
 
-  imap <silent><script><expr> <c-g><c-g> copilot#Accept("")
+  " imap <silent><script><expr> <c-g><c-g> copilot#Accept("")
   highlight CopilotSuggestion ctermfg=244 guifg=#808080 gui=underline
 endfunction
 autocmd InsertEnter * ++once call <sid>insert_enter_plugs()

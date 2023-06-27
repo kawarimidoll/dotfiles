@@ -2,15 +2,22 @@ local cmp = require('cmp')
 local lspkind = require('lspkind')
 
 local has_words_before = function()
+  if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then return false end
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  return col ~= 0
-    and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
+  return col ~= 0 and vim.api.nvim_buf_get_text(0, line-1, 0, line-1, col, {})[1]:match("^%s*$") == nil
 end
 local feedkey = function(key, mode)
-  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
+  vim.api.nvim_feedkeys(vim.keycode(key), mode, true)
 end
 
+require("copilot").setup({
+  suggestion = { enabled = false },
+  panel = { enabled = false },
+})
+require("copilot_cmp").setup()
+
 local copilot_common_sources = {
+  { name = 'copilot' },
   { name = 'nvim_lsp' },
   { name = 'vsnip' },
   { name = 'cmp_tabnine' },
@@ -24,7 +31,11 @@ local copilot_common_sources = {
 
 cmp.setup({
   formatting = {
-    format = lspkind.cmp_format(),
+    format = lspkind.cmp_format({
+      mode = "symbol",
+      max_width = 50,
+      symbol_map = { Copilot = "" }
+    })
   },
   snippet = {
     expand = function(args)
