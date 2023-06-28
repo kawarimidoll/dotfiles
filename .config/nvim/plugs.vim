@@ -3,13 +3,15 @@ source ~/dotfiles/.vim/vimrc
 let g:markdown_fenced_languages = ['ts=typescript', 'js=javascript']
 
 " {{{ commands.vim
-source ~/dotfiles/.config/nvim/commands.vim
-let g:my_vimrc = expand('<sfile>:p')
+autocmd VimEnter * ++once
+      \ source ~/dotfiles/.config/nvim/commands.vim
+" let g:my_vimrc = expand('<sfile>:p')
 " Keymap nx gf <Cmd>SmartOpen<CR>
 " }}}
 
 " {{{ override completion behavior
-luafile ~/dotfiles/.config/nvim/override_neovim_completion.lua
+autocmd InsertEnter * ++once
+      \ luafile ~/dotfiles/.config/nvim/override_neovim_completion.lua
 " }}}
 
 " {{{ Plugs
