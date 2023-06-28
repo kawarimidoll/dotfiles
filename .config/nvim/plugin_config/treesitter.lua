@@ -74,3 +74,5 @@ require('nvim-treesitter.configs').setup({
   yati = { enable = true },
   -- }}}
 })
+
+vim.api.nvim_exec2('TSEnable highlight', {})

@@ -148,8 +148,7 @@ Plug 'williamboman/mason.nvim'
 Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'jose-elias-alvarez/null-ls.nvim'
 Plug 'ray-x/lsp_signature.nvim'
-Plug 'j-hui/fidget.nvim'
-Plug 'onsails/lspkind.nvim'
+Plug 'j-hui/fidget.nvim', { 'tag': 'legacy' }
 Plug 'folke/neodev.nvim'
 function! s:lsp_init() abort
   if exists(':LspInfo') == 2
@@ -157,7 +156,6 @@ function! s:lsp_init() abort
   end
   call plug#load('nvim-lspconfig')
   lua require('lsp_signature').setup()
-  lua require('lspkind').init({ mode = 'symbol_text' })
   execute 'luafile' g:plug_home .. '/nvim-lspconfig/plugin/lspconfig.lua'
   luafile ~/dotfiles/.config/nvim/plugin_config/lsp.lua
   luafile ~/dotfiles/.config/nvim/plugin_config/null_ls.lua
@@ -178,10 +176,10 @@ nnoremap gR <Cmd>TroubleToggle lsp_references<CR>
 " }}}
 
 " {{{ lspsaga.nvim
-Plug 'tami5/lspsaga.nvim', { 'on': ['Lspsaga'] }
+Plug 'nvimdev/lspsaga.nvim', { 'on': ['Lspsaga'] }
 nnoremap gh <Cmd>Lspsaga lsp_finder<CR>
 " nnoremap grr <Cmd>Lspsaga rename<CR>
-nnoremap gD <Cmd>Lspsaga preview_definition<CR>
+nnoremap gD <Cmd>Lspsaga peek_definition<CR>
 nnoremap ma <Cmd>Lspsaga code_action<CR>
 vnoremap ma <Cmd>Lspsaga range_code_action<CR>
 
@@ -232,6 +230,8 @@ command! -nargs=+ ExHelp call s:ex_help(<q-args>)
 set keywordprg=:ExHelp
 
 function! s:lspsaga_init() abort
+  execute 'luafile' g:plug_home .. '/lspsaga.nvim/plugin/lspsaga.lua'
+  lua require('lspsaga').setup({ lightbulb = { virtual_text = false } })
   nnoremap <C-n> <Cmd>lua require('lspsaga.action').smart_scroll_with_saga(1, '<C-n>')<CR>
   nnoremap <C-p> <Cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1, '<C-p>')<CR>
 endfunction
@@ -267,7 +267,6 @@ function! s:treesitter_init() abort
         \ )
   execute 'luafile' g:plug_home .. '/nvim-treesitter/plugin/nvim-treesitter.lua'
   luafile ~/dotfiles/.config/nvim/plugin_config/treesitter.lua
-  TSEnable highlight
 
   " do not replace to <cmd>
   omap     <silent> m :<C-u>lua require('tsht').nodes()<CR>
@@ -296,6 +295,7 @@ Plug 'hrsh7th/cmp-nvim-lsp-document-symbol'
 Plug 'f3fora/cmp-spell'
 Plug 'octaltree/cmp-look'
 Plug 'uga-rosa/cmp-skkeleton'
+Plug 'onsails/lspkind.nvim'
 Plug 'hrsh7th/vim-vsnip', { 'on': [] }
 Plug 'hrsh7th/vim-vsnip-integ', { 'on': [] }
 Plug 'rafamadriz/friendly-snippets'
