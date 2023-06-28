@@ -27,7 +27,10 @@ function s:plug_load(plug_name) abort
   " https://github.com/junegunn/vim-plug/pull/1157/files
   " vim-plug doesn't load lua scripts automatically when lazy-loading
   call plug#load(a:plug_name)
-  const lua_scripts = globpath(g:plug_home, a:plug_name .. '/plugin/**/*.lua')
+  const lua_scripts = join([
+        \ globpath(g:plug_home, a:plug_name .. '/plugin/**/*.lua'),
+        \ globpath(g:plug_home, a:plug_name .. '/after/plugin/**/*.lua'),
+        \ ], "\n")
   for script in split(lua_scripts, '[\r\n]')
     execute 'luafile' script
   endfor
@@ -71,9 +74,9 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'MunifTanjim/nui.nvim'
 " Plug 'folke/noice.nvim'
 Plug 'vim-denops/denops.vim', { 'on': [] }
-Plug 'Shougo/ddc.vim', { 'on': [] }
-Plug 'Shougo/ddc-ui-pum', { 'on': [] }
-Plug 'Shougo/ddc-source-around', { 'on': [] }
+" Plug 'Shougo/ddc.vim', { 'on': [] }
+" Plug 'Shougo/ddc-ui-pum', { 'on': [] }
+" Plug 'Shougo/ddc-source-around', { 'on': [] }
 Plug 'vim-skk/skkeleton', { 'branch': 'terminal', 'on': [] }
 Plug 'skk-dev/dict', { 'as': 'skk-dict' }
 let g:skk_dict_dir = g:plugs['skk-dict']['dir']
@@ -86,29 +89,29 @@ Plug 'petertriho/nvim-scrollbar'
 Plug 'folke/which-key.nvim', { 'on': [] }
 Plug 'uga-rosa/ccc.nvim', { 'on': [] }
 Plug 'nvim-tree/nvim-web-devicons', { 'on': [] }
-Plug 'tzachar/highlight-undo.nvim'
+Plug 'tzachar/highlight-undo.nvim', { 'on': [] }
 " Plug 'rcarriga/nvim-notify'
 Plug 'vigoux/notifier.nvim'
 Plug 'lewis6991/gitsigns.nvim'
-Plug 'anuvyklack/pretty-fold.nvim'
+" Plug 'anuvyklack/pretty-fold.nvim'
 function! s:vim_enter_plugs() abort
   if get(g:, 'vim_entered')
    return
   end
   let g:vim_entered = 1
+        " \ 'ddc.vim',
+        " \ 'ddc-ui-pum',
+        " \ 'ddc-source-around',
   call plug#load(
         \ 'denops.vim',
-        \ 'ddc.vim',
-        \ 'ddc-ui-pum',
-        \ 'ddc-source-around',
         \ 'skkeleton',
         \ 'vim-asterisk',
-        \ 'nvim-hlslens',
-        \ 'which-key.nvim',
-        \ 'nvim-web-devicons',
-        \ 'ccc.nvim',
-        \ 'highlight-undo.nvim',
         \ )
+  call s:plug_load('nvim-hlslens')
+  call s:plug_load('which-key.nvim')
+  call s:plug_load('nvim-web-devicons')
+  call s:plug_load('ccc.nvim')
+  call s:plug_load('highlight-undo.nvim')
   luafile ~/dotfiles/.config/nvim/plugin_config/mru_cache.lua
   let g:asterisk#keeppos = 1
   luafile ~/dotfiles/.config/nvim/plugin_config/hlslens.lua
@@ -117,8 +120,7 @@ function! s:vim_enter_plugs() abort
   " luafile ~/dotfiles/.config/nvim/plugin_config/notify.lua
   " luafile ~/dotfiles/.config/nvim/plugin_config/noice.lua
   luafile ~/dotfiles/.config/nvim/plugin_config/gitsigns.lua
-  lua require('pretty-fold').setup({})
-  execute 'luafile' g:plug_home .. '/ccc.nvim/plugin/ccc.lua'
+  " lua require('pretty-fold').setup({})
   lua require('ccc').setup({ highlighter = { auto_enable = true } })
   lua require('notifier').setup({})
   command! NotifierQuickfix execute 'NotifierReplay!' | copen
@@ -127,19 +129,20 @@ endfunction
 autocmd VimEnter * ++once call <sid>vim_enter_plugs()
 " }}}
 
-" {{{ load on WinEnter
+" {{{ load on WinLeave
 " Plug 'tkmpypy/chowcho.nvim', { 'on': [] }
 Plug 'levouh/tint.nvim'
-function! s:win_enter_plugs() abort
-  if get(g:, 'win_entered')
+function! s:win_leave_plugs() abort
+  if get(g:, 'win_leaveed')
    return
   end
-  let g:win_entered = 1
+  let g:win_leaveed = 1
   " call plug#load('chowcho.nvim')
   " luafile ~/dotfiles/.config/nvim/plugin_config/chowcho.lua
   luafile ~/dotfiles/.config/nvim/plugin_config/tint.lua
+  doautocmd WinLeave
 endfunction
-autocmd WinNew * ++once call <sid>win_enter_plugs()
+autocmd WinLeave * ++once call <sid>win_leave_plugs()
 " }}}
 
 " {{{ load for quickfix
@@ -292,39 +295,59 @@ autocmd BufReadPost * ++once call <sid>treesitter_init()
 " }}}
 
 " {{{ load on InsertEnter
-Plug 'hrsh7th/nvim-cmp'
-Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/cmp-buffer'
-Plug 'hrsh7th/cmp-path'
-Plug 'hrsh7th/cmp-cmdline'
-Plug 'hrsh7th/cmp-vsnip'
-Plug 'hrsh7th/cmp-nvim-lua'
-Plug 'ray-x/cmp-treesitter'
-Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
-Plug 'lukas-reineke/cmp-rg'
-Plug 'hrsh7th/cmp-nvim-lsp-document-symbol'
-Plug 'f3fora/cmp-spell'
-Plug 'octaltree/cmp-look'
-Plug 'uga-rosa/cmp-skkeleton'
-Plug 'onsails/lspkind.nvim'
+Plug 'hrsh7th/nvim-cmp', { 'on': [] }
+Plug 'hrsh7th/cmp-nvim-lsp', { 'on': [] }
+Plug 'hrsh7th/cmp-buffer', { 'on': [] }
+Plug 'hrsh7th/cmp-path', { 'on': [] }
+Plug 'hrsh7th/cmp-cmdline', { 'on': [] }
+Plug 'hrsh7th/cmp-vsnip', { 'on': [] }
+Plug 'hrsh7th/cmp-nvim-lua', { 'on': [] }
+Plug 'ray-x/cmp-treesitter', { 'on': [] }
+Plug 'tzachar/cmp-tabnine', { 'do': './install.sh', 'on': [] }
+Plug 'lukas-reineke/cmp-rg', { 'on': [] }
+Plug 'hrsh7th/cmp-nvim-lsp-document-symbol', { 'on': [] }
+Plug 'f3fora/cmp-spell', { 'on': [] }
+Plug 'octaltree/cmp-look', { 'on': [] }
+Plug 'uga-rosa/cmp-skkeleton', { 'on': [] }
+Plug 'onsails/lspkind.nvim', { 'on': [] }
 Plug 'hrsh7th/vim-vsnip', { 'on': [] }
 Plug 'hrsh7th/vim-vsnip-integ', { 'on': [] }
-Plug 'rafamadriz/friendly-snippets'
+Plug 'rafamadriz/friendly-snippets', { 'on': [] }
 Plug 'Shougo/pum.vim'
 Plug 'uga-rosa/jam.nvim', { 'on': [] }
-Plug 'zbirenbaum/copilot.lua'
-Plug 'zbirenbaum/copilot-cmp'
+Plug 'zbirenbaum/copilot.lua', { 'on': [] }
+Plug 'zbirenbaum/copilot-cmp', { 'on': [] }
+Plug 'tani/vim-typo', { 'on': []}
 let g:copilot_no_tab_map = v:true
 function! s:insert_enter_plugs() abort
   if get(g:, 'insert_entered')
     return
-  end
+  endif
   let g:insert_entered = 1
-  call plug#load(
-        \ 'vim-vsnip',
-        \ 'vim-vsnip-integ',
-        \ 'jam.nvim',
-        \ )
+
+  call s:plug_load('nvim-cmp')
+  call s:plug_load('cmp-nvim-lsp')
+  call s:plug_load('cmp-buffer')
+  call s:plug_load('cmp-path')
+  call s:plug_load('cmp-cmdline')
+  call s:plug_load('cmp-vsnip')
+  call s:plug_load('cmp-nvim-lua')
+  call s:plug_load('cmp-treesitter')
+  call s:plug_load('cmp-tabnine')
+  call s:plug_load('cmp-rg')
+  call s:plug_load('cmp-nvim-lsp-document-symbol')
+  call s:plug_load('cmp-spell')
+  call s:plug_load('cmp-look')
+  call s:plug_load('cmp-skkeleton')
+  call s:plug_load('lspkind.nvim')
+  call s:plug_load('copilot.lua')
+  call s:plug_load('copilot-cmp')
+
+  call s:plug_load('vim-vsnip')
+  call s:plug_load('vim-vsnip-integ')
+  call s:plug_load('jam.nvim')
+  call s:plug_load('vim-typo')
+
   source ~/dotfiles/.config/nvim/plugin_config/vsnip.vim
   luafile ~/dotfiles/.config/nvim/plugin_config/cmp.lua
 
@@ -332,11 +355,9 @@ function! s:insert_enter_plugs() abort
   " let g:skk_ddc_alternative = 'cmp'
   " source ~/dotfiles/.config/nvim/plugin_config/skk_ddc_alt.vim
 
-  execute 'luafile' g:plug_home .. '/jam.nvim/plugin/jam.lua'
   luafile ~/dotfiles/.config/nvim/plugin_config/jam.lua
 
-  " imap <silent><script><expr> <c-g><c-g> copilot#Accept("")
-  highlight CopilotSuggestion ctermfg=244 guifg=#808080 gui=underline
+  doautocmd InsertEnter
 endfunction
 autocmd InsertEnter * ++once call <sid>insert_enter_plugs()
 " }}}
@@ -403,7 +424,7 @@ command! VToggle call s:venn_toggle()
 " }}}
 
 " {{{ load immediately
-Plug 'anuvyklack/keymap-amend.nvim'
+" Plug 'anuvyklack/keymap-amend.nvim'
 Plug 'echasnovski/mini.nvim'
 Plug 'Shougo/context_filetype.vim'
 Plug 'vim-jp/vimdoc-ja'
