@@ -22,6 +22,17 @@ if empty(glob(s:plug_path))
   call system(printf('curl --create-dirs -fLo %s %s', s:plug_path, s:plug_url))
 endif
 
+function s:plug_load(plug_name) abort
+  " https://zenn.dev/kawarimidoll/articles/8e124a88dde820
+  " https://github.com/junegunn/vim-plug/pull/1157/files
+  " vim-plug doesn't load lua scripts automatically when lazy-loading
+  call plug#load(a:plug_name)
+  const lua_scripts = globpath(g:plug_home, a:plug_name .. '/plugin/**/*.lua')
+  for script in split(lua_scripts, '[\r\n]')
+    execute 'luafile' script
+  endfor
+endfunction
+
 " Run PlugInstall if there are missing plugins
 autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
       \ |   PlugInstall --sync | source $MYVIMRC
@@ -156,9 +167,8 @@ function! s:lsp_init() abort
   if exists(':LspInfo') == 2
     return
   end
-  call plug#load('nvim-lspconfig')
+  call s:plug_load('nvim-lspconfig')
   lua require('lsp_signature').setup()
-  execute 'luafile' g:plug_home .. '/nvim-lspconfig/plugin/lspconfig.lua'
   luafile ~/dotfiles/.config/nvim/plugin_config/lsp.lua
   luafile ~/dotfiles/.config/nvim/plugin_config/null_ls.lua
   luafile ~/dotfiles/.config/nvim/plugin_config/fidget.lua
@@ -244,11 +254,11 @@ autocmd User lspsaga.nvim ++once call s:lspsaga_init()
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate', 'on': [] }
 Plug 'nvim-treesitter/nvim-treesitter-refactor', { 'on': [] }
 Plug 'JoosepAlviste/nvim-ts-context-commentstring', { 'on': [] }
-Plug 'p00f/nvim-ts-rainbow', { 'on': [] }
+Plug 'HiPhish/nvim-ts-rainbow2', { 'on': [] }
 Plug 'romgrk/nvim-treesitter-context', { 'on': [] }
-Plug 'David-Kunz/treesitter-unit'
-Plug 'mfussenegger/nvim-ts-hint-textobject', { 'on': [] }
-Plug 'm-demare/hlargs.nvim'
+" Plug 'David-Kunz/treesitter-unit'
+" Plug 'mfussenegger/nvim-treehopper', { 'on': [] }
+Plug 'm-demare/hlargs.nvim', { 'on': [] }
 Plug 'andymass/vim-matchup', { 'on': [] }
 Plug 'yioneko/nvim-yati', { 'on': [] }
 Plug 'haringsrob/nvim_context_vt', { 'on': [] }
@@ -256,27 +266,26 @@ function! s:treesitter_init() abort
   if exists(':TSEnable') == 2
     return
   end
-  " https://zenn.dev/kawarimidoll/articles/8e124a88dde820
-  call plug#load(
-        \ 'nvim-treesitter',
-        \ 'nvim-treesitter-refactor',
-        \ 'nvim-ts-context-commentstring',
-        \ 'nvim-ts-rainbow',
-        \ 'nvim-ts-hint-textobject',
-        \ 'vim-matchup',
-        \ 'nvim-yati',
-        \ 'nvim_context_vt',
-        \ )
-  execute 'luafile' g:plug_home .. '/nvim-treesitter/plugin/nvim-treesitter.lua'
+  call s:plug_load('nvim-treesitter')
+  call s:plug_load('nvim-treesitter-refactor')
+  call s:plug_load('nvim-ts-context-commentstring')
+  call s:plug_load('nvim-ts-rainbow2')
+  " call s:plug_load('nvim-treehopper')
+  call s:plug_load('vim-matchup')
+  call s:plug_load('nvim-yati')
+  call s:plug_load('nvim_context_vt')
+  call s:plug_load('hlargs.nvim')
+
   luafile ~/dotfiles/.config/nvim/plugin_config/treesitter.lua
 
-  " do not replace to <cmd>
-  omap     <silent> m :<C-u>lua require('tsht').nodes()<CR>
-  vnoremap <silent> m :lua require('tsht').nodes()<CR>
-  xnoremap iu :lua require('treesitter-unit').select()<CR>
-  xnoremap au :lua require('treesitter-unit').select(true)<CR>
-  onoremap iu :<C-u>lua require('treesitter-unit').select()<CR>
-  onoremap au :<C-u>lua require('treesitter-unit').select(true)<CR>
+  " " do not replace to <cmd>
+  " omap     <silent> m :<C-u>lua require('tsht').nodes()<CR>
+  " vnoremap <silent> m :lua require('tsht').nodes()<CR>
+  " xnoremap iu :lua require('treesitter-unit').select()<CR>
+  " xnoremap au :lua require('treesitter-unit').select(true)<CR>
+  " onoremap iu :<C-u>lua require('treesitter-unit').select()<CR>
+  " onoremap au :<C-u>lua require('treesitter-unit').select(true)<CR>
+
   lua require('hlargs').setup()
 endfunction
 autocmd BufReadPost * ++once call <sid>treesitter_init()
@@ -373,8 +382,7 @@ Plug 'voldikss/vim-floaterm', { 'on': ['FloatermNew'] }
 Plug 'jbyuki/venn.nvim', { 'on': [] }
 function! s:venn_toggle() abort
   if !get(g:, 'venn_loaded')
-    call plug#load('venn.nvim')
-    execute 'luafile' g:plug_home .. '/venn.nvim/plugin/venn.lua'
+    call s:plug_load('venn.nvim')
     let g:venn_loaded = 1
   endif
   if get(b:, 'venn_enabled')
