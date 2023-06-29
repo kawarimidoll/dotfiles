@@ -518,7 +518,7 @@ cnoremap <C-e> <End>
 cnoremap <C-d> <Del>
 cmap <c-h> <bs>
 cnoremap <C-r><C-r> <C-r><C-r>*
-cnoremap <c-c> <home>Capture <cr>
+" cnoremap <c-c> <home>Capture <cr>
 cnoremap <expr> <C-k> repeat('<Del>', strchars(getcmdline()[getcmdpos() - 1:]))
 cnoremap <s-cr> <cmd>call mi#cmdline#set_by_spec(extend(mi#cmdline#get_spec(), {'bang': v:true}))<cr><cr>
 cnoremap <cr> <cmd>call mi#cmdline#proxy_convert()<cr><cr>
