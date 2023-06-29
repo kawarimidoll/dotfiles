@@ -368,6 +368,9 @@ noremap gm gM
 nnoremap / /\v
 nnoremap ? /\V
 
+nnoremap F<cr> {
+nnoremap f<cr> }
+
 nnoremap <script> <c-g> 2<c-g><sid>(cg)
 nnoremap <sid>(cg)<c-g> <cmd>echomsg 'hello'<cr>
 nnoremap <sid>(cg)e <cmd>echomsg 'hello'<cr>
