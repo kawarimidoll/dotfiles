@@ -159,3 +159,107 @@ function! s:select_by_char_pattern(pattern) abort
   normal! v
   call search(pattern, 'ce')
 endfunction
+
+" pos1 < pos2
+function! s:pos_gt(pos1, pos2, opts = {}) abort
+  if a:pos1[0] < a:pos2[0]
+    return v:true
+  endif
+  if a:pos2[0] < a:pos1[0]
+    return v:false
+  endif
+  let allow_eq = get(a:opts, 'allow_eq', v:false)
+  if allow_eq && a:pos1[1] == a:pos2[1]
+    return v:true
+  endif
+  if a:pos1[1] < a:pos2[1]
+    return v:true
+  endif
+  return v:false
+endfunction
+
+function! s:select_pair(stop_line) abort
+  const open_pos = searchpos('[([{]', 'bcW')
+  if open_pos[0] ==# 0
+    " not found
+    return [[0, 0], [0, 0]]
+  endif
+
+  " :h match-parens
+  let c = getline(open_pos[0])[open_pos[1] - 1]
+  const plist = split(&matchpairs, ':\|,')
+  const i = index(plist, c)
+  if i < 0
+    return
+  endif
+  let s_flags = 'W'
+  if i % 2 == 0
+    let c2 = plist[i + 1]
+  else
+    let s_flags ..= 'b'
+    let c2 = c
+    let c = plist[i - 1]
+  endif
+  if c == '['
+    let c = '\['
+    let c2 = '\]'
+  endif
+
+  const close_pos = searchpairpos(c, '', c2, s_flags)
+
+  if open_pos[0] ==# close_pos[0] && open_pos[1] ==# close_pos[1]
+    " not found
+    return [[0, 0], [0, 0]]
+  endif
+  return [open_pos, close_pos]
+endfunction
+
+function! mi#textobject#pair(i_or_a) abort
+  if a:i_or_a !=# 'i' && a:i_or_a !=# 'a'
+    throw 'invalid parameter. use i or a'
+  endif
+
+  const stop_line = line("w0")
+  const current_pos = getpos('.')[1:2]
+  const saved_view = winsaveview()
+
+  let break_idx = 0
+  while v:true
+    let [open_pos, close_pos] = s:select_pair(stop_line)
+    if open_pos[0] ==# 0
+      " not found
+      call winrestview(saved_view)
+      return
+    endif
+    call cursor(open_pos)
+    if s:pos_gt(current_pos, close_pos, {'allow_eq': v:true})
+      break
+    endif
+    if open_pos[1] > 1
+      normal! h
+    else
+      normal! k$
+    endif
+    let break_idx += 1
+    if break_idx > 100
+      call winrestview(saved_view)
+      throw 'too many roop!'
+    endif
+  endwhile
+
+  call s:exit_visual_mode()
+
+  if open_pos[0] ==# close_pos[0]
+    " use nomal mapping like vi(
+    const current_char = getline('.')[open_pos[1] - 1]
+    execute 'normal! v' .. a:i_or_a .. current_char
+    return
+  endif
+
+  normal! v
+  call cursor(close_pos)
+
+  if a:i_or_a ==# 'i'
+    normal! oloh
+  endif
+endfunction
