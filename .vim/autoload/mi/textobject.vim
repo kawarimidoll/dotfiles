@@ -263,3 +263,65 @@ function! mi#textobject#pair(i_or_a) abort
     normal! oloh
   endif
 endfunction
+
+function! s:select_quote(stop_line) abort
+  const open_pos = searchpos('["`'']', 'bcW')
+  if open_pos[0] ==# 0
+    " not found
+    return [[0, 0], [0, 0]]
+  endif
+
+  let c = getline(open_pos[0])[open_pos[1] - 1]
+  let s_flags = 'W'
+
+  const close_pos = searchpos(c, s_flags)
+
+  if open_pos[0] ==# close_pos[0] && open_pos[1] ==# close_pos[1]
+    " not found
+    return [[0, 0], [0, 0]]
+  endif
+  return [open_pos, close_pos]
+endfunction
+
+function! mi#textobject#quote(i_or_a) abort
+  if a:i_or_a !=# 'i' && a:i_or_a !=# 'a'
+    throw 'invalid parameter. use i or a'
+  endif
+
+  const stop_line = line("w0")
+  const current_pos = getpos('.')[1:2]
+  const saved_view = winsaveview()
+
+  let break_idx = 0
+  while v:true
+    let [open_pos, close_pos] = s:select_quote(stop_line)
+    if open_pos[0] ==# 0
+      " not found
+      call winrestview(saved_view)
+      return
+    endif
+    call cursor(open_pos)
+    if s:pos_gt(current_pos, close_pos, {'allow_eq': v:true})
+      break
+    endif
+    if open_pos[1] > 1
+      normal! h
+    else
+      normal! k$
+    endif
+    let break_idx += 1
+    if break_idx > 100
+      call winrestview(saved_view)
+      throw 'too many roop!'
+    endif
+  endwhile
+
+  call s:exit_visual_mode()
+
+  normal! v
+  call cursor(close_pos)
+
+  if a:i_or_a ==# 'i'
+    normal! oloh
+  endif
+endfunction

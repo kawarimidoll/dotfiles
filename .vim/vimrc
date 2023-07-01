@@ -689,6 +689,8 @@ if !has('nvim')
   Keymap xo i<space> iW
   Keymap xo ib <cmd>call mi#textobject#pair('i')<cr>
   Keymap xo ab <cmd>call mi#textobject#pair('a')<cr>
+  Keymap xo iq <cmd>call mi#textobject#quote('i')<cr>
+  Keymap xo aq <cmd>call mi#textobject#quote('a')<cr>
   " Keymap xo i<space> <cmd>call mi#textobject#between(' ', 0)<cr>
   Keymap xo a<space> <cmd>call mi#textobject#between(' ', 1)<cr>
   Keymap xo i<bar> <cmd>call mi#textobject#between("\<bar>", 0)<cr>
