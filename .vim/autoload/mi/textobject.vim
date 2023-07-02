@@ -295,6 +295,32 @@ function! mi#textobject#quote(i_or_a) abort
 
   const stop_line = line("w0")
   const current_pos = getpos('.')[1:2]
+
+  let current_char = s:get_current_char()
+
+  " when cursor is on quote char
+  if current_char =~# '["`'']'
+    call s:exit_visual_mode()
+    " use nomal mapping like vi'
+    execute 'normal! v' .. a:i_or_a .. current_char
+
+    " trim spaces around quotes
+    if a:i_or_a ==# 'a'
+      normal! o
+      let current_char = s:get_current_char()
+      if current_char =~ '\s'
+        call search('["`'']', 'W')
+      endif
+      normal! o
+      let current_char = s:get_current_char()
+      if current_char =~ '\s'
+        call search('["`'']', 'bW')
+      endif
+    endif
+
+    return
+  endif
+
   const saved_view = winsaveview()
 
   let break_idx = 0
