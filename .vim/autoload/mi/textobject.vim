@@ -5,6 +5,12 @@ function! s:exit_visual_mode() abort
   endif
 endfunction
 
+function! s:get_current_char() abort
+  " :h strpart
+  " :h strcharpart
+  return strcharpart(getline('.'), charcol('.') - 1, 1, v:true)
+endfunction
+
 " https://zenn.dev/kawarimidoll/articles/665dbd860c72cd
 function! mi#textobject#outline(params = {}) abort
   let from_parent = get(a:params, 'from_parent', 0)
@@ -251,8 +257,7 @@ function! mi#textobject#pair(i_or_a) abort
 
   if open_pos[0] ==# close_pos[0]
     " use nomal mapping like vi(
-    const current_char = getline('.')[open_pos[1] - 1]
-    execute 'normal! v' .. a:i_or_a .. current_char
+    execute 'normal! v' .. a:i_or_a .. s:get_current_char()
     return
   endif
 
