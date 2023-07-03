@@ -76,6 +76,24 @@ function! mi#utils#pick_one(list) abort
   return a:list[rand(srand()) % len(a:list)]
 endfunction
 
+" get element in list with loop
+function! mi#utils#at(list, idx) abort
+  let len = len(a:list)
+  let idx = a:idx
+  while idx < 0
+    let idx += len
+  endwhile
+  while idx > len
+    let idx -= len
+  endwhile
+  return a:list[idx]
+endfunction
+
+" :h strpart
+function! mi#utils#get_char_at(expr) abort
+  return strpart(getline(a:expr), col(a:expr) - 1, 1, v:true)
+endfunction
+
 function! mi#utils#not_q() abort
   return empty(reg_recording() .. reg_executing())
 endfunction
