@@ -77,7 +77,7 @@ function! mi#utils#pick_one(list) abort
 endfunction
 
 function! mi#utils#not_q() abort
-  return empty(reg_recording()) && empty(reg_executing())
+  return empty(reg_recording() .. reg_executing())
 endfunction
 
 " :h abbreviations
