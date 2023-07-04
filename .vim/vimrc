@@ -531,6 +531,9 @@ cnoremap <expr> . getcmdtype() == '/' && getcmdpos() > 2 && getcmdline()[getcmdp
 " https://zenn.dev/monaqa/articles/2020-12-22-vim-abbrev
 cnoreabbrev <expr> w getcmdtype() ==# ':' && getcmdline() ==# "'<,'>w" ? "\<C-u>w" : 'w'
 
+" https://zenn.dev/vim_jp/articles/2023-06-30-vim-substitute-tips
+cnoreabbrev <expr> s getcmdtype() .. getcmdline() ==# ':s' ? [getchar(), ''][1] .. "%s/" .. escape(@/, '/') .. "//g<Left><Left>" : 's'
+
 " insert
 imap <c-h> <bs>
 inoremap <silent> <C-r><C-r> <C-r><C-r>*
