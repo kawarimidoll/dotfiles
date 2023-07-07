@@ -50,7 +50,7 @@ fzf_lua.setup({
     },
   },
   grep = {
-    rg_opts = fzf_lua.config.get_global('grep.rg_opts') .. " --hidden --trim --glob '!**/.git/*'",
+    rg_opts = fzf_lua.defaults.grep.rg_opts .. " --hidden --trim --glob '!**/.git/*'",
     actions = {
       ['ctrl-g'] = '',
       ['ctrl-l'] = { fzf_lua.actions.grep_lgrep },
