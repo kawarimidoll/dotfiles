@@ -94,7 +94,7 @@ function! s:on_input()
   let multiple = flags =~ 'g'
 
   const [_flags, user_flags] = mi#subs#parse_flags(flags)
-  echomsg 'user_flags: ' .. user_flags
+  " echomsg 'user_flags: ' .. user_flags
   const flags_joiner = stridx(sub_from, '\v') >= 0 ? '|' : '\|'
   let user_from_list = []
   for user_flag in split(user_flags, '\zs')
