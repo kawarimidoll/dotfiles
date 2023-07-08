@@ -40,8 +40,7 @@ endfunction
 
 function! s:dial(cnt, sign) abort
   let cases = [s:pascal, s:camel, s:kebab, s:snake, s:scream]
-  let pos = getpos('.')
-  let col = pos[2]
+  let [lnum, col] = getpos('.')[1:2]
   let line = getline('.')
 
   let pre_cursor  = matchstr(line[:col-1], '\v[-_[:alnum:]]+$')
@@ -56,7 +55,6 @@ function! s:dial(cnt, sign) abort
     endif
 
     let words = case_obj.split(word)
-    let lnum = pos[1]
 
     let replacement = cases[(idx + a:cnt * a:sign) % len(cases)].join(words)
     let pre_match_idx = col-1-len(pre_cursor)
