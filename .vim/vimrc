@@ -92,7 +92,6 @@ command! DownloadDictFile call s:download_dict_file()
 let s:dotfiles_dict_path = expand('~/dotfiles/.config/cspell/dotfiles.txt')
 execute 'set dictionary+=' .. s:dotfiles_dict_path
 
-
 set ambiwidth=single
 set breakindent
 set breakindentopt=min:50,shift:4,sbr,list:-1

@@ -100,8 +100,8 @@ endfunction
 
 " :h abbreviations
 function! mi#utils#eatchar(pat) abort
-   const c = nr2char(getchar(0))
-   return (c =~ a:pat) ? '' : c
+  const c = nr2char(getchar(0))
+  return (c =~ a:pat) ? '' : c
 endfunc
 
 " https://github.com/thinca/config/blob/78a1d2d4725e2ff064722b48cea5b5f1c44f49f9/dotfiles/dot.vim/autoload/vimrc.vim#L151-L161
