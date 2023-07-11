@@ -962,12 +962,7 @@ augroup vimrc
   " }}}
 
   " {{{ validate_filename
-  function! s:errormsg(message) abort
-    echohl ErrorMsg
-    echomsg a:message
-    echohl None
-  endfunction
-
+  " https://zenn.dev/vim_jp/articles/f02adb4f325e51
   function! s:validate_filename(filename) abort
     const invalid_chars = '!&()[]{}<>^*=+:;''",`~?|'
     for char in split(invalid_chars, '\zs')
@@ -980,11 +975,8 @@ augroup vimrc
     if a:filename !~ valid_extension
       throw 'Invalid filename: ' .. a:filename
     endif
-
-    " execute 'write' a:filename
   endfunction
   autocmd BufWritePre * call s:validate_filename(expand('<afile>:p'))
-  " autocmd BufWriteCmd * call s:validate_filename(expand('<afile>:p'))
   " }}}
 augroup END
 
