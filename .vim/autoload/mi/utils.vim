@@ -104,6 +104,19 @@ function! mi#utils#eatchar(pat) abort
    return (c =~ a:pat) ? '' : c
 endfunc
 
+" https://github.com/thinca/config/blob/78a1d2d4725e2ff064722b48cea5b5f1c44f49f9/dotfiles/dot.vim/autoload/vimrc.vim#L151-L161
+function mi#utils#keep_cursor(cmd) abort
+  const curwin_id = win_getid()
+  const win_view = winsaveview()
+  try
+    execute a:cmd
+  finally
+    if win_getid() == curwin_id
+      call winrestview(win_view)
+    endif
+  endtry
+endfunction
+
 " echo as function
 function! mi#utils#echohl(hl) abort
   execute 'echohl' a:hl

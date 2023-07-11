@@ -748,6 +748,9 @@ endfunction
 
 command! -nargs=* -bang -complete=command Capture call mi#capture#run(<bang>0, <q-args>)
 
+" https://github.com/thinca/config/blob/78a1d2d4725e2ff064722b48cea5b5f1c44f49f9/dotfiles/dot.vim/vimrc#L1407-L1408
+command! -nargs=+ KeepCursor call mi#utils#keep_cursor(<q-args>)
+
 function! s:visualize_autocmds()
   let events = [
         \ 'FileType', 'BufNewFile', 'BufEnter', 'BufRead', 'BufWinEnter', 'WinEnter',
