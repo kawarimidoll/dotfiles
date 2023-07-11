@@ -83,6 +83,39 @@ endfunction
 
 nnoremap <buffer> gO <Cmd>call <sid>markdown_outline()<CR>
 
+function! s:markdown_open_wikilink() abort
+  " cursor is in wikilink like [[filename]], [[filename | display]]
+  if search('\V[[', 'bcn', line('.')) > 0 && search('\V]]', 'cn', line('.')) > 0
+
+    call search('[[', 'bce', line('.'))
+    noautocmd normal! l
+
+    " save current z register
+    const save_reg = getreginfo('z')
+
+    " get file name through z register
+    if search('|.{-}]]', 'cn', line('.')) > 0
+      " [[filename]]
+      noautocmd normal! "zyt|
+    else
+      " [[filename | display]]
+      noautocmd normal! "zyi[
+    endif
+    const fname = escape(trim(@z, ' '), ' ') .. '.md'
+
+    " restore z register
+    call setreg('z', save_reg)
+
+    " use timer to avoid error about re-define this function
+    return timer_start(1, {->execute('edit ' .. fname)})
+  endif
+
+  " fallback
+  call mi#open#smart_open()
+endfunction
+
+nnoremap <buffer> gf <Cmd>call <sid>markdown_open_wikilink()<CR>
+
 if exists('b:undo_ftplugin')
   let b:undo_ftplugin ..= '|'
 else
@@ -93,3 +126,4 @@ let b:undo_ftplugin ..= '| silent! nunmap <buffer> <CR>'
 let b:undo_ftplugin ..= '| silent! xunmap <buffer> <CR>'
 let b:undo_ftplugin ..= '| silent! iunmap <buffer> <C-CR>'
 let b:undo_ftplugin ..= '| silent! nunmap <buffer> gO'
+let b:undo_ftplugin ..= '| silent! nunmap <buffer> gf'
