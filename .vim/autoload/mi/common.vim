@@ -14,17 +14,20 @@ function! mi#common#__compl_trim(_a, cmdline, _p) abort
 endfunction
 
 function! mi#common#trim(ignores = []) abort range
-  const prefix = a:firstline .. ',' .. a:lastline .. 's/'
-  echomsg a:firstline a:lastline
+  let patterns = []
   if index(a:ignores, 'ignore_trailing_white_spaces') < 0
-    silent! execute prefix .. '\s\+$//'
+    call add(patterns, '\s\+$')
   endif
   if index(a:ignores, 'ignore_multiple_blank_line') < 0
-    silent! execute prefix .. '^\n\zs\n\+//'
+    call add(patterns, '^\n\zs\n\+')
   endif
   if index(a:ignores, 'ignore_blank_line_eof') < 0 && a:lastline >= line('$')
-    silent! execute '%s/\n\+\%$//'
+    call add(patterns, '\n\+\%$')
   endif
+  if empty(patterns)
+    return
+  endif
+  keeppatterns execute a:firstline .. ',' .. a:lastline .. 's/' .. join(patterns, '\|') .. '//e'
 endfunction
 
 function! mi#common#delete_blank_lines() abort range

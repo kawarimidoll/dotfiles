@@ -486,7 +486,7 @@ nnoremap <space>h <Cmd>call mi#fzf#mru()<CR>
 nnoremap <Space>m <Cmd>marks<bar>execute 'normal! `' .. input('jump to: ')<CR>
 nnoremap <expr> <Space>o mi#blank#below()
 nnoremap <expr> <Space>O mi#blank#above()
-nnoremap <Space>p <cmd>%call mi#common#trim()<cr>mzgg=G`z
+nnoremap <Space>p <cmd>KeepCursor %call mi#common#trim()<cr>mzgg=G`z
 nnoremap <Space>q <cmd>confirm quit<CR>
 nnoremap <Space>r <Cmd>registers<bar>execute 'normal "' .. input('paste reg: ') .. 'p'<CR>
 nnoremap <Space>Q <cmd>quitall!<CR>
