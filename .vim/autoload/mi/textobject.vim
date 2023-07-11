@@ -5,12 +5,6 @@ function! s:exit_visual_mode() abort
   endif
 endfunction
 
-function! s:get_current_char() abort
-  " :h strpart
-  " :h strcharpart
-  return strcharpart(getline('.'), charcol('.') - 1, 1, v:true)
-endfunction
-
 " https://zenn.dev/kawarimidoll/articles/665dbd860c72cd
 function! mi#textobject#outline(params = {}) abort
   let from_parent = get(a:params, 'from_parent', 0)
@@ -257,7 +251,7 @@ function! mi#textobject#pair(i_or_a) abort
 
   if open_pos[0] ==# close_pos[0]
     " use nomal mapping like vi(
-    execute 'normal! v' .. a:i_or_a .. s:get_current_char()
+    execute 'normal! v' .. a:i_or_a .. mi#utils#get_char_at('.')
     return
   endif
 
@@ -296,7 +290,7 @@ function! mi#textobject#quote(i_or_a) abort
   const stop_line = line("w0")
   const current_pos = getpos('.')[1:2]
 
-  let current_char = s:get_current_char()
+  let current_char = mi#utils#get_char_at('.')
 
   " when cursor is on quote char
   if current_char =~# '["`'']'
@@ -307,12 +301,12 @@ function! mi#textobject#quote(i_or_a) abort
     " trim spaces around quotes
     if a:i_or_a ==# 'a'
       normal! o
-      let current_char = s:get_current_char()
+      let current_char = mi#utils#get_char_at('.')
       if current_char =~ '\s'
         call search('["`'']', 'W')
       endif
       normal! o
-      let current_char = s:get_current_char()
+      let current_char = mi#utils#get_char_at('.')
       if current_char =~ '\s'
         call search('["`'']', 'bW')
       endif
