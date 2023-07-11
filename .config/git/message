@@ -11,8 +11,11 @@
 # [optional body]
 
 # [optional footer]
+# Co-Authored-By: username <id+username@users.noreply.github.com>
 
 # ==========
+# - https://zenn.dev/mnonamer/articles/co-author-email
+# - https://api.github.com/users/kawarimidoll
 # - https://zenn.dev/uochan/articles/2021-12-08-vim-conventional-commits
 # - https://www.conventionalcommits.org/ja/v1.0.0/
 # - https://gist.github.com/stephenparish/9941e89d80e2bc58a153#allowed-type
