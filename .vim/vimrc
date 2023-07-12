@@ -329,6 +329,9 @@ nnoremap <expr> J mi#operator#join()
 nnoremap <expr> JJ mi#operator#join() .. 'j'
 xnoremap <expr> J mi#operator#join()
 
+" like helix
+nnoremap U <c-r>
+
 " https://zenn.dev/yahomi_dev/articles/216231f2902f32
 function! s:split_line() abort
   normal! mz
