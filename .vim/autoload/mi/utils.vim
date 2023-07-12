@@ -137,6 +137,18 @@ function! mi#utils#echo_with_hl(...) abort
   echohl None
 endfunction
 
+function! mi#utils#getcharstr_with_timeout(ms)
+  let timeout = a:ms / 1000.0
+  let starttime = reltime()
+  let elapsed = reltimefloat(reltime(starttime))
+
+  while getchar(1) == 0 && elapsed < timeout
+    let elapsed = reltimefloat(reltime(starttime))
+  endwhile
+
+  return getcharstr(0)
+endfunction
+
 " run last one call in wait time
 " https://github.com/lambdalisue/gin.vim/blob/d0fc41cc65d6e08f0291fec7f146f5f6a8129108/autoload/gin/util.vim#L23-L27
 let s:debounce_timers = {}
