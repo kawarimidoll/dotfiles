@@ -200,8 +200,8 @@ vnoremap ma <Cmd>Lspsaga range_code_action<CR>
 
 nnoremap mcd <Cmd>Lspsaga show_line_diagnostics<CR>
 nnoremap mcc <Cmd>Lspsaga show_cursor_diagnostics<CR>
-nnoremap [d <Cmd>Lspsaga diagnostic_jump_prev<CR>
-nnoremap ]d <Cmd>Lspsaga diagnostic_jump_next<CR>
+" nnoremap [d <Cmd>Lspsaga diagnostic_jump_prev<CR>
+" nnoremap ]d <Cmd>Lspsaga diagnostic_jump_next<CR>
 
 function! s:ex_help(word) abort
   if index(['vim', 'help'], &filetype) >= 0
