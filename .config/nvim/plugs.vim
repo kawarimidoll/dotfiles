@@ -77,7 +77,7 @@ Plug 'vim-denops/denops.vim', { 'on': [] }
 " Plug 'Shougo/ddc.vim', { 'on': [] }
 " Plug 'Shougo/ddc-ui-pum', { 'on': [] }
 " Plug 'Shougo/ddc-source-around', { 'on': [] }
-Plug 'vim-skk/skkeleton', { 'branch': 'terminal', 'on': [] }
+Plug 'vim-skk/skkeleton', { 'on': [] }
 Plug 'skk-dev/dict', { 'as': 'skk-dict' }
 let g:skk_dict_dir = g:plugs['skk-dict']['dir']
 Plug 'tokuhirom/jawiki-kana-kanji-dict', { 'as': 'skk-wiki-dict' }
