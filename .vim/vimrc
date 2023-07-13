@@ -332,6 +332,13 @@ xnoremap <expr> J mi#operator#join()
 " like helix
 nnoremap U <c-r>
 
+" kensaku
+let g:kensaku#args = '--dict ~/.local/share/jsmigemo/no-abbrev-compact-dict'
+nnoremap J/ <cmd>call mi#kensaku#start()<cr>
+nnoremap J? <cmd>call mi#kensaku#start({ 'init': mi#kensaku#last_query() })<cr>
+nnoremap n <cmd>call mi#kensaku#next(0)<cr>
+nnoremap N <cmd>call mi#kensaku#next(1)<cr>
+
 " https://zenn.dev/yahomi_dev/articles/216231f2902f32
 function! s:split_line() abort
   normal! mz

@@ -130,10 +130,3 @@ function! mi#kensaku#start(opts = {}) abort
     call feedkeys("\<cmd>let v:hlsearch=1\<cr>", 'n')
   endif
 endfunction
-
-let g:kensaku#args = '--dict ~/.local/share/jsmigemo/no-abbrev-compact-dict'
-nnoremap J/ <cmd>call mi#kensaku#start()<cr>
-nnoremap J? <cmd>call mi#kensaku#start({ 'init': mi#kensaku#last_query() })<cr>
-nnoremap n <cmd>call mi#kensaku#next(0)<cr>
-nnoremap N <cmd>call mi#kensaku#next(1)<cr>
-" cnoremap <c-j> <cmd>call mi#kensaku#toggle()<cr>
