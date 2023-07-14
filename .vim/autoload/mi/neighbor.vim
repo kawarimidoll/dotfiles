@@ -1,6 +1,7 @@
 let s:PREV = 'prev'
 let s:NEXT = 'next'
 
+let s:timeout = &updatetime
 let s:nei_prev_keys = []
 let s:nei_next_keys = []
 
@@ -20,7 +21,7 @@ function! s:nei(dir, key) abort
       return
     endif
     redraw
-    let c = mi#utils#getcharstr_with_timeout(1000)
+    let c = mi#utils#getcharstr_with_timeout(s:timeout)
     if mi#utils#includes(s:nei_prev_keys, c)
       let dir = s:PREV
     elseif mi#utils#includes(s:nei_next_keys, c)
@@ -31,9 +32,10 @@ function! s:nei(dir, key) abort
   endwhile
 endfunction
 
-function! mi#neighbor#define_prefix(prev_keys, next_keys) abort
-  let s:nei_prev_keys = a:prev_keys
-  let s:nei_next_keys = a:next_keys
+function! mi#neighbor#setup(opts = {}) abort
+  let s:timeout = get(a:opts, 'timeout', &updatetime)
+  let s:nei_prev_keys = get(a:opts, 'prev_keys', ['['])
+  let s:nei_next_keys = get(a:opts, 'next_keys', [']'])
 endfunction
 
 function! mi#neighbor#map(key, rhs_pair) abort
@@ -48,7 +50,7 @@ function! mi#neighbor#map(key, rhs_pair) abort
   endfor
 endfunction
 
-call mi#neighbor#define_prefix(['[', "\<bs>"], [']', "'"])
+call mi#neighbor#setup({ 'timeout': 1000, 'prev_keys': ['[', "\<bs>"], 'next_keys': [']', "'"] })
 call mi#neighbor#map('b', ['bprevious', 'bnext'])
 call mi#neighbor#map('q', ['call mi#qf#cycle_p()', 'call mi#qf#cycle_n()'])
 call mi#neighbor#map('w', ['wincmd w', 'wincmd W'])
@@ -62,4 +64,3 @@ if has('nvim')
         \ "&diff ? 'normal! ]c' : 'Gitsigns next_hunk'"
         \ ])
 endif
-
