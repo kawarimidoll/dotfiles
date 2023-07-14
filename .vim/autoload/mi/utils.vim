@@ -146,6 +146,15 @@ function! mi#utils#echo_with_hl(...) abort
   echohl None
 endfunction
 
+" pos1: [lnum1, col1]
+" pos2: [lnum2, col2]
+" eq_true(optional): return true when positions are same
+function! mi#utils#pos_gt(pos1, pos2, eq_true = v:false) abort
+  return a:pos1[0] != a:pos2[0] ? a:pos1[0] < a:pos2[0]
+        \ : a:pos1[1] != a:pos2[1] ? a:pos1[1] < a:pos2[1]
+        \ : a:eq_true
+endfunction
+
 function! mi#utils#getcharstr_with_timeout(ms)
   let timeout = a:ms / 1000.0
   let starttime = reltime()
