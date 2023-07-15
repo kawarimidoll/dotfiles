@@ -161,7 +161,8 @@ function! s:select_by_char_pattern(pattern) abort
 endfunction
 
 function! s:select_pair(stop_line) abort
-  const open_pos = searchpos('[([{]', 'bcW')
+  const open_pattern = join(repeat(['[([{]'], v:count1), '.*')
+  const open_pos = searchpos(open_pattern, 'bcW')
   if open_pos[0] ==# 0
     " not found
     return [[0, 0], [0, 0]]
