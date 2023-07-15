@@ -160,24 +160,6 @@ function! s:select_by_char_pattern(pattern) abort
   call search(pattern, 'ce')
 endfunction
 
-" pos1 < pos2
-function! s:pos_gt(pos1, pos2, opts = {}) abort
-  if a:pos1[0] < a:pos2[0]
-    return v:true
-  endif
-  if a:pos2[0] < a:pos1[0]
-    return v:false
-  endif
-  let allow_eq = get(a:opts, 'allow_eq', v:false)
-  if allow_eq && a:pos1[1] == a:pos2[1]
-    return v:true
-  endif
-  if a:pos1[1] < a:pos2[1]
-    return v:true
-  endif
-  return v:false
-endfunction
-
 function! s:select_pair(stop_line) abort
   const open_pos = searchpos('[([{]', 'bcW')
   if open_pos[0] ==# 0
@@ -232,7 +214,7 @@ function! mi#textobject#pair(i_or_a) abort
       return
     endif
     call cursor(open_pos)
-    if s:pos_gt(current_pos, close_pos, {'allow_eq': v:true})
+    if mi#utils#pos_gt(current_pos, close_pos, v:true)
       break
     endif
     if open_pos[1] > 1
@@ -326,7 +308,7 @@ function! mi#textobject#quote(i_or_a) abort
       return
     endif
     call cursor(open_pos)
-    if s:pos_gt(current_pos, close_pos, {'allow_eq': v:true})
+    if mi#utils#pos_gt(current_pos, close_pos, v:true)
       break
     endif
     if open_pos[1] > 1
