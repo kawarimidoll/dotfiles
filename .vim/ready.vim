@@ -10,6 +10,8 @@ autocmd TextYankPost * call mi#register#collect_yank_history(10)
 autocmd BufEnter,BufReadPost * call mi#mru#save()
 autocmd FileType qf ++once packadd cfilter
 
+command! -bang SearchToQf execute (<bang>0 ? 'vimgrepadd' : 'vimgrep') '//j %' | cwindow
+
 call mi#cmdline#proxy_let('trim', 'Trim')
 call mi#cmdline#proxy_let('cfilter', 'Cfilter')
 " call mi#cmdline#proxy_let('s[ubstitute]', 'Substitute')
