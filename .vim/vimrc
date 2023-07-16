@@ -689,6 +689,8 @@ if !has('nvim')
     execute 'Keymap xo i' .. c .. ' <cmd>call mi#textobject#between(''' .. c .. ''', 0)<cr>'
     execute 'Keymap xo a' .. c .. ' <cmd>call mi#textobject#between(''' .. c .. ''', 1)<cr>'
   endfor
+  Keymap xo i? <cmd>call mi#textobject#input(0)<cr>
+  Keymap xo a? <cmd>call mi#textobject#input(1)<cr>
 endif
 
 " {{{ Rename

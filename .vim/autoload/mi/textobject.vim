@@ -157,6 +157,39 @@ function! s:select_by_char_pattern(pattern) abort
   call search(pattern, 'ce')
 endfunction
 
+function! mi#textobject#input(around) abort
+  echo 'Left edge: '
+  const left_char = escape(getcharstr(), '^$[.*\')
+  redraw
+  echo 'Left edge: ' .. left_char .. ', Right edge: '
+  const right_char = escape(getcharstr(), '^$[.*\')
+  redraw
+
+  const left_pos = searchpos(left_char, 'cnb', line('w0'))
+  if left_pos[0] == 0
+    echo 'Left edge: ' .. left_char .. ' is not found in current view.'
+    return
+  endif
+  const right_pos = searchpos(right_char, 'cne', line('w%'))
+  if right_pos[0] == 0
+    echo 'Right edge: ' .. right_char .. ' is not found in current view.'
+    return
+  endif
+  echo 'Left edge: ' .. left_char .. ', Right edge: ' .. right_char
+
+  call s:exit_visual_mode()
+
+  call cursor(left_pos)
+  if !a:around
+    normal! l
+  endif
+  normal! v
+  call cursor(right_pos)
+  if !a:around
+    normal! h
+  endif
+endfunction
+
 function! s:select_pair(stop_line) abort
   const open_pattern = join(repeat(['[([{]'], v:count1), '.*')
   const open_pos = searchpos(open_pattern, 'bcW')
