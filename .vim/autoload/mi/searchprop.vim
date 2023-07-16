@@ -36,7 +36,11 @@ function! s:update_searchprop(timer) abort
     return
   endif
 
-  let search_spec = searchcount({'recompute': 1, 'maxcount': 0, 'timeout': 100})
+  try
+    let search_spec = searchcount({'recompute': 1, 'maxcount': 0, 'timeout': 100})
+  catch /^Vim\%((\a\+)\)\=:E866:/
+    return
+  endtry
 
   if empty(search_spec) || !search_spec.exact_match
     return
