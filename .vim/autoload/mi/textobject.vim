@@ -118,10 +118,7 @@ function! mi#textobject#datetime() abort
 endfunction
 
 function! mi#textobject#between(char, around) abort
-  let char = a:char
-  if stridx('^$[.*\', char) > 0
-    let char = '\' .. char
-  endif
+  let char = escape(a:char, '^$[.*\')
   let left_limit = char .. '[^' .. a:char .. ']'
   let right_limit = '[^' .. a:char .. ']' .. char
 
