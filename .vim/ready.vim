@@ -42,3 +42,6 @@ else
   highlight! link StatusLineNC GamingFg
   call mi#gaming#start()
 endif
+
+silent! delmarks ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890
+silent! delmarks!
