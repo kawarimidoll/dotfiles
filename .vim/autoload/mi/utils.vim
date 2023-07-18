@@ -156,6 +156,10 @@ function! mi#utils#pos_gt(pos1, pos2, eq_true = v:false) abort
 endfunction
 
 function! mi#utils#getcharstr_with_timeout(ms)
+  if a:ms <= 0
+    return getcharstr()
+  endif
+
   let timeout = a:ms / 1000.0
   let starttime = reltime()
   let elapsed = reltimefloat(reltime(starttime))
