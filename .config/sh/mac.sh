@@ -53,7 +53,7 @@ __source "${BREW_PREFIX}/opt/zsh-fast-syntax-highlighting/share/zsh-fast-syntax-
 export MAKEFLAGS="--jobs $(sysctl -n hw.ncpu)"
 export RUBY_CONFIGURE_OPTS="--disable-install-doc --disable-install-rdoc"
 
-export HOMEBREW_UPDATE_REPORT_ALL_FORMULAE=1
+# export HOMEBREW_UPDATE_REPORT_ALL_FORMULAE=1
 export OBSIDIAN_VAULT="${HOME}/Dropbox/Obsidian"
 
 alias brewer="sh ${DOT_OS_DIR}/brewer.sh"
