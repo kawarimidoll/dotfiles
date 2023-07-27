@@ -503,8 +503,31 @@ cnoremap <expr> <C-k> repeat('<Del>', strchars(getcmdline()[getcmdpos() - 1:]))
 cnoremap <s-cr> <cmd>call mi#cmdline#set_by_spec(extend(mi#cmdline#get_spec(), {'bang': v:true}))<cr><cr>
 cnoremap <cr> <cmd>call mi#cmdline#proxy_convert()<cr><cr>
 cnoremap <expr> <C-x> mi#magic#expr()
-cnoremap <expr> v getcmdtype() == ':' && getcmdline() == 's' ? '<c-u>saveas ' .. @% : 'v'
-cnoremap <expr> s getcmdtype() == ':' && getcmdline() =~ '^plu\?g$' ? '<c-u>PlugSync' : 's'
+
+" {{{ Cabbrev
+function! s:cmd_abbrev(raw_rhs, cmd_lhs, ...) abort
+  const rhs = join(a:000, ' ')
+  const lhs_without_last = substitute(a:cmd_lhs, '.$', '', '')
+  const lhs_last = a:cmd_lhs[-1:-1]
+  const fmt = "cnoremap <expr> %s getcmdtype() .. getcmdline() ==# ':%s' ? "
+        \ ..  "'<c-u>' .. " .. (a:raw_rhs ? "%s" : "'%s'") .. " : '%s'"
+  const expr = printf(fmt, lhs_last, lhs_without_last, rhs, lhs_last)
+  echomsg expr
+  execute expr
+endfunction
+command! -nargs=+ -bang Cabbrev call s:cmd_abbrev(<bang>0, <f-args>)
+" }}}
+
+Cabbrev cap Capture
+Cabbrev plgs PlugSync
+Cabbrev plugs PlugSync
+Cabbrev! sv 'saveas ' .. @%
+Cabbrev! rn 'Rename ' .. @%
+Cabbrev! ss '%s/' .. escape(@/, '/') .. '//g<Left><Left>'
+
+" cnoremap <expr> v getcmdtype() == ':' && getcmdline() == 's' ? '<c-u>saveas ' .. @% : 'v'
+" cnoremap <expr> n getcmdtype() == ':' && getcmdline() == 'r' ? '<c-u>Rename ' .. @% : 'n'
+" cnoremap <expr> s getcmdtype() == ':' && getcmdline() =~ '^plu\?g$' ? '<c-u>PlugSync' : 's'
 cnoremap <expr> . getcmdtype() == '/' && getcmdpos() > 2 && getcmdline()[getcmdpos()-2] == ',' ?
       \ '<c-u>\<' .. substitute(getcmdline()[:-2], '\\v', '', 'gi') .. '\>' : '.'
 
@@ -512,7 +535,7 @@ cnoremap <expr> . getcmdtype() == '/' && getcmdpos() > 2 && getcmdline()[getcmdp
 cnoreabbrev <expr> w getcmdtype() .. getcmdline() ==# ":'<,'>w" ? "\<C-u>w" : 'w'
 
 " https://zenn.dev/vim_jp/articles/2023-06-30-vim-substitute-tips
-cnoreabbrev <expr> s getcmdtype() .. getcmdline() ==# ':s' ? [getchar(), ''][1] .. "%s/" .. escape(@/, '/') .. "//g<Left><Left>" : 's'
+" cnoreabbrev <expr> s getcmdtype() .. getcmdline() ==# ':s' ? [getchar(), ''][1] .. "%s/" .. escape(@/, '/') .. "//g<Left><Left>" : 's'
 
 " insert
 imap <c-h> <bs>
