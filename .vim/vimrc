@@ -505,15 +505,20 @@ cnoremap <cr> <cmd>call mi#cmdline#proxy_convert()<cr><cr>
 cnoremap <expr> <C-x> mi#magic#expr()
 
 " {{{ Cabbrev
+let s:abbrevs = {}
 function! s:cmd_abbrev(raw_rhs, cmd_lhs, ...) abort
   const rhs = join(a:000, ' ')
   const lhs_without_last = substitute(a:cmd_lhs, '.$', '', '')
   const lhs_last = a:cmd_lhs[-1:-1]
-  const fmt = "cnoremap <expr> %s getcmdtype() .. getcmdline() ==# ':%s' ? "
-        \ ..  "'<c-u>' .. " .. (a:raw_rhs ? "%s" : "'%s'") .. " : '%s'"
-  const expr = printf(fmt, lhs_last, lhs_without_last, rhs, lhs_last)
-  echomsg expr
-  execute expr
+  const fallback = get(s:abbrevs, lhs_last, "'" .. lhs_last .. "'")
+  const fmt1 = "getcmdtype() .. getcmdline() ==# ':%s' ? "
+        \ ..  "'<c-u>' .. " .. (a:raw_rhs ? "%s" : "'%s'") .. " : %s"
+  const expr1 = printf(fmt1, lhs_without_last, rhs, fallback)
+  let s:abbrevs[lhs_last] = expr1
+  const fmt2 = "cnoremap <expr> %s %s"
+  const expr2 = printf(fmt2, lhs_last, expr1)
+  " echomsg expr2
+  execute expr2
 endfunction
 command! -nargs=+ -bang Cabbrev call s:cmd_abbrev(<bang>0, <f-args>)
 " }}}
