@@ -504,35 +504,34 @@ cnoremap <s-cr> <cmd>call mi#cmdline#set_by_spec(extend(mi#cmdline#get_spec(), {
 cnoremap <cr> <cmd>call mi#cmdline#proxy_convert()<cr><cr>
 cnoremap <expr> <C-x> mi#magic#expr()
 
-" {{{ Cabbrev
+" {{{ AbbrevCmd
 " expand abbreviations immediately in command-line
-let s:abbrevs = {}
-function! s:cmd_abbrev(raw_rhs, cmd_lhs, ...) abort
-  const rhs = a:raw_rhs ? join(a:000, ' ') :
-        \ "'" .. substitute(join(a:000, ' '), "'", "''", 'g') .. "'"
-  const lhs_without_last = substitute(a:cmd_lhs, '.$', '', '')
-  const lhs_last = a:cmd_lhs[-1:-1]
-  const fallback = get(s:abbrevs, lhs_last, "'" .. lhs_last .. "'")
-  const fmt1 = "getcmdtype() .. getcmdline() ==# ':%s' ? '<c-u>' .. %s : %s"
-  const expr1 = printf(fmt1, lhs_without_last, rhs, fallback)
-  let s:abbrevs[lhs_last] = expr1
-  const fmt2 = "cnoremap <expr> %s %s"
-  const expr2 = printf(fmt2, lhs_last, expr1)
+let s:abbrev_cmds = {}
+function! s:abbrev_cmd(raw_rhs, cmd_lhs, ...) abort
+  const rhs = a:raw_rhs ? "'<c-u>'.." .. join(a:000, ' ') :
+        \ "'<c-u>" .. substitute(join(a:000, ' '), "'", "''", 'g') .. "'"
+  const lhs_except_last = slice(a:cmd_lhs, 0, -1)
+  const lhs_last = slice(a:cmd_lhs, -1)
+  const fmt1 = "%s':%s':%s,"
+  const expr1 = printf(fmt1, get(s:abbrev_cmds, lhs_last, ""), lhs_except_last, rhs)
+  let s:abbrev_cmds[lhs_last] = expr1
+  const fmt2 = "cnoremap <expr> %s get({%s},getcmdtype()..getcmdline(),'%s')"
+  const expr2 = printf(fmt2, lhs_last, expr1, lhs_last)
   " echomsg expr2
   execute expr2
 endfunction
-command! -nargs=+ -bang Cabbrev call s:cmd_abbrev(<bang>0, <f-args>)
+command! -nargs=+ -bang AbbrevCmd call s:abbrev_cmd(<bang>0, <f-args>)
 " }}}
 
-Cabbrev cap Capture
-Cabbrev yep echo 'yep'
-Cabbrev mes messages
-Cabbrev plgs PlugSync
-Cabbrev plugs PlugSync
-Cabbrev! sv 'saveas ' .. @%
-Cabbrev! rn 'Rename ' .. @%
-Cabbrev! ss '%s/' .. @/ .. '//g<Left><Left>'
-" Cabbrev! ss '%s/' .. @/ .. "//g\<Left>\<Left>" olso ok
+AbbrevCmd cap Capture
+AbbrevCmd yep echo 'yep'
+AbbrevCmd mes messages
+AbbrevCmd plgs PlugSync
+AbbrevCmd plugs PlugSync
+AbbrevCmd! sv 'saveas ' .. @%
+AbbrevCmd! rn 'Rename ' .. @%
+AbbrevCmd! ss '%s/' .. @/ .. '//g<Left><Left>'
+" AbbrevCmd! ss '%s/' .. @/ .. "//g\<Left>\<Left>" olso ok
 
 " cnoremap <expr> v getcmdtype() == ':' && getcmdline() == 's' ? '<c-u>saveas ' .. @% : 'v'
 " cnoremap <expr> n getcmdtype() == ':' && getcmdline() == 'r' ? '<c-u>Rename ' .. @% : 'n'
