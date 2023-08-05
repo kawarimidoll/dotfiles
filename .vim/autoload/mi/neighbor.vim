@@ -60,7 +60,7 @@ call mi#neighbor#map('p', ['normal! {', 'normal! }'])
 if has('nvim')
   call mi#neighbor#map('d', ['Lspsaga diagnostic_jump_prev', 'Lspsaga diagnostic_jump_next'])
   call mi#neighbor#map('c', [
-        \ "&diff ? 'normal! [c' : 'Gitsigns prev_hunk'",
-        \ "&diff ? 'normal! ]c' : 'Gitsigns next_hunk'"
+        \ &diff ? 'normal! [c' : 'Gitsigns prev_hunk',
+        \ &diff ? 'normal! ]c' : 'Gitsigns next_hunk'
         \ ])
 endif
