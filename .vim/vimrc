@@ -485,7 +485,7 @@ nnoremap <C-f> <Cmd>set scroll=0<CR><Cmd>execute 'normal!' repeat('<C-d>', v:cou
 nnoremap <C-b> <Cmd>set scroll=0<CR><Cmd>execute 'normal!' repeat('<C-u>', v:count1 * 2)<CR>
 
 " command
-cnoremap <expr> s getcmdtype() == ':' && getcmdline() == 's' ? '<BS>%s/' : 's'
+" cnoremap <expr> s getcmdtype() == ':' && getcmdline() == 's' ? '<BS>%s/' : 's'
 cnoremap <expr> % getcmdtype() == ':' && getcmdpos() > 2 && getcmdline()[getcmdpos()-2] == '%' ?
       \ '<BS>' .. expand('%:h') .. '/' : '%'
 cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
@@ -526,6 +526,9 @@ command! -nargs=+ -bang AbbrevCmd call s:abbrev_cmd(<bang>0, <f-args>)
 AbbrevCmd cap Capture
 AbbrevCmd yep echo 'yep'
 AbbrevCmd mes messages
+AbbrevCmd ec echo
+AbbrevCmd ed edit
+AbbrevCmd en enew
 AbbrevCmd plgs PlugSync
 AbbrevCmd plugs PlugSync
 AbbrevCmd! sv 'saveas ' .. @%
