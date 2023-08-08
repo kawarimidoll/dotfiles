@@ -76,3 +76,7 @@ vtsls
 webp
 wezterm
 zenn
+reply
+repost
+virt
+xrpc
