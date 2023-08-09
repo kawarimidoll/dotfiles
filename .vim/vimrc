@@ -523,7 +523,13 @@ endfunction
 command! -nargs=+ -bang AbbrevCmd call s:abbrev_cmd(<bang>0, <f-args>)
 " }}}
 
+AbbrevCmd cfi Cfilter
 AbbrevCmd cap Capture
+AbbrevCmd coc CopyLastCmd
+AbbrevCmd cod CopyDirName
+AbbrevCmd cof CopyFileName
+AbbrevCmd coa CopyFullPath
+AbbrevCmd cor CopyRelativePath
 AbbrevCmd yep echo 'yep'
 AbbrevCmd mes messages
 AbbrevCmd ec echo
