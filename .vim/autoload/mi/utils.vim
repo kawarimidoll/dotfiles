@@ -155,6 +155,31 @@ function! mi#utils#pos_gt(pos1, pos2, eq_true = v:false) abort
         \ : a:eq_true
 endfunction
 
+function! mi#utils#match_at(pattern) abort
+  if mode() !=# 'n'
+    " not in normal mode
+    return [[0, 0], [0, 0], '']
+  endif
+  let wv = winsaveview()
+  let current_pos = getpos('.')[1:2]
+  let start_pos = searchpos(a:pattern, 'bcW')
+  if start_pos[0] == 0
+    call winrestview(wv)
+    return [[0, 0], [0, 0], '']
+  endif
+  normal! v
+  let end_pos = searchpos(a:pattern, 'ceW')
+  if mi#utils#pos_gt(current_pos, start_pos) || mi#utils#pos_gt(end_pos, current_pos)
+    normal! v
+    call winrestview(wv)
+    return [[0, 0], [0, 0], '']
+  endif
+  let matched = mi#utils#get_current_selection()
+  normal! v
+  call winrestview(wv)
+  return [start_pos, end_pos, matched]
+endfunction
+
 function! mi#utils#getcharstr_with_timeout(ms)
   if a:ms <= 0
     return getcharstr()
