@@ -1,4 +1,4 @@
-timestamp: 2023-06-30 08:43:07 JST
+timestamp: 2023-08-10 22:14:06 JST
 tap: a-know/tap
 tap: harelba/q
 tap: he3-app/he3
@@ -83,6 +83,7 @@ brew: gping
 brew: grep
 brew: grex
 brew: gti
+brew: guile
 brew: gum
 brew: gzip
 brew: helix
@@ -282,11 +283,11 @@ cask: warp
 cask: wezterm
 cask: wooshy
 cask: xbar
-mas: 1099120373  Exporter           (3.1.5)
+mas: 1099120373  Exporter           (3.1.7)
 mas: 1110524423  Battery Widget     (1.1)
 mas: 1158642554  Desktop Lens       (4.0.6)
-mas: 1187772509  stts               (2.18)
-mas: 1233965871  ScreenBrush        (1.8.2)
+mas: 1187772509  stts               (2.19)
+mas: 1233965871  ScreenBrush        (1.8.5)
 mas: 1328847392  Processes Monitor  (1.6)
 mas: 1351639930  Gifski             (2.22.3)
 mas: 1429033973  RunCat             (10.3)
@@ -295,11 +296,11 @@ mas: 1522267256  Shareful           (1.9.0)
 mas: 1545870783  Color Picker       (1.13.1)
 mas: 1563735522  Charmstone         (0.29)
 mas: 1569290801  ItemStock          (1.0)
-mas: 1575588022  MenubarX           (1.6.2)
-mas: 1581223559  Magic              (3.0)
+mas: 1575588022  MenubarX           (1.6.3)
+mas: 1581223559  Magic              (3.3.1)
 mas: 1586304988  Messer             (2.1.19)
 mas: 1596706466  Speediness         (1.6.1)
-mas: 1611378436  Pure Paste         (1.8.3)
+mas: 1611378436  Pure Paste         (1.8.4)
 mas: 1615988943  Folder Peek        (1.8.2)
 mas: 1621370168  WorldWideWeb       (2.0)
 mas: 497799835   Xcode              (14.3.1)
