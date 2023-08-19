@@ -318,6 +318,7 @@ Plug 'uga-rosa/jam.nvim', { 'on': [] }
 Plug 'zbirenbaum/copilot.lua', { 'on': [] }
 Plug 'zbirenbaum/copilot-cmp', { 'on': [] }
 Plug 'tani/vim-typo', { 'on': []}
+Plug 'hrsh7th/nvim-insx', { 'on': []}
 let g:copilot_no_tab_map = v:true
 function! s:insert_enter_plugs() abort
   if get(g:, 'insert_entered')
@@ -347,6 +348,7 @@ function! s:insert_enter_plugs() abort
   call s:plug_load('vim-vsnip-integ')
   call s:plug_load('jam.nvim')
   call s:plug_load('vim-typo')
+  call s:plug_load('nvim-insx')
 
   source ~/dotfiles/.config/nvim/plugin_config/vsnip.vim
   luafile ~/dotfiles/.config/nvim/plugin_config/cmp.lua
@@ -356,6 +358,7 @@ function! s:insert_enter_plugs() abort
   " source ~/dotfiles/.config/nvim/plugin_config/skk_ddc_alt.vim
 
   luafile ~/dotfiles/.config/nvim/plugin_config/jam.lua
+  luafile ~/dotfiles/.config/nvim/plugin_config/insx.lua
 
   doautocmd InsertEnter
 endfunction

@@ -150,11 +150,12 @@ vim.api.nvim_create_autocmd({ 'VimEnter' }, {
 
 require('mini.tabline').setup({})
 
-vim.api.nvim_create_autocmd({ 'InsertEnter' }, {
-  pattern = '*',
-  callback = require('mini.pairs').setup,
-  once = true,
-})
+local use_pairs = false
+-- vim.api.nvim_create_autocmd({ 'InsertEnter' }, {
+--   pattern = '*',
+--   callback = require('mini.pairs').setup,
+--   once = true,
+-- })
 
 -- https://github.com/chriskempson/base16/blob/master/styling.md
 local palettes = {
@@ -480,14 +481,14 @@ local mini_completion_setup = function()
   -- vim.keymap.set('i', '<Tab>', [[pumvisible() ? "\<C-n>" : "\<Tab>"]], { expr = true })
   -- vim.keymap.set('i', '<S-Tab>', [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { expr = true })
   vim.keymap.set('i', '<CR>', function()
-    if vim.fn.pumvisible() == 0 then
+    if use_pairs and vim.fn.pumvisible() == 0 then
       -- If popup is not visible, use `<CR>` in 'mini.pairs'.
       return require('mini.pairs').cr()
     end
 
     local complete_info = vim.fn.complete_info({ 'selected', 'items' })
 
-    if complete_info.selected == -1 then
+    if use_pairs and complete_info.selected == -1 then
       -- If popup is visible but item is NOT selected, add new line.
       return require('mini.pairs').cr()
     end
