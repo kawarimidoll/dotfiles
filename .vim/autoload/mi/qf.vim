@@ -171,33 +171,29 @@ command! -range -bang Qfadd call mi#qf#add(<line1>, <line2>, <bang>0)
 
 " https://stackoverflow.com/a/48817071
 function! mi#qf#remove() abort
-  let qf_info = getqflist({ 'idx': 1, 'size': 1 })
+  const qf_info = getqflist({ 'idx': 1, 'size': 1 })
   if qf_info.size < 2
     call mi#qf#clear()
     return
   endif
 
-  if mi#qf#is_qf_buf()
-    let idx = line('.') - 1
-  else
-    let idx = qf_info.idx - 1
-  endif
-
-  let qfall = getqflist()
-  call remove(qfall, idx)
+  const qfidx = mi#qf#is_qf_buf() ? line('.') : qf_info.idx
+  const qfall = getqflist()
+  call remove(qfall, qfidx - 1)
   call setqflist(qfall, 'r')
   copen
 
   if mi#qf#is_qf_buf()
     call mi#qf#fit_window()
-    execute 'normal! ' .. (idx + 1) .. 'G'
+    execute 'normal! ' .. qfidx .. 'G'
   endif
 endfunction
 
 let s:fit_window_size = [3, 10]
 function! mi#qf#fit_window(size = {}) abort
-  let size_min = get(a:size, 'min', s:fit_window_size[0])
-  let size_max = get(a:size, 'max', s:fit_window_size[1])
+  const size_min = get(a:size, 'min', s:fit_window_size[0])
+  const size_max = get(a:size, 'max', s:fit_window_size[1])
+  " save latest size
   let s:fit_window_size = [size_min, size_max]
   execute 'resize' min([max([size_min, getqflist({ 'size': 1 }).size]), size_max])
 endfunction
