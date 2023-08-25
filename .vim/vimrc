@@ -935,6 +935,7 @@ augroup vimrc
         \ | let w:highlight_extra_whitespace = matchadd('ExtraWhitespace', "[\u00A0\u2000-\u200B\u3000]")
         \ | endif
   autocmd ColorScheme * call s:apply_user_highlight()
+  autocmd VimEnter * ++once call s:apply_user_highlight()
 
   " https://zenn.dev/kawarimidoll/articles/5490567f8194a4
   " this not works in ftplugin
