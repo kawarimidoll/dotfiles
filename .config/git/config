@@ -23,7 +23,7 @@
 [alias]
 	aa = add .
 	age = __age
-	aliases = !git config --get-regexp alias | cut -c7- | sed -e 's/ / = /' | sort
+	aliases = !git config --get-regexp ^alias | cut -c7- | sed -e 's/ / = /' | sort
 	allohistory = !git remember | xargs --no-run-if-empty --open-tty git rebase -i
 	amend = commit --amend
 	at = !git aa && git it
