@@ -86,7 +86,7 @@ Plug 'kawarimidoll/mru_cache.lua'
 Plug 'haya14busa/vim-asterisk', { 'on': [] }
 Plug 'kevinhwang91/nvim-hlslens', { 'on': [] }
 Plug 'petertriho/nvim-scrollbar'
-" Plug 'folke/which-key.nvim', { 'on': [] }
+Plug 'folke/which-key.nvim', { 'on': [] }
 Plug 'uga-rosa/ccc.nvim', { 'on': [] }
 Plug 'nvim-tree/nvim-web-devicons', { 'on': [] }
 Plug 'tzachar/highlight-undo.nvim', { 'on': [] }
@@ -108,7 +108,7 @@ function! s:vim_enter_plugs() abort
         \ 'vim-asterisk',
         \ )
   call s:plug_load('nvim-hlslens')
-  " call s:plug_load('which-key.nvim')
+  call s:plug_load('which-key.nvim')
   call s:plug_load('nvim-web-devicons')
   call s:plug_load('ccc.nvim')
   call s:plug_load('highlight-undo.nvim')
@@ -116,7 +116,7 @@ function! s:vim_enter_plugs() abort
   let g:asterisk#keeppos = 1
   luafile ~/dotfiles/.config/nvim/plugin_config/hlslens.lua
   luafile ~/dotfiles/.config/nvim/plugin_config/scrollbar.lua
-  " luafile ~/dotfiles/.config/nvim/plugin_config/which-key.lua
+  luafile ~/dotfiles/.config/nvim/plugin_config/which-key.lua
   " luafile ~/dotfiles/.config/nvim/plugin_config/notify.lua
   " luafile ~/dotfiles/.config/nvim/plugin_config/noice.lua
   luafile ~/dotfiles/.config/nvim/plugin_config/gitsigns.lua
