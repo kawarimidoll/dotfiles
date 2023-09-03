@@ -437,6 +437,16 @@ nnoremap x "_d
 nnoremap X "_D
 " nnoremap ' `
 
+nnoremap [b <cmd>bprevious<cr>
+nnoremap ]b <cmd>bnext<cr>'
+nnoremap [q <cmd>call mi#qf#cycle_p()<cr>
+nnoremap ]q <cmd>call mi#qf#cycle_n()<cr>'
+nnoremap [w <c-w>w
+nnoremap ]w <c-w>W'
+nnoremap [m [`
+nnoremap ]m ]`
+nnoremap [p {
+nnoremap ]p }
 nnoremap [B <Cmd>bfirst<CR>
 nnoremap ]B <Cmd>blast<CR>
 nnoremap <silent><expr> [Q '<Cmd>' .. v:count1 .. 'colder<CR>'
