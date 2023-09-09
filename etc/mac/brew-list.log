@@ -1,4 +1,4 @@
-timestamp: 2023-08-20 08:13:15 JST
+timestamp: 2023-09-09 20:25:01 JST
 tap: a-know/tap
 tap: harelba/q
 tap: he3-app/he3
@@ -46,7 +46,7 @@ brew: dprint
 brew: ed
 brew: efm-langserver
 brew: eureka
-brew: exa
+brew: eza
 brew: fcp
 brew: fd
 brew: ffmpeg@4
@@ -98,6 +98,7 @@ brew: jpeg
 brew: jql
 brew: kalker
 brew: libcaca
+brew: libgit2@1.5
 brew: libgsf
 brew: libimagequant
 brew: libpq
@@ -105,7 +106,6 @@ brew: libproxy
 brew: librsvg
 brew: libspng
 brew: lima
-brew: llvm
 brew: lsd
 brew: luajit-openresty
 brew: luarocks
@@ -285,17 +285,17 @@ cask: xbar
 mas: 1099120373  Exporter           (3.1.7)
 mas: 1110524423  Battery Widget     (1.1)
 mas: 1158642554  Desktop Lens       (4.0.6)
-mas: 1187772509  stts               (2.19)
-mas: 1233965871  ScreenBrush        (1.8.5)
+mas: 1187772509  stts               (2.20)
+mas: 1233965871  ScreenBrush        (1.8.7)
 mas: 1328847392  Processes Monitor  (1.6)
-mas: 1351639930  Gifski             (2.22.3)
+mas: 1351639930  Gifski             (2.23.0)
 mas: 1429033973  RunCat             (10.3)
 mas: 1450640351  Lightweight PDF    (1.0.5)
 mas: 1522267256  Shareful           (1.9.0)
 mas: 1545870783  Color Picker       (1.13.1)
-mas: 1563735522  Charmstone         (0.29)
+mas: 1563735522  Charmstone         (0.30)
 mas: 1569290801  ItemStock          (1.0)
-mas: 1575588022  MenubarX           (1.6.3)
+mas: 1575588022  MenubarX           (1.6.4)
 mas: 1581223559  Magic              (3.3.1)
 mas: 1586304988  Messer             (2.1.19)
 mas: 1596706466  Speediness         (1.6.1)

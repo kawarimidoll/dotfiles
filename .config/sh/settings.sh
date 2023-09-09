@@ -110,9 +110,9 @@ if has 'lsd'; then
   alias tree='lsd --tree'
 fi
 
-if has 'exa'; then
-  alias lsf='exa -Falh --no-user --time-style=long-iso --icons --git --color-scale'
-  alias tree='exa --all --git-ignore --tree --icons --ignore-glob=.git'
+if has 'eza'; then
+  alias lsf='eza -Falh --no-user --time-style=long-iso --icons --git --color-scale'
+  alias tree='eza --all --git-ignore --tree --icons --ignore-glob=.git'
 fi
 
 if has 'procs'; then
