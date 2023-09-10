@@ -439,16 +439,23 @@ nnoremap x "_d
 nnoremap X "_D
 " nnoremap ' `
 
-nnoremap [b <cmd>bprevious<cr>
-nnoremap ]b <cmd>bnext<cr>'
-nnoremap [q <cmd>call mi#qf#cycle_p()<cr>
-nnoremap ]q <cmd>call mi#qf#cycle_n()<cr>'
-nnoremap [w <c-w>w
-nnoremap ]w <c-w>W'
-nnoremap [m [`
-nnoremap ]m ]`
-nnoremap [p {
-nnoremap ]p }
+nmap <SID>[ <Nop>
+nmap <SID>] <Nop>
+function! s:neighbor_submode_map(key, prev_rhs, next_rhs) abort
+  execute printf('nmap [%s %s<SID>[', a:key, a:prev_rhs)
+  execute printf('nmap ]%s %s<SID>]', a:key, a:next_rhs)
+  execute printf('nnoremap <script> <SID>[%s %s<SID>[', a:key, a:prev_rhs)
+  execute printf('nnoremap <script> <SID>]%s %s<SID>]', a:key, a:next_rhs)
+endfunction
+
+call s:neighbor_submode_map('b', '<cmd>bprevious<cr>', '<cmd>bnext<cr>')
+call s:neighbor_submode_map('q', '<cmd>call mi#qf#cycle_p()<cr>', '<cmd>call mi#qf#cycle_n()<cr>')
+call s:neighbor_submode_map('w', '<c-w>w', '<c-w>W')
+
+" nnoremap [m [`
+" nnoremap ]m ]`
+" nnoremap [p {
+" nnoremap ]p }
 nnoremap [B <Cmd>bfirst<CR>
 nnoremap ]B <Cmd>blast<CR>
 nnoremap <silent><expr> [Q '<Cmd>' .. v:count1 .. 'colder<CR>'
