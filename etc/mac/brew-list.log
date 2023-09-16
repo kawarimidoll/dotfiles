@@ -1,4 +1,4 @@
-timestamp: 2023-09-09 20:25:01 JST
+timestamp: 2023-09-16 19:21:10 JST
 tap: a-know/tap
 tap: harelba/q
 tap: he3-app/he3
@@ -282,8 +282,7 @@ cask: warp
 cask: wezterm
 cask: wooshy
 cask: xbar
-mas: 1099120373  Exporter           (3.1.7)
-mas: 1110524423  Battery Widget     (1.1)
+mas: 1099120373  Exporter           (3.2.0)
 mas: 1158642554  Desktop Lens       (4.0.6)
 mas: 1187772509  stts               (2.20)
 mas: 1233965871  ScreenBrush        (1.8.7)
@@ -298,10 +297,6 @@ mas: 1569290801  ItemStock          (1.0)
 mas: 1575588022  MenubarX           (1.6.4)
 mas: 1581223559  Magic              (3.3.1)
 mas: 1586304988  Messer             (2.1.19)
-mas: 1596706466  Speediness         (1.6.1)
 mas: 1611378436  Pure Paste         (1.8.4)
-mas: 1615988943  Folder Peek        (1.8.2)
-mas: 1621370168  WorldWideWeb       (2.0)
 mas: 497799835   Xcode              (14.3.1)
 mas: 6444685140  CenterMouse        (1.1.1)
-mas: 928871589   Noizio             (2.1.0)
