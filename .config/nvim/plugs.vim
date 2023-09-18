@@ -93,6 +93,8 @@ Plug 'tzachar/highlight-undo.nvim', { 'on': [] }
 " Plug 'rcarriga/nvim-notify'
 Plug 'vigoux/notifier.nvim'
 Plug 'lewis6991/gitsigns.nvim'
+Plug 'itchyny/vim-qfedit'
+Plug 'thinca/vim-qfreplace'
 " Plug 'anuvyklack/pretty-fold.nvim'
 function! s:vim_enter_plugs() abort
   if get(g:, 'vim_entered')
@@ -106,6 +108,8 @@ function! s:vim_enter_plugs() abort
         \ 'denops.vim',
         \ 'skkeleton',
         \ 'vim-asterisk',
+        \ 'vim-qfedit',
+        \ 'vim-qfreplace',
         \ )
   call s:plug_load('nvim-hlslens')
   call s:plug_load('which-key.nvim')
