@@ -16,7 +16,7 @@ function! s:fit_indent() abort
 endfunction
 
 function! mi#hjkl#h(cnt = 1) abort
-  if a:cnt > 1
+  if a:cnt > 1 || !&expandtab
     execute printf('normal! %sh', a:cnt)
     return
   endif
@@ -27,7 +27,7 @@ function! mi#hjkl#h(cnt = 1) abort
 endfunction
 
 function! mi#hjkl#l(cnt = 1) abort
-  if a:cnt > 1
+  if a:cnt > 1 || !&expandtab
     execute printf('normal! %sl', a:cnt)
     return
   endif
