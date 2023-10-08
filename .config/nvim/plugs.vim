@@ -93,8 +93,8 @@ Plug 'tzachar/highlight-undo.nvim', { 'on': [] }
 " Plug 'rcarriga/nvim-notify'
 Plug 'vigoux/notifier.nvim'
 Plug 'lewis6991/gitsigns.nvim'
-Plug 'itchyny/vim-qfedit'
-Plug 'thinca/vim-qfreplace'
+Plug 'itchyny/vim-qfedit', { 'on': [] }
+Plug 'thinca/vim-qfreplace', { 'on': [] }
 " Plug 'anuvyklack/pretty-fold.nvim'
 function! s:vim_enter_plugs() abort
   if get(g:, 'vim_entered')
