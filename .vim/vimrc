@@ -1021,6 +1021,17 @@ augroup vimrc
   endfunction
   autocmd BufWritePre * call s:validate_filename(expand('<afile>:p'))
   " }}}
+
+  " {{{ hist_clean
+  " https://blog.atusy.net/2023/07/24/vim-clean-history/
+  function! s:hist_clean() abort
+    const cmd = histget(":", -1)
+    if cmd == "e" || cmd == "x" || cmd == "xa" || cmd =~# "^w\\?q\\?a\\?!\\?$"
+      call histdel(":", -1)
+    endif
+  endfunction
+  autocmd ModeChanged c:* call s:hist_clean()
+  " }}}
 augroup END
 
 call timer_start(100, {->execute('source ~/dotfiles/.vim/ready.vim')})
