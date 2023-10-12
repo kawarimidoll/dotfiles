@@ -114,6 +114,7 @@ set linebreak
 set list
 set listchars=tab:^-,trail:~,extends:»,precedes:«,nbsp:%
 set nobackup
+set nofixeol
 set nomodeline
 set nonumber
 set noshowmode
