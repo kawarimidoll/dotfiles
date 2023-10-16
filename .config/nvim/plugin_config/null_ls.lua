@@ -106,6 +106,12 @@ local sources = {
       return vim.fn.executable('stylua') > 0
     end,
   }),
+  null_ls.builtins.formatting.sql_formatter.with({
+    condition = function()
+      return vim.fn.executable('sql-formatter') > 0
+    end,
+    extra_args = { '--config', '~/dotfiles/.config/sql_formatter/sql_formatter.json' },
+  }),
 }
 
 local cspell_append = function(opts)
