@@ -58,18 +58,35 @@ local sources = {
   }),
 
   -- diagnostics
-  null_ls.builtins.diagnostics.cspell.with({
-    diagnostics_postprocess = function(diagnostic)
-      diagnostic.severity = vim.diagnostic.severity['WARN']
-    end,
-    condition = function()
-      return vim.fn.executable('cspell') > 0
-    end,
-    extra_args = { '--config', cspell_files.config },
-  }),
-  null_ls.builtins.diagnostics.eslint.with({
-    prefer_local = 'node_modules/.bin',
-  }),
+  -- null_ls.builtins.diagnostics.cspell.with({
+  --   diagnostics_postprocess = function(diagnostic)
+  --     diagnostic.severity = vim.diagnostic.severity['WARN']
+  --   end,
+  --   condition = function()
+  --     return vim.fn.executable('cspell') > 0
+  --   end,
+  --   extra_args = { '--config', cspell_files.config },
+  -- }),
+  -- null_ls.builtins.diagnostics.eslint.with({
+  --   prefer_local = 'node_modules/.bin',
+  --   condition = function(utils)
+  --     return not utils.has_file('deno.lock', 'deno.json', 'deno.jsonc')
+  --   end,
+  -- }),
+
+  -- code-actions
+  -- null_ls.builtins.code_actions.cspell.with({
+  --   condition = function()
+  --     return vim.fn.executable('cspell') > 0
+  --   end,
+  --   extra_args = { '--config', cspell_files.config },
+  -- }),
+  -- null_ls.builtins.code_actions.eslint.with({
+  --   prefer_local = 'node_modules/.bin',
+  --   condition = function(utils)
+  --     return not utils.has_file('deno.lock', 'deno.json', 'deno.jsonc')
+  --   end,
+  -- }),
 
   -- formatting
   null_ls.builtins.formatting.deno_fmt.with({
@@ -163,7 +180,7 @@ local cspell_custom_actions = {
     end,
   },
 }
-null_ls.register(cspell_custom_actions)
+-- null_ls.register(cspell_custom_actions)
 
 null_ls.setup({
   sources = sources,
