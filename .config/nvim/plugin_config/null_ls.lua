@@ -67,6 +67,25 @@ local sources = {
   --   end,
   --   extra_args = { '--config', cspell_files.config },
   -- }),
+  null_ls.builtins.diagnostics.markuplint.with({
+    diagnostics_postprocess = function(diagnostic)
+      diagnostic.severity = vim.diagnostic.severity['WARN']
+    end,
+    condition = function()
+      return vim.fn.executable('markuplint') > 0
+    end,
+    extra_args = { '--locale', 'en_US' },
+    -- filetypes = {
+    --   'html',
+    --   'javascriptreact',
+    --   'typescriptreact',
+    --   'vue',
+    --   'svelte',
+    --   'astro',
+    --   'pug',
+    --   'erb',
+    -- },
+  }),
   -- null_ls.builtins.diagnostics.eslint.with({
   --   prefer_local = 'node_modules/.bin',
   --   condition = function(utils)
