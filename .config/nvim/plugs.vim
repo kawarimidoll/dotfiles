@@ -166,7 +166,7 @@ autocmd WinLeave * ++once call <sid>win_leave_plugs()
 Plug 'neovim/nvim-lspconfig', { 'on': [] }
 Plug 'williamboman/mason.nvim'
 Plug 'williamboman/mason-lspconfig.nvim'
-" Plug 'jose-elias-alvarez/null-ls.nvim'
+Plug 'nvimtools/none-ls.nvim'
 Plug 'ray-x/lsp_signature.nvim'
 Plug 'j-hui/fidget.nvim', { 'tag': 'legacy' }
 Plug 'folke/neodev.nvim'
@@ -177,7 +177,7 @@ function! s:lsp_init() abort
   call s:plug_load('nvim-lspconfig')
   lua require('lsp_signature').setup()
   luafile ~/dotfiles/.config/nvim/plugin_config/lsp.lua
-  " luafile ~/dotfiles/.config/nvim/plugin_config/null_ls.lua
+  luafile ~/dotfiles/.config/nvim/plugin_config/none_ls.lua
   luafile ~/dotfiles/.config/nvim/plugin_config/fidget.lua
 endfunction
 autocmd BufReadPost * ++once call <sid>lsp_init()
