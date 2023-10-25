@@ -269,6 +269,7 @@ Plug 'm-demare/hlargs.nvim', { 'on': [] }
 Plug 'andymass/vim-matchup', { 'on': [] }
 Plug 'yioneko/nvim-yati', { 'on': [] }
 Plug 'haringsrob/nvim_context_vt', { 'on': [] }
+Plug 'rickhowe/wrapwidth', { 'on': [] }
 function! s:treesitter_init() abort
   if exists(':TSEnable') == 2
     return
@@ -282,6 +283,8 @@ function! s:treesitter_init() abort
   call s:plug_load('nvim-yati')
   call s:plug_load('nvim_context_vt')
   call s:plug_load('hlargs.nvim')
+
+  call s:plug_load('wrapwidth')
 
   luafile ~/dotfiles/.config/nvim/plugin_config/treesitter.lua
 
