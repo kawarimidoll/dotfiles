@@ -16,6 +16,8 @@ call mi#cmdline#proxy_let('cfilter', 'Cfilter')
 source ~/dotfiles/.vim/autoload/mi/subs.vim
 " source ~/dotfiles/.vim/autoload/mi/neighbor.vim
 
+command! GitDiff enew | setlocal buftype=nofile | setfiletype gitcommit | read! git diff #
+
 if has('nvim')
   call mi#cmdline#proxy_let('L[spInfo]', 'LspInfo')
   call mi#cmdline#proxy_let('P[lugSync]', 'PlugSync')
