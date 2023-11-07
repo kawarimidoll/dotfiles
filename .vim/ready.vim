@@ -16,7 +16,8 @@ call mi#cmdline#proxy_let('cfilter', 'Cfilter')
 source ~/dotfiles/.vim/autoload/mi/subs.vim
 " source ~/dotfiles/.vim/autoload/mi/neighbor.vim
 
-command! GitDiff enew | setlocal buftype=nofile | setfiletype gitcommit | read! git diff #
+command! -bang GitDiff enew | setlocal buftype=nofile | setfiletype gitcommit |
+      \ execute 'read! git diff ' .. (<bang>0 ? '$(git default-branch)...$(git current-branch) ' : '') .. '#'
 
 if has('nvim')
   call mi#cmdline#proxy_let('L[spInfo]', 'LspInfo')
