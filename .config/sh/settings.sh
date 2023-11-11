@@ -77,10 +77,10 @@ alias lsf='ls -FAogh --time-style="+%F %R"'
 alias mkdir='mkdir -pv'
 alias mv='mv -i'
 alias nv='nvim'
-alias nvc='echo $(pbpaste) | nvim -'
 alias nvmin='nvim -u ~/dotfiles/.config/nvim/min-edit.vim'
 alias nvimprofile='nvim --cmd "profile start profile.txt" --cmd "profile file ~/.config/nvim/init.vim" -c quit'
 alias nvinit='nvim ~/.config/nvim/init.vim'
+alias nvp="nvim -c 'put *'"
 alias nvr="nvim -c 'call EditProjectMru()'"
 alias rc='bundle exec rails console'
 alias rm='rm -i --preserve-root'
@@ -93,11 +93,11 @@ alias rgg="rg --hidden --trim --glob '!**/.git/*'"
 alias rgf="rgg --fixed-strings --"
 alias sudo='sudo '
 alias vi='vim'
-alias vic='echo $(pbpaste) | vim -'
 alias vimrc='vim ~/.vim/vimrc'
 alias vimrclocal='vim ~/.vimrc.local'
 alias vimprofile='vim --cmd "profile start profile.txt" --cmd "profile file ~/.vim/vimrc" -c quit'
 alias vin='vim -u NONE -N'
+alias vip="vim -c 'put *'"
 alias vir="vim -c 'call EditProjectMru()'"
 alias wcl='wc -l'
 alias wget='wget --hsts-file="${XDG_DATA_HOME}/wget-hsts"'
