@@ -34,34 +34,8 @@ function! mi#budoux#load_model() abort
     let s:model[key] = get(raw, key, {})
     let sum += reduce(values(s:model[key]), { acc, val -> acc + val })
   endfor
-  let s:model.base_score = sum / 2
+  let s:model.base_score = -sum / 2
   return v:true
-endfunction
-
-function! s:is_boundary(chars, i) abort
-  let len = len(a:chars)
-  let score = 0
-
-  " single
-  let score += a:i   > 2   ? get(s:model.UW1, a:chars[a:i-3], 0) : 0
-  let score += a:i   > 1   ? get(s:model.UW2, a:chars[a:i-2], 0) : 0
-  let score +=               get(s:model.UW3, a:chars[a:i-1], 0)
-  let score +=               get(s:model.UW4, a:chars[a:i  ], 0)
-  let score += a:i+1 < len ? get(s:model.UW5, a:chars[a:i+1], 0) : 0
-  let score += a:i+2 < len ? get(s:model.UW6, a:chars[a:i+2], 0) : 0
-
-  " double
-  let score += a:i   > 2   ? get(s:model.BW1, join(a:chars[a:i-2 : a:i  ]), 0) : 0
-  let score += a:i   > 1   ? get(s:model.BW2, join(a:chars[a:i-1 : a:i+1]), 0) : 0
-  let score += a:i+1 < len ? get(s:model.BW3, join(a:chars[a:i   : a:i+2]), 0) : 0
-
-  " triple
-  let score += a:i   > 2   ? get(s:model.TW1, join(a:chars[a:i-3 : a:i  ]), 0) : 0
-  let score += a:i   > 1   ? get(s:model.TW2, join(a:chars[a:i-2 : a:i+1]), 0) : 0
-  let score += a:i+1 < len ? get(s:model.TW3, join(a:chars[a:i-1 : a:i+2]), 0) : 0
-  let score += a:i+2 < len ? get(s:model.TW4, join(a:chars[a:i   : a:i+3]), 0) : 0
-
-  return score > s:model.base_score
 endfunction
 
 function! mi#budoux#parse(str) abort
@@ -74,10 +48,32 @@ function! mi#budoux#parse(str) abort
     return []
   endif
 
-  let chars = split(a:str, '\zs')
-  let chunks = [chars[0]]
-  for i in range(1, len(chars) - 1)
-    if s:is_boundary(chars, i)
+  let chars = ['', ''] + split(a:str, '\zs') + ['', '']
+  let chunks = [chars[2]] " first char of a:str
+
+  for i in range(3, len(chars) - 3)
+    let score = s:model.base_score
+
+    " single
+    let score += get(s:model.UW1, chars[i-3], 0)
+    let score += get(s:model.UW2, chars[i-2], 0)
+    let score += get(s:model.UW3, chars[i-1], 0)
+    let score += get(s:model.UW4, chars[i  ], 0)
+    let score += get(s:model.UW5, chars[i+1], 0)
+    let score += get(s:model.UW6, chars[i+2], 0)
+
+    " double
+    let score += get(s:model.BW1, join(chars[i-2 : i  ]), 0)
+    let score += get(s:model.BW2, join(chars[i-1 : i+1]), 0)
+    let score += get(s:model.BW3, join(chars[i   : i+2]), 0)
+
+    " triple
+    let score += get(s:model.TW1, join(chars[i-3 : i  ]), 0)
+    let score += get(s:model.TW2, join(chars[i-2 : i+1]), 0)
+    let score += get(s:model.TW3, join(chars[i-1 : i+2]), 0)
+    let score += get(s:model.TW4, join(chars[i   : i+3]), 0)
+
+    if score > 0
       call add(chunks, chars[i])
     else
       let chunks[-1] ..= chars[i]
