@@ -47,6 +47,9 @@ else
 
   highlight! link StatusLine GamingBg
   highlight! link StatusLineNC GamingFg
+  " HACK: highlight-links are sometimes disabled when buffers are changed
+  autocmd BufEnter,ColorScheme * highlight! link StatusLine GamingBg | highlight! link StatusLineNC GamingFg
+  autocmd ModeChanged *:t highlight! link StatusLine NONE | highlight! link StatusLineNC NONE
   call mi#gaming#start()
 endif
 
