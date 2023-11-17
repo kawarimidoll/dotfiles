@@ -113,6 +113,19 @@ function! mi#utils#eatchar(pat) abort
   return (c =~ a:pat) ? '' : c
 endfunc
 
+function! mi#utils#download(url, local_path, force = v:false) abort
+  echo '[utils#download] ' .. a:local_path
+  if filereadable(a:local_path) && !a:force
+    echo '[utils#download] dictionary file is already exists.'
+    echo '[utils#download] add v:true argument to overwrite.'
+    return v:false
+  endif
+  echo '[utils#download] start download...'
+  echo system(printf('curl -fsSLo %s --create-dirs %s', a:local_path, a:url))
+  echo '[utils#download] done.'
+  return v:true
+endfunction
+
 " https://github.com/thinca/config/blob/78a1d2d4725e2ff064722b48cea5b5f1c44f49f9/dotfiles/dot.vim/autoload/vimrc.vim#L151-L161
 function mi#utils#keep_cursor(cmd) abort
   const curwin_id = win_getid()
