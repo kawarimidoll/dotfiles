@@ -33,38 +33,27 @@ function! mi#statusline#inactive()
 endfunction
 
 function! s:mode_str(mode)
-  if a:mode =~ '^no'
-    let m = 'OPE'
-  elseif a:mode =~ '^ni'
-    let m = 'N--'
-  elseif a:mode == 'n'
-    let m = 'NOR'
-  elseif a:mode =~# '^v'
-    let m = 'VIS'
-  elseif a:mode =~# '^V'
-    let m = 'V-L'
-  elseif a:mode =~# "^\<c-v>"
-    let m = 'V-B'
-  elseif a:mode =~# '^s'
-    let m = 'SEL'
-  elseif a:mode =~# '^S'
-    let m = 'S-L'
-  elseif a:mode =~# "^\<c-s>"
-    let m = 'S-B'
-  elseif a:mode =~# '^i'
-    let m = 'INS'
-  elseif a:mode =~# '^R'
-    let m = 'REP'
-  elseif a:mode =~# '^c'
-    let m = 'CMD'
-  elseif a:mode =~# '^r'
-    let m = 'PRO'
-  elseif a:mode ==# '!'
-    let m = '!SH'
-  elseif a:mode ==# 't'
-    let m = 'TER'
-  else
-    let m = '-?-'
-  endif
+  let m = a:mode =~ '^no' ? 'OPE'
+        \ : a:mode =~ '^ni' ? 'N--'
+        \ : a:mode == 'n' ? 'NOR'
+        \ : a:mode =~# '^v' ? 'VIS'
+        \ : a:mode =~# '^V' ? 'V-L'
+        \ : a:mode =~# "^\<c-v>" ? 'V-B'
+        \ : a:mode =~# '^s' ? 'SEL'
+        \ : a:mode =~# '^S' ? 'S-L'
+        \ : a:mode =~# "^\<c-s>" ? 'S-B'
+        \ : a:mode =~# '^i' ?
+        \   &iminsert ?
+        \     'IIM'
+        \   : 'INS'
+        \ : a:mode =~# '^R' ? 'REP'
+        \ : a:mode =~# '^c' ?
+        \   &iminsert ?
+        \     'CIM'
+        \   : 'CMD'
+        \ : a:mode =~# '^r' ? 'PRO'
+        \ : a:mode ==# '!' ? '!SH'
+        \ : a:mode ==# 't' ? 'TER'
+        \ : '-?-'
   return printf('[%s]', m)
 endfunction
