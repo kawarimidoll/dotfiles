@@ -773,8 +773,10 @@ endfunction
 function! s:syntax_off_on_heavy_file()
   if getfsize(@%) > 512 * 1000
     setlocal syntax=OFF
-    call interrupt()
     echo 'syntax off: too heavy file.'
+    if &filetype !=# 'help'
+      call interrupt()
+    endif
   endif
 endfunction
 
