@@ -542,6 +542,7 @@ AbbrevCmd coa CopyFullPath
 AbbrevCmd cor CopyRelativePath
 AbbrevCmd yep echo 'yep'
 AbbrevCmd mes messages
+AbbrevCmd mec messages clear
 AbbrevCmd ec echo
 AbbrevCmd ed edit
 AbbrevCmd en enew
