@@ -261,7 +261,7 @@ autocmd User lspsaga.nvim ++once call s:lspsaga_init()
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate', 'on': [] }
 Plug 'nvim-treesitter/nvim-treesitter-refactor', { 'on': [] }
 Plug 'JoosepAlviste/nvim-ts-context-commentstring', { 'on': [] }
-Plug 'HiPhish/nvim-ts-rainbow2', { 'on': [] }
+" Plug 'HiPhish/nvim-ts-rainbow2', { 'on': [] }
 Plug 'romgrk/nvim-treesitter-context', { 'on': [] }
 " Plug 'David-Kunz/treesitter-unit'
 " Plug 'mfussenegger/nvim-treehopper', { 'on': [] }
@@ -277,7 +277,7 @@ function! s:treesitter_init() abort
   call s:plug_load('nvim-treesitter')
   call s:plug_load('nvim-treesitter-refactor')
   call s:plug_load('nvim-ts-context-commentstring')
-  call s:plug_load('nvim-ts-rainbow2')
+  " call s:plug_load('nvim-ts-rainbow2')
   " call s:plug_load('nvim-treehopper')
   call s:plug_load('vim-matchup')
   call s:plug_load('nvim-yati')
