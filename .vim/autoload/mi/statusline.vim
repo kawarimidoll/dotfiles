@@ -43,8 +43,8 @@ function! s:mode_str(mode)
         \ : a:mode =~# '^S' ? 'S-L'
         \ : a:mode =~# "^\<c-s>" ? 'S-B'
         \ : a:mode =~# '^i' ?
-        \   &iminsert ?
-        \     'IIM'
+        \   &iminsert ? 'IIM'
+        \   : exists('*tuskk#is_enabled') && tuskk#is_enabled() ? 'SKK'
         \   : 'INS'
         \ : a:mode =~# '^R' ? 'REP'
         \ : a:mode =~# '^c' ?

@@ -66,6 +66,33 @@ else
   autocmd BufEnter,ColorScheme * highlight! link StatusLine GamingBg | highlight! link StatusLineNC GamingFg
   autocmd ModeChanged *:t highlight! link StatusLine NONE | highlight! link StatusLineNC NONE
   call mi#gaming#start()
+
+  set runtimepath+=~/ghq/github.com/kawarimidoll/tuskk.vim
+  inoremap <c-j> <cmd>call tuskk#toggle()<cr>
+  cnoremap <c-j> <cmd>call tuskk#cmd_buf()<cr>
+
+  let uj = expand('~/.cache/vim/SKK-JISYO.user')
+  call tuskk#initialize({
+        \ 'user_jisyo_path': uj,
+        \ 'jisyo_list':  [
+        \   { 'path': '~/.cache/vim/SKK-JISYO.L', 'encoding': 'euc-jp', 'mark': '[L]' },
+        \   { 'path': '~/.cache/vim/SKK-JISYO.geo', 'encoding': 'euc-jp', 'mark': '[G]' },
+        \   { 'path': '~/.cache/vim/SKK-JISYO.station', 'encoding': 'euc-jp', 'mark': '[S]' },
+        \   { 'path': '~/.cache/vim/SKK-JISYO.jawiki', 'encoding': 'utf-8', 'mark': '[W]' },
+        \   { 'path': '~/.cache/vim/SKK-JISYO.emoji', 'encoding': 'utf-8' },
+        \   { 'path': '~/.cache/vim/SKK-JISYO.nicoime', 'encoding': 'utf-8', 'mark': '[N]' },
+        \ ],
+        \ 'kana_table': tuskk#opts#builtin_kana_table(),
+        \ 'suggest_wait_ms': 200,
+        \ 'suggest_prefix_match_minimum': 5,
+        \ 'suggest_sort_by': 'length',
+        \ 'debug_log': '',
+        \ 'use_google_cgi': v:true,
+        \ 'merge_tsu': v:true,
+        \ 'trailing_n': v:true,
+        \ 'abbrev_ignore_case': v:true,
+        \ 'put_hanpa': v:true,
+        \ })
 endif
 
 silent! delmarks ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890
