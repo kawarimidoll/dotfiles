@@ -1,4 +1,4 @@
-timestamp: 2023-10-24 21:11:46 JST
+timestamp: 2023-12-19 15:34:49 JST
 tap: a-know/tap
 tap: harelba/q
 tap: he3-app/he3
@@ -98,6 +98,7 @@ brew: jql
 brew: kalker
 brew: libcaca
 brew: libgit2@1.5
+brew: libgit2@1.6
 brew: libgsf
 brew: libimagequant
 brew: libpq
@@ -105,7 +106,7 @@ brew: libproxy
 brew: librsvg
 brew: libspng
 brew: lima
-brew: llvm
+brew: llvm@16
 brew: lsd
 brew: luajit-openresty
 brew: luarocks
@@ -285,9 +286,9 @@ cask: wooshy
 cask: xbar
 mas: 1099120373  Exporter           (3.2.0)
 mas: 1110524423  Battery Widget     (1.1)
-mas: 1158642554  Desktop Lens       (4.0.6)
-mas: 1187772509  stts               (2.20)
-mas: 1233965871  ScreenBrush        (1.8.7)
+mas: 1158642554  Desktop Lens       (5.0.0)
+mas: 1187772509  stts               (2.21)
+mas: 1233965871  ScreenBrush        (1.8.10)
 mas: 1328847392  Processes Monitor  (1.6)
 mas: 1351639930  Gifski             (2.23.0)
 mas: 1429033973  RunCat             (10.3)
@@ -296,14 +297,15 @@ mas: 1522267256  Shareful           (1.9.0)
 mas: 1545870783  Color Picker       (1.13.1)
 mas: 1563735522  Charmstone         (0.30)
 mas: 1569290801  ItemStock          (1.0)
-mas: 1575588022  MenubarX           (1.6.4)
-mas: 1581223559  Magic              (3.4)
+mas: 1575588022  MenubarX           (1.6.8)
+mas: 1581223559  Magic              (3.5.1)
 mas: 1586304988  Messer             (2.1.19)
 mas: 1596706466  Speediness         (1.6.1)
-mas: 1611378436  Pure Paste         (1.8.4)
+mas: 1611378436  Pure Paste         (1.9.2)
 mas: 1615988943  Folder Peek        (1.8.2)
-mas: 1621370168  WorldWideWeb       (2.0)
+mas: 1621370168  WorldWideWeb       (2.1)
+mas: 302584613   Kindle             (7.0)
 mas: 497799835   Xcode              (14.3.1)
-mas: 539883307   LINE               (8.3.0)
+mas: 539883307   LINE               (8.5.1)
 mas: 6444685140  CenterMouse        (1.1.1)
 mas: 928871589   Noizio             (2.1.0)
