@@ -160,6 +160,8 @@ set signcolumn=number
 set smartcase
 set smartindent
 set softtabstop=2
+set spelllang+=cjk
+set spelloptions=camel
 set splitbelow
 set splitright
 set switchbuf+=usetab
