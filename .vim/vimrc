@@ -91,6 +91,7 @@ function! s:look_completefunc() abort
   endif
   let word = line[start_idx:]
   let results = systemlist($"look {word}")
+  call sort(results, {a,b -> strlen(a) - strlen(b)})
   call complete(start_idx + 1, results)
   return ''
 endfunction
