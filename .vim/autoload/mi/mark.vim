@@ -14,6 +14,8 @@ function! mi#mark#jump_to_last() abort
   execute 'normal! g`' .. g:mi#const#alpha_lower[b:last_mark]
 endfunction
 
+" DEPRECATED use mi#virt_mark#display
+
 " https://github.com/hrsh7th/vim-searchx/blob/eeaa168368/autoload/searchx/highlight.vim#L28-L87
 let s:marker_ns = 'mi#mark#overlay_ns'
 let s:marker_id = 1
