@@ -86,6 +86,7 @@ else
         \ 'zindex': 300,
         \ 'posinvert': v:false,
         \ })
+  call mi#notify#setwidth(kawarimiline_width+1)
 
   set runtimepath+=~/ghq/github.com/kawarimidoll/tuskk.vim
   inoremap <c-j> <cmd>call tuskk#toggle()<cr>
