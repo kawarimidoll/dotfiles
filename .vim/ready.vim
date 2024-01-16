@@ -60,12 +60,32 @@ else
 
   call mi#pair#keymap_set(['{}', '[]', '()', "''", '""', '``'])
 
-  highlight! link StatusLine GamingBg
-  highlight! link StatusLineNC GamingFg
-  " HACK: highlight-links are sometimes disabled when buffers are changed
-  autocmd BufEnter,ColorScheme * highlight! link StatusLine GamingBg | highlight! link StatusLineNC GamingFg
-  autocmd ModeChanged *:t highlight! link StatusLine NONE | highlight! link StatusLineNC NONE
-  call mi#gaming#start()
+  " highlight! link StatusLine GamingBg
+  " highlight! link StatusLineNC GamingFg
+  " " HACK: highlight-links are sometimes disabled when buffers are changed
+  " autocmd BufEnter,ColorScheme * highlight! link StatusLine GamingBg | highlight! link StatusLineNC GamingFg
+  " autocmd ModeChanged *:t highlight! link StatusLine NONE | highlight! link StatusLineNC NONE
+  " call mi#gaming#start()
+  set runtimepath+=~/ghq/github.com/kawarimidoll/kawarimiline.vim
+  let kawarimiline_width = 30
+  call kawarimiline#start({
+        \ 'size': 22,
+        \ 'lnum': 1,
+        \ 'left_margin': &columns-kawarimiline_width,
+        \ 'right_margin': 0,
+        \ 'wave': v:true,
+        \ })
+  call popup_create('', {
+        \ 'line': 1,
+        \ 'col': &columns,
+        \ 'pos': 'topright',
+        \ 'maxheight': 2,
+        \ 'minheight': 2,
+        \ 'maxwidth': kawarimiline_width+1,
+        \ 'minwidth': kawarimiline_width+1,
+        \ 'zindex': 300,
+        \ 'posinvert': v:false,
+        \ })
 
   set runtimepath+=~/ghq/github.com/kawarimidoll/tuskk.vim
   inoremap <c-j> <cmd>call tuskk#toggle()<cr>

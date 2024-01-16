@@ -1007,8 +1007,10 @@ augroup vimrc
     autocmd Filetype xml,html,vue inoremap <buffer><expr> </
           \ &completeopt=~'noinsert\\|noselect' ? '</<C-x><C-o><C-n><ESC>==o' : '</<C-x><C-o><ESC>==o'
 
-    autocmd WinEnter,BufEnter * setlocal statusline=%!mi#statusline#active()
-    autocmd WinLeave,BufLeave * setlocal statusline=%!mi#statusline#inactive()
+    " autocmd WinEnter,BufEnter * setlocal statusline=%!mi#statusline#active()
+    " autocmd WinLeave,BufLeave * setlocal statusline=%!mi#statusline#inactive()
+    set statusline=%!mi#statusline#horizontal_line()
+    set laststatus=0
 
     autocmd Filetype * ++once
           \ execute 'colorscheme' mi#utils#pick_one(['desert', 'slate', 'habamax'])
