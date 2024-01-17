@@ -218,7 +218,7 @@ function! mi#utils#debounce(fn, wait, args = []) abort
   call timer_stop(timer)
   let s:debounce_timers[timer_name] = timer_start(a:wait, {_ -> [
         \ call(a:fn, a:args),
-        \ execute('unlet! s:debounce_timers[a:timer_name]', 'silent!')
+        \ execute('unlet! s:debounce_timers[timer_name]', 'silent!')
         \ ]})
 endfunction
 
@@ -231,6 +231,6 @@ function! mi#utils#throttle(fn, wait, args = []) abort
   endif
   let s:throttle_timers[timer_name] = timer_start(a:wait, {_ -> [
         \ call(a:fn, a:args),
-        \ execute('unlet! s:throttle_timers[a:timer_name]', 'silent!')
+        \ execute('unlet! s:throttle_timers[timer_name]', 'silent!')
         \ ]})
 endfunction
