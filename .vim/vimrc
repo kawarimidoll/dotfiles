@@ -1016,7 +1016,8 @@ augroup vimrc
     set laststatus=0
 
     autocmd Filetype * ++once
-          \ execute 'colorscheme' mi#utils#pick_one(['desert', 'slate', 'habamax'])
+          \ execute 'colorscheme' mi#utils#pick_one(['slate', 'habamax', 'lunaperche', 'sorbet',
+          \    'murphy', 'retrobox', 'wildcharm', 'zaibatsu', 'quiet'])
           \ | doautocmd ColorScheme
     autocmd Filetype typescript,typescriptreact,javascript,javascriptreact,markdown,json,jsonc
           \ nnoremap <buffer> <space>p <cmd>DenoFmt<cr>
