@@ -75,7 +75,7 @@ else
         \ 'right_margin': 0,
         \ 'wave': v:true,
         \ })
-  call popup_create('', {
+  let s:info_popup_id = popup_create('', {
         \ 'line': 1,
         \ 'col': &columns,
         \ 'pos': 'topright',
@@ -87,6 +87,22 @@ else
         \ 'posinvert': v:false,
         \ })
   call mi#notify#setwidth(kawarimiline_width+1)
+
+  autocmd WinEnter,BufEnter,CursorHold,CursorHoldI * call s:update_info()
+  function s:update_info() abort
+    let curpos = getcurpos()[1:2]
+    let pos_info = join(curpos, ',')
+    " let another_col = getcursorcharpos()[2]
+    let another_col = screencol()
+    if another_col != curpos[1]
+      let pos_info ..= '-' .. string(another_col)
+    endif
+    let mod_info = ''
+          \ .. (&modified ? '[+] ' : !&modifiable ? '[-] ' : '')
+          \ .. (&readonly ? '[RO] ' : '')
+          \ .. (!empty(&buftype) ? '[' .. toupper(&buftype[0]) .. '] ' : '')
+    call popup_settext(s:info_popup_id, ['', pos_info .. ' ' .. mod_info])
+  endfunction
 
   set runtimepath+=~/ghq/github.com/kawarimidoll/tuskk.vim
   inoremap <c-j> <cmd>call tuskk#toggle()<cr>
