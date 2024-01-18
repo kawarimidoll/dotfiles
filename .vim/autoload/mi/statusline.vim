@@ -14,10 +14,10 @@ function! mi#statusline#active()
     else
       let lines = '%P'
     endif
-    return s:mode_str(m) .. ' %<%f%h%m%r%=%l,%c%V ' .. lines
+    return $'[{s:mode_str(m)}] %<%f%h%m%r%=%l,%c%V {lines}'
   catch
     " to avoid to hang up when error in statusline
-    echoerr v:exception
+    echomsg v:exception
     return ''
   endtry
 endfunction
@@ -27,13 +27,13 @@ function! mi#statusline#inactive()
     return '%F%='
   catch
     " to avoid to hang up when error in statusline
-    echoerr v:exception
+    echomsg v:exception
     return ''
   endtry
 endfunction
 
 function! s:mode_str(mode)
-  let m = a:mode =~ '^no' ? 'OPE'
+  return a:mode =~ '^no' ? 'OPE'
         \ : a:mode =~ '^ni' ? 'N--'
         \ : a:mode == 'n' ? 'NOR'
         \ : a:mode =~# '^v' ? 'VIS'
@@ -55,5 +55,8 @@ function! s:mode_str(mode)
         \ : a:mode ==# '!' ? '!SH'
         \ : a:mode ==# 't' ? 'TER'
         \ : '-?-'
-  return printf('[%s]', m)
+endfunction
+
+function! mi#statusline#horizontal_line()
+  return repeat('-', &columns)
 endfunction
