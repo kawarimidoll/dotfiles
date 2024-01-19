@@ -14,7 +14,7 @@ function! mi#statusline#active()
     else
       let lines = '%P'
     endif
-    return $'[{s:mode_str(m)}] %<%f%h%m%r%=%l,%c%V {lines}'
+    return $'[{mi#statusline#mode_str()}] %<%f%h%m%r%=%l,%c%V {lines}'
   catch
     " to avoid to hang up when error in statusline
     echomsg v:exception
@@ -32,28 +32,29 @@ function! mi#statusline#inactive()
   endtry
 endfunction
 
-function! s:mode_str(mode)
-  return a:mode =~ '^no' ? 'OPE'
-        \ : a:mode =~ '^ni' ? 'N--'
-        \ : a:mode == 'n' ? 'NOR'
-        \ : a:mode =~# '^v' ? 'VIS'
-        \ : a:mode =~# '^V' ? 'V-L'
-        \ : a:mode =~# "^\<c-v>" ? 'V-B'
-        \ : a:mode =~# '^s' ? 'SEL'
-        \ : a:mode =~# '^S' ? 'S-L'
-        \ : a:mode =~# "^\<c-s>" ? 'S-B'
-        \ : a:mode =~# '^i' ?
+function! mi#statusline#mode_str()
+  let m = mode(1)
+  return m =~ '^no' ? 'OPE'
+        \ : m =~ '^ni' ? 'N--'
+        \ : m == 'n' ? 'NOR'
+        \ : m =~# '^v' ? 'VIS'
+        \ : m =~# '^V' ? 'V-L'
+        \ : m =~# "^\<c-v>" ? 'V-B'
+        \ : m =~# '^s' ? 'SEL'
+        \ : m =~# '^S' ? 'S-L'
+        \ : m =~# "^\<c-s>" ? 'S-B'
+        \ : m =~# '^i' ?
         \   &iminsert ? 'IIM'
         \   : exists('*tuskk#is_enabled') && tuskk#is_enabled() ? 'SKK'
         \   : 'INS'
-        \ : a:mode =~# '^R' ? 'REP'
-        \ : a:mode =~# '^c' ?
+        \ : m =~# '^R' ? 'REP'
+        \ : m =~# '^c' ?
         \   &iminsert ?
         \     'CIM'
         \   : 'CMD'
-        \ : a:mode =~# '^r' ? 'PRO'
-        \ : a:mode ==# '!' ? '!SH'
-        \ : a:mode ==# 't' ? 'TER'
+        \ : m =~# '^r' ? 'PRO'
+        \ : m ==# '!' ? '!SH'
+        \ : m ==# 't' ? 'TER'
         \ : '-?-'
 endfunction
 
