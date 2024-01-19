@@ -175,6 +175,36 @@ function! s:clear_hl_paren()
   endif
 endfunction
 
+function! mi#highlight#get(group) abort
+  let result = {}
+  try
+    let output = execute('highlight ' .. a:group)
+  catch /^Vim\%((\a\+)\)\=:E411:/
+    " no such highlight
+    return result
+  endtry
+
+  if output =~ '.*links\s\+to\>'
+    let link_to = substitute(output, '.*links\s\+to\>\s\+', '', '')
+    return mi#highlight#get(link_to)
+  endif
+
+  let settings = substitute(output, '.*xxx\s\+', '', '')
+        \ ->split('\s\+')
+
+  for kv in settings
+    let [k, v] = split(kv, '=')
+    let result[k] = v
+  endfor
+
+  return [a:group, result]
+endfunction
+
+function! mi#highlight#set(group, settings) abort
+  execute 'highlight' a:group
+        \ a:settings->items()->map('join(v:val, "=")')->join(' ')
+endfunction
+
 " {{{ MergeHighlight
 " https://zenn.dev/kawarimidoll/articles/cf6caaa7602239
 function! s:merge_highlight(args) abort
