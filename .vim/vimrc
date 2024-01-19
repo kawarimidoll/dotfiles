@@ -186,6 +186,7 @@ if has('nvim')
   set scrollback=2000
 else
   " :h vim-differences
+  " :h nvim-defaults
   set autoindent
   set autoread
   set background=dark
@@ -199,12 +200,14 @@ else
   set nojoinspaces
   set nostartofline
   set ruler
-  set smarttab
   set showcmd
   set smartcase
+  set smarttab
+  set ttimeout
+  set ttimeoutlen=50
+  set ttyfast
   set viminfo='20,<50,s10,h
   set viminfofile=~/.vim/viminfo
-  set ttyfast
   set wildmenu
   set wildoptions=pum,tagfile
 
