@@ -55,11 +55,14 @@ function! s:skkeleton_init() abort
     \  'registerConvertResult': v:true,
     \  'selectCandidateKeys': '1234567',
     \  'showCandidatesCount': 1,
-    \  'userJisyo': expand(s:jisyo_dir . '/SKK-USER'),
+    \  'userDictionary': expand(s:jisyo_dir . '/SKK-USER'),
     \  'completionRankFile': expand(s:jisyo_dir . '/rank.json'),
     \ })
   call skkeleton#register_kanatable('rom', l:rom_table)
   call skkeleton#register_keymap('input', "x", 'disable')
+  call skkeleton#register_keymap('input', "/", 'abbrev')
+  call add(g:skkeleton#mapped_keys, '<C-l>')
+  call skkeleton#register_keymap('input', '<C-l>', 'zenkaku')
 endfunction
 
 augroup skkeleton
