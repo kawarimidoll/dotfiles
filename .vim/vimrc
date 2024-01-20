@@ -73,32 +73,34 @@ endfunction
 command! -nargs=+ -bang Keymap call s:keymap(<bang>0, <f-args>)
 " }}}
 
-" let s:word_1000_dict_path = expand('~/.cache/vim/google-10000-english-no-swears.txt')
-" let s:word_1000_dict_url = 'https://raw.githubusercontent.com/first20hours/'
-"       \ .. 'google-10000-english/master/google-10000-english-no-swears.txt'
-" execute 'set dictionary+=' .. s:word_1000_dict_path
-" command! -bang DownloadDictFile call mi#utils#download(s:word_1000_dict_url, s:word_1000_dict_path, <bang>0)
+set dictionary+=/usr/share/dict/words
+
+let s:word_1000_dict_path = expand('~/.cache/vim/google-10000-english-no-swears.txt')
+let s:word_1000_dict_url = 'https://raw.githubusercontent.com/first20hours/'
+      \ .. 'google-10000-english/master/google-10000-english-no-swears.txt'
+execute 'set dictionary+=' .. s:word_1000_dict_path
+command! -bang DownloadDictFile call mi#utils#download(s:word_1000_dict_url, s:word_1000_dict_path, <bang>0)
 
 command! -nargs=+ -bang -complete=expression NotifyShow call mi#notify#show([<args>], <bang>0 ? 3 : 2)
 command! -bang NotifyHistory call mi#notify#history(<bang>0)
 
-function! s:look_completefunc() abort
-  let col = col('.')
-  if col < 2
-    return ''
-  endif
-  let line = getline('.')[0:col-2]
-  let start_idx = matchend(line, '.*\A')
-  if start_idx < 0
-    let start_idx = 0
-  endif
-  let word = line[start_idx:]
-  let results = systemlist($"look {word}")
-  call sort(results, {a,b -> strlen(a) - strlen(b)})
-  call complete(start_idx + 1, results)
-  return ''
-endfunction
-inoremap <c-x><c-k> <c-r>=<sid>look_completefunc()<cr>
+" function! s:look_completefunc() abort
+"   let col = col('.')
+"   if col < 2
+"     return ''
+"   endif
+"   let line = getline('.')[0:col-2]
+"   let start_idx = matchend(line, '.*\A')
+"   if start_idx < 0
+"     let start_idx = 0
+"   endif
+"   let word = line[start_idx:]
+"   let results = systemlist($"look {word}")
+"   call sort(results, {a,b -> strlen(a) - strlen(b)})
+"   call complete(start_idx + 1, results)
+"   return ''
+" endfunction
+" inoremap <c-x><c-k> <c-r>=<sid>look_completefunc()<cr>
 
 " alc represents auto look completeion
 let s:alc_enable = v:false
