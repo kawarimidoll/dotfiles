@@ -629,37 +629,37 @@ imap <c-a> <home>
 imap <c-e> <end>
 inoremap <c-j> <del>
 
-function! s:imap_up() abort
-  if line('.') == 1
-    call feedkeys("\<c-g>U\<home>", 't')
-    return
-  endif
-  if exists('g:mi#dot_repeating')
-    call feedkeys("\<up>", 't')
-    return
-  endif
-  call appendbufline(0, line('.'), getline('.'))
-  call setbufline(0, line('.'), getline(line('.')-1))
-  call deletebufline(0, line('.')-1)
-endfunction
-function! s:imap_down() abort
-  if line('.') == line('$')
-    call feedkeys("\<c-g>U\<end>", 't')
-    return
-  endif
-  if exists('g:mi#dot_repeating')
-    call feedkeys("\<down>", 't')
-    return
-  endif
-  call appendbufline(0, line('.')-1, getline('.'))
-  call setbufline(0, line('.'), getline(line('.')+1))
-  call deletebufline(0, line('.')+1)
-endfunction
-if !has('nvim')
-  inoremap <c-l> <c-@>
-  inoremap <up> <cmd>call <sid>imap_up()<cr>
-  inoremap <down> <cmd>call <sid>imap_down()<cr>
-endif
+" function! s:imap_up() abort
+"   if line('.') == 1
+"     call feedkeys("\<c-g>U\<home>", 't')
+"     return
+"   endif
+"   if exists('g:mi#dot_repeating')
+"     call feedkeys("\<up>", 't')
+"     return
+"   endif
+"   call appendbufline(0, line('.'), getline('.'))
+"   call setbufline(0, line('.'), getline(line('.')-1))
+"   call deletebufline(0, line('.')-1)
+" endfunction
+" function! s:imap_down() abort
+"   if line('.') == line('$')
+"     call feedkeys("\<c-g>U\<end>", 't')
+"     return
+"   endif
+"   if exists('g:mi#dot_repeating')
+"     call feedkeys("\<down>", 't')
+"     return
+"   endif
+"   call appendbufline(0, line('.')-1, getline('.'))
+"   call setbufline(0, line('.'), getline(line('.')+1))
+"   call deletebufline(0, line('.')+1)
+" endfunction
+" if !has('nvim')
+"   inoremap <c-l> <c-@>
+"   inoremap <up> <cmd>call <sid>imap_up()<cr>
+"   inoremap <down> <cmd>call <sid>imap_down()<cr>
+" endif
 
 let s:ft_expand_targets = {
       \ 'javascript': {
