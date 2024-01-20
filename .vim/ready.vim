@@ -88,7 +88,7 @@ else
         \ })
   call mi#notify#setwidth(kawarimiline_width+1)
 
-  autocmd WinEnter,BufEnter,CursorHold,CursorHoldI * call s:update_info()
+  autocmd WinEnter,BufEnter,CursorHold,CursorHoldI,ModeChanged * call s:update_info()
   function s:update_info() abort
     let curpos = getcurpos()[1:2]
     let pos_info = join(curpos, ',')
@@ -97,12 +97,19 @@ else
     if another_col != curpos[1]
       let pos_info ..= '-' .. string(another_col)
     endif
-    let mod_info = ''
-          \ .. (&modified ? '[+] ' : !&modifiable ? '[-] ' : '')
-          \ .. (&readonly ? '[RO] ' : '')
-          \ .. (!empty(&buftype) ? '[' .. toupper(&buftype[0]) .. '] ' : '')
-    call popup_settext(s:info_popup_id, ['', pos_info .. ' ' .. mod_info])
+    let info_list = [
+          \ mi#statusline#mode_str(),
+          \ pos_info,
+          \ (&modified ? '+' : !&modifiable ? '-' : ''),
+          \ (&readonly ? 'RO' : ''),
+          \ (!empty(&buftype) ? toupper(&buftype[0]) : ''),
+          \ ]->filter('!empty(v:val)')
+    call popup_settext(s:info_popup_id, ['', info_list->join('┊')])
+    if mode() == 'c'
+      redraw
+    endif
   endfunction
+  call s:update_info()
 
   set runtimepath+=~/ghq/github.com/kawarimidoll/tuskk.vim
   inoremap <c-j> <cmd>call tuskk#toggle()<cr>
