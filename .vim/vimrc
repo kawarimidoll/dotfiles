@@ -970,6 +970,9 @@ endif
 augroup vimrc
   autocmd!
 
+  let g:vimsyn_embed='l'
+  autocmd FileType vim syn match luaParen "(\|)"
+
   autocmd BufEnter *.sh set filetype=bash
   autocmd BufEnter * call s:pin_help_buffer()
   autocmd WinLeave,WinClosed * unlet! w:pin_buf_type
