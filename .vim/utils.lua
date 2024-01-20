@@ -31,3 +31,79 @@ if not vim.lambda then
     return assert(load(chunk:format(arg, body)))()
   end
 end
+
+if not vim.inspect then
+  local function inspect(t, indent)
+    local loop = false
+    local output =  ''
+    for _, v in ipairs(t) do
+      if loop then
+        output = output .. ","
+      end
+      loop = true
+
+      if type(v) == "table" then
+        output = output
+              .. " {"
+              .. inspect(v, indent .. '  ')
+        if output:sub(-1) == '\n' then
+          output = output .. indent .. "}"
+        else
+          output = output .. "}"
+        end
+      else
+        output = output .. ' ' .. v
+      end
+    end
+
+    local idx = 0
+    local simple_array = true
+    for k, v in pairs(t) do
+      idx = idx + 1
+      if k == idx then
+        goto continue
+      end
+      simple_array = false
+
+      if loop then
+        output = output .. ","
+      end
+      loop = true
+
+      output = output .. "\n"
+
+      if type(v) == "table" then
+        output = output
+              .. indent .. k .. " = {\n"
+              .. inspect(v, indent .. '  ')
+              .. indent .. "}"
+      else
+        output = output
+              .. indent .. k .. " = " .. vim.fn.string(v)
+      end
+
+      ::continue::
+    end
+
+    if simple_array then
+      return output .. ' '
+    else
+      return output .. "\n"
+    end
+  end
+  local function inspect_entry(t)
+    return "{" .. inspect(t, '  ') .. "}"
+  end
+  vim.inspect = inspect_entry
+end
+if not vim.print then
+  vim.print = function(v)
+    print(vim.inspect(v))
+  end
+end
+
+-- vim.print({1,2,3, 4})
+-- vim.print({1,2,{3, 4}})
+-- vim.print({1,2,3, a='k', b='2', 5, {t='ok',j=3}, 4})
+-- vim.print({a = 2, b = 100, c = { k = 'KK', j = 3}, func = function(a) print(a) end, f2 = vim.lambda })
+-- vim.print({1, 2, 3, a=2, b=100})
