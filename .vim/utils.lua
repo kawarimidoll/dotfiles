@@ -33,68 +33,64 @@ if not vim.lambda then
 end
 
 if not vim.inspect then
-  local function inspect(t, indent)
-    local loop = false
-    local output =  ''
+  local function inspect_table(t, indent)
+    local next_indent = indent .. '  '
+
+    -- parse array part
+    local array_part_lines = {}
     for _, v in ipairs(t) do
-      if loop then
-        output = output .. ","
-      end
-      loop = true
-
+      local line = ' '
       if type(v) == "table" then
-        output = output
-              .. " {"
-              .. inspect(v, indent .. '  ')
-        if output:sub(-1) == '\n' then
-          output = output .. indent .. "}"
-        else
-          output = output .. "}"
-        end
+        line = line .. inspect_table(v, next_indent)
       else
-        output = output .. ' ' .. v
+        line = line .. v
       end
+      table.insert(array_part_lines, line)
     end
+    local array_part_str = table.concat(array_part_lines, ",")
 
+    -- parse table part
     local idx = 0
-    local simple_array = true
+    local table_part_lines = {}
     for k, v in pairs(t) do
       idx = idx + 1
       if k == idx then
         goto continue
       end
-      simple_array = false
 
-      if loop then
-        output = output .. ","
-      end
-      loop = true
-
-      output = output .. "\n"
-
+      local line = next_indent .. k .. " = "
       if type(v) == "table" then
-        output = output
-              .. indent .. k .. " = {\n"
-              .. inspect(v, indent .. '  ')
-              .. indent .. "}"
+        line = line .. inspect_table(v, next_indent)
       else
-        output = output
-              .. indent .. k .. " = " .. vim.fn.string(v)
+        line = line .. vim.fn.string(v)
       end
+      table.insert(table_part_lines, line)
 
       ::continue::
     end
+    table.sort(table_part_lines)
+    local table_part_str = table.concat(table_part_lines, ",\n")
 
-    if simple_array then
-      return output .. ' '
+    if array_part_str ~= '' and table_part_str ~= '' then
+      -- array and table
+      return '{' .. array_part_str .. ",\n" .. table_part_str  .. '\n' .. indent .. '}'
+    elseif array_part_str ~= '' then
+      -- only array
+      return '{' .. array_part_str .. ' }'
+    elseif table_part_str ~= '' then
+      -- only table
+      return '{\n' .. table_part_str .. '\n' .. indent .. '}'
     else
-      return output .. "\n"
+      return ''
     end
   end
-  local function inspect_entry(t)
-    return "{" .. inspect(t, '  ') .. "}"
+  vim.inspect = function(t)
+    if type(t) == "table" then
+      return inspect_table(t, '')
+    else
+      return tostring(t)
+    end
   end
-  vim.inspect = inspect_entry
 end
 if not vim.print then
   vim.print = function(v)
@@ -104,6 +100,18 @@ end
 
 -- vim.print({1,2,3, 4})
 -- vim.print({1,2,{3, 4}})
+-- vim.print({{1},2,{3}, 4})
+
+-- vim.print({a=1, b='k', c={d='a', e='b'}, g=5})
+
 -- vim.print({1,2,3, a='k', b='2', 5, {t='ok',j=3}, 4})
--- vim.print({a = 2, b = 100, c = { k = 'KK', j = 3}, func = function(a) print(a) end, f2 = vim.lambda })
--- vim.print({1, 2, 3, a=2, b=100})
+-- vim.print({a = 2, b = 100, z = { k = 'KK', j = 3, p = { 1, 2, d={3}}}, func = function(a) print(a) end, f2 = {11,12} })
+-- vim.print({{1}, 2, 3, a=2, f='pp', b=100})
+
+-- local arr = {'a=1', 'fun=fff', 'b=2'}
+-- table.insert(arr, 'pp')
+-- vim.print(arr)
+-- table.sort(arr)
+-- vim.print(arr)
+-- dst = table.concat(arr,"\n")
+-- vim.print(dst)
