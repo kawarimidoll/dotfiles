@@ -8,7 +8,9 @@ let s:line_offset = 1
 " from neovim vim.log.levels map
 let s:levels = { 'TRACE': 0, 'DEBUG': 1, 'INFO': 2, 'WARN': 3, 'ERROR': 4, 'OFF': 5 }
 
-let s:width = 20
+if !has_key(s:, 'width')
+  let s:width = 20
+endif
 function mi#notify#setwidth(width) abort
   let s:width = a:width
 endfunction
@@ -21,6 +23,10 @@ function mi#notify#level(level_string) abort
   return get(s:levels, a:level_string, 0)
 endfunction
 
+highlight default NotifyInfo ctermfg=white ctermbg=Cyan guifg=white guibg=Cyan
+highlight default NotifyWarning ctermfg=white ctermbg=Yellow guifg=white guibg=Yellow
+highlight default NotifyError ctermfg=white ctermbg=Red guifg=white guibg=Red
+
 function mi#notify#show(msg, level = 2, opts = {}) abort
   let msg = type(a:msg) == v:t_list ? a:msg->join("\n") : a:msg
 
@@ -31,9 +37,9 @@ function mi#notify#show(msg, level = 2, opts = {}) abort
     return
   endif
 
-  let hlgroup = a:level == 3 ? 'WarningMsg'
-        \ : a:level == 4 ? 'ErrorMsg'
-        \ : 'Normal'
+  let hlgroup = a:level == 3 ? 'NotifyWarning'
+        \ : a:level == 4 ? 'NotifyError'
+        \ : 'NotifyInfo'
 
   " try to avoid overlap with another notifications
   let line = s:line_base
@@ -60,8 +66,10 @@ function mi#notify#show(msg, level = 2, opts = {}) abort
         \ 'minwidth': s:width,
         \ 'posinvert': v:false,
         \ 'time': 3000,
-        \ 'highlight': 'hlgroup',
         \ 'callback': 's:notify_closed',
+        \ 'padding': [0,0,0,1],
+        \ 'border': [0,0,0,1],
+        \ 'borderhighlight': [hlgroup],
         \ })
 
   call add(s:pop_ids, pop_id)
