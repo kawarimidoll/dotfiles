@@ -12,6 +12,7 @@
 
 # [optional footer]
 # Co-Authored-By: username <id+username@users.noreply.github.com>
+# to search github id: https://api.github.com/users/[username]
 
 # ==========
 # - https://zenn.dev/mnonamer/articles/co-author-email
