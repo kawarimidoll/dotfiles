@@ -436,7 +436,24 @@ nnoremap <sid>(cg)C <cmd>CopyLastCmd!<cr>
 nmap <sid>(cg) <nop>
 
 nnoremap s <NOP>
-nnoremap so <Cmd>execute 'source' (filereadable(@%) ? @% : '')<Bar>nohlsearch<CR>
+if has('nvim')
+  " in neovim, :source can read lua file
+  nnoremap so <Cmd>execute 'source' (filereadable(@%) ? @% : '')<Bar>nohlsearch<CR>
+else
+  function s:source() abort
+    let fname = filereadable(@%) ? @% : ''
+    let is_lua = &filetype == 'lua' || fname =~ 'lua$'
+    if !is_lua
+      execute 'source' fname
+    elseif !empty(fname)
+      execute 'luafile' fname
+    else
+      execute 'lua' getline(1, '$')->join(' ')
+    endif
+    " nohlsearch
+  endfunction
+  nnoremap so <Cmd>call <sid>source()<Bar>nohlsearch<CR>
+endif
 nnoremap s/ :%s/\v
 nnoremap s? :%s/\V
 nnoremap S :%s/\V\<<C-r><C-w>\>//g<Left><Left>
