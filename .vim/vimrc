@@ -135,7 +135,7 @@ set clipboard^=unnamedplus
 set completeopt=menu,menuone,noselect
 set expandtab
 set fileencodings=ucs-bom,utf-8,iso-2022-jp-3,euc-jp,cp932
-set fillchars+=eob:\\x20
+set fillchars+=vert:│,eob:\\x20
 set foldcolumn=0
 set formatoptions+=jmM1
 set history=2000
@@ -816,6 +816,11 @@ function! s:apply_user_highlight() abort
   highlight PmenuThumb ctermbg=255 guibg=#f8f8f2
   highlight Underlined ctermfg=NONE cterm=underline guifg=NONE gui=underline
   highlight ExtraWhitespace ctermbg=darkmagenta guibg=darkmagenta
+  if !has('nvim')
+    highlight! link StatusLine Comment
+    highlight! link StatusLineNC Comment
+    highlight! link VertSplit Comment
+  endif
 endfunction
 
 " https://zenn.dev/hokorobi/articles/98f79339d7d114
@@ -1020,7 +1025,9 @@ augroup vimrc
 
     " autocmd WinEnter,BufEnter * setlocal statusline=%!mi#statusline#active()
     " autocmd WinLeave,BufLeave * setlocal statusline=%!mi#statusline#inactive()
-    set statusline=%!mi#statusline#horizontal_line()
+    " set statusline=%!mi#statusline#horizontal_line()
+    set statusline=─
+    set fillchars+=stl:─,stlnc:─
     set laststatus=0
 
     autocmd Filetype * ++once
