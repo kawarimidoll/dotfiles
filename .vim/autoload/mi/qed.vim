@@ -2,29 +2,25 @@
 
 let s:qed_setlocal = {-> execute('setlocal modifiable nomodified noswapfile')}
 let s:is_loc = {-> get(get(getwininfo(win_getid()), 0, {}), 'loclist', 0)}
-let s:getlist = {-> s:is_loc() ? getloclist(0) : getqflist()}
+" let s:getlist = {-> s:is_loc() ? getloclist(0) : getqflist()}
 let s:setlist = {items -> s:is_loc() ? setloclist(0, items) : setqflist(items)}
 let s:delpat = {str, pattern -> substitute(str, pattern, '', '')}
-
-function s:extract(str, pattern) abort
-  let found = matchstr(a:str, a:pattern)
-  return [found, s:delpat(a:str, found .. '\s*')]
-  " return [found, s:delpat(a:str, found)]->map('trim(v:val)')
-endfunction
+let s:split_two = {str, pattern -> (split(str, pattern) + ['', ''])[:1]}
+let s:extract = {str, pattern -> matchlist(str, $'^\({pattern}\v)\s*(.*)')[1:2] ?? ['', str]}
 
 function s:parseline(line) abort
-  let [mid, text] = s:extract(a:line, '^[^|]*|[^|]*|')
-  let [filename, mid; _rest] = split(mid, '\s*|\s*', v:true)
+  let [mid, text] = s:extract(a:line->trim('', 1), '^[^|]*|[^|]*|')
+  let [filename, mid] = split(mid, '\s*|\s*', v:true)[:1]
   let bufnr = empty(filename) ? 0 : bufnr(filename)
   if bufnr < 1
     unlet bufnr
   endif
-  let [part, mid] = s:extract(mid, '\v^\d+%(-\d+)?')
-  let [lnum, end_lnum; _rest] = split(part, '-') + ['', '']
-  let [part, mid] = s:extract(mid, '\v^col\s*\d+%(-\d+)?')
-  let [col, end_col; _rest] = split(s:delpat(part, '^col\s*'), '-') + ['', '']
-  let [type, nr; _rest] = split(mid, '\s\+') + ['', '']
-  unlet mid part _rest
+  let [lnum_part, mid] = s:extract(mid, '\v\d+%(-\d+)?')
+  let [lnum, end_lnum] = s:split_two(lnum_part, '-')
+  let [col_part, mid] = s:extract(mid, 'col\s*\v\d+%(-\d+)?')
+  let [col, end_col] = s:split_two(s:delpat(col_part, '^col\s*'), '-')
+  let [type, nr] = s:split_two(mid, '\s\+')
+  unlet mid lnum_part col_part
   return l:
 endfunction
 
