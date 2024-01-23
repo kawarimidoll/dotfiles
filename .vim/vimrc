@@ -17,6 +17,7 @@ else
   filetype plugin indent on
   packadd matchit
   syntax enable
+  let g:qf_disable_statusline = 1
 endif
 language ja_JP.UTF-8
 
