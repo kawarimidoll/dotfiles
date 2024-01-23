@@ -83,6 +83,7 @@ command! -bang DownloadDictFile call mi#utils#download(s:word_1000_dict_url, s:w
 
 command! -nargs=+ -bang -complete=expression NotifyShow call mi#notify#show([<args>], <bang>0 ? 3 : 2)
 command! -bang NotifyHistory call mi#notify#history(<bang>0)
+command! NotifyForget call mi#notify#forget()
 
 " function! s:look_completefunc() abort
 "   let col = col('.')

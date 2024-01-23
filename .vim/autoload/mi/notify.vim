@@ -94,3 +94,7 @@ function mi#notify#history(write = v:false) abort
     echo s:notify_history->join("\n")
   endif
 endfunction
+
+function mi#notify#forget() abort
+  let s:notify_history = []
+endfunction
