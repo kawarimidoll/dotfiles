@@ -619,6 +619,7 @@ AbbrevCmd! sv 'saveas ' .. @%
 AbbrevCmd! rn 'Rename ' .. @%
 AbbrevCmd! ss '%s/' .. @/ .. '//g<Left><Left>'
 " AbbrevCmd! ss '%s/' .. @/ .. "//g\<Left>\<Left>" olso ok
+AbbrevCmd! gld 'global //d_<left><left><left>'
 
 " cnoremap <expr> v getcmdtype() == ':' && getcmdline() == 's' ? '<c-u>saveas ' .. @% : 'v'
 " cnoremap <expr> n getcmdtype() == ':' && getcmdline() == 'r' ? '<c-u>Rename ' .. @% : 'n'
