@@ -101,12 +101,15 @@ else
     if another_col != curpos[1]
       let pos_info ..= '-' .. string(another_col)
     endif
+    let win_info = get(getwininfo(win_getid()), 0, {})
+    let buf_info = win_info.loclist ? 'L' : toupper(slice(&buftype,0,1))
+
     let info_list = [
           \ mi#statusline#mode_str(),
           \ pos_info,
           \ (&modified ? '+' : !&modifiable ? '-' : ''),
           \ (&readonly ? 'RO' : ''),
-          \ (!empty(&buftype) ? toupper(&buftype[0]) : ''),
+          \ buf_info,
           \ ]->filter('!empty(v:val)')
     call popup_settext(s:info_popup_id, ['', info_list->join('┊')])
     if mode() == 'c'
