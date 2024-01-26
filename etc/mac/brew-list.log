@@ -1,4 +1,4 @@
-timestamp: 2023-12-19 15:34:49 JST
+timestamp: 2024-01-26 20:52:35 JST
 tap: a-know/tap
 tap: harelba/q
 tap: he3-app/he3
@@ -18,39 +18,26 @@ brew: binutils
 brew: bottom
 brew: broot
 brew: caire
-brew: cask
-brew: cfitsio
-brew: cgif
-brew: check-jsonschema
 brew: choose-rust
 brew: clog
 brew: cmake
-brew: cmatrix
 brew: cmocka
-brew: cmus
-brew: cocoapods
-brew: countdown
 brew: croc
 brew: csview
 brew: csvkit
+brew: csvlens
 brew: csvq
 brew: curl
-brew: d2
 brew: deno
-brew: dfu-programmer
-brew: dfu-util
 brew: diff-so-fancy
 brew: diffutils
-brew: doitlive
 brew: dprint
 brew: ed
 brew: efm-langserver
-brew: eureka
+brew: emacs
 brew: eza
 brew: fcp
 brew: fd
-brew: ffmpeg@4
-brew: fftw
 brew: findutils
 brew: fnm
 brew: fselect
@@ -63,7 +50,6 @@ brew: gifski
 brew: git
 brew: git-delta
 brew: git-interactive-rebase-tool
-brew: git-lfs
 brew: git-now
 brew: git-quick-stats
 brew: git-recent
@@ -71,23 +57,21 @@ brew: git-trim
 brew: git-workspace
 brew: gitbatch
 brew: github-markdown-toc
-brew: gitui
-brew: globe
 brew: gnu-sed
 brew: gnu-tar
+brew: gnupg
 brew: go
 brew: gobject-introspection
 brew: gojq
 brew: gping
 brew: grep
 brew: grex
-brew: gti
 brew: guile
 brew: gum
 brew: gzip
-brew: helix
 brew: highlight
 brew: hurl
+brew: imagemagick
 brew: itchyny/tap/mmv
 brew: jesseduffield/lazydocker/lazydocker
 brew: jesseduffield/lazygit/lazygit
@@ -97,25 +81,12 @@ brew: jpeg
 brew: jql
 brew: kalker
 brew: libcaca
-brew: libgit2@1.5
-brew: libgit2@1.6
-brew: libgsf
-brew: libimagequant
-brew: libpq
-brew: libproxy
 brew: librsvg
-brew: libspng
-brew: lima
-brew: llvm@16
 brew: lsd
-brew: luajit-openresty
-brew: luarocks
 brew: macchina
-brew: markdown-toc
 brew: mas
 brew: mdcat
 brew: mecab-ipadic
-brew: melody
 brew: miller
 brew: moar
 brew: moreutils
@@ -126,7 +97,6 @@ brew: neovim
 brew: ninja
 brew: nyancat
 brew: openjdk
-brew: openjdk@11
 brew: orc
 brew: ouch
 brew: pastel
@@ -134,18 +104,12 @@ brew: pget
 brew: pinentry-mac
 brew: pngquant
 brew: pnpm
-brew: poppler
 brew: procs
-brew: protobuf
 brew: px4/px4/gcc-arm-none-eabi
-brew: pyyaml
 brew: qt
-brew: qt@5
 brew: rargs
-brew: rbenv
 brew: re2c
 brew: redis
-brew: rich-cli
 brew: ripgrep
 brew: rmw
 brew: rust
@@ -153,14 +117,10 @@ brew: s-search
 brew: sd
 brew: semgrep
 brew: silicon
-brew: simutrans
 brew: sl
 brew: slides
 brew: starship
 brew: svgo
-brew: swig
-brew: t-rec
-brew: the_platinum_searcher
 brew: tig
 brew: timewarrior
 brew: timg
@@ -174,11 +134,9 @@ brew: ugrep
 brew: unzip
 brew: viddy
 brew: vim
-brew: virtualenv
 brew: viu
 brew: w3m
 brew: wasmer
-brew: watchexec
 brew: wdiff
 brew: wget
 brew: xdg-ninja
@@ -201,7 +159,6 @@ cask: anki
 cask: apparency
 cask: appflowy
 cask: arc
-cask: arduino
 cask: audiorelay
 cask: battery-buddy
 cask: bike
@@ -216,11 +173,9 @@ cask: cloudflare-warp
 cask: deepl
 cask: devtoys
 cask: displaperture
-cask: docker
 cask: dockey
 cask: dropbox
 cask: editaro
-cask: espanso
 cask: flux
 cask: folder-colorizer
 cask: font-cousine-nerd-font
@@ -235,8 +190,10 @@ cask: google-chrome
 cask: google-japanese-ime
 cask: he3
 cask: hot
+cask: ia-presenter
 cask: iina
 cask: informant
+cask: iterm2
 cask: itsycal
 cask: jquake
 cask: kap
@@ -251,7 +208,6 @@ cask: menuwhere
 cask: numi
 cask: obsidian
 cask: paintbrush
-cask: paletro
 cask: pensela
 cask: pinta
 cask: pixel-picker
@@ -266,7 +222,6 @@ cask: quicklook-json
 cask: quicklookase
 cask: qview
 cask: rectangle
-cask: runcat-plugins-manager
 cask: scriptql
 cask: scrolla
 cask: shottr
@@ -293,19 +248,19 @@ mas: 1328847392  Processes Monitor  (1.6)
 mas: 1351639930  Gifski             (2.23.0)
 mas: 1429033973  RunCat             (10.3)
 mas: 1450640351  Lightweight PDF    (1.0.5)
-mas: 1522267256  Shareful           (1.9.0)
-mas: 1545870783  Color Picker       (1.13.1)
-mas: 1563735522  Charmstone         (0.30)
+mas: 1522267256  Shareful           (1.9.1)
+mas: 1545870783  Color Picker       (1.15.0)
+mas: 1563735522  Charmstone         (1.31)
 mas: 1569290801  ItemStock          (1.0)
 mas: 1575588022  MenubarX           (1.6.8)
 mas: 1581223559  Magic              (3.5.1)
 mas: 1586304988  Messer             (2.1.19)
 mas: 1596706466  Speediness         (1.6.1)
 mas: 1611378436  Pure Paste         (1.9.2)
-mas: 1615988943  Folder Peek        (1.8.2)
+mas: 1615988943  Folder Peek        (1.9.2)
 mas: 1621370168  WorldWideWeb       (2.1)
 mas: 302584613   Kindle             (7.0)
-mas: 497799835   Xcode              (14.3.1)
-mas: 539883307   LINE               (8.5.1)
+mas: 497799835   Xcode              (15.1)
+mas: 539883307   LINE               (8.5.2)
 mas: 6444685140  CenterMouse        (1.1.1)
 mas: 928871589   Noizio             (2.1.0)
