@@ -12,6 +12,11 @@ autocmd TextYankPost * call mi#register#collect_yank_history(10)
 autocmd BufEnter,BufReadPost * call mi#mru#save()
 " autocmd FileType qf ++once packadd cfilter
 
+" copy quotestar only focus changed
+let @" = @*
+autocmd VimLeave,FocusLost * let @* = @"
+autocmd FocusGained * let @" = @*
+
 autocmd BufReadPost quickfix call mi#qed#start()
 
 call mi#cmdline#proxy_let('trim', 'Trim')
