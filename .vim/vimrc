@@ -574,7 +574,7 @@ cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 cnoremap <C-d> <Del>
 cmap <c-h> <bs>
-cnoremap <C-r><C-r> <C-r><C-r>*
+cnoremap <C-r><C-r> <C-r><C-r>"
 " cnoremap <c-c> <home>Capture <cr>
 cnoremap <expr> <C-k> repeat('<Del>', strchars(getcmdline()[getcmdpos() - 1:]))
 cnoremap <s-cr> <cmd>call mi#cmdline#set_by_spec(extend(mi#cmdline#get_spec(), {'bang': v:true}))<cr><cr>
@@ -650,7 +650,7 @@ inoremap <tab> <cmd>call <sid>my_cmp()<cr>
 inoremap <c-x><c-y> <cmd>call <sid>my_cmp()<cr>
 
 imap <c-h> <bs>
-inoremap <silent> <C-r><C-r> <C-r><C-r>*
+inoremap <silent> <C-r><C-r> <C-r><C-r>"
 inoremap <C-k> <C-o>D
 " inoremap <expr> <Tab>   pumvisible() ? '<C-n>' : '<C-t>'
 inoremap <expr> <S-Tab> pumvisible() ? '<C-p>' : '<C-d>'
