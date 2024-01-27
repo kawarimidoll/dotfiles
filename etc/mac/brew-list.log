@@ -1,4 +1,4 @@
-timestamp: 2024-01-26 20:52:35 JST
+timestamp: 2024-01-27 11:42:56 JST
 tap: a-know/tap
 tap: harelba/q
 tap: he3-app/he3
@@ -21,7 +21,6 @@ brew: caire
 brew: choose-rust
 brew: clog
 brew: cmake
-brew: cmocka
 brew: croc
 brew: csview
 brew: csvkit
@@ -59,7 +58,6 @@ brew: gitbatch
 brew: github-markdown-toc
 brew: gnu-sed
 brew: gnu-tar
-brew: gnupg
 brew: go
 brew: gobject-introspection
 brew: gojq
@@ -81,23 +79,17 @@ brew: jpeg
 brew: jql
 brew: kalker
 brew: libcaca
-brew: librsvg
 brew: lsd
 brew: macchina
 brew: mas
 brew: mdcat
-brew: mecab-ipadic
 brew: miller
 brew: moar
 brew: moreutils
-brew: mozjpeg
 brew: nano
 brew: navi
 brew: neovim
-brew: ninja
 brew: nyancat
-brew: openjdk
-brew: orc
 brew: ouch
 brew: pastel
 brew: pget
@@ -106,10 +98,7 @@ brew: pngquant
 brew: pnpm
 brew: procs
 brew: px4/px4/gcc-arm-none-eabi
-brew: qt
 brew: rargs
-brew: re2c
-brew: redis
 brew: ripgrep
 brew: rmw
 brew: rust
