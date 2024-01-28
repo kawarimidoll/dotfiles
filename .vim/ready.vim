@@ -83,6 +83,7 @@ else
         \ 'lnum': 1,
         \ 'left_margin': &columns-kawarimiline_width,
         \ 'right_margin': 0,
+        \ 'enable': {-> len(gettabinfo()) == 1},
         \ 'wave': v:true,
         \ })
   let s:info_popup_id = popup_create('', {
