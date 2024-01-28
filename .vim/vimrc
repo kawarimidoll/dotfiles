@@ -131,9 +131,9 @@ set ambiwidth=single
 set breakindent
 set breakindentopt=min:50,shift:4,sbr,list:-1
 set cedit=\<C-Q>
-" set clipboard&
-" set clipboard^=unnamed
-" set clipboard^=unnamedplus
+set clipboard&
+set clipboard^=unnamed
+set clipboard^=unnamedplus
 set completeopt=menu,menuone,noselect
 set expandtab
 set fileencodings=ucs-bom,utf-8,iso-2022-jp-3,euc-jp,cp932
