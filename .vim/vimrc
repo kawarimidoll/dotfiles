@@ -152,6 +152,7 @@ set nobackup
 set nofixeol
 set nomodeline
 set nonumber
+set noruler
 set noshowmode
 set noswapfile
 set nowritebackup
