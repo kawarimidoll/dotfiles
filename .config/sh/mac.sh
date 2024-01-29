@@ -98,18 +98,6 @@ __add_fpath "${BREW_PREFIX}/opt/curl/share/zsh/site-functions"
 
 export PKG_CONFIG_PATH="${BREW_PREFIX}/opt/curl/lib/pkgconfig"
 
-# PATH="/opt/homebrew/opt/libpq/bin:$PATH"
-# export LDFLAGS="$LDFLAGS:-L/opt/homebrew/opt/libpq/lib"
-# export CPPFLAGS="$CPPFLAGS:-I/opt/homebrew/opt/libpq/include"
-# export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/opt/homebrew/opt/libpq/lib/pkgconfig"
-
-PATH="${BREW_PREFIX}/opt/openjdk/bin:$PATH"
-export CPPFLAGS="-I/${BREW_PREFIX}/opt/openjdk/include:${CPPFLAGS}"
-
-[[ -d ~/.rbenv ]] && \
-  PATH="$HOME/.rbenv/bin:$PATH" && \
-  eval "$(rbenv init -)"
-
 # -----------------
 #  asdf
 # -----------------
