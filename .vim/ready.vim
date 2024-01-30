@@ -128,6 +128,17 @@ else
   set runtimepath+=~/ghq/github.com/kawarimidoll/tuskk.vim
   inoremap <c-j> <cmd>call tuskk#toggle()<cr>
   cnoremap <c-j> <cmd>call tuskk#cmd_buf()<cr>
+  let base_table = tuskk#opts#builtin_kana_table()
+  let azik_table = tuskk#opts#extend_azik_table()
+  let az_keys = azik_table->keys()
+  for k in az_keys
+    if k[0] == k[1]
+      unlet! azik_table[k]
+    endif
+  endfor
+  unlet! azik_table[';']
+  unlet! azik_table['q']
+  let kana_table = extendnew(base_table, azik_table)
 
   let uj = expand('~/.cache/vim/SKK-JISYO.user')
   call tuskk#initialize({
@@ -140,7 +151,7 @@ else
         \   { 'path': '~/.cache/vim/SKK-JISYO.emoji', 'encoding': 'utf-8' },
         \   { 'path': '~/.cache/vim/SKK-JISYO.nicoime', 'encoding': 'utf-8', 'mark': '[N]' },
         \ ],
-        \ 'kana_table': tuskk#opts#builtin_kana_table(),
+        \ 'kana_table': kana_table,
         \ 'suggest_wait_ms': 200,
         \ 'suggest_prefix_match_minimum': 5,
         \ 'suggest_sort_by': 'length',
