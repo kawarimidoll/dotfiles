@@ -152,7 +152,6 @@ set nobackup
 set nofixeol
 set nomodeline
 set nonumber
-set noruler
 set noshowmode
 set noswapfile
 set nowritebackup
@@ -203,8 +202,8 @@ else
   set hlsearch
   set incsearch
   set nojoinspaces
+  set noruler
   set nostartofline
-  set ruler
   set showcmd
   set smartcase
   set smarttab
