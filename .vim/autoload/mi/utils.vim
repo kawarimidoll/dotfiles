@@ -234,3 +234,7 @@ function! mi#utils#throttle(fn, wait, args = []) abort
         \ execute('unlet! s:throttle_timers[timer_name]', 'silent!')
         \ ]})
 endfunction
+
+function! mi#utils#constrain(num, min_limit, max_limit) abort
+  return min([max([a:num, a:min_limit]), a:max_limit])
+endfunction
