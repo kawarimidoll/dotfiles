@@ -1,8 +1,5 @@
 function! s:has_window_to(direction) abort
-  if a:direction !~# '[hjkl]'
-    return v:false
-  endif
-  return winnr() != winnr(a:direction)
+  return a:direction =~# '^[hjkl]$' && winnr() != winnr(a:direction)
 endfunction
 
 " https://github.com/simeji/winresizer/blob/master/plugin/winresizer.vim
@@ -42,4 +39,12 @@ function! mi#window#resize(size = {}) abort
   redraw
 
   echo '[window]' msg
+endfunction
+
+function mi#window#fit(size = {}) abort
+  if winnr('$') == 1
+    return
+  endif
+  execute 'resize' mi#utils#constrain(line('$'),
+        \ get(a:size, 'min', 3), get(a:size, 'max', 10))
 endfunction
