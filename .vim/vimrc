@@ -131,9 +131,9 @@ set ambiwidth=single
 set breakindent
 set breakindentopt=min:50,shift:4,sbr,list:-1
 set cedit=\<C-Q>
-set clipboard&
-set clipboard^=unnamed
-set clipboard^=unnamedplus
+" set clipboard&
+" set clipboard^=unnamed
+" set clipboard^=unnamedplus
 set completeopt=menu,menuone,noselect
 set expandtab
 set fileencodings=ucs-bom,utf-8,iso-2022-jp-3,euc-jp,cp932
@@ -489,8 +489,16 @@ if has('nvim')
   endfor
 endif
 
-nnoremap p ]p`]
-nnoremap P [P`]
+function! s:ensure_unnamed_register() abort
+  if empty(@")
+    let @" = @*
+  endif
+endfunction
+
+" nnoremap p ]p`]
+" nnoremap P [P`]
+nnoremap p <cmd>call <sid>ensure_unnamed_register()<cr>]p`]
+nnoremap P <cmd>call <sid>ensure_unnamed_register()<cr>[P`]
 "nnoremap gp p
 "nnoremap gP P
 nnoremap x "_d
