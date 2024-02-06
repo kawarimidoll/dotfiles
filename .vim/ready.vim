@@ -26,23 +26,20 @@ call mi#cmdline#proxy_let('cfilter', 'Cfilter')
 source ~/dotfiles/.vim/autoload/mi/subs.vim
 " source ~/dotfiles/.vim/autoload/mi/neighbor.vim
 
-command! -bang GitDiff enew | setlocal buftype=nofile | setfiletype gitcommit
-      \ | execute 'read! git diff ' .. (<bang>0 ? '$(git default-branch)...$(git current-branch) ' : '') .. '#'
-      \ | call cursor(1, 1)
-
 command! GitStatus 10new
       \ | setlocal buftype=nofile bufhidden=delete noswapfile
-      \ | setfiletype git
       \ | execute 'read !git status -suall'
-      \ | normal! gg"_dd
-      \ | setlocal readonly
+      \ | execute 'normal! gg"_dd'
+      \ | setlocal readonly nobuflsted
+      \ | call mi#window#fit()
 
 command! GitDiff new
       \ | setlocal buftype=nofile bufhidden=delete noswapfile
       \ | setfiletype gitcommit
       \ | execute 'read !git diff #'
-      \ | setlocal readonly
+      \ | setlocal readonly nobuflsted
       \ | normal! gg
+      \ | call mi#window#fit()
 
 if has('nvim')
   call mi#cmdline#proxy_let('L[spInfo]', 'LspInfo')
