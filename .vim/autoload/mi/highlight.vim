@@ -175,6 +175,34 @@ function! s:clear_hl_paren()
   endif
 endfunction
 
+" ShowHighlightGroup
+" https://github.com/mityu/dotfiles/blob/c647c6c0e9c1d2c1abe4ba8e050b2a16ce15817d/vim/runtime/autoload/vimrc.vim#L189
+" https://zenn.dev/vim_jp/articles/show-hlgroup-under-cursor
+function! mi#highlight#chain(show = v:false) abort
+  let hlgroup = synIDattr(synID(line('.'), col('.'), 1), 'name')
+  let group_chain = []
+
+  while hlgroup !=# ''
+    call add(group_chain, hlgroup)
+    let hlgroup = execute($'highlight {hlgroup}')->trim()->matchstr('\<links\s\+to\>\s\+\zs\w\+$')
+  endwhile
+
+  if empty(group_chain)
+    if a:show
+      echo 'No highlight groups'
+    endif
+    return
+  endif
+
+  if a:show
+    for group in group_chain
+      execute 'highlight' group
+    endfor
+    return
+  endif
+  return map(group_chain, 'execute("highlight " .. v:val)->trim()')
+endfunction
+
 function! mi#highlight#get(group) abort
   let result = {}
   try
