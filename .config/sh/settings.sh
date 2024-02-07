@@ -113,7 +113,7 @@ if has 'lsd'; then
 fi
 
 if has 'eza'; then
-  alias lsf='eza -Falh --no-user --time-style=long-iso --icons --git --color-scale'
+  alias lsf='eza -F -alh --no-user --time-style=long-iso --icons --git'
   alias tree='eza --all --git-ignore --tree --icons --ignore-glob=.git'
 fi
 
