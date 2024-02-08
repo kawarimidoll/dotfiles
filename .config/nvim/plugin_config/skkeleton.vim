@@ -49,7 +49,8 @@ function! s:skkeleton_init() abort
     \     g:skk_dict_dir .. 'SKK-JISYO.geo',
     \     g:skk_dict_dir .. 'SKK-JISYO.station',
     \     g:skk_dict_dir .. 'SKK-JISYO.jinmei',
-    \     g:skk_wiki_dict_dir .. 'SKK-JISYO.jawiki'
+    \     g:skk_wiki_dict_dir .. 'SKK-JISYO.jawiki',
+    \     expand('~/.cache/vim/SKK-JISYO.nicoime'),
     \  ],
     \  'immediatelyCancel': v:false,
     \  'registerConvertResult': v:true,
