@@ -10,7 +10,7 @@ __source() {
 
 export DOT_DIR="${HOME}/dotfiles"
 shell_rc="${HOME}/.bashrc"
-__source "${DOT_DIR}/.config/sh/setting.sh"
+__source "${DOT_DIR}/.config/sh/settings.sh"
 
 # -----------------
 #  Alias
