@@ -763,7 +763,7 @@ xnoremap > >gv
 xnoremap <silent><C-k> :m'<-2<CR>gv=gv
 xnoremap <silent><C-j> :m'>+1<CR>gv=gv
 xnoremap S "zy:%s/<C-r>z//gce<Left><Left><Left><Left>
-" ref: github.com/monaqa/dotfiles/blob/master/.config/nvim/scripts/keymap.vim#L65-L66
+" ref: https://github.com/monaqa/dotfiles/blob/f214e9628cbac0803ad9d9bc2ad1582c696c4e6b/.config/nvim/scripts/keymap.vim#L63-L69
 xnoremap * "zy/\V<C-r><C-r>=substitute(escape(@z, '/\'), '\_s\+', '\\_s\\+', 'g')<CR><CR>``
 xnoremap # "zy?\V<C-r><C-r>=substitute(escape(@z, '/\'), '\_s\+', '\\_s\\+', 'g')<CR><CR>``
 xnoremap R "zy:,$s//<C-r><C-r>=escape(@z, '/\&~')<CR>/gce<Bar>1,''-&&<CR>
