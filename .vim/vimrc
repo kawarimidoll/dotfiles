@@ -658,7 +658,7 @@ inoremap <tab> <cmd>call <sid>my_cmp()<cr>
 inoremap <c-x><c-y> <cmd>call <sid>my_cmp()<cr>
 
 imap <c-h> <bs>
-inoremap <silent> <C-r><C-r> <C-r><C-r>"
+inoremap <silent> <C-r><C-r> <cmd>call <sid>sync_unnamed()<cr><C-r><C-r>"
 inoremap <C-k> <C-o>D
 " inoremap <expr> <Tab>   pumvisible() ? '<C-n>' : '<C-t>'
 inoremap <expr> <S-Tab> pumvisible() ? '<C-p>' : '<C-d>'

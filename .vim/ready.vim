@@ -16,7 +16,7 @@ autocmd BufEnter,BufReadPost * call mi#mru#save()
 set clipboard=
 let @" = @*
 autocmd VimLeave,FocusLost * let @* = @"
-autocmd FocusGained * let @" = @*
+autocmd FocusGained * let @" = ''
 
 autocmd BufReadPost quickfix call mi#qed#start()
 
