@@ -489,7 +489,7 @@ if has('nvim')
   endfor
 endif
 
-function! s:ensure_unnamed_register() abort
+function! s:sync_unnamed() abort
   if empty(@")
     let @" = @*
   endif
@@ -497,8 +497,8 @@ endfunction
 
 " nnoremap p ]p`]
 " nnoremap P [P`]
-nnoremap p <cmd>call <sid>ensure_unnamed_register()<cr>]p`]
-nnoremap P <cmd>call <sid>ensure_unnamed_register()<cr>[P`]
+nnoremap p <cmd>call <sid>sync_unnamed()<cr>]p`]
+nnoremap P <cmd>call <sid>sync_unnamed()<cr>[P`]
 "nnoremap gp p
 "nnoremap gP P
 nnoremap x "_d
