@@ -1,0 +1,29 @@
+name: promote_post
+
+on:
+  schedule:
+    - cron: "0 12,21 * * *"
+    - cron: "0 13,19 * * *"
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: denoland/setup-deno@v1
+      - name: promote sizu
+        if: github.event.schedule == '0 12,21 * * *'
+        working-directory: ./deno
+        env:
+          BLUESKY_IDENTIFIER: ${{ secrets.BLUESKY_IDENTIFIER }}
+          BLUESKY_PASSWORD: ${{ secrets.BLUESKY_PASSWORD }}
+          TEXTDB_ENDPOINT: ${{ secrets.TEXTDB_ENDPOINT }}
+        run: deno task promote sizu
+      - name: promote zenn
+        if: github.event.schedule == '0 13,19 * * *'
+        working-directory: ./deno
+        env:
+          BLUESKY_IDENTIFIER: ${{ secrets.BLUESKY_IDENTIFIER }}
+          BLUESKY_PASSWORD: ${{ secrets.BLUESKY_PASSWORD }}
+          TEXTDB_ENDPOINT: ${{ secrets.TEXTDB_ENDPOINT }}
+        run: deno task promote zenn
