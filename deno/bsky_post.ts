@@ -1,10 +1,10 @@
-import { chunk } from "https://deno.land/std@0.190.0/collections/chunk.ts";
+import { chunk } from "https://deno.land/std@0.217.0/collections/chunk.ts";
 import AtprotoAPI from "npm:@atproto/api";
 import type { Facet } from "npm:@atproto/api";
 const { BskyAgent, RichText } = AtprotoAPI;
 
 if (!Deno.env.get("GITHUB_ACTIONS")) {
-  await import("https://deno.land/std@0.183.0/dotenv/load.ts");
+  await import("https://deno.land/std@0.217.0/dotenv/load.ts");
 }
 
 const service = "https://bsky.social";
@@ -17,6 +17,10 @@ if (!identifier || !password) {
 }
 
 await agent.login({ identifier, password });
+
+export function getAgent() {
+  return agent;
+}
 
 type ReplyRef = {
   root: { cid: string; uri: string };
@@ -62,7 +66,7 @@ export const richPost = async (
   return first;
 };
 
-const convertMdLink = (src: string) => {
+export const convertMdLink = (src: string) => {
   const mdLinkRegex = /\[([^\]]+)\]\(([^)]+)\)/;
   const facets = [];
   let cnt = 0;
