@@ -12,11 +12,14 @@ autocmd TextYankPost * call mi#register#collect_yank_history(10)
 autocmd BufEnter,BufReadPost * call mi#mru#save()
 " autocmd FileType qf ++once packadd cfilter
 
+" nnoremap <right> <cmd>let @* = @"<cr>
+" nnoremap <left> <cmd>let @" = @*<cr>
 " copy quotestar only focus changed
-set clipboard=
+set clipboard&
 let @" = @*
-autocmd VimLeave,FocusLost * let @* = @"
-autocmd FocusGained * let @" = ''
+nnoremap gy <cmd>let @* = @"<cr>
+" autocmd VimLeave,FocusLost * let @* = @"
+autocmd FocusGained * let @" = @*
 
 autocmd BufReadPost quickfix call mi#qed#start()
 

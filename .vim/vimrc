@@ -489,16 +489,16 @@ if has('nvim')
   endfor
 endif
 
-function! s:sync_unnamed() abort
-  if empty(@")
-    let @" = @*
-  endif
-endfunction
+" function! s:sync_unnamed() abort
+"   if empty(@")
+"     let @" = @*
+"   endif
+" endfunction
 
-" nnoremap p ]p`]
-" nnoremap P [P`]
-nnoremap p <cmd>call <sid>sync_unnamed()<cr>]p`]
-nnoremap P <cmd>call <sid>sync_unnamed()<cr>[P`]
+nnoremap p ]p`]
+nnoremap P [P`]
+" nnoremap p <cmd>call <sid>sync_unnamed()<cr>]p`]
+" nnoremap P <cmd>call <sid>sync_unnamed()<cr>[P`]
 "nnoremap gp p
 "nnoremap gP P
 nnoremap x "_d
@@ -582,7 +582,9 @@ cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 cnoremap <C-d> <Del>
 cmap <c-h> <bs>
+" cnoremap <C-r><C-r> <cmd>call <sid>sync_unnamed()<cr><C-r><C-r>"
 cnoremap <C-r><C-r> <C-r><C-r>"
+
 " cnoremap <c-c> <home>Capture <cr>
 cnoremap <expr> <C-k> repeat('<Del>', strchars(getcmdline()[getcmdpos() - 1:]))
 cnoremap <s-cr> <cmd>call mi#cmdline#set_by_spec(extend(mi#cmdline#get_spec(), {'bang': v:true}))<cr><cr>
@@ -658,7 +660,8 @@ inoremap <tab> <cmd>call <sid>my_cmp()<cr>
 inoremap <c-x><c-y> <cmd>call <sid>my_cmp()<cr>
 
 imap <c-h> <bs>
-inoremap <silent> <C-r><C-r> <cmd>call <sid>sync_unnamed()<cr><C-r><C-r>"
+" inoremap <silent> <C-r><C-r> <cmd>call <sid>sync_unnamed()<cr><C-r><C-r>"
+inoremap <silent> <C-r><C-r> <C-r><C-r>"
 inoremap <C-k> <C-o>D
 " inoremap <expr> <Tab>   pumvisible() ? '<C-n>' : '<C-t>'
 inoremap <expr> <S-Tab> pumvisible() ? '<C-p>' : '<C-d>'
@@ -753,6 +756,7 @@ endfunction
 inoremap <expr> <c-x> <sid>expand_fname("\<c-x>")
 
 " visual
+" xnoremap p <cmd>call <sid>sync_unnamed()<cr>P
 xnoremap p P
 xnoremap <silent> y y`]
 xnoremap x "_x
