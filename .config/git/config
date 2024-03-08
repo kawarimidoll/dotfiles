@@ -57,7 +57,7 @@
 	rename-branch = branch --move
 	rewind = !git remember | xargs --no-run-if-empty git reset --soft
 	root = !pwd
-	save = stash save
+	save = stash push
 	ss = status --short
 	staged = diff --staged --name-only --diff-filter=ACMR
 	store = __store
@@ -75,6 +75,8 @@
 [push]
 	default = current
 	useForceIfIncludes = true
+[rebase]
+	autostash = true
 [pull]
 	rebase = true
 [fetch]
