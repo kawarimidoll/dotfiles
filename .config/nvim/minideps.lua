@@ -72,8 +72,11 @@ local init_lsp = function()
       buf_set_keymap('mxc', vim.lsp.buf.code_action, 'code_action', true)
       buf_set_keymap('gr', vim.lsp.buf.references, 'references')
       buf_set_keymap('<space>p', function()
-        vim.lsp.buf.format({ async = true })
-      end, 'format')
+        vim.lsp.buf.format({
+          async = true,
+          filter = function(client) return client.name ~= "copilot" end
+        })
+      end, 'format', true)
     end,
   })
 
@@ -216,6 +219,12 @@ later(function()
 end)
 
 later(function()
+  add('rlane/pounce.nvim')
+  vim.keymap.set({ 'n', 'x' }, 's;', '<Cmd>Pounce<CR>')
+  vim.cmd.luafile('~/dotfiles/.config/nvim/plugin_config/pounce.lua')
+end)
+
+later(function()
   add('lewis6991/gitsigns.nvim')
   vim.cmd.luafile('~/dotfiles/.config/nvim/plugin_config/gitsigns.lua')
 
@@ -257,8 +266,8 @@ later(function()
       auto_trigger = true,
       keymap = {
         accept = "<c-g><c-cr>",
-        --   accept_word = false,
-        --   accept_line = false,
+        accept_word = "<c-g><c-l>",
+        accept_line = "<c-g><c-j>",
         next = "<c-g><c-n>",
         prev = "<c-g><c-p>",
         --   dismiss = "<C-]>",
