@@ -237,22 +237,21 @@ later(function()
   vim.keymap.set({ 'n', 'x' }, '<C-a>', '<Plug>(dial-increment)')
   vim.keymap.set({ 'n', 'x' }, '<C-x>', '<Plug>(dial-decrement)')
 
+  add({ source = 'simeji/winresizer' })
   vim.api.nvim_create_autocmd({ 'WinEnter' }, {
     pattern = '*',
     callback = function()
-      add({ source = 'simeji/winresizer' })
       vim.keymap.set({ 'n' }, '<c-w><c-e>', '<Cmd>WinResizerStartResize<CR>')
     end,
     once = true,
   })
 
+  add({ source = 'segeljakt/vim-silicon' })
+  add({ source = 'tyru/capture.vim' })
   vim.api.nvim_create_autocmd({ 'CmdlineEnter' }, {
     pattern = '*',
     callback = function()
-      add({ source = 'segeljakt/vim-silicon' })
       vim.cmd.source('~/dotfiles/.config/nvim/plugin_config/silicon.vim')
-
-      add({ source = 'tyru/capture.vim' })
     end,
     once = true,
   })
@@ -282,10 +281,10 @@ later(function()
   })
   require("CopilotChat").setup()
 
+  add({ source = 'hrsh7th/nvim-insx' })
   vim.api.nvim_create_autocmd({ 'InsertEnter' }, {
     pattern = '*',
     callback = function()
-      add({ source = 'hrsh7th/nvim-insx' })
       vim.cmd.luafile('~/dotfiles/.config/nvim/plugin_config/insx.lua')
     end,
     once = true,
