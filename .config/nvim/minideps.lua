@@ -141,18 +141,20 @@ later(function()
     mappings = { delete_char = '<c-h>' }
   })
   vim.ui.select = MiniPick.ui_select
-  vim.keymap.set({ 'n' }, '<space>f', function() MiniPick.builtin.files({ tool = 'git' }) end)
-  vim.keymap.set({ 'n' }, '<space>H', MiniPick.builtin.help)
+  vim.keymap.set({ 'n' }, '<space>f', function()
+    MiniPick.builtin.files({ tool = 'git' })
+  end, { desc = 'mini.pick.files' })
+  vim.keymap.set({ 'n' }, '<space>H', MiniPick.builtin.help, { desc = 'mini.pick.help' })
   local wipeout_cur = function()
     vim.api.nvim_buf_delete(MiniPick.get_picker_matches().current.bufnr, {})
   end
   local buffer_mappings = { wipeout = { char = '<C-d>', func = wipeout_cur } }
   vim.keymap.set({ 'n' }, '<space>b', function()
     MiniPick.builtin.buffers({ include_current = false }, { mappings = buffer_mappings })
-  end)
+  end, { desc = 'mini.pick.buffers' })
 
   require('mini.files').setup()
-  vim.keymap.set({ 'n' }, '<space>F', MiniFiles.open)
+  vim.keymap.set({ 'n' }, '<space>F', MiniFiles.open, { desc = 'mini.files.open' })
 
   vim.api.nvim_create_autocmd({ 'InsertEnter' }, {
     pattern = '*',
@@ -166,6 +168,8 @@ later(function()
     once = true,
   })
 
+  local vimrc_sid = vim.fn.getscriptinfo({ name = 'vimrc' })[1].sid
+  local vimrc_q = '<SNR>' .. vimrc_sid .. '_(q)'
   local clue = require('mini.clue')
   clue.setup({
     triggers = {
@@ -173,14 +177,20 @@ later(function()
       { mode = 'n', keys = '<Leader>' },
       { mode = 'x', keys = '<Leader>' },
 
+      { mode = 'n', keys = vimrc_q },
+
       -- Built-in completion
       { mode = 'i', keys = '<C-x>' },
 
+      { mode = 'i', keys = '<C-g>' },
+
       -- Space triggers
       { mode = 'n', keys = '<Space>' },
+      { mode = 'n', keys = 's' },
 
-      -- LSP mappings
-      { mode = 'n', keys = 'mx' },
+      { mode = 'n', keys = 'm' },
+      { mode = 'n', keys = 'mh',      desc = 'gitsigns' },
+      { mode = 'n', keys = 'mx',      desc = 'lsp' },
 
       -- `g` key
       { mode = 'n', keys = 'g' },
@@ -212,15 +222,19 @@ later(function()
       clue.gen_clues.g(),
       clue.gen_clues.marks(),
       clue.gen_clues.registers(),
-      clue.gen_clues.windows(),
+      clue.gen_clues.windows({ submode_resize = true }),
       clue.gen_clues.z(),
     },
   })
+  MiniClue.set_mapping_desc('n', vimrc_q .. 'o', 'only')
+  MiniClue.set_mapping_desc('n', 'so', 'source')
+  MiniClue.set_mapping_desc('n', 's/', 'substitute magic')
+  MiniClue.set_mapping_desc('n', 's?', 'substitute nomagic')
 end)
 
 later(function()
   add('rlane/pounce.nvim')
-  vim.keymap.set({ 'n', 'x' }, 's;', '<Cmd>Pounce<CR>')
+  vim.keymap.set({ 'n', 'x' }, 's;', require('pounce').pounce, { desc = 'pounce' })
   vim.cmd.luafile('~/dotfiles/.config/nvim/plugin_config/pounce.lua')
 end)
 
@@ -232,19 +246,19 @@ later(function()
 
   add({ source = 'monaqa/dial.nvim' })
   vim.cmd.luafile('~/dotfiles/.config/nvim/plugin_config/dial.lua')
-  vim.keymap.set({ 'x' }, 'g<C-a>', 'g<Plug>(dial-increment)')
-  vim.keymap.set({ 'x' }, 'g<C-x>', 'g<Plug>(dial-decrement)')
+  vim.keymap.set({ 'x' }, 'g<C-a>', 'g<Plug>(dial-increment)', { desc = 'dial-increment' })
+  vim.keymap.set({ 'x' }, 'g<C-x>', 'g<Plug>(dial-decrement)', { desc = 'dial-decrement' })
   vim.keymap.set({ 'n', 'x' }, '<C-a>', '<Plug>(dial-increment)')
   vim.keymap.set({ 'n', 'x' }, '<C-x>', '<Plug>(dial-decrement)')
 
-  add({ source = 'simeji/winresizer' })
-  vim.api.nvim_create_autocmd({ 'WinEnter' }, {
-    pattern = '*',
-    callback = function()
-      vim.keymap.set({ 'n' }, '<c-w><c-e>', '<Cmd>WinResizerStartResize<CR>')
-    end,
-    once = true,
-  })
+  -- add({ source = 'simeji/winresizer' })
+  -- vim.api.nvim_create_autocmd({ 'WinEnter' }, {
+  --   pattern = '*',
+  --   callback = function()
+  --     vim.keymap.set({ 'n' }, '<c-w><c-e>', '<Cmd>WinResizerStartResize<CR>')
+  --   end,
+  --   once = true,
+  -- })
 
   add({ source = 'segeljakt/vim-silicon' })
   add({ source = 'tyru/capture.vim' })
@@ -273,6 +287,13 @@ later(function()
       },
     }
   })
+  vim.api.nvim_create_autocmd({ 'ColorScheme' }, {
+    pattern = '*',
+    callback = function()
+      vim.fn['mi#highlight#merge']('CopilotSuggestion Comment Underlined')
+    end,
+  })
+  vim.fn['mi#highlight#merge']('CopilotSuggestion Comment Underlined')
 
   add({
     source = 'CopilotC-Nvim/CopilotChat.nvim',
@@ -289,5 +310,22 @@ later(function()
     end,
     once = true,
   })
-
 end)
+
+-- ref: https://zenn.dev/vim_jp/articles/20240304_ekiden_disable_plugin
+
+--vim.cmd [[
+--let s:save_rtp = &runtimepath
+--set rtp-=$VIMRUNTIME
+--autocmd SourcePre */plugin/* ++once let &runtimepath = s:save_rtp
+--]]
+--local save_rtp = vim.o.runtimepath
+-----@diagnostic disable-next-line: undefined-field
+--vim.opt.runtimepath:remove(vim.env.VIMRUNTIME)
+--vim.api.nvim_create_autocmd({ 'SourcePre' }, {
+--  pattern = '*/plugin/*',
+--  callback = function()
+--    vim.opt.runtimepath = save_rtp
+--  end,
+--  once = true,
+--})
