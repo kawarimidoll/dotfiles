@@ -166,7 +166,7 @@ bindkey '^r' select-history
 autoload -Uz edit-command-line
 zle -N edit-command-line
 edit_current_line() {
-  EDITOR="vim --noplugin -c 'norm! G$' -c 'setl awa' -c 'setf zsh'" \
+  EDITOR="vim -c 'norm! G$' -c 'setl awa' -c 'setf zsh'" \
     zle edit-command-line
 }
 zle -N edit_current_line
