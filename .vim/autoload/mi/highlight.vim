@@ -235,7 +235,7 @@ endfunction
 
 " {{{ MergeHighlight
 " https://zenn.dev/kawarimidoll/articles/cf6caaa7602239
-function! s:merge_highlight(args) abort
+function! mi#highlight#merge(args) abort
   let l:args = split(a:args)
   if len(l:args) < 2
     echoerr '[MergeHighlight] At least 2 arguments are required.'
@@ -250,7 +250,7 @@ function! s:merge_highlight(args) abort
       \ ->join()
 endfunction
 " Set in vimrc:
-"  command! -nargs=+ -complete=highlight MergeHighlight call s:merge_highlight(<q-args>)
+"  command! -nargs=+ -complete=highlight MergeHighlight call mi#highlight#merge(<q-args>)
 " Use like this:
 "  MergeHighlight markdownH1 Red Bold
 " }}}
