@@ -230,6 +230,45 @@ later(function()
   MiniClue.set_mapping_desc('n', 'so', 'source')
   MiniClue.set_mapping_desc('n', 's/', 'substitute magic')
   MiniClue.set_mapping_desc('n', 's?', 'substitute nomagic')
+
+  local palettes = {}
+  local base16 = require('mini.base16')
+  -- :h minischeme
+  palettes.mini_default = base16.mini_palette('#112641', '#e2e98f', 75)
+  palettes.minicyan = base16.mini_palette('#0A2A2A', '#D0D0D0', 50)
+  -- green is from icon, gray is from icon but brightness down
+  palettes.kawarimidoll = base16.mini_palette('#1f1d24', '#8fecd9', 75)
+  palettes.harukawarimi = base16.mini_palette('#1f1d24', '#e68be7', 65)
+
+  local scheme_names = vim.tbl_keys(palettes)
+  vim.api.nvim_create_user_command('MiniScheme', function(opts)
+    local key = opts.fargs[1]
+
+    if vim.tbl_contains(scheme_names, key) then
+      vim.g.scheme_name = key
+    else
+      math.randomseed(os.time())
+      vim.g.scheme_name = scheme_names[math.random(#scheme_names)]
+    end
+
+    base16.setup({
+      palette = palettes[vim.g.scheme_name],
+      use_cterm = true,
+    })
+    vim.api.nvim_exec_autocmds('ColorScheme', {})
+    vim.api.nvim_set_hl(0, 'VertSplit', { ctermbg = 'NONE', bg = 'NONE' })
+  end, {
+    nargs = '?',
+    complete = function(arg_lead, _, _)
+      return vim.tbl_filter(function(item)
+        return vim.startswith(item, arg_lead)
+      end, scheme_names)
+    end,
+  })
+  if not vim.g.scheme_name then
+    vim.cmd.MiniScheme()
+  end
+
 end)
 
 later(function()
