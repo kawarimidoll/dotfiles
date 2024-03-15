@@ -357,6 +357,8 @@ later(function()
     end,
     once = true,
   })
+
+  vim.cmd.luafile('~/dotfiles/.config/nvim/ui_input.lua')
 end)
 
 -- ref: https://zenn.dev/vim_jp/articles/20240304_ekiden_disable_plugin
