@@ -596,8 +596,10 @@ cnoremap <expr> <C-x> mi#magic#expr()
 " expand abbreviations immediately in command-line
 let s:abbrev_cmds = {}
 function! s:abbrev_cmd(raw_rhs, cmd_lhs, ...) abort
-  const rhs = a:raw_rhs ? "'<c-u>'.." .. join(a:000, ' ') :
-        \ "'<c-u>" .. substitute(join(a:000, ' '), "'", "''", 'g') .. "'"
+  " backspace raw_rhs
+  let bs = repeat('<bs>', strchars(a:raw_rhs))
+  const rhs = a:raw_rhs ? "'" .. bs .. "'.." .. join(a:000, ' ') :
+        \ "'" .. bs .. substitute(join(a:000, ' '), "'", "''", 'g') .. "'"
   const lhs_except_last = slice(a:cmd_lhs, 0, -1)
   const lhs_last = slice(a:cmd_lhs, -1)
   if !has_key(s:abbrev_cmds, lhs_last)
@@ -605,7 +607,7 @@ function! s:abbrev_cmd(raw_rhs, cmd_lhs, ...) abort
   endif
   let s:abbrev_cmds[lhs_last][':' .. lhs_except_last] = rhs
   const rhs_list = map(items(s:abbrev_cmds[lhs_last]), {_,val -> printf("'%s':%s", val[0], val[1])})
-  const fmt = "cnoremap <expr> %s get({%s},getcmdtype()..getcmdline(),'%s')"
+  const fmt = "cnoremap <expr> %s get({%s},getcmdtype()..getcmdline()->substitute(\"'<,'>\",'',''),'%s')"
   execute printf(fmt, lhs_last, join(rhs_list, ','), lhs_last)
 endfunction
 command! -nargs=+ -bang AbbrevCmd call s:abbrev_cmd(<bang>0, <f-args>)
