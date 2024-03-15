@@ -26,7 +26,10 @@ now(function()
   vim.notify = require('mini.notify').make_notify({ ERROR = { duration = 10000 } })
 
   add('nvim-tree/nvim-web-devicons')
-  require('nvim-web-devicons').setup()
+  vim.api.nvim_create_autocmd({ 'ColorScheme' }, {
+    pattern = '*',
+    callback = require('nvim-web-devicons').setup
+  })
 
   require('mini.statusline').setup({ set_vim_settings = false })
   vim.opt.laststatus = 3
@@ -88,8 +91,8 @@ end
 local init_treesitter = function()
   local langs = { 'astro', 'bash', 'css', 'csv', 'git_config', 'git_rebase', 'gitattributes',
     'gitcommit', 'gitignore', 'go', 'html', 'javascript', 'jq', 'jsdoc', 'json', 'jsonc', 'lua',
-    'luadoc', 'make', 'markdown_inline', 'nix', 'python', 'ruby', 'rust', 'scss', 'sql', 'svelte',
-    'toml', 'tsv', 'tsx', 'typescript', 'vim', 'vimdoc', 'vue', 'xml', 'yaml', 'zig', }
+    'luadoc', 'make', 'markdown', 'markdown_inline', 'nix', 'python', 'ruby', 'rust', 'scss', 'sql',
+    'svelte', 'toml', 'tsv', 'tsx', 'typescript', 'vim', 'vimdoc', 'vue', 'xml', 'yaml', 'zig', }
 
   add({
     source = 'nvim-treesitter/nvim-treesitter',
@@ -123,7 +126,13 @@ later(function()
   require('mini.indentscope').setup()
   require('mini.surround').setup()
   require('mini.comment').setup()
-  require('mini.visits').setup()
+  require('mini.visits').setup({
+    list = {
+      filter = function(item)
+        return not item.path:match('^%.git/')
+      end,
+    }
+  })
 
   require('mini.extra').setup()
 
@@ -138,7 +147,7 @@ later(function()
   vim.api.nvim_create_user_command('Trim', MiniTrailspace.trim, {})
 
   require('mini.pick').setup({
-    mappings = { delete_char = '<c-h>' }
+    --mappings = { delete_char = '<c-h>' }
   })
   vim.ui.select = MiniPick.ui_select
   vim.keymap.set({ 'n' }, '<space>f', function()
@@ -268,7 +277,6 @@ later(function()
   if not vim.g.scheme_name then
     vim.cmd.MiniScheme()
   end
-
 end)
 
 later(function()
