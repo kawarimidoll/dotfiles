@@ -1,5 +1,13 @@
 vim.cmd.source(vim.fn.expand('~/dotfiles/.vim/vimrc'))
 
+-- https://zenn.dev/kawarimidoll/articles/18ee967072def7
+vim.treesitter.start = (function(wrapped)
+  return function(bufnr, lang)
+    lang = lang or vim.fn.getbufvar(bufnr or '', '&filetype')
+    pcall(wrapped, bufnr, lang)
+  end
+end)(vim.treesitter.start)
+
 -- Clone 'mini.nvim' manually in a way that it gets managed by 'mini.deps'
 local path_package = vim.fn.stdpath('data') .. '/site/'
 
@@ -92,7 +100,7 @@ local init_treesitter = function()
   local langs = { 'astro', 'bash', 'css', 'csv', 'git_config', 'git_rebase', 'gitattributes',
     'gitcommit', 'gitignore', 'go', 'html', 'javascript', 'jq', 'jsdoc', 'json', 'jsonc', 'lua',
     'luadoc', 'make', 'markdown', 'markdown_inline', 'nix', 'python', 'ruby', 'rust', 'scss', 'sql',
-    'svelte', 'toml', 'tsv', 'tsx', 'typescript', 'vim', 'vimdoc', 'vue', 'xml', 'yaml', 'zig', }
+    'svelte', 'toml', 'tsv', 'tsx', 'typescript', 'vim', 'vue', 'xml', 'yaml', 'zig', }
 
   add({
     source = 'nvim-treesitter/nvim-treesitter',
