@@ -143,6 +143,20 @@ later(function()
   })
 
   require('mini.extra').setup()
+  vim.keymap.set({ 'n' }, '<space>h', function()
+    MiniExtra.pickers.visit_paths()
+  end, { desc = 'mini.extra.visit_paths' })
+  vim.keymap.set({ 'n', 'x' }, '<space>k', function()
+    vim.schedule(function() MiniPick.set_picker_query({ '☆ ' }) end)
+    MiniExtra.pickers.keymaps({ mode = 'n' })
+  end, { desc = 'mini.extra.keymaps' })
+
+  for k, v in pairs(MiniExtra.pickers) do
+    if type(v) == "function" then
+      local name = 'mini.extra.' .. k
+      vim.keymap.set('n', '<Plug>(' .. name .. ')', v, { desc = '☆ ' .. name })
+    end
+  end
 
   local hipatterns = require('mini.hipatterns')
   hipatterns.setup({
@@ -169,6 +183,13 @@ later(function()
   vim.keymap.set({ 'n' }, '<space>b', function()
     MiniPick.builtin.buffers({ include_current = false }, { mappings = buffer_mappings })
   end, { desc = 'mini.pick.buffers' })
+
+  for k, v in pairs(MiniPick.builtin) do
+    if type(v) == "function" then
+      local name = 'mini.pick.' .. k
+      vim.keymap.set('n', '<Plug>(' .. name .. ')', v, { desc = '☆ ' .. name })
+    end
+  end
 
   require('mini.files').setup()
   vim.keymap.set({ 'n' }, '<space>F', MiniFiles.open, { desc = 'mini.files.open' })
