@@ -376,7 +376,37 @@ later(function()
     checkout = 'canary',
     depends = { 'nvim-lua/plenary.nvim' }
   })
-  require("CopilotChat").setup()
+  local copilotChat = require("CopilotChat")
+  copilotChat.setup({
+    prompts = {
+      Explain = { mapping = '<Plug>(copilotchat-explain)' },
+      Tests = { mapping = '<Plug>(copilotchat-tests)' },
+      Fix = { mapping = '<Plug>(copilotchat-fix)' },
+      Optimize = { mapping = '<Plug>(copilotchat-optimize)' },
+      Docs = { mapping = '<Plug>(copilotchat-docs)' },
+      FixDiagnostic = { mapping = '<Plug>(copilotchat-fix-diagnostic)' },
+      Commit = { mapping = '<Plug>(copilotchat-commit)' },
+      CommitStaged = { mapping = '<Plug>(copilotchat-commit-staged)' },
+    },
+  })
+  for _, k in ipairs(vim.tbl_keys(copilotChat.config.prompts)) do
+    local name = 'copilotchat' .. string.gsub(k, '[A-Z]', '-%0'):lower()
+    vim.keymap.set('n', '<Plug>(' .. name .. ')', ':CopilotChat' .. k .. '<cr>', { desc = '☆ ' .. name })
+  end
+
+  vim.api.nvim_create_user_command('Chat', function()
+    vim.ui.input({ prompt = 'CopilotChat: ' },
+      function(input)
+        if input ~= "" then
+          copilotChat.ask(input)
+        end
+      end
+    )
+  end, { range = true })
+
+  vim.cmd.AbbrevCmd('ccc CopilotChatCommit')
+  vim.cmd.AbbrevCmd('cco CopilotChatOptimize')
+  vim.cmd.AbbrevCmd('cce CopilotChatExplain')
 
   add({ source = 'hrsh7th/nvim-insx' })
   vim.api.nvim_create_autocmd({ 'InsertEnter' }, {
