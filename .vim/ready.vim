@@ -78,14 +78,16 @@ else
   " call mi#gaming#start()
   set runtimepath+=~/ghq/github.com/kawarimidoll/kawarimiline.vim
   let kawarimiline_width = 30
-  call kawarimiline#start({
-        \ 'size': 22,
-        \ 'lnum': 1,
-        \ 'left_margin': &columns-kawarimiline_width,
-        \ 'right_margin': 0,
-        \ 'enable': {-> len(gettabinfo()) == 1},
-        \ 'wave': v:true,
-        \ })
+  if exists('*kawarimiline#start')
+    call kawarimiline#start({
+          \ 'size': 22,
+          \ 'lnum': 1,
+          \ 'left_margin': &columns-kawarimiline_width,
+          \ 'right_margin': 0,
+          \ 'enable': {-> len(gettabinfo()) == 1},
+          \ 'wave': v:true,
+          \ })
+  endif
   let s:info_popup_id = popup_create('', {
         \ 'line': 1,
         \ 'col': &columns,
@@ -126,42 +128,44 @@ else
   call s:update_info()
 
   set runtimepath+=~/ghq/github.com/kawarimidoll/tuskk.vim
-  inoremap <c-j> <cmd>call tuskk#toggle()<cr>
-  cnoremap <c-j> <cmd>call tuskk#cmd_buf()<cr>
-  let base_table = tuskk#opts#builtin_kana_table()
-  let azik_table = tuskk#opts#extend_azik_table()
-  let az_keys = azik_table->keys()
-  for k in az_keys
-    if k[0] == k[1]
-      unlet! azik_table[k]
-    endif
-  endfor
-  unlet! azik_table[';']
-  unlet! azik_table['q']
-  let kana_table = extendnew(base_table, azik_table)
+  if exists('*tuskk#opts#builtin_kana_table')
+    inoremap <c-j> <cmd>call tuskk#toggle()<cr>
+    cnoremap <c-j> <cmd>call tuskk#cmd_buf()<cr>
+    let base_table = tuskk#opts#builtin_kana_table()
+    let azik_table = tuskk#opts#extend_azik_table()
+    let az_keys = azik_table->keys()
+    for k in az_keys
+      if k[0] == k[1]
+        unlet! azik_table[k]
+      endif
+    endfor
+    unlet! azik_table[';']
+    unlet! azik_table['q']
+    let kana_table = extendnew(base_table, azik_table)
 
-  let uj = expand('~/.cache/vim/SKK-JISYO.user')
-  call tuskk#initialize({
-        \ 'user_jisyo_path': uj,
-        \ 'jisyo_list':  [
-        \   { 'path': '~/.cache/vim/SKK-JISYO.L', 'encoding': 'euc-jp', 'mark': '[L]' },
-        \   { 'path': '~/.cache/vim/SKK-JISYO.geo', 'encoding': 'euc-jp', 'mark': '[G]' },
-        \   { 'path': '~/.cache/vim/SKK-JISYO.station', 'encoding': 'euc-jp', 'mark': '[S]' },
-        \   { 'path': '~/.cache/vim/SKK-JISYO.jawiki', 'encoding': 'utf-8', 'mark': '[W]' },
-        \   { 'path': '~/.cache/vim/SKK-JISYO.emoji', 'encoding': 'utf-8' },
-        \   { 'path': '~/.cache/vim/SKK-JISYO.nicoime', 'encoding': 'utf-8', 'mark': '[N]' },
-        \ ],
-        \ 'kana_table': kana_table,
-        \ 'suggest_wait_ms': 200,
-        \ 'suggest_prefix_match_minimum': 5,
-        \ 'suggest_sort_by': 'length',
-        \ 'debug_log': '',
-        \ 'use_google_cgi': v:true,
-        \ 'merge_tsu': v:true,
-        \ 'trailing_n': v:true,
-        \ 'abbrev_ignore_case': v:true,
-        \ 'put_hanpa': v:true,
-        \ })
+    let uj = expand('~/.cache/vim/SKK-JISYO.user')
+    call tuskk#initialize({
+          \ 'user_jisyo_path': uj,
+          \ 'jisyo_list':  [
+          \   { 'path': '~/.cache/vim/SKK-JISYO.L', 'encoding': 'euc-jp', 'mark': '[L]' },
+          \   { 'path': '~/.cache/vim/SKK-JISYO.geo', 'encoding': 'euc-jp', 'mark': '[G]' },
+          \   { 'path': '~/.cache/vim/SKK-JISYO.station', 'encoding': 'euc-jp', 'mark': '[S]' },
+          \   { 'path': '~/.cache/vim/SKK-JISYO.jawiki', 'encoding': 'utf-8', 'mark': '[W]' },
+          \   { 'path': '~/.cache/vim/SKK-JISYO.emoji', 'encoding': 'utf-8' },
+          \   { 'path': '~/.cache/vim/SKK-JISYO.nicoime', 'encoding': 'utf-8', 'mark': '[N]' },
+          \ ],
+          \ 'kana_table': kana_table,
+          \ 'suggest_wait_ms': 200,
+          \ 'suggest_prefix_match_minimum': 5,
+          \ 'suggest_sort_by': 'length',
+          \ 'debug_log': '',
+          \ 'use_google_cgi': v:true,
+          \ 'merge_tsu': v:true,
+          \ 'trailing_n': v:true,
+          \ 'abbrev_ignore_case': v:true,
+          \ 'put_hanpa': v:true,
+          \ })
+  endif
 endif
 
 silent! delmarks ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890
