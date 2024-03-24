@@ -104,6 +104,6 @@ MANPATH="${BREW_PREFIX}/opt/grep/libexec/gnuman:$MANPATH"
 export PKG_CONFIG_PATH="${BREW_PREFIX}/opt/curl/lib/pkgconfig"
 
 # -----------------
-#  asdf
+# mise
 # -----------------
-__source "${BREW_PREFIX}/opt/asdf/libexec/asdf.sh"
+eval "$(/opt/homebrew/bin/mise activate zsh)"
