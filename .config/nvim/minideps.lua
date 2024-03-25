@@ -88,6 +88,17 @@ local init_lsp = function()
           filter = function(client) return client.name ~= "copilot" end
         })
       end, 'format', true)
+
+      local client = vim.lsp.get_client_by_id(args.data.client_id)
+      if client and client.supports_method('textDocument/inlayHint') then
+        vim.lsp.inlay_hint.enable(bufnr, true)
+        buf_set_keymap('mxi', function()
+          vim.lsp.inlay_hint.enable(
+            bufnr,
+            not vim.lsp.inlay_hint.is_enabled(bufnr)
+          )
+        end, 'toggle_inlay_hints')
+      end
     end,
   })
 
