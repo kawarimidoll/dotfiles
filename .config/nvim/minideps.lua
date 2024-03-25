@@ -109,7 +109,7 @@ end
 
 local init_treesitter = function()
   local langs = { 'astro', 'bash', 'css', 'csv', 'git_config', 'git_rebase', 'gitattributes',
-    'gitcommit', 'gitignore', 'go', 'html', 'javascript', 'jq', 'jsdoc', 'json', 'jsonc', 'lua',
+    'gitignore', 'go', 'html', 'javascript', 'jq', 'jsdoc', 'json', 'jsonc', 'lua',
     'luadoc', 'make', 'markdown', 'markdown_inline', 'nix', 'python', 'ruby', 'rust', 'scss', 'sql',
     'svelte', 'toml', 'tsv', 'tsx', 'typescript', 'vim', 'vue', 'xml', 'yaml', 'zig', }
 
