@@ -32,7 +32,9 @@ function! mi#hjkl#l(cnt = 1) abort
     return
   endif
   normal! l
+  let lastcol = col('$') - 1
   while s:in_indent() && s:not_fit_indent()
+        \ && col('.') != lastcol
     normal! l
   endwhile
 endfunction
