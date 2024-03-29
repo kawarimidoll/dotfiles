@@ -11,7 +11,7 @@ function! s:indent_level(col) abort
   return (a:col - 1) / shiftwidth()
 endfunction
 
-function! s:fit_indent() abort
+function! s:not_fit_indent() abort
   return !!((col('.') - 1) % shiftwidth())
 endfunction
 
@@ -21,7 +21,7 @@ function! mi#hjkl#h(cnt = 1) abort
     return
   endif
   normal! h
-  while s:in_indent() && s:fit_indent()
+  while s:in_indent() && s:not_fit_indent()
     normal! h
   endwhile
 endfunction
@@ -32,7 +32,7 @@ function! mi#hjkl#l(cnt = 1) abort
     return
   endif
   normal! l
-  while s:in_indent() && s:fit_indent()
+  while s:in_indent() && s:not_fit_indent()
     normal! l
   endwhile
 endfunction
