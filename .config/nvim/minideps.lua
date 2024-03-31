@@ -152,6 +152,8 @@ later(require('mini.indentscope').setup)
 later(require('mini.surround').setup)
 later(require('mini.comment').setup)
 
+later(require('mini.diff').setup)
+
 later(function()
   require('mini.visits').setup({
     list = {
@@ -347,10 +349,10 @@ later(function()
   vim.cmd.luafile('~/dotfiles/.config/nvim/plugin_config/pounce.lua')
 end)
 
-later(function()
-  add('lewis6991/gitsigns.nvim')
-  vim.cmd.luafile('~/dotfiles/.config/nvim/plugin_config/gitsigns.lua')
-end)
+-- later(function()
+--   add('lewis6991/gitsigns.nvim')
+--   vim.cmd.luafile('~/dotfiles/.config/nvim/plugin_config/gitsigns.lua')
+-- end)
 
 later(function()
   add('vim-jp/vimdoc-ja')
