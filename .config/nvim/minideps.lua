@@ -32,16 +32,23 @@ local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
 now(function()
   require('mini.notify').setup()
   vim.notify = require('mini.notify').make_notify({ ERROR = { duration = 10000 } })
+end)
 
+now(function()
   add('nvim-tree/nvim-web-devicons')
   vim.api.nvim_create_autocmd({ 'ColorScheme' }, {
     pattern = '*',
     callback = require('nvim-web-devicons').setup
   })
 
+end)
+
+now(function()
   require('mini.statusline').setup({ set_vim_settings = false })
   vim.opt.laststatus = 3
+end)
 
+now(function()
   require('mini.tabline').setup()
 end)
 
@@ -137,14 +144,15 @@ vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
   end
 })
 
+later(require('mini.ai').setup)
+later(require('mini.bufremove').setup)
+later(require('mini.cursorword').setup)
+later(require('mini.misc').setup)
+later(require('mini.indentscope').setup)
+later(require('mini.surround').setup)
+later(require('mini.comment').setup)
+
 later(function()
-  require('mini.ai').setup()
-  require('mini.bufremove').setup()
-  require('mini.cursorword').setup()
-  require('mini.misc').setup()
-  require('mini.indentscope').setup()
-  require('mini.surround').setup()
-  require('mini.comment').setup()
   require('mini.visits').setup({
     list = {
       filter = function(item)
@@ -152,7 +160,9 @@ later(function()
       end,
     }
   })
+end)
 
+later(function()
   require('mini.extra').setup()
   vim.keymap.set({ 'n' }, '<space>h', function()
     MiniExtra.pickers.visit_paths()
@@ -168,17 +178,23 @@ later(function()
       vim.keymap.set('n', '<Plug>(' .. name .. ')', v, { desc = '☆ ' .. name })
     end
   end
+end)
 
+later(function()
   local hipatterns = require('mini.hipatterns')
   hipatterns.setup({
     highlighters = {
       hex_color = hipatterns.gen_highlighter.hex_color(),
     },
   })
+end)
 
+later(function()
   require('mini.trailspace').setup()
   vim.api.nvim_create_user_command('Trim', MiniTrailspace.trim, {})
+end)
 
+later(function()
   require('mini.pick').setup({
     --mappings = { delete_char = '<c-h>' }
   })
@@ -201,7 +217,9 @@ later(function()
       vim.keymap.set('n', '<Plug>(' .. name .. ')', v, { desc = '☆ ' .. name })
     end
   end
+end)
 
+later(function()
   require('mini.files').setup()
   vim.keymap.set({ 'n' }, '<space>F', MiniFiles.open, { desc = 'mini.files.open' })
 
@@ -216,7 +234,9 @@ later(function()
     end,
     once = true,
   })
+end)
 
+later(function()
   local vimrc_sid = vim.fn.getscriptinfo({ name = 'vimrc' })[1].sid
   local vimrc_q = '<SNR>' .. vimrc_sid .. '_(q)'
   local clue = require('mini.clue')
@@ -279,7 +299,9 @@ later(function()
   MiniClue.set_mapping_desc('n', 'so', 'source')
   MiniClue.set_mapping_desc('n', 's/', 'substitute magic')
   MiniClue.set_mapping_desc('n', 's?', 'substitute nomagic')
+end)
 
+later(function()
   local palettes = {}
   local base16 = require('mini.base16')
   -- :h minischeme
@@ -328,9 +350,13 @@ end)
 later(function()
   add('lewis6991/gitsigns.nvim')
   vim.cmd.luafile('~/dotfiles/.config/nvim/plugin_config/gitsigns.lua')
+end)
 
+later(function()
   add('vim-jp/vimdoc-ja')
+end)
 
+later(function()
   add({ source = 'monaqa/dial.nvim' })
   vim.cmd.luafile('~/dotfiles/.config/nvim/plugin_config/dial.lua')
   vim.keymap.set({ 'x' }, 'g<C-a>', 'g<Plug>(dial-increment)', { desc = 'dial-increment' })
@@ -346,8 +372,13 @@ later(function()
   --   end,
   --   once = true,
   -- })
+end)
 
+later(function()
   add({ source = 'segeljakt/vim-silicon' })
+end)
+
+later(function()
   add({ source = 'tyru/capture.vim' })
   vim.api.nvim_create_autocmd({ 'CmdlineEnter' }, {
     pattern = '*',
@@ -356,10 +387,14 @@ later(function()
     end,
     once = true,
   })
+end)
 
+later(function()
   add({ source = 'tzachar/highlight-undo.nvim' })
   require('highlight-undo').setup()
+end)
 
+later(function()
   add({ source = 'zbirenbaum/copilot.lua' })
   require("copilot").setup({
     suggestion = {
@@ -418,7 +453,9 @@ later(function()
   vim.cmd.AbbrevCmd('ccc CopilotChatCommit')
   vim.cmd.AbbrevCmd('cco CopilotChatOptimize')
   vim.cmd.AbbrevCmd('cce CopilotChatExplain')
+end)
 
+later(function()
   add({ source = 'hrsh7th/nvim-insx' })
   vim.api.nvim_create_autocmd({ 'InsertEnter' }, {
     pattern = '*',
@@ -427,7 +464,9 @@ later(function()
     end,
     once = true,
   })
+end)
 
+later(function()
   vim.cmd.luafile('~/dotfiles/.config/nvim/ui_input.lua')
 end)
 
