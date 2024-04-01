@@ -152,7 +152,13 @@ later(require('mini.indentscope').setup)
 later(require('mini.surround').setup)
 later(require('mini.comment').setup)
 
-later(require('mini.diff').setup)
+later(function()
+  require('mini.diff').setup({
+    view = {
+      signs = { add = '+', change = '~', delete = '-' },
+    },
+  })
+end)
 
 later(function()
   require('mini.visits').setup({
