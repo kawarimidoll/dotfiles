@@ -42,6 +42,32 @@ now(function()
   })
 end)
 
+local function get_git_head()
+  if vim.b.git_head then
+    return vim.b.git_head
+  end
+
+  local git_root = vim.fs.find('.git', {
+    upward = true,
+    limit = 1,
+    type = 'directory'
+  })[1] or ''
+  if git_root == '' then
+    return nil
+  end
+  local head = vim.fn.readfile(git_root .. '/HEAD')[1]
+  if head:match('^ref: ') then
+    head = head:gsub('^ref: ', '')
+        :gsub('^refs/heads/', '')
+        :gsub('^refs/remotes/', '')
+        :gsub('^refs/tags/', '')
+        :gsub('^refs/', '')
+  end
+
+  vim.b.git_head = head
+  return head
+end
+
 now(function()
   local diff_summary = function()
     local summary = vim.b.minidiff_summary or {}
@@ -63,10 +89,15 @@ now(function()
   local section_diff = function(args)
     if vim.bo.buftype ~= '' then return '' end
 
+    local head = get_git_head() or '-'
     local signs = MiniStatusline.is_truncated(args.trunc_width) and '' or (diff_summary() or '')
     local icon = ''
 
-    return string.format('%s %s', icon, signs)
+    if signs == '' then
+      if head == '-' or head == '' then return '' end
+      return string.format('%s %s', icon, head)
+    end
+    return string.format('%s %s %s', icon, head, signs)
   end
   require('mini.statusline').setup({
     content = {
