@@ -55,7 +55,8 @@ local function get_git_head()
   if git_root == '' then
     return nil
   end
-  local head = vim.fn.readfile(git_root .. '/HEAD')[1]
+  local ok, lines = pcall(vim.fn.readfile, git_root .. '/HEAD')
+  local head = ok and lines[1] or ''
   if head:match('^ref: ') then
     head = head:gsub('^ref: ', '')
         :gsub('^refs/heads/', '')
