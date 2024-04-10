@@ -138,6 +138,9 @@ end)
 local init_lsp = function()
   add({ source = 'neovim/nvim-lspconfig', depends = { 'williamboman/mason.nvim' } })
 
+  -- https://zenn.dev/vim_jp/articles/c62b397647e3c9
+  vim.diagnostic.config({ severity_sort = true })
+
   vim.keymap.set('n', 'mxe', vim.diagnostic.open_float, { desc = 'diagnostic.open_float' })
   vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'diagnostic.goto_next' })
   vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'diagnostic.goto_next' })
