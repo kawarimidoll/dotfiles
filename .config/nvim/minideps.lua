@@ -221,14 +221,16 @@ local init_treesitter = function()
   })
 end
 
-vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
-  pattern = '*',
-  once = true,
-  callback = function()
-    init_lsp()
-    init_treesitter()
-  end
-})
+-- vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
+--   pattern = '*',
+--   once = true,
+--   callback = function()
+--     init_lsp()
+--     init_treesitter()
+--   end
+-- })
+later(init_lsp)
+later(init_treesitter)
 
 later(require('mini.ai').setup)
 later(require('mini.bufremove').setup)
