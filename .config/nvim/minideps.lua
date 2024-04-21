@@ -184,11 +184,11 @@ local init_lsp = function()
 
       local client = vim.lsp.get_client_by_id(args.data.client_id)
       if client and client.supports_method('textDocument/inlayHint') then
-        vim.lsp.inlay_hint.enable(bufnr, true)
+        vim.lsp.inlay_hint.enable(true, { bufnr })
         buf_set_keymap('mxi', function()
           vim.lsp.inlay_hint.enable(
-            bufnr,
-            not vim.lsp.inlay_hint.is_enabled(bufnr)
+            not vim.lsp.inlay_hint.is_enabled(bufnr),
+            { bufnr }
           )
         end, 'toggle_inlay_hints')
       end
