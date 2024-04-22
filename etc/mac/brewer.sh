@@ -11,6 +11,8 @@ brew_with_echo() {
   brew_fixed_path "$@"
 }
 
+date -Iseconds
+
 brew_with_echo doctor
 brew_with_echo update
 brew_with_echo upgrade --fetch-HEAD
