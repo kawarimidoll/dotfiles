@@ -4,7 +4,7 @@ import {
 } from "https://deno.land/x/deno_dom/deno-dom-wasm.ts";
 
 const response = await fetch(
-  "https://www.accuweather.com/en/jp/tokyo/226396/current-weather/226396",
+  "https://www.accuweather.com/en/jp/tokyo/226396/weather-tomorrow/226396",
 );
 
 const html = await response.text();
@@ -21,6 +21,13 @@ const keyMap = {
   Precipitation: "prec",
   "Cloud Cover": "cloud",
 };
+// example
+// Wind: "W 15 km/h",
+// "Wind Gusts": "30 km/h",
+// "Probability of Precipitation": "1%",
+// "Probability of Thunderstorms": "0%",
+// Precipitation: "0.0 mm",
+// "Cloud Cover": "77%"
 
 const winDir = (dir) => {
   if (dir === "N") return "↑";
@@ -31,14 +38,6 @@ const winDir = (dir) => {
   if (/NW/.test(dir)) return "↖";
   if (/SE/.test(dir)) return "↘";
   return "↙";
-};
-
-const dateString = () => {
-  const d = new Date();
-  const mm = (d.getMonth() + 1).toString();
-  const dd = (d.getDate()).toString();
-  const wd = ["日", "月", "火", "水", "木", "金", "土"][d.getDay()];
-  return `${mm.padStart(2, "0")}/${dd.padStart(2, "0")} ${wd}`;
 };
 
 const nameMap = {
@@ -300,6 +299,8 @@ for (const card of cards) {
   const aa = aaTable[data.name] || aaTable.Unknown;
   data.aa = aa;
 
+  data.rain = `${data.prec} mm | ${data.pop} %`.padEnd(15, " ");
+
   summary[title] = data;
 }
 
@@ -307,52 +308,71 @@ for (const card of cards) {
 
 const template = `
                         ┌─────────────┐
-┌───────────────────────┤   01/01-曜  ├───────────────────────┐
+┌───────────────────────┤  MM/DD WWW  ├───────────────────────┐
 │             Day       └──────┬──────┘      Night            │
 ├──────────────────────────────┼──────────────────────────────┤
-│0qqqqqqqqqqqq nameaaaaaaaaaa  │0qqqqqqqqqqqq nameaaaaaaaaaa  │
-│1qqqqqqqqqqqq tp °C           │1qqqqqqqqqqqq tp °C           │
+│0qqqqqqqqqqqq name_of_weather │0qqqqqqqqqqqq name_of_weather │
+│1qqqqqqqqqqqq temperature     │1qqqqqqqqqqqq temperature     │
 │2qqqqqqqqqqqq d ww3 km/h (gu) │2qqqqqqqqqqqq d ww3 km/h (gu) │
 │3qqqqqqqqqqqq cloud cov%      │3qqqqqqqqqqqq cloud cov%      │
-│4qqqqqqqqqqqq pre mm | pp3%   │4qqqqqqqqqqqq pre mm | pp3 %  │
+│4qqqqqqqqqqqq summary_of_rain │4qqqqqqqqqqqq summary_of_rain │
 └──────────────────────────────┴──────────────────────────────┘
-`;
+`.replace(/^\n|\n$/g, "");
 
-if (summary.Day && summary.Night) {
-  const result = template
-    .replace("01/01-曜", dateString())
-    .replace("d", summary.Day.winDir)
-    .replace("d", summary.Night.winDir)
-    .replace("ww3", summary.Day.wind.padStart(3, " "))
-    .replace("ww3", summary.Night.wind.padStart(3, " "))
-    .replace("gu", summary.Day.gusts)
-    .replace("gu", summary.Night.gusts)
-    .replace("cov", summary.Day.cloud.padStart(3, " "))
-    .replace("cov", summary.Night.cloud.padStart(3, " "))
-    .replace("pre", summary.Day.prec)
-    .replace("pre", summary.Night.prec)
-    .replace("pp3", summary.Day.pop.padStart(3, " "))
-    .replace("pp3", summary.Night.pop.padStart(3, " "))
-    .replace("tp", summary.Day.temp)
-    .replace("tp", summary.Night.temp)
-    .replace(/namea+/, summary.Day.name.padEnd(14, " "))
-    .replace(/namea+/, summary.Night.name.padEnd(14, " "))
-    .replace(/0q+/, summary.Day.aa[0])
-    .replace(/1q+/, summary.Day.aa[1])
-    .replace(/2q+/, summary.Day.aa[2])
-    .replace(/3q+/, summary.Day.aa[3])
-    .replace(/4q+/, summary.Day.aa[4])
-    .replace(/0q+/, summary.Night.aa[0])
-    .replace(/1q+/, summary.Night.aa[1])
-    .replace(/2q+/, summary.Night.aa[2])
-    .replace(/3q+/, summary.Night.aa[3])
-    .replace(/4q+/, summary.Night.aa[4]);
-  console.log(result);
+if (!summary.Day || !summary.Night) {
+  console.warn("Day or Night is not exist");
+  Deno.exit(1);
 }
 
-// Wind: "W 15 km/h",
-// "Wind Gusts": "30 km/h",
-// "Probability of Precipitation": "1%",
-// "Probability of Thunderstorms": "0%",
-// Precipitation: "0.0 mm",
-// "Cloud Cover": "77%"
+const tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1);
+
+const result = template
+  .replace("d", summary.Day.winDir)
+  .replace("d", summary.Night.winDir)
+  .replace("ww3", summary.Day.wind.padStart(3, " "))
+  .replace("ww3", summary.Night.wind.padStart(3, " "))
+  .replace("gu", summary.Day.gusts.padStart(2, " "))
+  .replace("gu", summary.Night.gusts.padStart(2, " "))
+  .replace("cov", summary.Day.cloud.padStart(3, " "))
+  .replace("cov", summary.Night.cloud.padStart(3, " "))
+  .replace("summary_of_rain", summary.Day.rain.padEnd(15, " "))
+  .replace("summary_of_rain", summary.Night.rain.padEnd(15, " "))
+  .replace("temperature", `${summary.Day.temp} °C`.padEnd(11, " "))
+  .replace("temperature", `${summary.Night.temp} °C`.padEnd(11, " "))
+  .replace("name_of_weather", summary.Day.name.padEnd(15, " "))
+  .replace("name_of_weather", summary.Night.name.padEnd(15, " "))
+  .replace(/0q+/, summary.Day.aa[0])
+  .replace(/1q+/, summary.Day.aa[1])
+  .replace(/2q+/, summary.Day.aa[2])
+  .replace(/3q+/, summary.Day.aa[3])
+  .replace(/4q+/, summary.Day.aa[4])
+  .replace(/0q+/, summary.Night.aa[0])
+  .replace(/1q+/, summary.Night.aa[1])
+  .replace(/2q+/, summary.Night.aa[2])
+  .replace(/3q+/, summary.Night.aa[3])
+  .replace(/4q+/, summary.Night.aa[4])
+  .replace("MM", (tomorrow.getMonth() + 1).toString().padStart(2, "0"))
+  .replace("DD", tomorrow.getDate().toString().padStart(2, "0"))
+  .replace("WWW", tomorrow.toLocaleDateString("en-US", { weekday: "short" }));
+
+console.log(result);
+
+const dateStr = tomorrow.toISOString().replace(/T.*/, "");
+const home = Deno.env.get("HOME");
+const filename = `${home}/Dropbox/Obsidian/daily/${dateStr}.md`;
+// console.log(filename)
+
+try {
+  const contents = Deno.readTextFileSync(filename);
+  Deno.writeTextFileSync(
+    filename,
+    contents.replace("{{weather}}", result),
+  );
+  console.log(`Weather written to the file ${filename}`);
+  Deno.writeTextFileSync("./weather.log", "Weather written to the file");
+} catch (error) {
+  console.warn("error");
+  console.warn(error);
+  Deno.writeTextFileSync("./weather.log", error);
+}
