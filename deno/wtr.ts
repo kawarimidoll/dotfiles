@@ -359,20 +359,33 @@ const result = template
 console.log(result);
 
 const dateStr = tomorrow.toISOString().replace(/T.*/, "");
-const home = Deno.env.get("HOME");
-const filename = `${home}/Dropbox/Obsidian/daily/${dateStr}.md`;
+const obsidianHome = `${Deno.env.get("HOME")}/Dropbox/Obsidian`;
+const filename = `${obsidianHome}/daily/${dateStr}.md`;
+const logname = `${obsidianHome}/scripts/weather.log`;
+
 // console.log(filename)
 
 try {
   const contents = Deno.readTextFileSync(filename);
-  Deno.writeTextFileSync(
-    filename,
-    contents.replace("{{weather}}", result),
-  );
-  console.log(`Weather written to the file ${filename}`);
-  Deno.writeTextFileSync("./weather.log", "Weather written to the file");
+  const placeholder = "{{weather}}";
+  if (contents.includes(placeholder)) {
+    Deno.writeTextFileSync(
+      filename,
+      contents.replace(placeholder, result),
+    );
+    console.log(`Weather written to the file ${filename}`);
+    Deno.writeTextFileSync(
+      logname,
+      [(new Date()).toISOString(), "Weather written to the file"].join("\n"),
+    );
+  } else {
+    console.log(`Weather is ALREADY written to the file ${filename}`);
+  }
 } catch (error) {
   console.warn("error");
   console.warn(error);
-  Deno.writeTextFileSync("./weather.log", error);
+  Deno.writeTextFileSync(
+    logname,
+    [(new Date()).toISOString(), error].join("\n"),
+  );
 }
