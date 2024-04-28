@@ -3,6 +3,12 @@ import {
   Element,
 } from "https://deno.land/x/deno_dom/deno-dom-wasm.ts";
 
+function sleep(seconds: number) {
+  return new Promise((resolve) => setTimeout(resolve, seconds * 1000));
+}
+
+await sleep(3);
+
 const response = await fetch(
   "https://www.accuweather.com/en/jp/tokyo/226396/weather-tomorrow/226396",
 );
