@@ -7,11 +7,32 @@ function sleep(seconds: number) {
   return new Promise((resolve) => setTimeout(resolve, seconds * 1000));
 }
 
-await sleep(3);
+async function fetchWeather() {
+  // fetch API
+  // if error occurs, retry up to 3 times after 5 seconds
+  // if successful, return the response
 
-const response = await fetch(
-  "https://www.accuweather.com/en/jp/tokyo/226396/weather-tomorrow/226396",
-);
+  for (let i = 0; i < 3; i++) {
+    try {
+      const response = await fetch(
+        "https://www.accuweather.com/en/jp/tokyo/226396/weather-tomorrow/226396",
+      );
+      return response;
+    } catch (error) {
+      console.log(error);
+      console.log(`Retry ${i + 1} after 5 seconds...`);
+      await sleep(5);
+    }
+  }
+  return null;
+}
+
+const response = await fetchWeather();
+
+if (!response) {
+  console.log("Failed to fetch weather");
+  Deno.exit(1);
+}
 
 const html = await response.text();
 const doc = new DOMParser().parseFromString(html, "text/html")!;
