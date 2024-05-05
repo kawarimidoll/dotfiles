@@ -385,7 +385,11 @@ const result = template
 
 console.log(result);
 
-const dateStr = tomorrow.toISOString().replace(/T.*/, "");
+const dateStr = [
+  tomorrow.getFullYear(),
+  tomorrow.getMonth() + 1,
+  tomorrow.getDate(),
+].map((e) => e.toString().padStart(2, "0")).join("-");
 const obsidianHome = `${Deno.env.get("HOME")}/Dropbox/Obsidian`;
 const filename = `${obsidianHome}/daily/${dateStr}.md`;
 const logname = `${obsidianHome}/scripts/weather.log`;
