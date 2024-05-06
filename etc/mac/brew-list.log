@@ -1,47 +1,34 @@
-timestamp: 2024-02-26 19:55:33 JST
-tap: a-know/tap
+timestamp: 2024-05-06 13:21:23 JST
+tap: abhimanyu003/sttr
+tap: felixkratz/formulae
 tap: harelba/q
 tap: he3-app/he3
 tap: homebrew/bundle
-tap: homebrew/cask
 tap: homebrew/cask-fonts
-tap: homebrew/core
 tap: homebrew/services
-tap: itchyny/tap
-tap: jesseduffield/lazydocker
 tap: jesseduffield/lazygit
-tap: px4/px4
+brew: abhimanyu003/sttr/sttr
 brew: act
-brew: asciiquarium
-brew: asdf
+brew: automake
 brew: bat
 brew: bat-extras
 brew: binutils
 brew: bottom
-brew: broot
-brew: caire
-brew: choose-rust
 brew: clog
 brew: cmake
 brew: croc
-brew: csview
-brew: csvkit
-brew: csvlens
-brew: csvq
 brew: curl
 brew: deno
 brew: diff-so-fancy
 brew: diffutils
-brew: dprint
-brew: ed
 brew: efm-langserver
 brew: emacs
 brew: eza
-brew: fcp
-brew: fd
+brew: felixkratz/formulae/sketchybar
+brew: ffmpeg
 brew: findutils
 brew: fnm
-brew: fselect
+brew: fzf
 brew: gawk
 brew: gaze
 brew: gh
@@ -60,152 +47,92 @@ brew: gitbatch
 brew: github-markdown-toc
 brew: gnu-sed
 brew: gnu-tar
+brew: gnupg
 brew: go
-brew: gobject-introspection
-brew: gojq
-brew: gping
 brew: grep
 brew: grex
-brew: guile
 brew: gum
 brew: gzip
 brew: highlight
 brew: hurl
 brew: imagemagick
-brew: itchyny/tap/mmv
-brew: jesseduffield/lazydocker/lazydocker
 brew: jesseduffield/lazygit/lazygit
 brew: jid
 brew: jj
-brew: jless
 brew: jpeg
-brew: jql
-brew: kalker
-brew: libcaca
+brew: libsixel
+brew: libtermkey
+brew: logdy
 brew: lsd
 brew: macchina
 brew: mas
-brew: mdcat
-brew: miller
-brew: moar
+brew: mise
 brew: moreutils
 brew: nano
-brew: navi
 brew: neovim
-brew: nyancat
-brew: ouch
-brew: pastel
-brew: pget
 brew: pinentry-mac
-brew: pngquant
 brew: pnpm
-brew: procs
-brew: px4/px4/gcc-arm-none-eabi
-brew: rargs
 brew: ripgrep
 brew: rmw
 brew: rust
-brew: s-search
-brew: sd
-brew: semgrep
 brew: silicon
-brew: sl
+brew: sleepwatcher
 brew: slides
 brew: starship
-brew: svgo
-brew: tig
-brew: timewarrior
-brew: timg
-brew: tldr
-brew: tmux
-brew: tokei
 brew: tree
 brew: tz
-brew: ugit
-brew: ugrep
+brew: unixodbc
 brew: unzip
-brew: viddy
 brew: vim
-brew: viu
-brew: w3m
-brew: wasmer
-brew: wdiff
 brew: wget
-brew: xdg-ninja
-brew: xh
-brew: xmlto
 brew: yarn
-brew: youplot
-brew: youtubedr
+brew: zig
 brew: zsh
 brew: zsh-autocomplete
 brew: zsh-autopair
 brew: zsh-autosuggestions
 brew: zsh-completions
 brew: zsh-fast-syntax-highlighting
-cask: alacritty
-cask: aldente
 cask: alfred
 cask: alt-tab
 cask: anki
-cask: apparency
 cask: appflowy
-cask: arc
-cask: audiorelay
+cask: bartender
 cask: battery-buddy
-cask: bike
+cask: bettertouchtool
 cask: bitwarden
-cask: blackhole-2ch
-cask: blender
-cask: boop
 cask: brave-browser
-cask: chromedriver
-cask: chromium
+cask: clop
 cask: cloudflare-warp
+cask: cursor
+cask: deeper
 cask: deepl
 cask: devtoys
-cask: displaperture
-cask: dockey
 cask: dropbox
 cask: editaro
+cask: filen
 cask: flux
 cask: folder-colorizer
-cask: font-cousine-nerd-font
-cask: font-hackgen-nerd
-cask: font-plemol-jp-nf
-cask: font-roboto-mono-nerd-font
 cask: font-symbols-only-nerd-font
-cask: font-udev-gothic
 cask: font-udev-gothic-nf
-cask: gitify
-cask: google-chrome
 cask: google-japanese-ime
 cask: he3
 cask: hot
-cask: ia-presenter
 cask: iina
-cask: informant
+cask: isabelle
 cask: iterm2
 cask: itsycal
-cask: jquake
-cask: kap
+cask: jan
 cask: karabiner-elements
+cask: keyboardcleantool
 cask: keycastr
 cask: kitty
-cask: lazpaint
-cask: licecap
 cask: maccy
-cask: manila
 cask: menuwhere
+cask: min
 cask: numi
 cask: obsidian
-cask: paintbrush
-cask: pinta
-cask: pixel-picker
-cask: pngyu
-cask: pomotroid
-cask: processing
-cask: provisionql
+cask: piphero
 cask: qlimagesize
 cask: qlmarkdown
 cask: qlvideo
@@ -213,45 +140,32 @@ cask: quicklook-json
 cask: quicklookase
 cask: qview
 cask: rectangle
+cask: reminders-menubar
 cask: scriptql
-cask: scrolla
 cask: shottr
 cask: slack
-cask: snipaste
-cask: stats
-cask: stoplight-studio
 cask: suspicious-package
 cask: syntax-highlight
-cask: tableplus
 cask: the-unarchiver
 cask: tiny-player
+cask: topnotch
 cask: trex
 cask: warp
 cask: wezterm
-cask: wooshy
-cask: xbar
-mas: 1099120373  Exporter           (3.2.0)
-mas: 1110524423  Battery Widget     (1.1)
-mas: 1158642554  Desktop Lens       (5.0.0)
-mas: 1187772509  stts               (2.21)
-mas: 1233965871  ScreenBrush        (1.8.10)
-mas: 1328847392  Processes Monitor  (1.7)
-mas: 1351639930  Gifski             (2.23.0)
-mas: 1429033973  RunCat             (10.3)
-mas: 1450640351  Lightweight PDF    (1.0.6)
-mas: 1522267256  Shareful           (1.10.0)
-mas: 1545870783  Color Picker       (2.0.0)
-mas: 1563735522  Charmstone         (1.31)
-mas: 1569290801  ItemStock          (1.0)
-mas: 1575588022  MenubarX           (1.6.8)
-mas: 1581223559  Magic              (3.5.1)
-mas: 1586304988  Messer             (2.1.19)
-mas: 1596706466  Speediness         (1.7.0)
-mas: 1611378436  Pure Paste         (1.10.0)
-mas: 1615988943  Folder Peek        (1.10.1)
-mas: 1621370168  WorldWideWeb       (2.1.1)
-mas: 302584613   Kindle             (7.3)
-mas: 497799835   Xcode              (15.2)
-mas: 539883307   LINE               (8.6.0)
-mas: 6444685140  CenterMouse        (1.1.1)
-mas: 928871589   Noizio             (2.1.0)
+cask: zoom
+mas: 1351639930  Gifski            (2.23.0)
+mas: 1429033973  RunCat            (11.3)
+mas: 1522267256  Shareful          (1.10.0)
+mas: 1545870783  Color Picker      (2.0.0)
+mas: 1548711022  Barbee            (3.5.3)
+mas: 1551756247  Smart Click       (1.4.6)
+mas: 1563735522  Charmstone        (1.31)
+mas: 1575588022  MenubarX          (1.6.10)
+mas: 1611378436  Pure Paste        (1.10.0)
+mas: 1615988943  Folder Peek       (1.10.3)
+mas: 1636862100  Commander         (1.13)
+mas: 302584613   Kindle            (7.9)
+mas: 6444685140  CenterMouse       (1.1.1)
+mas: 6447055708  MagicNotch        (1.1.4)
+mas: 6448461551  Command X         (1.4.1)
+mas: 6448700837  デスクトップ ファイル ボックス  (1.1.3)
