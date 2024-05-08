@@ -165,6 +165,24 @@ else
           \ 'abbrev_ignore_case': v:true,
           \ 'put_hanpa': v:true,
           \ })
+  else
+    function s:setup_tuskk() abort
+      echomsg 'ghq get tuskk'
+      call system('ghq get https://github.com/kawarimidoll/tuskk.vim')
+      echomsg 'ghq get skk-dict'
+      call system('ghq get https://github.com/skk-dev/dict')
+      echomsg 'ghq get jawiki-dict'
+      call system('ghq get https://github.com/tokuhirom/jawiki-kana-kanji-dict')
+      echomsg 'make links'
+      call system('mkdir -p ~/.cache/vim')
+      call system('ln -sf ~/ghq/github.com/skk-dev/dict/SKK-JISYO.L ~/.cache/vim/SKK-JISYO.L')
+      call system('ln -sf ~/ghq/github.com/skk-dev/dict/SKK-JISYO.geo ~/.cache/vim/SKK-JISYO.geo')
+      call system('ln -sf ~/ghq/github.com/skk-dev/dict/SKK-JISYO.station ~/.cache/vim/SKK-JISYO.station')
+      call system('ln -sf ~/ghq/github.com/skk-dev/dict/SKK-JISYO.emoji ~/.cache/vim/SKK-JISYO.emoji')
+      call system('ln -sf ~/ghq/github.com/tokuhirom/jawiki-kana-kanji-dict/SKK-JISYO.jawiki ~/.cache/vim/SKK-JISYO.jawiki')
+      echomsg 'done'
+    endfunction
+    command! SetupTuskk call <sid>setup_tuskk()
   endif
 endif
 
