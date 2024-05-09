@@ -128,10 +128,10 @@ else
   call s:update_info()
 
   set runtimepath+=~/ghq/github.com/kawarimidoll/tuskk.vim
+  let base_table = tuskk#opts#builtin_kana_table()
   if exists('*tuskk#opts#builtin_kana_table')
     inoremap <c-j> <cmd>call tuskk#toggle()<cr>
     cnoremap <c-j> <cmd>call tuskk#cmd_buf()<cr>
-    let base_table = tuskk#opts#builtin_kana_table()
     let azik_table = tuskk#opts#extend_azik_table()
     let az_keys = azik_table->keys()
     for k in az_keys
@@ -144,6 +144,10 @@ else
     let kana_table = extendnew(base_table, azik_table)
 
     let uj = expand('~/.cache/vim/SKK-JISYO.user')
+    " \   { 'path': '~/.cache/vim/SKK-JISYO.nicoime', 'encoding': 'utf-8', 'mark': '[N]' },
+    " \ 'suggest_wait_ms': 200,
+    " \ 'suggest_prefix_match_minimum': 5,
+
     call tuskk#initialize({
           \ 'user_jisyo_path': uj,
           \ 'jisyo_list':  [
@@ -152,11 +156,8 @@ else
           \   { 'path': '~/.cache/vim/SKK-JISYO.station', 'encoding': 'euc-jp', 'mark': '[S]' },
           \   { 'path': '~/.cache/vim/SKK-JISYO.jawiki', 'encoding': 'utf-8', 'mark': '[W]' },
           \   { 'path': '~/.cache/vim/SKK-JISYO.emoji', 'encoding': 'utf-8' },
-          \   { 'path': '~/.cache/vim/SKK-JISYO.nicoime', 'encoding': 'utf-8', 'mark': '[N]' },
           \ ],
           \ 'kana_table': kana_table,
-          \ 'suggest_wait_ms': 200,
-          \ 'suggest_prefix_match_minimum': 5,
           \ 'suggest_sort_by': 'length',
           \ 'debug_log': '',
           \ 'use_google_cgi': v:true,
