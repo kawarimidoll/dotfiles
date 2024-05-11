@@ -232,13 +232,18 @@ end
 later(init_lsp)
 later(init_treesitter)
 
-later(require('mini.ai').setup)
 later(require('mini.bufremove').setup)
 later(require('mini.cursorword').setup)
 later(require('mini.misc').setup)
 later(require('mini.indentscope').setup)
 later(require('mini.surround').setup)
 later(require('mini.comment').setup)
+
+later(function()
+  require('mini.ai').setup()
+  vim.keymap.set({ 'x', 'o' }, 'i<space>', 'iW', { desc = 'in space' })
+  vim.keymap.set({ 'x', 'o' }, 'a<space>', 'aW', { desc = 'around space' })
+end)
 
 later(function()
   require('mini.diff').setup({
