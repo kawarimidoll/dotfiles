@@ -580,6 +580,11 @@ later(function()
   vim.cmd.luafile('~/dotfiles/.config/nvim/ui_input.lua')
 end)
 
+later(function()
+  add({ source = 'https://github.com/tani/dmacro.nvim' })
+  require('dmacro').setup({ dmacro_key = '<C-t>' })
+end)
+
 -- ref: https://zenn.dev/vim_jp/articles/20240304_ekiden_disable_plugin
 
 --vim.cmd [[
