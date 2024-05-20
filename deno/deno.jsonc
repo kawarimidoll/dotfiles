@@ -2,6 +2,7 @@
   "tasks": {
     "post": "deno run --allow-env=BLUESKY_IDENTIFIER,BLUESKY_PASSWORD,GITHUB_ACTIONS --allow-net=bsky.social bsky_post.ts",
     "post_local": "deno run --allow-env --allow-read --allow-net=bsky.social bsky_post.ts",
-    "promote_rss": "deno run --allow-read --allow-env --allow-net=zenn.dev,res.cloudinary.com,sizu.me,static.sizu.me,bsky.social,textdb.dev promote_rss.ts"
+    "promote_rss": "deno run --allow-read --allow-env --allow-net=zenn.dev,res.cloudinary.com,sizu.me,static.sizu.me,bsky.social,textdb.dev promote_rss.ts",
+    "translate": "deno run --allow-net=api.openai.com --allow-env=OPENAI_BASE_URL,OPENAI_API_KEY,OPENAI_ORG_ID,OPENAI_PROJECT_ID gpt_translate.ts"
   }
 }
