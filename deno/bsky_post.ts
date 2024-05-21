@@ -1,4 +1,4 @@
-import { chunk } from "https://deno.land/std@0.217.0/collections/chunk.ts";
+import { chunk } from "jsr:@std/collections@^0.224.2";
 import AtprotoAPI from "npm:@atproto/api";
 import type { Facet } from "npm:@atproto/api";
 const { BskyAgent, RichText } = AtprotoAPI;
