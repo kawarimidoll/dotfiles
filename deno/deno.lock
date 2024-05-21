@@ -2,11 +2,15 @@
   "version": "3",
   "packages": {
     "specifiers": {
+      "jsr:@b-fuze/deno-dom": "jsr:@b-fuze/deno-dom@0.1.43",
       "jsr:@std/collections@^0.224.2": "jsr:@std/collections@0.224.2",
       "npm:@atproto/api": "npm:@atproto/api@0.3.7",
       "npm:chalk@5.0.1": "npm:chalk@5.0.1"
     },
     "jsr": {
+      "@b-fuze/deno-dom@0.1.43": {
+        "integrity": "6e99c4645ab897520fa04d60d0096aa1f49ff9a8950db7f258511419ab08d754"
+      },
       "@std/collections@0.224.2": {
         "integrity": "e77819455294e92d4e7ddad1dbfd46f94174c09318e541e6621fac4a4d0ab326"
       }
