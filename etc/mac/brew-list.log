@@ -1,15 +1,13 @@
-timestamp: 2024-05-13 10:11:39 JST
+timestamp: 2024-05-28 19:51:25 AEST
 tap: abhimanyu003/sttr
 tap: felixkratz/formulae
 tap: harelba/q
 tap: he3-app/he3
 tap: homebrew/bundle
-tap: homebrew/cask-fonts
 tap: homebrew/services
 tap: jesseduffield/lazygit
 brew: abhimanyu003/sttr/sttr
 brew: act
-brew: automake
 brew: bat
 brew: bat-extras
 brew: binutils
@@ -25,9 +23,9 @@ brew: efm-langserver
 brew: emacs
 brew: eza
 brew: felixkratz/formulae/sketchybar
-brew: ffmpeg
 brew: findutils
 brew: fnm
+brew: fx
 brew: fzf
 brew: gawk
 brew: gaze
@@ -59,9 +57,9 @@ brew: imagemagick
 brew: jesseduffield/lazygit/lazygit
 brew: jid
 brew: jj
+brew: jnv
 brew: jpeg
 brew: libsixel
-brew: libtermkey
 brew: llvm@17
 brew: logdy
 brew: lsd
@@ -82,7 +80,6 @@ brew: slides
 brew: starship
 brew: tree
 brew: tz
-brew: unixodbc
 brew: unzip
 brew: vim
 brew: wget
@@ -103,6 +100,7 @@ cask: battery-buddy
 cask: bettertouchtool
 cask: bitwarden
 cask: brave-browser
+cask: chatgpt
 cask: clop
 cask: cloudflare-warp
 cask: cursor
@@ -158,16 +156,18 @@ mas: 1351639930  Gifski            (2.23.0)
 mas: 1429033973  RunCat            (11.3)
 mas: 1448648921  Seashore          (3.35)
 mas: 1522267256  Shareful          (1.10.0)
-mas: 1545870783  Color Picker      (2.0.0)
-mas: 1548711022  Barbee            (3.5.4)
+mas: 1545870783  Color Picker      (2.0.1)
+mas: 1548711022  Barbee            (3.5.5)
 mas: 1551756247  Smart Click       (1.4.6)
 mas: 1563735522  Charmstone        (1.31)
 mas: 1575588022  MenubarX          (1.7.0)
 mas: 1611378436  Pure Paste        (1.10.0)
 mas: 1615988943  Folder Peek       (1.10.4)
 mas: 1636862100  Commander         (1.13)
-mas: 302584613   Kindle            (7.9)
+mas: 302584613   Kindle            (7.11)
+mas: 539883307   LINE              (8.7.0)
 mas: 6444685140  CenterMouse       (1.1.1)
 mas: 6447055708  MagicNotch        (1.1.4)
 mas: 6448461551  Command X         (1.4.1)
 mas: 6448700837  デスクトップ ファイル ボックス  (1.1.4)
+mas: 6462894357  Battery Line      (1.1.0)
