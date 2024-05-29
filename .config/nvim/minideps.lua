@@ -46,70 +46,13 @@ now(function()
   })
 end)
 
-local function get_git_head()
-  if vim.b.git_head then
-    return vim.b.git_head
-  end
-
-  local git_root = vim.fs.find('.git', {
-    upward = true,
-    limit = 1,
-    type = 'directory'
-  })[1] or ''
-  if git_root == '' then
-    return nil
-  end
-
-  local ok, lines = pcall(vim.fn.readfile, git_root .. '/HEAD')
-  local head = ok and lines[1] or ''
-  if head:match('^ref: ') then
-    head = head
-        :gsub('^ref: refs/heads/', '')
-        :gsub('^ref: refs/remotes/', '')
-        :gsub('^ref: refs/tags/', '')
-        :gsub('^ref: refs/', '')
-  end
-
-  vim.b.git_head = head
-  return head
-end
-
 now(function()
-  local diff_summary = function()
-    local summary = vim.b.minidiff_summary or {}
-    if type(summary) ~= 'table' or vim.tbl_isempty(summary) then
-      return ''
-    end
-    local status_txt = {}
-    if summary.add and summary.add > 0 then
-      table.insert(status_txt, '+' .. summary.add)
-    end
-    if summary.change and summary.change > 0 then
-      table.insert(status_txt, '~' .. summary.change)
-    end
-    if summary.remove and summary.remove > 0 then
-      table.insert(status_txt, '-' .. summary.remove)
-    end
-    return table.concat(status_txt, ' ')
-  end
-  local section_diff = function(args)
-    if vim.bo.buftype ~= '' then return '' end
-
-    local head = get_git_head() or '-'
-    local signs = MiniStatusline.is_truncated(args.trunc_width) and '' or (diff_summary() or '')
-    local icon = ''
-
-    if signs == '' then
-      if head == '-' or head == '' then return '' end
-      return string.format('%s %s', icon, head)
-    end
-    return string.format('%s %s %s', icon, head, signs)
-  end
   require('mini.statusline').setup({
     content = {
       active = function()
         local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 120 })
-        local git = section_diff({ trunc_width = 75 })
+        local git = MiniStatusline.section_git({ trunc_width = 40 })
+        local diff = MiniStatusline.section_diff({ trunc_width = 75 })
         local diagnostics = MiniStatusline.section_diagnostics({ trunc_width = 75 })
         local filename = MiniStatusline.section_filename({ trunc_width = 140 })
         local fileinfo = MiniStatusline.section_fileinfo({ trunc_width = 120 })
