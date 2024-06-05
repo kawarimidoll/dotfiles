@@ -1051,6 +1051,18 @@ augroup vimrc
 
   autocmd BufNewFile * ++nested call mi#open#reopen_with_lnum()
 
+  " https://github.com/Shougo/shougo-s-github/blob/1327ad8140fc5f47ad15f316d55b2bed6dfd6ca5/vim/rc/options.rc.vim#L87-L97
+  autocmd CmdlineEnter *
+        \ : let s:save_iskeyword = &l:iskeyword
+        \ | setlocal iskeyword+=.
+        \ | setlocal iskeyword+=-
+        \ | setlocal iskeyword+=+
+        \ | setlocal iskeyword-=/
+        \ | setlocal iskeyword-=\:
+        \ | setlocal iskeyword-=:
+  autocmd CmdlineLeave *
+        \ let &l:iskeyword = s:save_iskeyword
+
   if has('nvim')
     " https://jdhao.github.io/2020/05/22/highlight_yank_region_nvim/
     autocmd TextYankPost * silent! lua vim.highlight.on_yank({ timeout=500 })
