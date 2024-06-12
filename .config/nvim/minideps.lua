@@ -88,7 +88,9 @@ local init_lsp = function()
   -- https://zenn.dev/vim_jp/articles/c62b397647e3c9
   vim.diagnostic.config({ severity_sort = true })
 
-  vim.keymap.set('n', 'mxe', vim.diagnostic.open_float, { desc = 'diagnostic.open_float' })
+  vim.keymap.set('n', 'mxe', function()
+    vim.diagnostic.open_float({ focusable = true })
+  end, { desc = 'diagnostic.open_float' })
   vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'diagnostic.goto_next' })
   vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'diagnostic.goto_next' })
   vim.keymap.set('n', 'mxl', vim.diagnostic.setloclist, { desc = 'diagnostic.setloclist' })
