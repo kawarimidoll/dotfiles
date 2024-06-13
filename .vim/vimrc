@@ -75,7 +75,8 @@ endfunction
 command! -nargs=+ -bang Keymap call s:keymap(<bang>0, <f-args>)
 " }}}
 
-set dictionary+=/usr/share/dict/words
+" perl -e 'print sort { length($a) <=> length($b) } <>' /usr/share/dict/words > ~/.cache/vim/sorted_words
+set dictionary+=~/.cache/vim/sorted_words
 
 let s:word_1000_dict_path = expand('~/.cache/vim/google-10000-english-no-swears.txt')
 let s:word_1000_dict_url = 'https://raw.githubusercontent.com/first20hours/'
