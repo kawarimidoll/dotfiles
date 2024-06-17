@@ -407,6 +407,10 @@ later(function()
 end)
 
 later(function()
+  add('thinca/vim-quickrun')
+end)
+
+later(function()
   add({ source = 'monaqa/dial.nvim' })
   vim.cmd.luafile('~/dotfiles/.config/nvim/plugin_config/dial.lua')
   vim.keymap.set({ 'x' }, 'g<C-a>', 'g<Plug>(dial-increment)', { desc = 'dial-increment' })
