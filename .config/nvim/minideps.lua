@@ -408,6 +408,13 @@ end)
 
 later(function()
   add('thinca/vim-quickrun')
+  vim.g.quickrun_config = {
+    ["_"] = {
+      ["outputter/buffer/opener"] = "new",
+      ["outputter/buffer/close_on_empty"] = 1
+    },
+  }
+  vim.keymap.set({ 'n', 'x' }, 'so', '<cmd>QuickRun<cr>', { desc = 'QuickRun' })
 end)
 
 later(function()
