@@ -88,20 +88,20 @@ else
           \ 'wave': v:true,
           \ })
   endif
-  let s:info_popup_id = popup_create('', {
-        \ 'line': 1,
-        \ 'col': &columns,
-        \ 'pos': 'topright',
-        \ 'maxheight': 2,
-        \ 'minheight': 2,
-        \ 'maxwidth': kawarimiline_width+1,
-        \ 'minwidth': kawarimiline_width+1,
-        \ 'zindex': 300,
-        \ 'posinvert': v:false,
-        \ })
+  " let s:info_popup_id = popup_create('', {
+  "       \ 'line': 1,
+  "       \ 'col': &columns,
+  "       \ 'pos': 'topright',
+  "       \ 'maxheight': 2,
+  "       \ 'minheight': 2,
+  "       \ 'maxwidth': kawarimiline_width+1,
+  "       \ 'minwidth': kawarimiline_width+1,
+  "       \ 'zindex': 300,
+  "       \ 'posinvert': v:false,
+  "       \ })
   call mi#notify#setwidth(kawarimiline_width+1)
 
-  autocmd WinEnter,BufEnter,CursorHold,CursorHoldI,ModeChanged * call s:update_info()
+  " autocmd WinEnter,BufEnter,CursorHold,CursorHoldI,ModeChanged * call s:update_info()
   function s:update_info() abort
     let curpos = getcurpos()[1:2]
     let pos_info = join(curpos, ',')
@@ -125,7 +125,7 @@ else
       redraw
     endif
   endfunction
-  call s:update_info()
+  " call s:update_info()
 
   set runtimepath+=~/ghq/github.com/kawarimidoll/tuskk.vim
   let base_table = tuskk#opts#builtin_kana_table()
