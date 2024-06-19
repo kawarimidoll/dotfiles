@@ -9,7 +9,7 @@ async function fetchWeather() {
   // if error occurs, retry up to 3 times after 5 seconds
   // if successful, return the response
 
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i <= 3; i++) {
     try {
       const response = await fetch(
         "https://www.accuweather.com/en/au/melbourne/26216/weather-tomorrow/26216",
@@ -17,8 +17,12 @@ async function fetchWeather() {
       return response;
     } catch (error) {
       console.log(error);
-      console.log(`Retry ${i + 1} after 5 seconds...`);
-      await sleep(5);
+      if (i < 3) {
+        console.log(`Retry ${i + 1}/3 after 5 seconds...`);
+        await sleep(5);
+      } else {
+        console.log(`Retry failed`);
+      }
     }
   }
   return null;
