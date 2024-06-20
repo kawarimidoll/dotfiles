@@ -722,8 +722,7 @@ let s:ft_aliases = {
       \ 'javascriptreact': 'javascript',
       \ 'typescriptreact': 'javascript',
       \ }
-
-function! s:expand_fname(fallback) abort
+function! s:expand_snippet(fallback) abort
   const prev_idx = getcharpos('.')[2] - 2
   if prev_idx < 0
     return a:fallback
@@ -745,7 +744,7 @@ function! s:expand_fname(fallback) abort
   endfor
   return a:fallback
 endfunction
-inoremap <expr> <c-x> <sid>expand_fname("\<c-x>")
+inoremap <expr> <c-x> <sid>expand_snippet("\<c-x>")
 
 " visual
 " xnoremap p <cmd>call <sid>sync_unnamed()<cr>P
