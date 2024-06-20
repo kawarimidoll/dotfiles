@@ -636,6 +636,12 @@ cnoreabbrev <expr> w getcmdtype() .. getcmdline() ==# ":'<,'>w" ? "\<C-u>w" : 'w
 " cnoreabbrev <expr> s getcmdtype() .. getcmdline() ==# ':s' ? [getchar(), ''][1] .. "%s/" .. escape(@/, '/') .. "//g<Left><Left>" : 's'
 
 " insert
+function s:next_or_cmp()
+  if pumvisible()
+    return feedkeys("\<c-n>", 'ni')
+  endif
+  call s:my_cmp()
+endfunction
 function s:my_cmp(phase = 0)
   let cmp_keys = ["\<c-f>", "\<c-v>", "\<c-n>", "\<c-k>"]
   if &filetype != 'vim' && &filetype != 'help'
@@ -648,7 +654,7 @@ function s:my_cmp(phase = 0)
   let recall = $"\<cmd>call {expand('<SID>')}my_cmp({a:phase + 1})\<cr>"
   call feedkeys($"\<c-x>{next_cmp}{recall}", 'ni')
 endfunction
-inoremap <tab> <cmd>call <sid>my_cmp()<cr>
+inoremap <tab> <cmd>call <sid>next_or_cmp()<cr>
 inoremap <c-x><c-y> <cmd>call <sid>my_cmp()<cr>
 
 imap <c-h> <bs>
