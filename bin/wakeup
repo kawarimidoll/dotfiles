@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# ref: https://qiita.com/c6tower/items/4a20020eaf1eccf3ffbb#2-当日分処理が実行されてなければ実行する
+
+LAST_EXEC_DATE_FILE_PATH=~/.cache/sleepwatcher/last_exec_date.txt
+
+date -Iseconds >> ~/.cache/sleepwatcher/exec_log.txt
+
+# check last executed date
+if [[ -e $LAST_EXEC_DATE_FILE_PATH ]] && [[ `date -Idate` = `cat $LAST_EXEC_DATE_FILE_PATH` ]]; then
+  echo 'today already executed'
+  exit 0
+fi
+
+echo 'run daily script'
+/opt/homebrew/bin/deno run --allow-net=www.accuweather.com --allow-read=/Users/kawarimidoll/Dropbox/Obsidian --allow-write=/Users/kawarimidoll/Dropbox/Obsidian --allow-env=HOME ~/dotfiles/deno/wtr.ts
+
+
+# run once in week (sunday)
+if [ `date '+%w'` = '0' ]; then
+  echo 'run weekly script'
+  echo 'create notes in week'
+  /opt/homebrew/bin/deno run --allow-read=/Users/kawarimidoll/Dropbox/Obsidian --allow-write=/Users/kawarimidoll/Dropbox/Obsidian ~/Dropbox/Obsidian/scripts/create-notes-in-week.js
+fi
+
+date -Idate > $LAST_EXEC_DATE_FILE_PATH
