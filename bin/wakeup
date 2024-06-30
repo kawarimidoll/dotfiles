@@ -12,15 +12,14 @@ if [[ -e $LAST_EXEC_DATE_FILE_PATH ]] && [[ `date -Idate` = `cat $LAST_EXEC_DATE
   exit 0
 fi
 
-echo 'run daily script'
-/opt/homebrew/bin/deno run --allow-net=www.accuweather.com --allow-read=/Users/kawarimidoll/Dropbox/Obsidian --allow-write=/Users/kawarimidoll/Dropbox/Obsidian --allow-env=HOME ~/dotfiles/deno/wtr.ts
-
-
 # run once in week (sunday)
 if [ `date '+%w'` = '0' ]; then
   echo 'run weekly script'
   echo 'create notes in week'
   /opt/homebrew/bin/deno run --allow-read=/Users/kawarimidoll/Dropbox/Obsidian --allow-write=/Users/kawarimidoll/Dropbox/Obsidian ~/Dropbox/Obsidian/scripts/create-notes-in-week.js
 fi
+
+echo 'run daily script'
+/opt/homebrew/bin/deno run --allow-net=www.accuweather.com --allow-read=/Users/kawarimidoll/Dropbox/Obsidian --allow-write=/Users/kawarimidoll/Dropbox/Obsidian --allow-env=HOME ~/dotfiles/deno/wtr.ts
 
 date -Idate > $LAST_EXEC_DATE_FILE_PATH
