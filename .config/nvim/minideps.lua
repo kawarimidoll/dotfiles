@@ -402,9 +402,9 @@ end)
 --   vim.cmd.luafile('~/dotfiles/.config/nvim/plugin_config/gitsigns.lua')
 -- end)
 
-later(function()
-  add('vim-jp/vimdoc-ja')
-end)
+-- later(function()
+--   add('vim-jp/vimdoc-ja')
+-- end)
 
 later(function()
   add('thinca/vim-quickrun')
