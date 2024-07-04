@@ -35,15 +35,11 @@ now(function()
 end)
 
 now(function()
-  require('mini.git').setup()
+  require('mini.icons').setup()
 end)
 
 now(function()
-  add('nvim-tree/nvim-web-devicons')
-  vim.api.nvim_create_autocmd({ 'ColorScheme' }, {
-    pattern = '*',
-    callback = require('nvim-web-devicons').setup
-  })
+  require('mini.git').setup()
 end)
 
 now(function()
