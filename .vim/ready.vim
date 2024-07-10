@@ -166,6 +166,12 @@ else
           \ 'abbrev_ignore_case': v:true,
           \ 'put_hanpa': v:true,
           \ })
+
+    augroup tuskk_indicator
+      autocmd!
+      autocmd User tuskk_enable_post set cursorline
+      autocmd User tuskk_disable_pre set nocursorline
+    augroup END
   else
     function s:setup_tuskk() abort
       echomsg 'ghq get tuskk'
