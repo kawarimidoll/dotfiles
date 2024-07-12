@@ -134,14 +134,18 @@ else
     cnoremap <c-j> <cmd>call tuskk#cmd_buf()<cr>
     let azik_table = tuskk#opts#extend_azik_table()
     let az_keys = azik_table->keys()
-    for k in az_keys
-      if k[0] == k[1]
-        unlet! azik_table[k]
-      endif
-    endfor
+    " for k in az_keys
+    "   if k[0] == k[1]
+    "     unlet! azik_table[k]
+    "   endif
+    " endfor
     unlet! azik_table[';']
     unlet! azik_table['q']
     let kana_table = extendnew(base_table, azik_table)
+    let kana_table['l'] = 'っ'
+    let kana_table['sm'] = 'さま'
+    let kana_table['dx'] = 'でした'
+    let kana_table['mx'] = 'ました'
 
     let uj = expand('~/.cache/vim/SKK-JISYO.user')
     " \   { 'path': '~/.cache/vim/SKK-JISYO.nicoime', 'encoding': 'utf-8', 'mark': '[N]' },
