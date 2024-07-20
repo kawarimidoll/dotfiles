@@ -855,10 +855,10 @@ endfunction
 
 function! s:apply_user_highlight() abort
   highlight Reverse    cterm=reverse gui=reverse
-  highlight Pmenu      ctermfg=254 ctermbg=237 guifg=#e3e1e4 guibg=#37343a
-  highlight PmenuSel   ctermfg=237 ctermbg=254 guifg=#37343a guibg=#e3e1e4
-  highlight PmenuSbar  ctermbg=238 guibg=#423f46
-  highlight PmenuThumb ctermbg=255 guibg=#f8f8f2
+  " highlight Pmenu      ctermfg=254 ctermbg=237 guifg=#e3e1e4 guibg=#37343a
+  " highlight PmenuSel   ctermfg=237 ctermbg=254 guifg=#37343a guibg=#e3e1e4
+  " highlight PmenuSbar  ctermbg=238 guibg=#423f46
+  " highlight PmenuThumb ctermbg=255 guibg=#f8f8f2
   highlight Underlined ctermfg=NONE cterm=underline guifg=NONE gui=underline
   highlight ExtraWhitespace ctermbg=darkmagenta guibg=darkmagenta
   if !has('nvim')
