@@ -1,29 +1,29 @@
 " ref: https://github.com/mattn/vim-sqlfmt/blob/master/ftplugin/sql/sqlfmt.vim
 function! mi#fmt#run(cmd) abort
-  call setqflist([])
   let cmd = a:cmd
-  " let cmd = get(g:, 'sqlfmt_program', 'sqlformat -r -k upper -o %s -')
-  let tmpfile = ''
-  if stridx(cmd, '%s') > -1
+  " let cmd = get(g:, 'sqlfmt_program', 'sqlformat -r -k upper -o %outfile% -')
+
+  if stridx(cmd, '%outfile%') > -1
     let tmpfile = tempname()
-    let cmd = substitute(cmd, '%s', tr(tmpfile, '\', '/'), 'g')
-    let lines = system(cmd, iconv(join(getline(1, '$'), "\n"), &encoding, 'utf-8'))
-    if v:shell_error != 0
-      call delete(tmpfile)
-      echoerr substitute(lines, '[\r\n]', ' ', 'g')
-      return
-    endif
-    let lines = join(readfile(tmpfile), "\n")
-    call delete(tmpfile)
-  else
-    let lines = system(cmd, iconv(join(getline(1, '$'), "\n"), &encoding, 'utf-8'))
-    if v:shell_error != 0
-      echoerr substitute(lines, '[\r\n]', ' ', 'g')
-      return
-    endif
+    defer delete(tmpfile)
+    let cmd = substitute(cmd, '%outfile%', tr(tmpfile, '\', '/'), 'g')
   endif
-  let pos = getcurpos()
-  silent! %d _
-  call setline(1, split(lines, "\n"))
-  call setpos('.', pos)
+
+  let lines = systemlist(cmd, iconv(join(getline(1, '$'), "\n"), &encoding, 'utf-8'))
+  if v:shell_error != 0
+    echohl WarningMsg
+    for line in lines
+      echomsg substitute(line, '\e[[0-9]\{-1,}m', '', 'g')
+    endfor
+    echohl None
+    return
+  endif
+
+  if exists('tmpfile')
+    let lines = readfile(tmpfile)
+  endif
+
+  defer setpos('.', getcurpos())
+  silent! %delete _
+  call setline(1, lines)
 endfunction
