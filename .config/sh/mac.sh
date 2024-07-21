@@ -106,4 +106,7 @@ export PKG_CONFIG_PATH="${BREW_PREFIX}/opt/curl/lib/pkgconfig"
 # -----------------
 # mise
 # -----------------
-eval "$(/opt/homebrew/bin/mise activate zsh)"
+current_shell=$(basename "$SHELL")
+if [[ "$current_shell" == "zsh" ]]; then
+  eval "$(/opt/homebrew/bin/mise activate zsh)"
+fi
