@@ -136,7 +136,8 @@ set cedit=\<C-Q>
 " set clipboard&
 " set clipboard^=unnamed
 " set clipboard^=unnamedplus
-set completeopt=menu,menuone,noselect
+set complete=.,w,k,b,u
+set completeopt=menuone,noselect
 set expandtab
 set fileencodings=ucs-bom,utf-8,iso-2022-jp-3,euc-jp,cp932
 set fillchars+=vert:│,eob:\\x20

@@ -234,6 +234,22 @@ else
   command! Textra call s:cmd_translate()
   nnoremap <space>T <cmd>Textra<cr>
   xnoremap <space>T <cmd>Textra<cr>
+
+  " https://zenn.dev/kawarimidoll/articles/c14c8bc0d7d73d
+  let s:MINIMUM_COMPLETE_LENGTH = 3
+  function! s:auto_cmp_start() abort
+    if pumvisible()
+      return
+    endif
+    let prev_str = (slice(getline('.'), 0, charcol('.')-1) .. v:char)
+          \ ->substitute('.*[^[:keyword:]]', '', '')
+    if len(prev_str) < s:MINIMUM_COMPLETE_LENGTH
+      return
+    endif
+    call feedkeys("\<c-n>", 'ni')
+  endfunction
+  autocmd InsertCharPre * call s:auto_cmp_start()
+
 endif
 
 silent! delmarks ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890
