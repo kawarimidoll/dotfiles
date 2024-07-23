@@ -40,7 +40,7 @@ async function main() {
       { role: "system", content: systemPrompt },
       { role: "user", content: userContent },
     ],
-    model: "gpt-3.5-turbo",
+    model: "gpt-4o-mini",
   });
 
   console.log(userContent);
