@@ -934,21 +934,20 @@ function! s:pin_help_buffer()
 endfunction
 
 function! s:deno_fmt()
-  try
-    let ft =  {
-          \ 'typescript': 'ts',
-          \ 'typescriptreact': 'tsx',
-          \ 'javascript': 'js',
-          \ 'javascriptreact': 'jsx',
-          \ 'markdown': 'md',
-          \ 'json': 'json',
-          \ 'jsonc': 'jsonc',
-          \  }[&filetype]
-  catch /^Vim\%((\a\+)\)\=:E716:/
-    echo '[deno_fmt] filetype ' .. &filetype .. ' is not suppported'
+  let ft = get({
+        \ 'typescript': 'ts',
+        \ 'typescriptreact': 'tsx',
+        \ 'javascript': 'js',
+        \ 'javascriptreact': 'jsx',
+        \ 'markdown': 'md',
+        \ 'json': 'json',
+        \ 'jsonc': 'jsonc',
+        \  }, &filetype, '')
+  if empty(ft)
+    echo $'[deno_fmt] filetype {&filetype} is not suppported'
     return
-  endtry
-  let cmd = printf('deno fmt --ext %s -', ft)
+  endif
+  let cmd = $'deno fmt --ext {ft} -'
   call mi#fmt#run(cmd)
 endfunction
 command! -range=% DenoFmt call s:deno_fmt()
