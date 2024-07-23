@@ -127,7 +127,7 @@ function! mi#utils#download(url, local_path, force = v:false) abort
 endfunction
 
 " https://github.com/thinca/config/blob/78a1d2d4725e2ff064722b48cea5b5f1c44f49f9/dotfiles/dot.vim/autoload/vimrc.vim#L151-L161
-function mi#utils#keep_cursor(cmd) abort
+function! mi#utils#keep_cursor(cmd) abort
   const curwin_id = win_getid()
   const win_view = winsaveview()
   try
