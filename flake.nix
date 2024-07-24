@@ -4,12 +4,17 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+    vim-src = {
+      url = "github:vim/vim";
+      flake = false;
+    };
   };
 
   outputs = {
     self,
     nixpkgs,
     neovim-nightly-overlay,
+    vim-src,
   }: {
     # install:
     #   nix profile install .#my-packages
@@ -28,6 +33,29 @@
           ripgrep
           eza
           alejandra
+
+          (vim.overrideAttrs (oldAttrs: {
+            version = "latest";
+            src = vim-src;
+            configureFlags =
+              oldAttrs.configureFlags
+              ++ [
+                "--enable-terminal"
+                "--with-compiledby=kawarimidoll-nix"
+                # "--enable-gettext"
+                # "--enable-iconv"
+                "--enable-luainterp"
+                "--with-lua-prefix=${lua}"
+                "--enable-fail-if-missing"
+              ];
+            buildInputs =
+              oldAttrs.buildInputs
+              ++ [
+                gettext
+                lua
+                libiconv
+              ];
+          }))
         ]
         ++ [neovim-nightly-overlay.packages.aarch64-darwin.neovim];
     };
