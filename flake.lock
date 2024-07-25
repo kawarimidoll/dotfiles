@@ -226,11 +226,11 @@
     "vim-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1721762046,
-        "narHash": "sha256-tRet5jBakybd7tsH2fyDwy1/9Xyl7f2x4Tdsn8wy9zo=",
+        "lastModified": 1721850115,
+        "narHash": "sha256-VjE8AUfJSxyZlPiRz0Kc2xXDrtbnLQnhdVoKVdW/asY=",
         "owner": "vim",
         "repo": "vim",
-        "rev": "581d4a7b356395bcb8606c1717ded65d47d26c68",
+        "rev": "2979cfc2627d76a9c09cad46a1647dcd4aa73f5f",
         "type": "github"
       },
       "original": {

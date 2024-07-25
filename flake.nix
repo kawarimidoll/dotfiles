@@ -10,54 +10,51 @@
     };
   };
 
+  # install:
+  #   nix profile install .#my-packages
+  # uninstall:
+  #   nix profile remove my-packages
+  # update:
+  #   nix flake update
+  #   nix profile upgrade my-packages
   outputs = {
     self,
     nixpkgs,
     neovim-nightly-overlay,
     vim-src,
-  }: {
-    # install:
-    #   nix profile install .#my-packages
-    # uninstall:
-    #   nix profile remove my-packages
-    # update:
-    #   nix flake update
-    #   nix profile upgrade my-packages
-    packages.aarch64-darwin.my-packages = nixpkgs.legacyPackages.aarch64-darwin.buildEnv {
+  }: let
+    system = "aarch64-darwin";
+    pkgs = nixpkgs.legacyPackages.${system}.extend (
+      neovim-nightly-overlay.overlays.default
+    );
+  in {
+    packages.${system}.my-packages = pkgs.buildEnv {
       name = "my-packages-list";
-      paths = with nixpkgs.legacyPackages.aarch64-darwin;
-        [
-          git
-          curl
-          jq
-          ripgrep
-          eza
-          alejandra
+      paths = with pkgs; [
+        git
+        curl
+        jq
+        ripgrep
+        eza
+        alejandra
 
-          (vim.overrideAttrs (oldAttrs: {
-            version = "latest";
-            src = vim-src;
-            configureFlags =
-              oldAttrs.configureFlags
-              ++ [
-                "--enable-terminal"
-                "--with-compiledby=kawarimidoll-nix"
-                # "--enable-gettext"
-                # "--enable-iconv"
-                "--enable-luainterp"
-                "--with-lua-prefix=${lua}"
-                "--enable-fail-if-missing"
-              ];
-            buildInputs =
-              oldAttrs.buildInputs
-              ++ [
-                gettext
-                lua
-                libiconv
-              ];
-          }))
-        ]
-        ++ [neovim-nightly-overlay.packages.aarch64-darwin.neovim];
+        (vim.overrideAttrs (oldAttrs: {
+          version = "latest";
+          src = vim-src;
+          configureFlags =
+            oldAttrs.configureFlags
+            ++ [
+              "--enable-terminal"
+              "--with-compiledby=kawarimidoll-nix"
+              "--enable-luainterp"
+              "--with-lua-prefix=${lua}"
+              "--enable-fail-if-missing"
+            ];
+          buildInputs = oldAttrs.buildInputs ++ [gettext lua libiconv];
+        }))
+
+        neovim
+      ];
     };
   };
 }
