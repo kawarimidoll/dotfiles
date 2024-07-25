@@ -56,5 +56,17 @@
         neovim
       ];
     };
+
+    apps.${system}.update = {
+      type = "app";
+      program = toString (pkgs.writeShellScript "update-script" ''
+        set -e
+        echo "Updating flake..."
+        nix flake update
+        echo "Updating profile..."
+        nix profile upgrade my-packages
+        echo "Update complete!"
+      '');
+    };
   };
 }
