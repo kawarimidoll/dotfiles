@@ -241,14 +241,14 @@ else
     if pumvisible()
       return
     endif
-    let prev_str = (slice(getline('.'), 0, charcol('.')-1) .. v:char)
+    let prev_str = slice(getline('.'), 0, charcol('.')-1)
           \ ->substitute('.*[^[:keyword:]]', '', '')
     if len(prev_str) < s:MINIMUM_COMPLETE_LENGTH
       return
     endif
     call feedkeys("\<c-n>", 'ni')
   endfunction
-  autocmd InsertCharPre * call s:auto_cmp_start()
+  autocmd InsertCharPre * call mi#utils#debounce($'{expand("\<SID>")}auto_cmp_start', 0)
 
 endif
 
