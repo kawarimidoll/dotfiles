@@ -238,3 +238,21 @@ endfunction
 function! mi#utils#constrain(num, min_limit, max_limit) abort
   return min([max([a:num, a:min_limit]), a:max_limit])
 endfunction
+
+function! mi#utils#zip(list1, list2, strict = v:false) abort
+  let ln1 = len(a:list1)
+  let ln2 = len(a:list2)
+  if a:strict && ln1 != ln2
+    throw 'List lengths are not equal'
+  endif
+
+  let result = []
+  let i = 0
+  let stop = min([ln1, ln2])
+  while i < stop
+    call add(result, [a:list1[i], a:list2[i]])
+    let i += 1
+  endwhile
+
+  return result
+endfunction
