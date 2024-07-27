@@ -8,6 +8,10 @@
       url = "github:vim/vim";
       flake = false;
     };
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   # install:
@@ -17,12 +21,15 @@
   # update:
   #   nix flake update
   #   nix profile upgrade my-packages
+  # or
+  #   nix run .#update
   outputs = {
     self,
     nixpkgs,
     neovim-nightly-overlay,
     vim-src,
-  }: let
+    home-manager,
+  } @ inputs: let
     system = "aarch64-darwin";
     pkgs = nixpkgs.legacyPackages.${system}.extend (
       neovim-nightly-overlay.overlays.default
@@ -67,6 +74,20 @@
         nix profile upgrade my-packages
         echo "Update complete!"
       '');
+    };
+
+    homeConfigurations = {
+      myHomeConfig = home-manager.lib.homeManagerConfiguration {
+        pkgs = import nixpkgs {
+          system = system;
+        };
+        extraSpecialArgs = {
+          inherit inputs;
+        };
+        modules = [
+          ./.config/home-manager/home.nix
+        ];
+      };
     };
   };
 }
