@@ -137,7 +137,7 @@ set cedit=\<C-Q>
 " set clipboard^=unnamed
 " set clipboard^=unnamedplus
 set complete=.,w,k,b,u
-set completeopt=menuone,noselect
+set completeopt=menuone,noselect,fuzzy
 set expandtab
 set fileencodings=ucs-bom,utf-8,iso-2022-jp-3,euc-jp,cp932
 set fillchars+=vert:│,eob:\\x20
@@ -163,7 +163,7 @@ set runtimepath+=~/dotfiles/.vim/after
 set scrolloff=5
 set shiftround
 set shiftwidth=2
-set shortmess+=scI
+set shortmess+=scCI
 set showbreak=↪
 set showtabline=0
 set signcolumn=number
