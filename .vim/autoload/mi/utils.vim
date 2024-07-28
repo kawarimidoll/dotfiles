@@ -256,3 +256,9 @@ function! mi#utils#zip(list1, list2, strict = v:false) abort
 
   return result
 endfunction
+
+" str: source string
+" idx: byte idx
+function! mi#utils#str_divide(str, idx) abort
+  return  [strpart(a:str, 0, a:idx), strpart(a:str, a:idx)]
+endfunction
