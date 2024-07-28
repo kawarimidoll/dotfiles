@@ -76,27 +76,27 @@ function! mi#utils#pick_one(list) abort
   return a:list[rand(srand()) % len(a:list)]
 endfunction
 
-function! mi#utils#includes(list, value) abort
-  for item in a:list
-    if item ==# a:value
-      return v:true
-    endif
-  endfor
-  return v:false
-endfunction
+" function! mi#utils#includes(list, value) abort
+"   for item in a:list
+"     if item ==# a:value
+"       return v:true
+"     endif
+"   endfor
+"   return v:false
+" endfunction
 
-" get element in list with loop
-function! mi#utils#at(list, idx) abort
-  let len = len(a:list)
-  let idx = a:idx
-  while idx < 0
-    let idx += len
-  endwhile
-  while idx > len
-    let idx -= len
-  endwhile
-  return a:list[idx]
-endfunction
+" " get element in list with loop
+" function! mi#utils#at(list, idx) abort
+"   let len = len(a:list)
+"   let idx = a:idx
+"   while idx < 0
+"     let idx += len
+"   endwhile
+"   while idx > len
+"     let idx -= len
+"   endwhile
+"   return a:list[idx]
+" endfunction
 
 " :h strpart
 function! mi#utils#get_char_at(expr) abort
