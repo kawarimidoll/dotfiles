@@ -235,6 +235,26 @@ else
   nnoremap <space>T <cmd>Textra<cr>
   xnoremap <space>T <cmd>Textra<cr>
 
+  " https://zenn.dev/kawarimidoll/articles/62029b8be10ac9
+  function! s:rec_cmp(list) abort
+    if empty(a:list) || pumvisible()
+      return
+    endif
+    let sid = expand("\<SID>")
+    let [head; rest] = a:list
+    call feedkeys($"\<c-x>\<c-z>{head}\<cmd>call {sid}rec_cmp({rest})\<cr>", 'ni')
+  endfunction
+  function! s:fallback_cmp() abort
+    let list = ["\<c-x>\<c-f>"]
+    if &filetype == 'vim' || &filetype == 'help'
+      call add(list, "\<c-x>\<c-v>")
+    elseif !empty(&omnifunc)
+      call add(list, "\<c-x>\<c-o>")
+    endif
+    call add(list, "\<c-n>")
+    call s:rec_cmp(list)
+  endfunction
+
   " https://zenn.dev/kawarimidoll/articles/c14c8bc0d7d73d
   let s:MINIMUM_COMPLETE_LENGTH = 3
   function! s:auto_cmp_start() abort
@@ -246,7 +266,7 @@ else
     if strchars(prev_str) < s:MINIMUM_COMPLETE_LENGTH
       return
     endif
-    call feedkeys("\<c-n>", 'ni')
+    call s:fallback_cmp()
   endfunction
   autocmd InsertCharPre * call mi#utils#debounce($'{expand("\<SID>")}auto_cmp_start', 0)
 
