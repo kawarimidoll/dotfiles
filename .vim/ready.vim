@@ -243,7 +243,7 @@ else
     endif
     let prev_str = slice(getline('.'), 0, charcol('.')-1)
           \ ->substitute('.*[^[:keyword:]]', '', '')
-    if len(prev_str) < s:MINIMUM_COMPLETE_LENGTH
+    if strchars(prev_str) < s:MINIMUM_COMPLETE_LENGTH
       return
     endif
     call feedkeys("\<c-n>", 'ni')
