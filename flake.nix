@@ -19,10 +19,9 @@
   # uninstall:
   #   nix profile remove my-packages
   # update:
-  #   nix flake update
-  #   nix profile upgrade my-packages
-  # or
   #   nix run .#update
+  # home-manager:
+  #   nix run nixpkgs#home-manager -- switch --flake .#myHomeConfig
   outputs = {
     self,
     nixpkgs,
@@ -31,36 +30,15 @@
     home-manager,
   } @ inputs: let
     system = "aarch64-darwin";
-    pkgs = nixpkgs.legacyPackages.${system}.extend (
-      neovim-nightly-overlay.overlays.default
-    );
+    pkgs = nixpkgs.legacyPackages.${system};
+    # .extend (
+    #   neovim-nightly-overlay.overlays.default
+    # );
   in {
     packages.${system}.my-packages = pkgs.buildEnv {
       name = "my-packages-list";
       paths = with pkgs; [
-        git
-        curl
-        jq
-        ripgrep
-        eza
-        alejandra
-
-        (vim.overrideAttrs (oldAttrs: {
-          version = "latest";
-          src = vim-src;
-          configureFlags =
-            oldAttrs.configureFlags
-            ++ [
-              "--enable-terminal"
-              "--with-compiledby=kawarimidoll-nix"
-              "--enable-luainterp"
-              "--with-lua-prefix=${lua}"
-              "--enable-fail-if-missing"
-            ];
-          buildInputs = oldAttrs.buildInputs ++ [gettext lua libiconv];
-        }))
-
-        neovim
+        # packages...
       ];
     };
 
