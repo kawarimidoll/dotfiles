@@ -14,10 +14,6 @@
     };
   };
 
-  # install:
-  #   nix profile install .#my-packages
-  # uninstall:
-  #   nix profile remove my-packages
   # update:
   #   nix run .#update
   # home-manager:
@@ -25,40 +21,27 @@
   outputs = {
     self,
     nixpkgs,
-    neovim-nightly-overlay,
-    vim-src,
     home-manager,
+    ...
   } @ inputs: let
     system = "aarch64-darwin";
-    pkgs = nixpkgs.legacyPackages.${system};
-    # .extend (
-    #   neovim-nightly-overlay.overlays.default
-    # );
+    pkgs = import nixpkgs { inherit system; };
   in {
-    packages.${system}.my-packages = pkgs.buildEnv {
-      name = "my-packages-list";
-      paths = with pkgs; [
-        # packages...
-      ];
-    };
-
     apps.${system}.update = {
       type = "app";
       program = toString (pkgs.writeShellScript "update-script" ''
         set -e
         echo "Updating flake..."
         nix flake update
-        echo "Updating profile..."
-        nix profile upgrade my-packages
+        echo "Updating home-manager..."
+        nix run nixpkgs#home-manager -- switch --flake .#myHomeConfig
         echo "Update complete!"
       '');
     };
 
     homeConfigurations = {
       myHomeConfig = home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs {
-          system = system;
-        };
+        pkgs = pkgs;
         extraSpecialArgs = {
           inherit inputs;
         };
