@@ -540,8 +540,12 @@ nnoremap <space>h <Cmd>call mi#fzf#mru()<CR>
 nnoremap <Space>m <Cmd>marks<bar>execute 'normal! `' .. input('jump to: ')<CR>
 nnoremap <expr> <Space>o mi#blank#below()
 nnoremap <expr> <Space>O mi#blank#above()
-nnoremap <Space>p <cmd>KeepCursor %call mi#common#trim()<cr>mzgg=G`z
-xnoremap <Space>p :call mi#common#trim()<cr>gv=gv
+nnoremap <expr> <Space>p exists('b:fmt_cmd')
+      \ ? '<cmd>call mi#fmt#run(b:fmt_cmd)<cr>'
+      \ : '<cmd>KeepCursor %call mi#common#trim()<cr>mzgg=G`z'
+xnoremap <expr> <Space>p exists('b:fmt_cmd')
+      \ ? '<cmd>call mi#fmt#run(b:fmt_cmd)<cr>'
+      \ : ':call mi#common#trim()<cr>gv=gv'
 nnoremap <Space>q <cmd>confirm quit<CR>
 nnoremap <Space>r <Cmd>registers<bar>execute 'normal "' .. input('paste reg: ') .. 'p'<CR>
 nnoremap <Space>Q <cmd>quitall!<CR>
@@ -952,31 +956,6 @@ function! s:pin_help_buffer()
   echomsg 'all buffers are pinned.'
 endfunction
 
-function! s:deno_fmt()
-  let ft = get({
-        \ 'typescript': 'ts',
-        \ 'typescriptreact': 'tsx',
-        \ 'javascript': 'js',
-        \ 'javascriptreact': 'jsx',
-        \ 'markdown': 'md',
-        \ 'json': 'json',
-        \ 'jsonc': 'jsonc',
-        \  }, &filetype, '')
-  if empty(ft)
-    echo $'[deno_fmt] filetype {&filetype} is not suppported'
-    return
-  endif
-  let cmd = $'deno fmt --ext {ft} -'
-  call mi#fmt#run(cmd)
-endfunction
-command! -range=% DenoFmt call s:deno_fmt()
-
-function! s:sql_fmt()
-  let cmd = printf('sql-formatter --config ~/dotfiles/.config/sql_formatter/sql_formatter.json')
-  call mi#fmt#run(cmd)
-endfunction
-command! SqlFmt call s:sql_fmt()
-
 " function! s:dprint(line1, line2)
 "   if &filetype !~ '\v^%(%(type|java)script(react)?|markdown|jsonc?|toml|dockerfile)$'
 "     echo '[dprint] filetype ' .. &filetype .. ' is not suppported'
@@ -1110,9 +1089,9 @@ augroup vimrc
           \    'murphy', 'retrobox', 'wildcharm', 'zaibatsu', 'quiet'])
           \ | doautocmd ColorScheme
     autocmd Filetype typescript,typescriptreact,javascript,javascriptreact,markdown,json,jsonc
-          \ nnoremap <buffer> <space>p <cmd>DenoFmt<cr>
-    autocmd Filetype sql
-          \ nnoremap <buffer> <space>p <cmd>SqlFmt<cr>
+          \  let b:fmt_cmd = $'deno fmt --ext {expand("%:e")} -'
+    autocmd Filetype sql let b:fmt_cmd = 'sql-formatter --config ~/dotfiles/.config/sql_formatter/sql_formatter.json'
+    autocmd Filetype nix let b:fmt_cmd = 'alejandra -q -'
   endif
 
   " {{{ restore-cursor

@@ -1,5 +1,14 @@
 " ref: https://github.com/mattn/vim-sqlfmt/blob/master/ftplugin/sql/sqlfmt.vim
+" function! mi#fmt#range(cmd) abort range
 function! mi#fmt#run(cmd) abort
+  let [firstline, lastline] = [1, line('$')]
+  if mode() == 'v'
+    let [firstline, lastline] = [line('.'), line('v')]
+    if firstline > lastline
+      let [firstline, lastline] = [lastline, firstline]
+    endif
+  endif
+
   let cmd = a:cmd
   " let cmd = get(g:, 'sqlfmt_program', 'sqlformat -r -k upper -o %outfile% -')
 
@@ -9,7 +18,8 @@ function! mi#fmt#run(cmd) abort
     let cmd = substitute(cmd, '%outfile%', tr(tmpfile, '\', '/'), 'g')
   endif
 
-  let lines = systemlist(cmd, iconv(join(getline(1, '$'), "\n"), &encoding, 'utf-8'))
+  let sources = getline(firstline, lastline)
+  let lines = systemlist(cmd, iconv(join(sources, "\n"), &encoding, 'utf-8'))
   if v:shell_error != 0
     echohl WarningMsg
     for line in lines
@@ -24,6 +34,10 @@ function! mi#fmt#run(cmd) abort
   endif
 
   defer setpos('.', getcurpos())
-  silent! %delete _
-  call setline(1, lines)
+  call append(lastline, lines)
+  silent! execute $'{firstline},{lastline}delete _'
 endfunction
+
+" function! mi#fmt#run(cmd) abort
+"   %call mi#fmt#run(a:cmd)
+" endfunction
