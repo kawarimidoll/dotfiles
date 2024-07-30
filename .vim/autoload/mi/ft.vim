@@ -167,10 +167,8 @@ function! mi#ft#smart(key) abort
       unlet! s:message_enable
     endif
 
-    let forward = a:key ==# 'f' || a:key ==# 't'
-    let until = a:key ==? 't'
     call setcharsearch({'char': ''})
-    call setcharsearch({'forward': forward, 'char': char, 'until': until})
+    call setcharsearch({'char': char, 'forward': a:key =~# '\l', 'until': a:key ==? 't'})
     let s:lastchar = char
   endif
 
@@ -178,10 +176,10 @@ function! mi#ft#smart(key) abort
 endfunction
 
 function! mi#ft#smart_expr(key) abort
-  return "v\<cmd>call mi#ft#smart('" .. a:key .. "')\<CR>"
+  return $"v\<cmd>call mi#ft#smart('{a:key}')\<CR>"
 endfunction
 function! mi#ft#repeat_expr(key) abort
-  return "v\<cmd>call mi#ft#repeat('" .. a:key .. "')\<CR>"
+  return $"v\<cmd>call mi#ft#repeat('{a:key}')\<CR>"
 endfunction
 
 " :h getchar()
