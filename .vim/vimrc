@@ -689,6 +689,11 @@ imap <c-e> <end>
 inoremap <c-j> <del>
 inoremap <c-x><c-v> <c-x><c-v><c-n>
 
+" https://zenn.dev/kawarimidoll/articles/262785e8ca05b0
+inoremap <expr> <c-g><c-f> &completeopt =~ 'fuzzy'
+      \    ? '<cmd>set completeopt-=fuzzy<cr>a<bs>'
+      \    : '<cmd>set completeopt+=fuzzy<cr>a<bs>'
+
 " https://zenn.dev/kawarimidoll/articles/54e38aa7f55aff
 inoremap <expr> /
       \ complete_info(['mode']).mode == 'files' && complete_info(['selected']).selected >= 0
