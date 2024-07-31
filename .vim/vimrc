@@ -1079,7 +1079,7 @@ augroup vimrc
           \ | endif
   else
     " https://github.com/NI57721/dotfiles/blob/a695ab1d29465dc54254c933f13ac46911a07afd/.vimrc#L255-L260
-    autocmd Filetype xml,html,vue inoremap <buffer><expr> </
+    autocmd Filetype xml,html inoremap <buffer><expr> </
           \ &completeopt=~'noinsert\\|noselect' ? '</<c-x><c-o><c-n><c-y>' : '</<c-x><c-o><c-y>'
 
     " autocmd WinEnter,BufEnter * setlocal statusline=%!mi#statusline#active()
