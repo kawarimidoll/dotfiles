@@ -16,12 +16,11 @@
 
   # update:
   #   nix run .#update
-  # home-manager:
-  #   nix run nixpkgs#home-manager -- switch --flake .#myHomeConfig
   outputs = {
     self,
     nixpkgs,
     home-manager,
+    nix-darwin,
     ...
   } @ inputs: let
     system = "aarch64-darwin";
@@ -46,7 +45,7 @@
           inherit inputs;
         };
         modules = [
-          ./.config/home-manager/home.nix
+          ./nix/home-manager
         ];
       };
     };
