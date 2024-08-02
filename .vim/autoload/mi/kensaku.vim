@@ -20,14 +20,15 @@ function! s:convert_query(query) abort
     return ''
   endif
   let args = get(g:, 'kensaku#args', '')
-  let query = system(printf('jsmigemo --vim --nonewline %s --word %s', args, a:query))
+  let query = system($'jsmigemo --vim --nonewline {args} --word {a:query}')
 
   " fix output of jsmigemo-cli for vim
-  let query = substitute(query, '\n', '', 'g')
-  let query = substitute(query, '\\\\)', '\\)', 'g')
-  let query = substitute(query, '\\{', '{', 'g')
-  let query = substitute(query, '\\}', '}', 'g')
-  let query = substitute(query, '\\+', '+', 'g')
+  let query = query
+        \ ->substitute('\n', '', 'g')
+        \ ->substitute('\\\\)', '\\)', 'g')
+        \ ->substitute('\\{', '{', 'g')
+        \ ->substitute('\\}', '}', 'g')
+        \ ->substitute('\\+', '+', 'g')
 
   let s:last_converted_query = query
   return query
@@ -43,6 +44,7 @@ function! s:on_input() abort
 
   try
     let query = s:convert_query(s:last_query)
+    " echomsg s:last_query query
     let flg = s:back ? 'cb' : 'c'
     call cursor(s:curpos[0], s:curpos[1])
     call search(query, flg)
@@ -77,7 +79,14 @@ endfunction
 
 function! mi#kensaku#next(back) abort
   let s:back = a:back
-  execute 'normal!' v:count1 .. (a:back ? 'N' : 'n')
+  try
+    execute 'normal!' v:count1 .. (a:back ? 'N' : 'n')
+  catch /^Vim\%((\a\+)\)\=:E486:/
+    echohl ErrorMsg
+    echo v:exception->substitute('.*E486', 'E486', '')
+    echohl None
+    return
+  endtry
   if @/ == s:last_converted_query
     echo s:prompt() .. s:last_query
   endif

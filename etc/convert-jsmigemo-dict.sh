@@ -1,7 +1,13 @@
 #!/bin/bash
+
+set -e
+
 # generate no-abbrev-compact-dict for jsmigemo
-# run in root of https://github.com/oguna/jsmigemo
 # required: `rg` and `sponge`
+# 1. clone https://github.com/oguna/jsmigemo
+# 2. `cd` to root of the repository
+# 3. `pnpm install` to generate 'dist' directory
+# 4. run this script
 
 rm -rf ./no-abbrev-migemo-dict
 rm -rf ./no-abbrev-compact-dict
