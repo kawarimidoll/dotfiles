@@ -23,4 +23,17 @@
       };
     };
   };
+
+  homebrew = {
+   enable = true;
+   onActivation = {
+     autoUpdate = true;
+
+     # dangerous option!!!
+     # cleanup = "uninstall";
+   };
+   casks = [
+     # "sublime-text"
+   ];
+  };
 }

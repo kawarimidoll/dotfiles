@@ -52,6 +52,7 @@ in {
       alejandra
       bat
       bottom
+      bun
 
       vim # latest
 
