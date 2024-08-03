@@ -43,6 +43,12 @@ function! mi#buf#delete(option = {}) abort
 
   execute cur_winnr .. 'wincmd w'
 
+  " when buftype is delete/wipe, buffer is already removed
+  if empty(getbufinfo(bufnr))
+    echomsg $'Buffer {bufnr} is auto-remove buffer.'
+    return
+  endif
+
   if force
     let cmd ..= '!'
   endif
