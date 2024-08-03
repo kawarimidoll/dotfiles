@@ -1,3 +1,9 @@
+function! s:errormsg(text) abort
+  echohl ErrorMsg
+  echomsg $'[mi#buf#delete] {a:text}'
+  echohl None
+endfunction
+
 " https://github.com/echasnovski/mini.nvim/blob/main/lua/mini/bufremove.lua
 function! mi#buf#delete(option = {}) abort
   let bufnr = get(a:option, 'bufnr', bufnr())
@@ -6,15 +12,15 @@ function! mi#buf#delete(option = {}) abort
 
   let buf_info = getbufinfo(bufnr)
   if empty(buf_info)
-    echoerr 'Buffer ' .. bufnr .. ' is not exists.'
+    call s:errormsg($'Buffer {bufnr} is not exists.')
     return
   endif
   if buf_info[0].changed && !force
-    echoerr 'Buffer ' .. bufnr .. ' has unsaved changes.'
+    call s:errormsg($'Buffer {bufnr} has unsaved changes.')
     return
   endif
   if cmd != 'bdelete' && cmd != 'bwipeout'
-    echoerr "cmd must be 'bdelete' or 'bwipeout'."
+    call s:errormsg("cmd must be 'bdelete' or 'bwipeout'.")
     return
   endif
 
@@ -45,7 +51,7 @@ function! mi#buf#delete(option = {}) abort
 
   " when buftype is delete/wipe, buffer is already removed
   if empty(getbufinfo(bufnr))
-    echomsg $'Buffer {bufnr} is auto-remove buffer.'
+    echomsg $'[mi#buf#delete] Buffer {bufnr} is auto-remove buffer.'
     return
   endif
 
