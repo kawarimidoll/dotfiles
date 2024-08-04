@@ -71,6 +71,12 @@ local init_lsp = function()
   -- :h LspAttach
   vim.api.nvim_create_autocmd({ 'LspAttach' }, {
     callback = function(args)
+
+      local c = vim.lsp.get_client_by_id(args.data.client_id)
+      if c == nil or c.name == "copilot" then
+        return
+      end
+
       local bufnr = args.buf
 
       local function buf_set_keymap(key, func, desc, ...)
@@ -98,10 +104,7 @@ local init_lsp = function()
       buf_set_keymap('mxc', vim.lsp.buf.code_action, 'code_action', true)
       buf_set_keymap('gr', vim.lsp.buf.references, 'references')
       buf_set_keymap('<space>p', function()
-        vim.lsp.buf.format({
-          async = true,
-          filter = function(client) return client.name ~= "copilot" end
-        })
+        vim.lsp.buf.format({ async = true })
       end, 'format', true)
 
       local client = vim.lsp.get_client_by_id(args.data.client_id)
