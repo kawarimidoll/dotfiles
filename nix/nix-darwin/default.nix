@@ -1,5 +1,13 @@
 {pkgs, ...}: {
   nix = {
+    gc = {
+      automatic = true;
+      interval = {
+        Hour = 9;
+        Minute = 0;
+      };
+      options = "--delete-older-than 7d";
+    };
     optimise.automatic = true;
     settings = {
       experimental-features = "nix-command flakes";
@@ -8,6 +16,12 @@
   };
 
   services.nix-daemon.enable = true;
+
+  fonts = {
+    packages = with pkgs; [
+      hackgen-nf-font
+    ];
+  };
 
   system = {
     defaults = {
@@ -25,15 +39,15 @@
   };
 
   homebrew = {
-   enable = true;
-   onActivation = {
-     autoUpdate = true;
+    enable = true;
+    onActivation = {
+      autoUpdate = true;
 
-     # dangerous option!!!
-     # cleanup = "uninstall";
-   };
-   casks = [
-     # "sublime-text"
-   ];
+      # dangerous option!!!
+      # cleanup = "uninstall";
+    };
+    casks = [
+      # "sublime-text"
+    ];
   };
 }
