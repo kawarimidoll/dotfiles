@@ -18,8 +18,6 @@
     };
   };
 
-  # update:
-  #   nix run .#update
   outputs = {
     self,
     nixpkgs,
@@ -47,21 +45,17 @@
 
     darwinConfigurations.kawarimidoll-darwin = nix-darwin.lib.darwinSystem {
       system = system;
-      modules = [
-        ./nix/nix-darwin
-      ];
+      modules = [./nix/nix-darwin];
     };
 
     homeConfigurations = {
       myHomeConfig = home-manager.lib.homeManagerConfiguration {
         pkgs = pkgs;
-        extraSpecialArgs = {
-          inherit inputs;
-        };
-        modules = [
-          ./nix/home-manager
-        ];
+        extraSpecialArgs = {inherit inputs;};
+        modules = [./nix/home-manager];
       };
     };
   };
 }
+# update:
+#   nix run .#update
