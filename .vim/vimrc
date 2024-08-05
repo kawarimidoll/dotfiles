@@ -981,6 +981,22 @@ endfunction
 command! -range -nargs=* CasedSubstitute call s:cased_substitute(<q-args>, <line1>, <line2>)
 command! -range -nargs=* CS call s:cased_substitute(<q-args>, <line1>, <line2>)
 
+function! s:enable_autosave() abort
+  autocmd InsertLeave,TextChanged,BufLeave <buffer> silent update
+endfunction
+let s:memo_path = expand('~/.local/share/memo.md')
+function! s:memo() abort
+  if expand('%') ==# s:memo_path
+    bdelete
+    return
+  endif
+  execute 'edit' s:memo_path
+  setlocal bufhidden=wipe noswapfile
+  call s:enable_autosave()
+endfunction
+command! Memo call s:memo()
+nnoremap mo <Cmd>Memo<CR>
+
 if !has('nvim')
   function! s:silicon(line1, line2, args, highlight_lines)
     let cmd = ['silicon']
