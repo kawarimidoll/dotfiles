@@ -990,7 +990,7 @@ if !has('nvim')
     endif
 
     " TODO: use args
-    let output = printf('~/Downloads/silicon-%s.png', strftime('%Y%m%d-%H%M%S'))
+    let output = $'~/Downloads/silicon-{strftime("%Y%m%d-%H%M%S")}.png'
     call add(cmd, '--font')
     call add(cmd, 'UDEV Gothic 35NF')
     call add(cmd, '--output')
@@ -1007,7 +1007,7 @@ if !has('nvim')
 
     let opts = {
           \ 'in': in_opts,
-          \ 'exit': {_->execute(printf('echo "[silicon] output to %s"', output), '')}
+          \ 'exit': {_->execute($'echo "[silicon] output to {output}"', '')}
           \ }
     call mi#job#start(cmd, opts)
   endfunction
