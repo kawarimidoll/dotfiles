@@ -1160,9 +1160,9 @@ augroup vimrc
   " {{{ hist_clean
   " https://blog.atusy.net/2023/07/24/vim-clean-history/
   function! s:hist_clean() abort
-    const cmd = histget(":", -1)
-    if cmd == "e" || cmd == "x" || cmd == "xa" || cmd =~# "^w\\?q\\?a\\?!\\?$"
-      call histdel(":", -1)
+    const cmd = histget(':', -1)
+    if cmd =~# '^e\%[dit]!\?$' || cmd =~# '^enew\?$' || cmd =~# '^[wx]\?q\?a\?!\?$'
+      call histdel(':', -1)
     endif
   endfunction
   autocmd ModeChanged c:* call s:hist_clean()
