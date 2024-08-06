@@ -1135,20 +1135,26 @@ augroup vimrc
 
   " {{{ validate_filename
   " https://zenn.dev/vim_jp/articles/f02adb4f325e51
-  function! s:validate_filename(filename) abort
+  " :h interrupt
+  function! s:validate_filename(filename, force) abort
+    if a:force
+      return
+    endif
     const invalid_chars = '!&()[]{}<>^*=+:;''",`~?|'
     for char in split(invalid_chars, '\zs')
       if stridx(a:filename, char) >= 0
-        throw 'Invalid filename: ' .. a:filename
+        echoerr 'Invalid filename:' a:filename
+        call interrupt()
       endif
     endfor
 
     const valid_extension = '\.\?[[:alnum:]]\+$'
     if a:filename !~ valid_extension
-      throw 'Invalid filename: ' .. a:filename
+      echoerr 'Invalid filename:' a:filename
+      call interrupt()
     endif
   endfunction
-  autocmd BufWritePre * call s:validate_filename(expand('<afile>:p'))
+  autocmd BufWritePre * call s:validate_filename(expand('<afile>:p'), v:cmdbang)
   " }}}
 
   " {{{ hist_clean
