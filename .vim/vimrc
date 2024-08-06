@@ -1125,12 +1125,12 @@ augroup vimrc
 
   " {{{ ensure_dir
   " https://vim-jp.org/vim-users-jp/2011/02/20/Hack-202.html
-  function! s:ensure_dir(dir)
-    if !isdirectory(a:dir) && confirm('"' . a:dir . '" does not exist. Create?', "y\nN")
+  function! s:ensure_dir(dir, force)
+    if !isdirectory(a:dir) && (a:force || confirm($'"{a:dir}" does not exist. Create?', "y\nN"))
       call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
     endif
   endfunction
-  autocmd BufWritePre * call s:ensure_dir(expand('<afile>:p:h'))
+  autocmd BufWritePre * call s:ensure_dir(expand('<afile>:p:h'), v:cmdbang)
   " }}}
 
   " {{{ validate_filename
