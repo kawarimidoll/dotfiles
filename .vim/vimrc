@@ -1107,7 +1107,7 @@ augroup vimrc
 
     autocmd Filetype * ++once
           \ execute 'colorscheme' mi#utils#pick_one(['slate', 'habamax', 'lunaperche', 'sorbet',
-          \    'murphy', 'retrobox', 'wildcharm', 'zaibatsu', 'quiet'])
+          \    'murphy', 'retrobox', 'wildcharm', 'zaibatsu'])
           \ | doautocmd ColorScheme
     autocmd Filetype typescript,typescriptreact,javascript,javascriptreact,markdown,json,jsonc
           \  let b:fmt_cmd = $'deno fmt --ext {expand("%:e")} -'
