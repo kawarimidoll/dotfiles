@@ -20,6 +20,34 @@ function! mi#cmp#findstart() abort
   return start
 endfunction
 
+function! s:escaped_filetype() abort
+  return substitute(&filetype, '\W', '_', 'g')
+endfunction
+
+function! mi#cmp#syn_omnifunc(findstart, base) abort
+  if a:findstart
+    return mi#cmp#findstart()
+  endif
+
+  let filetype = s:escaped_filetype()
+  if !has_key(s:syn_cmp_cache, filetype)
+    let s:syn_cmp_cache[filetype] = mi#cmp#syn_keywords()
+          " \ ->map(keywords, $"\{'word':v:val, 'menu':'syn-{filetype}'\}")
+  endif
+  let compl_list = s:syn_cmp_cache[filetype]
+
+  " let base = s:prepended . a:base
+  let base = substitute(s:cmp_info.lastword, "'", "''", 'g')
+        \ ->escape('\\/.*$^~[]')
+
+  if empty(base)
+    return compl_list
+  endif
+
+  " Filter the list based on the first few characters the user entered
+  return filter(deepcopy(compl_list), $"v:val =~# '^{base}.*'")
+endfunction
+
 " ref: syntaxcomplete#OmniSyntaxList()
 function! mi#cmp#syn_keywords(syn_prefix_list = []) abort
   redir => syntax_output
