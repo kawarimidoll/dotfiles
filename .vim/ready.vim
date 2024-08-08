@@ -248,9 +248,10 @@ else
     let list = ["\<c-x>\<c-f>"]
     if &filetype == 'vim' || &filetype == 'help'
       call add(list, "\<c-x>\<c-v>")
-    elseif !empty(&omnifunc)
-      call add(list, "\<c-x>\<c-o>")
     endif
+    " if !empty(&omnifunc)
+    "   call add(list, "\<c-x>\<c-o>")
+    " endif
     call add(list, "\<c-n>")
     call s:rec_cmp(list)
   endfunction
