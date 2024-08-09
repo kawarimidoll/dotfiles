@@ -48,6 +48,22 @@ function! mi#cmp#syn_omnifunc(findstart, base) abort
   return filter(deepcopy(compl_list), $"v:val =~# '^{base}.*'")
 endfunction
 
+function! s:syn_keywords_file_name() abort
+  return expand($'~/.cache/vim/syn-keywords-{s:escaped_filetype()}')
+endfunction
+
+function! mi#cmp#gen_syn_keywords_file(syn_prefix_list = []) abort
+  let compl_list = mi#cmp#syn_keywords()
+  let filename = s:syn_keywords_file_name(a:syn_prefix_list)
+  call writefile(compl_list, filename)
+  echo $'[mi#cmp#gen_syn_keywords_file] successfully write keywords to {filename}'
+endfunction
+
+function! mi#cmp#apply_syn_keywords_dict() abort
+  setlocal dictionary<
+  let &l:dictionary .= ',' .. s:syn_keywords_file_name()
+endfunction
+
 " ref: syntaxcomplete#OmniSyntaxList()
 function! mi#cmp#syn_keywords(syn_prefix_list = []) abort
   redir => syntax_output
