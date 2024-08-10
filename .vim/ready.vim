@@ -262,9 +262,10 @@ else
     if pumvisible()
       return
     endif
-    let prev_str = slice(getline('.'), 0, charcol('.')-1)
+    let prev_str_len = slice(getline('.'), 0, charcol('.')-1)
           \ ->substitute('.*[^[:keyword:]]', '', '')
-    if strchars(prev_str) < s:MINIMUM_COMPLETE_LENGTH
+          \ ->strchars()
+    if prev_str_len < s:MINIMUM_COMPLETE_LENGTH
       return
     endif
     call s:fallback_cmp()
