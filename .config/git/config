@@ -60,6 +60,8 @@
 	save = stash push
 	ss = status --short
 	staged = diff --staged --name-only --diff-filter=ACMR
+	stash-remove = reflog expire --expire=1.day --verbose refs/stash
+	stash-remove-check = reflog expire --dry-run --expire=1.day --verbose refs/stash
 	store = __store
 	summary = __summary
 	sw = __sw
