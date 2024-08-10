@@ -271,6 +271,19 @@ else
   endfunction
   autocmd InsertCharPre * call mi#utils#debounce($'{expand("\<SID>")}auto_cmp_start', 0)
 
+  " https://zenn.dev/kawarimidoll/articles/251289f6a638a7
+  function! s:auto_cmp_close() abort
+    if complete_info(['mode']).mode == "files"
+      return
+    endif
+    let prev_str_len = slice(getline('.'), 0, charcol('.')-1)
+          \ ->substitute('.*[^[:keyword:]]', '', '')
+          \ ->strchars()
+    if prev_str_len < s:MINIMUM_COMPLETE_LENGTH
+      call feedkeys("\<c-x>\<c-z>", 'ni')
+    endif
+  endfunction
+  autocmd TextChangedP * call s:auto_cmp_close()
 endif
 
 silent! delmarks ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890
