@@ -274,13 +274,13 @@ else
 
   " https://zenn.dev/kawarimidoll/articles/251289f6a638a7
   function! s:auto_cmp_close() abort
-    if complete_info(['mode']).mode == "files"
+    let mode = complete_info(['mode']).mode
+    if mode == "files" || mode == "eval"
       return
     endif
-    let prev_str_len = slice(getline('.'), 0, charcol('.')-1)
-          \ ->substitute('.*[^[:keyword:]]', '', '')
-          \ ->strchars()
-    if prev_str_len < s:MINIMUM_COMPLETE_LENGTH
+    call mi#cmp#findstart({'multibyte': v:true})
+    let lastword = mi#cmp#get_info().lastword
+    if strchars(lastword) < s:MINIMUM_COMPLETE_LENGTH
       call feedkeys("\<c-x>\<c-z>", 'ni')
     endif
   endfunction
