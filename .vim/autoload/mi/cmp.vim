@@ -57,15 +57,15 @@ function! s:syn_keywords_file_name() abort
 endfunction
 
 function! mi#cmp#gen_syn_keywords_file(syn_prefix_list = []) abort
-  let compl_list = mi#cmp#syn_keywords()
-  let filename = s:syn_keywords_file_name(a:syn_prefix_list)
+  let compl_list = mi#cmp#syn_keywords(a:syn_prefix_list)
+  let filename = s:syn_keywords_file_name()
   call writefile(compl_list, filename)
   echo $'[mi#cmp#gen_syn_keywords_file] successfully write keywords to {filename}'
 endfunction
 
 function! mi#cmp#apply_syn_keywords_dict() abort
   setlocal dictionary<
-  let &l:dictionary .= ',' .. s:syn_keywords_file_name()
+  let &l:dictionary = s:syn_keywords_file_name() .. ',' .. &dictionary
 endfunction
 
 " ref: syntaxcomplete#OmniSyntaxList()
