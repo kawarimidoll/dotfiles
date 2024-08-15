@@ -1,11 +1,11 @@
-timestamp: 2024-07-11 07:54:30 AEST
+timestamp: 2024-08-15 22:11:04 AEST
 tap: abhimanyu003/sttr
-tap: felixkratz/formulae
 tap: harelba/q
 tap: he3-app/he3
 tap: homebrew/bundle
 tap: homebrew/services
 tap: jesseduffield/lazygit
+tap: keith/formulae
 brew: abhimanyu003/sttr/sttr
 brew: act
 brew: bat
@@ -15,14 +15,15 @@ brew: bottom
 brew: clog
 brew: cmake
 brew: croc
+brew: csvq
 brew: curl
 brew: deno
 brew: diff-so-fancy
 brew: diffutils
 brew: efm-langserver
 brew: emacs
+brew: exercism
 brew: eza
-brew: felixkratz/formulae/sketchybar
 brew: ffmpeg
 brew: findutils
 brew: fnm
@@ -33,7 +34,6 @@ brew: gaze
 brew: gh
 brew: ghq
 brew: gifsicle
-brew: gifski
 brew: git
 brew: git-delta
 brew: git-interactive-rebase-tool
@@ -61,6 +61,7 @@ brew: jid
 brew: jj
 brew: jnv
 brew: jpeg
+brew: keith/formulae/reminders-cli
 brew: libsixel
 brew: llvm@17
 brew: logdy
@@ -97,9 +98,7 @@ cask: alfred
 cask: alt-tab
 cask: anki
 cask: appflowy
-cask: bartender
 cask: battery-buddy
-cask: bettertouchtool
 cask: bitwarden
 cask: brave-browser
 cask: charmstone
@@ -125,6 +124,7 @@ cask: isabelle
 cask: iterm2
 cask: itsycal
 cask: jan
+cask: jordanbaird-ice
 cask: karabiner-elements
 cask: keyboardcleantool
 cask: keycastr
@@ -144,7 +144,6 @@ cask: quicklook-json
 cask: quicklookase
 cask: qview
 cask: rectangle
-cask: reminders-menubar
 cask: scriptql
 cask: shotcut
 cask: shottr
@@ -153,7 +152,6 @@ cask: suspicious-package
 cask: syntax-highlight
 cask: the-unarchiver
 cask: tiny-player
-cask: topnotch
 cask: trex
 cask: warp
 cask: wezterm
@@ -163,18 +161,17 @@ mas: 1429033973  RunCat            (11.3)
 mas: 1448648921  Seashore          (3.37)
 mas: 1502839586  Hand Mirror       (3.1)
 mas: 1522267256  Shareful          (1.10.1)
-mas: 1545870783  Color Picker      (2.0.1)
-mas: 1548711022  Barbee            (3.5.5)
-mas: 1551756247  Smart Click       (1.4.6)
+mas: 1545870783  Color Picker      (2.0.3)
+mas: 1551756247  Smart Click       (1.6)
 mas: 1575588022  MenubarX          (1.7.1)
 mas: 1611378436  Pure Paste        (1.10.0)
-mas: 1615988943  Folder Peek       (1.10.4)
+mas: 1615988943  Folder Peek       (1.10.5)
 mas: 1636862100  Commander         (1.13)
-mas: 302584613   Kindle            (7.14)
-mas: 539883307   LINE              (9.1.2)
-mas: 562211012   Yomu              (3.7.1)
+mas: 302584613   Kindle            (7.15.1)
+mas: 539883307   LINE              (9.2.0)
+mas: 562211012   Yomu              (3.7.2)
 mas: 6444685140  CenterMouse       (1.1.1)
 mas: 6447055708  MagicNotch        (1.1.4)
-mas: 6448461551  Command X         (1.4.1)
-mas: 6448700837  デスクトップ ファイル ボックス  (1.1.4)
+mas: 6448461551  Command X         (1.4.5)
+mas: 6448700837  デスクトップ ファイル ボックス  (1.1.5)
 mas: 6462894357  Battery Line      (1.1.0)
