@@ -146,14 +146,6 @@ local init_treesitter = function()
   })
 end
 
--- vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
---   pattern = '*',
---   once = true,
---   callback = function()
---     init_lsp()
---     init_treesitter()
---   end
--- })
 later(init_lsp)
 later(init_treesitter)
 
@@ -284,7 +276,6 @@ later(function()
       { mode = 'n', keys = 's' },
 
       { mode = 'n', keys = 'm' },
-      { mode = 'n', keys = 'mh',      desc = 'gitsigns' },
       { mode = 'n', keys = 'mx',      desc = 'lsp' },
 
       -- `g` key
