@@ -5,7 +5,7 @@ const g:mi#ready = 1
 
 luafile ~/dotfiles/.vim/utils.lua
 
-call mi#git#ensure_root()
+" call mi#git#ensure_root()
 call mi#register#clear()
 
 autocmd TextYankPost * call mi#register#collect_yank_history(10)
