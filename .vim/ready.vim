@@ -262,10 +262,9 @@ else
     if pumvisible()
       return
     endif
-    let prev_str_len = slice(getline('.'), 0, charcol('.')-1)
-          \ ->substitute('.*[^[:keyword:]]', '', '')
-          \ ->strchars()
-    if prev_str_len < s:MINIMUM_COMPLETE_LENGTH
+    call mi#cmp#findstart({'multibyte': v:true})
+    let lastword = mi#cmp#get_info().lastword
+    if strchars(lastword) < s:MINIMUM_COMPLETE_LENGTH
       return
     endif
     call s:fallback_cmp()
