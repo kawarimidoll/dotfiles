@@ -1118,21 +1118,6 @@ augroup vimrc
     autocmd FileType * call mi#cmp#apply_syn_keywords_dict()
   endif
 
-  autocmd Filetype gleam setlocal commentstring=//\ %s
-  function! s:gleam_symbol_cmp() abort
-    call complete(col('.')-1, [
-          \ {'word': '->', 'menu': 'h'},
-          \ {'word': '|>', 'menu': 'j'},
-          \ {'word': '<>', 'menu': 'k'},
-          \ {'word': '<-', 'menu': 'l'}
-          \ ])
-  endfunction
-  autocmd Filetype gleam inoremap <buffer> ; ;<cmd>call <sid>gleam_symbol_cmp()<cr>
-  autocmd Filetype gleam inoreabbrev <buffer> ;h ->
-  autocmd Filetype gleam inoreabbrev <buffer> ;j <bar>>
-  autocmd Filetype gleam inoreabbrev <buffer> ;k <>
-  autocmd Filetype gleam inoreabbrev <buffer> ;l <-
-
   " {{{ restore-cursor
   " :h restore-cursor
   autocmd BufReadPost *
@@ -1207,7 +1192,6 @@ augroup vimrc
 augroup END
 
 call timer_start(100, {->execute('source ~/dotfiles/.vim/ready.vim')})
-
 
 if !has('nvim')
   " ref: https://zenn.dev/vim_jp/articles/20240304_ekiden_disable_plugin
