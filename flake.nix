@@ -45,14 +45,14 @@
 
     darwinConfigurations.kawarimidoll-darwin = nix-darwin.lib.darwinSystem {
       system = system;
-      modules = [./nix/nix-darwin];
+      modules = [./nix/nix-darwin/default.nix];
     };
 
     homeConfigurations = {
       myHomeConfig = home-manager.lib.homeManagerConfiguration {
         pkgs = pkgs;
         extraSpecialArgs = {inherit inputs;};
-        modules = [./nix/home-manager];
+        modules = [./nix/home-manager/default.nix];
       };
     };
   };
