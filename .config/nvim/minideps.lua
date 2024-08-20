@@ -509,7 +509,7 @@ end)
 
 later(function()
   add({ source = 'https://github.com/tani/dmacro.nvim' })
-  require('dmacro').setup({ dmacro_key = '<C-t>' })
+  vim.keymap.set({ "i", "n" }, '<C-t>', '<Plug>(dmacro-play-macro)')
 end)
 
 -- ref: https://zenn.dev/vim_jp/articles/20240304_ekiden_disable_plugin
