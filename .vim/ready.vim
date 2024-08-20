@@ -245,7 +245,8 @@ else
     call feedkeys($"\<c-x>\<c-z>{head}\<cmd>call {sid}rec_cmp({rest})\<cr>", 'ni')
   endfunction
   function! s:fallback_cmp() abort
-    let list = ["\<c-x>\<c-f>"]
+    let list = []
+    " let list = ["\<c-x>\<c-f>"]
     if &filetype == 'vim' || &filetype == 'help'
       call add(list, "\<c-x>\<c-v>")
     endif
