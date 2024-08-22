@@ -1,41 +1,105 @@
 <!doctype html>
-<h2>WebSocket Test</h2>
-<p>Sends a ping every five seconds</p>
-<div id="output"></div>
+<style>
+  body > .container {
+    max-width: 720px;
+  }
+</style>
+<link rel="stylesheet" href="https://unpkg.com/chota@latest" />
+<div class="container">
+  <h2>WebSocket Test</h2>
+
+  <form id="form">
+    <p class="grouped">
+      <input
+        type="text"
+        id="input_name"
+        name="name"
+        placeholder="Name"
+        required
+      />
+      <input
+        type="text"
+        id="input_message"
+        name="message"
+        placeholder="Message"
+        required
+      />
+      <button id="submit_button" class="button primary" disabled>
+        <img src="https://icongr.am/jam/paper-plane.svg?size=32&color=ffffff" />
+      </button>
+    </p>
+  </form>
+  <div id="output"></div>
+</div>
 <script>
+  const form = document.getElementById("form");
+  console.log(event);
+  <!-- initializeForm(); -->
+
+  form.addEventListener("input", validateOnUpdate);
+  form.addEventListener("change", validateOnUpdate);
+
+  <!-- function initializeForm() { -->
+  <!--   [...form.querySelectorAll("input[type='text']")].map((e) => (e.value = "")); -->
+  <!-- } -->
+
+  function validateOnUpdate() {
+    const submitButton = document.getElementById("submit_button");
+    submitButton.disabled = !form.checkValidity();
+    <!-- console.log("checkValidity"); -->
+    <!-- console.log(form.checkValidity()); -->
+  }
+
+  console.log(form);
+  form.addEventListener("submit", (event) => {
+    console.log(event);
+    event.preventDefault();
+
+    const payload = { type: "message" };
+    [...form.querySelectorAll("input[type='text']")].forEach(
+      (e) => (payload[e.name] = e.value),
+    );
+    console.log(payload);
+    document.getElementById("input_message").value = "";
+
+    sendMessage(payload);
+  });
+
   const wsUri = "ws://127.0.0.1:54321";
   const output = document.querySelector("#output");
   const websocket = new WebSocket(wsUri);
   console.log(websocket);
+
   let pingCount = 1;
-  let pingInterval;
+  <!-- let pingInterval; -->
 
   function writeToScreen(message) {
     output.insertAdjacentHTML("afterbegin", `<p>${message}</p>`);
   }
 
-  function sendMessage(message) {
-    const socMessage = `${message} ${pingCount}`
-    pingCount+=1;
-    writeToScreen(`SENT: ${socMessage}`);
-    websocket.send(socMessage);
+  function sendMessage(payload) {
+    <!-- writeToScreen(`SENT${pingCount}: ${message}`); -->
+    websocket.send(JSON.stringify(payload));
+    <!-- pingCount += 1; -->
   }
 
   websocket.onopen = (e) => {
     writeToScreen("CONNECTED");
-    sendMessage("ping");
-    pingInterval = setInterval(() => {
-      sendMessage("ping");
-    }, 5000);
+    <!-- sendMessage("ping"); -->
+    <!-- pingInterval = setInterval(() => { -->
+    <!--   sendMessage("ping"); -->
+    <!-- }, 5000); -->
   };
 
   websocket.onclose = (e) => {
     writeToScreen("DISCONNECTED");
-    clearInterval(pingInterval);
+    <!-- clearInterval(pingInterval); -->
   };
 
   websocket.onmessage = (e) => {
-    writeToScreen(`RECEIVED: ${e.data}`);
+    console.log(e);
+    const data = JSON.parse(event.data);
+    writeToScreen(`[${data.name}]: ${data.message}`);
   };
 
   websocket.onerror = (e) => {
