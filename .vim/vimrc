@@ -706,6 +706,33 @@ inoremap <expr> .
       \   ? '.<c-x><c-f>'
       \   : '.'
 
+" sticky-shift
+" https://vim-jp.org/vim-users-jp/2009/08/09/Hack-54.html
+function s:sticky_shift() abort
+  let char = getcharstr()[0]
+  return char ==# ' ' ?
+        \   ';'
+        \ : char =~# '^\p' ?
+        \   mi#utils#upper_key(char)
+        \ : ''
+endfunction
+noremap! <expr> ; <sid>sticky_shift()
+
+function s:caps() abort
+  if exists('#capslock#KeyInputPre')
+    autocmd! capslock
+    return
+  endif
+  augroup capslock
+    autocmd!
+    autocmd KeyInputPre * if v:char =~# '^\l'
+          \ |   let v:char = mi#utils#upper_key(v:char)
+          \ | endif
+    autocmd CmdlineLeave,InsertLeave * autocmd! capslock
+  augroup END
+endfunction
+noremap! C <Cmd>call <SID>caps()<CR>
+
 " function! s:imap_up() abort
 "   if line('.') == 1
 "     call feedkeys("\<c-g>U\<home>", 't')
