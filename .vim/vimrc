@@ -530,6 +530,8 @@ Keymap nx gf <Cmd>call mi#open#smart_open()<CR>
 "for c in g:mi#const#alpha_all->split('\zs')
 "  execute 'nnoremap <Space>' .. c '<NOP>'
 "endfor
+nmap <Space>8 *
+nmap <Space>3 #
 nnoremap <Space>b <Cmd>call mi#fzf#bufs()<CR>
 nnoremap <Space>d <Cmd>call mi#buf#delete()<CR>
 nnoremap <Space>D <Cmd>call mi#buf#delete({'force': v:true})<CR>
