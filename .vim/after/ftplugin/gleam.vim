@@ -8,22 +8,26 @@ setlocal commentstring=//\ %s
 
 let s:undo_abbrev = []
 
-function! s:gleam_symbol_cmp() abort
-  call complete(col('.')-1, [
-        \ {'word': '->', 'menu': 'h'},
-        \ {'word': '|>', 'menu': 'j'},
-        \ {'word': '<>', 'menu': 'k'},
-        \ {'word': '<-', 'menu': 'l'},
-        \ {'word': '_ ->', 'menu': ';'},
-        \ ])
+function s:abbrev(original, converted) abort
+  " call mi#utils#eatchar('\s')
+  call mi#cmp#findstart()
+  if mi#cmp#get_info().before_cursor =~# $'^\s*{a:original}$'
+    return a:converted
+  endif
+  return a:original
 endfunction
-inoremap <buffer> ; ;<cmd>call <sid>gleam_symbol_cmp()<cr>
-inoreabbrev <buffer> ;h ->
-inoreabbrev <buffer> ;j <bar>>
-inoreabbrev <buffer> ;k <>
-inoreabbrev <buffer> ;l <-
-inoreabbrev <buffer> ;; _ ->
-let s:undo_abbrev += [';h', ';j', ';k', ';l', ';;']
+
+inoreabbrev <expr><buffer> le <sid>abbrev('le', 'let =<left><left>')
+inoreabbrev <expr><buffer> la <sid>abbrev('la', 'let assert =<left><left>')
+inoreabbrev <expr><buffer> fn <sid>abbrev('fn', 'fn () -> {<cr>}<up><right>')
+inoreabbrev <expr><buffer> pfn <sid>abbrev('pfn', 'pub fn () -> {<cr>}<up>' .. repeat('<right>', 5))
+inoreabbrev <expr><buffer> tfn <sid>abbrev('pfn', 'pub fn _test() {<cr>}<up>' .. repeat('<right>', 5))
+inoreabbrev <expr><buffer> afn <sid>abbrev('afn', 'fn() {}' .. repeat('<left>', 4))
+inoreabbrev <expr><buffer> case <sid>abbrev('case', 'case {<cr>}<up>' .. repeat('<right>', 3))
+inoreabbrev <expr><buffer> ty <sid>abbrev('ty', 'type {<cr>}<up>' .. repeat('<right>', 3))
+inoreabbrev <expr><buffer> pty <sid>abbrev('pty', 'pub type {<cr>}<up>' .. repeat('<right>', 7))
+inoreabbrev <expr><buffer> im <sid>abbrev('im', 'import gleam')
+let s:undo_abbrev += ['le', 'la', 'fn', 'pfn', 'tfn', 'afn', 'cs', 'ty', 'pty', 'im']
 
 if !has('nvim')
   augroup user_ftplugin_gleam
