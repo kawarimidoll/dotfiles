@@ -733,6 +733,32 @@ function s:caps() abort
 endfunction
 noremap! C <Cmd>call <SID>caps()<CR>
 
+" https://zenn.dev/vim_jp/articles/b4294351def1ba
+function! s:symbol_cmp() abort
+  let triggers = 'hjklnmfdsavcuiorew'->split('\zs')
+  let comp_list = b:symbol_list->copy()
+        \ ->map({i, v -> {'word': v, 'menu': get(triggers, i, '')}})
+  call complete(col('.')-1, comp_list)
+  augroup symbolselect
+    autocmd!
+    autocmd KeyInputPre * call s:symbol_select()
+    autocmd ModeChanged * autocmd! symbolselect
+  augroup END
+endfunction
+
+function! s:symbol_select() abort
+  let items = complete_info(['items']).items
+  let idx = indexof(items, {_,v -> get(v, 'menu', '') ==# v:char})
+  if idx >= 0
+    let v:char = "\<bs>"
+    call feedkeys(items[idx].word, 'ni')
+  endif
+endfunction
+
+inoremap <expr> , exists('b:symbol_list')
+      \ ? ',<cmd>call <sid>symbol_cmp()<cr>'
+      \ : ','
+
 " function! s:imap_up() abort
 "   if line('.') == 1
 "     call feedkeys("\<c-g>U\<home>", 't')
@@ -1143,6 +1169,14 @@ augroup vimrc
     autocmd Filetype sql let b:fmt_cmd = 'sql-formatter --config ~/dotfiles/.config/sql_formatter/sql_formatter.json'
     autocmd Filetype nix let b:fmt_cmd = 'alejandra -q -'
     autocmd Filetype gleam let b:fmt_cmd = 'gleam format --stdin'
+
+    autocmd Filetype vim let b:symbol_list = [
+          \ '..=', '=>', '<=', '==', '->',
+          \ '==#', '==?', '!=#', '!=?', '>#', '>?', '>=#', '>=?',
+          \ '<#', '<?', '<=#', '<=?', '=~#', '=~?', '!~#', '!~?',
+          \]
+    autocmd Filetype typescript,typescriptreact,javascript,javascriptreact let b:symbol_list = ['=>', '===']
+    autocmd Filetype gleam let b:symbol_list = ['->', '|>', '<>', '<-', '_ ->']
 
     autocmd FileType * call mi#cmp#apply_syn_keywords_dict()
   endif
