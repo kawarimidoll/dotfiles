@@ -279,8 +279,8 @@ else
   " command! JaDocUpdate call s:ja_doc_update()
 
   " prev/next use
-  nnoremap [u *2Nzz<cmd>nohlsearch<cr>
-  nnoremap ]u *zz<cmd>nohlsearch<cr>
+  nnoremap [u *2N<cmd>nohlsearch<cr>
+  nnoremap ]u *<cmd>nohlsearch<cr>
 
   " word search with keep positions
   " https://twitter.com/Bakudankun/status/1207057884581900289
