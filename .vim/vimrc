@@ -706,6 +706,14 @@ inoremap <expr> .
       \   ? '.<c-x><c-f>'
       \   : '.'
 
+function s:insert_jump() abort
+  if getline('.')->len() != col('.')
+    call search('\k\+\|[({\[\]})=]', 'cWe')
+  endif
+  call feedkeys("\<right>", 'ni')
+endfunction
+inoremap <s-cr> <cmd>call <sid>insert_jump()<cr>
+
 " sticky-shift
 " https://vim-jp.org/vim-users-jp/2009/08/09/Hack-54.html
 function s:sticky_shift() abort
