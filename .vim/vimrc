@@ -1177,6 +1177,7 @@ augroup vimrc
     autocmd Filetype sql let b:fmt_cmd = 'sql-formatter --config ~/dotfiles/.config/sql_formatter/sql_formatter.json'
     autocmd Filetype nix let b:fmt_cmd = 'alejandra -q -'
     autocmd Filetype gleam let b:fmt_cmd = 'gleam format --stdin'
+    autocmd Filetype html,css let b:fmt_cmd = $'bunx prettier --stdin-filepath {expand("%")}'
 
     autocmd Filetype vim let b:symbol_list = [
           \ '..=', '=>', '<=', '==', '->',
