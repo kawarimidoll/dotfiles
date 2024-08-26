@@ -23,6 +23,7 @@ export TERMINFO="${XDG_DATA_HOME}/terminfo"
 export TERMINFO_DIRS="${XDG_DATA_HOME}/terminfo:/usr/share/terminfo"
 export PNPM_HOME="${XDG_DATA_HOME}/pnpm"
 export NI_CONFIG_FILE="$HOME/.config/ni/nirc"
+export NIX_USER_CONF_FILES="${XDG_CONFIG_HOME}/nix/nix.conf:${XDG_CONFIG_HOME}/nix/local.conf"
 
 # -----------------
 #  Paths
