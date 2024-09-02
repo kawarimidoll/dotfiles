@@ -46,4 +46,4 @@ endif
 let b:undo_ftplugin ..= 'unlet! b:quickrun_config'
 let b:undo_ftplugin ..= '| setlocal commentstring<'
 let b:undo_ftplugin ..= '| iunmap ;'
-let b:undo_ftplugin ..= s:undo_abbrev->copy()->map('"| iunabbrev " .. v:val')->join('')
+let b:undo_ftplugin ..= s:undo_abbrev->copy()->map('"| iunabbrev <buffer>" .. v:val')->join('')
