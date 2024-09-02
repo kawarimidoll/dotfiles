@@ -64,8 +64,8 @@ function! s:comment_off(from, to) abort
   let lines = getline(a:from, a:to)
   let lnum = a:from
   for line in lines
-    let line = substitute(line, open .. '\s\?', '', '')
-    let line = substitute(line, '\s*' .. close .. '\s*$', '', '')
+    let line = substitute(line, $'\V{open}\v\s?', '', '')
+    let line = substitute(line, $'\s*\V{close}\v\s*$', '', '')
     call setline(lnum, line)
     let lnum += 1
   endfor
