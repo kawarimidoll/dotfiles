@@ -33,14 +33,14 @@ command! GitStatus 10new
       \ | setlocal buftype=nofile bufhidden=delete noswapfile
       \ | execute 'read !git status -suall'
       \ | execute 'normal! gg"_dd'
-      \ | setlocal readonly nobuflsted
+      \ | setlocal readonly nobuflisted
       \ | call mi#window#fit()
 
 command! GitDiff new
       \ | setlocal buftype=nofile bufhidden=delete noswapfile
       \ | setfiletype gitcommit
       \ | execute 'read !git diff #'
-      \ | setlocal readonly nobuflsted
+      \ | setlocal readonly nobuflisted
       \ | normal! gg
       \ | call mi#window#fit()
 
