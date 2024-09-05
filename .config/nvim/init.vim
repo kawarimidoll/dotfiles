@@ -1,4 +1,5 @@
-let s:source = expand('~/dotfiles/.config/nvim/minideps.lua')
-if filereadable(s:source)
-  execute 'source' s:source
-endif
+try
+  source ~/dotfiles/.config/nvim/minideps.lua
+catch
+  echomsg 'nvim setting file is not found!'
+endtry
