@@ -42,6 +42,7 @@ in {
       bat
       bottom
       bun
+      direnv
 
       vim # latest
 
