@@ -9,25 +9,14 @@
 in {
   nixpkgs = {
     overlays = [
-      (final: prev: {
-        vim = prev.vim.overrideAttrs (oldAttrs: {
-          version = "latest";
-          src = inputs.vim-src;
-          configureFlags =
-            oldAttrs.configureFlags
-            ++ [
-              "--enable-terminal"
-              "--with-compiledby=nix-home-manager"
-              "--enable-luainterp"
-              "--with-lua-prefix=${prev.lua}"
-              "--enable-fail-if-missing"
-            ];
-          buildInputs =
-            oldAttrs.buildInputs
-            ++ [prev.gettext prev.lua prev.libiconv];
-        });
+      (inputs.vim-overlay.overlays.features {
+        compiledby = "kawarimidoll-nix";
+        lua = true;
+        cscope = true;
+        sodium = true;
+        ruby = true;
+        python3 = true;
       })
-
       inputs.neovim-nightly-overlay.overlays.default
     ];
     config = {

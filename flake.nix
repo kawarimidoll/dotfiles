@@ -4,10 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
-    vim-src = {
-      url = "github:vim/vim";
-      flake = false;
-    };
+    vim-overlay.url = "github:kawarimidoll/vim-overlay";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
