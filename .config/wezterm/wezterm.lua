@@ -53,12 +53,17 @@ return {
     font_size = 16.0,
   },
 
+  -- https://zenn.dev/yuys13/articles/wezterm-settings-trivia
   use_ime = true,
   macos_forward_to_ime_modifier_mask = "SHIFT|CTRL",
 
   keys = {
     { key = 'E', mods = 'CTRL', action = act.EmitEvent 'trigger-vim-with-visible-text' },
     { key = 'Q', mods = 'CTRL', action = act.QuickSelect },
+
+    -- https://zenn.dev/yuys13/articles/wezterm-settings-trivia
+    -- https://github.com/wez/wezterm/issues/2630#issuecomment-1323626076
+    { mods = "CTRL", key = "q", action=wezterm.action{ SendString="\x11" } },
   },
 
   key_tables = {
