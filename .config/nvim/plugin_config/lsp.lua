@@ -27,7 +27,7 @@ local update_capabilities = function(capabilities)
   return capabilities
 end
 
-vim.keymap.set('n', '<space>p', vim.lsp.buf.format, { silent = true })
+-- vim.keymap.set('n', '<space>p', vim.lsp.buf.format, { silent = true })
 
 local mason_lspconfig = require('mason-lspconfig')
 mason_lspconfig.setup_handlers({
@@ -70,6 +70,7 @@ mason_lspconfig.setup_handlers({
         },
       }
     elseif server_name == 'lua_ls' then
+
       -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#lua_ls
       local library = vim.api.nvim_get_runtime_file('', true)
 
@@ -85,16 +86,31 @@ mason_lspconfig.setup_handlers({
           telemetry = { enable = false },
         },
       }
+    elseif server_name == 'rust-analyzer' then
+      opts.settings = {
+        inlayHints = {
+          typeHints = {
+            enable = false
+          },
+        },
+      }
     end
 
-    opts.on_attach = function(_, bufnr)
-      local bufopts = { silent = true, buffer = bufnr }
-      vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-      vim.keymap.set('n', 'gtD', vim.lsp.buf.type_definition, bufopts)
-      vim.keymap.set('n', 'grf', vim.lsp.buf.references, bufopts)
-      -- vim.keymap.set('n', '<space>p', vim.lsp.buf.format or vim.lsp.buf.formatting, bufopts)
-    end
+    -- opts.on_attach = function(_, bufnr)
+    --   local bufopts = { silent = true, buffer = bufnr }
+    --   vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+    --   vim.keymap.set('n', 'gtD', vim.lsp.buf.type_definition, bufopts)
+    --   vim.keymap.set('n', 'grf', vim.lsp.buf.references, bufopts)
+    --   -- vim.keymap.set('n', '<space>p', vim.lsp.buf.format or vim.lsp.buf.formatting, bufopts)
+    -- end
 
     nvim_lsp[server_name].setup(opts)
+
+    -- vim.notify(server_name)
   end,
 })
+
+-- nvim_lsp.djlsp.setup{}
+if vim.fn.executable('gleam') == 1 then
+  nvim_lsp.gleam.setup{}
+end
