@@ -70,7 +70,6 @@ mason_lspconfig.setup_handlers({
         },
       }
     elseif server_name == 'lua_ls' then
-
       -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#lua_ls
       local library = vim.api.nvim_get_runtime_file('', true)
 
@@ -90,7 +89,7 @@ mason_lspconfig.setup_handlers({
       opts.settings = {
         inlayHints = {
           typeHints = {
-            enable = false
+            enable = false,
           },
         },
       }
@@ -112,5 +111,5 @@ mason_lspconfig.setup_handlers({
 
 -- nvim_lsp.djlsp.setup{}
 if vim.fn.executable('gleam') == 1 then
-  nvim_lsp.gleam.setup{}
+  nvim_lsp.gleam.setup({})
 end

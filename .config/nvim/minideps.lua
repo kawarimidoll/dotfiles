@@ -16,8 +16,11 @@ local mini_path = path_package .. 'pack/deps/start/mini.nvim'
 if not vim.uv.fs_stat(mini_path) then
   vim.cmd('echomsg "Installing `mini.nvim`" | redraw')
   local clone_cmd = {
-    'git', 'clone', '--filter=blob:none',
-    'https://github.com/echasnovski/mini.nvim', mini_path
+    'git',
+    'clone',
+    '--filter=blob:none',
+    'https://github.com/echasnovski/mini.nvim',
+    mini_path,
   }
   vim.fn.system(clone_cmd)
   vim.cmd('packadd mini.nvim | helptags ALL')
@@ -61,19 +64,18 @@ local init_lsp = function()
     vim.diagnostic.open_float({ focusable = true })
   end, { desc = 'diagnostic.open_float' })
   vim.keymap.set('n', '[d', function()
-    vim.diagnostic.jump({ count=1, float=true })
+    vim.diagnostic.jump({ count = 1, float = true })
   end, { desc = 'diagnostic.goto_next' })
   vim.keymap.set('n', ']d', function()
-    vim.diagnostic.jump({ count=-1, float=true })
+    vim.diagnostic.jump({ count = -1, float = true })
   end, { desc = 'diagnostic.goto_next' })
   vim.keymap.set('n', 'mxl', vim.diagnostic.setloclist, { desc = 'diagnostic.setloclist' })
 
   -- :h LspAttach
   vim.api.nvim_create_autocmd({ 'LspAttach' }, {
     callback = function(args)
-
       local c = vim.lsp.get_client_by_id(args.data.client_id)
-      if c == nil or c.name == "copilot" then
+      if c == nil or c.name == 'copilot' then
         return
       end
 
@@ -90,7 +92,7 @@ local init_lsp = function()
       buf_set_keymap('gD', vim.lsp.buf.declaration, 'declaration')
       buf_set_keymap('gd', vim.lsp.buf.definition, 'definition')
       if args.file:match('%.vim$') then
-        pcall(vim.keymap.del, "n", "K", { buffer = bufnr })
+        pcall(vim.keymap.del, 'n', 'K', { buffer = bufnr })
       end
       buf_set_keymap('gi', vim.lsp.buf.implementation, 'implementation')
       buf_set_keymap('mxh', vim.lsp.buf.signature_help, 'signature_help')
@@ -111,10 +113,7 @@ local init_lsp = function()
       if client and client.supports_method('textDocument/inlayHint') then
         vim.lsp.inlay_hint.enable(true, { bufnr })
         buf_set_keymap('mxi', function()
-          vim.lsp.inlay_hint.enable(
-            not vim.lsp.inlay_hint.is_enabled(bufnr),
-            { bufnr }
-          )
+          vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled(bufnr), { bufnr })
         end, 'toggle_inlay_hints')
       end
     end,
@@ -126,10 +125,44 @@ local init_lsp = function()
 end
 
 local init_treesitter = function()
-  local langs = { 'astro', 'bash', 'css', 'csv', 'git_config', 'git_rebase', 'gitattributes',
-    'gitignore', 'go', 'html', 'javascript', 'jq', 'jsdoc', 'json', 'jsonc', 'lua',
-    'luadoc', 'make', 'markdown', 'markdown_inline', 'nix', 'python', 'ruby', 'rust', 'scss', 'sql',
-    'svelte', 'toml', 'tsv', 'tsx', 'typescript', 'vim', 'vue', 'xml', 'yaml', 'zig', }
+  local langs = {
+    'astro',
+    'bash',
+    'css',
+    'csv',
+    'git_config',
+    'git_rebase',
+    'gitattributes',
+    'gitignore',
+    'go',
+    'html',
+    'javascript',
+    'jq',
+    'jsdoc',
+    'json',
+    'jsonc',
+    'lua',
+    'luadoc',
+    'make',
+    'markdown',
+    'markdown_inline',
+    'nix',
+    'python',
+    'ruby',
+    'rust',
+    'scss',
+    'sql',
+    'svelte',
+    'toml',
+    'tsv',
+    'tsx',
+    'typescript',
+    'vim',
+    'vue',
+    'xml',
+    'yaml',
+    'zig',
+  }
 
   add({
     source = 'nvim-treesitter/nvim-treesitter',
@@ -137,7 +170,11 @@ local init_treesitter = function()
     checkout = 'master',
     monitor = 'main',
     -- Perform action after every checkout
-    hooks = { post_checkout = function() vim.cmd('TSUpdate') end },
+    hooks = {
+      post_checkout = function()
+        vim.cmd('TSUpdate')
+      end,
+    },
   })
   ---@diagnostic disable-next-line: missing-fields
   require('nvim-treesitter.configs').setup({
@@ -176,7 +213,7 @@ later(function()
       filter = function(item)
         return not item.path:match('^%.git/')
       end,
-    }
+    },
   })
 end)
 
@@ -186,12 +223,14 @@ later(function()
     MiniExtra.pickers.visit_paths()
   end, { desc = 'mini.extra.visit_paths' })
   vim.keymap.set({ 'n', 'x' }, '<space>k', function()
-    vim.schedule(function() MiniPick.set_picker_query({ '☆ ' }) end)
+    vim.schedule(function()
+      MiniPick.set_picker_query({ '☆ ' })
+    end)
     MiniExtra.pickers.keymaps({ mode = 'n' })
   end, { desc = 'mini.extra.keymaps' })
 
   for k, v in pairs(MiniExtra.pickers) do
-    if type(v) == "function" then
+    if type(v) == 'function' then
       local name = 'mini.extra.' .. k
       vim.keymap.set('n', '<Plug>(' .. name .. ')', v, { desc = '☆ ' .. name })
     end
@@ -230,7 +269,7 @@ later(function()
   end, { desc = 'mini.pick.buffers' })
 
   for k, v in pairs(MiniPick.builtin) do
-    if type(v) == "function" then
+    if type(v) == 'function' then
       local name = 'mini.pick.' .. k
       vim.keymap.set('n', '<Plug>(' .. name .. ')', v, { desc = '☆ ' .. name })
     end
@@ -276,7 +315,7 @@ later(function()
       { mode = 'n', keys = 's' },
 
       { mode = 'n', keys = 'm' },
-      { mode = 'n', keys = 'mx',      desc = 'lsp' },
+      { mode = 'n', keys = 'mx', desc = 'lsp' },
 
       -- `g` key
       { mode = 'n', keys = 'g' },
@@ -376,9 +415,9 @@ end)
 later(function()
   add('thinca/vim-quickrun')
   vim.g.quickrun_config = {
-    ["_"] = {
-      ["outputter/buffer/opener"] = "new",
-      ["outputter/buffer/close_on_empty"] = 1
+    ['_'] = {
+      ['outputter/buffer/opener'] = 'new',
+      ['outputter/buffer/close_on_empty'] = 1,
     },
   }
   vim.keymap.set({ 'n', 'x' }, 'so', '<cmd>QuickRun<cr>', { desc = 'QuickRun' })
@@ -424,18 +463,18 @@ end)
 
 later(function()
   add({ source = 'zbirenbaum/copilot.lua' })
-  require("copilot").setup({
+  require('copilot').setup({
     suggestion = {
       auto_trigger = true,
       keymap = {
-        accept = "<c-g><c-cr>",
-        accept_word = "<c-g><c-l>",
-        accept_line = "<c-g><c-j>",
-        next = "<c-g><c-n>",
-        prev = "<c-g><c-p>",
+        accept = '<c-g><c-cr>',
+        accept_word = '<c-g><c-l>',
+        accept_line = '<c-g><c-j>',
+        next = '<c-g><c-n>',
+        prev = '<c-g><c-p>',
         --   dismiss = "<C-]>",
       },
-    }
+    },
   })
   vim.api.nvim_create_autocmd({ 'ColorScheme' }, {
     pattern = '*',
@@ -448,9 +487,9 @@ later(function()
   add({
     source = 'CopilotC-Nvim/CopilotChat.nvim',
     checkout = 'canary',
-    depends = { 'nvim-lua/plenary.nvim' }
+    depends = { 'nvim-lua/plenary.nvim' },
   })
-  local copilotChat = require("CopilotChat")
+  local copilotChat = require('CopilotChat')
   copilotChat.setup({
     prompts = {
       Explain = { mapping = '<Plug>(copilotchat-explain)' },
@@ -465,17 +504,20 @@ later(function()
   })
   for _, k in ipairs(vim.tbl_keys(copilotChat.config.prompts)) do
     local name = 'copilotchat' .. string.gsub(k, '[A-Z]', '-%0'):lower()
-    vim.keymap.set('n', '<Plug>(' .. name .. ')', ':CopilotChat' .. k .. '<cr>', { desc = '☆ ' .. name })
+    vim.keymap.set(
+      'n',
+      '<Plug>(' .. name .. ')',
+      ':CopilotChat' .. k .. '<cr>',
+      { desc = '☆ ' .. name }
+    )
   end
 
   vim.api.nvim_create_user_command('Chat', function()
-    vim.ui.input({ prompt = 'CopilotChat: ' },
-      function(input)
-        if input ~= "" then
-          copilotChat.ask(input)
-        end
+    vim.ui.input({ prompt = 'CopilotChat: ' }, function(input)
+      if input ~= '' then
+        copilotChat.ask(input)
       end
-    )
+    end)
   end, { range = true })
 
   vim.cmd.AbbrevCmd('ccc CopilotChatCommit')
@@ -488,7 +530,7 @@ later(function()
       if #vim.api.nvim_list_wins() == 1 then
         vim.cmd.quit()
       end
-    end
+    end,
   })
 end)
 
@@ -509,7 +551,7 @@ end)
 
 later(function()
   add({ source = 'https://github.com/tani/dmacro.nvim' })
-  vim.keymap.set({ "i", "n" }, '<C-t>', '<Plug>(dmacro-play-macro)')
+  vim.keymap.set({ 'i', 'n' }, '<C-t>', '<Plug>(dmacro-play-macro)')
 end)
 
 -- ref: https://zenn.dev/vim_jp/articles/20240304_ekiden_disable_plugin
