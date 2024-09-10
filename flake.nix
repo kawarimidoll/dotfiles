@@ -15,44 +15,53 @@
     };
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    home-manager,
-    nix-darwin,
-    ...
-  } @ inputs: let
-    system = "aarch64-darwin";
-    username = "kawarimidoll";
-    pkgs = import nixpkgs {inherit system;};
-  in {
-    apps.${system}.update = {
-      type = "app";
-      program = toString (pkgs.writeShellScript "update-script" ''
-        set -e
-        echo "Updating flake..."
-        nix flake update
-        echo "Updating home-manager..."
-        nix run nixpkgs#home-manager -- switch --flake .#myHomeConfig
-        echo "Updating nix-darwin..."
-        nix run nix-darwin -- switch --flake .#kawarimidoll-darwin
-        echo "Update complete!"
-      '');
-    };
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      nix-darwin,
+      ...
+    }@inputs:
+    let
+      system = "aarch64-darwin";
+      username = "kawarimidoll";
+      pkgs = import nixpkgs { inherit system; };
+    in
+    {
+      apps.${system} = {
+        update = {
+          type = "app";
+          program = toString (
+            pkgs.writeShellScript "update-script" ''
+              set -e
+              echo "Updating flake..."
+              nix flake update
+              echo "Updating home-manager..."
+              nix run nixpkgs#home-manager -- switch --flake .#myHomeConfig
+              echo "Updating nix-darwin..."
+              nix run nix-darwin -- switch --flake .#kawarimidoll-darwin
+              echo "Update complete!"
+            ''
+          );
+        };
+      };
 
-    darwinConfigurations.kawarimidoll-darwin = nix-darwin.lib.darwinSystem {
-      system = system;
-      modules = [./nix/nix-darwin/default.nix];
-    };
+      darwinConfigurations.kawarimidoll-darwin = nix-darwin.lib.darwinSystem {
+        system = system;
+        modules = [ ./nix/nix-darwin/default.nix ];
+      };
 
-    homeConfigurations = {
-      myHomeConfig = home-manager.lib.homeManagerConfiguration {
-        pkgs = pkgs;
-        extraSpecialArgs = {inherit inputs;};
-        modules = [./nix/home-manager/default.nix];
+      homeConfigurations = {
+        myHomeConfig = home-manager.lib.homeManagerConfiguration {
+          pkgs = pkgs;
+          extraSpecialArgs = {
+            inherit inputs;
+          };
+          modules = [ ./nix/home-manager/default.nix ];
+        };
       };
     };
-  };
 }
 # update:
 #   nix run .#update
