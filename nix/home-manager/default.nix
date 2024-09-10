@@ -4,9 +4,11 @@
   config,
   pkgs,
   ...
-}: let
+}:
+let
   username = "kawarimidoll";
-in {
+in
+{
   nixpkgs = {
     overlays = [
       (inputs.vim-overlay.overlays.features {
@@ -32,21 +34,42 @@ in {
     stateVersion = "24.05";
 
     packages = with pkgs; [
-      git
-      jj
-      curl
-      jq
-      ripgrep
-      eza
-      alejandra
       bat
+      bat-extras.batman
+      bat-extras.batpipe
+      bat-extras.batgrep
+      bat-extras.batdiff
+      bat-extras.batwatch
+      bat-extras.prettybat
       bottom
       bun
+      cargo
+      csvq
+      curl
+      deno
       direnv
+      eza
+      git
+      gleam
+      go
+      gnugrep
+      jj
+      jq
+      lsd
+      lua-language-server
+      nixfmt-rfc-style
+      pnpm
+      ripgrep
+      rust-analyzer
+      stylua
+      vim-language-server
+      yarn
+      zig
 
       vim # latest
-
       neovim # nighly
+
+      nodePackages.typescript-language-server
     ];
   };
 
