@@ -40,7 +40,7 @@ mason_lspconfig.setup_handlers({
     opts.capabilities = update_capabilities(vim.lsp.protocol.make_client_capabilities())
     -- vim.api.nvim_echo({{'server_name'}, {server_name, 'warningmsg'}}, true, {})
 
-    if server_name == 'vtsls' or server_name == 'tsserver' then
+    if server_name == 'vtsls' or server_name == 'ts_ls' then
       if not is_node_repo then
         return
       end
