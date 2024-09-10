@@ -23,6 +23,11 @@ local default_opts = function()
   return opts
 end
 
+-- https://www.reddit.com/r/neovim/comments/10n795v/disable_tsserver_in_deno_projects/
+local is_node_dir = function()
+  return nvim_lsp.util.root_pattern('package.json')(vim.fn.getcwd())
+end
+
 -- gleam
 nvim_lsp.gleam.setup(default_opts())
 
@@ -35,15 +40,29 @@ ts_opts.settings = {
 }
 
 ts_opts.on_attach = function(client)
-  if nvim_lsp.util.root_pattern('deno.json', 'deno.jsonc')(vim.fn.getcwd()) then
-    if client.name == 'ts_ls' then
-      client.stop(true)
-      return
-    end
+  if not is_node_dir() then
+    client.stop(true)
   end
 end
 
 nvim_lsp.ts_ls.setup(ts_opts)
+
+-- deno
+vim.g.markdown_fenced_languages = {
+  'ts=typescript',
+  'js=javascript',
+  'tsx=typescriptreact',
+  'jsx=javascriptreact',
+}
+
+local deno_opts = default_opts()
+deno_opts.on_attach = function(client)
+  if is_node_dir() then
+    client.stop(true)
+  end
+end
+
+nvim_lsp.denols.setup(deno_opts)
 
 -- lua_ls
 local lua_opts = default_opts()
@@ -61,27 +80,6 @@ lua_opts.settings = {
   },
 }
 nvim_lsp.lua_ls.setup(lua_opts)
-
--- deno
-vim.g.markdown_fenced_languages = {
-  'ts=typescript',
-  'js=javascript',
-  'tsx=typescriptreact',
-  'jsx=javascriptreact',
-}
-
-local deno_opts = default_opts()
-deno_opts.on_attach = function(client)
-  if nvim_lsp.util.root_pattern('package.json')(vim.fn.getcwd()) then
-    if client.name == 'denols' then
-      vim.notify('deno lsp stop')
-      client.stop(true)
-      return
-    end
-  end
-end
-
-nvim_lsp.denols.setup(deno_opts)
 
 -- rust-analyzer
 local rust_opts = default_opts()
