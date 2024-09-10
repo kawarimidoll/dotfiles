@@ -45,6 +45,33 @@
             ''
           );
         };
+
+        update-home = {
+          type = "app";
+          program = toString (
+            pkgs.writeShellScript "update-script" ''
+              set -e
+              echo "Updating flake..."
+              nix flake update
+              echo "Updating home-manager..."
+              nix run nixpkgs#home-manager -- switch --flake .#myHomeConfig
+              echo "Update complete!"
+            ''
+          );
+        };
+        update-darwin = {
+          type = "app";
+          program = toString (
+            pkgs.writeShellScript "update-script" ''
+              set -e
+              echo "Updating flake..."
+              nix flake update
+              echo "Updating nix-darwin..."
+              nix run nix-darwin -- switch --flake .#kawarimidoll-darwin
+              echo "Update complete!"
+            ''
+          );
+        };
       };
 
       darwinConfigurations.kawarimidoll-darwin = nix-darwin.lib.darwinSystem {
@@ -64,4 +91,6 @@
     };
 }
 # update:
-#   nix run .#update
+#   nix run .#update (all)
+#   nix run .#update-home
+#   nix run .#update-darwin
