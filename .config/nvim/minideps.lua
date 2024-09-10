@@ -55,7 +55,7 @@ now(function()
 end)
 
 local init_lsp = function()
-  add({ source = 'neovim/nvim-lspconfig', depends = { 'williamboman/mason.nvim' } })
+  add({ source = 'neovim/nvim-lspconfig' })
 
   -- https://zenn.dev/vim_jp/articles/c62b397647e3c9
   vim.diagnostic.config({ severity_sort = true })
@@ -118,8 +118,6 @@ local init_lsp = function()
       end
     end,
   })
-
-  add({ source = 'williamboman/mason-lspconfig.nvim' })
 
   vim.cmd.luafile('~/dotfiles/.config/nvim/plugin_config/lsp.lua')
 end

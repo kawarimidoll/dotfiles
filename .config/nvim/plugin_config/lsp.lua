@@ -1,19 +1,13 @@
-local mason = require('mason')
 local nvim_lsp = require('lspconfig')
-mason.setup({
-  ui = {
-    icons = {
-      package_installed = '✓',
-      package_pending = '➜',
-      package_uninstalled = '✗',
-    },
-  },
-})
 
--- ref: cmp_nvim_lsp.update_capabilities
-local update_capabilities = function(capabilities)
+-- vim.keymap.set('n', '<space>p', vim.lsp.buf.format, { silent = true })
+
+local default_opts = function()
+  local opts = {}
+
+  -- ref: cmp_nvim_lsp.update_capabilities
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
   local completionItem = capabilities.textDocument.completion.completionItem
-
   completionItem.snippetSupport = true
   completionItem.preselectSupport = true
   completionItem.insertReplaceSupport = true
@@ -24,92 +18,78 @@ local update_capabilities = function(capabilities)
   completionItem.resolveSupport =
     { properties = { 'documentation', 'detail', 'additionalTextEdits' } }
 
-  return capabilities
+  opts.capabilities = capabilities
+
+  return opts
 end
 
--- vim.keymap.set('n', '<space>p', vim.lsp.buf.format, { silent = true })
+-- gleam
+nvim_lsp.gleam.setup(default_opts())
 
-local mason_lspconfig = require('mason-lspconfig')
-mason_lspconfig.setup_handlers({
-  function(server_name)
-    local node_root_dir = nvim_lsp.util.root_pattern('package.json')
-    local is_node_repo = node_root_dir(vim.api.nvim_buf_get_name(0)) ~= nil
+-- ts_ls
+local ts_opts = default_opts()
+ts_opts.settings = {
+  documentFormatting = false,
+  javascript = { suggest = { completeFunctionCalls = true } },
+  typescript = { suggest = { completeFunctionCalls = true } },
+}
 
-    local opts = {}
-
-    opts.capabilities = update_capabilities(vim.lsp.protocol.make_client_capabilities())
-    -- vim.api.nvim_echo({{'server_name'}, {server_name, 'warningmsg'}}, true, {})
-
-    if server_name == 'vtsls' or server_name == 'ts_ls' then
-      if not is_node_repo then
-        return
-      end
-      opts.settings = {
-        documentFormatting = false,
-        javascript = { suggest = { completeFunctionCalls = true } },
-        typescript = { suggest = { completeFunctionCalls = true } },
-      }
-    elseif server_name == 'denols' then
-      if is_node_repo then
-        return
-      end
-
-      opts.root_dir =
-        nvim_lsp.util.root_pattern('deno.json', 'deno.jsonc', 'deps.ts', 'import_map.json')
-      opts.init_options = {
-        lint = true,
-        unstable = true,
-        suggest = {
-          imports = {
-            hosts = {
-              ['https://deno.land'] = true,
-              ['https://cdn.nest.land'] = true,
-              ['https://crux.land'] = true,
-            },
-          },
-        },
-      }
-    elseif server_name == 'lua_ls' then
-      -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#lua_ls
-      local library = vim.api.nvim_get_runtime_file('', true)
-
-      opts.settings = {
-        Lua = {
-          runtime = {
-            version = 'LuaJIT',
-            path = { 'lua/?.lua', 'lua/?/init.lua' },
-          },
-          completion = { callSnippet = 'Both' },
-          diagnostics = { globals = { 'vim' } },
-          workspace = { library = library },
-          telemetry = { enable = false },
-        },
-      }
-    elseif server_name == 'rust-analyzer' then
-      opts.settings = {
-        inlayHints = {
-          typeHints = {
-            enable = false,
-          },
-        },
-      }
+ts_opts.on_attach = function(client)
+  if nvim_lsp.util.root_pattern('deno.json', 'deno.jsonc')(vim.fn.getcwd()) then
+    if client.name == 'ts_ls' then
+      client.stop(true)
+      return
     end
-
-    -- opts.on_attach = function(_, bufnr)
-    --   local bufopts = { silent = true, buffer = bufnr }
-    --   vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-    --   vim.keymap.set('n', 'gtD', vim.lsp.buf.type_definition, bufopts)
-    --   vim.keymap.set('n', 'grf', vim.lsp.buf.references, bufopts)
-    --   -- vim.keymap.set('n', '<space>p', vim.lsp.buf.format or vim.lsp.buf.formatting, bufopts)
-    -- end
-
-    nvim_lsp[server_name].setup(opts)
-
-    -- vim.notify(server_name)
-  end,
-})
-
--- nvim_lsp.djlsp.setup{}
-if vim.fn.executable('gleam') == 1 then
-  nvim_lsp.gleam.setup({})
+  end
 end
+
+nvim_lsp.ts_ls.setup(ts_opts)
+
+-- lua_ls
+local lua_opts = default_opts()
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#lua_ls
+lua_opts.settings = {
+  Lua = {
+    runtime = {
+      version = 'LuaJIT',
+      path = { 'lua/?.lua', 'lua/?/init.lua' },
+    },
+    completion = { callSnippet = 'Both' },
+    diagnostics = { globals = { 'vim' } },
+    workspace = { library = vim.api.nvim_get_runtime_file('', true) },
+    telemetry = { enable = false },
+  },
+}
+nvim_lsp.lua_ls.setup(lua_opts)
+
+-- deno
+vim.g.markdown_fenced_languages = {
+  'ts=typescript',
+  'js=javascript',
+  'tsx=typescriptreact',
+  'jsx=javascriptreact',
+}
+
+local deno_opts = default_opts()
+deno_opts.on_attach = function(client)
+  if nvim_lsp.util.root_pattern('package.json')(vim.fn.getcwd()) then
+    if client.name == 'denols' then
+      vim.notify('deno lsp stop')
+      client.stop(true)
+      return
+    end
+  end
+end
+
+nvim_lsp.denols.setup(deno_opts)
+
+-- rust-analyzer
+local rust_opts = default_opts()
+rust_opts.settings = {
+  inlayHints = {
+    typeHints = {
+      enable = false,
+    },
+  },
+}
+nvim_lsp.rust_analyzer.setup(rust_opts)
