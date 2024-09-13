@@ -46,6 +46,8 @@ in
       binutils
       bottom
       bun
+      cargo
+      clippy
       clang-tools # clang-format
       coreutils
       croc
@@ -75,6 +77,7 @@ in
       git-workspace
       gleam
       gnugrep
+      gnumake
       gnupg
       gnused
       gnutar
@@ -101,7 +104,8 @@ in
       nodejs_22
       pnpm
       ripgrep
-      rustup
+      rust-analyzer
+      rustfmt
       silicon
       slides
       starship
@@ -112,6 +116,7 @@ in
       tz
       unzip
       vim # latest
+      watchexec
       wget
       yarn
       zig
