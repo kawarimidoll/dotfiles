@@ -120,12 +120,7 @@ in
       wget
       yarn
       zig
-      zsh
-      zsh-autocomplete
       zsh-autopair
-      zsh-autosuggestions
-      zsh-completions
-      zsh-fast-syntax-highlighting
 
       nodePackages.typescript-language-server
 
@@ -134,5 +129,22 @@ in
     ];
   };
 
+  # environment.pathsToLink = [ "/share/zsh" ];
+
   programs.home-manager.enable = true;
+
+  # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.zsh.enable
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+    autosuggestion.enable = true;
+    syntaxHighlighting = {
+      enable = true;
+      package = pkgs.zsh-syntax-highlighting;
+    };
+    initExtra = ''
+      source ~/dotfiles/.zshrc
+      source ~/.nix-profile/share/zsh/zsh-autopair/autopair.zsh
+    '';
+  };
 }
