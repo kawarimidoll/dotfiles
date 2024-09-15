@@ -279,7 +279,7 @@ else
   " command! JaDocUpdate call s:ja_doc_update()
 
   " prev/next use
-  nnoremap [u *2N<cmd>nohlsearch<cr>
+  nnoremap [u #<cmd>nohlsearch<cr>
   nnoremap ]u *<cmd>nohlsearch<cr>
 
   " word search with keep positions
@@ -349,6 +349,8 @@ command! -nargs=+ -bang LGrepF call mi#qf#async_grep(<q-args>, {'add': <bang>0, 
 command! -nargs=1 -complete=file VDiff vertical diffsplit <args>
 command! VDiffAlt vertical diffsplit #
 
+nnoremap ds <cmd>GitDiff<cr>
+
 command! SudoWrite write !sudo tee > /dev/null %
 
 nnoremap <silent> mm <Cmd>call mi#mark#auto_set()<CR>
@@ -399,11 +401,10 @@ noremap gV `[v`]
 " https://github.com/yuki-yano/zero.vim/blob/main/plugin/zero.vim
 noremap <silent><expr> H (mi#utils#not_q() && getline('.')[:col('.')-2] =~# '^\s\+$')? '0' : '^'
 " https://github.com/yuki-yano/dotfiles/blob/c56b219116de1693c45c20b03b109497896d5b16/.vimrc#L602-L605
-nnoremap <expr> i len(getline('.')) ? 'i' : '"_cc'
-nnoremap <expr> A len(getline('.')) ? 'A' : '"_cc'
+nnoremap <expr> i empty(getline('.')) ? '"_cc' : 'i'
+nnoremap <expr> A empty(getline('.')) ? '"_cc' : 'A'
 noremap L $
-map M %
-map gM g%
+map <expr> M expand('<cword>') =~# 'end' ? '%' : 'g%'
 noremap gm gM
 nnoremap / /\v
 nnoremap ? /\V
@@ -557,8 +558,8 @@ nnoremap <Space>; @:
 nnoremap <Space>/ :<C-u>Grep<Space>
 nnoremap <Space>? :<C-u>GrepF <C-r><C-w>
 xnoremap <Space>? "zy:<C-u>GrepF <C-r>z
-nnoremap <silent><expr> <C-k> $'<Cmd>move-1-{v:count1}<CR>=l'
-nnoremap <silent><expr> <C-j> $'<Cmd>move+{v:count1}<CR>=l'
+nnoremap <expr> <C-k> $'<Cmd>move-1-{v:count1}<CR>=l'
+nnoremap <expr> <C-j> $'<Cmd>move+{v:count1}<CR>=l'
 nnoremap <Space>L <Cmd>LazyGit<CR>
 
 " https://zenn.dev/kawarimidoll/articles/17dad86545cbb4
@@ -624,8 +625,8 @@ AbbrevCmd ed edit
 AbbrevCmd en enew
 AbbrevCmd plgs PlugSync
 AbbrevCmd plugs PlugSync
-AbbrevCmd! sv 'saveas ' .. @%
-AbbrevCmd! rn 'Rename ' .. @%
+AbbrevCmd! sv 'saveas ' .. @% .. repeat('<left>', expand('%:e')->strlen()+1)
+AbbrevCmd! rn 'Rename ' .. @% .. repeat('<left>', expand('%:e')->strlen()+1)
 AbbrevCmd! ss '%s/' .. @/ .. '//g<Left><Left>'
 " AbbrevCmd! ss '%s/' .. @/ .. "//g\<Left>\<Left>" olso ok
 AbbrevCmd! gld 'global //d_<left><left><left>'
@@ -678,8 +679,9 @@ inoremap <silent> <C-r><C-r> <C-r><C-r>"
 inoremap <C-k> <C-o>D
 inoremap <expr> <Tab>   pumvisible() ? '<C-n>' : '<C-t>'
 inoremap <expr> <S-Tab> pumvisible() ? '<C-p>' : '<C-d>'
-inoremap <C-g><C-u> <esc>gUvbgi
-inoremap <C-g><C-l> <esc>guvbgi
+inoremap <C-g><C-u> <esc>gUiwgi
+inoremap <C-g><C-l> <esc>guiwgi
+inoremap <C-g><C-k> <esc>bgUlgi
 inoremap <right> <c-g>U<right>
 inoremap <left> <c-g>U<left>
 inoremap <home> <c-g>U<home>
@@ -846,7 +848,7 @@ inoremap <expr> <c-x> <sid>expand_snippet("\<c-x>")
 " visual
 " xnoremap p <cmd>call <sid>sync_unnamed()<cr>P
 xnoremap p P
-xnoremap <silent> y y`]
+xnoremap y mzy`z
 xnoremap x "_x
 xnoremap < <gv
 xnoremap > >gv
@@ -854,13 +856,19 @@ xnoremap > >gv
 " xmap <S-Tab> <
 xnoremap <silent><C-k> :m'<-2<CR>gv=gv
 xnoremap <silent><C-j> :m'>+1<CR>gv=gv
-xnoremap S "zy:%s/<C-r>z//gce<Left><Left><Left><Left>
+" xnoremap S "zy:%s/<C-r>z//gce<Left><Left><Left><Left>
+xnoremap S "zy:%s/\V<C-r><C-r>=escape(@z,'/\')<cr>//gce<Left><Left><Left><Left>
 " ref: https://github.com/monaqa/dotfiles/blob/f214e9628cbac0803ad9d9bc2ad1582c696c4e6b/.config/nvim/scripts/keymap.vim#L63-L69
 xnoremap * "zy/\V<C-r><C-r>=substitute(escape(@z, '/\'), '\_s\+', '\\_s\\+', 'g')<CR><CR>``
 xnoremap # "zy?\V<C-r><C-r>=substitute(escape(@z, '/\'), '\_s\+', '\\_s\\+', 'g')<CR><CR>``
 xnoremap R "zy:,$s//<C-r><C-r>=escape(@z, '/\&~')<CR>/gce<Bar>1,''-&&<CR>
 
 xnoremap so :source<cr><cmd>nohlsearch<cr>gv
+
+xnoremap qg :global/^/normal<Space>
+
+xnoremap <Space>g :copy'<-1<CR>gv
+xnoremap <Space>G :copy'>+0<CR>gv
 
 " operator
 onoremap x d
