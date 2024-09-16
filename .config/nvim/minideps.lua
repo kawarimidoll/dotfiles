@@ -69,7 +69,8 @@ local init_lsp = function()
   vim.keymap.set('n', ']d', function()
     vim.diagnostic.jump({ count = 1, float = true })
   end, { desc = 'diagnostic.goto_next' })
-  vim.keymap.set('n', 'mxl', vim.diagnostic.setloclist, { desc = 'diagnostic.setloclist' })
+  -- vim.keymap.set('n', 'mxl', vim.diagnostic.setloclist, { desc = 'diagnostic.setloclist' })
+  vim.keymap.set('n', 'mxq', vim.diagnostic.setqflist, { desc = 'diagnostic.setqflist' })
 
   -- :h LspAttach
   vim.api.nvim_create_autocmd({ 'LspAttach' }, {
