@@ -122,6 +122,8 @@ in
       zig
       zsh-autopair
 
+      helix
+
       nodePackages.typescript-language-server
 
       # rmw

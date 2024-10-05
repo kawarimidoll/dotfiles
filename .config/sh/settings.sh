@@ -253,6 +253,12 @@ vif() {
     xargs --no-run-if-empty --open-tty vim
 }
 
+hf() {
+  find_for_vim | \
+    fzf --multi --exit-0 --query="$*" --preview="$fzf_preview_cmd" --cycle | \
+    xargs --no-run-if-empty --open-tty hx
+}
+
 # fgt() {
 #   local list="fbr select git branch"
 #   list="$list\nfsw switch to selected git branch"

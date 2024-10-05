@@ -1,0 +1,18 @@
+theme = "onedark"
+
+[editor]
+bufferline = "always"
+
+[editor.cursor-shape]
+insert = "bar"
+select = "underline"
+
+[keys.normal]
+H = "goto_line_start"
+L = "goto_line_end"
+"[" = { b = ":buffer-previous" }
+"]" = { b = ":buffer-next" }
+
+[keys.normal.space]
+q = ":quit"
+w = ":write"
