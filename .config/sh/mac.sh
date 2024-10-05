@@ -15,10 +15,10 @@ if [ -n "$ZSH_VERSION" ]; then
     BREW_PREFIX="/opt/homebrew"
     alias nnn="nnn-apple-silicon"
 
-    if [ ! -f /tmp/zsh_fnm.cache ]; then
-      /opt/homebrew/bin/fnm env > /tmp/zsh_fnm.cache
-      zcompile /tmp/zsh_fnm.cache
-    fi
+    # if [ ! -f /tmp/zsh_fnm.cache ]; then
+    #   /opt/homebrew/bin/fnm env > /tmp/zsh_fnm.cache
+    #   zcompile /tmp/zsh_fnm.cache
+    # fi
   else
     # intel chip
     if [ ! -f /tmp/zsh_brew.cache ]; then
@@ -35,11 +35,11 @@ if [ -n "$ZSH_VERSION" ]; then
     fi
   fi
   source /tmp/zsh_brew.cache
-  source /tmp/zsh_fnm.cache
+  # source /tmp/zsh_fnm.cache
 
-  __source "${BREW_PREFIX}/share/zsh-autopair/autopair.zsh"
-  __source "${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-  __source "${BREW_PREFIX}/opt/zsh-fast-syntax-highlighting/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
+  # __source "${BREW_PREFIX}/share/zsh-autopair/autopair.zsh"
+  # __source "${BREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+  # __source "${BREW_PREFIX}/opt/zsh-fast-syntax-highlighting/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
 
   # zsh-autocomplete
   # Installation
@@ -52,9 +52,9 @@ if [ -n "$ZSH_VERSION" ]; then
   # For more details, see:
   #   https://github.com/marlonrichert/zsh-autocomplete
 
-  __add_fpath "${BREW_PREFIX}/share/zsh-completions"
-  __add_fpath "${BREW_PREFIX}/share/zsh/site-functions"
-  __add_fpath "${BREW_PREFIX}/opt/curl/share/zsh/site-functions"
+  # __add_fpath "${BREW_PREFIX}/share/zsh-completions"
+  # __add_fpath "${BREW_PREFIX}/share/zsh/site-functions"
+  # __add_fpath "${BREW_PREFIX}/opt/curl/share/zsh/site-functions"
 
   alias -g NOTIFY="&& notify"
   # alias -g NOTIFY="&& osascript -e 'display notification \"Done!\" with title \"Terminal\"'"

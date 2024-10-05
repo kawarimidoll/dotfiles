@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-if [[ ! -e /opt/homebrew/bin/ffmpeg ]]; then
+if [[ ! -e ~/.nix-profile/bin/ffmpeg ]]; then
   echo 'ffmpeg not found'
   osascript -e 'display notification "ffmpeg not found" with title "mov-to-mp4"'
   exit 1
@@ -17,7 +17,7 @@ DST_PATH=$(echo "$SRC_PATH" | sed -e 's/ /_/g' | sed -e 's/\.[^.]*$/.mp4/')
 echo $SRC_PATH $DST_PATH
 osascript -e 'display notification "Convert start..." with title "mov-to-mp4"'
 
-/opt/homebrew/bin/ffmpeg -i $SRC_PATH $DST_PATH >& ~/mov_to_mp4.log
+~/.nix-profile/bin/ffmpeg -i $SRC_PATH $DST_PATH >& ~/mov_to_mp4.log
 
 if [ $? -eq 0 ]; then
   osascript -e 'display notification "✅ Convert finished!" with title "mov-to-mp4"'
