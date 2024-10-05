@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   nix = {
     gc = {
       automatic = true;
@@ -19,7 +20,12 @@
 
   fonts = {
     packages = with pkgs; [
+      departure-mono
       hackgen-nf-font
+      nerdfonts
+      noto-fonts-color-emoji
+      scientifica
+      udev-gothic-nf
     ];
   };
 
@@ -46,6 +52,10 @@
       # dangerous option!!!
       # cleanup = "uninstall";
     };
+    brews = [
+      "pinentry-mac"
+      # "sleepwatcher" how to create brew services in nix?
+    ];
     casks = [
       # "sublime-text"
     ];
