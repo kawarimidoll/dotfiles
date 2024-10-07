@@ -36,13 +36,22 @@ command! GitStatus 10new
       \ | setlocal readonly nobuflisted
       \ | call mi#window#fit()
 
-command! GitDiff new
-      \ | setlocal buftype=nofile bufhidden=delete noswapfile
-      \ | setfiletype gitcommit
-      \ | execute 'read !git diff #'
-      \ | setlocal readonly nobuflisted
-      \ | normal! gg
-      \ | call mi#window#fit()
+function s:git_diff() abort
+  new
+  setfiletype gitcommit
+  execute 'read !git diff #'
+  setlocal buftype=nofile bufhidden=delete noswapfile
+  normal! gg
+  if line('$') == 1
+    put! ='This file is not changed'
+    call timer_start(1000, {->execute('quit')})
+  endif
+  setlocal readonly nobuflisted
+  call mi#window#fit()
+  nnoremap <buffer><nowait> q <cmd>quit<cr>
+endfunction
+
+command! GitDiff call <sid>git_diff()
 
 if has('nvim')
   call mi#cmdline#proxy_let('L[spInfo]', 'LspInfo')
