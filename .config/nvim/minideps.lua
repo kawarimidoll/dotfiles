@@ -182,8 +182,8 @@ local init_treesitter = function()
   })
 end
 
-later(init_lsp)
-later(init_treesitter)
+now(init_lsp)
+now(init_treesitter)
 
 later(require('mini.bufremove').setup)
 later(require('mini.cursorword').setup)
