@@ -364,6 +364,16 @@ xnoremap <expr> J mi#operator#join()
 
 " like helix
 nnoremap U <c-r>
+nnoremap gh 0
+nnoremap gs ^
+nnoremap gl $
+set clipboard&
+nnoremap <space>y "+y
+nnoremap <space>p "+p
+nnoremap <space>P "+P
+xnoremap <space>y "+y
+xnoremap <space>p "+p
+xnoremap <space>P "+P
 
 " kensaku
 let g:kensaku#args = '--dict ~/.local/share/jsmigemo/no-abbrev-compact-dict'
@@ -471,6 +481,7 @@ nnoremap <sid>(q)k <Cmd>call mi#common#half_move('up', v:count1)<CR>
 nnoremap <sid>(q)l <Cmd>call mi#common#half_move('right', v:count1)<CR>
 nnoremap <sid>(q)o <Cmd>only!<CR>
 nnoremap <sid>(q)t <C-^>
+nnoremap <sid>(q)r <Cmd>call <sid>reg_edit()<cr>
 nnoremap <sid>(q)x <Cmd>call mi#qf#clear()<CR>
 nnoremap <sid>(q)w <Cmd>write<CR>
 " reserve for neovim
@@ -543,17 +554,16 @@ nnoremap <space>h <Cmd>call mi#fzf#mru()<CR>
 nnoremap <Space>m <Cmd>marks<bar>execute $'normal! `{input("jump to: ")}'<CR>
 nnoremap <expr> <Space>o mi#blank#below()
 nnoremap <expr> <Space>O mi#blank#above()
-nnoremap <expr> <Space>p exists('b:fmt_cmd')
+nnoremap <expr> <Space>i exists('b:fmt_cmd')
       \ ? '<cmd>call mi#fmt#run(b:fmt_cmd)<cr>'
       \ : '<cmd>KeepCursor %call mi#common#trim()<cr>mzgg=G`z'
-xnoremap <expr> <Space>p exists('b:fmt_cmd')
+xnoremap <expr> <Space>i exists('b:fmt_cmd')
       \ ? '<cmd>call mi#fmt#run(b:fmt_cmd)<cr>'
       \ : ':call mi#common#trim()<cr>gv=gv'
 nnoremap <Space>q <cmd>confirm quit<CR>
 nnoremap <Space>r <Cmd>registers<bar>execute $'normal "{input("paste reg: ")}p'<CR>
 nnoremap <Space>Q <cmd>quitall!<CR>
-nnoremap <Space>w <cmd>w<CR>
-nnoremap <Space>wq <cmd>confirm wq<CR>
+nnoremap <Space>w <cmd>write<CR>
 nnoremap <Space>; @:
 nnoremap <Space>/ :<C-u>Grep<Space>
 nnoremap <Space>? :<C-u>GrepF <C-r><C-w>
@@ -580,7 +590,7 @@ cnoremap <C-e> <End>
 cnoremap <C-d> <Del>
 cmap <c-h> <bs>
 " cnoremap <C-r><C-r> <cmd>call <sid>sync_unnamed()<cr><C-r><C-r>"
-cnoremap <C-r><C-r> <C-r><C-r>"
+cnoremap <nowait> <C-r><C-r> <C-r><C-r>"
 
 " cnoremap <c-c> <home>Capture <cr>
 cnoremap <expr> <C-k> repeat('<Del>', strchars(getcmdline()[getcmdpos() - 1:]))
@@ -675,7 +685,7 @@ cnoreabbrev <expr> w getcmdtype() .. getcmdline() ==# ":'<,'>w" ? "\<C-u>w" : 'w
 
 imap <c-h> <bs>
 " inoremap <silent> <C-r><C-r> <cmd>call <sid>sync_unnamed()<cr><C-r><C-r>"
-inoremap <silent> <C-r><C-r> <C-r><C-r>"
+inoremap <nowait> <C-r><C-r> <C-r><C-r>"
 inoremap <C-k> <C-o>D
 inoremap <expr> <Tab>   pumvisible() ? '<C-n>' : '<C-t>'
 inoremap <expr> <S-Tab> pumvisible() ? '<C-p>' : '<C-d>'
@@ -869,6 +879,10 @@ xnoremap qg :global/^/normal<Space>
 
 xnoremap <Space>g :copy'<-1<CR>gv
 xnoremap <Space>G :copy'>+0<CR>gv
+
+" https://blog.atusy.net/2024/09/06/linewise-zf/
+nnoremap zf zfV
+xnoremap <expr> zf mode() ==# 'V' ? 'zf' : 'Vzf'
 
 " operator
 onoremap x d

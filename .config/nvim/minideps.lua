@@ -106,7 +106,7 @@ local init_lsp = function()
       buf_set_keymap('mxn', vim.lsp.buf.rename, 'rename')
       buf_set_keymap('mxc', vim.lsp.buf.code_action, 'code_action', true)
       buf_set_keymap('gr', vim.lsp.buf.references, 'references')
-      buf_set_keymap('<space>p', function()
+      buf_set_keymap('<space>i', function()
         vim.lsp.buf.format({ async = true })
       end, 'format', true)
 
