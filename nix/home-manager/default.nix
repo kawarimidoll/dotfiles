@@ -57,6 +57,7 @@ in
       diff-so-fancy
       diffutils
       direnv
+      djlint
       efm-langserver
       emacs
       eza
@@ -93,6 +94,7 @@ in
       lazygit
       libsixel
       lsd
+      ltex-ls
       lua-language-server
       macchina
       moreutils
