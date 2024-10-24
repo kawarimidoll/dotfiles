@@ -1,5 +1,5 @@
 {
-  description = "Minimal package definition for aarch64-darwin";
+  description = "My package definition";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -13,11 +13,22 @@
       inputs.nixpkgs-stable.follows = "nixpkgs";
       inputs.flake-compat.follows = "flake-compat";
     };
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    hercules-ci-effects = {
+      url = "github:hercules-ci/hercules-ci-effects";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-parts.follows = "flake-parts";
+    };
     neovim-nightly-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-compat.follows = "flake-compat";
       inputs.git-hooks.follows = "git-hooks";
+      inputs.hercules-ci-effects.follows = "hercules-ci-effects";
+      inputs.flake-parts.follows = "flake-parts";
     };
     vim-overlay = {
       url = "github:kawarimidoll/vim-overlay";
@@ -27,6 +38,12 @@
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    koi = {
+      url = "github:kawarimidoll/koi";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-compat.follows = "flake-compat";
+      inputs.git-hooks.follows = "git-hooks";
     };
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
