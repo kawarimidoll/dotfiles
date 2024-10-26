@@ -1232,6 +1232,7 @@ augroup vimrc
           \]
     autocmd Filetype typescript,typescriptreact,javascript,javascriptreact let b:symbol_list = ['=>', '===']
     autocmd Filetype gleam let b:symbol_list = ['->', '|>', '<>', '<-', '_ ->']
+    autocmd Filetype rust let b:symbol_list = ['->', '=>', '<>']
 
     autocmd FileType * call mi#cmp#apply_syn_keywords_dict()
   endif
