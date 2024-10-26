@@ -53,8 +53,8 @@ in
         bottom
         bun
         cargo
-        clippy
         clang-tools # clang-format
+        clippy
         coreutils
         croc
         csvq
@@ -66,6 +66,7 @@ in
         djlint
         efm-langserver
         emacs
+        erlang_27
         eza
         ffmpeg_7-full
         findutils
@@ -91,6 +92,7 @@ in
         go
         grex
         gum
+        helix
         highlight
         imagemagick
         jid
@@ -111,6 +113,7 @@ in
         nixfmt-rfc-style
         nodejs_22
         pnpm
+        rebar3
         ripgrep
         rust-analyzer
         rustfmt
@@ -129,8 +132,6 @@ in
         yarn
         zig
         zsh-autopair
-
-        helix
 
         nodePackages.typescript-language-server
 
