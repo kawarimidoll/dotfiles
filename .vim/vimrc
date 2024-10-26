@@ -1150,6 +1150,7 @@ augroup vimrc
   autocmd BufEnter * call s:pin_help_buffer()
   autocmd WinLeave,WinClosed * unlet! w:pin_buf_type
   autocmd BufEnter * call s:syntax_off_on_heavy_file()
+  autocmd BufRead *.lock setlocal readonly
 
   " Highlight extra whitespaces
   " https://zenn.dev/kawarimidoll/articles/450a1c7754bde6
