@@ -461,6 +461,24 @@ nnoremap s/ :%s/\v
 nnoremap s? :%s/\V
 nnoremap S :%s/\V\<<C-r><C-w>\>//g<Left><Left>
 
+" https://zenn.dev/ryoppippi/articles/e2ad1047bc950c
+function s:reg_edit() abort
+  registers
+  let reg = input("select reg: ")
+  if empty(reg)
+    return
+  endif
+  let reg_content = getreg(reg)
+  if empty(reg_content)
+    return
+  end
+  let result = input("edit reg: ", reg_content)
+  if empty(result)
+    return
+  end
+  call setreg(reg, result)
+endfunction
+
 " https://thinca.hatenablog.com/entry/q-as-prefix-key-in-vim
 nnoremap <script><expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
 nnoremap <sid>(q)q qq
