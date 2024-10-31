@@ -20,8 +20,7 @@ wezterm.on('trigger-vim-with-visible-text', function(window, pane)
   window:perform_action(
     act.SpawnCommandInNewTab({
       args = {
-        -- '/opt/homebrew/bin/vim',
-        'vim',
+        '/Users/kawarimidoll/.nix-profile/bin/vim',
         '--noplugin',
         '-M',
         '+',
