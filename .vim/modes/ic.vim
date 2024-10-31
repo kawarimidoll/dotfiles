@@ -163,7 +163,6 @@ imap <c-f> <right>
 imap <c-b> <left>
 imap <c-a> <home>
 imap <c-e> <end>
-inoremap <c-j> <del>
 inoremap <c-x><c-v> <c-x><c-v><c-n>
 
 " https://zenn.dev/kawarimidoll/articles/262785e8ca05b0
