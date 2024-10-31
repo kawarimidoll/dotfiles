@@ -65,7 +65,7 @@ function! mi#pair#quote(char) abort
   if s:next_char() == a:char
     return s:arrow('right')
   endif
-  if s:prev_char() !~ '[[:space:]]'
+  if s:prev_char() =~ '[[:alpha:]]'
     return a:char
   endif
   if mode() == 'c' && getcmdline() =~# '^h\%[elp]'
