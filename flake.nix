@@ -15,7 +15,6 @@
     };
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     hercules-ci-effects = {
       url = "github:hercules-ci/hercules-ci-effects";
@@ -42,7 +41,6 @@
     koi = {
       url = "github:kawarimidoll/koi";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-compat.follows = "flake-compat";
       inputs.git-hooks.follows = "git-hooks";
     };
     nix-darwin = {
