@@ -519,9 +519,9 @@ later(function()
     end)
   end, { range = true })
 
-  vim.cmd.AbbrevCmd('ccc CopilotChatCommit')
-  vim.cmd.AbbrevCmd('cco CopilotChatOptimize')
-  vim.cmd.AbbrevCmd('cce CopilotChatExplain')
+  -- vim.cmd.AbbrevCmd('ccc CopilotChatCommit')
+  -- vim.cmd.AbbrevCmd('cco CopilotChatOptimize')
+  -- vim.cmd.AbbrevCmd('cce CopilotChatExplain')
 
   vim.api.nvim_create_autocmd({ 'BufEnter' }, {
     pattern = 'copilot-chat',
