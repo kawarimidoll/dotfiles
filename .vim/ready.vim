@@ -269,7 +269,7 @@ else
   " https://zenn.dev/kawarimidoll/articles/c14c8bc0d7d73d
   let s:MINIMUM_COMPLETE_LENGTH = 3
   function! s:auto_cmp_start() abort
-    if pumvisible()
+    if pumvisible() || reg_executing()
       return
     endif
     call mi#cmp#findstart({'multibyte': v:true})
