@@ -109,6 +109,8 @@ in
         nano
         neofetch
         neovim # nightly
+        nim
+        nix-search-cli
         nix-zsh-completions
         nixfmt-rfc-style
         nodejs_22
