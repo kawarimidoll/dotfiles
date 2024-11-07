@@ -151,8 +151,9 @@ function! mi#utils#echomsg(...) abort
 endfunction
 
 " use [text, hlgroup] like nvim_echo
-function! mi#utils#echo_with_hl(...) abort
-  for arg in a:000
+" it can't save to message-history!
+function! mi#utils#echo_with_hl(text_hl_list = []) abort
+  for arg in a:text_hl_list
     execute 'echohl' get(arg, 1, 'None')
     echon arg[0]
   endfor
