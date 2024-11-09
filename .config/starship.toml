@@ -3,11 +3,24 @@
 command = "echo Vim"
 when = """ test -n "$VIMRUNTIME" """
 
+[custom.svelte]
+# https://zenn.dev/kawarimidoll/articles/523a6b2446ef09
+command = """
+grep -oP '(?<="version": ").+(?=")' node_modules/svelte/package.json
+"""
+detect_files = ['svelte.config.js']
+format = 'on [$symbol(v$output)]($style)'
+style = 'bold red'
+symbol = " "
+
 [battery]
 disabled = true
 
 [deno]
 symbol = " "
+
+[bun]
+symbol = " "
 
 [status]
 disabled = false
@@ -17,7 +30,7 @@ disabled = false
 symbol = "󰰡 "
 
 [aws]
-symbol = "  "
+symbol = " "
 disabled = true
 
 [buf]
