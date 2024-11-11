@@ -132,7 +132,7 @@ in
         watchexec
         wget
         yarn
-        zig
+        # zig
         zsh-autopair
 
         nodePackages.typescript-language-server

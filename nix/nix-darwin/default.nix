@@ -30,6 +30,7 @@
   };
 
   system = {
+    stateVersion = 5;
     defaults = {
       NSGlobalDomain.AppleShowAllExtensions = true;
       finder = {
