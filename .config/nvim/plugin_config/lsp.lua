@@ -47,6 +47,9 @@ end
 
 nvim_lsp.ts_ls.setup(ts_opts)
 
+-- svelte
+nvim_lsp.svelte.setup(default_opts())
+
 -- deno
 vim.g.markdown_fenced_languages = {
   'ts=typescript',

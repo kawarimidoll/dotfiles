@@ -124,6 +124,7 @@ in
         starship
         sttr
         stylua
+        svelte-language-server
         tokei
         tree
         tz

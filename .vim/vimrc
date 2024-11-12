@@ -874,7 +874,9 @@ augroup vimrc
     if a:force
       return
     endif
-    const invalid_chars = '!&()[]{}<>^*=+:;''",`~?|'
+    const invalid_chars = &filetype == 'svelte'
+          \ ? '!&{}<>^*:;''",`~?|'
+          \ : '!&()[]{}<>^*=+:;''",`~?|'
     for char in split(invalid_chars, '\zs')
       if stridx(a:filename, char) >= 0
         echoerr 'Invalid filename:' a:filename
