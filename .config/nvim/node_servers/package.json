@@ -1,0 +1,13 @@
+{
+  "name": "node_servers",
+  "type": "module",
+  "dependencies": {
+    "@vtsls/language-server": "0.2.6",
+    "sql-language-server": "1.7.1",
+    "svelte-language-server": "0.17.6",
+    "typescript-svelte-plugin": "0.3.43",
+    "unocss-language-server": "0.1.5",
+    "vscode-langservers-extracted": "4.10.0",
+    "yaml-language-server": "1.15.0"
+  }
+}
