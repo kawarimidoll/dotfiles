@@ -1,6 +1,8 @@
 local nvim_lsp = require('lspconfig')
 
 -- vim.keymap.set('n', '<space>p', vim.lsp.buf.format, { silent = true })
+local bun_bin = '/Users/kawarimidoll/dotfiles/.config/nvim/node_servers/node_modules/.bin'
+vim.env.PATH = bun_bin .. ':' .. vim.env.PATH
 
 local default_opts = function()
   local opts = {}
@@ -31,24 +33,24 @@ end
 -- gleam
 nvim_lsp.gleam.setup(default_opts())
 
--- ts_ls
+-- vtsls
 local ts_opts = default_opts()
-ts_opts.settings = {
-  documentFormatting = false,
-  javascript = { suggest = { completeFunctionCalls = true } },
-  typescript = { suggest = { completeFunctionCalls = true } },
-}
-
 ts_opts.on_attach = function(client)
   if not is_node_dir() then
     client.stop(true)
   end
 end
 
-nvim_lsp.ts_ls.setup(ts_opts)
+nvim_lsp.vtsls.setup(ts_opts)
+
+-- eslint
+nvim_lsp.eslint.setup(ts_opts)
 
 -- svelte
-nvim_lsp.svelte.setup(default_opts())
+nvim_lsp.svelte.setup(ts_opts)
+
+-- unocss
+nvim_lsp.unocss.setup(ts_opts)
 
 -- deno
 vim.g.markdown_fenced_languages = {
