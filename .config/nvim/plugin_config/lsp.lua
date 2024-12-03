@@ -47,7 +47,9 @@ nvim_lsp.vtsls.setup(ts_opts)
 nvim_lsp.eslint.setup(ts_opts)
 
 -- svelte
-nvim_lsp.svelte.setup(ts_opts)
+local svelte_opts = vim.deepcopy(ts_opts)
+svelte_opts.settings = { svelte = { plugin = { svelte = { format = { enable = false } } } } }
+nvim_lsp.svelte.setup(svelte_opts)
 
 -- unocss
 nvim_lsp.unocss.setup(ts_opts)
