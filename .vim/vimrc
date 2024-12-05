@@ -494,6 +494,11 @@ call s:neighbor_submode_map('b', '<cmd>bprevious<cr>', '<cmd>bnext<cr>')
 call s:neighbor_submode_map('q', '<cmd>call mi#qf#cycle_p()<cr>', '<cmd>call mi#qf#cycle_n()<cr>')
 call s:neighbor_submode_map('w', '<c-w>w', '<c-w>W')
 
+Keymap xo [p [(
+Keymap xo ]p ])
+Keymap xo [c [{
+Keymap xo ]c ]}
+
 " nnoremap [m [`
 " nnoremap ]m ]`
 " nnoremap [p {
@@ -572,6 +577,8 @@ noremap f<C-j> f<C-k>j
 noremap F<C-j> F<C-k>j
 noremap t<C-j> t<C-k>j
 noremap T<C-j> T<C-k>j
+
+cnoreabbrev qw wq
 
 " {{{ Rename
 " https://vim-jp.org/vim-users-jp/2009/05/27/Hack-17.html
