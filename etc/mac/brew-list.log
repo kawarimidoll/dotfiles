@@ -1,4 +1,4 @@
-timestamp: 2024-10-22 09:56:16 AEDT
+timestamp: 2024-12-05 08:18:20 AEDT
 tap: he3-app/he3
 tap: homebrew/bundle
 tap: homebrew/services
@@ -17,13 +17,13 @@ cask: bitwarden
 cask: brave-browser
 cask: charmstone
 cask: chatgpt
+cask: claude
 cask: clop
 cask: cloudflare-warp
 cask: cursor
 cask: deeper
 cask: deepl
 cask: devtoys
-cask: dotnet-sdk
 cask: dropbox
 cask: editaro
 cask: filen
@@ -53,7 +53,6 @@ cask: piphero
 cask: pronotes
 cask: qlzipinfo
 cask: qview
-cask: rectangle
 cask: shottr
 cask: slack
 cask: suspicious-package
@@ -61,6 +60,8 @@ cask: tiny-player
 cask: trex
 cask: warp
 cask: wezterm
+mas: 1218085720  MotionPro Plus    (2.0.2)
+mas: 1295203466  Windows App       (11.0.5)
 mas: 1351639930  Gifski            (2.23.1)
 mas: 1429033973  RunCat            (11.4)
 mas: 1448648921  Seashore          (3.37)
@@ -68,15 +69,15 @@ mas: 1502839586  Hand Mirror       (3.2)
 mas: 1522267256  Shareful          (1.10.3)
 mas: 1545870783  Color Picker      (2.0.3)
 mas: 1551756247  Smart Click       (1.6)
-mas: 1575588022  MenubarX          (1.7.1)
-mas: 1611378436  Pure Paste        (1.11.2)
-mas: 1615988943  Folder Peek       (1.11.3)
+mas: 1575588022  MenubarX          (1.7.3)
+mas: 1611378436  Pure Paste        (1.11.3)
+mas: 1615988943  Folder Peek       (1.11.5)
 mas: 1636862100  Commander         (1.13)
-mas: 302584613   Kindle            (7.20)
-mas: 539883307   LINE              (9.3.0)
-mas: 562211012   Yomu              (3.9.0)
+mas: 302584613   Kindle            (7.22)
+mas: 539883307   LINE              (9.4.1)
+mas: 562211012   Yomu              (3.9.1)
 mas: 6444685140  CenterMouse       (1.1.1)
 mas: 6447055708  MagicNotch        (1.1.4)
-mas: 6448461551  Command X         (1.4.5)
+mas: 6448461551  Command X         (1.4.7)
 mas: 6448700837  デスクトップ ファイル ボックス  (1.1.5)
 mas: 6462894357  Battery Line      (1.1.0)
