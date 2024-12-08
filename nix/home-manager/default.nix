@@ -31,7 +31,7 @@ in
     homeDirectory = "/Users/${username}";
 
     # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-    stateVersion = "24.05";
+    stateVersion = "24.11";
 
     packages =
       let
@@ -114,6 +114,7 @@ in
         nix-zsh-completions
         nixfmt-rfc-style
         nodejs_22
+        nyancat
         pnpm
         rebar3
         ripgrep
@@ -124,19 +125,18 @@ in
         starship
         sttr
         stylua
-        svelte-language-server
         tokei
         tree
+        typos-lsp
         tz
         unzip
         vim # latest
+        vim-startuptime
         watchexec
         wget
         yarn
         # zig
         zsh-autopair
-
-        nodePackages.typescript-language-server
 
         # rmw
         # vim-language-server
