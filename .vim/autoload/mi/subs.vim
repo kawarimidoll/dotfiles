@@ -126,6 +126,7 @@ endfunction
 call mi#subs#flags_let('j', funcref('mi#subs#cased'))
 
 command! -range -nargs=+ Substitute call mi#subs#titute(<line1>, <line2>, <q-args>)
+command! -range -nargs=+ S call mi#subs#titute(<line1>, <line2>, <q-args>)
 
 " one_hart ONE_HART OneHart oneHart one-hart one.hart
 " TWO_TIME TwoTime twoTime two-time two_time
