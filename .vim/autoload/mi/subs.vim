@@ -56,12 +56,11 @@ function! mi#subs#line(line, from, to, flags) abort
   " ensure 'e' flag to avoid to display unmatch error
   const [builtin_flags, user_flags] = mi#subs#parse_flags(a:flags .. 'e')
 
-
   let line = a:line
   for user_flag in split(user_flags, '\zs')
     if has_key(s:subs_user_flags, user_flag)
       " let line = s:subs_user_flags[user_flag](line, a:from, a:to, builtin_flags)
-      let [from, to] = mi#subs#flags_list(user_flag)(line, a:from, a:to, builtin_flags)
+      let [from, to] = mi#subs#flags_list()[user_flag](line, a:from, a:to, builtin_flags)
       let line = substitute(line, from, to, builtin_flags)
     else
       " just skip undefined flags
