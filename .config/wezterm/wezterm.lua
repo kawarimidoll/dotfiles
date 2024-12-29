@@ -1,3 +1,4 @@
+-- https://zenn.dev/mozumasu/articles/mozumasu-wezterm-customization
 local wezterm = require('wezterm')
 local act = wezterm.action
 local io = require('io')
@@ -34,9 +35,44 @@ wezterm.on('trigger-vim-with-visible-text', function(window, pane)
   os.remove(name)
 end)
 
+wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_width)
+  local background = '#5c6d74'
+  local foreground = '#FFFFFF'
+  local edge_background = 'none'
+  if tab.is_active then
+    background = '#8fecd9'
+    foreground = '#5c6d74'
+  end
+  local edge_foreground = background
+  local result = {
+    { Background = { Color = edge_background } },
+    { Foreground = { Color = edge_foreground } },
+    { Text = wezterm.nerdfonts.ple_lower_right_triangle },
+    { Background = { Color = background } },
+    { Foreground = { Color = foreground } },
+    { Text = ' ' },
+    { Text = wezterm.truncate_right(tab.active_pane.title, max_width - 1) },
+    { Text = ' ' },
+    { Background = { Color = edge_background } },
+    { Foreground = { Color = edge_foreground } },
+    { Text = wezterm.nerdfonts.ple_upper_left_triangle },
+  }
+
+  if tab.is_active then
+   table.insert(result, 2, { Text = wezterm.nerdfonts.ple_upper_left_triangle })
+   table.insert(result, 2, { Text = wezterm.nerdfonts.ple_lower_right_triangle })
+   table.insert(result, 2, { Foreground = { Color = '#e68be7' } })
+  end
+
+  return result
+end)
+
 return {
   check_for_updates = false,
   front_end = 'WebGpu',
+
+  window_background_opacity = 0.85,
+  macos_window_background_blur = 20,
 
   font = wezterm.font_with_fallback({
     'UDEV Gothic 35NF',
@@ -44,12 +80,26 @@ return {
   }),
   font_size = 18.0,
   color_scheme = 'Catppuccin Mocha',
+
+  window_decorations = 'INTEGRATED_BUTTONS|RESIZE',
   hide_tab_bar_if_only_one_tab = true,
+  show_new_tab_button_in_tab_bar = false,
+  show_close_tab_button_in_tabs = false,
 
   window_frame = {
+    inactive_titlebar_bg = 'none',
+    active_titlebar_bg = 'none',
     font = wezterm.font('UDEV Gothic 35NF'),
     -- The size of the font in the tab bar.
     font_size = 16.0,
+  },
+  window_background_gradient = {
+    colors = { '#000000' },
+  },
+  colors = {
+    tab_bar = {
+      inactive_tab_edge = 'none',
+    },
   },
 
   -- https://zenn.dev/yuys13/articles/wezterm-settings-trivia
