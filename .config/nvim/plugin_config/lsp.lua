@@ -41,13 +41,17 @@ ts_opts.on_attach = function(client)
   end
 end
 
-nvim_lsp.vtsls.setup(ts_opts)
+local vt_opts = vim.deepcopy(ts_opts)
+-- https://github.com/yioneko/vtsls/blob/main/packages/service/configuration.schema.json
+vt_opts.settings = { typescript = { validate = { enable = false } } }
+nvim_lsp.vtsls.setup(vt_opts)
 
 -- eslint
 nvim_lsp.eslint.setup(ts_opts)
 
 -- svelte
 local svelte_opts = vim.deepcopy(ts_opts)
+-- https://github.com/sveltejs/language-tools/tree/master/packages/language-server
 svelte_opts.settings = { svelte = { plugin = { svelte = { format = { enable = false } } } } }
 nvim_lsp.svelte.setup(svelte_opts)
 
