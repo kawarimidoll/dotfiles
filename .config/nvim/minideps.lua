@@ -485,7 +485,6 @@ later(function()
 
   add({
     source = 'CopilotC-Nvim/CopilotChat.nvim',
-    checkout = 'canary',
     depends = { 'nvim-lua/plenary.nvim' },
   })
   local copilotChat = require('CopilotChat')
@@ -496,7 +495,6 @@ later(function()
       Fix = { mapping = '<Plug>(copilotchat-fix)' },
       Optimize = { mapping = '<Plug>(copilotchat-optimize)' },
       Docs = { mapping = '<Plug>(copilotchat-docs)' },
-      FixDiagnostic = { mapping = '<Plug>(copilotchat-fix-diagnostic)' },
       Commit = { mapping = '<Plug>(copilotchat-commit)' },
       CommitStaged = { mapping = '<Plug>(copilotchat-commit-staged)' },
     },
