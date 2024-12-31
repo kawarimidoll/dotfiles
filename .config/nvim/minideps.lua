@@ -48,10 +48,30 @@ end)
 now(function()
   require('mini.statusline').setup({ set_vim_settings = false })
   vim.opt.laststatus = 3
+  vim.opt.cmdheight = 0
 end)
 
 now(function()
-  require('mini.tabline').setup()
+  require('mini.tabline').setup({ set_vim_settings = false })
+  vim.api.nvim_create_autocmd({ 'BufEnter' }, {
+    pattern = '*',
+    callback = function()
+      -- `later` function is needed to ensure count is correct
+      later(function()
+        -- count loaded buffers
+        -- if there are multiple buffers, show tabline
+        -- otherwise, hide tabline
+        local bufs_output = vim.api.nvim_exec2('buffers', { output = true })
+        local loaded = vim.tbl_count(vim.split(bufs_output.output, '\n'))
+
+        if loaded >= 2 then
+          vim.opt.showtabline = 2
+        else
+          vim.opt.showtabline = 0
+        end
+      end)
+    end,
+  })
 end)
 
 local init_lsp = function()
