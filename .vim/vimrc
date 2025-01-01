@@ -604,11 +604,22 @@ function! s:apply_user_highlight() abort
   " highlight PmenuThumb ctermbg=255 guibg=#f8f8f2
   highlight Underlined ctermfg=NONE cterm=underline guifg=NONE gui=underline
   highlight ExtraWhitespace ctermbg=darkmagenta guibg=darkmagenta
-  if !has('nvim')
+  if has('nvim')
+    highlight! link WinSeparator Comment
+  else
     highlight! link StatusLine Comment
     highlight! link StatusLineNC Comment
     highlight! link VertSplit Comment
   endif
+
+  " make background transparent
+  highlight Normal ctermfg=NONE guibg=NONE
+  highlight NormalNC ctermfg=NONE guibg=NONE
+  highlight NonText ctermfg=NONE guibg=NONE
+  highlight LineNr ctermfg=NONE guibg=NONE
+  highlight Folded ctermfg=NONE guibg=NONE
+  highlight EndOfBuffer ctermfg=NONE guibg=NONE
+  highlight TabLineFill ctermfg=NONE guibg=NONE
 endfunction
 
 " https://zenn.dev/hokorobi/articles/98f79339d7d114
