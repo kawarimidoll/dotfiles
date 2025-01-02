@@ -1,2 +1,2 @@
-core_gnubin
-find_gnubin
+wallpapers/*
+!wallpapers/README.md

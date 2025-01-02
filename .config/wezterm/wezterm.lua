@@ -71,8 +71,8 @@ return {
   check_for_updates = false,
   front_end = 'WebGpu',
 
-  window_background_opacity = 0.85,
-  macos_window_background_blur = 20,
+  -- window_background_opacity = 0.85,
+  -- macos_window_background_blur = 20,
 
   font = wezterm.font_with_fallback({
     'UDEV Gothic 35NF',
@@ -96,6 +96,16 @@ return {
   window_background_gradient = {
     colors = { '#000000' },
   },
+  background = {
+    {
+      source = {
+        -- must be absolute path
+        File = '/Users/kawarimidoll/dotfiles/wallpapers/pixel_night.png',
+      },
+      opacity = 0.05,
+    },
+  },
+
   colors = {
     tab_bar = {
       inactive_tab_edge = 'none',
