@@ -81,7 +81,7 @@ in
         git-interactive-rebase-tool
         git-quick-stats
         git-recent
-        git-trim
+        # git-trim # build failed
         git-workspace
         gleam
         gnugrep
