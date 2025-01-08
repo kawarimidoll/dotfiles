@@ -82,7 +82,7 @@ return {
   color_scheme = 'Catppuccin Mocha',
 
   window_decorations = 'INTEGRATED_BUTTONS|RESIZE',
-  hide_tab_bar_if_only_one_tab = true,
+  -- hide_tab_bar_if_only_one_tab = true,
   show_new_tab_button_in_tab_bar = false,
   show_close_tab_button_in_tabs = false,
 
