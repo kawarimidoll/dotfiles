@@ -1,0 +1,14 @@
+font-size = 20
+theme = niji
+font-family = "UDEV Gothic 35NF"
+
+font-feature = -calt
+font-feature = -liga
+font-feature = -dlig
+
+cursor-style = block
+cursor-style-blink = false
+shell-integration-features = no-cursor
+
+keybind = global:f12=toggle_quick_terminal
+keybind = ctrl+shift+q=write_scrollback_file:open
