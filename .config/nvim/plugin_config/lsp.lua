@@ -25,6 +25,23 @@ local default_opts = function()
   return opts
 end
 
+-- https://eiji.page/blog/neovim-diagnostic-config/
+vim.diagnostic.config({
+  virtual_text = {
+    format = function(diagnostic)
+      return string.format("%s (%s: %s)", diagnostic.message, diagnostic.source, diagnostic.code)
+    end,
+  },
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = "",
+      [vim.diagnostic.severity.WARN] = "",
+      [vim.diagnostic.severity.INFO] = "",
+      [vim.diagnostic.severity.HINT] = "",
+    },
+  },
+})
+
 -- https://www.reddit.com/r/neovim/comments/10n795v/disable_tsserver_in_deno_projects/
 local is_node_dir = function()
   return nvim_lsp.util.root_pattern('package.json')(vim.fn.getcwd())
