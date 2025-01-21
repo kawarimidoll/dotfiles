@@ -499,6 +499,13 @@ Keymap xo ]p ])
 Keymap xo [c [{
 Keymap xo ]c ]}
 
+" respect emacs
+nmap zz zz<sid>(z1)
+nnoremap <script> <sid>(z1)z zt<sid>(z2)
+nnoremap <script> <sid>(z2)z zb<sid>(z0)
+nnoremap <script> <sid>(z0)z zz<sid>(z1)
+nnoremap <expr> D getline(line('.')) == '' ? 'dd' : 'D'
+
 " nnoremap [m [`
 " nnoremap ]m ]`
 " nnoremap [p {
