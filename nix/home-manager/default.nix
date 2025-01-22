@@ -107,6 +107,7 @@ in
         macchina
         moreutils
         nano
+        nb
         neofetch
         neovim # nightly
         nim
@@ -125,6 +126,7 @@ in
         starship
         sttr
         stylua
+        superhtml
         tokei
         tree
         typos-lsp
