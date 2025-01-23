@@ -318,6 +318,10 @@ nnoremap <expr> J mi#operator#join()
 nnoremap <expr> JJ mi#operator#join() .. 'j'
 xnoremap <expr> J mi#operator#join()
 
+" gn/gN keep normal mode
+nnoremap gn gn<esc>
+nnoremap gN gN<esc>
+
 " like helix
 nnoremap U <c-r>
 nnoremap gh 0
