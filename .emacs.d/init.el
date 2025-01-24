@@ -23,3 +23,36 @@
 
 ;; c-tをウィンドウ移動に
 (global-set-key (kbd "C-t") 'other-window)
+
+;; modeline
+;; カラム番号
+(column-number-mode t)
+;; ファイルサイズ
+(size-indication-mode t)
+;; バッテリー
+(display-battery-mode t)
+;; 選択行数と文字数 default-mode-line-formatが無いっぽい？有効にならない
+;; (defun count-lines-and-chars ()
+;;   (if mark-active
+;;       (format "(%dlines,%dchars) "
+;; 	      (count-lines (region-beginning) (region-end))
+;; 	      (- (region-end) (region-beginning)))
+;;   ""))
+;; (add-to-list 'default-mode-line-format
+;; 	     '(:eval (count-lines-and-chars)))
+
+;; titlebar
+;; ツールメニュー非表示
+(tool-bar-mode nil)
+;; フルパス表示
+(setq frame-title-format "%f")
+
+;; 行番号非表示 存在しない？
+;;(global-linum-mode 0)
+
+;; tab
+(setq-default tab-width 4)
+(setq-default indent-tabs-mode nil)
+;; (add-hook '___-mode-hook
+;; 	  (lambda ()
+;; 	    (setq indent-tabs-mode nil)))
