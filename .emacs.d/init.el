@@ -43,7 +43,7 @@
 
 ;; titlebar
 ;; ツールメニュー非表示
-(tool-bar-mode nil)
+(tool-bar-mode 0)
 ;; フルパス表示
 (setq frame-title-format "%f")
 
@@ -56,3 +56,42 @@
 ;; (add-hook '___-mode-hook
 ;; 	  (lambda ()
 ;; 	    (setq indent-tabs-mode nil)))
+
+;;font
+(set-face-attribute 'default nil
+		    :family "Menlo"
+		    :height 120)
+(set-frame-font "UDEV Gothic 35NF-16" nil t)
+
+;; paren-mode
+(setq shoe-paren-delay 0) ; default 0.125
+(show-paren-mode t)
+;; (setq show-paren-style 'expression)
+;; (set-face-background 'show-paren-match-face nil)
+;; (set-face-underline-p 'show-paren-match-face "darkgreen")
+
+;; backup
+(add-to-list 'backup-directory-alist
+             (cons "." "~/.emacs.d/backups/"))
+(setq auto-save-file-name-transforms
+      `((".*" ,(expand-file-name "~/.emacs.d/backups/") t)))
+
+;; auto reload
+(global-auto-revert-mode t)
+
+;;; hooks
+;; auto executable
+(add-hook 'after-save-hook
+          'executable-make-buffer-file-executable-if-script-p)
+;; show eldoc
+(defun elisp-mode-hooks ()
+  "lisp-mode-hooks"
+  (when (require 'eldoc nil t)
+    (setq eldoc-idle-delay 0.2)
+    (setq eldoc-echo-area-use-multiline-p t)
+    (turn-on-eldoc-mode)))
+(add-hook 'emacs-lisp-mode-hook 'elisp-mode-hooks)
+
+;; cua-mode
+(cua-mode t) ; enable common-user-access
+(setq cua-enable-cua-keys nil) ; disable cua key binding
