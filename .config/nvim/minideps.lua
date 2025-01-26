@@ -571,6 +571,29 @@ later(function()
   vim.keymap.set({ 'i', 'n' }, '<C-t>', '<Plug>(dmacro-play-macro)')
 end)
 
+later(function()
+  -- https://eiji.page/blog/nvim-quicker-nvim-intro/
+  add({ source = 'https://github.com/stevearc/quicker.nvim' })
+  require('quicker').setup({
+    keys = {
+      {
+        '>',
+        function()
+          require('quicker').expand({ before = 2, after = 2, add_to_existing = true })
+        end,
+        desc = 'Expand quickfix context',
+      },
+      {
+        '<',
+        function()
+          require('quicker').collapse()
+        end,
+        desc = 'Collapse quickfix context',
+      },
+    },
+  })
+end)
+
 -- ref: https://zenn.dev/vim_jp/articles/20240304_ekiden_disable_plugin
 
 --vim.cmd [[

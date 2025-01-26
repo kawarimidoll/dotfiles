@@ -21,8 +21,6 @@ nnoremap gy <cmd>let @* = @"<cr>
 " autocmd VimLeave,FocusLost * let @* = @"
 autocmd FocusGained * let @" = @*
 
-autocmd BufReadPost quickfix call mi#qed#start()
-
 call mi#cmdline#proxy_let('trim', 'Trim')
 call mi#cmdline#proxy_let('cfilter', 'Cfilter')
 " call mi#cmdline#proxy_let('s[ubstitute]', 'Substitute')
@@ -62,6 +60,8 @@ if has('nvim')
   " in nvim, remove cwindow since fzf-lua is used instead
   command! -bang SearchToQf execute (<bang>0 ? 'vimgrepadd' : 'vimgrep') '//gj %'
 else
+  autocmd BufReadPost quickfix call mi#qed#start()
+
   command! -nargs=* -range=% -complete=custom,mi#common#__compl_trim Trim <line1>,<line2>call mi#common#trim([<f-args>])
   command! -range=% DeleteBlankLines <line1>,<line2>call mi#common#delete_blank_lines()
 
