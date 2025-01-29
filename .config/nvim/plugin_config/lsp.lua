@@ -32,6 +32,7 @@ vim.diagnostic.config({
       return string.format("%s (%s: %s)", diagnostic.message, diagnostic.source, diagnostic.code)
     end,
   },
+  -- virtual_lines = true,
   signs = {
     text = {
       [vim.diagnostic.severity.ERROR] = "",

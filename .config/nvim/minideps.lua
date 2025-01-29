@@ -92,7 +92,7 @@ local init_lsp = function()
   -- vim.keymap.set('n', 'mxl', vim.diagnostic.setloclist, { desc = 'diagnostic.setloclist' })
   vim.keymap.set('n', 'mxq', vim.diagnostic.setqflist, { desc = 'diagnostic.setqflist' })
 
-  -- :h LspAttach
+  -- :h lsp-attach
   vim.api.nvim_create_autocmd({ 'LspAttach' }, {
     callback = function(args)
       local c = vim.lsp.get_client_by_id(args.data.client_id)
@@ -421,11 +421,6 @@ later(function()
   vim.keymap.set({ 'n', 'x' }, 's;', require('pounce').pounce, { desc = 'pounce' })
   vim.cmd.luafile('~/dotfiles/.config/nvim/plugin_config/pounce.lua')
 end)
-
--- later(function()
---   add('lewis6991/gitsigns.nvim')
---   vim.cmd.luafile('~/dotfiles/.config/nvim/plugin_config/gitsigns.lua')
--- end)
 
 -- later(function()
 --   add('vim-jp/vimdoc-ja')
