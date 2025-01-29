@@ -168,6 +168,7 @@ endif
 
 if has('nvim')
   set scrollback=2000
+  cnoreabbrev lup lua<space>=
 else
   " :h vim-differences
   " :h nvim-defaults
