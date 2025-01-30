@@ -95,3 +95,86 @@
 ;; cua-mode
 (cua-mode t) ; enable common-user-access
 (setq cua-enable-cua-keys nil) ; disable cua key binding
+
+;;; package
+(require 'package)
+;; (add-to-list
+;;  'package-archives
+;;  '("marmalade" . "https://marmalade-repo.org/packages/"))
+(add-to-list
+ 'package-archives
+ '("melpa" . "https://melpa.org/packages/"))
+
+(package-initialize)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(git-gutter magit ac-emoji ac-mozc helm-projectile less-css-mode markdown-mode projectile projectile-ripgrep quickrun sass-mode timesheet web-mode yaml-imenu yaml-mode auto-complete elscreen helm-c-moccur howm point-stack wgrep helm multi-term htmlize)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
+(load-theme 'modus-operandi t)
+
+;; helm
+(require 'helm)
+(global-set-key (kbd "M-y") 'helm-show-kill-ring)
+(when (require 'helm-c-moccur nil t)
+  (setq
+   helm-c-moccur-highlight-info-line-flag t
+   helm-c-moccur-enable-auto-look-flag t
+   helm-c-moccur-enable-initial-pattern t)
+  (global-set-key (kbd "C-M-o") 'helm-c-moccur-occur-by-moccur))
+
+;; color-moccur
+(when (require 'color-moccur nil t)
+  (global-set-key (kbd "M-o") 'occur-by-moccur)
+  (setq moccur-split-word t)
+  (add-to-list 'dmoccur-exclusion-mask "\\.DS_Store")
+  (add-to-list 'dmoccur-exclusion-mask "^#.+#$"))
+
+;; wgrep
+(require 'wgrep nil t)
+
+;; auto-complete-mode
+(when (require 'auto-complete-config nil t)
+  (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
+  (ac-config-default)
+  (setq ac-use-menu-map t)
+  (setq ac-ignore-case nil))
+
+;; howm
+(setq howm-directory (concat user-emacs-directory "howm"))
+(setq howm-menu-lang 'ja)
+;; (setq howm-file-name-format "%Y/%m/%Y-%m-%d.howm")
+(when (require 'howm-mode nil t)
+  (global-set-key (kbd "C-c , ,") 'howm-menu))
+(defun howm-save-buffer-and-kill ()
+  "save and kill howm memo at the same time"
+  (interactive)
+  (when (and (buffer-file-name) (howm-buffer-p))
+    (save-buffer)
+    (kill-buffer nil)))
+(define-key howm-mode-map (kbd "C-c C-c") 'howm-save-buffer-and-kill)
+
+;; git-gutter
+(when (require 'git-gutter nil t)
+  (global-git-gutter-mode))
+(global-set-key (kbd "C-x p") 'git-gutter:previous-hunk)
+(global-set-key (kbd "C-x n") 'git-gutter:next-hunk)
+
+;; multi-term
+(when (require 'multi-term nil t)
+  (setq multi-term-program "/Users/kawarimidoll/.nix-profile/bin/zsh"))
+
+;; woman
+(setq woman-cache-filename "~/.emacs.d/womancach.el")
+(setq woman-manpath '("/usr/share/man"
+                      "/usr/local/share/man"
+                      "/usr/local/share/man/ja"))
