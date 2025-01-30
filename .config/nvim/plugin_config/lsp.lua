@@ -95,19 +95,30 @@ nvim_lsp.denols.setup(deno_opts)
 
 -- lua_ls
 local lua_opts = default_opts()
--- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#lua_ls
-lua_opts.settings = {
-  Lua = {
-    runtime = {
-      version = 'LuaJIT',
-      path = { 'lua/?.lua', 'lua/?/init.lua' },
-    },
-    completion = { callSnippet = 'Both' },
-    diagnostics = { globals = { 'vim' } },
-    workspace = { library = vim.api.nvim_get_runtime_file('', true) },
-    telemetry = { enable = false },
-  },
-}
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#lua_ls
+-- https://zenn.dev/uga_rosa/articles/afe384341fc2e1
+lua_opts.on_init = function(client)
+  if client.workspace_folders then
+    local path = client.workspace_folders[1].name
+    ---@diagnostic disable-next-line: undefined-field
+    if vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc') then
+      return
+    end
+  end
+
+  client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+    runtime = { version = 'LuaJIT' },
+    workspace = {
+      checkThirdParty = 'Disable',
+      library = vim.list_extend(vim.api.nvim_get_runtime_file('lua', true), {
+        '${3rd}/luv/library',
+        '${3rd}/busted/library',
+        '${3rd}/luassert/library',
+      }),
+    }
+  })
+end
+lua_opts.settings = { Lua = {} }
 nvim_lsp.lua_ls.setup(lua_opts)
 
 -- rust-analyzer
