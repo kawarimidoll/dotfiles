@@ -1,13 +1,5 @@
 vim.cmd.source(vim.fn.expand('~/dotfiles/.vim/vimrc'))
 
--- https://zenn.dev/kawarimidoll/articles/18ee967072def7
-vim.treesitter.start = (function(wrapped)
-  return function(bufnr, lang)
-    lang = lang or vim.fn.getbufvar(bufnr or '', '&filetype')
-    pcall(wrapped, bufnr, lang)
-  end
-end)(vim.treesitter.start)
-
 -- Clone 'mini.nvim' manually in a way that it gets managed by 'mini.deps'
 local path_package = vim.fn.stdpath('data') .. '/site/'
 
@@ -182,6 +174,14 @@ local init_treesitter = function()
     'yaml',
     'zig',
   }
+
+  -- https://zenn.dev/kawarimidoll/articles/18ee967072def7
+  vim.treesitter.start = (function(wrapped)
+    return function(bufnr, lang)
+      lang = lang or vim.fn.getbufvar(bufnr or '', '&filetype')
+      pcall(wrapped, bufnr, lang)
+    end
+  end)(vim.treesitter.start)
 
   add({
     source = 'nvim-treesitter/nvim-treesitter',
@@ -456,11 +456,11 @@ later(function()
 end)
 
 later(function()
-  add({ source = 'segeljakt/vim-silicon' })
+  add({ source = 'tyru/capture.vim' })
 end)
 
 later(function()
-  add({ source = 'tyru/capture.vim' })
+  add({ source = 'segeljakt/vim-silicon' })
   vim.api.nvim_create_autocmd({ 'CmdlineEnter' }, {
     pattern = '*',
     callback = function()
