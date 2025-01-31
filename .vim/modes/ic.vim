@@ -1,4 +1,11 @@
 " opts
+set complete=.,w,k,b,u
+set completeopt=menuone,noselect,fuzzy
+set infercase
+set ignorecase
+set smartcase
+set wildmode=longest,full
+
 if has('nvim')
   set inccommand=split
 else
@@ -6,20 +13,13 @@ else
   set completeopt+=popuphidden
   set hlsearch
   set incsearch
+  set ttimeout
+  set ttimeoutlen=50
   set wildmenu
   set wildoptions=pum,tagfile
   inoremap <C-u> <C-g>u<C-u>
   inoremap <C-w> <C-g>u<C-w>
 endif
-
-set complete=.,w,k,b,u
-set completeopt=menuone,noselect,fuzzy
-set infercase
-set ignorecase
-set smartcase
-set ttimeout
-set ttimeoutlen=50
-set wildmode=longest,full
 
 " perl -e 'print sort { length($a) <=> length($b) } <>' /usr/share/dict/words > ~/.cache/vim/sorted_words
 set dictionary+=~/.cache/vim/sorted_words
