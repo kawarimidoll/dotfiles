@@ -589,20 +589,14 @@ later(function()
   })
 end)
 
--- ref: https://zenn.dev/vim_jp/articles/20240304_ekiden_disable_plugin
-
---vim.cmd [[
---let s:save_rtp = &runtimepath
---set rtp-=$VIMRUNTIME
---autocmd SourcePre */plugin/* ++once let &runtimepath = s:save_rtp
---]]
---local save_rtp = vim.o.runtimepath
------@diagnostic disable-next-line: undefined-field
---vim.opt.runtimepath:remove(vim.env.VIMRUNTIME)
---vim.api.nvim_create_autocmd({ 'SourcePre' }, {
---  pattern = '*/plugin/*',
---  callback = function()
---    vim.opt.runtimepath = save_rtp
---  end,
---  once = true,
---})
+-- https://zenn.dev/vim_jp/articles/20240304_ekiden_disable_plugin
+local default_rtp = vim.opt.runtimepath:get()
+vim.opt.runtimepath:remove(vim.env.VIMRUNTIME)
+vim.cmd.source(vim.env.VIMRUNTIME .. '/filetype.lua')
+vim.api.nvim_create_autocmd("SourcePre", {
+  pattern = "*/plugin/*",
+  once = true,
+  callback = function()
+    vim.opt.runtimepath = default_rtp
+  end
+})
