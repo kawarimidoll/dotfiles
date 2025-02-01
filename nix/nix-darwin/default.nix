@@ -20,11 +20,12 @@
 
   fonts = {
     packages = with pkgs; [
-      departure-mono
       hackgen-nf-font
-      nerdfonts
+      nerd-fonts.departure-mono
+      nerd-fonts.symbols-only
       noto-fonts-color-emoji
       scientifica
+      twitter-color-emoji
       udev-gothic-nf
     ];
   };

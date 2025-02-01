@@ -52,9 +52,7 @@ in
         binutils
         bottom
         bun
-        cargo
         clang-tools # clang-format
-        clippy
         coreutils
         croc
         csvq
@@ -117,10 +115,10 @@ in
         nodejs_22
         nyancat
         pnpm
+        rainfrog
         rebar3
         ripgrep
-        rust-analyzer
-        rustfmt
+        rustup
         silicon
         slides
         starship
@@ -137,6 +135,7 @@ in
         watchexec
         wget
         yarn
+        yazi
         # zig
         zsh-autopair
 
