@@ -122,7 +122,7 @@ return {
 
     -- https://zenn.dev/yuys13/articles/wezterm-settings-trivia
     -- https://github.com/wez/wezterm/issues/2630#issuecomment-1323626076
-    { mods = 'CTRL', key = 'q', action = wezterm.action({ SendString = '\x11' }) },
+    { key = 'q', mods = 'CTRL', action = wezterm.action({ SendString = '\x11' }) },
   },
 
   key_tables = {

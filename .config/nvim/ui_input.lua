@@ -7,8 +7,8 @@ local function ui_input(opts, on_confirm)
   local default = opts.default or ""
 
   -- Calculate a minimal width with a bit margin
-  local default_width = vim.str_utfindex(default)
-  local prompt_width = vim.str_utfindex(prompt)
+  local default_width = vim.str_utfindex(default, 'utf-8')
+  local prompt_width = vim.str_utfindex(prompt, 'utf-8')
   local input_width = math.max(default_width, prompt_width) + 20
 
   local win_config = {

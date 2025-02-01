@@ -85,6 +85,7 @@ else
   " autocmd BufEnter,ColorScheme * highlight! link StatusLine GamingBg | highlight! link StatusLineNC GamingFg
   " autocmd ModeChanged *:t highlight! link StatusLine NONE | highlight! link StatusLineNC NONE
   " call mi#gaming#start()
+
   set runtimepath+=~/ghq/github.com/kawarimidoll/kawarimiline.vim
   let kawarimiline_width = 30
   if exists('*kawarimiline#start')

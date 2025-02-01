@@ -81,7 +81,7 @@ function! s:markdown_outline() abort
   copen
 endfunction
 
-nnoremap <buffer> gO <Cmd>call <sid>markdown_outline()<CR>
+nnoremap <buffer> gO <Cmd>silent call <sid>markdown_outline()<CR>
 
 function! s:markdown_open_wikilink() abort
   " cursor is in wikilink like [[filename]], [[filename | display]]
