@@ -843,15 +843,15 @@ augroup vimrc
     autocmd Filetype rust let b:symbol_list = ['->', '=>', '<>']
 
     autocmd FileType * call mi#cmp#apply_syn_keywords_dict()
-  endif
 
-  " {{{ restore-cursor
-  " :h restore-cursor
-  autocmd BufReadPost *
-        \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
-        \ |   execute 'normal! g`"zz'
-        \ | endif
-  " }}}
+    " {{{ restore-cursor
+    " :h restore-cursor
+    autocmd BufReadPost *
+          \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+          \ |   execute 'normal! g`"zz'
+          \ | endif
+    " }}}
+  endif
 
   " {{{ ensure_dir
   " https://vim-jp.org/vim-users-jp/2011/02/20/Hack-202.html
