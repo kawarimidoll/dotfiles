@@ -1,4 +1,4 @@
-timestamp: 2025-01-07 08:15:39 AEDT
+timestamp: 2025-02-02 08:02:47 JST
 tap: he3-app/he3
 tap: homebrew/bundle
 tap: homebrew/services
@@ -26,6 +26,7 @@ cask: deepl
 cask: devtoys
 cask: dropbox
 cask: editaro
+cask: emacs
 cask: filen
 cask: flux
 cask: folder-colorizer
@@ -46,14 +47,17 @@ cask: karabiner-elements
 cask: keycastr
 cask: kitty
 cask: kobo
+cask: ledger-live
 cask: maccy
 cask: menuwhere
 cask: numi
 cask: obsidian
+cask: orbstack
 cask: piphero
 cask: pronotes
 cask: qlzipinfo
 cask: qview
+cask: rustrover
 cask: shottr
 cask: slack
 cask: suspicious-package
