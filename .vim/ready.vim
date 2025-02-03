@@ -138,8 +138,8 @@ else
   " call s:update_info()
 
   set runtimepath+=~/ghq/github.com/kawarimidoll/tuskk.vim
-  let base_table = tuskk#opts#builtin_kana_table()
   if exists('*tuskk#opts#builtin_kana_table')
+    let base_table = tuskk#opts#builtin_kana_table()
     inoremap <c-j> <cmd>call tuskk#toggle()<cr>
     cnoremap <c-j> <cmd>call tuskk#cmd_buf()<cr>
     let azik_table = tuskk#opts#extend_azik_table()
@@ -207,43 +207,45 @@ else
   endif
 
   set runtimepath+=~/ghq/github.com/kawarimidoll/textra.vim
-  call textra#setup({
-        \ 'name': 'kawarimidoll',
-        \ 'key': getenv('TEXTRA_API_KEY'),
-        \ 'secret': getenv('TEXTRA_API_SECRET')
-        \ })
-  function s:display_result(result) abort
-    let bufnr = bufadd('textra_result')
-    call bufload(bufnr)
-    call appendbufline(bufnr, '$', ['', a:result])
-    let winnr = bufwinnr(bufnr)
-    if winnr < 0
-      new
-      execute 'buffer' bufnr
-      setlocal nobuflisted buftype=nofile bufhidden=hide noswapfile
-      " autocmd WinEnter <buffer> if winnr('$') == 1 | quit | endif
-      execute winnr('#') 'wincmd w'
-    endif
-  endfunction
-  function s:cmd_translate() abort
-    let src = mode() == 'v'
-          \ ? getregion(getpos('v'), getpos('.'), #{ type: mode(1) })->join(' ')
-          \ : getreg('')
-    " default: en->ja
-    let [from_lang, to_lang] = ['EN', 'JA']
-    if src =~ '[ぁ-ゖァ-ヺ]'
-      " if japanese found: ja->en
-      let [from_lang, to_lang] = ['JA', 'EN']
-    endif
-    echo $'[textra] translate {from_lang} -> {to_lang} ...'
-    let dst = textra#translate(substitute(src, '[[:space:]]\+', ' ', 'g'), from_lang, to_lang)
-    " redraw to remove echo
-    redraw!
-    call s:display_result(dst)
-  endfunction
-  command! Textra call s:cmd_translate()
-  nnoremap <space>T <cmd>Textra<cr>
-  xnoremap <space>T <cmd>Textra<cr>
+  if exists('*textra#setup')
+    call textra#setup({
+          \ 'name': 'kawarimidoll',
+          \ 'key': getenv('TEXTRA_API_KEY'),
+          \ 'secret': getenv('TEXTRA_API_SECRET')
+          \ })
+    function s:display_result(result) abort
+      let bufnr = bufadd('textra_result')
+      call bufload(bufnr)
+      call appendbufline(bufnr, '$', ['', a:result])
+      let winnr = bufwinnr(bufnr)
+      if winnr < 0
+        new
+        execute 'buffer' bufnr
+        setlocal nobuflisted buftype=nofile bufhidden=hide noswapfile
+        " autocmd WinEnter <buffer> if winnr('$') == 1 | quit | endif
+        execute winnr('#') 'wincmd w'
+      endif
+    endfunction
+    function s:cmd_translate() abort
+      let src = mode() == 'v'
+            \ ? getregion(getpos('v'), getpos('.'), #{ type: mode(1) })->join(' ')
+            \ : getreg('')
+      " default: en->ja
+      let [from_lang, to_lang] = ['EN', 'JA']
+      if src =~ '[ぁ-ゖァ-ヺ]'
+        " if japanese found: ja->en
+        let [from_lang, to_lang] = ['JA', 'EN']
+      endif
+      echo $'[textra] translate {from_lang} -> {to_lang} ...'
+      let dst = textra#translate(substitute(src, '[[:space:]]\+', ' ', 'g'), from_lang, to_lang)
+      " redraw to remove echo
+      redraw!
+      call s:display_result(dst)
+    endfunction
+    command! Textra call s:cmd_translate()
+    nnoremap <space>T <cmd>Textra<cr>
+    xnoremap <space>T <cmd>Textra<cr>
+  endif
 
   " https://zenn.dev/kawarimidoll/articles/62029b8be10ac9
   function! s:rec_cmp(list) abort
