@@ -233,6 +233,27 @@ later(require('mini.cursorword').setup)
 later(require('mini.indentscope').setup)
 later(require('mini.surround').setup)
 later(require('mini.comment').setup)
+later(function()
+  local animate = require('mini.animate')
+  animate.setup({
+    cursor = { enable = false },
+    scroll = {
+      -- Animate for 150 milliseconds with linear easing
+      timing = animate.gen_timing.linear({ duration = 150, unit = 'total' }),
+    },
+    resize = {
+      -- Animate for 150 milliseconds with linear easing
+      timing = animate.gen_timing.linear({ duration = 150, unit = 'total' }),
+
+      -- Animate only if there are at least 3 windows
+      subresize = animate.gen_subscroll.equal({
+        predicate = function(sizes_from)
+          return vim.tbl_count(sizes_from) >= 3
+        end
+      }),
+    }
+  })
+end)
 
 later(function()
   require('mini.ai').setup()
