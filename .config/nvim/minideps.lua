@@ -647,6 +647,12 @@ later(function()
   })
 end)
 
+vim.api.nvim_create_user_command(
+  'InitLua',
+  'edit ' .. vim.fn.stdpath('config') .. '/minideps.lua',
+  {}
+)
+
 -- https://zenn.dev/vim_jp/articles/20240304_ekiden_disable_plugin
 local default_rtp = vim.opt.runtimepath:get()
 vim.opt.runtimepath:remove(vim.env.VIMRUNTIME)
