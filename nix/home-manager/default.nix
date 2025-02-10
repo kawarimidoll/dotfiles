@@ -42,6 +42,7 @@ in
         koi
 
         act
+        astroterm
         bat
         bat-extras.batdiff
         bat-extras.batgrep
@@ -99,6 +100,7 @@ in
         jq
         lazygit
         libsixel
+        logdy
         lsd
         ltex-ls
         lua-language-server
