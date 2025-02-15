@@ -21,6 +21,14 @@ nnoremap gy <cmd>let @* = @"<cr>
 " autocmd VimLeave,FocusLost * let @* = @"
 autocmd FocusGained * let @" = @*
 
+if has('mac')
+  function s:eisuu_key() abort
+silent call system('open -a /Users/kawarimidoll/Library/Mobile\ Documents/com~apple~Automator/Documents/eisuu_key.app')
+  endfunction
+  autocmd FocusGained,InsertLeave,CmdlineLeave * call s:eisuu_key()
+  call s:eisuu_key()
+endif
+
 call mi#cmdline#proxy_let('trim', 'Trim')
 call mi#cmdline#proxy_let('cfilter', 'Cfilter')
 " call mi#cmdline#proxy_let('s[ubstitute]', 'Substitute')
@@ -51,6 +59,13 @@ endfunction
 
 command! GitDiff call <sid>git_diff()
 
+" command! GitBlame new
+"       \ | setlocal buftype=nofile bufhidden=delete noswapfile cursorbind
+"       \ | execute 'read !git blame #'
+"       \ | setlocal readonly nobuflsted
+"       \ | wincmd w
+"       \ | call mi#window#fit()
+
 if has('nvim')
   call mi#cmdline#proxy_let('L[spInfo]', 'LspInfo')
   call mi#cmdline#proxy_let('P[lugSync]', 'PlugSync')
@@ -79,6 +94,9 @@ else
 
   call mi#pair#keymap_set(['{}', '[]', '()', "''", '""', '``'])
 
+  " set statusline&
+  " set fillchars-=stl:─,stlnc:─
+  " set laststatus=2
   " highlight! link StatusLine GamingBg
   " highlight! link StatusLineNC GamingFg
   " " HACK: highlight-links are sometimes disabled when buffers are changed
