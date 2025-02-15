@@ -90,19 +90,20 @@ const consonants = {
   "c": "ty",
   "j": "zy",
 
-  // use g
-  "wg": "wh",
-  "pg": "py",
-  "zg": "ts",
-  "mg": "my",
-  "dg": "dy",
-  "bg": "by",
-  "tg": "ty",
-  "vg": "v",
-  "ng": "ny",
-  "rg": "ry",
-  "xg": "l",
-  "yg": "ly",
+  // use r
+  "wr": "wh",
+  "pr": "py",
+  "zr": "ts",
+  "mr": "my",
+  "dr": "dy",
+  "hr": "hy",
+  "br": "by",
+  "tr": "ty",
+  "vr": "v",
+  "nr": "ny",
+  "rr": "ry",
+  "xr": "l",
+  "yr": "ly",
 };
 
 const directKeys = {
@@ -116,6 +117,8 @@ const directKeys = {
   "lu": "ぅ",
   "le": "ぇ",
   "lo": "ぉ",
+  "tri": "てぃ",
+  "dri": "でぃ",
   ",": "、",
   ".": "。",
   "-": "ー",
