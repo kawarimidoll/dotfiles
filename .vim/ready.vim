@@ -25,7 +25,8 @@ if has('mac')
   function s:eisuu_key() abort
 silent call system('open -a /Users/kawarimidoll/Library/Mobile\ Documents/com~apple~Automator/Documents/eisuu_key.app')
   endfunction
-  autocmd FocusGained,InsertLeave,CmdlineLeave * call s:eisuu_key()
+  " autocmd FocusGained,InsertLeave,CmdlineLeave * call s:eisuu_key()
+  autocmd FocusGained,CmdlineLeave * call s:eisuu_key()
   call s:eisuu_key()
 endif
 
