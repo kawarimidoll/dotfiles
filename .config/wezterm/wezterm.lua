@@ -117,6 +117,7 @@ return {
   macos_forward_to_ime_modifier_mask = 'SHIFT|CTRL',
 
   keys = {
+    { key = 'S', mods = 'CTRL', action = act.ActivateCopyMode },
     { key = 'E', mods = 'CTRL', action = act.EmitEvent('trigger-vim-with-visible-text') },
     { key = 'Q', mods = 'CTRL', action = act.QuickSelect },
 
