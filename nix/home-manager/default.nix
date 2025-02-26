@@ -58,6 +58,7 @@ in
         croc
         csvq
         curl
+        delta
         deno
         diff-so-fancy
         diffutils
@@ -80,7 +81,7 @@ in
         git-interactive-rebase-tool
         git-quick-stats
         git-recent
-        # git-trim # build failed
+        git-trim # build failed
         git-workspace
         gleam
         gnugrep
@@ -100,6 +101,7 @@ in
         jq
         lazygit
         libsixel
+        logdy
         logdy
         lsd
         ltex-ls
@@ -138,7 +140,7 @@ in
         wget
         yarn
         yazi
-        # zig
+        zig
         zsh-autopair
 
         # rmw
