@@ -44,6 +44,25 @@ wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_wid
     foreground = '#5c6d74'
   end
   local edge_foreground = background
+
+  local function icon_from_process_name(pname)
+    local icon_table = {
+      vim = wezterm.nerdfonts.custom_vim,
+      nvim = wezterm.nerdfonts.linux_neovim,
+      docker = wezterm.nerdfonts.md_docker,
+    }
+    local icon = icon_table[pname:gsub('.+/', '')]
+    return icon and icon .. ' ' or ''
+  end
+  local icon = icon_from_process_name(tab.active_pane.foreground_process_name)
+  -- local title = tab.active_pane.title
+  --     :gsub('^~/ghq/github.com/[^/]+/', '★')
+  --     :gsub('^~/dotfiles', '☆dotfiles')
+  local title = tab.active_pane.title
+      :gsub('~/ghq/github.com/[^/]+/', wezterm.nerdfonts.md_github .. ' ')
+      :gsub('~/.config/', wezterm.nerdfonts.md_folder_cog .. ' ')
+      :gsub('~/dotfiles/?', wezterm.nerdfonts.md_folder_cog .. ' ')
+
   local result = {
     { Background = { Color = edge_background } },
     { Foreground = { Color = edge_foreground } },
@@ -51,7 +70,8 @@ wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_wid
     { Background = { Color = background } },
     { Foreground = { Color = foreground } },
     { Text = ' ' },
-    { Text = wezterm.truncate_right(tab.active_pane.title, max_width - 1) },
+    { Text = icon },
+    { Text = wezterm.truncate_right(title, max_width - 1) },
     { Text = ' ' },
     { Background = { Color = edge_background } },
     { Foreground = { Color = edge_foreground } },
