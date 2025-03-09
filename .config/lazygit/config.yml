@@ -9,6 +9,10 @@ keybinding:
     # swap default bindings
     commitChanges: 'C'
     commitChangesWithEditor: 'c'
+customCommands:
+  - key: 'P'
+    context: 'files'
+    command: 'git push-with-check'
 # there is blinking bug https://github.com/jesseduffield/lazygit/issues/1302
 # git:
 #   paging:

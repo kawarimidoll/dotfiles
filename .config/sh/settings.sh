@@ -83,6 +83,7 @@ alias nvimprofile='nvim --cmd "profile start profile.txt" --cmd "profile file ~/
 alias nvinit='nvim ~/.config/nvim/init.vim'
 alias nvp="nvim -c 'put *'"
 alias nvr="nvim -c 'call EditProjectMru()'"
+alias push='git push-with-check'
 alias rc='bundle exec rails console'
 alias rm='rm -i --preserve-root'
 alias rs='bundle exec rails server'
@@ -201,10 +202,6 @@ fpull() {
 
 pull() {
   git pull origin "${1:-$(git current-branch)}"
-}
-
-push() {
-  git push origin "${1:-$(git current-branch)}"
 }
 
 pushf() {
