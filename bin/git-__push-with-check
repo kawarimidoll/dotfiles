@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if git log origin/$(git rev-parse --abbrev-ref HEAD)..HEAD --oneline | grep -i "wip"; then
+  # display error message in red
+  echo -e "\n\033[31mError: Found 'wip' in local commit. Please fix before pushing.\033[0m"
+  exit 1
+fi
+
+git push origin "${1:-$(git current-branch)}"
