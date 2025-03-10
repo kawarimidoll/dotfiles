@@ -2,39 +2,22 @@
 #  settings.sh for mac
 # -----------------
 
+BREW_PREFIX="/opt/homebrew"
+
 # if running zsh
 if [ -n "$ZSH_VERSION" ]; then
-
-  if [ -f "/opt/homebrew/bin/brew" ]; then
-    # apple silicon
-    if [ ! -f /tmp/zsh_brew.cache ]; then
-      /opt/homebrew/bin/brew shellenv > /tmp/zsh_brew.cache
-      zcompile /tmp/zsh_brew.cache
-    fi
-    # eval $(/opt/homebrew/bin/brew shellenv)
-    BREW_PREFIX="/opt/homebrew"
-    alias nnn="nnn-apple-silicon"
-
-    # if [ ! -f /tmp/zsh_fnm.cache ]; then
-    #   /opt/homebrew/bin/fnm env > /tmp/zsh_fnm.cache
-    #   zcompile /tmp/zsh_fnm.cache
-    # fi
-  else
-    # intel chip
-    if [ ! -f /tmp/zsh_brew.cache ]; then
-      /usr/local/bin/brew shellenv > /tmp/zsh_brew.cache
-      zcompile /tmp/zsh_brew.cache
-    fi
-    # eval $(/usr/local/bin/brew shellenv)
-    BREW_PREFIX="/usr/local"
-    alias nnn="nnn-intel-chip"
-
-    if [ ! -f /tmp/zsh_fnm.cache ]; then
-      /usr/local/bin/fnm env > /tmp/zsh_fnm.cache
-      zcompile /tmp/zsh_fnm.cache
-    fi
+  # apple silicon
+  if [ ! -f /tmp/zsh_brew.cache ]; then
+    /opt/homebrew/bin/brew shellenv > /tmp/zsh_brew.cache
+    zcompile /tmp/zsh_brew.cache
   fi
+  # eval $(/opt/homebrew/bin/brew shellenv)
   source /tmp/zsh_brew.cache
+
+  # if [ ! -f /tmp/zsh_fnm.cache ]; then
+  #   /opt/homebrew/bin/fnm env > /tmp/zsh_fnm.cache
+  #   zcompile /tmp/zsh_fnm.cache
+  # fi
   # source /tmp/zsh_fnm.cache
 
   # __source "${BREW_PREFIX}/share/zsh-autopair/autopair.zsh"
@@ -70,6 +53,7 @@ export OBSIDIAN_VAULT="${HOME}/Dropbox/Obsidian"
 alias brewer="sh ${DOT_OS_DIR}/brewer.sh"
 alias cob="cd ${OBSIDIAN_VAULT}"
 alias ds_store_all_delete="find . -name '.DS_Store' -type f -delete"
+alias nnn="nnn-apple-silicon"
 alias notify="osascript -e 'display notification \"Done!\" with title \"Terminal\"'"
 
 PATH="${BREW_PREFIX}/bin:$PATH"
