@@ -52,6 +52,7 @@ in
         bat-extras.prettybat
         binutils
         bottom
+        buf
         bun
         clang-tools # clang-format
         coreutils
@@ -81,7 +82,7 @@ in
         git-interactive-rebase-tool
         git-quick-stats
         git-recent
-        git-trim # build failed
+        git-trim
         git-workspace
         gleam
         gnugrep
@@ -99,9 +100,10 @@ in
         jj
         jnv
         jq
+        lazydocker
         lazygit
+        lazysql
         libsixel
-        logdy
         logdy
         lsd
         ltex-ls
@@ -118,6 +120,7 @@ in
         nixfmt-rfc-style
         nodejs_22
         nyancat
+        oxker
         pnpm
         rainfrog
         rebar3
