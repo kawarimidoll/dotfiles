@@ -59,33 +59,33 @@ alias notify="osascript -e 'display notification \"Done!\" with title \"Terminal
 PATH="${BREW_PREFIX}/bin:$PATH"
 PATH="${BREW_PREFIX}/sbin:$PATH"
 
-# Define PATH to coreutils/findutils by using symlinks to avoid brew warnings
-# This may cause error on building gmp/python
-PATH="${DOT_OS_DIR}/symlinks/core_gnubin:$PATH"
-PATH="${DOT_OS_DIR}/symlinks/find_gnubin:$PATH"
+# # Define PATH to coreutils/findutils by using symlinks to avoid brew warnings
+# # This may cause error on building gmp/python
+# PATH="${DOT_OS_DIR}/symlinks/core_gnubin:$PATH"
+# PATH="${DOT_OS_DIR}/symlinks/find_gnubin:$PATH"
 
-PATH="${BREW_PREFIX}/opt/binutils/bin:$PATH"
-# PATH="${BREW_PREFIX}/opt/coreutils/libexec/gnubin:$PATH"
-PATH="${BREW_PREFIX}/opt/ed/bin:$PATH"
-PATH="${BREW_PREFIX}/opt/ed/libexec/gnubin:$PATH"
-# PATH="${BREW_PREFIX}/opt/findutils/libexec/gnubin:$PATH"
-PATH="${BREW_PREFIX}/opt/gnu-sed/libexec/gnubin:$PATH"
-PATH="${BREW_PREFIX}/opt/gnu-tar/libexec/gnubin:$PATH"
-PATH="${BREW_PREFIX}/opt/grep/libexec/gnubin:$PATH"
-PATH="${BREW_PREFIX}/opt/unzip/bin:$PATH"
-PATH="${BREW_PREFIX}/opt/curl/bin:$PATH"
+# PATH="${BREW_PREFIX}/opt/binutils/bin:$PATH"
+# # PATH="${BREW_PREFIX}/opt/coreutils/libexec/gnubin:$PATH"
+# PATH="${BREW_PREFIX}/opt/ed/bin:$PATH"
+# PATH="${BREW_PREFIX}/opt/ed/libexec/gnubin:$PATH"
+# # PATH="${BREW_PREFIX}/opt/findutils/libexec/gnubin:$PATH"
+# PATH="${BREW_PREFIX}/opt/gnu-sed/libexec/gnubin:$PATH"
+# PATH="${BREW_PREFIX}/opt/gnu-tar/libexec/gnubin:$PATH"
+# PATH="${BREW_PREFIX}/opt/grep/libexec/gnubin:$PATH"
+# PATH="${BREW_PREFIX}/opt/unzip/bin:$PATH"
+# PATH="${BREW_PREFIX}/opt/curl/bin:$PATH"
 
-export LDFLAGS="-L${BREW_PREFIX}/opt/binutils/lib -L${BREW_PREFIX}/opt/curl/lib"
-export CPPFLAGS="-I${BREW_PREFIX}/opt/binutils/include -I${BREW_PREFIX}/opt/curl/include"
+# export LDFLAGS="-L${BREW_PREFIX}/opt/binutils/lib -L${BREW_PREFIX}/opt/curl/lib"
+# export CPPFLAGS="-I${BREW_PREFIX}/opt/binutils/include -I${BREW_PREFIX}/opt/curl/include"
 
-MANPATH="${BREW_PREFIX}/opt/coreutils/libexec/gnuman:$MANPATH"
-MANPATH="${BREW_PREFIX}/opt/ed/libexec/gnuman:$MANPATH"
-MANPATH="${BREW_PREFIX}/opt/findutils/libexec/gnuman:$MANPATH"
-MANPATH="${BREW_PREFIX}/opt/gnu-sed/libexec/gnuman:$MANPATH"
-MANPATH="${BREW_PREFIX}/opt/gnu-tar/libexec/gnuman:$MANPATH"
-MANPATH="${BREW_PREFIX}/opt/grep/libexec/gnuman:$MANPATH"
+# MANPATH="${BREW_PREFIX}/opt/coreutils/libexec/gnuman:$MANPATH"
+# MANPATH="${BREW_PREFIX}/opt/ed/libexec/gnuman:$MANPATH"
+# MANPATH="${BREW_PREFIX}/opt/findutils/libexec/gnuman:$MANPATH"
+# MANPATH="${BREW_PREFIX}/opt/gnu-sed/libexec/gnuman:$MANPATH"
+# MANPATH="${BREW_PREFIX}/opt/gnu-tar/libexec/gnuman:$MANPATH"
+# MANPATH="${BREW_PREFIX}/opt/grep/libexec/gnuman:$MANPATH"
 
-export PKG_CONFIG_PATH="${BREW_PREFIX}/opt/curl/lib/pkgconfig"
+# export PKG_CONFIG_PATH="${BREW_PREFIX}/opt/curl/lib/pkgconfig"
 
 # -----------------
 # mise
