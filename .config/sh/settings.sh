@@ -51,7 +51,6 @@ alias bx='bundle exec'
 alias cdd='cd ..'
 alias cddd='cd ../..'
 alias cdddd='cd ../../..'
-alias cdg="cd $(git rev-parse --show-toplevel)"
 alias cdot="cd $DOT_DIR"
 alias chmod='chmod --preserve-root'
 alias chown='chown --preserve-root'
@@ -140,6 +139,11 @@ fi
 ma() {
   # https://rcmdnk.com/blog/2014/07/20/computer-vim/
   man "$@" | col -bx | vim -RM --not-a-term -c 'set ft=man nolist nonumber' -
+}
+
+# aliasにすると定義したところで評価されてしまうので関数にする必要がある
+cdg() {
+  cd "$(git rev-parse --show-toplevel)"
 }
 
 silica() {
