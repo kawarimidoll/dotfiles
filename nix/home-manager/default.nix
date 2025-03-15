@@ -157,12 +157,34 @@ in
 
   # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.zsh.enable
   programs.zsh = {
+    dotDir = ".config/zsh";
     enable = true;
     enableCompletion = true;
+    # https://gist.github.com/ctechols/ca1035271ad134841284?permalink_comment_id=2158147#gistcomment-2158147
+    # https://gist.github.com/ctechols/ca1035271ad134841284?permalink_comment_id=3994613#gistcomment-3994613
+    completionInit = ''
+      autoload -Uz compinit
+      for dump in ${ZDOTDIR:-$HOME}/.zcompdump(N.mh+24); do
+        compinit
+      done
+      compinit -C
+    '';
+    autocd = true;
     autosuggestion.enable = true;
-    syntaxHighlighting = {
+    historySubstringSearch.enable = true;
+    history = {
+      append = true;
+      ignoreAllDups = true;
+      # ignoreDups = true; ignoreAllDupsがあれば不要
+      ignoreSpace = true;
+      share = true;
+    };
+    syntaxHighlighting.enable = true;
+    zsh-abbr = {
       enable = true;
-      package = pkgs.zsh-syntax-highlighting;
+      abbreviations = {
+        gco = "git checkout";
+      };
     };
     initExtra = ''
       source ~/dotfiles/.zshrc

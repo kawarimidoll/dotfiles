@@ -15,10 +15,10 @@ __source "${DOT_DIR}/.config/sh/settings.sh"
 # -----------------
 #  Modules
 # -----------------
-__add_fpath "~/.zsh/completion"
-autoload -Uz compinit
-compinit -u
-
+# __add_fpath "~/.zsh/completion"
+# autoload -Uz compinit
+# compinit -u
+#
 # autoload -Uz zmv
 autoload -Uz colors && colors
 
@@ -95,9 +95,9 @@ setopt auto_list # 補完候補を一覧表示に
 setopt auto_menu # 補完候補をtabで選択
 setopt bsd_echo # echoをbash互換にする なおデフォルトはecho -eに相当
 setopt correct # コマンドのスペルミスを指摘
-setopt hist_ignore_all_dups # 同じコマンドをhistoryに残さない
-setopt hist_ignore_dups # 同じコマンドをhistoryに残さない
-setopt hist_ignore_space # スペースから始まるコマンドをhistoryに残さない
+# setopt hist_ignore_all_dups # 同じコマンドをhistoryに残さない
+# setopt hist_ignore_dups # 同じコマンドをhistoryに残さない
+# setopt hist_ignore_space # スペースから始まるコマンドをhistoryに残さない
 setopt hist_no_store # historyコマンドをhistoryに残さない
 setopt hist_reduce_blanks # historyに保存するときに余分なスペースを削除する
 setopt hist_save_no_dups # 同じコマンドをhistoryに残さない
@@ -106,7 +106,7 @@ setopt interactive_comments # コンソールでも#をコメントと解釈
 # setopt ksh_arrays # 配列の添字を0から開始 むしろなんでzshは1から始まる設定なの…
 setopt nonomatch # 引数の#とかをファイル名として認識するのを防止
 setopt print_eight_bit # 日本語ファイル名を表示する
-setopt share_history # 同時に起動しているzshの間でhistoryを共有する
+# setopt share_history # 同時に起動しているzshの間でhistoryを共有する
 
 # -----------------
 #  Zstyles
