@@ -9,7 +9,7 @@ __add_fpath() {
 }
 
 export DOT_DIR="${HOME}/dotfiles"
-shell_rc="${HOME}/.zshrc"
+# shell_rc="${HOME}/.zshrc"
 __source "${DOT_DIR}/.config/sh/settings.sh"
 
 # -----------------
@@ -19,67 +19,55 @@ __add_fpath "~/.zsh/completion"
 autoload -Uz compinit
 compinit -u
 
-autoload -Uz zmv
+# autoload -Uz zmv
 autoload -Uz colors && colors
-
-# https://wada811.blogspot.com/2014/09/zsh-cdr.html
-# cdr実行準備： mkdir -p $HOME/.cache/shell/
-# cdr, add-zsh-hook を有効にする
-autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
-add-zsh-hook chpwd chpwd_recent_dirs
-# cdr の設定
-zstyle ':completion:*' recent-dirs-insert both
-zstyle ':chpwd:*' recent-dirs-max 500
-zstyle ':chpwd:*' recent-dirs-default true
-zstyle ':chpwd:*' recent-dirs-file "$HOME/.cache/shell/chpwd-recent-dirs"
-zstyle ':chpwd:*' recent-dirs-pushd true
 
 # -----------------
 #  Alias
 # -----------------
-alias zmv='noglob zmv -W'
+# alias zmv='noglob zmv -W'
 
-# ref: https://grml.org/zsh/zsh-lovers.html
-# `|&` is shorthand for `2>&1 |`, this connects not only stdout, but also stderr.
-alias -g C='| wc -l'
-alias -g CP='| tee >(pbcopy)'
-alias -g D='DISPLAY=:0.0'
-alias -g DN=/dev/null
-alias -g ED='export DISPLAY=:0.0'
-alias -g EG='|& egrep'
-alias -g EH='|& head'
-alias -g EL='|& less'
-alias -g ELS='|& less -S'
-alias -g ET='|& tail'
-alias -g ETL='|& tail -20'
-alias -g F='| fzf'
-alias -g FMT='| fmt -'
-alias -g G='| egrep'
-alias -g H='| head'
-alias -g HL='|& head -20'
-alias -g J='| jq'
-alias -g L='| less -R'
-alias -g LL='2>&1 | less'
-alias -g LS='| less -S'
-alias -g M='| more'
-alias -g MM='| most'
-alias -g NE='2> /dev/null'
-alias -g NS='| sort -n'
-alias -g NUL='> /dev/null 2>&1'
-alias -g PIPE='|'
-alias -g R=' > /c/aaa/tee.txt'
-alias -g RNS='| sort -nr'
-alias -g S='| sort'
-alias -g Sk='*~(*.bz2|*.gz|*.tgz|*.zip|*.z)'
-alias -g T='| tail'
-alias -g TL='| tail -20'
-alias -g US='| sort -u'
-alias -g V='| view'
-alias -g VM=/var/log/messages
-alias -g X0='| xargs -0'
-alias -g X0G='| xargs -0 egrep'
-alias -g X='| xargs'
-alias -g XG='| xargs egrep'
+# # ref: https://grml.org/zsh/zsh-lovers.html
+# # `|&` is shorthand for `2>&1 |`, this connects not only stdout, but also stderr.
+# alias -g C='| wc -l'
+# alias -g CP='| tee >(pbcopy)'
+# alias -g D='DISPLAY=:0.0'
+# alias -g DN=/dev/null
+# alias -g ED='export DISPLAY=:0.0'
+# alias -g EG='|& egrep'
+# alias -g EH='|& head'
+# alias -g EL='|& less'
+# alias -g ELS='|& less -S'
+# alias -g ET='|& tail'
+# alias -g ETL='|& tail -20'
+# alias -g F='| fzf'
+# alias -g FMT='| fmt -'
+# alias -g G='| egrep'
+# alias -g H='| head'
+# alias -g HL='|& head -20'
+# alias -g J='| jq'
+# alias -g L='| less -R'
+# alias -g LL='2>&1 | less'
+# alias -g LS='| less -S'
+# alias -g M='| more'
+# alias -g MM='| most'
+# alias -g NE='2> /dev/null'
+# alias -g NS='| sort -n'
+# alias -g NUL='> /dev/null 2>&1'
+# alias -g PIPE='|'
+# alias -g R=' > /c/aaa/tee.txt'
+# alias -g RNS='| sort -nr'
+# alias -g S='| sort'
+# alias -g Sk='*~(*.bz2|*.gz|*.tgz|*.zip|*.z)'
+# alias -g T='| tail'
+# alias -g TL='| tail -20'
+# alias -g US='| sort -u'
+# alias -g V='| view'
+# alias -g VM=/var/log/messages
+# alias -g X0='| xargs -0'
+# alias -g X0G='| xargs -0 egrep'
+# alias -g X='| xargs'
+# alias -g XG='| xargs egrep'
 
 # 独自コマンド
 # findで明らかに検索しなくて良さそうなものを対象から外す
@@ -221,30 +209,6 @@ else
   }
   nl=$'\n'
   PROMPT="${nl}%c %{${fg[green]}%}$(__ps_git_br)%{${reset_color}%}${nl}%{%(?.${fg[cyan]}.${fg[red]})%}%#%{${reset_color}%} "
-fi
-
-# -----------------
-#  velociraptor
-# -----------------
-if has 'vr'; then
-  if [ ! -f /tmp/zsh_velociraptor.cache ]; then
-    vr completions zsh > /tmp/zsh_velociraptor.cache
-    zcompile /tmp/zsh_velociraptor.cache
-  fi
-  source /tmp/zsh_velociraptor.cache
-  # source <(vr completions zsh)
-fi
-
-# -----------------
-#  eggs
-# -----------------
-if has 'eggs'; then
-  if [ ! -f /tmp/zsh_eggs.cache ]; then
-    eggs completions zsh > /tmp/zsh_eggs.cache
-    zcompile /tmp/zsh_eggs.cache
-  fi
-  source /tmp/zsh_eggs.cache
-  # source <(eggs completions zsh)
 fi
 
 # -----------------
