@@ -8,6 +8,7 @@
     "dockerfile-language-server-nodejs": "^0.13.0",
     "gh-actions-language-server": "^0.0.3",
     "graphql-language-service-cli": "^3.5.0",
+    "js-beautify": "^1.15.4",
     "sql-formatter": "^15.4.11",
     "sql-language-server": "1.7.1",
     "svelte-language-server": "0.17.11",
