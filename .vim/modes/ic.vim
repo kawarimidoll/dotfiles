@@ -40,10 +40,30 @@ command! NotifyForget call mi#notify#forget()
 command! SudoWrite write !sudo tee > /dev/null %
 
 " command
+function! s:cmd_slash() abort
+  let cmdtype = getcmdtype()
+  if cmdtype == '/'
+    return '\/'
+  endif
+  if cmdtype == ':'
+    let compltype = getcmdcompltype()
+    let cmdline = getcmdline()
+    let cmdpos = getcmdpos()
+    if wildmenumode()
+          \ && compltype =~ '\v^(file|dir)(_in_path)?$'
+          \ && !empty(cmdline)
+          \ && cmdpos > 3
+          \ && cmdline[cmdpos - 2] == '/'
+      return "\<right>"
+    endif
+  endif
+  " fallback
+  return '/'
+endfunction
 " cnoremap <expr> s getcmdtype() == ':' && getcmdline() == 's' ? '<BS>%s/' : 's'
 cnoremap <expr> % getcmdtype() == ':' && getcmdpos() > 2 && getcmdline()[getcmdpos()-2] == '%' ?
       \ '<BS>' .. expand('%:h') .. '/' : '%'
-cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
+cnoremap <expr> / <sid>cmd_slash()
 cnoremap <expr> <C-n> wildmenumode() ? '<C-n>' : '<Down>'
 cnoremap <expr> <C-p> wildmenumode() ? '<C-p>' : '<Up>'
 cnoremap <C-b> <Left>
