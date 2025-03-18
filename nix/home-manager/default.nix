@@ -43,19 +43,13 @@ in
 
         act
         astroterm
-        bat
-        bat-extras.batdiff
-        bat-extras.batgrep
-        bat-extras.batman
-        bat-extras.batpipe
-        bat-extras.batwatch
-        bat-extras.prettybat
         binutils
         bottom
         buf
         bun
         clang-tools # clang-format
         coreutils
+        graphqurl
         croc
         csvq
         curl
@@ -68,7 +62,6 @@ in
         efm-langserver
         emacs
         erlang_27
-        eza
         ffmpeg_7-full
         findutils
         fx
@@ -105,7 +98,6 @@ in
         lazysql
         libsixel
         logdy
-        lsd
         ltex-ls
         lua-language-server
         macchina
@@ -133,7 +125,6 @@ in
         stylua
         superhtml
         tokei
-        tree
         typos-lsp
         tz
         unzip
@@ -155,6 +146,33 @@ in
 
   programs.home-manager.enable = true;
 
+  # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.bat.enable
+  programs.bat = {
+    enable = true;
+    extraPackages = with pkgs.bat-extras; [
+      batdiff
+      batgrep
+      batman
+      batpipe
+      batwatch
+      prettybat
+    ];
+  };
+
+  # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.lsd.enable
+  programs.lsd.enable = true;
+
+  # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.eza.enable
+  programs.eza = {
+    enable = true;
+    colors = "auto";
+    git = true;
+    icons = "auto";
+    extraOptions = [
+      "--group-directories-first"
+    ];
+  };
+
   # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.zsh.enable
   programs.zsh = {
     dotDir = ".config/zsh";
@@ -164,7 +182,8 @@ in
     # https://gist.github.com/ctechols/ca1035271ad134841284?permalink_comment_id=3994613#gistcomment-3994613
     completionInit = ''
       autoload -Uz compinit
-      for dump in ${ZDOTDIR:-$HOME}/.zcompdump(N.mh+24); do
+      for dump in ${"ZDOTDIR:-$HOME"}/.zcompdump(N.mh+24); do
+        echo "Run compinit. Wait for a while."
         compinit
       done
       compinit -C
@@ -183,6 +202,7 @@ in
     zsh-abbr = {
       enable = true;
       abbreviations = {
+        g = "git";
         gco = "git checkout";
       };
     };
