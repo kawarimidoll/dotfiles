@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env sh
 
 # ref: https://qiita.com/c6tower/items/4a20020eaf1eccf3ffbb#2-当日分処理が実行されてなければ実行する
 

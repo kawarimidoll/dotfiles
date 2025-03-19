@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env sh
 
 git log --graph --color=always --format="%C(auto)%h%d %C(black bold)%cr %C(auto)%s" "$@" | \
   fzf --ansi --exit-0 --no-sort --no-multi --tiebreak=index --height=100% \

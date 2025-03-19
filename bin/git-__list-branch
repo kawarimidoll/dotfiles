@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env sh
 
 git branch "$@" | grep -v HEAD | fzf --cycle --exit-0 --no-multi \
   --preview="sed -r 's/. ([^ ]+).*/\1/' <<< {} | \

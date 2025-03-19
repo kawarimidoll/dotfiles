@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env sh
 
 # https://gist.github.com/kawarimidoll/36430d3016d1c053594b6a69bde83f90
 git switch "$@" 2>/dev/null || \

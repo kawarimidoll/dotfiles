@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env sh
 
 listup_command='git status --short'
 if type 'unbuffer' >/dev/null 2>&1; then

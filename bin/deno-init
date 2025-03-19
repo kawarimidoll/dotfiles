@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env sh
 
 if ! type deno >/dev/null 2>&1; then
   echo 'deno is required.'

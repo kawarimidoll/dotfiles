@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env sh
 
 if [[ -n "$VIM_TERMINAL" ]]; then
  # in vim

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env sh
 
 cd ~/ghq/github.com/kawarimidoll/deno-dev-template/
 

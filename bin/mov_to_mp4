@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/usr/bin/env sh
 
 if [[ ! -e ~/.nix-profile/bin/ffmpeg ]]; then
   echo 'ffmpeg not found'

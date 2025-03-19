@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env sh
 
 if git log origin/$(git rev-parse --abbrev-ref HEAD)..HEAD --oneline | grep -i "wip"; then
   # display error message in red

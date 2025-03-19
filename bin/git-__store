@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env sh
 
 git stash list | fzf --ansi --cycle --exit-0 --no-multi --expect=ctrl-x \
   --height=100% --preview-window=down:80% \

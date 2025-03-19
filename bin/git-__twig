@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env sh
 
 # `git home` when argument is not specified
 [[ -z "$@" ]] && git home && exit 0
