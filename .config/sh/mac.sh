@@ -53,7 +53,6 @@ export OBSIDIAN_VAULT="${HOME}/Dropbox/Obsidian"
 alias brewer="sh ${DOT_OS_DIR}/brewer.sh"
 alias cob="cd ${OBSIDIAN_VAULT}"
 alias ds_store_all_delete="find . -name '.DS_Store' -type f -delete"
-alias nnn="nnn-apple-silicon"
 alias notify="osascript -e 'display notification \"Done!\" with title \"Terminal\"'"
 
 PATH="${BREW_PREFIX}/bin:$PATH"
