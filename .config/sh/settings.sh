@@ -38,16 +38,13 @@ PATH="${HOME}/.deno/bin:${PATH}"
 PATH="${GOPATH}/bin:${PATH}"
 PATH="${PNPM_HOME}:${PATH}"
 
-# to detect formulae for apple silicon
-PATH="/opt/homebrew/bin:$PATH"
-
 # -----------------
 #  Aliases
 # -----------------
 # [9 Evil Bash Commands Explained](https://qiita.com/rana_kualu/items/be32f8302017b7aa2763)
 # https://vim-jp.org/vim-users-jp/2009/11/07/Hack-99.html
-alias bg='batgrep'
-alias bx='bundle exec'
+# alias bg='batgrep'
+# alias bx='bundle exec'
 alias cdd='cd ..'
 alias cddd='cd ../..'
 alias cdddd='cd ../../..'
@@ -55,42 +52,42 @@ alias cdot="cd $DOT_DIR"
 alias chmod='chmod --preserve-root'
 alias chown='chown --preserve-root'
 alias cp='cp -i'
-alias dc='docker container'
+# alias dc='docker container'
 alias dd='echo "dd command is restricted"'
 alias desk='deno task'
-alias di='docker image'
-alias dp='docker compose'
-alias dr='docker run'
-alias ds='docker system'
+# alias di='docker image'
+# alias dp='docker compose'
+# alias dr='docker run'
+# alias ds='docker system'
 alias egrep='egrep --color=auto'
 alias g='git'
-alias golint='revive -formatter friendly -config $HOME/.config/revive.toml'
-alias gq='ghq get'
+# alias golint='revive -formatter friendly -config $HOME/.config/revive.toml'
+# alias gq='ghq get'
 alias grep='grep --color=auto'
 alias fetch='git fetch --all --prune --tags'
 alias fgrep='fgrep --color=auto'
-alias fl='flutter'
-alias kittyconfig="nvim ${DOT_DIR}/.config/kitty/kitty.conf"
+# alias fl='flutter'
+# alias kittyconfig="nvim ${DOT_DIR}/.config/kitty/kitty.conf"
 alias lg='lazygit'
 alias ls='ls --color=auto'
 alias lsf='ls -FAogh --time-style="+%F %R"'
 alias mkdir='mkdir -pv'
 alias mv='mv -i'
 alias nv='nvim'
-alias nvmin='nvim -u ~/dotfiles/.config/nvim/min-edit.vim'
+# alias nvmin='nvim -u ~/dotfiles/.config/nvim/min-edit.vim'
 alias nvimprofile='nvim --cmd "profile start profile.txt" --cmd "profile file ~/.config/nvim/init.vim" -c quit'
-alias nvinit='nvim ~/.config/nvim/init.vim'
-alias nvp="nvim -c 'put *'"
+# alias nvinit='nvim ~/.config/nvim/init.vim'
+# alias nvp="nvim -c 'put *'"
 alias nvr="nvim -c 'call EditProjectMru()'"
 alias pull='git pull-with-check'
 alias push='git push-with-check'
-alias rc='bundle exec rails console'
+# alias rc='bundle exec rails console'
 alias rm='rm -i --preserve-root'
-alias rs='bundle exec rails server'
+# alias rs='bundle exec rails server'
 alias she="nvim ${shell_rc}"
 alias shl="nvim ${shell_rc}.local"
 alias shs="source ${shell_rc}"
-alias stw="snap-tweet --locale ja --output-dir ~/Downloads"
+# alias stw="snap-tweet --locale ja --output-dir ~/Downloads"
 alias rgg="rg --hidden --trim --glob '!**/.git/*'"
 alias rgf="rgg --fixed-strings --"
 alias sudo='sudo '
@@ -98,15 +95,15 @@ alias vi='vim'
 alias vimrc='vim ~/.vim/vimrc'
 alias vimrclocal='vim ~/.vimrc.local'
 alias vimprofile='vim --cmd "profile start profile.txt" --cmd "profile file ~/.vim/vimrc" -c quit'
-alias vin='vim -u NONE -N'
-alias vip="vim -c 'put *'"
+# alias vin='vim -u NONE -N'
+# alias vip="vim -c 'put *'"
 alias vir="vim -c 'call EditProjectMru()'"
 alias wcl='wc -l'
 alias wget='wget --hsts-file="${XDG_DATA_HOME}/wget-hsts"'
-alias wtf='wtfutil'
+# alias wtf='wtfutil'
 alias x='xplr'
 alias xcd='cd $(xplr)'
-alias yq='gojq --yaml-input --yaml-output'
+# alias yq='gojq --yaml-input --yaml-output'
 
 if has 'lsd'; then
   alias ls='lsd'
@@ -119,20 +116,20 @@ if has 'eza'; then
   alias tree='eza --all --git-ignore --tree --icons --ignore-glob=.git'
 fi
 
-if has 'procs'; then
-  alias ps='procs'
-fi
+# if has 'procs'; then
+#   alias ps='procs'
+# fi
 
-if has 'fcp'; then
-  alias cp='fcp'
-fi
+# if has 'fcp'; then
+#   alias cp='fcp'
+# fi
 
-if has 'batman'; then
-  alias man='batman'
-fi
-if has 'batdiff'; then
-  alias diff='batdiff --delta'
-fi
+# if has 'batman'; then
+#   alias man='batman'
+# fi
+# if has 'batdiff'; then
+#   alias diff='batdiff --delta'
+# fi
 
 # -----------------
 #  Functions
@@ -165,9 +162,9 @@ vest() {
     | xargs --no-run-if-empty gh gist view --web
 }
 
-if has 'llama'; then
-  ll() {
-    cd "$(llama "$@")"
+if has 'walk'; then
+  lk() {
+    cd "$(walk "$@")"
   }
 fi
 
@@ -312,7 +309,7 @@ __source "${DOT_DIR}/etc/xd.sh"
 # -----------------
 #  broot
 # -----------------
-__source "${HOME}/.config/broot/launcher/bash/br"
+# __source "${HOME}/.config/broot/launcher/bash/br"
 
 # -----------------
 #  OS Setting

@@ -4,9 +4,9 @@
 __source() {
   [ -s $1 ] && source $1
 }
-__add_fpath() {
-  [ -e $1 ] && fpath=($1 $fpath)
-}
+# __add_fpath() {
+#   [ -e $1 ] && fpath=($1 $fpath)
+# }
 
 export DOT_DIR="${HOME}/dotfiles"
 # shell_rc="${HOME}/.zshrc"
@@ -69,24 +69,24 @@ autoload -Uz colors && colors
 # alias -g X='| xargs'
 # alias -g XG='| xargs egrep'
 
-# 独自コマンド
-# findで明らかに検索しなくて良さそうなものを対象から外す
-fnd () {
-  find "$1" -mindepth 1 -type d \( -name 'node_modules' -o -name '.*' \) -prune -o -type f -not -name '.DS_Store' "${@:2}" -print
-}
-# json format
-jf () {
-  jq < "$1" > "pretty-$1"
-  mv "pretty-$1" "$1"
-}
-# json lint (need specific file input)
-jl () {
-  docker container run --rm -v "${PWD}:/data" cytopia/jsonlint "$1"
-}
-# yaml lint (all files in current directory)
-yl () {
-  docker container run --rm -it -v "${PWD}:/data" cytopia/yamllint .
-}
+# # 独自コマンド
+# # findで明らかに検索しなくて良さそうなものを対象から外す
+# fnd () {
+#   find "$1" -mindepth 1 -type d \( -name 'node_modules' -o -name '.*' \) -prune -o -type f -not -name '.DS_Store' "${@:2}" -print
+# }
+# # json format
+# jf () {
+#   jq < "$1" > "pretty-$1"
+#   mv "pretty-$1" "$1"
+# }
+# # json lint (need specific file input)
+# jl () {
+#   docker container run --rm -v "${PWD}:/data" cytopia/jsonlint "$1"
+# }
+# # yaml lint (all files in current directory)
+# yl () {
+#   docker container run --rm -it -v "${PWD}:/data" cytopia/yamllint .
+# }
 
 # -----------------
 #  Options
@@ -225,14 +225,6 @@ fi
 
 # Set tab name of kitty https://github.com/kovidgoyal/kitty/issues/930
 precmd () { print -Pn "\e]0;%~\a" }
-
-compinit -d "${XDG_CACHE_HOME}/zsh/zcompdump-${ZSH_VERSION}"
-
-# -----------------
-#  tabtab completion
-# -----------------
-# uninstall by removing these lines
-__source ~/.config/tabtab/zsh/__tabtab.zsh
 
 # -----------------
 #  Local Setting
