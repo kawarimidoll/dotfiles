@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+
+# ref: https://gist.github.com/sindresorhus/7996717
+
+git pull origin "${1:-$(git current-branch)}"
+
+changed_files="$(git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD)"
+
+__check_run() {
+  echo "$changed_files" | grep --quiet "$1" && printf "\n\n\033[31m%s\033[m\n" "$2"
+}
+
+__check_run compose "compose file is changed. you may have to run 'docker-compose build'"
+__check_run package.json "package.json is changed. you may have to run 'npm install'"
+# __check_run compose "compose file is changed. you may have to run 'docker-compose build'"

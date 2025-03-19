@@ -52,6 +52,7 @@
 	latest-tag = describe --tags --abbrev=0
 	list-branch = __list-branch
 	party = shortlog -nse
+	pull-with-check = __pull-with-check
 	push-with-check = __push-with-check
 	remember = __remember
 	remote-url = !git remote get-url origin | sed -E 's!^git@(.+):!\\1/!' | sed -e 's/\\.git$//'
