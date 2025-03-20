@@ -28,8 +28,8 @@ export NIX_USER_CONF_FILES="${XDG_CONFIG_HOME}/nix/nix.conf:${XDG_CONFIG_HOME}/n
 # -----------------
 #  Paths
 # -----------------
-export EDITOR="vim"
-# export EDITOR="nvim"
+# export EDITOR="vim"
+export EDITOR="nvim"
 # export GOPATH="${HOME}/go"
 PATH="${HOME}/bin:${PATH}"
 PATH="${DOT_DIR}/bin:${PATH}"

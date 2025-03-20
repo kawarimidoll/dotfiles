@@ -153,6 +153,9 @@ else
   set viminfo='20,<50,s10,h
   set viminfofile=~/.vim/viminfo
 
+  " use vim as GIT_EDITOR while using vim
+  let $GIT_EDITOR="vim"
+
   nnoremap Y y$
   nnoremap <C-l> <Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-l><CR>
   nnoremap & :&&<CR>

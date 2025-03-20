@@ -11,7 +11,9 @@
 	pager = delta
 	preloadindex = true
 	quotepath = false
-	editor = vix
+	; priority: $GIT_EDITOR > core.editor > $VISUAL > $EDITOR
+	; ref: https://git-scm.com/docs/git-var#Documentation/git-var.txt-GITEDITOR
+	editor = nvim
 [ghq]
 	root = ~/ghq
 [delta]
