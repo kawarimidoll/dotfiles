@@ -43,13 +43,15 @@ in
 
         act
         astroterm
+        atuin
+        bash-language-server
+        beautysh
         binutils
         bottom
+        broot
         buf
-        bun
         clang-tools # clang-format
         coreutils
-        graphqurl
         croc
         csvq
         curl
@@ -59,6 +61,7 @@ in
         diffutils
         direnv
         djlint
+        dprint
         efm-langserver
         emacs
         erlang_27
@@ -67,7 +70,6 @@ in
         fx
         fzf
         gawk
-        gh
         ghq
         gifsicle
         git
@@ -84,7 +86,11 @@ in
         gnused
         gnutar
         go
+        gollama
+        graphqurl
         grex
+        grpcui
+        grpcurl
         gum
         helix
         highlight
@@ -95,30 +101,38 @@ in
         jq
         lazydocker
         lazygit
-        lazysql
         libsixel
+        lnav
         logdy
         ltex-ls
         lua-language-server
         macchina
+        mcfly
         moreutils
         nano
         nb
+        nh
+        nurl
         neofetch
         neovim # nightly
+        nil
         nim
+        nix-output-monitor
         nix-search-cli
         nix-zsh-completions
         nixfmt-rfc-style
         nodejs_22
         nyancat
+        ollama
         oxker
         pnpm
         rainfrog
         rebar3
+        riffdiff
         ripgrep
         rustup
         silicon
+        procs
         slides
         starship
         sttr
@@ -128,10 +142,14 @@ in
         typos-lsp
         tz
         unzip
+        usql
         vim # latest
         vim-startuptime
+        vtsls
+        walk
         watchexec
         wget
+        xplr
         yarn
         yazi
         zig
@@ -146,6 +164,68 @@ in
 
   programs.home-manager.enable = true;
 
+  # # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.ghostty.enable
+  # programs.ghostty = {
+  #   enable = true;
+  #   clearDefaultKeybinds = true;
+  # };
+
+  # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.gh.enable
+  programs.gh = {
+    enable = true;
+    settings = {
+      git_protocol = "ssh";
+      prompt = "enabled";
+      aliases = {
+        co = "pr checkout";
+        pv = "pr view";
+      };
+    };
+    extensions = with pkgs; [
+      gh-copilot
+      gh-dash
+      gh-markdown-preview
+      (pkgs.stdenv.mkDerivation rec{
+        pname = "gh-q";
+        name = pname;
+        version = "latest";
+        src = pkgs.fetchFromGitHub {
+          owner = username;
+          repo = pname;
+          rev = "a312c67b92baefadb07481ef1479c96d91243d41";
+          hash = "sha256-cpR4ZxWobr1dyGr+zNr0IUa1yYlZK3sDz4m9LWjkRsc=";
+        };
+        installPhase = ''
+          mkdir -p $out/bin
+          cp $src/gh-q $out/bin/
+          chmod +x $out/bin/gh-q
+        '';
+      })
+      (pkgs.stdenv.mkDerivation rec{
+        pname = "gh-graph";
+        name = pname;
+        version = "latest";
+        src = pkgs.fetchFromGitHub {
+          owner = username;
+          repo = pname;
+          rev = "16cc618618bbe7c9a745091b2f4eea74114ab967";
+          hash = "sha256-CW1eIcjy1VuZxgfHPOpgO2Zo13XOw4SVJKW0FFCV3kM=";
+        };
+        installPhase = ''
+          mkdir -p $out/bin
+          cp $src/gh-graph $out/bin/
+          chmod +x $out/bin/gh-graph
+        '';
+      })
+    ];
+  };
+
+  # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.nnn.enable
+  programs.nnn = {
+    enable = true;
+    package = pkgs.nnn.override ({ withNerdIcons = true; });
+  };
+
   # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.bat.enable
   programs.bat = {
     enable = true;
@@ -158,6 +238,9 @@ in
       prettybat
     ];
   };
+
+  # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.bun.enable
+  programs.bun.enable = true;
 
   # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.lsd.enable
   programs.lsd.enable = true;
@@ -190,7 +273,11 @@ in
     '';
     autocd = true;
     autosuggestion.enable = true;
-    historySubstringSearch.enable = true;
+    historySubstringSearch = {
+      enable = true;
+      searchDownKey = "^N";
+      searchUpKey = "^P";
+    };
     history = {
       append = true;
       ignoreAllDups = true;
@@ -202,7 +289,11 @@ in
     zsh-abbr = {
       enable = true;
       abbreviations = {
+        "-" = "cd -";
+        d = "docker";
+        dp = "docker compose";
         g = "git";
+        "git -" = "git switch -";
         gco = "git checkout";
       };
     };
