@@ -8,7 +8,7 @@
 	autocrlf = false
 	fscache = true
 	ignorecase = false
-	pager = delta
+	pager = delta --line-numbers --side-by-side
 	preloadindex = true
 	quotepath = false
 	; priority: $GIT_EDITOR > core.editor > $VISUAL > $EDITOR
@@ -17,9 +17,20 @@
 [ghq]
 	root = ~/ghq
 [delta]
+	features = trad-highlight
 	navigate = true
-	line-numbers = true
-	diff-so-fancy = true
+[delta "trad-highlight"]
+	file-style = bright-yellow
+	hunk-header-style = bold syntax
+	minus-style = bold red
+	minus-non-emph-style = bold red
+	minus-emph-style = reverse red
+	plus-style = bold green
+	plus-non-emph-style = bold green
+	plus-emph-style = reverse green
+	syntax-theme = Nord
+	; これはたまにガタつくので検討必要
+	word-diff-regex = [一-龯ぁ-んァ-ヶ]
 [interactive]
 	diffFilter = delta --color-only
 [alias]

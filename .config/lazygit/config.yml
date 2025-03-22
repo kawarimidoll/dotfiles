@@ -14,7 +14,7 @@ customCommands:
     context: 'global'
     command: 'git push-with-check'
 # there is blinking bug https://github.com/jesseduffield/lazygit/issues/1302
-# git:
-#   paging:
-#     colorArg: always
-#     pager: delta --dark --paging=never
+git:
+  paging:
+    colorArg: always
+    pager: delta --dark --paging=never --color-only
