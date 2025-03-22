@@ -21,14 +21,14 @@ nnoremap gy <cmd>let @* = @"<cr>
 " autocmd VimLeave,FocusLost * let @* = @"
 autocmd FocusGained * let @" = @*
 
-if has('mac')
-  function s:eisuu_key() abort
-silent call system('open -a /Users/kawarimidoll/Library/Mobile\ Documents/com~apple~Automator/Documents/eisuu_key.app')
-  endfunction
-  " autocmd FocusGained,InsertLeave,CmdlineLeave * call s:eisuu_key()
-  autocmd FocusGained,CmdlineLeave * call s:eisuu_key()
-  call s:eisuu_key()
-endif
+" if has('mac')
+"   function s:eisuu_key() abort
+" silent call system('open -a /Users/kawarimidoll/Library/Mobile\ Documents/com~apple~Automator/Documents/eisuu_key.app')
+"   endfunction
+"   " autocmd FocusGained,InsertLeave,CmdlineLeave * call s:eisuu_key()
+"   autocmd FocusGained,CmdlineLeave * call s:eisuu_key()
+"   call s:eisuu_key()
+" endif
 
 call mi#cmdline#proxy_let('trim', 'Trim')
 call mi#cmdline#proxy_let('cfilter', 'Cfilter')
