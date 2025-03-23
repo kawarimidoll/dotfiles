@@ -9,7 +9,7 @@ __source() {
 # }
 
 export DOT_DIR="${HOME}/dotfiles"
-# shell_rc="${HOME}/.zshrc"
+shell_rc="${ZDOTDIR:-HOME}/.zshrc"
 __source "${DOT_DIR}/.config/sh/settings.sh"
 
 # -----------------
@@ -107,6 +107,7 @@ setopt interactive_comments # コンソールでも#をコメントと解釈
 setopt nonomatch # 引数の#とかをファイル名として認識するのを防止
 setopt print_eight_bit # 日本語ファイル名を表示する
 # setopt share_history # 同時に起動しているzshの間でhistoryを共有する
+setopt globdots # 補完時にドットファイルも候補に表示
 
 # -----------------
 #  Zstyles
@@ -190,6 +191,7 @@ zshaddhistory() {
 #  PATH
 # -----------------
 export HISTFILE="${XDG_STATE_HOME}/zsh/history.zsh"
+mkdir -p "$(dirname "$HISTFILE")"
 
 # -----------------
 #  prompt
