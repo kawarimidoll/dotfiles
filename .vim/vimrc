@@ -173,6 +173,9 @@ else
   nnoremap <expr> sd mi#surround#operator('delete') .. ' '
   nnoremap <expr> sr mi#surround#operator('replace') .. ' '
 
+  nnoremap [<space> <cmd>call append(line('.')-1, '')<cr>
+  nnoremap ]<space> <cmd>call append('.', '')<cr>
+
   let g:mi#ft#multiline = 1
   Keymap nx f <cmd>call mi#ft#smart('f')<CR>
   Keymap nx F <cmd>call mi#ft#smart('F')<CR>
