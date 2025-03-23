@@ -908,16 +908,13 @@ augroup vimrc
     let fname = expand('<afile>')
     let dname = fnamemodify(fname, ':h')
     let files_in_dir = split(glob(dname == '.' ? '*' : $'{dname}/*'), "\n")
-    let possible = filter(copy(files_in_dir), $'v:val =~# "^\\V{fname}"')
+    let possible = copy(files_in_dir)
+          \ ->filter($'v:val =~# "^\\V{fname}" && v:val !~# "lock"')
     if empty(possible)
       return
     endif
-    let choice = confirm($'"{fname}" does not exist. Do you want to open file below?',
-          \ possible->copy()->map({k, v -> $'&{k+1} {v}'})->join("\n"), 0)
-    if choice == 0
-      return
-    endif
-    call timer_start(0, {->execute($'edit {possible[choice - 1]} | bwipeout! #')})
+    call sort(possible, {a, b -> strlen(a) - strlen(b)})
+    call timer_start(0, {->execute($'edit {possible[0]} | bwipeout! #')})
   endfunction
   autocmd BufNewFile * call s:check_prefix_match_files()
 
