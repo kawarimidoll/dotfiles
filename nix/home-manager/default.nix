@@ -51,6 +51,7 @@ in
         broot
         buf
         clang-tools # clang-format
+        cmatrix
         coreutils
         croc
         csvq
@@ -80,6 +81,7 @@ in
         git-trim
         git-workspace
         gleam
+        globe-cli
         gnugrep
         gnumake
         gnupg
@@ -101,9 +103,11 @@ in
         jq
         lazydocker
         lazygit
+        less
         libsixel
         lnav
         logdy
+        lolcat
         ltex-ls
         lua-language-server
         macchina
@@ -111,10 +115,9 @@ in
         moreutils
         nano
         nb
-        nh
-        nurl
         neofetch
         neovim # nightly
+        nh
         nil
         nim
         nix-output-monitor
@@ -122,22 +125,24 @@ in
         nix-zsh-completions
         nixfmt-rfc-style
         nodejs_22
+        nurl
         nyancat
         ollama
         oxker
         pnpm
+        procs
         rainfrog
         rebar3
-        riffdiff
         ripgrep
         rustup
         silicon
-        procs
+        sl
         slides
         starship
         sttr
         stylua
         superhtml
+        termdown
         tokei
         typos-lsp
         tz
@@ -185,6 +190,7 @@ in
       gh-copilot
       gh-dash
       gh-markdown-preview
+      gh-notify
       (pkgs.stdenv.mkDerivation rec{
         pname = "gh-q";
         name = pname;
@@ -244,6 +250,9 @@ in
 
   # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.lsd.enable
   programs.lsd.enable = true;
+
+  # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.gitui.enable
+  programs.gitui.enable = true;
 
   # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.eza.enable
   programs.eza = {
