@@ -318,5 +318,42 @@ else
   autocmd TextChangedP * call s:auto_cmp_close()
 endif
 
+if &diff
+  function s:diff_stl() abort
+    let name = bufname()
+    if name =~ 'LOCAL'
+      let &l:statusline = '[LOCAL] 1<cr> to use'
+    elseif name =~ 'BASE'
+      let &l:statusline = '[BASE] 2<cr> to use'
+    elseif name =~ 'REMOTE'
+      let &l:statusline = '[REMOTE] 3<cr> to use'
+    else
+      let &l:statusline='%f [[/]] to move, <cr><cr> to finish (:cq to abort)'
+    endif
+  endfunction
+  set laststatus=2
+  windo call <sid>diff_stl()
+  function s:conflict_jump(is_forward) abort
+    let flags = 'cw' .. (a:is_forward ? '' : 'b')
+    let found = searchpair('<<<<<<< HEAD$', '=======$', '>>>>>>> \S\+$', 'cw')
+    if !found
+      echo 'no more hunks!'
+      return
+    endif
+    call search('=======$')
+    normal! zz
+  endfunction
+  nnoremap [[ <cmd>call <sid>conflict_jump(v:false)<cr>
+  nnoremap ]] <cmd>call <sid>conflict_jump(v:true)<cr>
+  nnoremap 1<cr> 1do
+  nnoremap 2<cr> 2do
+  nnoremap 3<cr> 3do
+  nnoremap <cr><cr> <cmd>xa<cr>
+endif
+set diffopt+=algorithm:histogram
+set diffopt+=hiddenoff
+set diffopt+=indent-heuristic
+nnoremap x<cr> <cmd>xa<cr>
+
 silent! delmarks ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890
 silent! delmarks!

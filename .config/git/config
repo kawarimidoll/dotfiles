@@ -16,6 +16,9 @@
 	editor = nvim
 [ghq]
 	root = ~/ghq
+[diff]
+	algorithm = histogram
+	colorMoved = zebra
 [delta]
 	features = trad-highlight
 	navigate = true
@@ -101,3 +104,9 @@
 [commit]
 	template = ~/.config/git/message
 	verbose = true
+[merge]
+	tool = vimdiff
+	conflictStyle = zdiff3
+[mergetool]
+	prompt = false
+	keepBackup = false
