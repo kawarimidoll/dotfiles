@@ -32,8 +32,7 @@
 	plus-non-emph-style = bold green
 	plus-emph-style = reverse green
 	syntax-theme = Nord
-	; これはたまにガタつくので検討必要
-	word-diff-regex = [一-龯ぁ-んァ-ヶ]
+	word-diff-regex = [a-zA-Z0-9]+|[一-龯ぁ-んァ-ヶ]
 [interactive]
 	diffFilter = delta --color-only
 [alias]
@@ -95,6 +94,7 @@
 [push]
 	default = current
 	useForceIfIncludes = true
+	autoSetupRemote = true
 [rebase]
 	autostash = true
 [pull]
@@ -110,3 +110,4 @@
 [mergetool]
 	prompt = false
 	keepBackup = false
+	trustExitCode = true

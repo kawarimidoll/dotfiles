@@ -1,5 +1,6 @@
 *~
 .DS_Store
+.jj
 .vscode
 #.vim
 .env
