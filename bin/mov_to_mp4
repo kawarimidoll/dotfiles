@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/bin/bash
 
 if [[ ! -e ~/.nix-profile/bin/ffmpeg ]]; then
   echo 'ffmpeg not found'
@@ -14,14 +14,18 @@ fi
 
 SRC_PATH=$1
 DST_PATH=$(echo "$SRC_PATH" | sed -e 's/ /_/g' | sed -e 's/\.[^.]*$/.mp4/')
-echo $SRC_PATH $DST_PATH
+
+echo "$(date -Iseconds) mov_to_mp4 start!" > ~/mov_to_mp4.log
+echo $SRC_PATH $DST_PATH >> ~/mov_to_mp4.log
 osascript -e 'display notification "Convert start..." with title "mov-to-mp4"'
 
-~/.nix-profile/bin/ffmpeg -i $SRC_PATH $DST_PATH >& ~/mov_to_mp4.log
+~/.nix-profile/bin/ffmpeg -i "$SRC_PATH" "$DST_PATH" >> ~/mov_to_mp4.log 2>&1
 
 if [ $? -eq 0 ]; then
   osascript -e 'display notification "✅ Convert finished!" with title "mov-to-mp4"'
+  echo 'succeeded!' >> ~/mov_to_mp4.log
 else
   osascript -e 'display notification "❌ Something went wrong! Check ~/mov_to_mp4.log" with title "mov-to-mp4"'
+  echo 'failed!' >> ~/mov_to_mp4.log
 fi
 
