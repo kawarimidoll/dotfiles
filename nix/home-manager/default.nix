@@ -98,9 +98,9 @@ in
         highlight
         imagemagick
         jid
-        jj
         jnv
         jq
+        lavat
         lazydocker
         lazygit
         less
@@ -148,6 +148,7 @@ in
         tz
         unzip
         usql
+        vhs
         vim # latest
         vim-startuptime
         vtsls
@@ -159,6 +160,11 @@ in
         yazi
         zig
         zsh-autopair
+
+        gg-jj
+        jj-fzf
+        jjui
+        lazyjj
 
         # rmw
         # vim-language-server
@@ -247,6 +253,9 @@ in
 
   # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.bun.enable
   programs.bun.enable = true;
+
+  # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.jujutsu.enable
+  programs.jujutsu.enable = true;
 
   # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.lsd.enable
   programs.lsd.enable = true;
