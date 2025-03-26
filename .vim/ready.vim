@@ -349,6 +349,8 @@ if &diff
   nnoremap 2<cr> 2do
   nnoremap 3<cr> 3do
   nnoremap <cr><cr> <cmd>xa<cr>
+  command! Mergetool call mi#mergetool#better_vimdiff()
+  " call mi#mergetool#better_vimdiff()
 endif
 set diffopt+=algorithm:histogram
 set diffopt+=hiddenoff
