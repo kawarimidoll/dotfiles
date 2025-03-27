@@ -25,6 +25,7 @@ export TERMINFO_DIRS="${TERMINFO}:/usr/share/terminfo"
 export PNPM_HOME="${XDG_DATA_HOME}/pnpm"
 export NI_CONFIG_FILE="$HOME/.config/ni/nirc"
 export NIX_USER_CONF_FILES="${XDG_CONFIG_HOME}/nix/nix.conf:${XDG_CONFIG_HOME}/nix/local.conf"
+export PAGER="less ${LESS}"
 export MANPAGER='sh -c "sed -E '\''s/\x1B\[[0-9;]*[mGKH]//g'\'' | vim -RMn --not-a-term -c '\''ru ftplugin/man.vim'\'' -c '\''se ft=man nolist nonu'\'' -"'
 
 # -----------------
