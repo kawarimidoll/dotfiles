@@ -60,12 +60,13 @@ in
         deno
         diff-so-fancy
         diffutils
-        direnv
         djlint
         dprint
+        dust
         efm-langserver
         emacs
         erlang_27
+        fd
         ffmpeg_7-full
         findutils
         fx
@@ -155,6 +156,7 @@ in
         walk
         watchexec
         wget
+        xh
         xplr
         yarn
         yazi
@@ -175,12 +177,6 @@ in
 
   programs.home-manager.enable = true;
 
-  # # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.ghostty.enable
-  # programs.ghostty = {
-  #   enable = true;
-  #   clearDefaultKeybinds = true;
-  # };
-
   # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.gh.enable
   programs.gh = {
     enable = true;
@@ -197,7 +193,7 @@ in
       gh-dash
       gh-markdown-preview
       gh-notify
-      (pkgs.stdenv.mkDerivation rec{
+      (pkgs.stdenv.mkDerivation rec {
         pname = "gh-q";
         name = pname;
         version = "latest";
@@ -213,7 +209,7 @@ in
           chmod +x $out/bin/gh-q
         '';
       })
-      (pkgs.stdenv.mkDerivation rec{
+      (pkgs.stdenv.mkDerivation rec {
         pname = "gh-graph";
         name = pname;
         version = "latest";
@@ -249,6 +245,17 @@ in
       batwatch
       prettybat
     ];
+  };
+
+  # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.direnv.enable
+  programs.direnv = {
+    enable = true;
+    config = {
+      disable_stdin = true;
+      strict_env = true;
+      warn_timeout = 0;
+    };
+    nix-direnv.enable = true;
   };
 
   # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.bun.enable
@@ -313,6 +320,10 @@ in
         g = "git";
         "git -" = "git switch -";
         gco = "git checkout";
+        # globalはうまく定義できない
+        # "-g CP" = "| tee >(pbcopy)";
+        # "-g NE" = "2> /dev/null";
+        # "-g NL" = "> /dev/null 2>&1";
       };
     };
     initExtra = ''

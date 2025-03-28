@@ -16,11 +16,13 @@
     };
   };
 
-  services.nix-daemon.enable = true;
+  # services.nix-daemon.enable = true;
 
   fonts = {
     packages = with pkgs; [
       hackgen-nf-font
+      moralerspace-hwnf
+      moralerspace-nf
       nerd-fonts.departure-mono
       nerd-fonts.symbols-only
       noto-fonts-color-emoji
