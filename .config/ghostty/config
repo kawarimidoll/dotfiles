@@ -1,14 +1,71 @@
+shell-integration = detect
+
 font-size = 20
-theme = niji
-font-family = "UDEV Gothic 35NF"
+# theme = niji
+theme = 0x96f
+#font-family = "UDEV Gothic NF"
+#font-family = "UDEV Gothic NFLG"
+# font-family = "HackGen Console NF"
+font-family = "Moralerspace Krypton HWNF"
 
 font-feature = -calt
 font-feature = -liga
 font-feature = -dlig
 
+macos-titlebar-style = tabs
+
+window-padding-x = 10
+window-padding-y = 0,10
+window-padding-balance = true
+window-step-resize
+window-theme = ghostty
+
+mouse-hide-while-typing = true
+mouse-scroll-multiplier = 2
+
 cursor-style = block
 cursor-style-blink = false
 shell-integration-features = no-cursor
 
+# https://zenn.dev/koya_iwamura/articles/65e4fbb747bcd2
+cursor-opacity = 0.7
+cursor-style = block
+
+unfocused-split-opacity = 0.825
+
+# fullscreen = true
+macos-non-native-fullscreen = true
+
+window-inherit-working-directory = true
+window-save-state = default
+
+window-new-tab-position = current
+
+link-url = true
+
+# ウィンドウリサイズ時にサイズを表示するかどうか
+resize-overlay = never
+
 keybind = global:f12=toggle_quick_terminal
 keybind = ctrl+shift+q=write_scrollback_file:open
+
+background = #000000
+background-opacity = 0.8
+background-blur = 20
+unfocused-split-opacity = 0.8
+
+# ターミナル内のプログラムがクリップボードを読み取るパーミッション
+clipboard-read = ask
+# ターミナル内のプログラムがクリップボードを書き込むパーミッション
+clipboard-write = allow
+
+# 選択したテキストを自動的にクリップボードへコピーする
+copy-on-select = true
+
+# 閉じる前に確認する画面を出すか
+
+confirm-close-surface = true
+
+# 最後のウィンドウやタブが閉じられた後に、Ghostty 自体を終了するかどうか
+
+quit-after-last-window-closed = true
