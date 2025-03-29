@@ -118,8 +118,8 @@ AbbrevCmd ed edit
 AbbrevCmd en enew
 AbbrevCmd plgs PlugSync
 AbbrevCmd plugs PlugSync
-AbbrevCmd! sv 'saveas ' .. @% .. repeat('<left>', expand('%:e')->strlen()+1)
-AbbrevCmd! rn 'Rename ' .. @% .. repeat('<left>', expand('%:e')->strlen()+1)
+AbbrevCmd! sv 'saveas ' .. @% .. repeat('<left>', {v -> v>0 ? v+1 : 0}(expand('%:e')->strlen()))
+AbbrevCmd! rn 'Rename ' .. @% .. repeat('<left>', {v -> v>0 ? v+1 : 0}(expand('%:e')->strlen()))
 AbbrevCmd! ss '%s/' .. @/ .. '//g<Left><Left>'
 " AbbrevCmd! ss '%s/' .. @/ .. "//g\<Left>\<Left>" olso ok
 AbbrevCmd! gld 'global //d_<left><left><left>'
