@@ -47,7 +47,7 @@
 	btf = rebase --continue
 	cog = config --global --edit
 	current-branch = branch --show-current
-	dead = !git switch -d $(git remote-head)
+	dead = !git refresh --quiet | git switch -d $(git remote-head)
 	default-branch = !git remote-head | sed 's!.*/!!'
 	delete = branch --delete
 	detaching = !!git symbolic-ref --quiet HEAD >/dev/null 2>&1
@@ -59,7 +59,7 @@
 	fz-delete = __fz-delete
 	fz-merge = __fz-merge
 	fz-switch = __fz-switch
-	fuse = !git merge $(git remote-head)
+	fuse = !git refresh --quiet | git merge $(git remote-head)
 	git = !git
 	gone = !git fetch --all --prune && git branch -vv | awk '/: gone]/{print $1}' | xargs --no-run-if-empty git branch -D
 	graph = log --graph --oneline
@@ -69,9 +69,11 @@
 	inside = !git rev-parse &>/dev/null
 	latest-tag = describe --tags --abbrev=0
 	list-branch = __list-branch
+	new = __new
 	party = shortlog -nse
 	pull-with-check = __pull-with-check
 	push-with-check = __push-with-check
+	refresh = fetch --all --prune
 	remember = __remember
 	remote-head = symbolic-ref refs/remotes/origin/HEAD
 	remote-url = !git remote get-url origin | sed -E 's!^git@(.+):!\\1/!' | sed -e 's/\\.git$//'
