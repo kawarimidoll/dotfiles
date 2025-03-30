@@ -317,13 +317,26 @@ in
         "-" = "cd -";
         d = "docker";
         dp = "docker compose";
+        "docker p" = "docker compose";
+        "docker compose u" = "docker compose up";
+        "docker compose d" = "docker compose down";
         g = "git";
         "git -" = "git switch -";
+        "git d" = "git dead";
+        "git f" = "git fuse";
+        "git n" = "git new";
         gco = "git checkout";
-        # globalはうまく定義できない
-        # "-g CP" = "| tee >(pbcopy)";
-        # "-g NE" = "2> /dev/null";
-        # "-g NL" = "> /dev/null 2>&1";
+      };
+      globalAbbreviations = {
+        # # `|&` is shorthand for `2>&1 |`, this connects not only stdout, but also stderr.
+        G = "| rg";
+        L = "| less";
+        CP = "|& tee >(pbcopy)";
+        EG = "|& rg";
+        EL = "|& less";
+        ECP = "| tee >(pbcopy)";
+        NE = "2> /dev/null";
+        NL = "> /dev/null 2>&1";
       };
     };
     initExtra = ''
