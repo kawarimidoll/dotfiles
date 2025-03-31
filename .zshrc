@@ -213,18 +213,6 @@ else
   PROMPT="${nl}%c %{${fg[green]}%}$(__ps_git_br)%{${reset_color}%}${nl}%{%(?.${fg[cyan]}.${fg[red]})%}%#%{${reset_color}%} "
 fi
 
-# -----------------
-#  direnv
-# -----------------
-if has 'direnv'; then
-  if [ ! -f /tmp/zsh_direnv.cache ]; then
-    direnv hook zsh > /tmp/zsh_direnv.cache
-    zcompile /tmp/zsh_direnv.cache
-  fi
-  source /tmp/zsh_direnv.cache
-  # source <(direnv hook zsh)
-fi
-
 # Set tab name of kitty https://github.com/kovidgoyal/kitty/issues/930
 precmd () { print -Pn "\e]0;%~\a" }
 
