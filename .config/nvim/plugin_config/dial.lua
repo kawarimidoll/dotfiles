@@ -17,6 +17,10 @@ require('dial.config').augends:register_group({
       elements = { '&&', '||' },
       word = false,
     }),
+    augend.constant.new({
+      elements = { '==', '!=' },
+      word = false,
+    }),
     augend.constant.new({ elements = { 'let', 'const' } }),
     augend.user.new({
       find = require('dial.augend.common').find_pattern('%u+'),
