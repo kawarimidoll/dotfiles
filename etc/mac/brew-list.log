@@ -1,7 +1,5 @@
-timestamp: 2025-03-05 09:04:46 JST
+timestamp: 2025-03-31 09:13:33 JST
 tap: he3-app/he3
-tap: homebrew/bundle
-tap: homebrew/services
 brew: git-now
 brew: mas
 brew: pinentry-mac
@@ -11,7 +9,6 @@ cask: alt-tab
 cask: anki
 cask: appflowy
 cask: battery-buddy
-cask: bitwarden
 cask: brave-browser
 cask: charmstone
 cask: chatgpt
@@ -19,6 +16,7 @@ cask: claude
 cask: clop
 cask: cloudflare-warp
 cask: cursor
+cask: deckset
 cask: deeper
 cask: deepl
 cask: devtoys
@@ -34,6 +32,7 @@ cask: font-scientifica
 cask: font-symbols-only-nerd-font
 cask: font-udev-gothic-nf
 cask: ghostty
+cask: gitify
 cask: google-japanese-ime
 cask: he3
 cask: iina
@@ -62,27 +61,31 @@ cask: raycast
 cask: rustrover
 cask: shottr
 cask: slack
+cask: slidepad
 cask: suspicious-package
+cask: swift-shift
+cask: thelowtechguys-cling
 cask: tiny-player
 cask: trex
 cask: warp
 cask: wezterm@nightly
 mas: 1351639930  Gifski            (2.23.1)
+mas: 1352778147  Bitwarden         (2025.2.1)
 mas: 1429033973  RunCat            (11.4)
 mas: 1448648921  Seashore          (3.40)
 mas: 1502839586  Hand Mirror       (3.2)
 mas: 1522267256  Shareful          (1.11.0)
-mas: 1545870783  Color Picker      (2.0.3)
+mas: 1545870783  Color Picker      (2.1.0)
 mas: 1551756247  Smart Click       (1.8)
 mas: 1575588022  MenubarX          (1.7.5)
-mas: 1611378436  Pure Paste        (1.11.4)
+mas: 1611378436  Pure Paste        (1.12.1)
 mas: 1615988943  Folder Peek       (1.12.0)
 mas: 1636862100  Commander         (1.14)
-mas: 302584613   Kindle            (7.25.1)
-mas: 539883307   LINE              (9.6.1)
-mas: 562211012   Yomu              (3.10.2)
+mas: 302584613   Kindle            (7.28)
+mas: 539883307   LINE              (9.7.0)
+mas: 562211012   Yomu              (3.11.0)
 mas: 6444685140  CenterMouse       (1.1.1)
 mas: 6447055708  Shortcut Notch    (1.1.5)
-mas: 6448461551  Command X         (1.4.7)
+mas: 6448461551  Command X         (1.5.1)
 mas: 6448700837  デスクトップ ファイル ボックス  (1.1.8)
 mas: 6462894357  Battery Line      (1.1.0)
