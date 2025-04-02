@@ -174,18 +174,23 @@ bindkey '^xo' oneliners
 bindkey '^x^o' oneliners
 
 # [zshで特定のコマンドをヒストリに追加しない条件を柔軟に設定する - mollifier delta blog](https://mollifier.hatenablog.com/entry/20090728/p1)
+# [zshのhistoryに実行に失敗したコマンドを残さない](https://zenn.dev/shinespark/articles/33271e065af623)
 zshaddhistory() {
-  local line=${1%%$'\n'}
   local cmd=${line%% *}
 
   # 以下の条件をすべて満たすものだけをヒストリに追加する
-  # 全体が5字以上である
-  # コマンドが存在する
+  # 成功した
   # 特定のコマンドではない
-  [[ ${#line} -ge 5
-    && "$(command -v $cmd)" != ''
+  [[ "$?" == 0
     && ${cmd} != (man|cd|mv|cp|rm|brew|rgf|nv|nvim|vi|vim|ma)
   ]]
+
+  # 文字数で制限を持たせていたがやめた
+  # local line=${1%%$'\n'}
+  # [[ ${#line} -ge 5 ]]
+
+  # コマンド存在確認を入れていたがサブコマンドの存在までは確認されないのでやめた
+  # [["$(command -v $cmd)" != '']]
 }
 # -----------------
 #  PATH
