@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# https://zenn.dev/kawarimidoll/articles/2b1e6a928cf50b
+
+mdfind -onlyin /Applications 'kMDItemAppStoreHasReceipt=1' \
+  | xargs -I{} mdls -attr kMDItemAppStoreAdamID -attr kMDItemDisplayName -attr kMDItemVersion '{}' \
+  | sed -E 's/.* = |"|\.app//g' \
+  | xargs -d '\n' -n 3 sh -c 'echo "$1/$2/($3)"' - \
+  | column -s / -t
