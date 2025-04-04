@@ -66,10 +66,10 @@ in
         efm-langserver
         emacs
         erlang_27
-        fd
         ffmpeg_7-full
         findutils
         fx
+        neo
         fzf
         gawk
         ghq
@@ -104,7 +104,6 @@ in
         lavat
         lazydocker
         lazygit
-        less
         libsixel
         lnav
         logdy
@@ -116,7 +115,6 @@ in
         moreutils
         nano
         nb
-        neofetch
         neovim # nightly
         nh
         nil
@@ -144,6 +142,7 @@ in
         stylua
         superhtml
         termdown
+        terminaltexteffects
         tokei
         typos-lsp
         tz
@@ -261,8 +260,18 @@ in
   # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.bun.enable
   programs.bun.enable = true;
 
+  # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.fd.enable
+  programs.fd.enable = true;
+
+  # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.fastfetch.enable
+  programs.fastfetch.enable = true;
+
   # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.jujutsu.enable
   programs.jujutsu.enable = true;
+
+  # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.less.enable
+  programs.less.enable = true;
+  programs.lesspipe.enable = true;
 
   # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.lsd.enable
   programs.lsd.enable = true;
@@ -282,6 +291,8 @@ in
   };
 
   # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.zsh.enable
+  # https://zenn.dev/arjef/scraps/703608a91fe38e
+  # https://scrapbox.io/r-hanafusa/zsh%2Fprezto_%E9%AB%98%E9%80%9F%E5%8C%96%E3%83%A1%E3%83%A2
   programs.zsh = {
     dotDir = ".config/zsh";
     enable = true;
@@ -339,6 +350,28 @@ in
         NL = "> /dev/null 2>&1";
       };
     };
+    plugins = [
+      {
+        # will source {name}.plugin.zsh when 'file' key does not exist
+        name = "ni";
+        src = pkgs.fetchFromGitHub {
+          owner = "azu";
+          repo = "ni.zsh";
+          rev = "658b5c305222c7ad30ab0edb647260d98fb7a183";
+          hash = "sha256-sWYZhWG5x9ZttW4yTbS7KmpnweclWB9KZXgvjXksmxA=";
+        };
+      }
+      # {
+      #   name = "enhancd";
+      #   file = "init.sh";
+      #   src = pkgs.fetchFromGitHub {
+      #     owner = "babarot";
+      #     repo = "enhancd";
+      #     rev = "5afb4eb6ba36c15821de6e39c0a7bb9d6b0ba415";
+      #     hash = "sha256-pKQbwiqE0KdmRDbHQcW18WfxyJSsKfymWt/TboY2iic=";
+      #   };
+      # }
+    ];
     initExtra = ''
       source ~/dotfiles/.zshrc
       source ~/.nix-profile/share/zsh/zsh-autopair/autopair.zsh
