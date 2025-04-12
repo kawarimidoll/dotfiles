@@ -15,6 +15,7 @@ customCommands:
     command: 'git push-with-check'
 # there is blinking bug https://github.com/jesseduffield/lazygit/issues/1302
 git:
+  overrideGpg: true
   paging:
     colorArg: always
     pager: delta --dark --paging=never --color-only
