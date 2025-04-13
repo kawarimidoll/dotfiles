@@ -1,0 +1,70 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+  "modules": [
+    {
+      "type": "title"
+    },
+    "separator",
+    {
+      "type": "os",
+      "key": "OS   "
+    },
+    {
+      "type": "kernel",
+      "key": " ├  "
+    },
+    {
+      "type": "wm",
+      "key": " ├  "
+    },
+    {
+      "type": "font",
+      "key": " └  "
+    },
+    "break",
+    {
+      "type": "terminal",
+      "key": "Term "
+    },
+    {
+      "type": "shell",
+      "key": " ├  "
+    },
+    {
+      "type": "editor",
+      "key": " ├  "
+    },
+    {
+      "type": "terminalfont",
+      "key": " ├ 󰛖 "
+    },
+    {
+      "type": "locale",
+      "key": " └  "
+    },
+    "break",
+    {
+      "type": "host",
+      "format": "{5} {1} Type {2}",
+      "key": "PC   "
+    },
+    {
+      "type": "cpu",
+      "format": "{1} ({3}) @ {7} GHz",
+      "key": " ├  "
+    },
+    {
+      "type": "gpu",
+      "format": "{1} {2} @ {12} GHz",
+      "key": " ├ 󰢮 "
+    },
+    {
+      "type": "memory",
+      "key": " ├  "
+    },
+    {
+      "type": "disk",
+      "key": " └ 󰋊 "
+    }
+  ]
+}
