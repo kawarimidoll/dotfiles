@@ -142,6 +142,18 @@ ma() {
   man "$@" | col -bx | vim -RM --not-a-term -c 'set ft=man nolist nonumber' -
 }
 
+# https://zenn.dev/kawarimidoll/articles/cf3c48589adb71
+nix() {
+  command nix "$@"
+  local exit_code=$?
+  if [[ $exit_code -ne 0 ]]; then
+    echo ""
+    echo "nix command failed!"
+    echo "Did you forget to 'git add' new files?"
+  fi
+  return $exit_code
+}
+
 # aliasにすると定義したところで評価されてしまうので関数にする必要がある
 cdg() {
   cd "$(git rev-parse --show-toplevel)"
