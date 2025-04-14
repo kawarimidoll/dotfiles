@@ -1,5 +1,7 @@
-timestamp: 2025-04-03 21:24:38 JST
+timestamp: 2025-04-14 08:13:42 JST
+tap: felixkratz/formulae
 tap: he3-app/he3
+brew: felixkratz/formulae/borders
 brew: git-now
 brew: pinentry-mac
 brew: sleepwatcher
@@ -68,23 +70,20 @@ cask: tiny-player
 cask: trex
 cask: warp
 cask: wezterm@nightly
-mas: 1351639930  Gifski            (2.23.1)
-mas: 1352778147  Bitwarden         (2025.2.1)
-mas: 1429033973  RunCat            (11.4)
-mas: 1448648921  Seashore          (3.40)
-mas: 1502839586  Hand Mirror       (3.2)
-mas: 1522267256  Shareful          (1.11.0)
-mas: 1545870783  Color Picker      (2.1.0)
-mas: 1551756247  Smart Click       (1.8)
-mas: 1575588022  MenubarX          (1.7.5)
-mas: 1611378436  Pure Paste        (1.12.1)
-mas: 1615988943  Folder Peek       (1.12.0)
-mas: 1636862100  Commander         (1.14)
-mas: 302584613   Kindle            (7.28)
-mas: 539883307   LINE              (9.7.0)
-mas: 562211012   Yomu              (3.11.0)
-mas: 6444685140  CenterMouse       (1.1.1)
-mas: 6447055708  Shortcut Notch    (1.1.5)
-mas: 6448461551  Command X         (1.5.1)
-mas: 6448700837  デスクトップ ファイル ボックス  (1.1.8)
-mas: 6462894357  Battery Line      (1.1.0)
+mas: 1351639930  Gifski        (2.23.1)
+mas: 1352778147  Bitwarden     (2025.2.1)
+mas: 1429033973  RunCat        (11.4)
+mas: 1448648921  Seashore      (3.40)
+mas: 1502839586  Hand Mirror   (3.2)
+mas: 1522267256  Shareful      (1.11.0)
+mas: 1545870783  Color Picker  (2.1.0)
+mas: 1575588022  MenubarX      (1.7.5)
+mas: 1611378436  Pure Paste    (1.12.1)
+mas: 1615988943  Folder Peek   (1.12.0)
+mas: 1636862100  Commander     (1.14)
+mas: 302584613   Kindle        (7.29)
+mas: 539883307   LINE          (9.7.0)
+mas: 562211012   Yomu          (3.11.0)
+mas: 6444685140  CenterMouse   (1.1.1)
+mas: 6448461551  Command X     (1.5.1)
+mas: 6462894357  Battery Line  (1.1.0)
