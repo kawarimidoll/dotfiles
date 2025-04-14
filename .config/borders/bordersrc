@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# ref: https://zenn.dev/mozumasu/articles/mozumasu-window-costomization
+# to start:
+# $ brew services start borders
+# to restart:
+# $ brew services restart borders
+
+options=(
+  style=round
+  width=6.0
+  hidpi=on
+  active_color=0xc0ff00f2
+  inactive_color=0xff0080ff
+)
+
+borders "${options[@]}"
