@@ -221,6 +221,16 @@ pushf() {
   git push --force-with-lease --force-if-includes origin "${1:-$(git current-branch)}"
 }
 
+clone() {
+  has 'ghq' || return 1
+  ghq get --partial blobless "$1"
+  local target=$(echo "$1" | sed -r 's;https?://[^/]+|\.git$;;')
+  local dir=$(ghq list | grep --color=never --fixed-strings "$target")
+  [ -n "$dir" ] && cd "$(ghq root)/$dir" || return
+  git dead
+  git branch -D $(git default-branch)
+}
+
 stash() {
   git stash save "${1:-$(date +%Y%m%d%H%M%S)}"
 }
