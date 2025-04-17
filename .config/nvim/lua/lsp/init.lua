@@ -1,27 +1,30 @@
 local function skip_hit_enter(fn, opts)
   opts = opts or {}
-  local args = opts.args or {}
+  if type(fn) ~= 'function' then
+    error('fn must be a function')
+  end
   local wait = opts.wait or 0
-  local save_mopt = vim.opt.messagesopt:get()
-  vim.opt.messagesopt:append('wait:' .. wait)
-  vim.opt.messagesopt:remove('hit-enter')
-  fn(unpack(args))
-  vim.schedule(function()
-    vim.opt.messagesopt = save_mopt
-  end)
+  if type(wait) ~= 'number' then
+    error('wait must be a number')
+  end
+  return function(...)
+    local save_mopt = vim.opt.messagesopt:get()
+    vim.opt.messagesopt:append('wait:' .. wait)
+    vim.opt.messagesopt:remove('hit-enter')
+    fn(...)
+    vim.schedule(function()
+      vim.opt.messagesopt = save_mopt
+    end)
+  end
 end
 
-vim.api.nvim_create_user_command(
-  'LspHealth',
-  function()
-    skip_hit_enter(
-      function()
-        vim.cmd.checkhealth('vim.lsp')
-      end,
-      { wait = 0 }
-    )
-  end,
-  { desc = 'LSP health check' })
+if vim.fn.has('vim_starting') == 1 then
+  vim.cmd.checkhealth = skip_hit_enter(vim.cmd.checkhealth)
+end
+
+vim.api.nvim_create_user_command('LspHealth', function()
+  vim.cmd.checkhealth('vim.lsp')
+end, { desc = 'LSP health check' })
 
 vim.diagnostic.config({
   virtual_text = true
