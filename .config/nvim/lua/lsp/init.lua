@@ -34,7 +34,9 @@ vim.lsp.config('*', {
   capabilities = require('mini.completion').get_lsp_capabilities(),
 })
 
-local dirname = vim.fn.stdpath('config') .. '/lua/lsp'
+-- local dirname = vim.fn.stdpath('config') .. '/lua/lsp'
+-- todo シンボリックリンクなのでvim.fs.dirでやるのは筋が悪い
+local dirname = '~/dotfiles/.config/nvim/lua/lsp'
 local lsp_names = {}
 
 for file, ftype in vim.fs.dir(dirname) do
