@@ -54,23 +54,6 @@ vim.lsp.config('*', {
   capabilities = require('mini.completion').get_lsp_capabilities(),
 })
 
--- local dirname = vim.fn.stdpath('config') .. '/lua/lsp'
--- todo シンボリックリンクなのでvim.fs.dirでやるのは筋が悪い
-local dirname = '~/dotfiles/.config/nvim/lua/lsp'
-local lsp_names = {}
-
-for file, ftype in vim.fs.dir(dirname) do
-  -- process lua files (except init.lua)
-  if ftype == 'file' and vim.endswith(file, '.lua') and file ~= 'init.lua' then
-    local lsp_name = file:sub(1, -5) -- fname without '.lua'
-    local ok, result = pcall(require, 'lsp.' .. lsp_name)
-    if ok then
-      vim.lsp.config(lsp_name, result)
-      table.insert(lsp_names, lsp_name)
-    else
-      vim.notify('Error loading LSP: ' .. lsp_name .. '\n' .. result, vim.log.levels.WARN)
-    end
-  end
-end
-
+local lsp_names = { 'lua_ls' }
+vim.notify('Loaded ' .. table.concat(lsp_names, '\n'), vim.log.levels.INFO)
 vim.lsp.enable(lsp_names)
