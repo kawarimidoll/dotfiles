@@ -280,8 +280,108 @@ now(function()
   end, { desc = 'Reveal session' })
 end)
 
+local logo = [[
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━ ▄▄    ▄ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄ ▄▄   ▄▄ ▄▄ ▄▄   ▄▄ ━━━━━━━━
+━━━━━━━━█  █  █ █       █       █  █ █  █  █  █▄█  █━━━━━━━━
+━━━━━━━━█   █▄█ █    ▄▄▄█   ▄   █  █▄█  █  █       █━━━━━━━━
+━━━━━━━━█       █   █▄▄▄█  █ █  █       █  █       █━━━━━━━━
+━━━━━━━━█  ▄    █    ▄▄▄█  █▄█  █       █  █       █━━━━━━━━
+━━━━━━━━█ █ █   █   █▄▄▄█       ██     ██  █ ██▄██ █━━━━━━━━
+━━━━━━━━█▄█  █▄▄█▄▄▄▄▄▄▄█▄▄▄▄▄▄▄█ █▄▄▄█ █▄▄█▄█   █▄█━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+]]
+local _logo2 = [[
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━┏┓┏━┓━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┏┓━━━━┏┓━┏┓━━━━━━━━
+━━━━━━━┃┃┃┏┛━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┃┃━━━━┃┃━┃┃━━━━━━━━
+━━━━━━━┃┗┛┛━┏━━┓━┏┓┏┓┏┓┏━━┓━┏━┓┏┓┏┓┏┓┏┓┏━┛┃┏━━┓┃┃━┃┃━━━━━━━━
+━━━━━━━┃┏┓┃━┗━┓┃━┃┗┛┗┛┃┗━┓┃━┃┏┛┣┫┃┗┛┃┣┫┃┏┓┃┃┏┓┃┃┃━┃┃━━━━━━━━
+━━━━━━━┃┃┃┗┓┃┗┛┗┓┗┓┏┓┏┛┃┗┛┗┓┃┃━┃┃┃┃┃┃┃┃┃┗┛┃┃┗┛┃┃┗┓┃┗┓━━━━━━━
+━━━━━━━┗┛┗━┛┗━━━┛━┗┛┗┛━┗━━━┛┗┛━┗┛┗┻┻┛┗┛┗━━┛┗━━┛┗━┛┗━┛━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+]]
+
 now(function()
-  require('mini.starter').setup()
+  require('mini.starter').setup({
+    header = string.rep('\n', 7),
+  })
+
+  local function display_logo()
+    local buf = vim.api.nvim_create_buf(false, true)
+    -- local width = math.floor(vim.o.columns * 0.8)
+    -- local height = math.floor(vim.o.lines * 0.8)
+    local width = vim.o.columns
+    local height = 12
+    local row = 2
+    local col = 0
+
+    local focusable = false
+    local winopts = {
+      style = "minimal",
+      relative = "editor",
+      width = width,
+      height = height,
+      row = row,
+      col = col,
+      border = "none",
+      focusable = focusable,
+      noautocmd = true,
+    }
+
+    local win = vim.api.nvim_open_win(buf, focusable, winopts)
+    vim.api.nvim_set_option_value('winblend', 100, { scope = "local", win = win })
+    vim.api.nvim_set_option_value('bufhidden', 'wipe', { scope = "local", buf = buf })
+
+    local subcommands = {
+      'middleout --center-movement-speed 0.8 --full-movement-speed 0.2',
+      'slide --merge --movement-speed 0.8',
+      'beams --beam-delay 5 --beam-row-speed-range 20-60 --beam-column-speed-range 8-12',
+    }
+    -- random pick subcommand
+    math.randomseed(os.time())
+    -- local subcommand = subcommands[3]
+    local subcommand = subcommands[math.random(#subcommands)]
+    local cmd = {
+      'sh',
+      '-c',
+      'echo -e '
+      .. vim.fn.shellescape(vim.trim(logo))
+      .. ' | tte --anchor-canvas s ' .. subcommand
+      .. ' --final-gradient-direction diagonal'
+    }
+    vim.api.nvim_buf_call(buf, function()
+      vim.fn.jobstart(cmd, {
+        term = true,
+        on_exit = function() end,
+      })
+    end)
+    return { buf = buf, win = win }
+  end
+
+  create_autocmd('User', {
+    pattern = 'MiniStarterOpened',
+    callback = function()
+      -- display logo
+      local logo_info = display_logo()
+      -- close logo
+      local buf = vim.api.nvim_get_current_buf()
+      create_autocmd('BufLeave', {
+        buffer = buf,
+        once = true,
+        callback = function()
+          vim.api.nvim_win_close(logo_info.win, true)
+        end,
+        desc = 'Close logo'
+      })
+    end,
+    desc = 'Display logo when starter opened'
+  })
 end)
 
 later(function()
