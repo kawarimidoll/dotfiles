@@ -29,8 +29,21 @@ vim.api.nvim_create_user_command('LspHealth', function()
   vim.cmd.checkhealth('vim.lsp')
 end, { desc = 'LSP health check' })
 
+local function diagnostic_format(diagnostic)
+  return string.format('%s (%s)', diagnostic.message, diagnostic.source)
+end
 vim.diagnostic.config({
-  virtual_text = true
+  severity_sort = true,
+  virtual_text = { format = diagnostic_format },
+  float = { format = diagnostic_format },
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = '',
+      [vim.diagnostic.severity.WARN] = '',
+      [vim.diagnostic.severity.INFO] = '',
+      [vim.diagnostic.severity.HINT] = '',
+    },
+  },
 })
 
 -- augroup for this config file
