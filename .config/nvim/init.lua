@@ -18,7 +18,7 @@ vim.opt.scrolloff = 3
 vim.opt.whichwrap = 'b,s,h,l,<,>,[,],~'
 
 require('mi.commands')
-require('mi.utils')
+local U = require('mi.utils')
 
 -- augroup for this config file
 local augroup = vim.api.nvim_create_augroup('init.lua', {})
@@ -35,7 +35,7 @@ create_autocmd('BufWritePre', {
   pattern = '*',
   callback = function(event)
     local dir = vim.fs.dirname(event.file)
-    local force = vim.v.cmdbang == 1
+    local force = U.present(vim.v.cmdbang)
     if not vim.bool_fn.isdirectory(dir)
         and (force or vim.fn.confirm('"' .. dir .. '" does not exist. Create?', "&Yes\n&No") == 1) then
       vim.fn.mkdir(vim.fn.iconv(dir, vim.opt.encoding:get(), vim.opt.termencoding:get()), 'p')
@@ -236,9 +236,6 @@ end)
 now(function()
   require('mini.sessions').setup()
 
-  local function is_blank(arg)
-    return arg == nil or arg == ''
-  end
   local function get_sessions(lead)
     -- ref: https://qiita.com/delphinus/items/2c993527df40c9ebaea7
     return vim
@@ -250,8 +247,8 @@ now(function()
         :totable()
   end
   vim.api.nvim_create_user_command('SessionWrite', function(arg)
-    local session_name = is_blank(arg.args) and vim.v.this_session or arg.args
-    if is_blank(session_name) then
+    local session_name = U.blank(arg.args) and vim.v.this_session or arg.args
+    if U.blank(session_name) then
       vim.notify('No session name specified', vim.log.levels.WARN)
       return
     end
@@ -272,7 +269,7 @@ now(function()
   end, { desc = 'Escape session' })
 
   vim.api.nvim_create_user_command('SessionReveal', function()
-    if is_blank(vim.v.this_session) then
+    if U.blank(vim.v.this_session) then
       vim.print('No session')
       return
     end
@@ -730,9 +727,7 @@ later(function()
   add({
     source = 'https://github.com/nvim-treesitter/nvim-treesitter',
     hooks = {
-      post_checkout = function()
-        vim.cmd.TSUpdate()
-      end
+      post_checkout = U.noarg(vim.cmd.TSUpdate)
     },
   })
   ---@diagnostic disable-next-line: missing-fields
