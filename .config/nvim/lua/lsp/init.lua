@@ -18,7 +18,10 @@ local function skip_hit_enter(fn, opts)
   end
 end
 
+local node_bin = '/Users/kawarimidoll/dotfiles/.config/nvim/node_servers/node_modules/.bin'
 if vim.fn.has('vim_starting') == 1 then
+  vim.env.PATH = node_bin .. ':' .. vim.env.PATH
+
   vim.cmd.checkhealth = skip_hit_enter(vim.cmd.checkhealth)
 end
 
