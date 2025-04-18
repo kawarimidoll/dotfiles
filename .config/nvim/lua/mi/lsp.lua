@@ -47,7 +47,7 @@ vim.diagnostic.config({
 })
 
 -- augroup for this config file
-local augroup = vim.api.nvim_create_augroup('lsp/init.lua', {})
+local augroup = vim.api.nvim_create_augroup('mi/lsp.lua', {})
 
 vim.api.nvim_create_autocmd('LspAttach', {
   group = augroup,

@@ -17,8 +17,8 @@ vim.opt.scrolloff = 3
 -- move the cursor to the previous/next line across the first/last character
 vim.opt.whichwrap = 'b,s,h,l,<,>,[,],~'
 
-require('user_command')
-require('bool_fn')
+require('mi.commands')
+require('mi.utils')
 
 -- augroup for this config file
 local augroup = vim.api.nvim_create_augroup('init.lua', {})
@@ -515,7 +515,7 @@ later(function()
 end)
 
 now(function()
-  require('lsp')
+  require('mi.lsp')
 end)
 
 later(function()
