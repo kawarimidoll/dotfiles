@@ -512,6 +512,18 @@ later(function()
 end)
 
 now(function()
+  add({ source = 'https://github.com/neovim/nvim-lspconfig' })
+
+  -- https://github.com/neovim/neovim/discussions/26571#discussioncomment-11879196
+  -- https://github.com/lttb/gh-actions-language-server
+  vim.filetype.add({
+    pattern = {
+      ['compose.*%.ya?ml'] = 'yaml.docker-compose',
+      ['docker%-compose.*%.ya?ml'] = 'yaml.docker-compose',
+      ['.*/%.github[%w/]+workflows[%w/]+.*%.ya?ml'] = 'yaml.github-actions',
+    },
+  })
+
   require('mi.lsp')
 end)
 

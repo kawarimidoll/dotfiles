@@ -51,6 +51,31 @@ vim.lsp.config('*', {
   capabilities = require('mini.completion').get_lsp_capabilities(),
 })
 
-local lsp_names = { 'lua_ls' }
-vim.notify('Loaded ' .. table.concat(lsp_names, '\n'), vim.log.levels.INFO)
+local lsp_names = {
+  'bashls',
+  'buf_ls',
+  'cssmodules_ls',
+  'denols',
+  'docker_compose_language_service',
+  'dockerls',
+  'gh_actions_ls',
+  'gleam',
+  'gopls',
+  'lua_ls',
+  'nil_ls',
+  'rust_analyzer',
+  'sqlls',
+  'superhtml',
+  'typos_lsp',
+  'yamlls',
+  -- 'tsgo',
+}
+
 vim.lsp.enable(lsp_names)
+-- vim.notify('Loaded ' .. table.concat(lsp_names, '\n'), vim.log.levels.INFO)
+
+-- https://zenn.dev/helloyuki/scraps/ac9e70db8c2dbf
+-- rust-analyzerが以下のエラーを出して止まったとき:
+-- Unknown binary 'rust-analyzer' in official toolchain '1.82.0-aarch64-apple-darwin'.
+-- 以下のコマンドを実行して、rust-analyzerを追加する:
+-- rustup component add rust-analyzer
