@@ -820,6 +820,13 @@ later(function()
     suggestion = {
       auto_trigger = true,
       hide_during_completion = false,
+      keymap = {
+        accept = '<c-e>',
+        accept_word = '<c-g><c-e>',
+        next = '<c-f>',
+        prev = '<c-b>',
+        dismiss = '<c-a>',
+      },
     },
     filetypes = {
       markdown = true,
