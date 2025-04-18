@@ -1,28 +1,6 @@
-local function skip_hit_enter(fn, opts)
-  opts = opts or {}
-  if type(fn) ~= 'function' then
-    error('fn must be a function')
-  end
-  local wait = opts.wait or 0
-  if type(wait) ~= 'number' then
-    error('wait must be a number')
-  end
-  return function(...)
-    local save_mopt = vim.opt.messagesopt:get()
-    vim.opt.messagesopt:append('wait:' .. wait)
-    vim.opt.messagesopt:remove('hit-enter')
-    fn(...)
-    vim.schedule(function()
-      vim.opt.messagesopt = save_mopt
-    end)
-  end
-end
-
 local node_bin = '/Users/kawarimidoll/dotfiles/.config/nvim/node_servers/node_modules/.bin'
 if vim.fn.has('vim_starting') == 1 then
   vim.env.PATH = node_bin .. ':' .. vim.env.PATH
-
-  vim.cmd.checkhealth = skip_hit_enter(vim.cmd.checkhealth)
 end
 
 vim.api.nvim_create_user_command('LspHealth', function()

@@ -33,6 +33,55 @@ function M.get_current_selection()
   )
 end
 
+--- skip hit-enter prompt
+-- hit-enterプロンプトをスキップするラップされた関数を返す
+-- @param fn function ラップする関数
+-- @param opts table|nil オプションのテーブル
+--   - wait (number|nil): 待機時間（ミリ秒）。デフォルトは0。
+-- @return function hit-enterをスキップするラップされた関数
+function M.skip_hit_enter(fn, opts)
+  opts = opts or {}
+  if type(fn) ~= 'function' then
+    error('fn must be a function')
+  end
+  local wait = opts.wait or 0
+  vim.notify('wait: ' .. wait, vim.log.levels.INFO)
+  if type(wait) ~= 'number' then
+    error('wait must be a number')
+  end
+  return function(...)
+    local save_mopt = vim.opt.messagesopt:get()
+    vim.opt.messagesopt:append('wait:' .. wait)
+    vim.opt.messagesopt:remove('hit-enter')
+    fn(...)
+    vim.cmd('echomsg &messagesopt')
+    vim.schedule(function()
+      vim.opt.messagesopt = save_mopt
+    end)
+  end
+end
+
+-- 微妙にうまくいかない
+-- vim.api.nvim_create_user_command(
+--   'SkipHitEnter',
+--   function(arg)
+--     M.skip_hit_enter(function(v)
+--       -- vim.api.nvim_exec2(v, { output = true })
+--       vim.cmd(v)
+--     end, { wait = arg.count })(arg.args)
+--   end,
+--   {
+--     desc = 'Skip hit-enter prompt',
+--     nargs = '+',
+--     complete = 'command',
+--     count = true,
+--   }
+-- )
+
+if vim.fn.has('vim_starting') == 1 then
+  vim.cmd.checkhealth = M.skip_hit_enter(vim.cmd.checkhealth)
+end
+
 -- https://scrapbox.io/vim-jp/boolean%E3%81%AA%E5%80%A4%E3%82%92%E8%BF%94%E3%81%99vim.fn%E3%81%AEwrapper_function
 -- example:
 -- if vim.bool_fn.has('mac') then ... end
