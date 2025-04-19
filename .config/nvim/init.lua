@@ -65,6 +65,41 @@ create_autocmd('ColorScheme', {
   callback = transparent_bg,
 })
 
+-- https://zenn.dev/kawarimidoll/articles/33cf46fae69809
+create_autocmd('BufNewFile', {
+  pattern = '*',
+  callback = function(args)
+    -- 開こうとしたファイル
+    local fname = args.file
+
+    -- ファイル名が前方一致するものを抽出
+    -- かつ、`lock`を名前に含むものは除く
+    local possible = vim.tbl_filter(function(v)
+      return not v:match('lock')
+    end, vim.fn.glob(fname .. '*', true, true))
+
+    -- 候補がなければ終了
+    if vim.tbl_isempty(possible) then
+      return
+    end
+
+    -- 文字数でソートし、最初（最短）のものを質問なしで開く
+    table.sort(possible, function(a, b)
+      return #a < #b
+    end)
+    vim.schedule(function()
+      vim.cmd.edit(possible[1])
+      vim.cmd('bwipeout! #')
+      if #possible > 1 then
+        vim.notify(
+          'There are ' .. #possible .. ' files that match ' .. fname,
+          vim.log.levels.INFO
+        )
+      end
+    end)
+  end,
+})
+
 -- Clone 'mini.nvim' manually in a way that it gets managed by 'mini.deps'
 local path_package = vim.fn.stdpath('data') .. '/site/'
 local mini_path = path_package .. 'pack/deps/start/mini.nvim'
