@@ -66,44 +66,6 @@ create_autocmd('ColorScheme', {
   callback = transparent_bg,
 })
 
-vim.keymap.set('n', 'p', 'p`]', { desc = 'Paste and move the end' })
-vim.keymap.set('n', 'P', 'P`]', { desc = 'Paste and move the end' })
-
-vim.keymap.set('x', 'p', 'P', { desc = 'Paste without change register' })
-vim.keymap.set('x', 'P', 'p', { desc = 'Paste with change register' })
-
-vim.keymap.set({ 'n', 'x' }, 'x', '"_d', { desc = 'Delete into blackhole' })
-vim.keymap.set('n', 'X', '"_D', { desc = 'Delete into blackhole' })
-vim.keymap.set('o', 'x', 'd', { desc = 'Delete using x' })
-
-vim.keymap.set('c', '<c-b>', '<left>', { desc = 'Emacs like left' })
-vim.keymap.set('c', '<c-f>', '<right>', { desc = 'Emacs like right' })
-vim.keymap.set('c', '<c-a>', '<home>', { desc = 'Emacs like home' })
-vim.keymap.set('c', '<c-e>', '<end>', { desc = 'Emacs like end' })
-vim.keymap.set('c', '<c-h>', '<bs>', { desc = 'Emacs like bs' })
-vim.keymap.set('c', '<c-d>', '<del>', { desc = 'Emacs like del' })
-
-vim.keymap.set('n', '<space>;', '@:', { desc = 'Re-run the last command' })
-
-vim.keymap.set('n', '<space>w', '<cmd>write<cr>', { desc = 'Write' })
-
-vim.keymap.set({ 'n', 'x' }, 'so', ':source<cr>', { silent = true, desc = 'Source current script' })
-
-vim.keymap.set('c', '<c-n>', function()
-  return vim.bool_fn.wildmenumode() and '<c-n>' or '<down>'
-end, { expr = true, desc = 'Select next' })
-vim.keymap.set('c', '<c-p>', function()
-  return vim.bool_fn.wildmenumode() and '<c-p>' or '<up>'
-end, { expr = true, desc = 'Select previous' })
-
-vim.keymap.set('n', '<space>q', function()
-  if not pcall(vim.cmd.tabclose) then
-    vim.cmd.quit()
-  end
-end, { desc = 'Quit current tab or window' })
-
-vim.keymap.set('n', 'q:', '<nop>', { desc = 'Disable cmdwin' })
-
 -- abbreviation only for ex-command
 local function abbrev_excmd(lhs, rhs, opts)
   vim.keymap.set('ca', lhs, function()
@@ -132,6 +94,10 @@ end
 require('mini.deps').setup({ path = { package = path_package } })
 
 local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
+
+later(function()
+  require('mi.keymaps')
+end)
 
 now(function()
   require('mini.icons').setup()
