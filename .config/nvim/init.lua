@@ -24,9 +24,12 @@ local augroup = vim.api.nvim_create_augroup('init.lua', {})
 
 -- wrapper function to use internal augroup
 local function create_autocmd(event, opts)
-  vim.api.nvim_create_autocmd(event, vim.tbl_extend('force', {
-    group = augroup,
-  }, opts))
+  vim.api.nvim_create_autocmd(
+    event,
+    vim.tbl_extend('force', {
+      group = augroup,
+    }, opts)
+  )
 end
 
 -- https://vim-jp.org/vim-users-jp/2011/02/20/Hack-202.html
@@ -35,12 +38,14 @@ create_autocmd('BufWritePre', {
   callback = function(event)
     local dir = vim.fs.dirname(event.file)
     local force = U.present(vim.v.cmdbang)
-    if not vim.bool_fn.isdirectory(dir)
-        and (force or vim.fn.confirm('"' .. dir .. '" does not exist. Create?', "&Yes\n&No") == 1) then
+    if
+      not vim.bool_fn.isdirectory(dir)
+      and (force or vim.fn.confirm('"' .. dir .. '" does not exist. Create?', '&Yes\n&No') == 1)
+    then
       vim.fn.mkdir(vim.fn.iconv(dir, vim.opt.encoding:get(), vim.opt.termencoding:get()), 'p')
     end
   end,
-  desc = 'Auto mkdir to save file'
+  desc = 'Auto mkdir to save file',
 })
 
 local function transparent_bg()
@@ -91,10 +96,7 @@ create_autocmd('BufNewFile', {
       vim.cmd.edit(possible[1])
       vim.cmd('bwipeout! #')
       if #possible > 1 then
-        vim.notify(
-          'There are ' .. #possible .. ' files that match ' .. fname,
-          vim.log.levels.INFO
-        )
+        vim.notify('There are ' .. #possible .. ' files that match ' .. fname, vim.log.levels.INFO)
       end
     end)
   end,
@@ -106,8 +108,11 @@ local mini_path = path_package .. 'pack/deps/start/mini.nvim'
 if not vim.uv.fs_stat(mini_path) then
   vim.cmd('echo "Installing `mini.nvim`" | redraw')
   local clone_cmd = {
-    'git', 'clone', '--filter=blob:none',
-    'https://github.com/echasnovski/mini.nvim', mini_path
+    'git',
+    'clone',
+    '--filter=blob:none',
+    'https://github.com/echasnovski/mini.nvim',
+    mini_path,
   }
   vim.fn.system(clone_cmd)
   vim.cmd('packadd mini.nvim | helptags ALL')
@@ -275,7 +280,7 @@ now(function()
   local zenn_palette = base16.mini_palette(
     '#0a2a2a', -- background
     '#edf2f6', -- foreground
-    75         -- accent chroma
+    75 -- accent chroma
   )
   base16.setup({ palette = zenn_palette })
 
@@ -313,14 +318,10 @@ end)
 later(function()
   require('mini.trailspace').setup()
 
-  vim.api.nvim_create_user_command(
-    'Trim',
-    function()
-      MiniTrailspace.trim()
-      MiniTrailspace.trim_last_lines()
-    end,
-    { desc = 'Trim trailing space and last blank lines' }
-  )
+  vim.api.nvim_create_user_command('Trim', function()
+    MiniTrailspace.trim()
+    MiniTrailspace.trim_last_lines()
+  end, { desc = 'Trim trailing space and last blank lines' })
 end)
 
 now(function()
@@ -329,12 +330,12 @@ now(function()
   local function get_sessions(lead)
     -- ref: https://qiita.com/delphinus/items/2c993527df40c9ebaea7
     return vim
-        .iter(vim.fs.dir(MiniSessions.config.directory))
-        :map(function(v)
-          local name = vim.fs.basename(v)
-          return vim.startswith(name, lead) and name or nil
-        end)
-        :totable()
+      .iter(vim.fs.dir(MiniSessions.config.directory))
+      :map(function(v)
+        local name = vim.fs.basename(v)
+        return vim.startswith(name, lead) and name or nil
+      end)
+      :totable()
   end
   vim.api.nvim_create_user_command('SessionWrite', function(arg)
     local session_name = U.blank(arg.args) and vim.v.this_session or arg.args
@@ -413,20 +414,20 @@ now(function()
 
     local focusable = false
     local winopts = {
-      style = "minimal",
-      relative = "editor",
+      style = 'minimal',
+      relative = 'editor',
       width = width,
       height = height,
       row = row,
       col = col,
-      border = "none",
+      border = 'none',
       focusable = focusable,
       noautocmd = true,
     }
 
     local win = vim.api.nvim_open_win(buf, focusable, winopts)
-    vim.api.nvim_set_option_value('winblend', 100, { scope = "local", win = win })
-    vim.api.nvim_set_option_value('bufhidden', 'wipe', { scope = "local", buf = buf })
+    vim.api.nvim_set_option_value('winblend', 100, { scope = 'local', win = win })
+    vim.api.nvim_set_option_value('bufhidden', 'wipe', { scope = 'local', buf = buf })
 
     local subcommands = {
       'middleout --center-movement-speed 0.8 --full-movement-speed 0.2',
@@ -441,9 +442,10 @@ now(function()
       'sh',
       '-c',
       'echo -e '
-      .. vim.fn.shellescape(vim.trim(logo))
-      .. ' | tte --anchor-canvas s ' .. subcommand
-      .. ' --final-gradient-direction diagonal'
+        .. vim.fn.shellescape(vim.trim(logo))
+        .. ' | tte --anchor-canvas s '
+        .. subcommand
+        .. ' --final-gradient-direction diagonal',
     }
     vim.api.nvim_buf_call(buf, function()
       vim.fn.jobstart(cmd, {
@@ -467,10 +469,10 @@ now(function()
         callback = function()
           vim.api.nvim_win_close(logo_info.win, true)
         end,
-        desc = 'Close logo'
+        desc = 'Close logo',
       })
     end,
-    desc = 'Display logo when starter opened'
+    desc = 'Display logo when starter opened',
   })
 end)
 
@@ -491,7 +493,7 @@ later(function()
       i = gen_ai_spec.indent(),
       l = gen_ai_spec.line(),
       n = gen_ai_spec.number(),
-      J = { { '()%d%d%d%d%-%d%d%-%d%d()', '()%d%d%d%d%/%d%d%/%d%d()' } }
+      J = { { '()%d%d%d%d%-%d%d%-%d%d()', '()%d%d%d%d%/%d%d%/%d%d()' } },
     },
   })
 
@@ -506,43 +508,41 @@ now(function()
     'javascriptreact',
     'typescript',
     'typescript.tsx',
-    'typescriptreact'
+    'typescriptreact',
   }
 
   create_autocmd('FileType', {
     pattern = js_like_types,
     callback = function()
       -- surround
-      vim.b.minisurround_config =
-          vim.tbl_deep_extend('force', vim.b.minisurround_config or {}, {
-            custom_surroundings = {
-              s = {
-                input = { '${().-()}' },
-                output = { left = '${', right = '}' },
-              },
-              g = {
-                input = { '%f[%w_%.][%w_%.]+%b<>', '^.-<().*()>$' },
-                output = function()
-                  local generics_name = require('mini.surround').user_input('Generics name')
-                  if generics_name == nil then
-                    return nil
-                  end
-                  return { left = generics_name .. '<', right = '>' }
-                end,
-              },
-            },
-          })
+      vim.b.minisurround_config = vim.tbl_deep_extend('force', vim.b.minisurround_config or {}, {
+        custom_surroundings = {
+          s = {
+            input = { '${().-()}' },
+            output = { left = '${', right = '}' },
+          },
+          g = {
+            input = { '%f[%w_%.][%w_%.]+%b<>', '^.-<().*()>$' },
+            output = function()
+              local generics_name = require('mini.surround').user_input('Generics name')
+              if generics_name == nil then
+                return nil
+              end
+              return { left = generics_name .. '<', right = '>' }
+            end,
+          },
+        },
+      })
 
       -- ai
-      vim.b.miniai_config =
-          vim.tbl_deep_extend('force', vim.b.miniai_config or {}, {
-            custom_textobjects = {
-              s = { '${().-()}' },
-              g = { '%f[%w_%.][%w_%.]+%b<>', '^.-<().*()>$' },
-            },
-          })
+      vim.b.miniai_config = vim.tbl_deep_extend('force', vim.b.miniai_config or {}, {
+        custom_textobjects = {
+          s = { '${().-()}' },
+          g = { '%f[%w_%.][%w_%.]+%b<>', '^.-<().*()>$' },
+        },
+      })
     end,
-    desc = 'Local setting for js-like filetypes'
+    desc = 'Local setting for js-like filetypes',
   })
 end)
 
@@ -690,13 +690,9 @@ end)
 later(function()
   require('mini.bufremove').setup()
 
-  vim.api.nvim_create_user_command(
-    'Bufdelete',
-    function()
-      MiniBufremove.delete()
-    end,
-    { desc = 'Remove buffer' }
-  )
+  vim.api.nvim_create_user_command('Bufdelete', function()
+    MiniBufremove.delete()
+  end, { desc = 'Remove buffer' })
   vim.keymap.set('n', '<space>d', function()
     MiniBufremove.delete()
   end, { desc = 'Remove buffer' })
@@ -705,13 +701,9 @@ end)
 now(function()
   require('mini.files').setup()
 
-  vim.api.nvim_create_user_command(
-    'Files',
-    function()
-      MiniFiles.open()
-    end,
-    { desc = 'Open file exproler' }
-  )
+  vim.api.nvim_create_user_command('Files', function()
+    MiniFiles.open()
+  end, { desc = 'Open file exproler' })
   vim.keymap.set('n', '<space>e', '<cmd>Files<cr>', { desc = 'Open file exproler' })
 end)
 
@@ -834,7 +826,7 @@ later(function()
     },
     symbols = {
       scroll_line = '▶',
-    }
+    },
   })
   vim.keymap.set('n', 'mmf', MiniMap.toggle_focus, { desc = 'MiniMap.toggle_focus' })
   vim.keymap.set('n', 'mms', MiniMap.toggle_side, { desc = 'MiniMap.toggle_side' })
@@ -853,7 +845,7 @@ later(function()
   add({
     source = 'https://github.com/nvim-treesitter/nvim-treesitter',
     hooks = {
-      post_checkout = U.noarg(vim.cmd.TSUpdate)
+      post_checkout = U.noarg(vim.cmd.TSUpdate),
     },
   })
   ---@diagnostic disable-next-line: missing-fields
@@ -875,8 +867,12 @@ later(function()
 end)
 
 later(function()
-  vim.keymap.set('n', '?', '<cmd>silent vimgrep//gj%|copen<cr>',
-    { desc = 'Populate latest search result to quickfix list' })
+  vim.keymap.set(
+    'n',
+    '?',
+    '<cmd>silent vimgrep//gj%|copen<cr>',
+    { desc = 'Populate latest search result to quickfix list' }
+  )
 
   -- use rg for external-grep
   vim.opt.grepprg = table.concat({
@@ -894,8 +890,8 @@ later(function()
   -- ref: `:NewGrep` in `:help grep`
   vim.api.nvim_create_user_command('Grep', function(arg)
     local grep_cmd = 'silent grep! '
-        .. (arg.bang and '--fixed-strings -- ' or '')
-        .. vim.fn.shellescape(arg.args, true)
+      .. (arg.bang and '--fixed-strings -- ' or '')
+      .. vim.fn.shellescape(arg.args, true)
     vim.cmd(grep_cmd)
     if vim.fn.getqflist({ size = true }).size > 0 then
       vim.cmd.copen()
@@ -975,7 +971,7 @@ later(function()
     source = 'https://github.com/CopilotC-Nvim/CopilotChat.nvim',
     depends = {
       'https://github.com/nvim-lua/plenary.nvim',
-      'https://github.com/zbirenbaum/copilot.lua'
+      'https://github.com/zbirenbaum/copilot.lua',
     },
   })
 
@@ -988,10 +984,8 @@ later(function()
       Fix = { prompt = default_prompts.Fix.prompt .. in_japanese },
       Optimize = { prompt = default_prompts.Optimize.prompt .. in_japanese },
       TranslateJE = {
-        prompt =
-        'Translate the selected text from English to Japanese if it is in English, or from Japanese to English if it is in Japanese. Please do not include unnecessary line breaks, line numbers, comments, etc. in the result.',
-        system_prompt =
-        'You are an excellent Japanese-English translator. You can translate the original text correctly without losing its meaning. You also have deep knowledge of system engineering and are good at translating technical documents.',
+        prompt = 'Translate the selected text from English to Japanese if it is in English, or from Japanese to English if it is in Japanese. Please do not include unnecessary line breaks, line numbers, comments, etc. in the result.',
+        system_prompt = 'You are an excellent Japanese-English translator. You can translate the original text correctly without losing its meaning. You also have deep knowledge of system engineering and are good at translating technical documents.',
         description = 'Translate text from Japanese to English or vice versa',
       },
     }),
@@ -1015,8 +1009,12 @@ later(function()
     end
     vim.cmd('normal! `[v`]J')
   end
-  vim.keymap.set('n', 'J', 'v:lua.OperatorJoin()',
-    { expr = true, silent = true, replace_keycodes = false, desc = 'Join lines' })
+  vim.keymap.set(
+    'n',
+    'J',
+    'v:lua.OperatorJoin()',
+    { expr = true, silent = true, replace_keycodes = false, desc = 'Join lines' }
+  )
 end)
 
 later(function()
@@ -1063,8 +1061,8 @@ later(function()
   ---@diagnostic disable-next-line: missing-fields
   require('nvim-ts-autotag').setup({
     opts = {
-      enable_close = false,         -- Auto close tags
-      enable_rename = false,        -- Auto rename pairs of tags
+      enable_close = false, -- Auto close tags
+      enable_rename = false, -- Auto rename pairs of tags
       enable_close_on_slash = true, -- Auto close on trailing </
     },
   })
@@ -1175,11 +1173,11 @@ end)
 now(function()
   local default_rtp = vim.opt.runtimepath:get()
   vim.opt.runtimepath:remove(vim.env.VIMRUNTIME)
-  create_autocmd("SourcePre", {
-    pattern = "*/plugin/*",
+  create_autocmd('SourcePre', {
+    pattern = '*/plugin/*',
     once = true,
     callback = function()
       vim.opt.runtimepath = default_rtp
-    end
+    end,
   })
 end)

@@ -19,14 +19,14 @@ return {
           '${3rd}/luv/library',
           '${3rd}/busted/library',
         }),
-      }
+      },
     })
   end,
   settings = {
     Lua = {
       diagnostics = {
-        unusedLocalExclude = { '_*' }
-      }
-    }
-  }
+        unusedLocalExclude = { '_*' },
+      },
+    },
+  },
 }
