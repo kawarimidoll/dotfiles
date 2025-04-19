@@ -67,6 +67,7 @@ local lsp_names = {
   'sqlls',
   'superhtml',
   'typos_lsp',
+  'vtsls',
   'yamlls',
   -- 'tsgo',
 }
