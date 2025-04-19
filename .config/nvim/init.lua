@@ -44,6 +44,28 @@ create_autocmd('BufWritePre', {
   desc = 'Auto mkdir to save file'
 })
 
+local function transparent_bg()
+  -- make background transparent
+  local hl_groups = {
+    'Normal',
+    'NormalNC',
+    'NonText',
+    'LineNr',
+    'Folded',
+    'EndOfBuffer',
+    'TabLineFill',
+    -- 'NormalFloat',
+    -- 'FloatBorder',
+  }
+  for _, group in ipairs(hl_groups) do
+    vim.api.nvim_set_hl(0, group, { ctermbg = 'NONE', bg = 'NONE' })
+  end
+end
+create_autocmd('ColorScheme', {
+  pattern = '*',
+  callback = transparent_bg,
+})
+
 vim.keymap.set('n', 'p', 'p`]', { desc = 'Paste and move the end' })
 vim.keymap.set('n', 'P', 'P`]', { desc = 'Paste and move the end' })
 
