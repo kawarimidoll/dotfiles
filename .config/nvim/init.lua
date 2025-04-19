@@ -335,10 +335,13 @@ now(function()
     local buf = vim.api.nvim_create_buf(false, true)
     -- local width = math.floor(vim.o.columns * 0.8)
     -- local height = math.floor(vim.o.lines * 0.8)
-    local width = vim.o.columns
-    local height = 12
+    local logo_lines = vim.split(vim.trim(logo), '\n')
+    local width = vim.fn.reduce(logo_lines, function(acc, line)
+      return math.max(acc, vim.fn.strdisplaywidth(line))
+    end, 0)
+    local height = #logo_lines + 1
     local row = 2
-    local col = 0
+    local col = math.floor((vim.o.columns - width) / 2)
 
     local focusable = false
     local winopts = {
