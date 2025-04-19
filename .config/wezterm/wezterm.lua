@@ -87,6 +87,18 @@ wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_wid
   return result
 end)
 
+wezterm.on('window-config-reloaded', function(window, _pane)
+  -- light scheme 'Papercolor Light (Gogh)', 'tokyonight-day'
+  local overrides = window:get_config_overrides() or {}
+  local scheme_light = 'tokyonight-day'
+  local scheme_dark = 'Catppuccin Mocha'
+  local scheme = window:get_appearance():find('Dark') and scheme_dark or scheme_light
+  if overrides.color_scheme ~= scheme then
+    overrides.color_scheme = scheme
+    window:set_config_overrides(overrides)
+  end
+end)
+
 return {
   check_for_updates = false,
   front_end = 'WebGpu',
@@ -99,7 +111,7 @@ return {
     'Symbols Nerd Font Mono',
   }),
   font_size = 18.0,
-  color_scheme = 'Catppuccin Mocha',
+  -- color_schemeはon:window-config-reloadedで変更する
 
   window_decorations = 'INTEGRATED_BUTTONS|RESIZE',
   -- hide_tab_bar_if_only_one_tab = true,
@@ -114,17 +126,25 @@ return {
     font_size = 16.0,
   },
   window_background_gradient = {
-    colors = { '#000000' },
-  },
-  background = {
-    {
-      source = {
-        -- must be absolute path
-        File = '/Users/kawarimidoll/dotfiles/wallpapers/pixel_night.png',
-      },
-      opacity = 0.05,
+    orientation = 'Vertical',
+    colors = {
+      '#e1e2e7',
+      '#e0ebee',
+      -- '#e0e0fb',
     },
   },
+  -- window_background_gradient = {
+  --   colors = { '#000000' },
+  -- },
+  -- background = {
+  --   {
+  --     source = {
+  --       -- must be absolute path
+  --       File = '/Users/kawarimidoll/dotfiles/wallpapers/pixel_night.png',
+  --     },
+  --     opacity = 0.05,
+  --   },
+  -- },
 
   colors = {
     tab_bar = {

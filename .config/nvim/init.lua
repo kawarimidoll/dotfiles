@@ -58,8 +58,8 @@ local function transparent_bg()
     'Folded',
     'EndOfBuffer',
     'TabLineFill',
-    -- 'NormalFloat',
-    -- 'FloatBorder',
+    'NormalFloat',
+    'FloatBorder',
   }
   for _, group in ipairs(hl_groups) do
     vim.api.nvim_set_hl(0, group, { ctermbg = 'NONE', bg = 'NONE' })
@@ -218,6 +218,7 @@ now(function()
     },
   })
   vim.opt.number = false
+  vim.opt.cursorline = false
 end)
 
 later(function()
@@ -275,15 +276,15 @@ now(function()
   end, { desc = 'Show notify history' })
 end)
 
-now(function()
+later(function()
   local base16 = require('mini.base16')
-  local zenn_palette = base16.mini_palette(
-    '#0a2a2a', -- background
-    '#edf2f6', -- foreground
-    75 -- accent chroma
-  )
-  base16.setup({ palette = zenn_palette })
+  -- { background, foreground, accent chroma }
+  local palette_args = vim.opt.background:get() == 'dark' and { '#0a2a2a', '#edf2f6', 75 }
+    or { '#e1e2e7', '#0a2a2a', 85 }
+  local palette = base16.mini_palette(palette_args[1], palette_args[2], palette_args[3])
+  base16.setup({ palette = palette })
 
+  -- vim.cmd.colorscheme('minicyan')
   -- overwrite highlight WinSeparator
   vim.api.nvim_set_hl(0, 'WinSeparator', { link = 'Comment' })
   -- call autocmd ColorScheme manually

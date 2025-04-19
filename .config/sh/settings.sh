@@ -239,8 +239,10 @@ stash() {
 #  fzf
 # -----------------
 fzf_preview_cmd='head -50'
+export BAT_THEME_LIGHT="gruvbox-light"
 if has 'bat'; then
-  fzf_preview_cmd='bat --color=always --style=header,grid --line-range :50 {}'
+  # fzf_preview_cmd='bat --color=always --style=header,grid --line-range :50 {}'
+  fzf_preview_cmd='bat --color=always --theme=light --style=header,grid --line-range :50 {}'
 fi
 export FZF_COMPLETION_TRIGGER=','
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
@@ -269,7 +271,7 @@ nvf() {
 
 vif() {
   find_for_vim | \
-    fzf --multi --exit-0 --query="$*" --preview="$fzf_preview_cmd" --cycle | \
+    fzf --color=light --multi --exit-0 --query="$*" --preview="$fzf_preview_cmd" --cycle | \
     xargs --no-run-if-empty --open-tty vim
 }
 

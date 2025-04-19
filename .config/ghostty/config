@@ -2,7 +2,8 @@ shell-integration = detect
 
 font-size = 20
 # theme = niji
-theme = 0x96f
+# theme = light:Alabaster,dark:0x96f
+theme = light:Tinacious Design (Light),dark:0x96f
 #font-family = "UDEV Gothic NF"
 #font-family = "UDEV Gothic NFLG"
 # font-family = "HackGen Console NF"
@@ -31,8 +32,6 @@ shell-integration-features = no-cursor
 cursor-opacity = 0.7
 cursor-style = block
 
-unfocused-split-opacity = 0.825
-
 # fullscreen = true
 macos-non-native-fullscreen = true
 
@@ -49,8 +48,7 @@ resize-overlay = never
 keybind = global:f12=toggle_quick_terminal
 keybind = ctrl+shift+q=write_scrollback_file:open
 
-background = #000000
-background-opacity = 0.8
+background-opacity = 0.9
 background-blur = 20
 unfocused-split-opacity = 0.8
 

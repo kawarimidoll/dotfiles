@@ -31,7 +31,8 @@
 	plus-style = bold green
 	plus-non-emph-style = bold green
 	plus-emph-style = reverse green
-	syntax-theme = Nord
+	syntax-theme = Monokai Extended Light
+	; syntax-theme = Nord
 	word-diff-regex = [a-zA-Z0-9]+|[一-龯ぁ-んァ-ヶ]
 [interactive]
 	diffFilter = delta --color-only
