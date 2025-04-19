@@ -107,3 +107,37 @@ vim.api.nvim_create_user_command('Saveas', function(arg)
   vim.cmd.saveas(arg.args)
   vim.cmd('edit!')
 end, { nargs = 1, complete = 'file', desc = 'Wrapped saveas' })
+
+vim.api.nvim_create_user_command('Tsgo', function()
+  local function on_exit(obj)
+    if obj.stderr ~= '' then
+      vim.notify('[tsgo] Error: ' .. obj.stderr, vim.log.levels.ERROR)
+      return
+    end
+
+    local list = vim.split(obj.stdout, '\n')
+    list = vim.tbl_filter(function(v)
+      local t = vim.trim(v)
+      if t == '' then
+        return false
+      end
+      -- Files: などのサマリー情報を除外
+      return not vim.regex('^\\s*\\u[[:lower:] ]*: '):match_str(t)
+    end, list)
+    if #list > 0 then
+      vim.notify('[tsgo] type-error found', vim.log.levels.WARN)
+    else
+      vim.notify('[tsgo] type-check passed', vim.log.levels.INFO)
+    end
+
+    -- E5560対策
+    local setqflist = function()
+      -- set quickfix list
+      vim.fn.setqflist({}, 'r', { title = 'tsgo', lines = list, efm = [[%f(%l\,%c): %m]] })
+      vim.cmd.cwindow()
+    end
+    vim.defer_fn(setqflist, 100)
+  end
+
+  vim.system({ 'tsgo', '-noEmit', '-pretty=false' }, { text = true }, on_exit)
+end, { desc = 'Tsgo' })
