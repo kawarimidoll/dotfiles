@@ -196,3 +196,18 @@ end, { desc = 'Delete until end of cmdline' })
 vim.keymap.set('n', '?', '<cmd>silent vimgrep//gj%|copen<cr>', { desc = 'populate latest search' })
 
 vim.keymap.set('n', '<space>n', '//e<cr>n', { desc = 'Move cursor to tail of searched range' })
+
+-- word search with keep positions
+-- https://twitter.com/Bakudankun/status/1207057884581900289
+-- `doautocmd CursorMoved` is required to trigger features like search count
+vim.keymap.set('n', '*', function()
+  local winview = vim.fn.winsaveview()
+  vim.cmd({
+    cmd = 'normal',
+    args = { '*' },
+    bang = true,
+    mods = { silent = true, keepjumps = true },
+  })
+  vim.fn.winrestview(winview)
+  vim.cmd.doautocmd('CursorMoved')
+end, { silent = true, desc = 'star-search without jump' })

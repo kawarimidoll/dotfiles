@@ -777,22 +777,28 @@ later(function()
 end)
 
 later(function()
-  require('mini.jump2d').setup()
+  -- require('mini.jump2d').setup()
+  add('https://github.com/rlane/pounce.nvim')
+  vim.keymap.set({ 'n', 'x', 'o' }, 'g;', function()
+    vim.cmd.nohlsearch()
+    require('pounce').pounce({})
+  end)
+  vim.api.nvim_set_hl(0, 'PounceUnmatched', { link = 'Comment' })
 end)
 
-later(function()
-  local animate = require('mini.animate')
-  animate.setup({
-    cursor = {
-      -- Animate for 100 milliseconds with linear easing
-      timing = animate.gen_timing.linear({ duration = 100, unit = 'total' }),
-    },
-    scroll = {
-      -- Animate for 150 milliseconds with linear easing
-      timing = animate.gen_timing.linear({ duration = 150, unit = 'total' }),
-    }
-  })
-end)
+-- later(function()
+--   local animate = require('mini.animate')
+--   animate.setup({
+--     cursor = {
+--       -- Animate for 100 milliseconds with linear easing
+--       timing = animate.gen_timing.linear({ duration = 100, unit = 'total' }),
+--     },
+--     scroll = {
+--       -- Animate for 150 milliseconds with linear easing
+--       timing = animate.gen_timing.linear({ duration = 150, unit = 'total' }),
+--     }
+--   })
+-- end)
 
 later(function()
   require('mini.bracketed').setup({
@@ -998,6 +1004,70 @@ later(function()
     '<cmd>CopilotChatPrompt<cr>',
     { desc = 'Select CopilotChat predefined prompts' }
   )
+end)
+
+later(function()
+  -- @param mode string|nil One of `nil`, `'char'`, `'line'`, `'block'`, `'visual'`.
+  _G.OperatorJoin = function(mode)
+    if U.blank(mode) then
+      vim.o.operatorfunc = 'v:lua.OperatorJoin'
+      return 'g@'
+    end
+    vim.cmd('normal! `[v`]J')
+  end
+  vim.keymap.set('n', 'J', 'v:lua.OperatorJoin()',
+    { expr = true, silent = true, replace_keycodes = false, desc = 'Join lines' })
+end)
+
+later(function()
+  add({ source = 'monaqa/dial.nvim' })
+  vim.cmd.luafile('~/dotfiles/.config/nvim/plugin_config/dial.lua')
+  local dial_manipulate = require('dial.map').manipulate
+  vim.keymap.set('n', '<C-a>', function()
+    dial_manipulate('increment', 'normal')
+  end, { desc = 'dial-increment' })
+  vim.keymap.set('n', '<C-x>', function()
+    dial_manipulate('decrement', 'normal')
+  end, { desc = 'dial-decrement' })
+  vim.keymap.set('n', 'g<C-a>', function()
+    dial_manipulate('increment', 'gnormal')
+  end, { desc = 'dial-increment' })
+  vim.keymap.set('n', 'g<C-x>', function()
+    dial_manipulate('decrement', 'gnormal')
+  end, { desc = 'dial-decrement' })
+  vim.keymap.set('v', '<C-a>', function()
+    dial_manipulate('increment', 'visual')
+  end, { desc = 'dial-increment' })
+  vim.keymap.set('v', '<C-x>', function()
+    dial_manipulate('decrement', 'visual')
+  end, { desc = 'dial-decrement' })
+  vim.keymap.set('v', 'g<C-a>', function()
+    dial_manipulate('increment', 'gvisual')
+  end, { desc = 'dial-increment' })
+  vim.keymap.set('v', 'g<C-x>', function()
+    dial_manipulate('decrement', 'gvisual')
+  end, { desc = 'dial-decrement' })
+end)
+
+later(function()
+  add('https://github.com/tyru/capture.vim')
+end)
+
+later(function()
+  add('https://github.com/kdheepak/lazygit.nvim')
+  vim.keymap.set('n', '<space>L', '<c-l><cmd>nohlsearch<cr><cmd>LazyGit<cr>', { desc = 'LazyGit' })
+end)
+
+later(function()
+  add('https://github.com/windwp/nvim-ts-autotag')
+  ---@diagnostic disable-next-line: missing-fields
+  require('nvim-ts-autotag').setup({
+    opts = {
+      enable_close = false,         -- Auto close tags
+      enable_rename = false,        -- Auto rename pairs of tags
+      enable_close_on_slash = true, -- Auto close on trailing </
+    },
+  })
 end)
 
 now(function()
