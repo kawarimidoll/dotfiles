@@ -17,7 +17,6 @@ vim.opt.scrolloff = 3
 -- move the cursor to the previous/next line across the first/last character
 vim.opt.whichwrap = 'b,s,h,l,<,>,[,],~'
 
-require('mi.commands')
 local U = require('mi.utils')
 
 -- augroup for this config file
@@ -96,6 +95,7 @@ require('mini.deps').setup({ path = { package = path_package } })
 local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
 
 later(function()
+  require('mi.commands')
   require('mi.keymaps')
 end)
 
