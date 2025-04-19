@@ -65,16 +65,6 @@ create_autocmd('ColorScheme', {
   callback = transparent_bg,
 })
 
--- abbreviation only for ex-command
-local function abbrev_excmd(lhs, rhs, opts)
-  vim.keymap.set('ca', lhs, function()
-    return vim.fn.getcmdtype() == ':' and rhs or lhs
-  end, vim.tbl_extend('force', { expr = true }, opts))
-end
-
-abbrev_excmd('qw', 'wq', { desc = 'fix typo' })
-abbrev_excmd('lup', 'lua =', { desc = 'lua print' })
-
 -- Clone 'mini.nvim' manually in a way that it gets managed by 'mini.deps'
 local path_package = vim.fn.stdpath('data') .. '/site/'
 local mini_path = path_package .. 'pack/deps/start/mini.nvim'
@@ -97,6 +87,32 @@ local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
 later(function()
   require('mi.commands')
   require('mi.keymaps')
+end)
+
+later(function()
+  local eager_cabbrev = require('mi.eager_cabbrev')
+  eager_cabbrev('yep', 'echo "yeah"')
+  eager_cabbrev('ec', 'echo')
+  eager_cabbrev('ed', 'edit')
+  eager_cabbrev('en', 'enew')
+  eager_cabbrev('mes', 'messages')
+  eager_cabbrev('mec', 'messages clear')
+  eager_cabbrev('ss', '%s/')
+  eager_cabbrev('qw', 'wq')
+  eager_cabbrev('lup', 'lua =')
+
+  local function fname_and_move_cursor()
+    local fname = vim.fn.expand('%')
+    local ext = vim.fn.expand('%:e')
+    local move_left = ext:len() > 0 and vim.fn['repeat']('<left>', ext:len() + 1) or ''
+    return fname .. move_left
+  end
+  eager_cabbrev('sv', function()
+    return 'Saveas ' .. fname_and_move_cursor()
+  end)
+  eager_cabbrev('rn', function()
+    return 'Rename ' .. fname_and_move_cursor()
+  end)
 end)
 
 now(function()
