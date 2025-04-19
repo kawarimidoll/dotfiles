@@ -146,6 +146,7 @@ now(function()
       option_toggle_prefix = 'm',
     },
   })
+  vim.opt.number = false
 end)
 
 later(function()
@@ -227,6 +228,7 @@ later(function()
       fixme = hi_words({ 'FIXME', 'Fixme', 'fixme' }, 'MiniHipatternsFixme'),
       hack = hi_words({ 'HACK', 'Hack', 'hack' }, 'MiniHipatternsHack'),
       todo = hi_words({ 'TODO', 'Todo', 'todo' }, 'MiniHipatternsTodo'),
+      wip = hi_words({ 'WIP', 'Wip', 'wip' }, 'MiniHipatternsTodo'),
       note = hi_words({ 'NOTE', 'Note', 'note' }, 'MiniHipatternsNote'),
       -- Highlight hex color strings (`#rrggbb`) using that color
       hex_color = hipatterns.gen_highlighter.hex_color(),
@@ -418,14 +420,17 @@ later(function()
   local gen_ai_spec = require('mini.extra').gen_ai_spec
   require('mini.ai').setup({
     custom_textobjects = {
-      B = gen_ai_spec.buffer(),
-      D = gen_ai_spec.diagnostic(),
-      I = gen_ai_spec.indent(),
-      L = gen_ai_spec.line(),
-      N = gen_ai_spec.number(),
+      e = gen_ai_spec.buffer(),
+      d = gen_ai_spec.diagnostic(),
+      i = gen_ai_spec.indent(),
+      l = gen_ai_spec.line(),
+      n = gen_ai_spec.number(),
       J = { { '()%d%d%d%d%-%d%d%-%d%d()', '()%d%d%d%d%/%d%d%/%d%d()' } }
     },
   })
+
+  vim.keymap.set({ 'x', 'o' }, 'i<space>', 'iW', { desc = 'in space' })
+  vim.keymap.set({ 'x', 'o' }, 'a<space>', 'aW', { desc = 'around space' })
 end)
 
 now(function()
@@ -563,7 +568,7 @@ later(function()
   -- improve fallback completion
   vim.opt.complete = { '.', 'w', 'k', 'b', 'u' }
   vim.opt.completeopt:append('fuzzy')
-  vim.opt.dictionary:append('/usr/share/dict/words')
+  vim.opt.dictionary:append('~/.cache/vim/sorted_words')
 
   -- define keycodes
   local keys = {
@@ -623,6 +628,9 @@ later(function()
     end,
     { desc = 'Remove buffer' }
   )
+  vim.keymap.set('n', '<space>d', function()
+    MiniBufremove.delete()
+  end, { desc = 'Remove buffer' })
 end)
 
 now(function()
@@ -669,7 +677,11 @@ later(function()
 end)
 
 later(function()
-  require('mini.diff').setup()
+  require('mini.diff').setup({
+    view = {
+      signs = { add = '+', change = '~', delete = '-' },
+    },
+  })
 end)
 
 later(function()
@@ -714,7 +726,9 @@ later(function()
 end)
 
 later(function()
-  require('mini.bracketed').setup()
+  require('mini.bracketed').setup({
+    undo = { suffix = '' }, -- disable
+  })
 end)
 
 later(function()
@@ -773,6 +787,8 @@ later(function()
     ensure_installed = { 'lua', 'vim', 'tsx' },
     highlight = { enable = true },
   })
+
+  add('https://github.com/andymass/vim-matchup')
 end)
 
 later(function()
