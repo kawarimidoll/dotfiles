@@ -38,11 +38,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
       end, { buffer = args.buf, desc = 'vim.lsp.buf.definition()' })
     end
 
-    if client:supports_method('textDocument/formatting') then
-      vim.keymap.set('n', '<space>i', function()
-        vim.lsp.buf.format({ bufnr = args.buf, id = client.id })
-      end, { buffer = args.buf, desc = 'Format buffer' })
-    end
+    -- use conform.nvim instead of this
+    -- if client:supports_method('textDocument/formatting') then
+    --   vim.keymap.set('n', '<space>i', function()
+    --     vim.lsp.buf.format({ bufnr = args.buf, id = client.id })
+    --   end, { buffer = args.buf, desc = 'Format buffer' })
+    -- end
   end,
 })
 

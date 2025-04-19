@@ -1070,6 +1070,108 @@ later(function()
   })
 end)
 
+later(function()
+  add('https://github.com/y3owk1n/undo-glow.nvim')
+  _G.UndoGlow = require('undo-glow')
+  UndoGlow.setup()
+  vim.keymap.set('n', 'u', UndoGlow.undo, { desc = 'Undo with highlight' })
+  vim.keymap.set('n', 'U', UndoGlow.redo, { desc = 'Redo with highlight' })
+  vim.keymap.set(
+    'n',
+    'p',
+    '<cmd>lua UndoGlow.paste_below()<cr>`]',
+    { desc = 'Paste below with highlight' }
+  )
+  vim.keymap.set(
+    'n',
+    'P',
+    '<cmd>lua UndoGlow.paste_above()<cr>`]',
+    { desc = 'Paste above with highlight' }
+  )
+end)
+
+later(function()
+  add('https://github.com/akinsho/toggleterm.nvim')
+  require('toggleterm').setup({
+    size = 100,
+    open_mapping = [[mt]],
+    insert_mappings = false,
+    hide_numbers = true,
+    shade_terminals = true,
+    shading_factor = 2,
+    start_in_insert = true,
+    persist_size = true,
+    direction = 'float',
+    close_on_exit = true,
+  })
+
+  create_autocmd({ 'TermOpen' }, {
+    pattern = 'term://*',
+    callback = function()
+      vim.keymap.set('t', '<esc><esc>', '<c-\\><c-n>', { desc = 'easy escape', buffer = true })
+      vim.keymap.set('t', '<c-[><c-[>', '<c-\\><c-n>', { desc = 'easy escape', buffer = true })
+    end,
+    desc = 'Terminal keymaps',
+  })
+
+  -- default 'guicursor' includes 't:block-blinkon500-blinkoff500-TermCursor'
+  vim.opt.guicursor:remove('t:block-blinkon500-blinkoff500-TermCursor')
+  vim.opt.guicursor:append('t:block-TermCursor')
+end)
+
+later(function()
+  add('https://github.com/stevearc/conform.nvim')
+  local formatters_by_ft = {
+    bash = { 'beautysh' },
+    sh = { 'beautysh' },
+    lua = { 'stylua' },
+    proto = { 'buf' },
+    sql = { 'sleek' },
+    rust = { 'rustfmt' },
+    toml = { 'dprint' },
+    dockerfile = { lsp_format = 'prefer' },
+  }
+  local web_formatters = { 'biome-check', 'prettier', stop_after_first = true }
+  local web_targets = {
+    'typescript',
+    'javascript',
+    'typescript.tsx',
+    'javascript.jsx',
+    'typescriptreact',
+    'javascriptreact',
+    'vue',
+    'svelte',
+    'json',
+    'jsonc',
+    'yaml',
+    'html',
+    'css',
+    'scss',
+    'less',
+  }
+  for _, target in ipairs(web_targets) do
+    formatters_by_ft[target] = web_formatters
+  end
+
+  require('conform').setup({
+    formatters = {
+      dprint = {
+        command = 'dprint',
+        args = { 'fmt', '--config', '~/dotfiles/dprint.json', '--stdin', '$FILENAME' },
+        cwd = function()
+          return '.'
+        end,
+      },
+      beautysh = {
+        args = { '--indent-size', '2', '-' },
+      },
+    },
+    formatters_by_ft = formatters_by_ft,
+  })
+
+  vim.keymap.set('n', '<space>i', require('conform').format, { desc = 'format buffer' })
+end)
+
 now(function()
   local default_rtp = vim.opt.runtimepath:get()
   vim.opt.runtimepath:remove(vim.env.VIMRUNTIME)
