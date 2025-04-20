@@ -27,7 +27,7 @@ vim.keymap.set(
   { desc = 'substitute current word' }
 )
 vim.keymap.set('x', 'S', function()
-  local lines = U.get_current_selected_lines()
+  local lines = U.get_current_selection()
   if #lines ~= 1 then
     vim.notify('select only one line', vim.log.levels.WARN)
     return
