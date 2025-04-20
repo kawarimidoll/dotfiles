@@ -45,7 +45,7 @@ link-url = true
 # ウィンドウリサイズ時にサイズを表示するかどうか
 resize-overlay = never
 
-keybind = global:f12=toggle_quick_terminal
+keybind = global:alt+super+ctrl+shift+q=toggle_quick_terminal
 keybind = ctrl+shift+q=write_scrollback_file:open
 
 background-opacity = 0.9
