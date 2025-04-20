@@ -38,6 +38,7 @@ PATH="${HOME}/bin:${PATH}"
 PATH="${DOT_DIR}/bin:${PATH}"
 PATH="${CARGO_HOME}/bin:${PATH}"
 PATH="${HOME}/.deno/bin:${PATH}"
+PATH="${HOME}/.cache/.bun/bin:${PATH}"
 PATH="${GOPATH}/bin:${PATH}"
 PATH="${PNPM_HOME}:${PATH}"
 
