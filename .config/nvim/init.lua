@@ -1008,6 +1008,17 @@ later(function()
     '<cmd>CopilotChatPrompt<cr>',
     { desc = 'Select CopilotChat predefined prompts' }
   )
+
+  create_autocmd('BufEnter', {
+    pattern = 'copilot-*',
+    callback = function()
+      vim.opt_local.relativenumber = false
+      vim.opt_local.number = false
+      vim.opt_local.signcolumn = 'no'
+      vim.opt_local.conceallevel = 0
+      -- vim.opt_local.foldcolumn = '0'
+    end,
+  })
 end)
 
 later(function()
