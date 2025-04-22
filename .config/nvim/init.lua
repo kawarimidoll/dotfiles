@@ -17,6 +17,10 @@ vim.opt.scrolloff = 3
 -- move the cursor to the previous/next line across the first/last character
 vim.opt.whichwrap = 'b,s,h,l,<,>,[,],~'
 
+-- wrap lines
+vim.opt.wrap = true
+vim.opt.showbreak = '↪'
+
 vim.opt.title = true
 
 local U = require('mi.utils')
