@@ -1116,23 +1116,41 @@ end)
 later(function()
   add('https://github.com/akinsho/toggleterm.nvim')
   require('toggleterm').setup({
-    size = 100,
-    open_mapping = [[mt]],
+    size = function(term)
+      if term.direction == 'horizontal' then
+        return 15
+      elseif term.direction == 'vertical' then
+        return vim.o.columns * 0.4
+      end
+    end,
+    float_opts = {
+      width = function()
+        return math.ceil(vim.o.columns * 0.9)
+      end,
+      height = function()
+        return vim.o.lines - 6
+      end,
+    },
+    open_mapping = [[<c-`>]],
     insert_mappings = false,
     hide_numbers = true,
     shade_terminals = true,
     shading_factor = 2,
     start_in_insert = true,
     persist_size = true,
-    direction = 'float',
+    direction = 'horizontal',
     close_on_exit = true,
   })
 
   create_autocmd({ 'TermOpen' }, {
     pattern = 'term://*',
     callback = function()
-      vim.keymap.set('t', '<esc><esc>', '<c-\\><c-n>', { desc = 'easy escape', buffer = true })
-      vim.keymap.set('t', '<c-[><c-[>', '<c-\\><c-n>', { desc = 'easy escape', buffer = true })
+      vim.keymap.set('t', '<esc><esc>', '<c-\\><c-n>', { desc = 'Easy escape', buffer = true })
+      vim.keymap.set('t', '<c-[><c-[>', '<c-\\><c-n>', { desc = 'Easy escape', buffer = true })
+      local keys = { 'i', 'a', 'A', 'o', 'O' }
+      for _, k in ipairs(keys) do
+        vim.keymap.set('n', k, 'I', { desc = 'Enter terminal mode', buffer = true })
+      end
     end,
     desc = 'Terminal keymaps',
   })
