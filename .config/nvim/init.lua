@@ -419,9 +419,10 @@ now(function()
     -- local width = math.floor(vim.o.columns * 0.8)
     -- local height = math.floor(vim.o.lines * 0.8)
     local logo_lines = vim.split(vim.trim(logo), '\n')
-    local width = vim.fn.reduce(logo_lines, function(acc, line)
-      return math.max(acc, vim.fn.strdisplaywidth(line))
-    end, 0)
+    local line_widths = vim.tbl_map(function(line)
+      return vim.fn.strdisplaywidth(line)
+    end, logo_lines)
+    local width = math.max(unpack(line_widths))
     local height = #logo_lines + 1
     local row = 2
     local col = math.floor((vim.o.columns - width) / 2)
