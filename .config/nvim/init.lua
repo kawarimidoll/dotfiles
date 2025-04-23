@@ -885,7 +885,7 @@ later(function()
   vim.keymap.set(
     'n',
     '?',
-    '<cmd>silent vimgrep//gj%|copen<cr>',
+    '<cmd>silent vimgrep//gj%|cwindow<cr>',
     { desc = 'Populate latest search result to quickfix list' }
   )
 
