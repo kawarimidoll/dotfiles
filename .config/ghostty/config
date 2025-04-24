@@ -20,7 +20,7 @@ macos-titlebar-style = tabs
 window-padding-x = 10
 window-padding-y = 0,10
 window-padding-balance = true
-window-step-resize
+window-step-resize = false
 window-theme = ghostty
 
 mouse-hide-while-typing = true
@@ -51,10 +51,6 @@ keybind = global:super+grave_accent=toggle_quick_terminal
 keybind = ctrl+shift+q=write_scrollback_file:open
 
 quick-terminal-animation-duration = 0
-
-# background-opacity = 0.9
-# background-blur = 20
-# unfocused-split-opacity = 0.8
 
 # ターミナル内のプログラムがクリップボードを読み取るパーミッション
 clipboard-read = ask
