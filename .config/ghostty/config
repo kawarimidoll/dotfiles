@@ -1,5 +1,7 @@
 shell-integration = detect
 
+custom-shader = ./gradient-background.glsl
+
 font-size = 20
 # theme = niji
 # theme = light:Alabaster,dark:0x96f
@@ -28,14 +30,14 @@ cursor-style = block
 cursor-style-blink = false
 shell-integration-features = no-cursor
 
-# https://zenn.dev/koya_iwamura/articles/65e4fbb747bcd2
-cursor-opacity = 0.7
-cursor-style = block
-
 # fullscreen = true
 macos-non-native-fullscreen = true
 
+macos-titlebar-proxy-icon = hidden
+macos-icon = paper
+
 window-inherit-working-directory = true
+window-inherit-font-size = true
 window-save-state = default
 
 window-new-tab-position = current
@@ -45,12 +47,14 @@ link-url = true
 # ウィンドウリサイズ時にサイズを表示するかどうか
 resize-overlay = never
 
-keybind = global:alt+super+ctrl+shift+q=toggle_quick_terminal
+keybind = global:super+grave_accent=toggle_quick_terminal
 keybind = ctrl+shift+q=write_scrollback_file:open
 
-background-opacity = 0.9
-background-blur = 20
-unfocused-split-opacity = 0.8
+quick-terminal-animation-duration = 0
+
+# background-opacity = 0.9
+# background-blur = 20
+# unfocused-split-opacity = 0.8
 
 # ターミナル内のプログラムがクリップボードを読み取るパーミッション
 clipboard-read = ask
