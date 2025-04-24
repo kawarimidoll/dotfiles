@@ -22,7 +22,8 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
     // vec3 gradientEndColor = vec3(0.5, 0.1, 0.1);
     // for light mode
     int baseColor = 0xf8f8ff;
-    vec3 gradientStartColor = hexToRgbVec3(baseColor);
+    vec3 terminalBgColor = hexToRgbVec3(baseColor);
+    vec3 gradientStartColor = terminalBgColor;
     vec3 gradientEndColor = hexToRgbVec3(0xe1fae9);
 
     vec3 gradientColor = mix(gradientStartColor, gradientEndColor, gradientFactor);
@@ -31,19 +32,9 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
     vec4 terminalColor = texture(iChannel0, uv);
 
     // Make a mask to determine whether to use gradientColor or terminalColor
-    // for dark mode
-    // float threshold = 0.4;
-    // float mask = step(dot(terminalColor.rgb, vec3(1.0)), threshold);
-    // for light mode
-    float threshold = 2.9;
-    float mask = step(threshold, dot(terminalColor.rgb, vec3(1.0)));
+    // If the terminal color is close to the terminal bg color, use the gradient color
+    float mask = distance(terminalColor.rgb, terminalBgColor) * 255.0 < 1.0 ? 1.0 : 0.0;
     vec3 blendedColor = mix(terminalColor.rgb, gradientColor, mask);
-
-    // 内積を計算する
-    // dot(v1, v2)
-
-    // arg0が大きければ0 / arg1が大きければ1
-    // step(arg0, arg1)
 
     // 色を線形補間する
     // tは0.0(完全にcolor0) ~ 1.0(完全にcolor1)
