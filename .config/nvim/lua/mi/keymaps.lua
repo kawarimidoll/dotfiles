@@ -43,6 +43,9 @@ vim.keymap.set('n', '<space>3', '<cmd>copy-1<cr>', { desc = 'duplicate line to a
 vim.keymap.set('x', '<space>2', [[:copy'<-1<cr>gv]], { desc = 'duplicate line to below' })
 vim.keymap.set('x', '<space>3', [[:copy'>+0<cr>gv]], { desc = 'duplicate line to above' })
 
+vim.keymap.set('x', '<', '<gv', { desc = 'Change indent with keeping selection' })
+vim.keymap.set('x', '>', '>gv', { desc = 'Change indent with keeping selection' })
+
 vim.keymap.set('n', '<space>w', '<cmd>write<cr>', { desc = 'Write' })
 
 vim.keymap.set({ 'n', 'x' }, 'so', ':source<cr>', { silent = true, desc = 'Source current script' })
