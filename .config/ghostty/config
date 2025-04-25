@@ -1,69 +1,56 @@
-shell-integration = detect
-
-custom-shader = ./gradient-background.glsl
-
-font-size = 20
-# theme = niji
-# theme = light:Alabaster,dark:0x96f
-theme = light:Tinacious Design (Light),dark:0x96f
-#font-family = "UDEV Gothic NF"
-#font-family = "UDEV Gothic NFLG"
-# font-family = "HackGen Console NF"
-font-family = "Moralerspace Krypton HWNF"
-
-font-feature = -calt
-font-feature = -liga
-font-feature = -dlig
-
-macos-titlebar-style = tabs
-
-window-padding-x = 10
-window-padding-y = 0,10
-window-padding-balance = true
-window-step-resize = false
-window-theme = ghostty
-
-mouse-hide-while-typing = true
-mouse-scroll-multiplier = 2
+### appearance
 
 cursor-style = block
 cursor-style-blink = false
+custom-shader = ./gradient-background.glsl
+# font-family = "HackGen Console NF"
+# font-family = "UDEV Gothic NF"
+# font-family = "UDEV Gothic NFLG"
+font-family = "Moralerspace Krypton HWNF"
+font-feature = -calt
+font-feature = -dlig
+font-feature = -liga
+font-size = 20
+# theme = light:Alabaster,dark:0x96f
+# theme = niji
+theme = light:Tinacious Design (Light),dark:0x96f
+
+### features
+
+clipboard-read = ask
+clipboard-write = allow
+copy-on-select = true
+link-url = true
+shell-integration = detect
 shell-integration-features = no-cursor
 
-# fullscreen = true
-macos-non-native-fullscreen = true
+### keybindings
 
-macos-titlebar-proxy-icon = hidden
-macos-icon = paper
-
-window-inherit-working-directory = true
-window-inherit-font-size = true
-window-save-state = default
-
-window-new-tab-position = current
-
-link-url = true
-
-# ウィンドウリサイズ時にサイズを表示するかどうか
-resize-overlay = never
-
-keybind = global:super+grave_accent=toggle_quick_terminal
 keybind = ctrl+shift+q=write_scrollback_file:open
+keybind = global:super+grave_accent=toggle_quick_terminal
 
-quick-terminal-animation-duration = 0
+### macos-specific
 
-# ターミナル内のプログラムがクリップボードを読み取るパーミッション
-clipboard-read = ask
-# ターミナル内のプログラムがクリップボードを書き込むパーミッション
-clipboard-write = allow
+macos-icon = paper
+macos-non-native-fullscreen = true
+macos-option-as-alt = true
+macos-titlebar-proxy-icon = hidden
+macos-titlebar-style = tabs
+mouse-hide-while-typing = true
+mouse-scroll-multiplier = 2
 
-# 選択したテキストを自動的にクリップボードへコピーする
-copy-on-select = true
-
-# 閉じる前に確認する画面を出すか
+### window management
 
 confirm-close-surface = true
-
-# 最後のウィンドウやタブが閉じられた後に、Ghostty 自体を終了するかどうか
-
+quick-terminal-animation-duration = 0
 quit-after-last-window-closed = true
+resize-overlay = never
+window-inherit-font-size = true
+window-inherit-working-directory = true
+window-new-tab-position = current
+window-padding-balance = true
+window-padding-x = 10
+window-padding-y = 0,10
+window-save-state = default
+window-step-resize = false
+window-theme = ghostty
