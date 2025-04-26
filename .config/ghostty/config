@@ -2,7 +2,11 @@
 
 cursor-style = block
 cursor-style-blink = false
-custom-shader = ./gradient-background.glsl
+# custom-shader = ./gradient-background.glsl
+# for light
+custom-shader = ./string-theory-background.glsl
+# for dark
+# custom-shader = ./singularity-background.glsl
 # font-family = "HackGen Console NF"
 # font-family = "UDEV Gothic NF"
 # font-family = "UDEV Gothic NFLG"
@@ -11,9 +15,9 @@ font-feature = -calt
 font-feature = -dlig
 font-feature = -liga
 font-size = 20
-# theme = light:Alabaster,dark:0x96f
+# theme = 0x96f
 # theme = niji
-theme = light:Tinacious Design (Light),dark:0x96f
+theme = Tinacious Design (Light)
 
 ### features
 
@@ -54,3 +58,7 @@ window-padding-y = 0,10
 window-save-state = default
 window-step-resize = false
 window-theme = ghostty
+
+### memo
+# check log:
+# /usr/bin/log stream --level=debug --predicate='subsystem=="com.mitchellh.ghostty"'
