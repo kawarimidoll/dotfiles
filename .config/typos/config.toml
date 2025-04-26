@@ -1,0 +1,14 @@
+[files]
+extend-exclude = [
+    "*env*",
+    "**/typos/**/*"
+]
+
+# [type.vimscript.extend-identifiers]
+# enew = "enew"
+
+[type.vimscript.extend-words]
+enew = "enew"
+
+[type.lua.extend-words]
+enew = "enew"
