@@ -81,6 +81,7 @@ in
         git-workspace
         gleam
         globe-cli
+        glsl_analyzer
         gnugrep
         gnumake
         gnupg
