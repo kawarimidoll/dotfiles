@@ -61,6 +61,7 @@ local lsp_names = {
   'dockerls',
   'gh_actions_ls',
   'gleam',
+  'glsl_analyzer',
   'gopls',
   'lua_ls',
   'nil_ls',
