@@ -64,12 +64,10 @@ in
         dprint
         dust
         efm-langserver
-        emacs
         erlang_27
         ffmpeg_7-full
         findutils
         fx
-        neo
         fzf
         gawk
         ghq
@@ -89,7 +87,6 @@ in
         gnused
         gnutar
         go
-        gollama
         graphqurl
         grex
         grpcui
@@ -115,6 +112,7 @@ in
         moreutils
         nano
         nb
+        neo
         neovim # nightly
         nh
         nil
@@ -126,8 +124,7 @@ in
         nodejs_22
         nurl
         nyancat
-        ollama
-        oxker
+        # oxker
         pnpm
         procs
         rainfrog
@@ -169,6 +166,7 @@ in
 
         # rmw
         # vim-language-server
+        # emacs build failed
       ];
   };
 
