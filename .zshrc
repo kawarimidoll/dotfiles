@@ -125,7 +125,7 @@ zstyle ':completion:*:*:docker-*:*' option-stacking yes
 # 現在のディレクトリを補完しない
 zstyle ':completion:*' ignore-parents parent pwd ..
 
-# sodoの後ろでコマンドを補完
+# sudoの後ろでコマンドを補完
 zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
   /usr/sbin /usr/bin /sbin /bin
 
