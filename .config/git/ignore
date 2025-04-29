@@ -6,3 +6,6 @@
 .env
 tags
 !*.gitignore
+.direnv
+.envrc
+.nvim.lua
