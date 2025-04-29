@@ -5,65 +5,46 @@
 // ======================
 // User-defined colors
 
-// Terminal background color
-// This color can be checked with: `ghostty +show-config | grep ^background`
-int terminalBgColorHex = 0xf8f8ff;
-
 // Mix factor for calculated color(0.0 - 1.0)
 // if 0.0, the terminal color doesn't changed.
 // if 1.0, the terminal color is completely replaced by the calculated color.
 float mixFactor = 0.05;
 // ======================
 
-// Helper to convert hex color to RGB vector
-vec3 hexToRgbVec3(int hexColor);
-
-// Function to calculate pixel color based on UV coordinates
-vec3 calculatePixelColor(vec2 uv);
+// Function to calculate pixel color based on fragCoord and isLightMode
+vec3 calculatePixelColor(in vec2 fragCoord, bool isLightMode);
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord)
 {
-    // Normalize pixel coordinates (range from 0 to 1)
+    // Normalize pixel coordinates to range [0, 1]
     vec2 uv = fragCoord.xy / iResolution.xy;
 
     // Assume that the color at (0, 0) is the background color
     vec3 terminalBgColor = (texture(iChannel0, vec2(0.0))).rgb;
 
-    // Sample the terminal screen texture including alpha channel
+    // Sample the terminal screen texture at the current pixel coordinates
     vec4 terminalColor = texture(iChannel0, uv);
 
     // Compare the sampled color with the background color
     // if they match, treat the current pixel as background
     bool isBackground = all(equal(terminalColor.rgb, terminalBgColor));
 
+    // If the current pixel is NOT background (e.g., text), use its color directly without blending
     if (!isBackground) {
-      // If the pixel is NOT background, use the terminal color
-      fragColor = terminalColor;
-      return;
+        fragColor = terminalColor;
+        return;
     }
 
     // Simple calculation: if the average of RGB exceeds 127, treat as light mode
-    bool isLight = dot(terminalBgColor.rgb, vec3(1.0)) > (0.5 * 3);
+    bool isLightMode = dot(terminalBgColor.rgb, vec3(1.0)) > (0.5 * 3);
 
-    vec3 calculatedColor = calculatePixelColor(fragCoord);
-    if (isLight) {
-        // Invert the calculated color if the terminal background is in light mode.
-        calculatedColor = 1.0 - calculatedColor;
-    }
+    vec3 calculatedColor = calculatePixelColor(fragCoord, isLightMode);
     vec3 resultColor = mix(terminalColor.rgb, calculatedColor, mixFactor);
     fragColor = vec4(resultColor, terminalColor.a);
 }
 
-// Helper to convert hex color to RGB vector
-vec3 hexToRgbVec3(int hexColor) {
-    float r = float((hexColor >> 16) & 0xFF) / 255.0;
-    float g = float((hexColor >> 8) & 0xFF) / 255.0;
-    float b = float(hexColor & 0xFF) / 255.0;
-    return vec3(r, g, b);
-}
-
-// Function to calculate pixel color based on UV coordinates
-vec3 calculatePixelColor(in vec2 fragCoord) {
+// Function to calculate pixel color based on fragCoord and isLightMode
+vec3 calculatePixelColor(in vec2 fragCoord, bool isLightMode) {
     vec2 uv = (fragCoord - 0.5 * iResolution.xy) / iResolution.y;
     vec3 r = vec3(uv, 1.0);
     vec4 o = vec4(0.0);
@@ -88,6 +69,10 @@ vec3 calculatePixelColor(in vec2 fragCoord) {
     }
 
     o = tanh(o / 5000.0);
-    // o = 1.0 - o;
+
+    if (isLightMode) {
+        // Invert the calculated color if the terminal background is in light mode
+        o = 1.0 - o;
+    }
     return o.rgb;
 }
