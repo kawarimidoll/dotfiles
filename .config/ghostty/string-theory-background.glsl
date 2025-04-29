@@ -26,16 +26,15 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
     // Normalize pixel coordinates (range from 0 to 1)
     vec2 uv = fragCoord.xy / iResolution.xy;
 
-    // Convert hex color to RGB vector
-    vec3 terminalBgColor = hexToRgbVec3(terminalBgColorHex);
+    // Assume that the color at (0, 0) is the background color
+    vec3 terminalBgColor = (texture(iChannel0, vec2(0.0))).rgb;
 
     // Sample the terminal screen texture including alpha channel
     vec4 terminalColor = texture(iChannel0, uv);
 
-    // Check if the current pixel is background
-    // HACK: Since colors are float values, equality cannot be determined directly.
-    // Therefore, consider the colors the same if the distance is less than 1/255.
-    bool isBackground = distance(terminalColor.rgb, terminalBgColor) * 255.0 < 1.0;
+    // Compare the sampled color with the background color
+    // if they match, treat the current pixel as background
+    bool isBackground = all(equal(terminalColor.rgb, terminalBgColor));
 
     if (!isBackground) {
       // If the pixel is NOT background, use the terminal color
@@ -43,7 +42,15 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
       return;
     }
 
-    vec3 resultColor = mix(terminalColor.rgb, calculatePixelColor(fragCoord), mixFactor);
+    // Simple calculation: if the average of RGB exceeds 127, treat as light mode
+    bool isLight = dot(terminalBgColor.rgb, vec3(1.0)) > (0.5 * 3);
+
+    vec3 calculatedColor = calculatePixelColor(fragCoord);
+    if (isLight) {
+        // Invert the calculated color if the terminal background is in light mode.
+        calculatedColor = 1.0 - calculatedColor;
+    }
+    vec3 resultColor = mix(terminalColor.rgb, calculatedColor, mixFactor);
     fragColor = vec4(resultColor, terminalColor.a);
 }
 
@@ -81,6 +88,6 @@ vec3 calculatePixelColor(in vec2 fragCoord) {
     }
 
     o = tanh(o / 5000.0);
-    o = 1.0 - o;
+    // o = 1.0 - o;
     return o.rgb;
 }
