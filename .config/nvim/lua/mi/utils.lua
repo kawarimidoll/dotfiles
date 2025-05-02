@@ -1,5 +1,41 @@
 local M = {}
 
+M.get_cursor_neighbor = function()
+  local current_line = vim.api.nvim_get_current_line()
+
+  -- Return nil if the line is empty
+  if current_line == '' then
+    return {
+      line_before_cursor = '',
+      char_before_cursor = '',
+      char_at_cursor = '',
+      char_after_cursor = '',
+      line_after_cursor = '',
+    }
+  end
+
+  local col = vim.fn.getcursorcharpos()[3] - 1
+
+  -- Text from the beginning of the line to just before the cursor
+  local line_before_cursor = vim.fn.slice(current_line, 0, col)
+  -- Character just before the cursor
+  local char_before_cursor = vim.fn.slice(line_before_cursor, -1)
+  -- Character at the cursor position
+  local char_at_cursor = vim.fn.strcharpart(current_line, col, 1)
+  -- Text from just after the cursor to the end of the line
+  local line_after_cursor = vim.fn.slice(current_line, col + 1)
+  -- Character just after the cursor
+  local char_after_cursor = vim.fn.slice(line_after_cursor, 0, 1)
+
+  return {
+    line_before_cursor = line_before_cursor,
+    char_before_cursor = char_before_cursor,
+    char_at_cursor = char_at_cursor,
+    char_after_cursor = char_after_cursor,
+    line_after_cursor = line_after_cursor,
+  }
+end
+
 -- 存在するならtrueを返す
 function M.present(v)
   if not v or v == 0 or v == '' then
