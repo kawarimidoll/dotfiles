@@ -92,7 +92,7 @@ alias she="nvim ${shell_rc}"
 alias shl="nvim ${shell_rc}.local"
 alias shs="source ${shell_rc}"
 # alias stw="snap-tweet --locale ja --output-dir ~/Downloads"
-alias rgg="rg --hidden --trim --glob '!**/.git/*'"
+alias rgg="rg --hidden --trim --glob '!**/.git/*' --glob='!*.lock' --glob='!*-lock.json'"
 alias rgf="rgg --fixed-strings --"
 alias sudo='sudo '
 alias vi='vim'
