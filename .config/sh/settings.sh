@@ -52,7 +52,7 @@ PATH="${PNPM_HOME}:${PATH}"
 alias cdd='cd ..'
 alias cddd='cd ../..'
 alias cdddd='cd ../../..'
-alias cdot="cd $DOT_DIR"
+alias cdot='cd $DOT_DIR'
 alias chmod='chmod --preserve-root'
 alias chown='chown --preserve-root'
 alias cp='cp -i'
@@ -90,7 +90,7 @@ alias rm='rm -i --preserve-root'
 # alias rs='bundle exec rails server'
 alias she="nvim ${shell_rc}"
 alias shl="nvim ${shell_rc}.local"
-alias shs="source ${shell_rc}"
+alias shs='source $shell_rc'
 # alias stw="snap-tweet --locale ja --output-dir ~/Downloads"
 alias rgg="rg --hidden --trim --glob '!**/.git/*' --glob='!*.lock' --glob='!*-lock.json'"
 alias rgf="rgg --fixed-strings --"
@@ -157,11 +157,11 @@ nix() {
 
 # aliasにすると定義したところで評価されてしまうので関数にする必要がある
 cdg() {
-  cd "$(git rev-parse --show-toplevel)"
+  cd "$(git rev-parse --show-toplevel)" || return
 }
 
 silica() {
-  fname="~/Downloads/silicon-$(date +%Y%m%d-%H%M%S).png"
+  fname="${HOME}/Downloads/silicon-$(date +%Y%m%d-%H%M%S).png"
   silicon --font 'UDEV Gothic 35JPDOC' --output "$fname" "$@"
   echo "silicon saved: $fname"
 }
@@ -180,7 +180,7 @@ vest() {
 
 if has 'walk'; then
   lk() {
-    cd "$(walk "$@")"
+    cd "$(walk "$@")" || return
   }
 fi
 
@@ -225,11 +225,12 @@ pushf() {
 clone() {
   has 'ghq' || return 1
   ghq get --partial blobless "$1"
-  local target=$(echo "$1" | sed -r 's;https?://[^/]+|\.git$;;')
-  local dir=$(ghq list | grep --color=never --fixed-strings "$target")
+  local target, dir
+  target=$(echo "$1" | sed -r 's;https?://[^/]+|\.git$;;')
+  dir=$(ghq list | grep --color=never --fixed-strings "$target")
   [ -n "$dir" ] && cd "$(ghq root)/$dir" || return
   git dead
-  git branch -D $(git default-branch)
+  git branch -D "$(git default-branch)"
 }
 
 stash() {
@@ -305,8 +306,7 @@ hf() {
 # }
 #
 __get_oneliners() {
-  cat "${DOT_DIR}/etc/oneliners.txt" | \
-    fzf --header="@ becomes the cursor position" |  \
+  fzf --header="@ becomes the cursor position" < "${DOT_DIR}/etc/oneliners.txt"  |  \
     sed 's/\[.*\]//'
 }
 #
