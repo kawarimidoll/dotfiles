@@ -82,7 +82,8 @@
       #   };
       # }
     ];
-    initExtra = ''
+    # evaluation warning: `programs.zsh.initExtra` is deprecated, use `programs.zsh.initContent` instead.
+    initContent = ''
       source ~/dotfiles/.zshrc
       source ~/.nix-profile/share/zsh/zsh-autopair/autopair.zsh
     '';
