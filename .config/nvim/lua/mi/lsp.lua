@@ -3,6 +3,8 @@ if vim.fn.has('vim_starting') == 1 then
   vim.env.PATH = node_bin .. ':' .. vim.env.PATH
 end
 
+local Methods = vim.lsp.protocol.Methods
+
 vim.api.nvim_create_user_command('LspHealth', function()
   vim.cmd.checkhealth('vim.lsp')
 end, { desc = 'LSP health check' })
@@ -32,7 +34,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
     local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
 
-    if client:supports_method('textDocument/definition') then
+    if client:supports_method(Methods.textDocument_definition) then
       vim.keymap.set('n', 'grd', function()
         vim.lsp.buf.definition()
       end, { buffer = args.buf, desc = 'vim.lsp.buf.definition()' })
