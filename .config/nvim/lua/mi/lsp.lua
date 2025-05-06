@@ -40,6 +40,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
       end, { buffer = args.buf, desc = 'vim.lsp.buf.definition()' })
     end
 
+    if client:supports_method(Methods.textDocument_documentColor) then
+      vim.lsp.document_color.enable(true, args.buf, { style = 'virtual' })
+    end
+
     -- use conform.nvim instead of this
     -- if client:supports_method('textDocument/formatting') then
     --   vim.keymap.set('n', '<space>i', function()
