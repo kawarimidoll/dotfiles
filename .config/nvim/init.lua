@@ -239,7 +239,7 @@ now(function()
   vim.opt.cmdheight = 0
 
   -- ref: https://github.com/Shougo/shougo-s-github/blob/2f1c9acacd3a341a1fa40823761d9593266c65d4/vim/rc/vimrc#L47-L49
-  create_autocmd({ 'RecordingEnter', 'CmdlineEnter' }, {
+  create_autocmd('RecordingEnter', {
     pattern = '*',
     callback = function()
       vim.opt.cmdheight = 1
@@ -249,14 +249,6 @@ now(function()
     pattern = '*',
     callback = function()
       vim.opt.cmdheight = 0
-    end,
-  })
-  create_autocmd('CmdlineLeave', {
-    pattern = '*',
-    callback = function()
-      if vim.fn.reg_recording() == '' then
-        vim.opt.cmdheight = 0
-      end
     end,
   })
 end)
@@ -1244,6 +1236,23 @@ later(function()
   })
 
   vim.keymap.set('n', '<space>i', require('conform').format, { desc = 'format buffer' })
+end)
+
+now(function()
+  local ok, extui = pcall(require, 'vim._extui')
+  if ok then
+    extui.enable({
+      enable = true, -- Whether to enable or disable the UI.
+      msg = { -- Options related to the message module.
+        ---@type 'box'|'cmd' Type of window used to place messages, either in the
+        ---cmdline or in a separate message box window with ephemeral messages.
+        pos = 'cmd',
+        box = { -- Options related to the message box window.
+          timeout = 5000, -- Time a message is visible.
+        },
+      },
+    })
+  end
 end)
 
 now(function()
