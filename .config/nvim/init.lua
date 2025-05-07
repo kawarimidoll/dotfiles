@@ -862,7 +862,9 @@ later(function()
     ensure_installed = { 'lua', 'vim', 'tsx' },
     highlight = { enable = true },
   })
+end)
 
+now(function()
   add('https://github.com/andymass/vim-matchup')
 end)
 
