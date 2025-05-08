@@ -195,6 +195,7 @@ later(function()
   eager_cabbrev('ss', '%s/')
   eager_cabbrev('qw', 'wq')
   eager_cabbrev('lup', 'lua =')
+  eager_cabbrev('chat', 'CopilotChat')
 
   local function fname_and_move_cursor()
     local fname = vim.fn.expand('%')
@@ -1001,7 +1002,6 @@ later(function()
     }),
   })
 
-  vim.keymap.set('ca', 'chat', 'CopilotChat', { desc = 'Ask CopilotChat' })
   vim.keymap.set(
     { 'n', 'x' },
     '<space>p',
