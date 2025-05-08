@@ -236,22 +236,20 @@ end)
 
 now(function()
   require('mini.statusline').setup()
+
+  MiniStatusline.section_mode = (function(wrapped)
+    return function(args)
+      local mode, hl = wrapped(args)
+      local rec = vim.fn.reg_recording()
+      if rec == '' then
+        return mode, hl
+      end
+      return mode .. ' @' .. rec, 'Error'
+    end
+  end)(MiniStatusline.section_mode)
+
   vim.opt.laststatus = 3
   vim.opt.cmdheight = 0
-
-  -- ref: https://github.com/Shougo/shougo-s-github/blob/2f1c9acacd3a341a1fa40823761d9593266c65d4/vim/rc/vimrc#L47-L49
-  create_autocmd('RecordingEnter', {
-    pattern = '*',
-    callback = function()
-      vim.opt.cmdheight = 1
-    end,
-  })
-  create_autocmd('RecordingLeave', {
-    pattern = '*',
-    callback = function()
-      vim.opt.cmdheight = 0
-    end,
-  })
 end)
 
 now(function()
