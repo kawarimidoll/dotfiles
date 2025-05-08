@@ -617,7 +617,7 @@ later(function()
 end)
 
 now(function()
-  add({ source = 'https://github.com/neovim/nvim-lspconfig' })
+  add('https://github.com/neovim/nvim-lspconfig')
 
   -- https://github.com/neovim/neovim/discussions/26571#discussioncomment-11879196
   -- https://github.com/lttb/gh-actions-language-server
@@ -915,7 +915,7 @@ later(function()
 end)
 
 later(function()
-  add({ source = 'https://github.com/stevearc/quicker.nvim' })
+  add('https://github.com/stevearc/quicker.nvim')
   local quicker = require('quicker')
   vim.keymap.set('n', 'mq', function()
     quicker.toggle()
@@ -926,23 +926,17 @@ later(function()
       {
         '>',
         function()
-          require('quicker').expand({ before = 2, after = 2, add_to_existing = true })
+          quicker.expand({ before = 2, after = 2, add_to_existing = true })
         end,
         desc = 'Expand quickfix context',
       },
-      {
-        '<',
-        function()
-          require('quicker').collapse()
-        end,
-        desc = 'Collapse quickfix context',
-      },
+      { '<', U.noarg(quicker.collapse), desc = 'Collapse quickfix context' },
     },
   })
 end)
 
 later(function()
-  add({ source = 'https://github.com/zbirenbaum/copilot.lua' })
+  add('https://github.com/zbirenbaum/copilot.lua')
 
   require('copilot').setup({
     suggestion = {
@@ -1037,7 +1031,7 @@ later(function()
 end)
 
 later(function()
-  add({ source = 'monaqa/dial.nvim' })
+  add('monaqa/dial.nvim')
   vim.cmd.luafile('~/dotfiles/.config/nvim/plugin_config/dial.lua')
   local dial_manipulate = require('dial.map').manipulate
   vim.keymap.set('n', '<C-a>', function()
