@@ -114,9 +114,9 @@ end
 --   }
 -- )
 
-if vim.fn.has('vim_starting') == 1 then
-  vim.cmd.checkhealth = M.skip_hit_enter(vim.cmd.checkhealth)
-end
+-- if vim.fn.has('vim_starting') == 1 then
+--   vim.cmd.checkhealth = M.skip_hit_enter(vim.cmd.checkhealth)
+-- end
 
 -- https://scrapbox.io/vim-jp/boolean%E3%81%AA%E5%80%A4%E3%82%92%E8%BF%94%E3%81%99vim.fn%E3%81%AEwrapper_function
 -- example:
