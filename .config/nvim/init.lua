@@ -646,48 +646,63 @@ later(function()
   vim.opt.completeopt:append('fuzzy')
   vim.opt.dictionary:append('~/.cache/vim/sorted_words')
 
-  -- define keycodes
-  local keys = {
-    cn = vim.keycode('<c-n>'),
-    cp = vim.keycode('<c-p>'),
-    ct = vim.keycode('<c-t>'),
-    cd = vim.keycode('<c-d>'),
-    cr = vim.keycode('<cr>'),
-    cy = vim.keycode('<c-y>'),
-  }
-
-  -- select by <tab>/<s-tab>
-  vim.keymap.set('i', '<tab>', function()
-    -- popup is visible -> next item
-    -- popup is NOT visible -> add indent
-    return vim.bool_fn.pumvisible() and keys.cn or keys.ct
-  end, { expr = true, desc = 'Select next item if popup is visible' })
-  vim.keymap.set('i', '<s-tab>', function()
-    -- popup is visible -> previous item
-    -- popup is NOT visible -> remove indent
-    return vim.bool_fn.pumvisible() and keys.cp or keys.cd
-  end, { expr = true, desc = 'Select previous item if popup is visible' })
-
-  -- complete by <cr>
-  vim.keymap.set('i', '<cr>', function()
-    if not vim.bool_fn.pumvisible() then
-      -- popup is NOT visible -> insert newline
-      return require('mini.pairs').cr()
-    end
-    local item_selected = vim.fn.complete_info()['selected'] ~= -1
-    if item_selected then
-      -- popup is visible and item is selected -> complete item
-      return keys.cy
-    end
-    -- popup is visible but item is NOT selected -> hide popup and insert newline
-    return keys.cy .. keys.cr
-  end, { expr = true, desc = 'Complete current item if item is selected' })
-
   require('mini.snippets').setup({
     mappings = {
       jump_prev = '<c-k>',
     },
   })
+
+  local map_multistep = require('mini.keymap').map_multistep
+  -- NOTE: this will never insert tab, press <c-v><tab> for that
+  local tab_steps = {
+    'minisnippets_next',
+    'minisnippets_expand',
+    'pmenu_next',
+    'jump_after_tsnode',
+    'jump_after_close',
+  }
+  map_multistep('i', '<tab>', tab_steps)
+  local shifttab_steps = {
+    'minisnippets_prev',
+    'pmenu_prev',
+    'jump_before_tsnode',
+    'jump_before_open',
+  }
+  map_multistep('i', '<s-tab>', shifttab_steps)
+  map_multistep('i', '<bs>', { 'minipairs_bs', 'hungry_bs' })
+
+  local function has_trailing_word_after_completion()
+    if vim.fn.complete_info({ 'selected' }).selected == -1 then
+      -- complete item is NOT selected
+      return false
+    end
+    local char_at_cursor = U.get_cursor_neighbor().char_at_cursor
+    local iskeyword = vim.regex('\\k'):match_str(char_at_cursor)
+    return iskeyword ~= nil
+  end
+  local function pmenu_accept_and_remove_trailing_word()
+    return '<c-y><c-o>"_de'
+  end
+
+  map_multistep('i', '<cr>', {
+    {
+      condition = has_trailing_word_after_completion,
+      action = pmenu_accept_and_remove_trailing_word,
+    },
+    'pmenu_accept',
+    'minipairs_cr',
+  })
+end)
+
+later(function()
+  local map_combo = require('mini.keymap').map_combo
+  map_combo({ 'n', 'x' }, 'ww', '}')
+  map_combo({ 'n', 'x' }, 'bb', '{')
+  map_combo({ 'n', 'i', 'x', 'c' }, '<esc><esc>', function()
+    vim.cmd.nohlsearch()
+    vim.cmd.diffupdate()
+    return '<c-l>'
+  end)
 end)
 
 later(function()
