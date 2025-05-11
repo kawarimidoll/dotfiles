@@ -82,6 +82,7 @@ in
         gleam
         globe-cli
         glsl_analyzer
+        glslang
         gnugrep
         gnumake
         gnupg
