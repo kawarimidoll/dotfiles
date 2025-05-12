@@ -1205,6 +1205,7 @@ later(function()
     rust = { 'rustfmt' },
     toml = { 'dprint' },
     dockerfile = { lsp_format = 'prefer' },
+    glsl = { lsp_format = 'prefer' },
   }
   local web_formatters = { 'biome-check', 'prettier', stop_after_first = true }
   local web_targets = {
