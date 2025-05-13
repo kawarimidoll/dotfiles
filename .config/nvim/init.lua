@@ -699,10 +699,17 @@ later(function()
   map_combo({ 'n', 'x' }, 'ww', '}')
   map_combo({ 'n', 'x' }, 'bb', '{')
   map_combo({ 'n', 'i', 'x', 'c' }, '<esc><esc>', function()
+    local ok, extui_shared = pcall(require, 'vim._extui.shared')
+    if ok then
+      local extuiwins = extui_shared.wins[vim.api.nvim_get_current_tabpage()]
+      vim.api.nvim_win_set_config(extuiwins.box, { hide = true })
+    end
     vim.cmd.nohlsearch()
     vim.cmd.diffupdate()
     return '<c-l>'
   end)
+  map_combo({ 'i', 'c' }, 'jk', '<bs><bs><esc>')
+  map_combo({ 'i', 'c' }, 'kj', '<bs><bs><esc>')
 end)
 
 later(function()
