@@ -1255,6 +1255,15 @@ later(function()
   vim.keymap.set('n', '<space>i', require('conform').format, { desc = 'format buffer' })
 end)
 
+later(function()
+  add('https://github.com/AndrewRadev/linediff.vim')
+end)
+
+later(function()
+  add('https://github.com/tani/dmacro.vim')
+  vim.keymap.set({ 'i', 'n' }, '<c-t>', '<plug>(dmacro-play-macro)')
+end)
+
 now(function()
   local ok, extui = pcall(require, 'vim._extui')
   if ok then
