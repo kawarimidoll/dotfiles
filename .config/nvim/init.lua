@@ -281,12 +281,19 @@ later(function()
   -- local palette = base16.mini_palette(palette_args[1], palette_args[2], palette_args[3])
   -- base16.setup({ palette = palette })
 
-  add('https://github.com/futsuuu/vim-robot')
-  vim.cmd.colorscheme('robot')
-  later(function()
-    -- robotのtablineの色がちょっと微妙なので変更
-    vim.api.nvim_set_hl(0, 'MiniTablineCurrent', { link = 'Search' })
-  end)
+  -- add('https://github.com/futsuuu/vim-robot')
+  -- vim.cmd.colorscheme('robot')
+  -- later(function()
+  --   -- robotのtablineの色がちょっと微妙なので変更
+  --   vim.api.nvim_set_hl(0, 'MiniTablineCurrent', { link = 'Search' })
+  -- end)
+
+  add('https://github.com/scottmckendry/cyberdream.nvim')
+  require('cyberdream').setup({
+    variant = 'auto',
+    transparent = true,
+  })
+  vim.cmd.colorscheme('cyberdream')
 
   -- vim.cmd.colorscheme('minicyan')
   -- overwrite highlight WinSeparator
