@@ -1,16 +1,16 @@
-timestamp: 2025-05-10 07:58:18 JST
+timestamp: 2025-05-23 08:54:38 JST
 tap: felixkratz/formulae
 tap: he3-app/he3
 brew: codex
 brew: felixkratz/formulae/borders
 brew: git-now
-brew: glslviewer
 brew: pinentry-mac
 brew: sleepwatcher
 cask: alfred
 cask: alt-tab
 cask: anki
 cask: appflowy
+cask: azookey
 cask: battery-buddy
 cask: brave-browser
 cask: charmstone
