@@ -234,12 +234,20 @@ later(function()
   vim.opt.helplang:prepend('ja')
 end)
 
+later(function()
+  require('mi.one_last_key').setup()
+end)
+
 now(function()
   require('mini.statusline').setup()
 
   MiniStatusline.section_mode = (function(wrapped)
     return function(args)
       local mode, hl = wrapped(args)
+      local last_key = require('mi.one_last_key').get()
+      if last_key and last_key ~= '' then
+        mode = mode .. ' ' .. last_key
+      end
       local rec = vim.fn.reg_recording()
       if rec == '' then
         return mode, hl
