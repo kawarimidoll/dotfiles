@@ -70,7 +70,7 @@
 	inside = !git rev-parse &>/dev/null
 	latest-tag = describe --tags --abbrev=0
 	list-branch = __list-branch
-	new = __new
+	body = __body
 	party = shortlog -nse
 	pull-with-check = __pull-with-check
 	push-with-check = __push-with-check
