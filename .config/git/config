@@ -82,6 +82,7 @@
 	rewind = !git remember | xargs --no-run-if-empty git reset --soft
 	root = !pwd
 	save = stash push
+	single = !git branch | grep -v HEAD | xargs git branch --no-run-if-empty -d
 	ss = status --short
 	staged = diff --staged --name-only --diff-filter=ACMR
 	stash-remove = reflog expire --expire=1.day --verbose refs/stash
