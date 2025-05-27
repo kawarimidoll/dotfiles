@@ -7,5 +7,5 @@ tag="$(git describe --tags 2>/dev/null)"
 if [ -n "$tag" ]; then
   tag="-${tag}"
 fi
-name="${1:-$(basename $(git root))$tag}"
-git archive -o "${name}".zip HEAD
+name="${1:-$(basename "$(git root)")$tag}"
+git archive -o "${name}.zip" HEAD
