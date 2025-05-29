@@ -104,7 +104,7 @@ vim.api.nvim_create_user_command('SudoWrite', function(arg)
 end, { nargs = '?', complete = 'file', bang = true, desc = 'Save using sudo' })
 
 vim.api.nvim_create_user_command('Saveas', function(arg)
-  vim.cmd.saveas({ bang = arg.bang, args = arg.args })
+  vim.cmd.saveas({ bang = arg.bang, args = arg.fargs })
   vim.cmd('edit!')
 end, { nargs = 1, bang = true, complete = 'file', desc = 'Wrapped saveas' })
 
