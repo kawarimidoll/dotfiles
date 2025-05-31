@@ -105,7 +105,9 @@ end, { nargs = '?', complete = 'file', bang = true, desc = 'Save using sudo' })
 
 vim.api.nvim_create_user_command('Saveas', function(arg)
   vim.cmd.saveas({ bang = arg.bang, args = arg.fargs })
-  vim.cmd('edit!')
+  vim.schedule(function()
+    vim.cmd('edit!')
+  end)
 end, { nargs = 1, bang = true, complete = 'file', desc = 'Wrapped saveas' })
 
 vim.api.nvim_create_user_command('Tsgo', function()
