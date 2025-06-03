@@ -40,6 +40,11 @@ die() {
   echo "  terminated."
   exit 1
 }
+die_if_error() {
+  if [ $? -ne 0 ]; then
+    die "Error occurred during $1"
+  fi
+}
 
 OS='unknown'
 if [ "$(uname)" = "Darwin" ]; then
@@ -56,6 +61,7 @@ download_dotfiles() {
   else
     if has "git"; then
       git clone --recursive "$GITHUB_URL" "$DOT_DIR"
+      die_if_error "git clone"
     elif has "curl" || has "wget"; then
       local tarball_url="${GITHUB_URL}/archive/master.tar.gz"
       if has "curl"; then
@@ -63,7 +69,9 @@ download_dotfiles() {
       else
         wget -O - "$tarball_url"
       fi | tar xv
+      die_if_error "download and extract"
       mv -f dotfiles-master "$DOT_DIR"
+      die_if_error "move directory"
     else
       die "cannot download dotfiles."
     fi
@@ -75,14 +83,16 @@ link_dotfiles() {
     for f in $(find . -not -path '*.git*' -not -path '*node_modules*' -not -path '*.DS_Store' -path '*/.*' -type f -print | cut -b3-)
     do
       mkdir -p "$HOME/$(dirname "$f")"
+      die_if_error "create directory $f"
       if [ -L "$HOME/$f" ]; then
         ln -sfv "$DOT_DIR/$f" "$HOME/$f"
       else
         ln -sniv "$DOT_DIR/$f" "$HOME/$f"
       fi
+      die_if_error "create simlink for $f"
     done
   else
-    echo "cannot cd to $DOT_DIR"
+    die "cannot cd to $DOT_DIR"
   fi
 }
 
