@@ -225,9 +225,9 @@ pushf() {
 clone() {
   has 'ghq' || return 1
   ghq get --partial blobless "$1"
-  local target
+  local target=""
   target=$(echo "$1" | sed -r 's;https?://[^/]+|\.git$;;')
-  local dir
+  local dir=""
   dir=$(ghq list | grep --color=never --fixed-strings "$target")
   [ -n "$dir" ] && cd "$(ghq root)/$dir" || return
   git dead
