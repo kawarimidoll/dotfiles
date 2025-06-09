@@ -36,6 +36,7 @@
       enable = true;
       abbreviations = {
         "-" = "cd -";
+        "bun list" = "bun pm ls";
         d = "docker";
         dp = "docker compose";
         "docker p" = "docker compose";
