@@ -8,7 +8,7 @@ M.setup = function()
     if typed == '' then
       return
     end
-    M._saved_last_key = typed
+    M._saved_last_key = vim.fn.keytrans(typed)
   end, ns_id)
 end
 
