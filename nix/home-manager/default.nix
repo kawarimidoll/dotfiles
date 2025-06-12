@@ -105,7 +105,7 @@ in
         lazygit
         libsixel
         lnav
-        logdy
+        # logdy
         lolcat
         ltex-ls
         lua-language-server
