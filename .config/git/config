@@ -52,7 +52,7 @@
 	default-branch = !git remote-head | sed 's!.*/!!'
 	delete = branch --delete
 	detaching = !!git symbolic-ref --quiet HEAD >/dev/null 2>&1
-	df = !git diff $(git default-branch)...$(git current-branch)
+	df = !git diff $(git remote-head)...$(git current-branch)
 	discard = restore
 	fix-latest-commit-date = __fix-latest-commit-date
 	fixup = !git remember | xargs --no-run-if-empty -I_ git commit --fixup _ && git rebase -i --autosquash
