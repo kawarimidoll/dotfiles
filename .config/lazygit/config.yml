@@ -7,12 +7,12 @@ gui:
 keybinding:
   files:
     # swap default bindings
-    commitChanges: 'C'
-    commitChangesWithEditor: 'c'
+    commitChanges: "C"
+    commitChangesWithEditor: "c"
 customCommands:
-  - key: 'P'
-    context: 'global'
-    command: 'git push-with-check'
+  - key: "P"
+    context: "global"
+    command: "git push-with-check"
 # there is blinking bug https://github.com/jesseduffield/lazygit/issues/1302
 git:
   overrideGpg: true
