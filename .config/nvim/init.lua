@@ -1230,6 +1230,7 @@ later(function()
     toml = { 'dprint' },
     dockerfile = { lsp_format = 'prefer' },
     glsl = { lsp_format = 'prefer' },
+    markdown = { 'deno_fmt' },
   }
   local web_formatters = { 'biome-check', 'prettier', stop_after_first = true }
   local web_targets = {
