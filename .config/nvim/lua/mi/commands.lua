@@ -134,6 +134,12 @@ vim.api.nvim_create_user_command('CopyFileName', function()
   vim.notify('Copied file name: ' .. file_name)
 end, { desc = 'Copy the file name of the current file to the clipboard' })
 
+vim.api.nvim_create_user_command('SearchToQf', function(opts)
+  local cmd = opts.bang and 'vimgrepadd' or 'vimgrep'
+  vim.cmd(cmd .. '//gj %')
+  vim.cmd.cwindow()
+end, { bang = true })
+
 vim.api.nvim_create_user_command('Tsgo', function()
   local function on_exit(obj)
     if obj.stderr ~= '' then
