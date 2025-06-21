@@ -951,6 +951,10 @@ later(function()
 
   vim.keymap.set('n', '<space>/', ':Grep ', { desc = 'Grep' })
   vim.keymap.set('n', '<space>?', ':Grep <c-r><c-w>', { desc = 'Grep current word' })
+  vim.keymap.set('x', '<space>?', function()
+    local word = table.concat(U.get_current_selection(), ' ')
+    return ':<c-u>Grep! ' .. vim.fn.escape(word, [[ \]])
+  end, { desc = 'Grep current word', expr = true })
 end)
 
 later(function()
