@@ -1,27 +1,32 @@
 # Vim Cheatsheet
--   `:Cheat`: Show this file
+
+- `:Cheat`: Show this file
 
 ## Default
 
 ## Plugins
+
 ### vim-abolish
+
 #### Substitution
--   `:S/query` to search
--   `:S/quer{y,ies}` to smart search
--   `:S/from/to/[flags]` to replace
--   `:S/{red,blue}/{blue,red}/` to swap
+
+- `:S/query` to search
+- `:S/quer{y,ies}` to smart search
+- `:S/from/to/[flags]` to replace
+- `:S/{red,blue}/{blue,red}/` to swap
 
 #### Coercion
--   `crs` to `snake_case`
--   `cr_` to `snake_case`
--   `crm` to `MixedCase`
--   `crc` to `camelCase`
--   `cru` to `UPPER_CASE`
--   `cr-` to `dash-case`
--   `crk` to `kebab-kase`
--   `cr.` to `dot.case`
--   `cr ` to `space case`
--   `crt` to `Title Case`
+
+- `crs` to `snake_case`
+- `cr_` to `snake_case`
+- `crm` to `MixedCase`
+- `crc` to `camelCase`
+- `cru` to `UPPER_CASE`
+- `cr-` to `dash-case`
+- `crk` to `kebab-kase`
+- `cr.` to `dot.case`
+- `cr` to `space case`
+- `crt` to `Title Case`
 
 ### coc.nvim
 
@@ -84,6 +89,7 @@ nnoremap <silent><nowait> <space>P  :<C-u>CocListResume<CR>
 ```
 
 ### vim-sandwich
+
 #### Add
 
 ```
@@ -99,8 +105,8 @@ sd{deletion}
 sdb
 ```
 
-example: `sd(` makes `(foo)` to `foo`
-example: use `sdb` to auto-search surrounding
+example: `sd(` makes `(foo)` to `foo` example: use `sdb` to auto-search
+surrounding
 
 #### Replace
 
@@ -110,4 +116,3 @@ sr{deletion}{addition}
 ```
 
 example: `srb"` or `sr("` makes `(foo)` to `"foo"`
-

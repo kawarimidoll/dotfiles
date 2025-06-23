@@ -64,7 +64,7 @@ const downloadImage = async (url: string) => {
 const uploadImage = async (
   { image, encoding }: { image: Uint8Array; encoding: string },
 ) => {
-  const agent = getAgent()
+  const agent = getAgent();
   const response = await agent.uploadBlob(image, { encoding });
 
   return {
