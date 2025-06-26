@@ -830,8 +830,12 @@ augroup vimrc
     autocmd Filetype * ++once
           \ execute 'colorscheme' mi#utils#pick_one(g:color_schemes)
           \ | doautocmd ColorScheme
-    autocmd Filetype typescript,typescriptreact,javascript,javascriptreact,markdown,json,jsonc
+    autocmd Filetype typescript,typescriptreact,javascript,javascriptreact,markdown,json,jsonc,css,scss,sass,less,html,yml,yaml
           \  let b:fmt_cmd = $'deno fmt --ext {expand("%:e")} -'
+    autocmd Filetype svelte,vue,astro
+          \  let b:fmt_cmd = $'deno fmt --unstable-component --ext {expand("%:e")} -'
+    autocmd Filetype sql
+          \  let b:fmt_cmd = $'deno fmt --unstable-sql --ext sql -'
     autocmd Filetype c let b:fmt_cmd = 'clang-format -Werror --style=Chromium'
     autocmd Filetype sql let b:fmt_cmd = 'sql-formatter --config ~/dotfiles/.config/sql_formatter/sql_formatter.json'
     autocmd Filetype nix let b:fmt_cmd = 'nixfmt'
