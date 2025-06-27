@@ -110,29 +110,39 @@ vim.api.nvim_create_user_command('Saveas', function(arg)
   end)
 end, { nargs = 1, bang = true, complete = 'file', desc = 'Wrapped saveas' })
 
-vim.api.nvim_create_user_command('CopyFullPath', function()
-  local full_path = vim.fn.expand('%:p')
+local function get_range_str(opts)
+  if opts.range ~= 2 then
+    return ''
+  end
+  if opts.line1 == opts.line2 then
+    return '#L' .. opts.line1
+  end
+  return '#L' .. opts.line1 .. '-L' .. opts.line2
+end
+
+vim.api.nvim_create_user_command('CopyFullPath', function(opts)
+  local full_path = vim.fn.expand('%:p') .. get_range_str(opts)
   vim.fn.setreg('+', full_path)
   vim.notify('Copied full path: ' .. full_path)
-end, { desc = 'Copy the full path of the current file to the clipboard' })
+end, { range = true, desc = 'Copy the full path of the current file to the clipboard' })
 
-vim.api.nvim_create_user_command('CopyRelativePath', function()
-  local relative_path = vim.fn.expand('%')
+vim.api.nvim_create_user_command('CopyRelativePath', function(opts)
+  local relative_path = vim.fn.expand('%') .. get_range_str(opts)
   vim.fn.setreg('+', relative_path)
   vim.notify('Copied relative path: ' .. relative_path)
-end, { desc = 'Copy the relative path of the current file to the clipboard' })
+end, { range = true, desc = 'Copy the relative path of the current file to the clipboard' })
 
-vim.api.nvim_create_user_command('CopyDirName', function()
-  local dir_name = vim.fn.expand('%:p:h')
+vim.api.nvim_create_user_command('CopyDirName', function(opts)
+  local dir_name = vim.fn.expand('%:p:h') .. get_range_str(opts)
   vim.fn.setreg('+', dir_name)
   vim.notify('Copied directory name: ' .. dir_name)
-end, { desc = 'Copy the directory name of the current file to the clipboard' })
+end, { range = true, desc = 'Copy the directory name of the current file to the clipboard' })
 
-vim.api.nvim_create_user_command('CopyFileName', function()
-  local file_name = vim.fn.expand('%:t')
+vim.api.nvim_create_user_command('CopyFileName', function(opts)
+  local file_name = vim.fn.expand('%:t') .. get_range_str(opts)
   vim.fn.setreg('+', file_name)
   vim.notify('Copied file name: ' .. file_name)
-end, { desc = 'Copy the file name of the current file to the clipboard' })
+end, { range = true, desc = 'Copy the file name of the current file to the clipboard' })
 
 vim.api.nvim_create_user_command('SearchToQf', function(opts)
   local cmd = opts.bang and 'vimgrepadd' or 'vimgrep'
