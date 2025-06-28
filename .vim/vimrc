@@ -261,7 +261,7 @@ let g:vimrc_snr = expand('<SID>')
 command! RcEdit execute 'edit' g:my_vimrc
 command! RcReload write | execute 'source' g:my_vimrc | nohlsearch | redraw | echo g:my_vimrc .. ' is reloaded.'
 
-function! s:copy_path(target, with_lnum) abort
+function! s:copy_path(target, range, line1, line2) abort
   let expr = '%'
   if a:target == 'full path'
     let expr ..= ':p'
@@ -271,13 +271,23 @@ function! s:copy_path(target, with_lnum) abort
     let expr ..= ':t'
   endif
 
-  let @*=expand(expr) .. (a:with_lnum ? ':' .. line('.') : '')
-  echo 'copy ' .. a:target .. (a:with_lnum ? ' with line num' : '')
+  let range_str = ''
+  if a:range > 0
+    if a:line1 == a:line2
+      let range_str = '#L' .. a:line1
+    else
+      let range_str = '#L' .. a:line1 .. '-L' .. a:line2
+    endif
+  endif
+
+  let result = expand(expr) .. range_str
+  let @* = result
+  echo 'Copy ' .. a:target .. ': ' .. result
 endfunction
-command! -bang CopyFullPath     call s:copy_path('full path', <bang>0)
-command! -bang CopyDirName      call s:copy_path('dir name', <bang>0)
-command! -bang CopyFileName     call s:copy_path('file name', <bang>0)
-command! -bang CopyRelativePath call s:copy_path('relative path', <bang>0)
+command! -range CopyFullPath     call s:copy_path('full path', <range>, <line1>, <line2>)
+command! -range CopyDirName      call s:copy_path('dir name', <range>, <line1>, <line2>)
+command! -range CopyFileName     call s:copy_path('file name', <range>, <line1>, <line2>)
+command! -range CopyRelativePath call s:copy_path('relative path', <range>, <line1>, <line2>)
 command! CopyLastCmd let @* = @:
 
 nnoremap ds <cmd>GitDiff<cr>
