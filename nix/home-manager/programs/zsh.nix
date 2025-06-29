@@ -37,6 +37,7 @@
       abbreviations = {
         "-" = "cd -";
         "bun list" = "bun pm ls";
+        cld = "caffeinate -i claude";
         d = "docker";
         dp = "docker compose";
         "docker p" = "docker compose";
