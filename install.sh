@@ -89,7 +89,7 @@ link_dotfiles() {
       else
         ln -sniv "$DOT_DIR/$f" "$HOME/$f"
       fi
-      die_if_error "create simlink for $f"
+      die_if_error "create symlink for $f"
     done
   else
     die "cannot cd to $DOT_DIR"
