@@ -38,6 +38,7 @@
 	diffFilter = delta --color-only
 [alias]
 	aa = add .
+	abort = __abort
 	age = __age
 	aliases = !git config --get-regexp ^alias | cut -c7- | sed -e 's/ / = /' | sort
 	allohistory = !git remember | xargs --no-run-if-empty --open-tty git rebase -i
@@ -47,6 +48,7 @@
 	browse = !open $(git remote-url)
 	btf = rebase --continue
 	cog = config --global --edit
+	continue = __continue
 	current-branch = branch --show-current
 	dead = !git refresh --quiet && git switch -d $(git remote-head)
 	default-branch = !git remote-head | sed 's!.*/!!'

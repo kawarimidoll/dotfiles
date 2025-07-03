@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+# git-__abort - Automatically detect and abort the current Git operation
+# Detects rebase, merge, cherry-pick, revert, and bisect states
+
+set -euo pipefail
+
+# Get the Git directory
+GIT_DIR="$(git rev-parse --git-dir 2>/dev/null)" || {
+    echo "Error: Not in a Git repository" >&2
+    exit 1
+}
+
+# Function to check if a file or directory exists
+exists() {
+    [ -e "$1" ]
+}
+
+# Detect and abort the appropriate Git operation
+if exists "$GIT_DIR/rebase-merge" || exists "$GIT_DIR/rebase-apply"; then
+    echo "Aborting rebase..."
+    git rebase --abort
+elif exists "$GIT_DIR/MERGE_HEAD"; then
+    echo "Aborting merge..."
+    git merge --abort
+elif exists "$GIT_DIR/CHERRY_PICK_HEAD"; then
+    echo "Aborting cherry-pick..."
+    git cherry-pick --abort
+elif exists "$GIT_DIR/REVERT_HEAD"; then
+    echo "Aborting revert..."
+    git revert --abort
+elif exists "$GIT_DIR/BISECT_LOG"; then
+    echo "Aborting bisect..."
+    git bisect reset
+else
+    echo "No Git operation in progress to abort." >&2
+    echo "Current status:" >&2
+    git status --short
+    exit 1
+fi
