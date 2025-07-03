@@ -138,6 +138,78 @@ fi
 # -----------------
 #  Functions
 # -----------------
+# https://zenn.dev/kgmyshin/articles/git-worktrees
+# Git worktree cd - fzfで選択してworktreeにcd、なければ新規作成
+wtc() {
+  local selected
+  selected=$(git worktree list | grep -v "(bare)" | fzf --print-query --prompt="Change to worktree> " | tail -1)
+
+  if [ -z "$selected" ]; then
+    return
+  fi
+
+  # 既存のworktreeが選択された場合
+  if echo "$selected" | grep -q "^/"; then
+    local worktree_path=$(echo "$selected" | awk '{print $1}')
+    cd "$worktree_path"
+  else
+    # 新しいworktreeを作成 - wtaを呼び出す
+    wta "$selected"
+  fi
+}
+
+# Git worktree add - 引数を渡してworktreeを追加
+wta() {
+  if [ $# -eq 0 ]; then
+    echo "Usage: wta <branch-name>"
+    return 1
+  fi
+
+  local branch_name="$1"
+  local worktree_path="../$(basename "$(pwd)")@$branch_name"
+
+  # リモートから最新を取得
+  echo "Fetching latest changes..."
+  git refresh --quiet
+
+  # ブランチが既に存在するかチェック
+  if git show-ref --verify --quiet "refs/heads/$branch_name"; then
+    # ローカルブランチが存在する場合
+    echo "Using existing local branch: $branch_name"
+    git worktree add "$worktree_path" "$branch_name"
+  elif git show-ref --verify --quiet "refs/remotes/origin/$branch_name"; then
+    # リモートブランチのみ存在する場合
+    echo "Using remote branch: origin/$branch_name"
+    git worktree add "$worktree_path" "origin/$branch_name"
+  else
+    # 新規ブランチを作成
+    echo "Creating new branch: $branch_name (from $(git remote-head))"
+    git worktree add "$worktree_path" -b "$branch_name" "$(git remote-head)"
+  fi
+
+  if [ $? -eq 0 ]; then
+    echo "Created worktree at: $worktree_path"
+    cd "$worktree_path"
+  fi
+}
+
+# Git worktree delete - fzfで複数選択して削除
+wtd() {
+  git worktree list | grep -v "(bare)" | fzf --multi --prompt="Delete worktrees> " | awk '{print $1}' | \
+    xargs --no-run-if-empty -I {} sh -c 'echo "Removing worktree: {}" && git worktree remove "{}"'
+}
+
+# Git worktree from branch - 既存のブランチからworktreeを作成
+wtb() {
+  # リモートから最新を取得
+  echo "Fetching latest changes..."
+  git refresh --quiet
+
+  # ローカルとリモートのブランチを取得し、選択されたらwtaを呼び出す
+  git branch -a --format='%(refname:short)' | grep -v 'HEAD' | fzf --prompt="Select branch for worktree> " | \
+    sed 's#^origin/##' | xargs --no-run-if-empty wta
+}
+
 ma() {
   # https://rcmdnk.com/blog/2014/07/20/computer-vim/
   man "$@" | col -bx | vim -RM --not-a-term -c 'set ft=man nolist nonumber' -
