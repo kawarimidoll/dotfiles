@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# Git worktree cd - fzfで選択してworktreeにcd、なければ新規作成
+# 注意: このスクリプトは source コマンドで実行する必要があります
+# 例: source _wtc または . _wtc
+
+selected=$(git worktree list | grep -v "(bare)" | fzf --print-query --prompt="Change to worktree> " | tail -1)
+
+if [ -z "$selected" ]; then
+  return 2>/dev/null
+fi
+
+# 既存のworktreeが選択された場合
+if echo "$selected" | grep -q "^/"; then
+  worktree_path=$(echo "$selected" | awk '{print $1}')
+  cd "$worktree_path" || return 2>/dev/null || exit 1
+else
+  # 新しいworktreeを作成 - wtaを呼び出す
+  wta "$selected"
+fi

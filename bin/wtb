@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# Git worktree from branch - 既存のブランチからworktreeを作成
+
+# リモートから最新を取得
+echo "Fetching latest changes..."
+git refresh --quiet
+
+# ローカルとリモートのブランチを取得し、選択されたらwtaを呼び出す
+git branch -a --format='%(refname:short)' | grep -v 'HEAD' | fzf --prompt="Select branch for worktree> " | \
+  sed 's#^origin/##' | xargs --no-run-if-empty wta
