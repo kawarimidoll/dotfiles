@@ -132,6 +132,9 @@ local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
 
 later(function()
   require('mi.commands')
+end)
+
+later(function()
   require('mi.keymaps')
 end)
 
