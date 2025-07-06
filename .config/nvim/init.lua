@@ -720,8 +720,13 @@ later(function()
     local ok, extui_shared = pcall(require, 'vim._extui.shared')
     if ok then
       local extuiwins = extui_shared.wins[vim.api.nvim_get_current_tabpage()]
-      if extuiwins and extuiwins.box then
-        vim.api.nvim_win_set_config(extuiwins.box, { hide = true })
+      if extuiwins then
+        for _, win_type in ipairs({ 'cmd', 'dialog', 'msg', 'pager' }) do
+          local win = extuiwins[win_type]
+          if win then
+            vim.api.nvim_win_set_config(win, { hide = true })
+          end
+        end
       end
     end
     vim.cmd.nohlsearch()
