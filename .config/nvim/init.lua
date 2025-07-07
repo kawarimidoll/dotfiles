@@ -712,23 +712,24 @@ later(function()
   })
 end)
 
+local function close_extui_wins()
+  local ok, extui_shared = pcall(require, 'vim._extui.shared')
+  if not ok or type(extui_shared.wins) ~= 'table' then
+    return
+  end
+  for _, win_type in ipairs({ 'cmd', 'dialog', 'msg', 'pager' }) do
+    local win = extui_shared.wins[win_type]
+    if win then
+      vim.api.nvim_win_set_config(win, { hide = true })
+    end
+  end
+end
 later(function()
   local map_combo = require('mini.keymap').map_combo
   map_combo({ 'n', 'x' }, 'ww', '}')
   map_combo({ 'n', 'x' }, 'bb', '{')
   map_combo({ 'n', 'i', 'x', 'c' }, '<esc><esc>', function()
-    local ok, extui_shared = pcall(require, 'vim._extui.shared')
-    if ok then
-      local extuiwins = extui_shared.wins[vim.api.nvim_get_current_tabpage()]
-      if extuiwins then
-        for _, win_type in ipairs({ 'cmd', 'dialog', 'msg', 'pager' }) do
-          local win = extuiwins[win_type]
-          if win then
-            vim.api.nvim_win_set_config(win, { hide = true })
-          end
-        end
-      end
-    end
+    close_extui_wins()
     vim.cmd.nohlsearch()
     vim.cmd.diffupdate()
     return '<c-l>'
