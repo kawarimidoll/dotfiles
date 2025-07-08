@@ -187,5 +187,5 @@ vim.api.nvim_create_user_command('Tsgo', function()
     vim.defer_fn(setqflist, 100)
   end
 
-  vim.system({ 'tsgo', '-noEmit', '-pretty=false' }, { text = true }, on_exit)
+  vim.system({ 'tsgo', '--noEmit', '--pretty', 'false' }, { text = true }, on_exit)
 end, { desc = 'Tsgo' })
