@@ -156,6 +156,54 @@ vim.api.nvim_create_user_command('SearchToQf', function(opts)
   vim.cmd.cwindow()
 end, { bang = true })
 
+-- https://zenn.dev/vim_jp/articles/d4f89682bebd9f から、ウィンドウを分割するように変更
+local memo_path = vim.fn.expand('~/.local/share/memo.md')
+local memoaugroup = vim.api.nvim_create_augroup('MemoAutosave', { clear = true })
+local function memo()
+  -- メモをすでに開いているか確認
+  local memo_bufnr = nil
+  for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.api.nvim_buf_get_name(bufnr) == memo_path then
+      memo_bufnr = bufnr
+      break
+    end
+  end
+
+  -- 現在のバッファがメモのバッファであれば、保存して閉じる
+  local current_buf = vim.api.nvim_get_current_buf()
+  if current_buf == memo_bufnr then
+    vim.cmd('silent update')
+    vim.cmd('bdelete')
+    return
+  end
+
+  -- メモがすでに開いているが、カーソルが別ウィンドウにある場合は、メモのウィンドウへ移動
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    if vim.api.nvim_win_get_buf(win) == memo_bufnr then
+      vim.api.nvim_set_current_win(win)
+      return
+    end
+  end
+
+  -- メモはbufhiddenを'wipe'に設定しているので、隠れバッファになることはないはず
+  -- したがってここまで来た場合は、メモのバッファが存在しないことになる
+
+  -- メモのバッファを新規作成
+  vim.cmd('12split')
+  vim.cmd('edit ' .. vim.fn.fnameescape(memo_path))
+  vim.opt_local.bufhidden = 'wipe'
+  vim.opt_local.swapfile = false
+  vim.api.nvim_create_autocmd({ 'InsertLeave', 'BufLeave', 'BufWinLeave' }, {
+    buffer = 0,
+    callback = function()
+      vim.cmd('silent update')
+    end,
+    group = memoaugroup,
+  })
+end
+vim.api.nvim_create_user_command('Memo', memo, { desc = 'Toggle memo' })
+vim.keymap.set('n', 'mo', '<Cmd>Memo<CR>', { noremap = true, silent = true, desc = 'Toggle memo' })
+
 vim.api.nvim_create_user_command('Tsgo', function()
   local function on_exit(obj)
     if obj.stderr ~= '' then
