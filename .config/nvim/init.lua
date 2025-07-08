@@ -185,6 +185,7 @@ later(function()
   vim.keymap.set('n', 'qO', '<cmd>BufOnly<cr>', { desc = 'BufOnly' })
   vim.keymap.set('n', 'qt', '<c-^>', { desc = 'toggle buffer' })
   vim.keymap.set('n', 'qg', ':<c-u>global/^/normal ', { desc = 'global command' })
+  vim.keymap.set('n', 'qd', ':<c-u>g//d<left><left>', { desc = 'delete using regex' })
 end)
 
 later(function()
