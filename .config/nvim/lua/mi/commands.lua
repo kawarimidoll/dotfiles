@@ -129,7 +129,10 @@ local function copy_path(opts, target)
     expr = '%:t'
   end
 
-  local path = vim.fn.expand(expr) .. get_range_str(opts)
+  local path = target == 'relative path' and vim.fs.relpath(vim.fn.getcwd(), vim.fn.expand('%:p'))
+    or vim.fn.expand(expr)
+  path = path .. get_range_str(opts)
+
   vim.fn.setreg('*', path)
   vim.notify('Copied ' .. target .. ': ' .. path)
 end
