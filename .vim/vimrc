@@ -620,10 +620,11 @@ endfunction
 function! s:syntax_off_on_heavy_file()
   if getfsize(@%) > 512 * 1000
     setlocal syntax=OFF
-    NotifyShow 'syntax off: too heavy file.'
-    if &filetype !=# 'help'
-      call interrupt()
-    endif
+    " NotifyShow 'syntax off: too heavy file.'
+    echomsg 'syntax off: too heavy file.'
+    " if &filetype !=# 'help'
+    "   call interrupt()
+    " endif
   endif
 endfunction
 
