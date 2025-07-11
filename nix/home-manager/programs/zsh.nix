@@ -49,6 +49,7 @@
         "git f" = "git fuse";
         "git n" = "git new";
         gco = "git checkout";
+        prit = "difit HEAD origin/main";
       };
       globalAbbreviations = {
         # # `|&` is shorthand for `2>&1 |`, this connects not only stdout, but also stderr.
