@@ -1,4 +1,10 @@
 #!/bin/bash
+set -e  # エラー発生時に終了
+
+# XDG環境変数のデフォルト値を設定
+XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
+XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
+XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
 
 XDG_CACHE_HOME=${XDG_CACHE_HOME:-$HOME/.cache}
 XDG_STATE_HOME=${XDG_STATE_HOME:-$HOME/.local/state}
