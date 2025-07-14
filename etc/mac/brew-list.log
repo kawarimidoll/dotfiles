@@ -1,4 +1,4 @@
-timestamp: 2025-06-22 22:49:14 JST
+timestamp: 2025-07-14 23:28:54 JST
 tap: felixkratz/formulae
 tap: he3-app/he3
 brew: chawan
@@ -8,6 +8,7 @@ brew: git-now
 brew: lolcrab
 brew: pinentry-mac
 brew: sleepwatcher
+brew: stormy
 cask: alfred
 cask: alt-tab
 cask: anki
@@ -26,9 +27,11 @@ cask: devtoys
 cask: dropbox
 cask: editaro
 cask: emacs
+cask: emacs-app
 cask: figma
 cask: filen
 cask: flux
+cask: flux-app
 cask: folder-colorizer
 cask: font-departure-mono
 cask: font-scientifica
@@ -38,7 +41,6 @@ cask: ghostty
 cask: gitify
 cask: google-japanese-ime
 cask: he3
-cask: highlight
 cask: iina
 cask: isabelle
 cask: iterm2
@@ -57,6 +59,7 @@ cask: notion
 cask: numi
 cask: obsidian
 cask: ollama
+cask: ollama-app
 cask: piphero
 cask: pronotes
 cask: qlzipinfo
@@ -72,12 +75,13 @@ cask: swift-shift
 cask: thelowtechguys-cling
 cask: tiny-player
 cask: trex
+cask: vibetunnel
 cask: visual-studio-code
 cask: warp
 cask: wezterm@nightly
 mas: 1351639930  Gifski        (2.23.1)
-mas: 1352778147  Bitwarden     (2025.5.1)
-mas: 1429033973  RunCat        (11.4)
+mas: 1352778147  Bitwarden     (2025.6.1)
+mas: 1429033973  RunCat        (12.0.3)
 mas: 1448648921  Seashore      (3.40)
 mas: 1502839586  Hand Mirror   (3.2)
 mas: 1522267256  Shareful      (1.11.0)
@@ -86,10 +90,10 @@ mas: 1575588022  MenubarX      (1.7.6)
 mas: 1611378436  Pure Paste    (1.12.2)
 mas: 1615988943  Folder Peek   (1.12.0)
 mas: 1636862100  Commander     (1.14)
-mas: 302584613   Kindle        (7.34)
+mas: 302584613   Kindle        (7.36)
 mas: 539883307   LINE          (9.9.0)
-mas: 562211012   Yomu          (3.12.2)
+mas: 562211012   Yomu          (3.13.0)
 mas: 6444685140  CenterMouse   (1.1.1)
-mas: 6448461551  Command X     (1.5.2)
+mas: 6448461551  Command X     (1.5.3)
 mas: 6462894357  Battery Line  (1.1.0)
-mas: 6743048714  Googly Eyes   (1.1.1)
+mas: 6743048714  Googly Eyes   (1.1.2)
