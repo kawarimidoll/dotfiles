@@ -122,3 +122,5 @@
 	prompt = false
 	keepBackup = false
 	trustExitCode = true
+[worktree]
+	useRelativePaths = true
