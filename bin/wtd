@@ -2,9 +2,14 @@
 
 # Git worktree delete - fzfで複数選択して削除
 
+force_flag=""
+if [[ "$1" == "--force" ]]; then
+  force_flag="--force"
+fi
+
 # カレントディレクトリのworktreeパスを取得
 current_worktree="$(git worktree list | grep -E "^$(git root)\s" | awk '{print $1}')"
 
 # カレントディレクトリを除外してリスト表示
 git worktree list | grep -v "(bare)" | grep -v "^${current_worktree}\s" | fzf --multi --prompt="Delete worktrees> " | awk '{print $1}' | \
-  xargs --no-run-if-empty -I {} sh -c 'echo "Removing worktree: {}" && git worktree remove "{}"'
+  xargs --no-run-if-empty -I {} sh -c 'echo "Removing worktree: {}" && git worktree remove '"$force_flag"' "{}"'
