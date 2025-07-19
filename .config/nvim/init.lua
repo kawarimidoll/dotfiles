@@ -139,53 +139,7 @@ later(function()
 end)
 
 later(function()
-  -- qをprefixに使う
-  create_autocmd('RecordingEnter', {
-    pattern = '*',
-    callback = function()
-      -- q以外のマクロは使わないので即終了
-      if vim.fn.reg_recording() ~= 'q' then
-        vim.cmd('normal! q')
-        return
-      end
-
-      local buffer = vim.api.nvim_get_current_buf()
-      -- vim.keymap.set('n', 'q', 'q', { nowait = true, buffer = buffer })
-      -- HACK: mini.clueがbuffer mappingを上書きしてくるのでautocmd CursorMovedで設定する
-      create_autocmd('CursorMoved', {
-        pattern = '*',
-        once = true,
-        callback = function()
-          vim.keymap.set('n', 'q', 'q', { nowait = true, buffer = buffer })
-        end,
-        desc = 'set stop-recording key',
-      })
-      create_autocmd('BufLeave', {
-        pattern = '*',
-        once = true,
-        callback = function()
-          vim.cmd('normal! q')
-          vim.notify('stop recording', vim.log.levels.INFO)
-        end,
-        desc = 'stop recording when leaving buffer',
-      })
-      create_autocmd('RecordingLeave', {
-        pattern = '*',
-        once = true,
-        callback = function()
-          vim.keymap.del('n', 'q', { buffer = buffer })
-        end,
-        desc = 'delete q mapping when recording leave',
-      })
-    end,
-  })
-
-  vim.keymap.set('n', 'qq', 'qq', { desc = 'start rec' })
-  vim.keymap.set('n', 'qo', '<cmd>only<cr>', { desc = 'only' })
-  vim.keymap.set('n', 'qO', '<cmd>BufOnly<cr>', { desc = 'BufOnly' })
-  vim.keymap.set('n', 'qt', '<c-^>', { desc = 'toggle buffer' })
-  vim.keymap.set('n', 'qg', ':<c-u>global/^/normal ', { desc = 'global command' })
-  vim.keymap.set('n', 'qd', ':<c-u>g//d<left><left>', { desc = 'delete using regex' })
+  require('mi.prefix_q')
 end)
 
 later(function()
