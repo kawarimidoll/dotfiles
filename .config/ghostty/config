@@ -2,9 +2,9 @@
 
 cursor-style = block
 cursor-style-blink = false
-# custom-shader = ./gradient-background.glsl
+custom-shader = ./gradient-background.glsl
 # for light
-custom-shader = ./string-theory-background.glsl
+# custom-shader = ./string-theory-background.glsl
 # for dark
 # custom-shader = ./singularity-background.glsl
 # font-family = "HackGen Console NF"
