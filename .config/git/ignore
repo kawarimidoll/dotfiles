@@ -9,7 +9,7 @@ tags
 .direnv
 .envrc
 .nvim.lua
-.aider
+.aider*
 **/.well-known/appspecific/com.chrome.devtools.json
 **/z-ai/
 **/.claude/settings.local.json
