@@ -12,7 +12,7 @@ async function fetchWeather() {
   for (let i = 0; i <= 3; i++) {
     try {
       const response = await fetch(
-        "https://www.accuweather.com/en/au/melbourne/26216/weather-tomorrow/26216",
+        "https://www.accuweather.com/en/jp/tokyo/226396/weather-tomorrow/226396",
       );
       return response;
     } catch (error) {
