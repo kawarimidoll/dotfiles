@@ -13,6 +13,12 @@ async function fetchWeather() {
     try {
       const response = await fetch(
         "https://www.accuweather.com/en/jp/tokyo/226396/weather-tomorrow/226396",
+        {
+          headers: {
+            "User-Agent":
+              "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
+          },
+        },
       );
       return response;
     } catch (error) {
