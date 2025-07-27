@@ -1188,6 +1188,28 @@ end)
 
 later(function()
   add('https://github.com/stevearc/conform.nvim')
+
+  -- 動的にフォーマッタを選択する関数
+  local function get_web_formatters(bufnr)
+    local file_path = vim.api.nvim_buf_get_name(bufnr)
+    local dir = vim.fs.dirname(file_path)
+
+    -- ファイルの親ディレクトリから上方向にpackage.jsonまたはnode_modulesを検索
+    local node_markers = vim.fs.find({ 'package.json', 'node_modules' }, {
+      upward = true,
+      path = dir,
+      limit = 1,
+    })
+
+    if #node_markers > 0 then
+      -- nodeプロジェクトの場合
+      return { 'biome-check', 'prettier', stop_after_first = true }
+    end
+    -- nodeでないならdeno_fmtを使用
+    return { 'deno_fmt' }
+  end
+
+  ---@type table<string, string[]|fun(bufnr: integer): string[]|table>
   local formatters_by_ft = {
     bash = { 'beautysh' },
     sh = { 'beautysh' },
@@ -1200,7 +1222,6 @@ later(function()
     glsl = { lsp_format = 'prefer' },
     markdown = { 'deno_fmt' },
   }
-  local web_formatters = { 'biome-check', 'prettier', stop_after_first = true }
   local web_targets = {
     'typescript',
     'javascript',
@@ -1219,7 +1240,7 @@ later(function()
     'less',
   }
   for _, target in ipairs(web_targets) do
-    formatters_by_ft[target] = web_formatters
+    formatters_by_ft[target] = get_web_formatters
   end
 
   require('conform').setup({
