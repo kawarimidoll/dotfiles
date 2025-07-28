@@ -11,7 +11,7 @@ branch_name="$1"
 # 現在のディレクトリのパスから最後の@以降を削除してベースリポジトリパスを取得
 original_root="$(git root)"
 # 最後の@の位置を見つけて、それより前の部分を取得
-worktree_path="${current_path%@*}@$branch_name"
+worktree_path="${original_root%@*}@$branch_name"
 
 # リモートから最新を取得
 echo "Fetching latest changes..."
