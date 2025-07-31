@@ -1,10 +1,10 @@
 # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.zsh.enable
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 {
   # https://zenn.dev/arjef/scraps/703608a91fe38e
   # https://scrapbox.io/r-hanafusa/zsh%2Fprezto_%E9%AB%98%E9%80%9F%E5%8C%96%E3%83%A1%E3%83%A2
   programs.zsh = {
-    dotDir = ".config/zsh";
+    dotDir = "${config.xdg.configHome}/zsh";
     enable = true;
     enableCompletion = true;
     # https://gist.github.com/ctechols/ca1035271ad134841284?permalink_comment_id=2158147#gistcomment-2158147
