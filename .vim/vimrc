@@ -521,8 +521,8 @@ nnoremap <Space>b <Cmd>call mi#fzf#bufs()<CR>
 nnoremap <Space>d <Cmd>call mi#buf#delete()<CR>
 nnoremap <Space>D <Cmd>call mi#buf#delete({'force': v:true})<CR>
 nnoremap <Space>f <Cmd>call mi#fzf#files()<CR>
-nnoremap <Space>g <Cmd>copy.<CR>
-nnoremap <Space>G <Cmd>copy-1<CR>
+nnoremap <Space>2 <Cmd>copy.<CR>
+nnoremap <Space>3 <Cmd>copy-1<CR>
 nnoremap <space>h <Cmd>call mi#fzf#mru()<CR>
 nnoremap <Space>m <Cmd>marks<bar>execute $'normal! `{input("jump to: ")}'<CR>
 nnoremap <expr> <Space>o mi#blank#below()

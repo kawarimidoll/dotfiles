@@ -21,8 +21,8 @@ xnoremap so :source<cr><cmd>nohlsearch<cr>gv
 
 xnoremap qg :global/^/normal<Space>
 
-xnoremap <Space>g :copy'<-1<CR>gv
-xnoremap <Space>G :copy'>+0<CR>gv
+xnoremap <Space>2 :copy'<-1<CR>gv
+xnoremap <Space>3 :copy'>+0<CR>gv
 
 " operator
 onoremap x d
