@@ -140,6 +140,7 @@ else
   " :h nvim-defaults
   set autoindent
   set autoread
+  set autocomplete
   "set background=dark
   set belloff=all
   set display=lastline

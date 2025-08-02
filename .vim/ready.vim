@@ -301,7 +301,7 @@ else
     endif
     call s:fallback_cmp()
   endfunction
-  autocmd InsertCharPre * call mi#utils#debounce($'{expand("\<SID>")}auto_cmp_start', 0)
+  " autocmd InsertCharPre * call mi#utils#debounce($'{expand("\<SID>")}auto_cmp_start', 0)
 
   " https://zenn.dev/kawarimidoll/articles/251289f6a638a7
   function! s:auto_cmp_close() abort
@@ -315,7 +315,7 @@ else
       call feedkeys("\<c-x>\<c-z>", 'ni')
     endif
   endfunction
-  autocmd TextChangedP * call s:auto_cmp_close()
+  " autocmd TextChangedP * call s:auto_cmp_close()
 endif
 
 if &diff
