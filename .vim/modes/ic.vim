@@ -4,7 +4,8 @@ set completeopt=menuone,noselect,fuzzy
 set infercase
 set ignorecase
 set smartcase
-set wildmode=longest,full
+set wildoptions=exacttext,fuzzy,pum,tagfile
+set wildmode=noselect:lastused,full
 
 if has('nvim')
   set inccommand=split
@@ -16,7 +17,6 @@ else
   set ttimeout
   set ttimeoutlen=50
   set wildmenu
-  set wildoptions=pum,tagfile
   inoremap <C-u> <C-g>u<C-u>
   inoremap <C-w> <C-g>u<C-w>
 endif

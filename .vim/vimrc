@@ -829,6 +829,8 @@ augroup vimrc
     autocmd Filetype xml,html inoremap <buffer><expr> </
           \ &completeopt=~'noinsert\\|noselect' ? '</<c-x><c-o><c-n><c-y>' : '</<c-x><c-o><c-y>'
 
+    autocmd CmdlineChanged [:/?] call wildtrigger()
+
     " autocmd WinEnter,BufEnter * setlocal statusline=%!mi#statusline#active()
     " autocmd WinLeave,BufLeave * setlocal statusline=%!mi#statusline#inactive()
     " set statusline=%!mi#statusline#horizontal_line()
