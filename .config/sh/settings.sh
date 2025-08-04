@@ -12,6 +12,7 @@ export XDG_CACHE_HOME="${HOME}/.cache"
 # export XDG_RUNTIME_DIR="/run/user/${UID}"
 
 export CARGO_HOME="${XDG_DATA_HOME}/cargo"
+export CLAUDE_CONFIG_DIR="${XDG_CONFIG_HOME}/claude"
 export GEM_HOME="${XDG_DATA_HOME}/gem"
 export GEM_SPEC_CACHE="${XDG_CACHE_HOME}/gem"
 export GOPATH="${XDG_DATA_HOME}/go"
