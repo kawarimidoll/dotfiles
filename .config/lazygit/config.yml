@@ -16,6 +16,7 @@ customCommands:
 # there is blinking bug https://github.com/jesseduffield/lazygit/issues/1302
 git:
   overrideGpg: true
+  useHunkModeInStagingView: false
   paging:
     colorArg: always
     pager: delta --dark --paging=never --color-only
