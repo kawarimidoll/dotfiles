@@ -143,6 +143,18 @@ later(function()
 end)
 
 later(function()
+  vim.opt.wildoptions = { 'exacttext', 'fuzzy', 'pum', 'tagfile' }
+  vim.opt.wildmode = { 'noselect:lastused', 'full' }
+  create_autocmd('CmdlineChanged', {
+    pattern = '[:/?]',
+    callback = function()
+      vim.fn.wildtrigger()
+    end,
+    desc = 'Auto trigger command-line completion',
+  })
+end)
+
+later(function()
   local eager_cabbrev = require('mi.eager_cabbrev')
   eager_cabbrev('yep', 'echo "yeah"')
   eager_cabbrev('ec', 'echo')
