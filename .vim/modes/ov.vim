@@ -27,6 +27,10 @@ xnoremap <Space>3 :copy'>+0<CR>gv
 " operator
 onoremap x d
 
+" https://blog.atusy.net/2025/08/08/map-minus-to-blackhole-register/
+nnoremap - "_
+xnoremap - "_
+
 Keymap xo il <Cmd>call mi#textobject#line()<CR>
 Keymap xo al <Cmd>call mi#textobject#line({'no_trim': 1})<CR>
 Keymap xo iu <Cmd>call mi#textobject#fname()<CR>

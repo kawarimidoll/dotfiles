@@ -11,6 +11,9 @@ vim.keymap.set({ 'n', 'x' }, 'x', '"_d', { desc = 'Delete into blackhole' })
 vim.keymap.set('n', 'X', '"_D', { desc = 'Delete into blackhole' })
 vim.keymap.set('o', 'x', 'd', { desc = 'Delete using x' })
 
+-- https://blog.atusy.net/2025/08/08/map-minus-to-blackhole-register/
+vim.keymap.set({ 'n', 'x' }, '-', '"_', { desc = 'Blackhole register' })
+
 -- vim.keymap.set('c', '<c-b>', '<left>', { desc = 'Emacs like left' })
 -- vim.keymap.set('c', '<c-f>', '<right>', { desc = 'Emacs like right' })
 -- vim.keymap.set('c', '<c-a>', '<home>', { desc = 'Emacs like home' })
