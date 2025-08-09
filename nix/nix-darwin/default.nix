@@ -33,6 +33,7 @@
   };
 
   system = {
+    primaryUser = "kawarimidoll";
     stateVersion = 5;
     defaults = {
       NSGlobalDomain.AppleShowAllExtensions = true;
