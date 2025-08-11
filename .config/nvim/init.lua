@@ -1233,6 +1233,7 @@ later(function()
     dockerfile = { lsp_format = 'prefer' },
     glsl = { lsp_format = 'prefer' },
     markdown = { 'deno_fmt' },
+    ['_'] = { 'trim_whitespace' },
   }
   local web_targets = {
     'typescript',
