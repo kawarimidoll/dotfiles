@@ -78,6 +78,7 @@ in
         git-quick-stats
         git-recent
         git-trim
+        # logdy
         git-workspace
         gleam
         globe-cli
@@ -105,7 +106,6 @@ in
         lazygit
         libsixel
         lnav
-        # logdy
         lolcat
         ltex-ls
         lua-language-server
@@ -147,6 +147,7 @@ in
         tz
         unzip
         usql
+        uv
         vhs
         vim # latest
         vim-startuptime
