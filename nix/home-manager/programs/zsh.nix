@@ -37,7 +37,7 @@
       abbreviations = {
         "-" = "cd -";
         "bun list" = "bun pm ls";
-        cala = "cage -allow . -allow /private/tmp -allow $HOME/.npm -allow $HOME/.claude -allow $HOME/.claude.json -allow \"$(git rev-parse --git-common-dir)\" -allow-keychain claude";
+        cala = "cage claude";
         cld = "caffeinate -i claude";
         d = "docker";
         dp = "docker compose";
