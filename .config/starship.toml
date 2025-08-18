@@ -24,7 +24,7 @@ disabled = false
 symbol = "󰰡 "
 
 [aws]
-symbol = " "
+symbol = " "
 disabled = true
 
 [buf]
@@ -68,6 +68,10 @@ symbol = " "
 
 [fossil_branch]
 symbol = " "
+
+[gcloud]
+symbol = "󱇶 "
+disabled = true
 
 [git_branch]
 symbol = " "
