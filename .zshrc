@@ -226,4 +226,8 @@ precmd () { print -Pn "\e]0;%~\a" }
 # -----------------
 __source ~/.zshrc.local
 
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/kawarimidoll/.lmstudio/bin"
+# End of LM Studio CLI section
+
 :
