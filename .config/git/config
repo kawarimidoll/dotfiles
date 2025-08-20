@@ -122,5 +122,7 @@
 	prompt = false
 	keepBackup = false
 	trustExitCode = true
+[mergetool.vimdiff]
+	layout = "@LOCAL,REMOTE"
 [worktree]
 	useRelativePaths = true
