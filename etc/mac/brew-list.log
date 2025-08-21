@@ -1,9 +1,10 @@
-timestamp: 2025-08-10 10:43:47 JST
+timestamp: 2025-08-21 23:52:57 JST
 tap: felixkratz/formulae
 tap: he3-app/he3
 brew: chawan
 brew: codex
 brew: felixkratz/formulae/borders
+brew: gemini-cli
 brew: git-now
 brew: lolcrab
 brew: pinentry-mac
@@ -21,6 +22,7 @@ cask: brave-browser
 cask: charmstone
 cask: chatgpt
 cask: claude
+cask: claude-code
 cask: clop
 cask: cloudflare-warp
 cask: cursor
@@ -94,10 +96,12 @@ mas: 1575588022  MenubarX      (1.7.6)
 mas: 1611378436  Pure Paste    (1.12.3)
 mas: 1615988943  Folder Peek   (1.12.0)
 mas: 1636862100  Commander     (1.14)
-mas: 302584613   Kindle        (7.38)
+mas: 302584613   Kindle        (7.38.1)
 mas: 539883307   LINE          (9.10.1)
-mas: 562211012   Yomu          (3.13.0)
+mas: 562211012   Yomu          (3.13.1)
 mas: 6444685140  CenterMouse   (1.1.1)
 mas: 6448461551  Command X     (1.5.3)
 mas: 6462894357  Battery Line  (1.1.0)
 mas: 6743048714  Googly Eyes   (1.1.2)
+mas: 6743496546  xcribe        (0.4.3)
+mas: 977173231   Sakura        (1.0.0)
