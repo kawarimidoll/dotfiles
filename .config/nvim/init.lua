@@ -143,6 +143,10 @@ later(function()
 end)
 
 later(function()
+  vim.ui.input = require('mi.ui_input').ui_input
+end)
+
+later(function()
   vim.opt.wildoptions = { 'exacttext', 'fuzzy', 'pum', 'tagfile' }
   vim.opt.wildmode = { 'noselect:lastused', 'full' }
   create_autocmd('CmdlineChanged', {
