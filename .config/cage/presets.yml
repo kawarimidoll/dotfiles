@@ -1,0 +1,35 @@
+presets:
+  base:
+    allow:
+      - "."
+      - "$XDG_CACHE_HOME" # ~/.cache
+      - "$XDG_DATA_HOME" # ~/.local/share
+      - "/private/tmp"
+
+  npm:
+    allow:
+      - "$HOME/.npm"
+      - "$HOME/.npmrc"
+
+  git-enabled:
+    allow-git: true
+    allow-keychain: true # macOS only
+
+  claude-code:
+    allow:
+      - "$CLAUDE_CONFIG_DIR"
+      - "$HOME/.serena"
+      - ".serena"
+
+auto-presets:
+  - command: claude
+    presets:
+      - base
+      - git-enabled
+      - npm
+      - claude-code
+
+  - command: git
+    presets:
+      - base
+      - git-enabled
