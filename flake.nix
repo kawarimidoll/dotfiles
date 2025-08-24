@@ -16,6 +16,10 @@
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
     };
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     hercules-ci-effects = {
       url = "github:hercules-ci/hercules-ci-effects";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -28,6 +32,7 @@
       inputs.git-hooks.follows = "git-hooks";
       inputs.hercules-ci-effects.follows = "hercules-ci-effects";
       inputs.flake-parts.follows = "flake-parts";
+      inputs.treefmt-nix.follows = "treefmt-nix";
     };
     vim-overlay = {
       url = "github:kawarimidoll/vim-overlay";
@@ -42,6 +47,13 @@
       url = "github:kawarimidoll/koi";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.git-hooks.follows = "git-hooks";
+    };
+    cage = {
+      url = "github:Warashi/cage";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.git-hooks.follows = "git-hooks";
+      inputs.flake-parts.follows = "flake-parts";
+      inputs.treefmt-nix.follows = "treefmt-nix";
     };
     nix-darwin = {
       url = "github:nix-darwin/nix-darwin";

@@ -36,10 +36,12 @@ in
     packages =
       let
         koi = inputs.koi.packages.${pkgs.system}.default;
+        cage = inputs.cage.packages.${pkgs.system}.default;
       in
       with pkgs;
       [
         koi
+        cage
 
         act
         astroterm

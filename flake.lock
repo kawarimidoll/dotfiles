@@ -1,5 +1,34 @@
 {
   "nodes": {
+    "cage": {
+      "inputs": {
+        "flake-parts": [
+          "flake-parts"
+        ],
+        "git-hooks": [
+          "git-hooks"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "treefmt-nix": [
+          "treefmt-nix"
+        ]
+      },
+      "locked": {
+        "lastModified": 1755922271,
+        "narHash": "sha256-nw/+zGchwZClBFF3Rh5p3IGcfHvJEpwA7xjeSm1yVDs=",
+        "owner": "Warashi",
+        "repo": "cage",
+        "rev": "deec1ab021683e64338a3162c997cae95b7e8c68",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Warashi",
+        "repo": "cage",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -163,7 +192,9 @@
         "nixpkgs": [
           "nixpkgs"
         ],
-        "treefmt-nix": "treefmt-nix"
+        "treefmt-nix": [
+          "treefmt-nix"
+        ]
       },
       "locked": {
         "lastModified": 1755985571,
@@ -248,6 +279,7 @@
     },
     "root": {
       "inputs": {
+        "cage": "cage",
         "flake-compat": "flake-compat",
         "flake-parts": "flake-parts",
         "git-hooks": "git-hooks",
@@ -257,22 +289,22 @@
         "neovim-nightly-overlay": "neovim-nightly-overlay",
         "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs",
+        "treefmt-nix": "treefmt-nix",
         "vim-overlay": "vim-overlay"
       }
     },
     "treefmt-nix": {
       "inputs": {
         "nixpkgs": [
-          "neovim-nightly-overlay",
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1754847726,
-        "narHash": "sha256-2vX8QjO5lRsDbNYvN9hVHXLU6oMl+V/PsmIiJREG4rE=",
+        "lastModified": 1755934250,
+        "narHash": "sha256-CsDojnMgYsfshQw3t4zjRUkmMmUdZGthl16bXVWgRYU=",
         "owner": "numtide",
         "repo": "treefmt-nix",
-        "rev": "7d81f6fb2e19bf84f1c65135d1060d829fae2408",
+        "rev": "74e1a52d5bd9430312f8d1b8b0354c92c17453e5",
         "type": "github"
       },
       "original": {
