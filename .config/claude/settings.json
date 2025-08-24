@@ -61,5 +61,10 @@
   "env": {
     "DISABLE_AUTOUPDATER": "1",
     "DISABLE_NON_ESSENTIAL_MODEL_CALLS": "1"
+  },
+  "model": "opus",
+  "statusLine": {
+    "type": "command",
+    "command": "~/dotfiles/.config/claude/statusline.sh"
   }
 }
