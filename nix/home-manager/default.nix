@@ -167,6 +167,15 @@ in
         jjui
         lazyjj
 
+        hackgen-nf-font
+        moralerspace
+        nerd-fonts.departure-mono
+        nerd-fonts.symbols-only
+        noto-fonts-color-emoji
+        scientifica
+        twitter-color-emoji
+        udev-gothic-nf
+
         # rmw
         # vim-language-server
         # emacs build failed
