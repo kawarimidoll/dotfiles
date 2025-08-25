@@ -59,6 +59,14 @@ M.ui_input = function(opts, on_confirm)
 
   -- Esc to close
   vim.keymap.set('i', '<esc>', close_win, { buffer = buffer })
+
+  -- Emacs like keymaps
+  vim.keymap.set('c', '<c-b>', '<left>', { buffer = buffer })
+  vim.keymap.set('c', '<c-f>', '<right>', { buffer = buffer })
+  vim.keymap.set('c', '<c-a>', '<home>', { buffer = buffer })
+  vim.keymap.set('c', '<c-e>', '<end>', { buffer = buffer })
+  vim.keymap.set('c', '<c-h>', '<bs>', { buffer = buffer })
+  vim.keymap.set('c', '<c-d>', '<del>', { buffer = buffer })
 end
 
 return M
