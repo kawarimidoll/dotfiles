@@ -68,6 +68,13 @@
     "command": "~/dotfiles/.config/claude/statusline.sh"
   },
   "hooks": {
+    "SessionStart": [{
+      "matcher": "startup|clear",
+      "hooks": [{
+        "type": "command",
+        "command": "date -Iseconds;echo 'ensure to read /Users/kawarimidoll/dotfiles/.config/claude/CLAUDE.md'"
+      }]
+    }],
     "Notification": [{
       "hooks": [{
         "type": "command",
