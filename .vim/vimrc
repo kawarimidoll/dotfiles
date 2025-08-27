@@ -851,12 +851,10 @@ augroup vimrc
     autocmd Filetype sql
           \  let b:fmt_cmd = $'deno fmt --unstable-sql --ext sql -'
     autocmd Filetype c let b:fmt_cmd = 'clang-format -Werror --style=Chromium'
-    autocmd Filetype sql let b:fmt_cmd = 'sql-formatter --config ~/dotfiles/.config/sql_formatter/sql_formatter.json'
     autocmd Filetype nix let b:fmt_cmd = 'nixfmt'
     autocmd Filetype rust let b:fmt_cmd = 'rustfmt --edition 2021'
     autocmd Filetype gleam let b:fmt_cmd = 'gleam format --stdin'
     autocmd Filetype erlang let b:fmt_cmd = 'rebar3 fmt -'
-    autocmd Filetype html,css let b:fmt_cmd = $'bunx -q prettier --stdin-filepath {expand("%")}'
     autocmd Filetype lua let b:fmt_cmd = $'stylua --stdin-filepath {expand("%")} --config-path ~/.config/stylua/stylua.toml -'
 
     autocmd Filetype vim let b:symbol_list = [
