@@ -1,13 +1,11 @@
 return {
-  cmd = { 'tsgo', 'lsp', '--stdio' },
-  filetypes = {
-    'javascript',
-    'javascriptreact',
-    'javascript.jsx',
-    'typescript',
-    'typescriptreact',
-    'typescript.tsx',
+  settings = {
+    typescript = {
+      preferences = { preferTypeOnlyAutoImports = true },
+      preferGoToSourceDefinition = true,
+    },
+    javascript = {
+      preferGoToSourceDefinition = true,
+    },
   },
-  root_markers = { 'tsconfig.json', 'jsconfig.json', 'package.json', '.git' },
-  -- settings = {}
 }

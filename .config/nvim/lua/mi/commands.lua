@@ -216,17 +216,12 @@ vim.api.nvim_create_user_command('Tsgo', function()
 
     local list = vim.split(obj.stdout, '\n')
     list = vim.tbl_filter(function(v)
-      local t = vim.trim(v)
-      if t == '' then
-        return false
-      end
-      -- Files: などのサマリー情報を除外
-      return not vim.regex('^\\s*\\u[[:lower:] ]*: '):match_str(t)
+      return v and type(v) == 'string' and v:match('^.+%(%d+,%d+%): .+$')
     end, list)
     if #list > 0 then
       vim.notify('[tsgo] type-error found', vim.log.levels.WARN)
     else
-      vim.notify('[tsgo] type-check passed', vim.log.levels.INFO)
+      vim.notify('[tsgo] type-check passed!', vim.log.levels.INFO)
     end
 
     -- E5560対策
@@ -238,5 +233,6 @@ vim.api.nvim_create_user_command('Tsgo', function()
     vim.defer_fn(setqflist, 100)
   end
 
+  vim.notify('[tsgo] type-check is running...', vim.log.levels.INFO)
   vim.system({ 'tsgo', '--noEmit', '--pretty', 'false' }, { text = true }, on_exit)
 end, { desc = 'Tsgo' })
