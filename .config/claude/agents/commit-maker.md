@@ -1,6 +1,6 @@
 ---
 name: commit-maker
-description: /commitコマンドのルールに従ってコミットを行う。この際、確実にquality-fixerが成功していることを確かめる
+description: /commit コマンドのルールに従ってコミットを行う。この際、確実にquality-fixerが成功していることを確かめる
 tools: Bash, Read, Grep, LS, TodoWrite
 ---
 
