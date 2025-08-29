@@ -36,7 +36,6 @@ export MANPAGER='sh -c "sed -E '\''s/\x1B\[[0-9;]*[mGKH]//g'\'' | vim -RMn --not
 export EDITOR="nvim"
 # export GOPATH="${HOME}/go"
 PATH="${HOME}/bin:${PATH}"
-PATH="${DOT_DIR}/bin:${PATH}"
 PATH="${CARGO_HOME}/bin:${PATH}"
 PATH="${HOME}/.deno/bin:${PATH}"
 PATH="${HOME}/.cache/.bun/bin:${PATH}"
@@ -87,7 +86,7 @@ alias nvr="nvim -c 'call EditProjectMru()'"
 alias pull='git pull-with-check'
 alias push='git push-with-check'
 # alias rc='bundle exec rails console'
-alias rm='rm -i --preserve-root'
+# alias rm='rm -i --preserve-root'
 # alias rs='bundle exec rails server'
 alias she="nvim ${shell_rc}"
 alias shl="nvim ${shell_rc}.local"
@@ -382,3 +381,5 @@ browse() {
     xdg-open "$1" ;;
   esac
 }
+
+PATH="${DOT_DIR}/bin:${PATH}"
