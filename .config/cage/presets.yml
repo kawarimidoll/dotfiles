@@ -19,6 +19,7 @@ presets:
     allow:
       - "$CLAUDE_CONFIG_DIR"
       - "$HOME/.serena"
+      - "$HOME/.codex"
       - ".serena"
 
 auto-presets:
