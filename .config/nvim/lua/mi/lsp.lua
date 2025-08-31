@@ -61,6 +61,7 @@ vim.lsp.config('*', {
 local lsp_names = {
   'bashls',
   'buf_ls',
+  'copilot',
   'cssmodules_ls',
   'denols',
   'docker_compose_language_service',
