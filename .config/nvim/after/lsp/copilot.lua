@@ -29,7 +29,9 @@ return {
         vim.lsp.inline_completion.enable(true, { bufnr = bufnr })
         vim.keymap.set('i', '<c-e>', function()
           vim.lsp.inline_completion.get()
-          return '<c-e>'
+          if vim.bool_fn.pumvisible() then
+            return '<c-e>'
+          end
         end, { silent = true, expr = true, buffer = bufnr })
         vim.keymap.set('i', '<c-f>', function()
           vim.lsp.inline_completion.select()
