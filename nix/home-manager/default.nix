@@ -44,6 +44,7 @@ in
         cage
 
         act
+        ast-grep
         astroterm
         atuin
         bash-language-server
@@ -52,6 +53,7 @@ in
         bottom
         broot
         buf
+        chawan
         clang-tools # clang-format
         cmatrix
         coreutils
@@ -66,6 +68,8 @@ in
         dprint
         dust
         efm-langserver
+        emmylua-check
+        emmylua-ls
         erlang_27
         ffmpeg_7-full
         findutils
@@ -92,6 +96,7 @@ in
         gnused
         gnutar
         go
+        gopls
         graphqurl
         grex
         grpcui
@@ -103,6 +108,7 @@ in
         jid
         jnv
         jq
+        just
         lavat
         lazydocker
         lazygit
@@ -135,6 +141,7 @@ in
         rebar3
         ripgrep
         rustup
+        screenfetch
         silicon
         sl
         slides
@@ -145,6 +152,7 @@ in
         termdown
         terminaltexteffects
         tokei
+        treefmt
         typos-lsp
         tz
         unzip
@@ -153,7 +161,6 @@ in
         vhs
         vim # latest
         vim-startuptime
-        vtsls
         walk
         watchexec
         wget
@@ -267,6 +274,6 @@ in
   programs.lsd.enable = true;
 
   # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.gitui.enable
-  programs.gitui.enable = true;
+  # programs.gitui.enable = true;
 
 }
