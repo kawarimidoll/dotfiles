@@ -71,7 +71,6 @@
     }@inputs:
     let
       system = "aarch64-darwin";
-      username = "kawarimidoll";
       pkgs = import nixpkgs { inherit system; };
     in
     {
