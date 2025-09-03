@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # ref: https://zenn.dev/makotan/articles/db34bb6860cda5
 #      https://zenn.dev/pnd/articles/claude-code-statusline
