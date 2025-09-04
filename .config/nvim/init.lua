@@ -1207,17 +1207,9 @@ later(function()
 
   -- 動的にフォーマッタを選択する関数
   local function get_web_formatters(bufnr)
-    local file_path = vim.api.nvim_buf_get_name(bufnr)
-    local dir = vim.fs.dirname(file_path)
-
-    -- ファイルの親ディレクトリから上方向にpackage.jsonまたはnode_modulesを検索
-    local node_markers = vim.fs.find({ 'package.json', 'node_modules' }, {
-      upward = true,
-      path = dir,
-      limit = 1,
-    })
-
-    if #node_markers > 0 then
+    local node_markers =
+      { 'package-lock.json', 'yarn.lock', 'pnpm-lock.yaml', 'bun.lockb', 'bun.lock' }
+    if vim.fs.root(bufnr, node_markers) then
       -- nodeプロジェクトの場合
       return { 'biome-check', 'prettier', stop_after_first = true }
     end
