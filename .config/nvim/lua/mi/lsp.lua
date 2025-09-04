@@ -70,6 +70,7 @@ local lsp_names = {
   'gleam',
   'glsl_analyzer',
   'gopls',
+  'oxlint',
   'lua_ls',
   'nil_ls',
   'rust_analyzer',
