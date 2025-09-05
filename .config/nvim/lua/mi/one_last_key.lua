@@ -12,6 +12,7 @@ M.setup = function()
   end, ns_id)
 end
 
+---@return string
 M.get = function()
   return M._saved_last_key
 end

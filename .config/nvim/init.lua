@@ -219,7 +219,7 @@ now(function()
     return function(args)
       local mode, hl = wrapped(args)
       local last_key = require('mi.one_last_key').get()
-      if last_key and last_key ~= '' then
+      if last_key ~= '' then
         mode = mode .. ' ' .. last_key
       end
       local rec = vim.fn.reg_recording()
@@ -744,7 +744,10 @@ later(function()
 
   vim.keymap.set('n', '<space>b', function()
     local wipeout_cur = function()
-      vim.api.nvim_buf_delete(MiniPick.get_picker_matches().current.bufnr, {})
+      local picker_matches = MiniPick.get_picker_matches()
+      if picker_matches then
+        vim.api.nvim_buf_delete(picker_matches.current.bufnr, {})
+      end
     end
     local buffer_mappings = { wipeout = { char = '<c-d>', func = wipeout_cur } }
     MiniPick.builtin.buffers({ include_current = false }, { mappings = buffer_mappings })
@@ -1057,6 +1060,9 @@ later(function()
   add('monaqa/dial.nvim')
   vim.cmd.luafile('~/dotfiles/.config/nvim/plugin_config/dial.lua')
   local dial_manipulate = require('dial.map').manipulate
+  if dial_manipulate == nil then
+    return
+  end
   vim.keymap.set('n', '<C-a>', function()
     dial_manipulate('increment', 'normal')
   end, { desc = 'dial-increment' })
@@ -1217,7 +1223,7 @@ later(function()
     return { 'deno_fmt' }
   end
 
-  ---@type table<string, string[]|fun(bufnr: integer): string[]|table>
+  ---@type table<string, string[]|(fun(bufnr: integer): string[])|table>
   local formatters_by_ft = {
     bash = { 'beautysh' },
     sh = { 'beautysh' },

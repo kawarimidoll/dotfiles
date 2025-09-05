@@ -1,5 +1,11 @@
 local M = {}
 
+-- https://github.com/neovim/neovim/blob/6a330f893bf15ecab99f1fc796029c7bdba71139/runtime/lua/tohtml.lua#L828-L831
+--- @return string
+local function utf8_sub(str, i, j)
+  return vim.fn.strcharpart(str, i - 1, j and j - i + 1 or nil)
+end
+
 M.get_cursor_neighbor = function()
   local current_line = vim.api.nvim_get_current_line()
 
@@ -17,15 +23,15 @@ M.get_cursor_neighbor = function()
   local col = vim.fn.getcursorcharpos()[3] - 1
 
   -- Text from the beginning of the line to just before the cursor
-  local line_before_cursor = vim.fn.slice(current_line, 0, col)
+  local line_before_cursor = utf8_sub(current_line, 0, col)
   -- Character just before the cursor
-  local char_before_cursor = vim.fn.slice(line_before_cursor, -1)
+  local char_before_cursor = utf8_sub(line_before_cursor, -1)
   -- Character at the cursor position
-  local char_at_cursor = vim.fn.strcharpart(current_line, col, 1)
+  local char_at_cursor = utf8_sub(current_line, col, 1)
   -- Text from just after the cursor to the end of the line
-  local line_after_cursor = vim.fn.slice(current_line, col + 1)
+  local line_after_cursor = utf8_sub(current_line, col + 1)
   -- Character just after the cursor
-  local char_after_cursor = vim.fn.slice(line_after_cursor, 0, 1)
+  local char_after_cursor = utf8_sub(line_after_cursor, 0, 1)
 
   return {
     line_before_cursor = line_before_cursor,

@@ -216,7 +216,7 @@ vim.api.nvim_create_user_command('Tsgo', function()
 
     local list = vim.split(obj.stdout, '\n')
     list = vim.tbl_filter(function(v)
-      return v and type(v) == 'string' and v:match('^.+%(%d+,%d+%): .+$')
+      return v:match('^.+%(%d+,%d+%): .+$') ~= nil
     end, list)
     if #list > 0 then
       vim.notify('[tsgo] type-error found', vim.log.levels.WARN)

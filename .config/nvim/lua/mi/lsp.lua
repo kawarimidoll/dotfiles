@@ -54,6 +54,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 
 vim.lsp.config('*', {
+  cmd = {},
   root_markers = { '.git' },
   capabilities = require('mini.completion').get_lsp_capabilities(),
 })
