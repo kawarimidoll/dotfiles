@@ -1,0 +1,20 @@
+{
+  "runtime": {
+    "version": "LuaJIT"
+  },
+  "workspace": {
+    "checkThirdParty": false,
+    "library": [
+      "$HOME/.config/nvim",
+
+      "$HOME/.local/share/nvim/site/pack/deps/start/mini.nvim",
+      "$HOME/.local/share/nvim/site/pack/deps/opt",
+
+      "$HOME/.nix-profile/share/nvim/runtime"
+    ],
+    "ignoreGlobs": [
+      "**/deprecated/**/*.lua",
+      "**/*_spec.lua"
+    ]
+  }
+}
