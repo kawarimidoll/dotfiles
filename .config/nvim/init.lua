@@ -1,3 +1,5 @@
+---@diagnostic disable: param-type-not-match
+
 -- cache init.lua
 vim.loader.enable()
 
@@ -1060,9 +1062,6 @@ later(function()
   add('monaqa/dial.nvim')
   vim.cmd.luafile('~/dotfiles/.config/nvim/plugin_config/dial.lua')
   local dial_manipulate = require('dial.map').manipulate
-  if dial_manipulate == nil then
-    return
-  end
   vim.keymap.set('n', '<C-a>', function()
     dial_manipulate('increment', 'normal')
   end, { desc = 'dial-increment' })
@@ -1187,9 +1186,11 @@ later(function()
       -- function to run on opening the terminal
       on_open = function(term)
         vim.cmd('startinsert!')
+        local bufnr = term.bufnr
+        ---@cast bufnr integer
         vim.keymap.set('n', 'q', function()
           term:close()
-        end, { desc = 'close ' .. cmd, buffer = term.bufnr, nowait = true, silent = true })
+        end, { desc = 'close ' .. cmd, buffer = bufnr, nowait = true, silent = true })
       end,
       -- function to run on closing the terminal
       on_close = function(_term)
