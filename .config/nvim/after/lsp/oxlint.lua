@@ -3,8 +3,8 @@ return {
     local cmd = (config or {}).root_dir
       and config.root_dir .. '/node_modules/.bin/oxc_language_server'
     -- 本来ならexecutable()で確認するべきだが、node_modules/.binに入っている時点で
-    -- 実行可能とみなしてチェックを省略
-    if cmd then
+    -- 実行可能とみなして厳密なチェックは省略
+    if vim.uv.fs_stat(cmd) then
       return vim.lsp.rpc.start({ cmd }, dispatchers)
     end
   end,
