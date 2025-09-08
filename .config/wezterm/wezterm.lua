@@ -35,7 +35,7 @@ wezterm.on('trigger-vim-with-visible-text', function(window, pane)
   os.remove(name)
 end)
 
-wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_width)
+wezterm.on('format-tab-title', function(tab, _tabs, _panes, _config, _hover, max_width)
   local background = '#5c6d74'
   local foreground = '#FFFFFF'
   local edge_background = 'none'
