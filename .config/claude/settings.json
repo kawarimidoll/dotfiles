@@ -56,7 +56,8 @@
       "Write(id_rsa)",
       "mcp__supabase__execute_sql"
     ],
-    "ask": []
+    "ask": [],
+    "defaultMode": "acceptEdits"
   },
   "env": {
     "CLAUDE_CODE_AUTO_CONNECT_IDE": "0",
@@ -76,6 +77,9 @@
     "type": "command",
     "command": "~/dotfiles/.config/claude/statusline.sh"
   },
+  "autoCompactEnabled": false,
+  "autoUpdates": false,
+  "outputStyle": "Explanatory",
   "hooks": {
     "PreToolUse": [{
       "matcher": "WebSearch",
