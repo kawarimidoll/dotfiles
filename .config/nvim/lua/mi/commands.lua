@@ -208,6 +208,20 @@ vim.api.nvim_create_user_command('Memo', memo, { desc = 'Toggle memo' })
 vim.keymap.set('n', 'mo', '<Cmd>Memo<CR>', { noremap = true, silent = true, desc = 'Toggle memo' })
 
 vim.api.nvim_create_user_command('Tsgo', function()
+  -- 現在のバッファのファイルパスを取得
+  local current_file = vim.api.nvim_buf_get_name(0)
+  if current_file == '' then
+    vim.notify('[tsgo] No file in current buffer', vim.log.levels.ERROR)
+    return
+  end
+
+  -- vim.fs.rootを使って現在のファイルから上位のpackage.jsonを探す
+  local package_dir = vim.fs.root(current_file, { 'package.json' })
+  if not package_dir then
+    vim.notify('[tsgo] No package.json found in parent directories', vim.log.levels.ERROR)
+    return
+  end
+
   local function on_exit(obj)
     if obj.stderr ~= '' then
       vim.notify('[tsgo] Error: ' .. obj.stderr, vim.log.levels.ERROR)
@@ -233,6 +247,9 @@ vim.api.nvim_create_user_command('Tsgo', function()
     vim.defer_fn(setqflist, 100)
   end
 
-  vim.notify('[tsgo] type-check is running...', vim.log.levels.INFO)
-  vim.system({ 'tsgo', '--noEmit', '--pretty', 'false' }, { text = true }, on_exit)
+  local cwd = vim.fn.getcwd()
+  local relative_path = vim.fs.relpath(cwd, package_dir) or package_dir
+  vim.notify('[tsgo] type-check is running in ' .. relative_path .. '/', vim.log.levels.INFO)
+  -- package.jsonがあるディレクトリでtsgoを実行
+  vim.system({ 'tsgo', '--noEmit', '--pretty', 'false' }, { text = true, cwd = package_dir }, on_exit)
 end, { desc = 'Tsgo' })
