@@ -12,7 +12,7 @@ let s:surround_specs = {
       \ 'r': { 'finder': ['\[\s*', '\s*]'], 'wrapper': ['[', ']'] },
       \ 'c': { 'finder': ['{\s*', '\s*}'], 'wrapper': ['{', '}'] },
       \ 'a': { 'finder': ['<\s*', '\s*>'], 'wrapper': ['<', '>'] },
-      \ 'q': { 'finder': ['"', '"', '''', '''', '`', '`'], 'wrapper': ['''', ''''] },
+      \ 'q': { 'finder': ['"', '"', '''', '''', '`', '`'], 'wrapper': ['"', '"'] },
       \ 'f': { 'finder': ['\<\k\+(\s*', '\s*)'], 'wrapper': ['function_name(', ')', 'function_name'] },
       \ 'F': { 'finder': ['\<\k\+(\s*', '\s*)'], 'wrapper': ['$CURSOR(', ')'], 'after_wrap': 'startinsert' },
       \ 'g': { 'finder': ['\<\k\+<\s*', '\s*>'], 'wrapper': ['generics_name<', '>', 'generics_name'] },
