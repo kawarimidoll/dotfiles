@@ -53,6 +53,7 @@ in
         bottom
         broot
         buf
+        cfonts
         chawan
         clang-tools # clang-format
         cmatrix
@@ -84,7 +85,6 @@ in
         git-quick-stats
         git-recent
         git-trim
-        # logdy
         git-workspace
         gleam
         globe-cli
@@ -109,11 +109,13 @@ in
         jnv
         jq
         just
+        just-lsp
         lavat
         lazydocker
         lazygit
         libsixel
         lnav
+        logdy
         lolcat
         ltex-ls
         lua-language-server
@@ -171,10 +173,10 @@ in
         zig
         zsh-autopair
 
-        gg-jj
+        # gg-jj
         jj-fzf
         jjui
-        lazyjj
+        # lazyjj
 
         hackgen-nf-font
         moralerspace
