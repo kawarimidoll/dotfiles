@@ -172,6 +172,7 @@ later(function()
   eager_cabbrev('qw', 'wq')
   eager_cabbrev('lup', 'lua =')
   eager_cabbrev('chat', 'CopilotChat')
+  eager_cabbrev('tsgo', 'Tsgo')
 
   local function fname_and_move_cursor()
     local fname = vim.fn.expand('%')

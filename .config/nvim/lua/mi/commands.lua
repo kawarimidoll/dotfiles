@@ -222,6 +222,9 @@ vim.api.nvim_create_user_command('Tsgo', function()
     return
   end
 
+  local cwd = vim.fn.getcwd()
+  local relative_path = (vim.fs.relpath(cwd, package_dir) or package_dir) .. '/'
+
   local function on_exit(obj)
     if obj.stderr ~= '' then
       vim.notify('[tsgo] Error: ' .. obj.stderr, vim.log.levels.ERROR)
@@ -240,6 +243,17 @@ vim.api.nvim_create_user_command('Tsgo', function()
 
     -- E5560対策
     local setqflist = function()
+      -- 実行がカレントディレクトリでない場合、相対パスを解決
+      if relative_path ~= './' then
+        list = vim.tbl_map(function(line)
+          -- tsgoの出力形式: "path/to/file.ext(line,column): message" にマッチするか確認
+          if line:match('^.+%(.-%):.*$') then
+            return relative_path .. line
+          end
+          return line
+        end, list)
+      end
+
       -- set quickfix list
       vim.fn.setqflist({}, 'r', { title = 'tsgo', lines = list, efm = [[%f(%l\,%c): %m]] })
       vim.cmd.cwindow()
@@ -247,9 +261,11 @@ vim.api.nvim_create_user_command('Tsgo', function()
     vim.defer_fn(setqflist, 100)
   end
 
-  local cwd = vim.fn.getcwd()
-  local relative_path = vim.fs.relpath(cwd, package_dir) or package_dir
-  vim.notify('[tsgo] type-check is running in ' .. relative_path .. '/', vim.log.levels.INFO)
+  vim.notify('[tsgo] type-check is running in ' .. relative_path, vim.log.levels.INFO)
   -- package.jsonがあるディレクトリでtsgoを実行
-  vim.system({ 'tsgo', '--noEmit', '--pretty', 'false' }, { text = true, cwd = package_dir }, on_exit)
+  vim.system(
+    { 'tsgo', '--noEmit', '--pretty', 'false' },
+    { text = true, cwd = package_dir },
+    on_exit
+  )
 end, { desc = 'Tsgo' })
