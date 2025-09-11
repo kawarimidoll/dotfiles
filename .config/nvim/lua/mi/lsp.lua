@@ -77,11 +77,11 @@ local lsp_names = {
   'rust_analyzer',
   'sqlls',
   'superhtml',
+  'tsgo',
   'typos_lsp',
-  'vtsls',
   'yamlls',
   -- 'lua_ls',
-  -- 'tsgo',
+  -- 'vtsls',
 }
 
 vim.lsp.enable(lsp_names)
