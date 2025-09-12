@@ -1230,6 +1230,7 @@ later(function()
     bash = { 'beautysh' },
     sh = { 'beautysh' },
     lua = { 'stylua' },
+    nix = { 'nixfmt' },
     proto = { 'buf' },
     sql = { 'sleek' },
     rust = { 'rustfmt' },
