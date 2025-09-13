@@ -12,6 +12,7 @@ rm_abort() {
 declare -A safe_files=(
   [".DS_Store"]=1
   ["node_modules"]=1
+  ["_gen"]=1
 )
 
 # オプション以外の引数を抽出
