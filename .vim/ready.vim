@@ -21,6 +21,14 @@ nnoremap gy <cmd>let @* = @"<cr>
 " autocmd VimLeave,FocusLost * let @* = @"
 autocmd FocusGained * let @" = @*
 
+" ghostty screen-back buffer
+if expand('%:p') =~# '^/private/var/folders/.*/screen.txt$'
+  set clipboard&
+  set clipboard^=unnamed
+  set clipboard^=unnamedplus
+  normal! Gzb
+endif
+
 " if has('mac')
 "   function s:eisuu_key() abort
 " silent call system('open -a /Users/kawarimidoll/Library/Mobile\ Documents/com~apple~Automator/Documents/eisuu_key.app')
