@@ -341,6 +341,7 @@ if &diff
   endfunction
   set laststatus=2
   windo call <sid>diff_stl()
+  colorscheme delek
 "  function s:conflict_jump(is_forward) abort
 "    let flags = 'cw' .. (a:is_forward ? '' : 'b')
 "    let found = searchpair('^<<<<<<< HEAD$', '^=======$', '^>>>>>>>', 'cw')
