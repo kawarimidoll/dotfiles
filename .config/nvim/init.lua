@@ -1061,7 +1061,7 @@ end)
 
 later(function()
   add('monaqa/dial.nvim')
-  vim.cmd.luafile('~/dotfiles/.config/nvim/plugin_config/dial.lua')
+  require('plugins/dial')
   local dial_manipulate = require('dial.map').manipulate
   vim.keymap.set('n', '<C-a>', function()
     dial_manipulate('increment', 'normal')
