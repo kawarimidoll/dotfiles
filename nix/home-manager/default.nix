@@ -154,6 +154,7 @@ in
         termdown
         terminaltexteffects
         tokei
+        tombi
         treefmt
         typos-lsp
         tz
@@ -171,6 +172,7 @@ in
         yarn
         yazi
         zig
+        zls
         zsh-autopair
 
         # gg-jj
