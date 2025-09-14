@@ -85,29 +85,26 @@ download_dotfiles() {
 }
 
 link_dotfiles() {
+  cd "$DOT_DIR" || die "cannot cd to $DOT_DIR"
   local skipped_files=()
-  if cd "$DOT_DIR"; then
-    for f in $(find . -not -path '*.git*' -not -path '*node_modules*' -not -path '*.DS_Store' -path '*/.*' -type f -print | cut -b3-)
-    do
-      mkdir -p "$HOME/$(dirname "$f")"
-      die_if_error "create directory $f"
-      if [ -L "$HOME/$f" ]; then
-        ln -sfv "$DOT_DIR/$f" "$HOME/$f"
-        die_if_error "create symlink for $f"
-      else
-        ln -sniv "$DOT_DIR/$f" "$HOME/$f" || { skipped_files+=("$f"); }
-      fi
-    done
-    if [ ${#skipped_files[@]} -gt 0 ]; then
-      echo ''
-      echo "Skipped files:"
-      for sf in "${skipped_files[@]}"; do
-        echo "  $sf"
-      done
-      echo ''
+  for f in $(find . -not -path '*.git*' -not -path '*node_modules*' -not -path '*.DS_Store' -path '*/.*' -type f -print | cut -b3-)
+  do
+    mkdir -p "$HOME/$(dirname "$f")"
+    die_if_error "create directory $f"
+    if [ -L "$HOME/$f" ]; then
+      ln -sfv "$DOT_DIR/$f" "$HOME/$f"
+      die_if_error "create symlink for $f"
+    else
+      ln -sniv "$DOT_DIR/$f" "$HOME/$f" || { skipped_files+=("$f"); }
     fi
-  else
-    die "cannot cd to $DOT_DIR"
+  done
+  if [ ${#skipped_files[@]} -gt 0 ]; then
+    echo ''
+    echo "Skipped files:"
+    for sf in "${skipped_files[@]}"; do
+      echo "  $sf"
+    done
+    echo ''
   fi
 }
 
