@@ -1,0 +1,251 @@
+{
+  "title": "Emacs-like ctrl key settings for Slack, Notion and Figma",
+  "description": "various key settings using ctrl key for mac desktop apps",
+  "rules": [
+    {
+      "description": "ctrl+npfb to arrow for Slack, Notion and Figma",
+      "manipulators": [
+        {
+          "conditions": [
+            {
+              "bundle_identifiers": [
+                "^com\\.tinyspeck\\.slackmacgap$",
+                "^notion\\.id$",
+                "^com\\.figma\\.Desktop$"
+              ],
+              "type": "frontmost_application_if"
+            }
+          ],
+          "description": "Ctrl-n to down_arrow",
+          "from": {
+            "key_code": "n",
+            "modifiers": {
+              "mandatory": ["left_control"],
+              "optional": ["any"]
+            }
+          },
+          "to": [{ "key_code": "down_arrow" }],
+          "type": "basic"
+        },
+        {
+          "conditions": [
+            {
+              "bundle_identifiers": [
+                "^com\\.tinyspeck\\.slackmacgap$",
+                "^notion\\.id$",
+                "^com\\.figma\\.Desktop$"
+              ],
+              "type": "frontmost_application_if"
+            }
+          ],
+          "description": "Ctrl-p to up_arrow",
+          "from": {
+            "key_code": "p",
+            "modifiers": {
+              "mandatory": ["left_control"],
+              "optional": ["any"]
+            }
+          },
+          "to": [{ "key_code": "up_arrow" }],
+          "type": "basic"
+        },
+        {
+          "conditions": [
+            {
+              "bundle_identifiers": [
+                "^com\\.tinyspeck\\.slackmacgap$",
+                "^notion\\.id$",
+                "^com\\.figma\\.Desktop$"
+              ],
+              "type": "frontmost_application_if"
+            }
+          ],
+          "description": "Ctrl-b to left_arrow",
+          "from": {
+            "key_code": "b",
+            "modifiers": {
+              "mandatory": ["left_control"],
+              "optional": ["any"]
+            }
+          },
+          "to": [{ "key_code": "left_arrow" }],
+          "type": "basic"
+        },
+        {
+          "conditions": [
+            {
+              "bundle_identifiers": [
+                "^com\\.tinyspeck\\.slackmacgap$",
+                "^notion\\.id$",
+                "^com\\.figma\\.Desktop$"
+              ],
+              "type": "frontmost_application_if"
+            }
+          ],
+          "description": "Ctrl-f to right_arrow",
+          "from": {
+            "key_code": "f",
+            "modifiers": {
+              "mandatory": ["left_control"],
+              "optional": ["any"]
+            }
+          },
+          "to": [{ "key_code": "right_arrow" }],
+          "type": "basic"
+        }
+      ]
+    },
+    {
+      "description": "ctrl+a/e to home/end for Slack, Notion and Figma",
+      "manipulators": [
+        {
+          "conditions": [
+            {
+              "bundle_identifiers": [
+                "^com\\.tinyspeck\\.slackmacgap$",
+                "^notion\\.id$",
+                "^com\\.figma\\.Desktop$"
+              ],
+              "type": "frontmost_application_if"
+            }
+          ],
+          "description": "Ctrl-a to home",
+          "from": {
+            "key_code": "a",
+            "modifiers": {
+              "mandatory": ["left_control"],
+              "optional": ["any"]
+            }
+          },
+          "to": [{ "key_code": "home" }],
+          "type": "basic"
+        },
+        {
+          "conditions": [
+            {
+              "bundle_identifiers": [
+                "^com\\.tinyspeck\\.slackmacgap$",
+                "^notion\\.id$",
+                "^com\\.figma\\.Desktop$"
+              ],
+              "type": "frontmost_application_if"
+            }
+          ],
+          "description": "Ctrl-e to end",
+          "from": {
+            "key_code": "e",
+            "modifiers": {
+              "mandatory": ["left_control"],
+              "optional": ["any"]
+            }
+          },
+          "to": [{ "key_code": "end" }],
+          "type": "basic"
+        }
+      ]
+    },
+    {
+      "description": "ctrl+h/d to backspace/delete for Slack, Notion and Figma",
+      "manipulators": [
+        {
+          "conditions": [
+            {
+              "bundle_identifiers": [
+                "^com\\.tinyspeck\\.slackmacgap$",
+                "^notion\\.id$",
+                "^com\\.figma\\.Desktop$"
+              ],
+              "type": "frontmost_application_if"
+            }
+          ],
+          "description": "Ctrl-h to backspace",
+          "from": {
+            "key_code": "h",
+            "modifiers": {
+              "mandatory": ["left_control"],
+              "optional": ["any"]
+            }
+          },
+          "to": [{ "key_code": "delete_or_backspace" }],
+          "type": "basic"
+        },
+        {
+          "conditions": [
+            {
+              "bundle_identifiers": [
+                "^com\\.tinyspeck\\.slackmacgap$",
+                "^notion\\.id$",
+                "^com\\.figma\\.Desktop$"
+              ],
+              "type": "frontmost_application_if"
+            }
+          ],
+          "description": "Ctrl-d to delete",
+          "from": {
+            "key_code": "d",
+            "modifiers": {
+              "mandatory": ["left_control"],
+              "optional": ["any"]
+            }
+          },
+          "to": [{ "key_code": "delete_forward" }],
+          "type": "basic"
+        }
+      ]
+    },
+    {
+      "description": "ctrl+m to enter for Slack, Notion and Figma",
+      "manipulators": [
+        {
+          "conditions": [
+            {
+              "bundle_identifiers": [
+                "^com\\.tinyspeck\\.slackmacgap$",
+                "^notion\\.id$",
+                "^com\\.figma\\.Desktop$"
+              ],
+              "type": "frontmost_application_if"
+            }
+          ],
+          "description": "Ctrl-m to enter",
+          "from": {
+            "key_code": "m",
+            "modifiers": {
+              "mandatory": ["left_control"],
+              "optional": ["any"]
+            }
+          },
+          "to": [{ "key_code": "return_or_enter" }],
+          "type": "basic"
+        }
+      ]
+    },
+    {
+      "description": "ctrl+i to tab for Slack, Notion and Figma",
+      "manipulators": [
+        {
+          "conditions": [
+            {
+              "bundle_identifiers": [
+                "^com\\.tinyspeck\\.slackmacgap$",
+                "^notion\\.id$",
+                "^com\\.figma\\.Desktop$"
+              ],
+              "type": "frontmost_application_if"
+            }
+          ],
+          "description": "Ctrl-i to tab",
+          "from": {
+            "key_code": "i",
+            "modifiers": {
+              "mandatory": ["left_control"],
+              "optional": ["any"]
+            }
+          },
+          "to": [{ "key_code": "tab" }],
+          "type": "basic"
+        }
+      ]
+    }
+  ]
+}
