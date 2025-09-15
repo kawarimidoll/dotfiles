@@ -85,11 +85,14 @@ link_dotfiles() {
     mkdir -p "$HOME/$(dirname "$f")"
     die_if_error "create directory $f"
     if [ -L "$HOME/$f" ]; then
-      ln -sfv "$DOT_DIR/$f" "$HOME/$f"
-      die_if_error "create symlink for $f"
-    else
-      ln -sniv "$DOT_DIR/$f" "$HOME/$f" || { skipped_files+=("$f"); }
+      # 既存リンクのリンク先を取得
+      existing_target=$(readlink "$HOME/$f")
+      if [ "$existing_target" = "$DOT_DIR/$f" ]; then
+        # 既に正しいリンクがあるのでスキップ
+        continue
+      fi
     fi
+    ln -sniv "$DOT_DIR/$f" "$HOME/$f" || { skipped_files+=("$f"); }
   done
   if [ ${#skipped_files[@]} -gt 0 ]; then
     printf "\nSkipped files:"
