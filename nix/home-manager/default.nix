@@ -136,7 +136,6 @@ in
         nodejs_22
         nurl
         nyancat
-        # oxker
         pnpm
         procs
         rainfrog
@@ -144,6 +143,7 @@ in
         ripgrep
         rustup
         screenfetch
+        sheldon
         silicon
         sl
         slides
@@ -175,10 +175,8 @@ in
         zls
         zsh-autopair
 
-        # gg-jj
         jj-fzf
         jjui
-        # lazyjj
 
         hackgen-nf-font
         moralerspace
@@ -189,9 +187,12 @@ in
         twitter-color-emoji
         udev-gothic-nf
 
+        # emacs
+        # gg-jj
+        # lazyjj
+        # oxker
         # rmw
         # vim-language-server
-        # emacs build failed
       ];
   };
 
