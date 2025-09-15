@@ -1,7 +1,5 @@
 # feat      feature
 # fix       bug fix
-# deps      dependencies
-# breaking  breaking changes
 # docs      documentation
 # style     formatting, missing semi colons, etc
 # refactor  refactoring
