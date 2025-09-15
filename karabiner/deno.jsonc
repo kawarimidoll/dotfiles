@@ -1,0 +1,10 @@
+{
+  "tasks": {
+    "ci": "deno check && deno lint && deno fmt",
+    "build": "deno run --allow-env=HOME --allow-read=$HOME/.config/karabiner/karabiner.json --allow-write=$HOME/.config/karabiner/karabiner.json karabiner.ts",
+    "watch": "deno run --watch --allow-env=HOME --allow-read=$HOME/.config/karabiner/karabiner.json --allow-write=$HOME/.config/karabiner/karabiner.json karabiner.ts"
+  },
+  "imports": {
+    "karabiner_ts": "https://deno.land/x/karabinerts@1.35.1/deno.ts"
+  }
+}
