@@ -80,7 +80,7 @@ download_dotfiles() {
 link_dotfiles() {
   cd "$DOT_DIR" || die "cannot cd to $DOT_DIR"
   local skipped_files=()
-  for f in $(find . -not -path '*.git*' -not -path '*node_modules*' -not -path '*.DS_Store' -path '*/.*' -type f -print | cut -b3-)
+  for f in $(git ls-files | grep -E '^\.' | grep -vE 'deprecated|\.git')
   do
     mkdir -p "$HOME/$(dirname "$f")"
     die_if_error "create directory $f"
