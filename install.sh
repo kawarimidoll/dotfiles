@@ -6,10 +6,6 @@ XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
 XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
 XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
 
-XDG_CACHE_HOME=${XDG_CACHE_HOME:-$HOME/.cache}
-XDG_STATE_HOME=${XDG_STATE_HOME:-$HOME/.local/state}
-XDG_DATA_HOME=${XDG_DATA_HOME:-$HOME/.local/share}
-
 DOT_DIR="${HOME}/dotfiles"
 GITHUB_URL="https://github.com/kawarimidoll/dotfiles"
 LOGO='
@@ -96,6 +92,7 @@ link_dotfiles() {
       existing_target=$(readlink "$HOME/$f")
       if [ "$existing_target" = "$DOT_DIR/$f" ]; then
         # 既に正しいリンクがあるのでスキップ
+        echo "skip (already exists): $f"
         continue
       fi
     fi
