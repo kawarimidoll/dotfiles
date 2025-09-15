@@ -6,10 +6,6 @@ XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
 XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
 XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
 
-XDG_CACHE_HOME=${XDG_CACHE_HOME:-$HOME/.cache}
-XDG_STATE_HOME=${XDG_STATE_HOME:-$HOME/.local/state}
-XDG_DATA_HOME=${XDG_DATA_HOME:-$HOME/.local/share}
-
 DOT_DIR="${HOME}/dotfiles"
 GITHUB_URL="https://github.com/kawarimidoll/dotfiles"
 LOGO='
@@ -42,14 +38,11 @@ has() {
   type "$1" > /dev/null 2>&1
 }
 die() {
-  echo "$1"
-  echo "  terminated."
+  echo -e "$1\n  terminated."
   exit 1
 }
 die_if_error() {
-  if [ $? -ne 0 ]; then
-    die "Error occurred during $1"
-  fi
+  [ $? -ne 0 ] && die "Error occurred during $1"
 }
 
 OS='unknown'
@@ -99,8 +92,7 @@ link_dotfiles() {
     fi
   done
   if [ ${#skipped_files[@]} -gt 0 ]; then
-    echo ''
-    echo "Skipped files:"
+    printf "\nSkipped files:"
     for sf in "${skipped_files[@]}"; do
       echo "  $sf"
     done
@@ -113,8 +105,7 @@ read -r selection
 if [[ "$selection" = *"a"* ]] || [[ "$selection" = *"d"* ]]; then
   echo "  begin download dotfiles."
   download_dotfiles
-  echo "  end download dotfiles."
-  echo ''
+  printf "  end download dotfiles.\n"
 fi
 if [[ "$selection" = *"a"* ]] || [[ "$selection" = *"l"* ]]; then
   echo "  begin link dotfiles."
@@ -123,16 +114,14 @@ if [[ "$selection" = *"a"* ]] || [[ "$selection" = *"l"* ]]; then
   mkdir -p "${XDG_CACHE_HOME}/less"
   mkdir -p "${XDG_STATE_HOME}/zsh"
   mkdir -p "${XDG_DATA_HOME}/terminfo"
-  echo "  end link dotfiles."
-  echo ''
+  printf "  end link dotfiles.\n"
 fi
 if [[ "$selection" = *"a"* ]] || [[ "$selection" = *"s"* ]]; then
   echo "  begin setup applications."
 
   os_install_sh="${DOT_DIR}/etc/${OS}/install.sh"
   [ -f "$os_install_sh" ] && sh -c "$os_install_sh"
-  echo "  end setup applications."
-  echo ''
+  printf "  end setup applications.\n"
 fi
 
 echo "  finished."
