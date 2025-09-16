@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@typescript/native-preview": "^7.0.0-dev.20250913.1",
+    "@typescript/native-preview": "latest",
     "difit": "^2.2.1",
     "jsmigemo": "^0.4.8"
   }
