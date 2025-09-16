@@ -2,9 +2,9 @@ import * as k from "karabiner_ts";
 
 // ⌘⌥↵⌫⇧⌃⎋
 
-const EUSUU: k.ToEvent = { key_code: "japanese_eisuu" };
-const EUSUU_ESCAPE: k.ToEvent[] = [
-  EUSUU,
+const EISUU: k.ToEvent = { key_code: "japanese_eisuu" };
+const EISUU_ESCAPE: k.ToEvent[] = [
+  EISUU,
   { key_code: "escape" },
 ];
 const HYPER: k.Modifier[] = ["command", "shift", "option", "control"];
@@ -39,7 +39,7 @@ k.writeToProfile("Karabiner-TS", [
     // k.rule("Caps Lock to Hyper Key (⌘⌥⇧⌃)").manipulators([
     k.map("l⌃")
       .toHyper()
-      .toIfAlone(EUSUU_ESCAPE),
+      .toIfAlone(EISUU_ESCAPE),
   ]),
 
   k.rule("cmd to Kana/Eisuu only if alone").manipulators([
@@ -58,9 +58,9 @@ k.writeToProfile("Karabiner-TS", [
   ]),
 
   k.rule("⎋, ⌃[, ⌃⌫ -> japanese_eisuu + ⎋").manipulators([
-    k.map("⎋").to(EUSUU_ESCAPE),
-    k.map("[", "⌃").to(EUSUU_ESCAPE),
-    k.map("⌫", "⌃").to(EUSUU_ESCAPE),
+    k.map("⎋").to(EISUU_ESCAPE),
+    k.map("[", "⌃").to(EISUU_ESCAPE),
+    k.map("⌫", "⌃").to(EISUU_ESCAPE),
   ]),
 
   k.rule("Quit application by holding ⌘q").manipulators([
@@ -72,7 +72,7 @@ k.writeToProfile("Karabiner-TS", [
     k.ifApp("^com\\.mitchellh\\.ghostty$"),
   ).manipulators([
     k.map("a", "⌘⇧")
-      .to(EUSUU)
+      .to(EISUU)
       .to("␣")
       .to("v")
       .to("i")
@@ -80,19 +80,19 @@ k.writeToProfile("Karabiner-TS", [
       .to("␣")
       .toAfterKeyUp("a", "⌘⇧")
       .toAfterKeyUp("⏎")
-      .description("⌘⇧A → ' vim ' + ⌘⇧A + ↵"),
+      .description("⌘⇧A → ' vim ' + ⌘⇧A + ⏎"),
 
     k.map("[", "⌘⇧")
-      .to(EUSUU)
+      .to(EISUU)
       .to("[", "⌘")
       .toAfterKeyUp("⏎", "⌘⇧")
-      .description("⌘{ → ⌘[ then ⌘⇧↵"),
+      .description("⌘{ → ⌘[ then ⌘⇧⏎"),
 
     k.map("]", "⌘⇧")
-      .to(EUSUU)
+      .to(EISUU)
       .to("]", "⌘")
       .toAfterKeyUp("⏎", "⌘⇧")
-      .description("⌘} → ⌘] then ⌘⇧↵"),
+      .description("⌘} → ⌘] then ⌘⇧⏎"),
   ]),
 
   k.rule("Toggle between Hyper+5 and Hyper+6 (for Raycast)").manipulators([
