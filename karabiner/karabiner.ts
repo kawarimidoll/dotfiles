@@ -90,25 +90,6 @@ k.writeToProfile("Karabiner-TS", [
   ]),
 
   k.rule(
-    "⌘z -> ⌃_ (undo) in Ghostty",
-    k.ifApp({ bundle_identifiers: ["^com\\.mitchellh\\.ghostty$"] }),
-  )
-    .manipulators([
-      k.map({
-        key_code: "z",
-        modifiers: { mandatory: ["command"] },
-      })
-        .to([
-          EUSUU,
-          {
-            "key_code": "hyphen",
-            "modifiers": ["control", "shift"],
-          },
-        ]),
-    ])
-    .description("⌘z -> ⌃_ (undo)"),
-
-  k.rule(
     "Multiple actions chaining in Ghostty",
     k.ifApp({ bundle_identifiers: ["^com\\.mitchellh\\.ghostty$"] }),
   ).manipulators([
