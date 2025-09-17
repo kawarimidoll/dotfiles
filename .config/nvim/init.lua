@@ -3,6 +3,10 @@
 -- cache init.lua
 vim.loader.enable()
 
+-- https://zenn.dev/vim_jp/articles/c96e9b1bdb9241
+vim.env.XDG_STATE_HOME = '/tmp'
+vim.opt.undodir = vim.env.XDG_STATE_HOME .. '/nvim/undo'
+
 -- share clipboard with OS
 vim.opt.clipboard:append('unnamedplus,unnamed')
 
