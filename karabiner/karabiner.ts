@@ -1,32 +1,13 @@
 import * as k from "karabiner_ts";
 
-// ⌘⌥↵⌫⇧⌃⎋
 
 const EISUU: k.ToEvent = { key_code: "japanese_eisuu" };
 const EISUU_ESCAPE: k.ToEvent[] = [
   EISUU,
   { key_code: "escape" },
 ];
-const HYPER: k.Modifier[] = ["command", "shift", "option", "control"];
 
-const emacsLikeApps = k.ifApp([
-  "^com\.tinyspeck\.slackmacgap$",
-  "^notion\.id$",
-  "^com\.figma\.Desktop$",
-]);
-
-const emacsLikeKeymappings = {
-  n: "down_arrow",
-  p: "up_arrow",
-  b: "left_arrow",
-  f: "right_arrow",
-  // a: "home",
-  // e: "end",
-  h: "delete_or_backspace",
-  d: "delete_forward",
-  m: "return_or_enter",
-  i: "tab",
-} as const;
+const HYPER = "⌘⌥⌃⇧";
 
 // k.writeToProfile("Default profile", [
 k.writeToProfile("Karabiner-TS", [
@@ -35,8 +16,8 @@ k.writeToProfile("Karabiner-TS", [
     // k.map("l⌃", "??").to("⇪"),
   ]),
 
-  k.rule("Left Control to Hyper Key (⌘⌥⇧⌃)").manipulators([
-    // k.rule("Caps Lock to Hyper Key (⌘⌥⇧⌃)").manipulators([
+  k.rule("Left Control to Hyper Key (⌘⌥⌃⇧)").manipulators([
+    // k.rule("Caps Lock to Hyper Key (⌘⌥⌃⇧)").manipulators([
     k.map("l⌃")
       .toHyper()
       .toIfAlone(EISUU_ESCAPE),
@@ -71,6 +52,7 @@ k.writeToProfile("Karabiner-TS", [
     "Multiple actions chaining in Ghostty",
     k.ifApp("^com\\.mitchellh\\.ghostty$"),
   ).manipulators([
+    // toPaste(" vim ") はtoAfterKeyUpよりあとになることがあるので採用を断念
     k.map("a", "⌘⇧")
       .to(EISUU)
       .to("␣")
@@ -109,17 +91,29 @@ k.writeToProfile("Karabiner-TS", [
 
   k.rule(
     "Emacs-like ctrl key settings for Slack, Notion and Figma",
-    emacsLikeApps,
+    k.ifApp([
+      "^com\.tinyspeck\.slackmacgap$",
+      "^notion\.id$",
+      "^com\.figma\.Desktop$",
+    ]),
   )
     .manipulators(
-      (Object.keys(
-        emacsLikeKeymappings,
-      ) as (keyof typeof emacsLikeKeymappings)[]).map((fromKey) =>
-        k.map({
-          key_code: fromKey,
-          modifiers: { mandatory: ["left_control"], optional: ["any"] },
-        })
-          .to({ key_code: emacsLikeKeymappings[fromKey] })
+      (Object.entries(
+        {
+          n: "↓",
+          p: "↑",
+          b: "←",
+          f: "→",
+          // a: "↖",
+          // e: "↘",
+          h: "⌫",
+          d: "⌦",
+          m: "⏎",
+          i: "⇥",
+        } as const,
+      )).map(([fromKey, toKey]) =>
+        k.map(fromKey as k.FromKeyParam, "l⌃", "any")
+          .to(toKey)
       ),
     ),
 ]);
