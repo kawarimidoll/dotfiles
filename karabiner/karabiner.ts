@@ -77,6 +77,12 @@ k.writeToProfile("Karabiner-TS", [
       .description("⌘} → ⌘] then ⌘⇧⏎"),
   ]),
 
+  k.rule(
+    "⌘z to ⌃_ in terminal apps",
+    k.ifApp("^com\\.mitchellh\\.ghostty$"),
+  ).manipulators([
+    k.map("z", "⌘").to("-", "⌃⇧"),
+  ]),
   k.rule("Toggle between Hyper+5 and Hyper+6 (for Raycast)").manipulators([
     k.map("↑", HYPER)
       .to("5", HYPER)
