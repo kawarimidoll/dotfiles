@@ -1,3 +1,5 @@
+local get_node_root = require('mi.utils').get_node_root
+
 return {
   cmd = function(dispatchers, config)
     local cmd = (config or {}).root_dir
@@ -9,13 +11,9 @@ return {
     end
   end,
   root_dir = function(bufnr, callback)
-    local node_markers =
-      { 'package-lock.json', 'yarn.lock', 'pnpm-lock.yaml', 'bun.lockb', 'bun.lock' }
-    local node_dir = vim.fs.root(bufnr, { node_markers })
-    if not node_dir then
-      return
+    local node_root = get_node_root(bufnr)
+    if node_root then
+      callback(node_root)
     end
-
-    return callback(node_dir)
   end,
 }

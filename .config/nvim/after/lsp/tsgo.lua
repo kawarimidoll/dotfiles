@@ -1,3 +1,5 @@
+local get_node_root = require('mi.utils').get_node_root
+
 return {
   settings = {
     typescript = {
@@ -9,11 +11,9 @@ return {
     },
   },
   root_dir = function(bufnr, callback)
-    local node_markers =
-      { 'package-lock.json', 'yarn.lock', 'pnpm-lock.yaml', 'bun.lockb', 'bun.lock' }
-    local node_dir = vim.fs.root(bufnr, node_markers)
-    if node_dir then
-      callback(node_dir)
+    local node_root = get_node_root(bufnr)
+    if node_root then
+      callback(node_root)
     end
   end,
 }

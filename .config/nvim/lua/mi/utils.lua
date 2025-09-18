@@ -75,6 +75,12 @@ function M.get_current_selection()
   )
 end
 
+function M.get_node_root(bufnr)
+  local root_markers =
+    { 'package-lock.json', 'yarn.lock', 'pnpm-lock.yaml', 'bun.lockb', 'bun.lock' }
+  return vim.fs.root(bufnr, root_markers)
+end
+
 --- skip hit-enter prompt
 -- hit-enterプロンプトをスキップするラップされた関数を返す
 -- @param fn function ラップする関数
