@@ -1,5 +1,18 @@
 import * as k from "karabiner_ts";
 
+type RaycastWindowAction =
+  | "maximize"
+  | "almost-maximize"
+  | "reasonable-size"
+  | "next-display"
+  | "previous-display";
+
+function raycastWindowAction(name: RaycastWindowAction) {
+  return {
+    "shell_command":
+      `open -g raycast://extensions/raycast/window-management/${name}`,
+  };
+}
 
 const EISUU: k.ToEvent = { key_code: "japanese_eisuu" };
 const EISUU_ESCAPE: k.ToEvent[] = [
@@ -83,16 +96,24 @@ k.writeToProfile("Karabiner-TS", [
   ).manipulators([
     k.map("z", "⌘").to("-", "⌃⇧"),
   ]),
-  k.rule("Toggle between Hyper+5 and Hyper+6 (for Raycast)").manipulators([
-    k.map("↑", HYPER)
-      .to("5", HYPER)
-      .condition(k.ifVar("var_hyper", 0))
-      .toAfterKeyUp(k.toSetVar("var_hyper", 1)),
 
-    k.map("↑", HYPER)
-      .to("6", HYPER)
-      .condition(k.ifVar("var_hyper", 1))
-      .toAfterKeyUp(k.toSetVar("var_hyper", 0)),
+  k.rule("Hyper+↑ to cicle window size using Raycast").manipulators([
+    // to run this, allow permission to use external call in Raycast
+    (() => {
+      const varName = "var_window_cycle";
+      const windowActions = [
+        "maximize",
+        "reasonable-size",
+        "almost-maximize",
+      ] as const;
+      return k.withMapper(windowActions)((action, index) => {
+        const nextIndex = (index + 1) % windowActions.length;
+        return k.map("↑", HYPER)
+          .to(raycastWindowAction(action))
+          .condition(k.ifVar(varName, index))
+          .toAfterKeyUp(k.toSetVar(varName, nextIndex));
+      });
+    })(),
   ]),
 
   k.rule(
