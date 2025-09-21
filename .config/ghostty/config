@@ -3,6 +3,7 @@
 cursor-style = block
 cursor-style-blink = false
 custom-shader = ./gradient-background.glsl
+custom-shader = /Users/kawarimidoll/dotfiles/.config/ghostty/cursor-blaze.glsl
 # for light
 # custom-shader = ./string-theory-background.glsl
 # for dark
@@ -17,7 +18,7 @@ font-feature = -liga
 font-size = 16
 # theme = 0x96f
 # theme = niji
-theme = Tinacious Design (Light)
+theme = Tinacious Design Light
 
 ### features
 
@@ -27,6 +28,9 @@ copy-on-select = true
 link-url = true
 shell-integration = detect
 shell-integration-features = no-cursor
+link-previews = osc8
+quick-terminal-size = 600px,800px
+quick-terminal-position = bottom
 
 ### keybindings
 
@@ -91,13 +95,16 @@ macos-non-native-fullscreen = true
 macos-option-as-alt = true
 macos-titlebar-proxy-icon = hidden
 macos-titlebar-style = tabs
+macos-window-buttons = hidden
+
+### mouse
+
 mouse-hide-while-typing = true
 mouse-scroll-multiplier = 2
 
 ### window management
 
 confirm-close-surface = true
-quick-terminal-animation-duration = 0
 quit-after-last-window-closed = true
 resize-overlay = never
 window-inherit-font-size = true
@@ -108,7 +115,7 @@ window-padding-x = 10
 window-padding-y = 0,10
 window-save-state = default
 window-step-resize = false
-window-theme = ghostty
+# window-theme = ghostty
 
 ### memo
 # check log:
