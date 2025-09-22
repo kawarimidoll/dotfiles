@@ -113,6 +113,7 @@ in
         lavat
         lazydocker
         lazygit
+        lazyssh
         libsixel
         lnav
         logdy
