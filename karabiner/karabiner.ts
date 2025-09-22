@@ -1,5 +1,75 @@
 import * as k from "karabiner_ts";
 
+type SimpleModification = {
+  from: { key_code: string };
+  to: Array<{ key_code: string }>;
+};
+
+function simpleModifications(
+  params: {
+    from: Parameters<typeof k.getKeyWithAlias>[0];
+    to: Parameters<typeof k.getKeyWithAlias>[0];
+  }[],
+): SimpleModification[] {
+  return params.map((p) => {
+    const from = k.getKeyWithAlias(p.from);
+    const to = k.getKeyWithAlias(p.to);
+    return { from: { key_code: from }, to: [{ key_code: to }] };
+  });
+}
+
+type DeviceWithSimpleModifications = {
+  identifiers: k.DeviceIdentifier;
+  simple_modifications: SimpleModification[];
+};
+
+type ExtendedProfile = k.KarabinerProfile & {
+  devices?: DeviceWithSimpleModifications[];
+  // global simple_modifications
+  simple_modifications?: SimpleModification[];
+};
+
+function applySimpleModifications(
+  profile: ExtendedProfile,
+  identifiers: k.DeviceIdentifier,
+  simple_modifications: SimpleModification[],
+) {
+  const targetDevice = profile.devices?.find((d) =>
+    d.identifiers.is_keyboard &&
+    d.identifiers.vendor_id === identifiers.vendor_id &&
+    d.identifiers.product_id === identifiers.product_id
+  );
+  if (targetDevice) {
+    targetDevice.simple_modifications = simple_modifications;
+  } else {
+    profile.devices = [
+      ...(profile.devices || []),
+      { identifiers, simple_modifications },
+    ];
+  }
+}
+
+function exitWithError(err: unknown): never {
+  if (err) {
+    if (typeof err == "string") {
+      console.error(err);
+    } else {
+      console.error((err as Error).message || err);
+    }
+  }
+  Deno.exit(1);
+}
+
+const REALFORCE_HYBRID_US_FULL = {
+  product_id: 769,
+  vendor_id: 2131,
+  is_keyboard: true,
+} as const satisfies k.DeviceIdentifier;
+
+const APPLE_INTERNAL_KEYBOARD = {
+  is_keyboard: true,
+} as const satisfies k.DeviceIdentifier;
+
 type RaycastWindowAction =
   | "maximize"
   | "almost-maximize"
@@ -22,16 +92,12 @@ const EISUU_ESCAPE: k.ToEvent[] = [
 
 const HYPER = "⌘⌥⌃⇧";
 
-// k.writeToProfile("Default profile", [
-k.writeToProfile("Karabiner-TS", [
-  k.rule("Change caps_lock to left_control").manipulators([
-    k.map("⇪", "??").to("l⌃"),
-    // k.map("l⌃", "??").to("⇪"),
-  ]),
+const profileName = "Karabiner-TS";
 
-  k.rule("Left Control to Hyper Key (⌘⌥⌃⇧)").manipulators([
-    // k.rule("Caps Lock to Hyper Key (⌘⌥⌃⇧)").manipulators([
-    k.map("l⌃")
+// k.writeToProfile("Default profile", [
+k.writeToProfile(profileName, [
+  k.rule(`Caps Lock to Hyper Key (${HYPER}), escape if alone`).manipulators([
+    k.map("⇪")
       .toHyper()
       .toIfAlone(EISUU_ESCAPE),
   ]),
@@ -144,3 +210,42 @@ k.writeToProfile("Karabiner-TS", [
       ),
     ),
 ]);
+
+// ここからはsimple_modificationsの設定 独自追加
+
+const swapCapsCtrl = simpleModifications([
+  { from: "⇪", to: "l⌃" },
+  { from: "l⌃", to: "⇪" },
+]);
+const swapCmdOpt = simpleModifications([
+  { from: "l⌘", to: "l⌥" },
+  { from: "l⌥", to: "l⌘" },
+  { from: "r⌘", to: "r⌥" },
+  { from: "r⌥", to: "r⌘" },
+]);
+
+const fn = [Deno.env.get("HOME")!, ".config", "karabiner", "karabiner.json"]
+  .join("/");
+
+const config = JSON.parse(Deno.readTextFileSync(fn)) as k.KarabinerConfig;
+
+// karabiner.tsのほうで存在判定されているのでこの段階で落ちることは無いはず
+const profile = config?.profiles.find((v) =>
+  v.name == profileName
+)! as ExtendedProfile;
+
+applySimpleModifications(
+  profile,
+  APPLE_INTERNAL_KEYBOARD,
+  swapCapsCtrl,
+);
+applySimpleModifications(
+  profile,
+  REALFORCE_HYBRID_US_FULL,
+  [...swapCapsCtrl, ...swapCmdOpt],
+);
+
+const json = JSON.stringify(config, null, 2);
+Deno.writeTextFile(fn, json).catch(exitWithError);
+
+console.log(`✓ Profile ${profileName} simple_modifications updated.`);
