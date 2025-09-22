@@ -64,28 +64,6 @@
         NL = "> /dev/null 2>&1";
       };
     };
-    plugins = [
-      {
-        # will source {name}.plugin.zsh when 'file' key does not exist
-        name = "ni";
-        src = pkgs.fetchFromGitHub {
-          owner = "azu";
-          repo = "ni.zsh";
-          rev = "658b5c305222c7ad30ab0edb647260d98fb7a183";
-          hash = "sha256-sWYZhWG5x9ZttW4yTbS7KmpnweclWB9KZXgvjXksmxA=";
-        };
-      }
-      # {
-      #   name = "enhancd";
-      #   file = "init.sh";
-      #   src = pkgs.fetchFromGitHub {
-      #     owner = "babarot";
-      #     repo = "enhancd";
-      #     rev = "5afb4eb6ba36c15821de6e39c0a7bb9d6b0ba415";
-      #     hash = "sha256-pKQbwiqE0KdmRDbHQcW18WfxyJSsKfymWt/TboY2iic=";
-      #   };
-      # }
-    ];
     # evaluation warning: `programs.zsh.initExtra` is deprecated, use `programs.zsh.initContent` instead.
     initContent = ''
       source ~/dotfiles/.zshrc

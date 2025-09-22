@@ -127,6 +127,7 @@ in
         neo
         neovim # nightly
         nh
+        ni
         nil
         nim
         nix-output-monitor
