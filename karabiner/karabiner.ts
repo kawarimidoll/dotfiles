@@ -66,6 +66,12 @@ const REALFORCE_HYBRID_US_FULL = {
   is_keyboard: true,
 } as const satisfies k.DeviceIdentifier;
 
+const ROYUAN_GAMING_KEYBOARD = {
+  product_id: 16405,
+  vendor_id: 12625,
+  is_keyboard: true,
+} as const satisfies k.DeviceIdentifier;
+
 const APPLE_INTERNAL_KEYBOARD = {
   is_keyboard: true,
 } as const satisfies k.DeviceIdentifier;
@@ -237,6 +243,11 @@ const profile = config?.profiles.find((v) =>
 applySimpleModifications(
   profile,
   APPLE_INTERNAL_KEYBOARD,
+  swapCapsCtrl,
+);
+applySimpleModifications(
+  profile,
+  ROYUAN_GAMING_KEYBOARD,
   swapCapsCtrl,
 );
 applySimpleModifications(
