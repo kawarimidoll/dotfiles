@@ -3,7 +3,7 @@ allowed-tools: Bash(git commit:*), Bash(git status:*), Bash(git diff:*), Bash(gi
 description: "Stagingされた変更をコミット"
 ---
 
-`git commit` を用いてStaging済みの変更をコミットします。
+commit-maker エージェントを用いてStaging済みの変更をコミットします。
 カレントリポジトリのルートに`.gitmessage`がある場合はそれをテンプレートとして使用します。
 ない場合は`~/.config/git/message`をテンプレートとして使用します。
 
