@@ -123,14 +123,26 @@ k.writeToProfile(profileName, [
     ),
   ]),
 
+  k.rule("Quote key to Option when held, Quote when alone").manipulators([
+    k.map("'")
+      .to("l⌥", {}, { lazy: true })
+      .toIfAlone("'")
+      .parameters({ "basic.to_if_held_down_threshold_milliseconds": 200 }),
+  ]),
+
   k.rule("⎋, ⌃[, ⌃⌫ -> japanese_eisuu + ⎋").manipulators([
     k.map("⎋").to(EISUU_ESCAPE),
     k.map("[", "⌃").to(EISUU_ESCAPE),
     k.map("⌫", "⌃").to(EISUU_ESCAPE),
   ]),
 
+  k.rule("⌃m -> ⏎").manipulators([
+    k.map("m", "⌃").to("⏎"),
+  ]),
+
   k.rule("Quit application by holding ⌘q").manipulators([
-    k.map("q", "⌘", "⇪").toIfHeldDown("q", "l⌘", { repeat: false }),
+    k.map("q", "⌘", "⇪").toIfHeldDown("q", "l⌘", { repeat: false })
+      .parameters({ "basic.to_if_held_down_threshold_milliseconds": 300 }),
   ]),
 
   k.rule(
@@ -140,6 +152,7 @@ k.writeToProfile(profileName, [
     // toPaste(" vim ") はtoAfterKeyUpよりあとになることがあるので採用を断念
     k.map("a", "⌘⇧")
       .to(EISUU)
+      .to("q", "l⌥")
       .to("␣")
       .to("v")
       .to("i")
