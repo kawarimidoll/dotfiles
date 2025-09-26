@@ -98,6 +98,9 @@ const EISUU_ESCAPE: k.ToEvent[] = [
 
 const HYPER = "⌘⌥⌃⇧";
 
+const TO_IF_MILLISECONDS =
+  "basic.to_if_held_down_threshold_milliseconds" as const;
+
 const profileName = "Karabiner-TS";
 
 // k.writeToProfile("Default profile", [
@@ -119,7 +122,7 @@ k.writeToProfile(profileName, [
         .to({ key_code: cmd, lazy: true })
         .toIfAlone({ key_code: lang })
         .description(`${cmd} alone to switch to ${lang}`)
-        .parameters({ "basic.to_if_held_down_threshold_milliseconds": 100 })
+        .parameters({ [TO_IF_MILLISECONDS]: 100 })
     ),
   ]),
 
@@ -127,7 +130,7 @@ k.writeToProfile(profileName, [
     k.map("'")
       .to("l⌥", {}, { lazy: true })
       .toIfAlone("'")
-      .parameters({ "basic.to_if_held_down_threshold_milliseconds": 200 }),
+      .parameters({ [TO_IF_MILLISECONDS]: 200 }),
   ]),
 
   k.rule("⎋, ⌃[, ⌃⌫ -> japanese_eisuu + ⎋").manipulators([
@@ -142,7 +145,7 @@ k.writeToProfile(profileName, [
 
   k.rule("Quit application by holding ⌘q").manipulators([
     k.map("q", "⌘", "⇪").toIfHeldDown("q", "l⌘", { repeat: false })
-      .parameters({ "basic.to_if_held_down_threshold_milliseconds": 300 }),
+      .parameters({ [TO_IF_MILLISECONDS]: 300 }),
   ]),
 
   k.rule(
