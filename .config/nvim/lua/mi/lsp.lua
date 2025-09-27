@@ -1,4 +1,5 @@
-local node_bin = '/Users/kawarimidoll/dotfiles/.config/nvim/node_servers/node_modules/.bin'
+local node_servers_dir = '/Users/kawarimidoll/dotfiles/.config/nvim/node_servers'
+local node_bin = node_servers_dir .. '/node_modules/.bin'
 if vim.fn.has('vim_starting') == 1 then
   vim.env.PATH = node_bin .. ':' .. vim.env.PATH
 end
@@ -8,6 +9,21 @@ local Methods = vim.lsp.protocol.Methods
 vim.api.nvim_create_user_command('LspHealth', function()
   vim.cmd.checkhealth('vim.lsp')
 end, { desc = 'LSP health check' })
+
+vim.api.nvim_create_user_command('LsUpdate', function()
+  local function on_exit(obj)
+    -- bun updateの結果はstderrに出力される
+    local msg = obj.stderr .. obj.stdout
+    if obj.code ~= 0 then
+      vim.notify('Failed to update language servers:\n' .. msg, vim.log.levels.ERROR)
+    else
+      vim.notify('Language servers updated!\n' .. msg)
+    end
+  end
+
+  vim.notify('Updating language servers in ' .. node_servers_dir .. '...')
+  vim.system({ 'bun', 'update' }, { text = true, cwd = node_servers_dir }, on_exit)
+end, { desc = 'Update language servers with bun update' })
 
 local function diagnostic_format(diagnostic)
   return string.format('%s (%s)', diagnostic.message, diagnostic.source)
