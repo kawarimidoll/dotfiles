@@ -2,19 +2,19 @@
   "name": "node_servers",
   "type": "module",
   "dependencies": {
-    "@github/copilot-language-server": "^1.364.0",
+    "@github/copilot-language-server": "^1.377.0",
     "@microsoft/compose-language-service": "^0.4.0",
     "@vtsls/language-server": "^0.2.9",
     "cssmodules-language-server": "^1.5.1",
     "dockerfile-language-server-nodejs": "^0.14.1",
     "gh-actions-language-server": "^0.0.3",
     "graphql-language-service-cli": "^3.5.0",
-    "sql-formatter": "^15.6.6",
+    "sql-formatter": "^15.6.9",
     "sql-language-server": "^1.7.1",
-    "svelte-language-server": "^0.17.19",
+    "svelte-language-server": "^0.17.20",
     "typescript-svelte-plugin": "^0.3.50",
     "unocss-language-server": "^0.1.7",
     "vscode-langservers-extracted": "^4.10.0",
-    "yaml-language-server": "^1.18.0"
+    "yaml-language-server": "^1.19.1"
   }
 }
