@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@github/copilot": "latest",
     "@typescript/native-preview": "latest",
     "difit": "^2.2.2",
     "jsmigemo": "^0.4.8"
