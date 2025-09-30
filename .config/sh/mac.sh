@@ -55,6 +55,9 @@ alias cob="cd ${OBSIDIAN_VAULT}"
 alias ds_store_all_delete="find . -name '.DS_Store' -type f -delete"
 alias notify="osascript -e 'display notification \"Done!\" with title \"Terminal\"'"
 
+# workaround: ghostty 1.2.0 couldn't link cli properly on tahoe for some reason
+alias ghostty='/Applications/Ghostty.app/Contents/MacOS/ghostty'
+
 PATH="${BREW_PREFIX}/bin:$PATH"
 PATH="${BREW_PREFIX}/sbin:$PATH"
 
