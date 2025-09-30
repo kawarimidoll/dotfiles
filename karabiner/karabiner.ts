@@ -72,6 +72,12 @@ const ROYUAN_GAMING_KEYBOARD = {
   is_keyboard: true,
 } as const satisfies k.DeviceIdentifier;
 
+// const LUNAKEY_PICO = {
+//   product_id: 3,
+//   vendor_id: 22868,
+//   is_keyboard: true,
+// } as const satisfies k.DeviceIdentifier;
+
 const APPLE_INTERNAL_KEYBOARD = {
   is_keyboard: true,
 } as const satisfies k.DeviceIdentifier;
