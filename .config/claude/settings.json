@@ -1,6 +1,7 @@
 {
   "permissions": {
     "allow": [
+      "Bash(emmylua_check)",
       "Bash(find:*)",
       "Bash(gh pr view)",
       "Bash(git add:*)",
@@ -11,6 +12,7 @@
       "Bash(ls:*)",
       "Bash(mkdir:*)",
       "Bash(rg:*)",
+      "WebFetch(domain:api.github.com)",
       "WebFetch(domain:docs.anthropic.com)",
       "WebFetch(domain:gist.github.com)",
       "WebFetch(domain:github.com)",
