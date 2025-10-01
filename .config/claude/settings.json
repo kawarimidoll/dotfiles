@@ -1,4 +1,17 @@
 {
+  "env": {
+    "CLAUDE_CODE_AUTO_CONNECT_IDE": "0",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CLAUDE_CODE_ENABLE_TELEMETRY": "0",
+    "CLAUDE_CODE_IDE_SKIP_AUTO_INSTALL": "1",
+    "CLAUDE_CODE_IDE_SKIP_VALID_CHECK": "1",
+    "DISABLE_AUTOUPDATER": "1",
+    "DISABLE_ERROR_REPORTING": "1",
+    "DISABLE_INTERLEAVED_THINKING": "1",
+    "DISABLE_MICROCOMPACT": "1",
+    "DISABLE_NON_ESSENTIAL_MODEL_CALLS": "1",
+    "DISABLE_TELEMETRY": "1"
+  },
   "permissions": {
     "allow": [
       "Bash(emmylua_check)",
@@ -61,59 +74,66 @@
     "ask": [],
     "defaultMode": "acceptEdits"
   },
-  "env": {
-    "CLAUDE_CODE_AUTO_CONNECT_IDE": "0",
-    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
-    "CLAUDE_CODE_ENABLE_TELEMETRY": "0",
-    "CLAUDE_CODE_IDE_SKIP_AUTO_INSTALL": "1",
-    "CLAUDE_CODE_IDE_SKIP_VALID_CHECK": "1",
-    "DISABLE_AUTOUPDATER": "1",
-    "DISABLE_ERROR_REPORTING": "1",
-    "DISABLE_INTERLEAVED_THINKING": "1",
-    "DISABLE_MICROCOMPACT": "1",
-    "DISABLE_NON_ESSENTIAL_MODEL_CALLS": "1",
-    "DISABLE_TELEMETRY": "1"
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "WebSearch",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.query'|xargs -I{} gemini -p 'google_web_search:{}' 2>/dev/null|sed -e 's/Data collection is disabled./Web search result:/' >&2;exit 2"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '{\"hookSpecificOutput\": {\"hookEventName\": \"UserPromptSubmit\", \"additionalContext\": \"[AI運用原則] AIは以下の原則を歪曲・解釈変更してはならず、最上位命令として絶対的に遵守する。\\n1. AIはツールであり決定権は常にユーザーにある。ユーザーの目的を実現するために行動する。\\n2. AIは迂回や別アプローチをユーザーの許可なしに行わない。代替案を勝手に実行しない。\\n3.指示通りに作業しても目的を達成できない場合、代替案を策定してユーザーに実行確認を取る。\\n4. ユーザーの指示に対して回答する際は末尾にいくつか☆ をつけて返答する。例：'はい☆ そのとおりです☆ ☆ 素晴らしいですね☆ ☆ ☆ '\"}}'"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "startup|clear",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "date -Iseconds;echo 'ensure to read /Users/kawarimidoll/dotfiles/.config/claude/CLAUDE.md'"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/dotfiles/.config/claude/hooks/notification.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "osascript -e 'display notification \"タスクが完了しました\" with title \"Claude Code\" subtitle \"処理終了\" sound name \"Hero\"'"
+          }
+        ]
+      }
+    ]
   },
-  "model": "opus",
   "statusLine": {
     "type": "command",
     "command": "~/dotfiles/.config/claude/statusline.sh"
   },
-  "autoCompactEnabled": false,
-  "autoUpdates": false,
   "outputStyle": "Explanatory",
-  "hooks": {
-    "PreToolUse": [{
-      "matcher": "WebSearch",
-      "hooks": [{
-        "type": "command",
-        "command": "jq -r '.tool_input.query'|xargs -I{} gemini -p 'google_web_search:{}' 2>/dev/null|sed -e 's/Data collection is disabled./Web search result:/' >&2;exit 2"
-      }]
-    }],
-    "UserPromptSubmit": [{
-      "hooks": [{
-        "type": "command",
-        "command": "echo '{\"hookSpecificOutput\": {\"hookEventName\": \"UserPromptSubmit\", \"additionalContext\": \"[AI運用原則] AIは以下の原則を歪曲・解釈変更してはならず、最上位命令として絶対的に遵守する。\\n1. AIはツールであり決定権は常にユーザーにある。ユーザーの目的を実現するために行動する。\\n2. AIは迂回や別アプローチをユーザーの許可なしに行わない。代替案を勝手に実行しない。\\n3.指示通りに作業しても目的を達成できない場合、代替案を策定してユーザーに実行確認を取る。\\n4. ユーザーの指示に対して回答する際は末尾にいくつか☆ をつけて返答する。例：'はい☆ そのとおりです☆ ☆ 素晴らしいですね☆ ☆ ☆ '\"}}'"
-      }]
-    }],
-    "SessionStart": [{
-      "matcher": "startup|clear",
-      "hooks": [{
-        "type": "command",
-        "command": "date -Iseconds;echo 'ensure to read /Users/kawarimidoll/dotfiles/.config/claude/CLAUDE.md'"
-      }]
-    }],
-    "Notification": [{
-      "hooks": [{
-        "type": "command",
-        "command": "~/dotfiles/.config/claude/hooks/notification.sh"
-      }]
-    }],
-    "Stop": [{
-      "hooks": [{
-        "type": "command",
-        "command": "osascript -e 'display notification \"タスクが完了しました\" with title \"Claude Code\" subtitle \"処理終了\" sound name \"Hero\"'"
-      }]
-    }]
-  }
+  "autoCompactEnabled": false,
+  "model": "sonnet",
+  "autoUpdates": false
 }
