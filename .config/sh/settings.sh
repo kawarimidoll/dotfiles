@@ -72,6 +72,7 @@ alias fetch='git fetch --all --prune --tags'
 alias fgrep='fgrep --color=auto'
 # alias fl='flutter'
 # alias kittyconfig="nvim ${DOT_DIR}/.config/kitty/kitty.conf"
+alias ld='lazydocker'
 alias lg='lazygit'
 alias ls='ls --color=auto'
 alias lsf='ls -FAogh --time-style="+%F %R"'
@@ -170,6 +171,17 @@ silica() {
   fname="${HOME}/Downloads/silicon-$(date +%Y%m%d-%H%M%S).png"
   silicon --font 'UDEV Gothic 35JPDOC' --output "$fname" "$@"
   echo "silicon saved: $fname"
+}
+
+docker-all-delete() {
+  # https://gist.github.com/yheihei/656bb221d4d51c5614123c23b1ce5898
+  docker system prune
+  docker container prune
+  docker rm -f `docker ps -a -q`
+  docker image prune
+  docker rmi $(docker images -a -q)
+  docker volume prune
+  docker network prune
 }
 
 # fuzzy edit gist
