@@ -1,0 +1,5 @@
+{
+  "banner": "always",
+  "model": "claude-sonnet-4.5",
+  "theme": "auto"
+}
