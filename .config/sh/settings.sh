@@ -41,6 +41,8 @@ PATH="${HOME}/.deno/bin:${PATH}"
 PATH="${HOME}/.cache/.bun/bin:${PATH}"
 PATH="${GOPATH}/bin:${PATH}"
 PATH="${PNPM_HOME}:${PATH}"
+# uv tool dir --bin
+PATH="${XDG_DATA_HOME}/../bin:${PATH}"
 
 # -----------------
 #  Aliases
