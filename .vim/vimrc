@@ -764,6 +764,7 @@ augroup vimrc
   autocmd FileType vim syn match luaParen "(\|)"
 
   autocmd BufEnter *.sh setlocal filetype=bash
+  autocmd BufEnter *.env,*.env.* setlocal filetype=sh.env
   autocmd BufEnter * call s:pin_help_buffer()
   autocmd WinLeave,WinClosed * unlet! w:pin_buf_type
   autocmd BufEnter * call s:syntax_off_on_heavy_file()
