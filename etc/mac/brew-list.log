@@ -1,7 +1,9 @@
-timestamp: 2025-09-25 08:51:33 JST
+timestamp: 2025-10-08 09:30:04 JST
+tap: dannystewart/apps
 tap: felixkratz/formulae
-tap: he3-app/he3
+tap: pakerwreah/calendr
 brew: codex
+brew: container-compose
 brew: felixkratz/formulae/borders
 brew: gemini-cli
 brew: git-now
@@ -17,20 +19,22 @@ cask: anki
 cask: azookey
 cask: balenaetcher
 cask: battery-buddy
+cask: blockblock
 cask: brave-browser
+cask: calendr
 cask: charmstone
 cask: chatgpt
 cask: claude
 cask: claude-code
 cask: clop
 cask: cloudflare-warp
+cask: coderabbit
 cask: container
 cask: cursor
 cask: deckset
 cask: dropbox
 cask: figma
 cask: filen
-cask: flux
 cask: flux-app
 cask: folder-colorizer
 cask: font-departure-mono
@@ -42,33 +46,30 @@ cask: ghostty
 cask: gitify
 cask: google-japanese-ime
 cask: gpg-suite-no-mail
-cask: he3
 cask: iina
 cask: isabelle
-cask: iterm2
 cask: itsycal
-cask: jan
-cask: jordanbaird-ice
+cask: jordanbaird-ice@beta
 cask: karabiner-elements
 cask: keycastr
 cask: kitty
+cask: knockknock
 cask: ledger-live
 cask: lm-studio
-cask: maccy
-cask: macsyzones
+cask: lulu
 cask: meetingbar
 cask: menuwhere
 cask: music-decoy
 cask: notion
-cask: numi
 cask: obsidian
+cask: oversight
 cask: piphero
 cask: pixieditor
 cask: postman
 cask: pronotes
-cask: quakenotch
 cask: radiola
 cask: raycast
+cask: reikey
 cask: rnote
 cask: rustrover
 cask: shottr
@@ -84,25 +85,26 @@ cask: tiny-player
 cask: trex
 cask: vibetunnel
 cask: visual-studio-code
+cask: volumehud
 cask: wezterm@nightly
-mas: 1351639930  Gifski        (2.23.1)
-mas: 1352778147  Bitwarden     (2025.8.2)
-mas: 1429033973  RunCat        (12.4)
-mas: 1448648921  Seashore      (3.42)
-mas: 1502839586  Hand Mirror   (3.2)
-mas: 1522267256  Shareful      (1.11.0)
-mas: 1545870783  Color Picker  (2.1.2)
-mas: 1575588022  MenubarX      (1.7.6)
-mas: 1611378436  Pure Paste    (1.12.3)
-mas: 1615988943  Folder Peek   (1.12.0)
-mas: 1636862100  Commander     (1.14)
-mas: 302584613   Kindle        (7.41)
-mas: 435410196   Stay          (1.5.1)
-mas: 539883307   LINE          (9.12.1)
-mas: 562211012   Yomu          (3.13.1)
-mas: 6444685140  CenterMouse   (1.1.1)
-mas: 6448461551  Command X     (1.5.3)
-mas: 6462894357  Battery Line  (1.1.0)
-mas: 6743048714  Googly Eyes   (1.1.2)
-mas: 6743496546  xcribe        (0.4.3)
-mas: 977173231   Sakura        (1.0.0)
+mas: 1351639930  Gifski             (2.23.1)
+mas: 1352778147  Bitwarden          (2025.9.0)
+mas: 1429033973  RunCat             (12.4)
+mas: 1448648921  Seashore           (3.42)
+mas: 1502839586  Hand Mirror        (3.2)
+mas: 1522267256  Shareful           (1.11.0)
+mas: 1545870783  Color Picker       (2.1.2)
+mas: 1575588022  MenubarX           (1.7.6)
+mas: 1611378436  Pure Paste         (1.13.0)
+mas: 1636862100  Commander          (1.14)
+mas: 302584613   Kindle             (7.42.1)
+mas: 435410196   Stay               (1.5.1)
+mas: 539883307   LINE               (9.12.1)
+mas: 562211012   Yomu               (3.13.1)
+mas: 6444685140  CenterMouse        (1.1.1)
+mas: 6448461551  Command X          (1.5.3)
+mas: 6462894357  Battery Line       (1.1.0)
+mas: 6743048714  Googly Eyes        (1.1.2)
+mas: 6743496546  xcribe             (0.4.3)
+mas: 6753110395  Folder Quick Look  (1.2)
+mas: 977173231   Sakura             (1.0.0)
