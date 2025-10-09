@@ -192,6 +192,15 @@ zshaddhistory() {
   # コマンド存在確認を入れていたがサブコマンドの存在までは確認されないのでやめた
   # [["$(command -v $cmd)" != '']]
 }
+
+# nrの補完 本来は別ファイルにしてcacheすべきかな
+_nr_completion() {
+  local -a completions
+  completions=("${(f)$(nr --completion $words[2,-1])}")
+  compadd -a completions
+}
+compdef _nr_completion nr
+
 # -----------------
 #  PATH
 # -----------------
