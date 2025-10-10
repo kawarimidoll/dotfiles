@@ -239,7 +239,7 @@ fpull() {
 }
 
 pushf() {
-  git push --force-with-lease --force-if-includes origin "${1:-$(git current-branch)}"
+  git push --force-with-lease --force-if-includes -u origin "${1:-$(git current-branch)}"
 }
 
 clone() {

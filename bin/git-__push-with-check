@@ -11,4 +11,4 @@ if git log "origin/$(git rev-parse --abbrev-ref HEAD)..HEAD" --oneline | grep -i
   exit 1
 fi
 
-git push origin "${1:-$(git current-branch)}"
+git push -u origin "${1:-$(git current-branch)}"
