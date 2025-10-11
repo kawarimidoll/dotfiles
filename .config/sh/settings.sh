@@ -49,8 +49,6 @@ PATH="${XDG_DATA_HOME}/../bin:${PATH}"
 # -----------------
 # [9 Evil Bash Commands Explained](https://qiita.com/rana_kualu/items/be32f8302017b7aa2763)
 # https://vim-jp.org/vim-users-jp/2009/11/07/Hack-99.html
-# alias bg='batgrep'
-# alias bx='bundle exec'
 alias cdd='cd ..'
 alias cddd='cd ../..'
 alias cdddd='cd ../../..'
@@ -58,22 +56,13 @@ alias cdot='cd $DOT_DIR'
 alias chmod='chmod --preserve-root'
 alias chown='chown --preserve-root'
 alias cp='cp -i'
-# alias dc='docker container'
 alias dd='echo "dd command is restricted"'
 alias desk='deno task'
-# alias di='docker image'
-# alias dp='docker compose'
-# alias dr='docker run'
-# alias ds='docker system'
 alias egrep='egrep --color=auto'
 alias g='git'
-# alias golint='revive -formatter friendly -config $HOME/.config/revive.toml'
-# alias gq='ghq get'
 alias grep='grep --color=auto'
 alias fetch='git fetch --all --prune --tags'
 alias fgrep='fgrep --color=auto'
-# alias fl='flutter'
-# alias kittyconfig="nvim ${DOT_DIR}/.config/kitty/kitty.conf"
 alias ld='lazydocker'
 alias lg='lazygit'
 alias ls='ls --color=auto'
@@ -88,13 +77,10 @@ alias nvimprofile='nvim --cmd "profile start profile.txt" --cmd "profile file ~/
 alias nvr="nvim -c 'call EditProjectMru()'"
 alias pull='git pull-with-check'
 alias push='git push-with-check'
-# alias rc='bundle exec rails console'
 # alias rm='rm -i --preserve-root'
-# alias rs='bundle exec rails server'
 alias she="nvim ${shell_rc}"
 alias shl="nvim ${shell_rc}.local"
 alias shs='source $shell_rc'
-# alias stw="snap-tweet --locale ja --output-dir ~/Downloads"
 alias rgg="rg --hidden --trim --glob '!**/.git/*' --glob='!*.lock' --glob='!*-lock.json'"
 alias rgf="rgg --fixed-strings --"
 alias sudo='sudo '
@@ -110,7 +96,6 @@ alias wget='wget --hsts-file="${XDG_DATA_HOME}/wget-hsts"'
 # alias wtf='wtfutil'
 alias x='xplr'
 alias xcd='cd $(xplr)'
-# alias yq='gojq --yaml-input --yaml-output'
 
 if has 'lsd'; then
   alias ls='lsd'
@@ -123,21 +108,6 @@ if has 'eza'; then
   alias tree='eza --all --git-ignore --tree --icons --ignore-glob=.git'
 fi
 
-# if has 'procs'; then
-#   alias ps='procs'
-# fi
-
-# if has 'fcp'; then
-#   alias cp='fcp'
-# fi
-
-# if has 'batman'; then
-#   alias man='batman'
-# fi
-# if has 'batdiff'; then
-#   alias diff='batdiff --delta'
-# fi
-
 # -----------------
 #  Functions
 # -----------------
@@ -145,11 +115,6 @@ fi
 # Git worktree cd - sourceで実行する必要があるため関数として定義
 wtc() {
   source "/Users/kawarimidoll/dotfiles/bin/_wtc"
-}
-
-ma() {
-  # https://rcmdnk.com/blog/2014/07/20/computer-vim/
-  man "$@" | col -bx | vim -RM --not-a-term -c 'set ft=man nolist nonumber' -
 }
 
 # https://zenn.dev/kawarimidoll/articles/cf3c48589adb71
@@ -304,51 +269,10 @@ hf() {
     xargs --no-run-if-empty --open-tty hx
 }
 
-# fgt() {
-#   local list="fbr select git branch"
-#   list="$list\nfsw switch to selected git branch"
-#   list="$list\nfmer merge selected git branch to current branch"
-#   list="$list\nfdel delete selected git branch"
-#   list="$list\nfst check current git status and manage staging"
-#   list="$list\nfadd git add and show"
-#   list="$list\nfcm git commit with showing staged diff"
-#   list="$list\nfshow select commit with show diff"
-#   list=$(echo -e "$list" | sed -r 's/(\w+)/\\033[1;33m\1\\033[0m/')
-#   local cmd=$(echo -e "$list" | fzf --ansi --cycle --no-multi --tiebreak=begin | sed -e 's/ .*//')
-#   [ -n "$cmd" ] && "$cmd"
-# }
-
-# grass() {
-#   echo 'Contributions of this week'
-#   curl -sS https://github.com/kawarimidoll | \
-#     grep -E "fill.*($(seq 0 6 | \
-#     xargs -I_ date --date _' days ago' +%Y-%m-%d | paste -s -d '|' -))" | \
-#     sed -r 's/.+count="([0-9]+)".+date="([0-9\-]+)".+/\2: \1/'
-# }
-#
 __get_oneliners() {
   fzf --header="@ becomes the cursor position" < "${DOT_DIR}/etc/oneliners.txt"  |  \
     sed 's/\[.*\]//'
 }
-#
-# goinit() {
-#   if [ -f main.go ]; then
-#     echo "main.go is already exists!"
-#     return 1
-#   fi
-#   echo -e "package main\n\nfunc main() {\n\n}" > main.go
-#   go mod init "$((git config --get remote.origin.url || basename `pwd`) | sed -e 's#https\?://##')"
-# }
-#
-# gopackage() {
-#   if [ $# -eq 0 ]; then
-#     echo "package name is required!"
-#     echo "usage: gopackage package_name"
-#     return 1
-#   fi
-#   mkdir -p "$1" && \
-#     echo -e "package $(basename $1)\n\nfunc init() {\n\n}" > "$1/$(basename $1).go"
-# }
 
 # -----------------
 #  xd - extended cd
