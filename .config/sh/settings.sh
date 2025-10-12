@@ -80,7 +80,7 @@ alias push='git push-with-check'
 # alias rm='rm -i --preserve-root'
 alias she="nvim ${shell_rc}"
 alias shl="nvim ${shell_rc}.local"
-alias shs='source $shell_rc'
+alias shs="source ${shell_rc}"
 alias rgg="rg --hidden --trim --glob '!**/.git/*' --glob='!*.lock' --glob='!*-lock.json'"
 alias rgf="rgg --fixed-strings --"
 alias sudo='sudo '
@@ -144,9 +144,9 @@ docker-all-delete() {
   # https://gist.github.com/yheihei/656bb221d4d51c5614123c23b1ce5898
   docker system prune
   docker container prune
-  docker rm -f `docker ps -a -q`
+  docker rm -f "$(docker ps -a -q)"
   docker image prune
-  docker rmi $(docker images -a -q)
+  docker rmi "$(docker images -a -q)"
   docker volume prune
   docker network prune
 }
