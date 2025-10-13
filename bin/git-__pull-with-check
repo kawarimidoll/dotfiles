@@ -7,8 +7,15 @@ git pull origin "${1:-$(git current-branch)}"
 changed_files="$(git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD)"
 
 __check_run() {
-  echo "$changed_files" | grep --quiet "$1" && printf "\n\n\033[31m%s\033[m\n" "$2"
+  local matched_files
+  matched_files=$(echo "$changed_files" | grep "$1")
+  if [[ -n "$matched_files" ]]; then
+    local basename_files
+    basename_files=$(echo "$matched_files" | xargs -n1 basename | paste -sd' ' -)
+    printf "\n\n\033[31m[CHANGE DETECTED: %s] %s\033[m\n" "$basename_files" "$2"
+  fi
 }
 
-__check_run compose.y "compose file is changed. you may have to run 'docker-compose build'"
-__check_run package.json "package.json is changed. you may have to run 'npm install'"
+__check_run compose.y "You may have to run 'docker-compose build'"
+__check_run package.json "You may have to run 'npm install'"
+__check_run env "You may have to update your local environment files"
