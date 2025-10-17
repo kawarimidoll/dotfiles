@@ -621,7 +621,7 @@ now(function()
     pattern = {
       ['compose.*%.ya?ml'] = 'yaml.docker-compose',
       ['docker%-compose.*%.ya?ml'] = 'yaml.docker-compose',
-      ['.*/%.github[%w/]+workflows[%w/]+.*%.ya?ml'] = 'yaml.github-actions',
+      ['.*/%.github/workflows/.*%.ya?ml'] = 'yaml.github-actions',
       ['%.env.*'] = 'sh.env',
     },
   })
