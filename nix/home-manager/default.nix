@@ -44,6 +44,7 @@ in
         cage
 
         act
+        asciiquarium
         ast-grep
         astroterm
         atuin
@@ -53,17 +54,23 @@ in
         bottom
         broot
         buf
+        carl
+        cbonsai
         cfonts
         chawan
         clang-tools # clang-format
         cmatrix
         coreutils
+        cowsay
         croc
+        csview
+        csvlens
         csvq
         curl
         delta
         deno
         diff-so-fancy
+        diffnav
         diffutils
         djlint
         dprint
@@ -77,6 +84,7 @@ in
         fx
         fzf
         gawk
+        genact
         ghq
         gifsicle
         git
@@ -108,12 +116,14 @@ in
         jid
         jnv
         jq
+        jqp
         just
         just-lsp
         lavat
         lazydocker
         lazygit
         lazyssh
+        libcaca
         libsixel
         lnav
         logdy
@@ -140,24 +150,35 @@ in
         nyancat
         pnpm
         procs
+        qq
         rainfrog
         rebar3
         ripgrep
         rustup
+        sampler
         screenfetch
+        serie
         sheldon
+        sig
         silicon
         sl
         slides
         starship
         sttr
         stylua
+        superfile
         superhtml
+        termbg
         termdown
         terminaltexteffects
+        termshot
+        termsnap
+        termsvg
+        termusic
         tokei
         tombi
         treefmt
+        ttyper
         typos-lsp
         tz
         unzip
@@ -169,6 +190,7 @@ in
         walk
         watchexec
         wget
+        wtfutil
         xh
         xplr
         yarn
@@ -176,6 +198,9 @@ in
         zig
         zls
         zsh-autopair
+
+        pokemonsay
+        kittysay
 
         jj-fzf
         jjui
@@ -241,8 +266,8 @@ in
         src = pkgs.fetchFromGitHub {
           owner = username;
           repo = pname;
-          rev = "16cc618618bbe7c9a745091b2f4eea74114ab967";
-          hash = "sha256-CW1eIcjy1VuZxgfHPOpgO2Zo13XOw4SVJKW0FFCV3kM=";
+          rev = "f5982ff53393d33d1efce7568044060c7893aa8a";
+          hash = "sha256-X9BVbn/eFCu57TmMXshFvYY2XgP2F5mAESJTSF8/GbQ=";
         };
         installPhase = ''
           mkdir -p $out/bin
