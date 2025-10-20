@@ -50,6 +50,7 @@
         "git f" = "git fuse";
         "git n" = "git new";
         gco = "git checkout";
+        ld = "lazydocker";
         prit = "difit HEAD origin/main";
       };
       globalAbbreviations = {
@@ -62,6 +63,7 @@
         ECP = "| tee >(pbcopy)";
         NE = "2> /dev/null";
         NL = "> /dev/null 2>&1";
+        "/dn" = "/dev/null 2>&1";
       };
     };
     # evaluation warning: `programs.zsh.initExtra` is deprecated, use `programs.zsh.initContent` instead.
