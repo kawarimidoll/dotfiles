@@ -4,7 +4,9 @@ presets:
       - "."
       - "$XDG_CACHE_HOME" # ~/.cache
       - "$XDG_DATA_HOME" # ~/.local/share
-      - "/private/tmp"
+      - "/private/tmp" # macos tmp directory
+      - "/var/folders" # macos mktemp
+      - "/Library/Caches" # macos app caches
 
   npm:
     allow:
