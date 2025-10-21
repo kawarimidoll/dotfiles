@@ -180,13 +180,6 @@ tools: Bash, Read, Grep, LS, TodoWrite, WebSearch
 **ブランチ**: [branch] → [base]
 **URL**: [pr-url]
 
-## 📊 変更統計
-
-- コミット数: [数]
-- 変更ファイル数: [数]
-- 追加行数: +[数]
-- 削除行数: -[数]
-
 ## 📁 主な変更内容
 
 - [変更カテゴリ1]

@@ -36,7 +36,6 @@
     ],
     "deny": [
       "Bash(chmod 777:*)",
-      "Bash(curl:*)",
       "Bash(do)",
       "Bash(for)",
       "Bash(gh repo delete:*)",
@@ -44,7 +43,6 @@
       "Bash(git checkout:*)",
       "Bash(git config:*)",
       "Bash(git push:*)",
-      "Bash(git rebase:*)",
       "Bash(git reset:*)",
       "Bash(git switch:*)",
       "Bash(mongod:*)",
@@ -72,7 +70,10 @@
       "Write(id_rsa)",
       "mcp__supabase__execute_sql"
     ],
-    "ask": [],
+    "ask": [
+      "Bash(curl:*)",
+      "Bash(git rebase:*)"
+    ],
     "defaultMode": "acceptEdits"
   },
   "hooks": {
@@ -136,6 +137,5 @@
   "outputStyle": "Explanatory",
   "alwaysThinkingEnabled": false,
   "autoCompactEnabled": false,
-  "model": "sonnet",
   "autoUpdates": false
 }
