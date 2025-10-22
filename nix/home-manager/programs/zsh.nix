@@ -29,11 +29,14 @@
       searchUpKey = "^P";
     };
     history = {
-      append = true;
-      ignoreAllDups = true;
-      # ignoreDups = true; ignoreAllDupsがあれば不要
-      ignoreSpace = true;
-      share = true;
+      path = "${config.xdg.dataHome}/zsh/zsh_history";
+      append = true; # セッションごとに履歴を作り直すのではなく追記する
+      ignoreAllDups = true; # 同じコマンドをhistoryに残さない
+      # ignoreDups = true; 直前と同じコマンドをhistoryに残さない ignoreAllDupsがあれば不要
+      ignorePatterns = [ "history*" ]; # historyコマンドをhistoryに残さない
+      ignoreSpace = true; # スペースから始まるコマンドをhistoryに残さない
+      saveNoDups = true; # 同じコマンドをhistoryファイルに書き込まない
+      share = true; # 同時に起動しているzshの間でhistoryを共有する
     };
     syntaxHighlighting.enable = true;
     plugins = [
