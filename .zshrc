@@ -210,22 +210,22 @@ mkdir -p "$(dirname "$HISTFILE")"
 # -----------------
 #  prompt
 # -----------------
-if has "starship"; then
-  # [zsh の起動速度を改善した](https://zenn.dev/ktakayama/articles/27b9d6218ed2f0ee9992)
-  if [ ! -f /tmp/zsh_starship.cache ]; then
-    starship init zsh > /tmp/zsh_starship.cache
-    zcompile /tmp/zsh_starship.cache
-  fi
-  source /tmp/zsh_starship.cache
-else
-  __ps_git_br() {
-    local exit=$?
-    echo $(git current-branch 2>/dev/null)
-    return $exit
-  }
-  nl=$'\n'
-  PROMPT="${nl}%c %{${fg[green]}%}$(__ps_git_br)%{${reset_color}%}${nl}%{%(?.${fg[cyan]}.${fg[red]})%}%#%{${reset_color}%} "
-fi
+# if has "starship"; then
+#   # [zsh の起動速度を改善した](https://zenn.dev/ktakayama/articles/27b9d6218ed2f0ee9992)
+#   if [ ! -f /tmp/zsh_starship.cache ]; then
+#     starship init zsh > /tmp/zsh_starship.cache
+#     zcompile /tmp/zsh_starship.cache
+#   fi
+#   source /tmp/zsh_starship.cache
+# else
+#   __ps_git_br() {
+#     local exit=$?
+#     echo $(git current-branch 2>/dev/null)
+#     return $exit
+#   }
+#   nl=$'\n'
+#   PROMPT="${nl}%c %{${fg[green]}%}$(__ps_git_br)%{${reset_color}%}${nl}%{%(?.${fg[cyan]}.${fg[red]})%}%#%{${reset_color}%} "
+# fi
 
 # Set tab name of kitty https://github.com/kovidgoyal/kitty/issues/930
 precmd () { print -Pn "\e]0;%~\a" }

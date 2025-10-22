@@ -163,7 +163,6 @@ in
         silicon
         sl
         slides
-        starship
         sttr
         stylua
         superfile
