@@ -36,6 +36,28 @@
       share = true;
     };
     syntaxHighlighting.enable = true;
+    plugins = [
+      {
+        name = "zsh-autopair";
+        src = pkgs.zsh-autopair;
+        file = "share/zsh/zsh-autopair/autopair.zsh";
+      }
+      {
+        name = "nix-zsh-completions";
+        src = pkgs.nix-zsh-completions;
+        file = "share/zsh/plugins/nix/nix-zsh-completions.plugin.zsh";
+      }
+      {
+        name = "zeno.zsh";
+        src = pkgs.fetchFromGitHub {
+          owner = "yuki-yano";
+          repo = "zeno.zsh";
+          rev = "06087e64eddee79f88994c74fbe01d7d2ae4f2ae";
+          sha256 = "1xzs4g4vja377hfmb9kbywg49rv8yrkgc59r9m8jy7cvgpgkh01s";
+        };
+        file = "zeno.zsh";
+      }
+    ];
     zsh-abbr = {
       enable = true;
       abbreviations = {
@@ -54,6 +76,7 @@
         "git f" = "git fuse";
         "git n" = "git new";
         gco = "git checkout";
+        js = "just --choose";
         ld = "lazydocker";
         prit = "difit HEAD origin/main";
       };
@@ -73,7 +96,24 @@
     # evaluation warning: `programs.zsh.initExtra` is deprecated, use `programs.zsh.initContent` instead.
     initContent = ''
       source ~/dotfiles/.zshrc
-      source ~/.nix-profile/share/zsh/zsh-autopair/autopair.zsh
+
+      # Disable space key in zsh-autopair to avoid conflict with zeno.zsh
+      unset 'AUTOPAIR_PAIRS[ ]'
+
+      # zeno.zsh key bindings
+      if [[ -n $ZENO_LOADED ]]; then
+        bindkey ' '      zeno-auto-snippet
+        bindkey '^m'     zeno-auto-snippet-and-accept-line
+        bindkey '^i'     zeno-completion
+        bindkey '^x '    zeno-insert-space
+        bindkey '^x^m'   accept-line
+        bindkey '^x^z'   zeno-toggle-auto-snippet
+
+        # Optional: additional zeno.zsh features
+        bindkey '^r'     zeno-history-selection
+        bindkey '^x^s'   zeno-insert-snippet
+        bindkey '^x^f'   zeno-ghq-cd
+      fi
     '';
   };
 

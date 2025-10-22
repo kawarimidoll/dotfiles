@@ -143,7 +143,6 @@ in
         nim
         nix-output-monitor
         nix-search-cli
-        nix-zsh-completions
         nixfmt-rfc-style
         nodejs_22
         nurl
@@ -158,7 +157,6 @@ in
         sampler
         screenfetch
         serie
-        sheldon
         sig
         silicon
         sl
@@ -196,7 +194,6 @@ in
         yazi
         zig
         zls
-        zsh-autopair
 
         pokemonsay
         kittysay
