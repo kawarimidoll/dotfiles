@@ -1,8 +1,4 @@
 function! mi#fzf#run(arg = {}) abort
-  let fzf_preview_cmd='head -50'
-  if executable('bat')
-    let fzf_preview_cmd='bat --color=always --style=header,grid --line-range :50 {}'
-  endif
   let s:winid_to_open = win_getid()
 
   let list_cmd = ''
@@ -16,12 +12,12 @@ function! mi#fzf#run(arg = {}) abort
   endif
 
   execute 'terminal ++norestore ++close ++shell ' .. list_cmd
-        \ .. " | FZF_DEFAULT_OPTS='' fzf --multi --exit-0 --cycle --reverse --preview='" .. fzf_preview_cmd
-        \ .. "' | xargs --no-run-if-empty -I{} echo -e '\\x1b]51;[\"call\", \"Tapi_fzf_file_open\", [\"{}\"]]\\x07'"
+        \ .. " | FZF_DEFAULT_OPTS='' fzf --multi --exit-0 --cycle --reverse --preview='fffe -p {}'"
+        \ .. " | xargs --no-run-if-empty -I{} echo -e '\\x1b]51;[\"call\", \"Tapi_fzf_file_open\", [\"{}\"]]\\x07'"
 endfunction
 
 function! mi#fzf#files() abort
-  call mi#fzf#run({'cmd': 'find_for_vim'})
+  call mi#fzf#run({'cmd': 'fffe -f'})
 endfunction
 
 function! mi#fzf#mru() abort

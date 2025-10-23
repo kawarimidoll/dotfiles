@@ -41,12 +41,13 @@ completions:
     patterns:
       - "^vim?( .*)? $"
       - "^nv(im)?( .*)? $"
-    sourceCommand: "find_for_vim"
+    sourceCommand: "fffe -f"
     options:
+      --height: 40%
       --cycle: true
       --multi: true
       --prompt: "'file> '"
-      --preview: "bat --color=always --theme=auto:system --line-range :50 {}"
+      --preview: "fffe -p {}"
 
   # simple sourceCommand, no callback
   - name: kill signal

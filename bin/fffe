@@ -1,0 +1,113 @@
+#!/usr/bin/env bash
+
+# fffe - Fuzzy Find Files and Edit
+
+_find() {
+  fd --type f --hidden --exclude '.git/' --exclude '**/*.{png,jpg,jpeg,gif,webp,svg,ico,ttf,otf,woff,woff2,keep,gitkeep}'
+}
+
+preview_cmd='bat --color=always --theme=auto:system --style=header,grid --line-range :30'
+
+_preview() {
+  $preview_cmd "$1"
+}
+
+show_help() {
+  cat <<EOF
+Usage: fffe [OPTIONS] [QUERY...]
+
+Fuzzy find files and edit them.
+
+Options:
+  -f, --file              List files only (without fzf/editor)
+  -p, --preview FILE      Preview specified file
+  -e, --editor EDITOR     Set editor command (default: \$EDITOR or vim)
+  -h, --help              Show this help message
+
+Arguments:
+  QUERY                   Initial query for fzf
+
+Examples:
+  fffe                      Launch fuzzy finder and edit selected files
+  fffe README               Launch with "README" as initial query
+  fffe -f                   Just list all files
+  fffe -p README.md         Preview README.md
+  fffe -e nvim config       Use nvim as editor, search for "config"
+  fffe --editor=nvim        Use nvim as editor (long option with '=')
+EOF
+}
+
+# Parse options
+mode="normal"
+editor="${EDITOR:-vim}"
+preview_file=""
+query_args=()
+
+# Preprocess long options with '=' (--option=value -> --option value)
+args=()
+for arg in "$@"; do
+  if [[ "$arg" =~ ^--[^=]+= ]]; then
+    args+=("${arg%%=*}" "${arg#*=}")
+  else
+    args+=("$arg")
+  fi
+done
+set -- "${args[@]}"
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -f|--file)
+      mode="list"
+      shift
+      ;;
+    -p|--preview)
+      mode="preview"
+      if [[ -z "$2" || "$2" == -* ]]; then
+        echo "Error: -p/--preview requires a file argument" >&2
+        exit 1
+      fi
+      preview_file="$2"
+      shift 2
+      ;;
+    -e|--editor)
+      if [[ -z "$2" || "$2" == -* ]]; then
+        echo "Error: -e/--editor requires an editor command" >&2
+        exit 1
+      fi
+      editor="$2"
+      shift 2
+      ;;
+    -h|--help)
+      show_help
+      exit 0
+      ;;
+    -*)
+      echo "Error: Unknown option: $1" >&2
+      show_help >&2
+      exit 1
+      ;;
+    *)
+      query_args+=("$1")
+      shift
+      ;;
+  esac
+done
+
+# Execute based on mode
+case "$mode" in
+  list)
+    _find
+    ;;
+  preview)
+    if [[ ! -f "$preview_file" ]]; then
+      echo "Error: File not found: $preview_file" >&2
+      exit 1
+    fi
+    _preview "$preview_file"
+    ;;
+  normal)
+    _find | \
+      fzf --multi --exit-0 --query="${query_args[*]}" --preview="$preview_cmd {}" --prompt="Edit with ${editor} > " --cycle | \
+      xargs --no-run-if-empty --open-tty "$editor"
+    ;;
+esac

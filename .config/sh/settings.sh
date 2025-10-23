@@ -99,6 +99,10 @@ alias wget='wget --hsts-file="${XDG_DATA_HOME}/wget-hsts"'
 alias x='xplr'
 alias xcd='cd $(xplr)'
 
+alias nvf='fffe --editor nvim'
+alias vif='fffe --editor vim'
+alias hxf='fffe --editor hx'
+
 if has 'lsd'; then
   alias ls='lsd'
   alias lsf='lsd -FAl --blocks=permission,size,date,name --date="+%F %R"'
@@ -236,26 +240,6 @@ cdf() {
   local dir
   dir=$(cdr -l | awk '{ print $2 }' | fzf --no-multi --exit-0 --query="$*" --preview="echo {} | sed 's#~#$HOME#' | xargs -I_ ls -FA1 _")
   [ -n "$dir" ] && cd "${dir/\~/$HOME}" || return
-}
-
-fzf_preview_cmd='bat --color=always --theme=auto:system --style=header,grid --line-range :30 {}'
-
-nvf() {
-  find_for_vim | \
-    fzf --multi --exit-0 --query="$*" --preview="$fzf_preview_cmd" --cycle | \
-    xargs --no-run-if-empty --open-tty nvim
-}
-
-vif() {
-  find_for_vim | \
-    fzf --multi --exit-0 --query="$*" --preview="$fzf_preview_cmd" --cycle | \
-    xargs --no-run-if-empty --open-tty vim
-}
-
-hf() {
-  find_for_vim | \
-    fzf --multi --exit-0 --query="$*" --preview="$fzf_preview_cmd" --cycle | \
-    xargs --no-run-if-empty --open-tty hx
 }
 
 __get_oneliners() {
