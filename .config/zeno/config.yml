@@ -26,6 +26,121 @@ snippets:
       lbuffer: '^git\s+checkout\s+'
     evaluate: true # eval snippet
 
+  # Regular abbreviations
+  - name: cd previous
+    keyword: "-"
+    snippet: cd -
+
+  - name: bun list packages
+    keyword: bun list
+    snippet: bun pm ls
+
+  - name: cage claude
+    keyword: cala
+    snippet: cage claude
+
+  - name: claude with caffeinate
+    keyword: cld
+    snippet: caffeinate -i claude
+
+  - keyword: d
+    snippet: docker
+
+  - keyword: dp
+    snippet: docker compose
+
+  - keyword: docker p
+    snippet: docker compose
+
+  - name: docker compose up
+    keyword: docker compose u
+    snippet: docker compose up
+
+  - name: docker compose down
+    keyword: docker compose d
+    snippet: docker compose down
+
+  - keyword: g
+    snippet: git
+
+  - name: git switch previous
+    keyword: git -
+    snippet: git switch -
+
+  - keyword: git d
+    snippet: git dead
+
+  - keyword: git f
+    snippet: git fuse
+
+  - keyword: git n
+    snippet: git new
+
+  - keyword: gco
+    snippet: git checkout
+
+  - keyword: ld
+    snippet: lazydocker
+
+  - name: difit
+    keyword: prit
+    snippet: difit HEAD origin/main
+
+  # Global abbreviations (work anywhere in the line)
+  - name: pipe ripgrep
+    keyword: G
+    snippet: "| rg"
+    context:
+      lbuffer: '.+\s'
+
+  - name: pipe less
+    keyword: L
+    snippet: "| less"
+    context:
+      lbuffer: '.+\s'
+
+  - name: pipe tee pbcopy with stderr
+    keyword: CP
+    snippet: "|& tee >(pbcopy)"
+    context:
+      lbuffer: '.+\s'
+
+  - name: pipe ripgrep with stderr
+    keyword: EG
+    snippet: "|& rg"
+    context:
+      lbuffer: '.+\s'
+
+  - name: pipe less with stderr
+    keyword: EL
+    snippet: "|& less"
+    context:
+      lbuffer: '.+\s'
+
+  - name: pipe tee pbcopy
+    keyword: ECP
+    snippet: "| tee >(pbcopy)"
+    context:
+      lbuffer: '.+\s'
+
+  - name: redirect stderr to null
+    keyword: NE
+    snippet: "2> /dev/null"
+    context:
+      lbuffer: '.+\s'
+
+  - name: redirect all to null
+    keyword: NL
+    snippet: "> /dev/null 2>&1"
+    context:
+      lbuffer: '.+\s'
+
+  - name: dev null path
+    keyword: "/dn"
+    snippet: "/dev/null 2>&1"
+    context:
+      lbuffer: '.+\s'
+
 
 completions:
   # just command recipes
@@ -34,6 +149,8 @@ completions:
       - "^just( .*)? $"
     sourceCommand: "just --summary | tr ' ' '\\n'"
     options:
+      --height: 40%
+      --cycle: true
       --prompt: "'just> '"
       --preview: "just --show {}"
 
@@ -48,6 +165,20 @@ completions:
       --multi: true
       --prompt: "'file> '"
       --preview: "fffe -p {}"
+
+  - name: package scripts
+    patterns:
+      - "nr(?: .*)? $"
+      - "npm run(?: .*)? $"
+      - "yarn run(?: .*)? $"
+      - "pnpm run(?: .*)? $"
+      - "bun run(?: .*)? $"
+    sourceCommand: 'jq -r ''.scripts | to_entries | .[] | .key + " = " + .value'' package.json'
+    options:
+      --prompt: "'npm run > '"
+      --height: 40%
+      --cycle: true
+    callback: "awk -F ' = ' '{ print $1 }'"
 
   # simple sourceCommand, no callback
   - name: kill signal

@@ -61,41 +61,6 @@
         file = "zeno.zsh";
       }
     ];
-    zsh-abbr = {
-      enable = true;
-      abbreviations = {
-        "-" = "cd -";
-        "bun list" = "bun pm ls";
-        cala = "cage claude";
-        cld = "caffeinate -i claude";
-        d = "docker";
-        dp = "docker compose";
-        "docker p" = "docker compose";
-        "docker compose u" = "docker compose up";
-        "docker compose d" = "docker compose down";
-        g = "git";
-        "git -" = "git switch -";
-        "git d" = "git dead";
-        "git f" = "git fuse";
-        "git n" = "git new";
-        gco = "git checkout";
-        js = "just --choose";
-        ld = "lazydocker";
-        prit = "difit HEAD origin/main";
-      };
-      globalAbbreviations = {
-        # # `|&` is shorthand for `2>&1 |`, this connects not only stdout, but also stderr.
-        G = "| rg";
-        L = "| less";
-        CP = "|& tee >(pbcopy)";
-        EG = "|& rg";
-        EL = "|& less";
-        ECP = "| tee >(pbcopy)";
-        NE = "2> /dev/null";
-        NL = "> /dev/null 2>&1";
-        "/dn" = "/dev/null 2>&1";
-      };
-    };
     # evaluation warning: `programs.zsh.initExtra` is deprecated, use `programs.zsh.initContent` instead.
     initContent = ''
       source ~/dotfiles/.zshrc
