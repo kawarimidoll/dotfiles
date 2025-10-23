@@ -89,21 +89,6 @@ autoload -Uz colors && colors
 # }
 
 # -----------------
-#  Options
-# -----------------
-setopt auto_list # 補完候補を一覧表示に
-setopt auto_menu # 補完候補をtabで選択
-setopt bsd_echo # echoをbash互換にする なおデフォルトはecho -eに相当
-setopt correct # コマンドのスペルミスを指摘
-setopt hist_reduce_blanks # historyに保存するときに余分なスペースを削除する
-setopt hist_verify # historyを使用時に編集
-setopt interactive_comments # コンソールでも#をコメントと解釈
-# setopt ksh_arrays # 配列の添字を0から開始 むしろなんでzshは1から始まる設定なの…
-setopt nonomatch # 引数の#とかをファイル名として認識するのを防止
-setopt print_eight_bit # 日本語ファイル名を表示する
-setopt globdots # 補完時にドットファイルも候補に表示
-
-# -----------------
 #  Zstyles
 # -----------------
 # キャッシュファイルの場所

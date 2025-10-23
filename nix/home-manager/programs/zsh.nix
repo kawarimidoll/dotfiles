@@ -22,6 +22,19 @@
       compinit -C
     '';
     autocd = true;
+    setOptions = [
+      "auto_list" # 補完候補を一覧表示に
+      "auto_menu" # 補完候補をtabで選択
+      "bsd_echo" # echoをbash互換にする なおデフォルトはecho -eに相当
+      "correct" # コマンドのスペルミスを指摘
+      "hist_reduce_blanks" # historyに保存するときに余分なスペースを削除する
+      "hist_verify" # historyを使用時に編集
+      "interactive_comments" # コンソールでも#をコメントと解釈
+      "nonomatch" # 引数の#とかをファイル名として認識するのを防止
+      "print_eight_bit" # 日本語ファイル名を表示する
+      "globdots" # 補完時にドットファイルも候補に表示
+      # setopt ksh_arrays # 配列の添字を0から開始 むしろなんでzshは1から始まる設定なの…
+    ];
     autosuggestion.enable = true;
     historySubstringSearch = {
       enable = true;
