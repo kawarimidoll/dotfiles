@@ -38,7 +38,6 @@
       saveNoDups = true; # 同じコマンドをhistoryファイルに書き込まない
       share = true; # 同時に起動しているzshの間でhistoryを共有する
     };
-    syntaxHighlighting.enable = true;
     plugins = [
       {
         name = "zsh-autopair";
@@ -59,6 +58,11 @@
           sha256 = "1xzs4g4vja377hfmb9kbywg49rv8yrkgc59r9m8jy7cvgpgkh01s";
         };
         file = "zeno.zsh";
+      }
+      {
+        name = "fast-syntax-highlighting";
+        src = pkgs.zsh-fast-syntax-highlighting;
+        file = "share/zsh/site-functions/fast-syntax-highlighting.plugin.zsh";
       }
     ];
     # evaluation warning: `programs.zsh.initExtra` is deprecated, use `programs.zsh.initContent` instead.
