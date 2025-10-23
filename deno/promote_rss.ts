@@ -58,7 +58,9 @@ const fetchLatestArticle = async (site: string) => {
 
 const downloadImage = async (url: string) => {
   const response = await fetch(url);
-  return await response.blob();
+  const blob = await response.blob();
+  const arrayBuffer = await blob.arrayBuffer();
+  return new Uint8Array(arrayBuffer);
 };
 
 const uploadImage = async (
