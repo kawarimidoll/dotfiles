@@ -53,11 +53,6 @@ if has '__git_complete'; then
 fi
 
 # -----------------
-#  FZF
-# -----------------
-__source ~/.fzf.bash
-
-# -----------------
 #  Functions
 # -----------------
 oneliners() {

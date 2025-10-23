@@ -37,6 +37,17 @@ completions:
       --prompt: "'just> '"
       --preview: "just --show {}"
 
+  - name: fuzzy find and edit
+    patterns:
+      - "^vim?( .*)? $"
+      - "^nv(im)?( .*)? $"
+    sourceCommand: "find_for_vim"
+    options:
+      --cycle: true
+      --multi: true
+      --prompt: "'file> '"
+      --preview: "bat --color=always --theme=auto:system --line-range :50 {}"
+
   # simple sourceCommand, no callback
   - name: kill signal
     patterns:

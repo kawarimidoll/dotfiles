@@ -123,11 +123,6 @@ zstyle ':completion:*' ignore-parents parent pwd ..
 zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
   /usr/sbin /usr/bin /sbin /bin
 
-# -----------------
-#  FZF
-# -----------------
-__source ~/.fzf.zsh
-
 # https://tech-blog.sgr-ksmt.org/2016/12/10/smart_fzf_history/
 __get_histories() {
   history -n -r 1 | \

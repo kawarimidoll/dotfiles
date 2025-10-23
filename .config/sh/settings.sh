@@ -225,21 +225,6 @@ stash() {
   git stash save "${1:-$(date +%Y%m%d%H%M%S)}"
 }
 
-# -----------------
-#  fzf
-# -----------------
-fzf_preview_cmd='head -50'
-export BAT_THEME_LIGHT="gruvbox-light"
-if has 'bat'; then
-  # fzf_preview_cmd='bat --color=always --style=header,grid --line-range :50 {}'
-  fzf_preview_cmd='bat --color=always --theme=light --style=header,grid --line-range :50 {}'
-fi
-export FZF_COMPLETION_TRIGGER=','
-export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
-export FZF_DEFAULT_OPTS='--height=40% --reverse --border'
-export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
-export FZF_CTRL_T_OPTS="--preview=${fzf_preview_cmd}"
-
 cgh() {
   has 'ghq' || return 1
   local dir
@@ -253,6 +238,8 @@ cdf() {
   [ -n "$dir" ] && cd "${dir/\~/$HOME}" || return
 }
 
+fzf_preview_cmd='bat --color=always --theme=auto:system --style=header,grid --line-range :30 {}'
+
 nvf() {
   find_for_vim | \
     fzf --multi --exit-0 --query="$*" --preview="$fzf_preview_cmd" --cycle | \
@@ -261,7 +248,7 @@ nvf() {
 
 vif() {
   find_for_vim | \
-    fzf --color=light --multi --exit-0 --query="$*" --preview="$fzf_preview_cmd" --cycle | \
+    fzf --multi --exit-0 --query="$*" --preview="$fzf_preview_cmd" --cycle | \
     xargs --no-run-if-empty --open-tty vim
 }
 

@@ -82,7 +82,6 @@ in
         ffmpeg_7-full
         findutils
         fx
-        fzf
         gawk
         genact
         ghq
@@ -278,6 +277,7 @@ in
     ./programs/bat.nix
     ./programs/direnv.nix
     ./programs/eza.nix
+    ./programs/fzf.nix
     ./programs/nnn.nix
     ./programs/zsh.nix
   ];
