@@ -60,7 +60,9 @@ const downloadImage = async (url: string) => {
   const response = await fetch(url);
   const blob = await response.blob();
   const arrayBuffer = await blob.arrayBuffer();
-  return new Uint8Array(arrayBuffer);
+  // Get MIME type from response header or blob
+  const mimeType = response.headers.get("content-type") || blob.type || "image/png";
+  return { data: new Uint8Array(arrayBuffer), mimeType };
 };
 
 const uploadImage = async (
@@ -111,10 +113,10 @@ const promote = async (siteKey: string) => {
 
   let embed = undefined;
   if (image?.url) {
-    const img = await downloadImage(image.url);
+    const { data: img, mimeType } = await downloadImage(image.url);
     const thumb = await uploadImage({
       image: img,
-      encoding: image.mimeType,
+      encoding: mimeType,
     });
     embed = {
       $type: "app.bsky.embed.external",
