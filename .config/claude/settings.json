@@ -26,15 +26,18 @@
       "Bash(mkdir:*)",
       "Bash(rg:*)",
       "Read(~/.config/git/message)",
+      "Read(**/.env.sample)",
       "WebFetch(domain:api.github.com)",
       "WebFetch(domain:docs.anthropic.com)",
       "WebFetch(domain:gist.github.com)",
       "WebFetch(domain:github.com)",
       "Write(/private/tmp)",
+      "Write(**/.env.sample)",
       "mcp__context7",
       "mcp__serena"
     ],
     "deny": [
+      "Bash(awk)",
       "Bash(chmod 777:*)",
       "Bash(do)",
       "Bash(for)",
@@ -74,7 +77,7 @@
       "Bash(curl:*)",
       "Bash(git rebase:*)"
     ],
-    "defaultMode": "acceptEdits"
+    "defaultMode": "bypassPermissions"
   },
   "hooks": {
     "PreToolUse": [
