@@ -151,6 +151,7 @@ completions:
     options:
       --height: 40%
       --cycle: true
+      --select-1: true
       --prompt: "'just> '"
       --preview: "just --show {}"
 
@@ -162,23 +163,39 @@ completions:
     options:
       --height: 40%
       --cycle: true
+      --select-1: true
       --multi: true
       --prompt: "'file> '"
       --preview: "fffe -p {}"
 
   - name: package scripts
     patterns:
-      - "nr(?: .*)? $"
-      - "npm run(?: .*)? $"
-      - "yarn run(?: .*)? $"
-      - "pnpm run(?: .*)? $"
-      - "bun run(?: .*)? $"
-    sourceCommand: 'jq -r ''.scripts | to_entries | .[] | .key + " = " + .value'' package.json'
+      - "^nr(?: .*)? $"
+      - "^npm run(?: .*)? $"
+      - "^yarn run(?: .*)? $"
+      - "^pnpm run(?: .*)? $"
+      - "^bun run(?: .*)? $"
+    sourceCommand: 'npm run --json 2>/dev/null | jq -r ''keys | .[]'''
     options:
       --prompt: "'npm run > '"
       --height: 40%
       --cycle: true
-    callback: "awk -F ' = ' '{ print $1 }'"
+      --select-1: true
+      --preview: "npm run --json 2>/dev/null | jq -r '.\\\"{}\\\"'"
+      --preview-window: "up:1:wrap"
+
+  - name: deno task
+    patterns:
+      - "^deno task(?: .*)? $"
+    sourceCommand: "NO_COLOR=1 deno task 2>&1 | rg -o '^- (.*)' -r '$1'"
+    options:
+      --prompt: "'deno task> '"
+      --height: 40%
+      --cycle: true
+      --select-1: true
+      # xargsを無引数で使うと前後のwhitespaceをtrimできる
+      --preview: "NO_COLOR=1 deno task 2>&1 | rg -A 1 '^- {}$' | tail -n 1 | xargs"
+      --preview-window: "up:1:wrap"
 
   # simple sourceCommand, no callback
   - name: kill signal
@@ -205,11 +222,11 @@ completions:
   - name: chdir
     patterns:
       - "^cd $"
-    sourceCommand: "find . -path '*/.git' -prune -o -maxdepth 5 -type d -print0"
+    sourceCommand: "fd --type d --hidden --exclude .git --max-depth 5 --print0"
     options:
       # Added --read0 if null termination is used in `sourceCommand` output.
       --read0: true
       --prompt: "'Chdir> '"
-      --preview: "cd {} && ls -a | sed '/^[.]*$/d'"
+      --preview: "eza -1a --icons --color=always {}"
     callback: "cut -z -c 3-"
     callbackZero: true  # null termination is used in `callback` I/O
