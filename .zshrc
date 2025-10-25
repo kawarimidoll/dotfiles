@@ -97,10 +97,6 @@ zstyle ':completion:*' cache-path "${XDG_CACHE_HOME}/zsh/zcompcache"
 # 補完時に大文字小文字を区別しない
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
-# docker補完の設定
-zstyle ':completion:*:*:docker:*' option-stacking yes
-zstyle ':completion:*:*:docker-*:*' option-stacking yes
-
 # 現在のディレクトリを補完しない
 zstyle ':completion:*' ignore-parents parent pwd ..
 
@@ -194,9 +190,5 @@ precmd () { print -Pn "\e]0;%~\a" }
 #  Local Setting
 # -----------------
 __source ~/.zshrc.local
-
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/kawarimidoll/.lmstudio/bin"
-# End of LM Studio CLI section
 
 :

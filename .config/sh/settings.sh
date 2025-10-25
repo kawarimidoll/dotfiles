@@ -46,6 +46,9 @@ PATH="${PNPM_HOME}:${PATH}"
 # uv tool dir --bin
 PATH="${XDG_DATA_HOME}/../bin:${PATH}"
 
+# to use LM Studio CLI (lms)
+export PATH="$PATH:${HOME}/.lmstudio/bin"
+
 # -----------------
 #  Aliases
 # -----------------
