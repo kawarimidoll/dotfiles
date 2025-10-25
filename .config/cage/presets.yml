@@ -7,6 +7,7 @@ presets:
       - "/private/tmp" # macos tmp directory
       - "/var/folders" # macos mktemp
       - "/Library/Caches" # macos app caches
+      - "$HOME/Library/Caches" # macos app caches
 
   npm:
     allow:
