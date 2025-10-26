@@ -4,8 +4,7 @@ description: "Stagingされた変更をコミット"
 ---
 
 commit-maker エージェントを用いてStaging済みの変更をコミットします。
-カレントリポジトリのルートに`.gitmessage`がある場合はそれをテンプレートとして使用します。
-ない場合は`~/.config/git/message`をテンプレートとして使用します。
+作業内容はcommit-makerエージェントが認識しているため、完全に作業を委譲し、勝手にコンテキストを与えません。
 
 ## Rules
 
