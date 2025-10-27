@@ -274,13 +274,15 @@ in
   };
 
   imports = [
-    ./programs/bat.nix
     ./programs/direnv.nix
     ./programs/eza.nix
     ./programs/fzf.nix
     ./programs/nnn.nix
     ./programs/zsh.nix
   ];
+
+  # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.bat.enable
+  programs.bat.enable = true;
 
   # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.bun.enable
   programs.bun.enable = true;

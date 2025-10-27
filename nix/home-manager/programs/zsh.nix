@@ -58,11 +58,6 @@
         file = "share/zsh/zsh-autopair/autopair.zsh";
       }
       {
-        name = "nix-zsh-completions";
-        src = pkgs.nix-zsh-completions;
-        file = "share/zsh/plugins/nix/nix-zsh-completions.plugin.zsh";
-      }
-      {
         name = "zeno.zsh";
         src = pkgs.fetchFromGitHub {
           owner = "yuki-yano";
