@@ -120,6 +120,49 @@ fi
 # -----------------
 #  Functions
 # -----------------
+# 事前に許可したファイルしかrmしないようにする
+# https://zenn.dev/kawarimidoll/articles/70e473a198badf
+rm() {
+  rm_abort() {
+    echo "'rm' is dangerous command! Use 'trash' instead."
+    echo "AI Agents are not permitted to use 'trash' command too. Request the user to delete the files."
+    return 1
+  }
+
+  # 安全に削除できるファイル名を連想配列で定義
+  local -A safe_files=(
+    [".DS_Store"]=1
+    ["node_modules"]=1
+    ["_gen"]=1
+  )
+
+  # オプション以外の引数を抽出
+  local args=()
+  local arg
+  for arg in "$@"; do
+    [[ "$arg" != -* ]] && args+=("$arg")
+  done
+
+  # 引数があるか確認
+  if [[ ${#args[@]} -eq 0 ]]; then
+    rm_abort
+    return $?
+  fi
+
+  # 全ての引数が安全か判定
+  local base
+  for arg in "${args[@]}"; do
+    base=$(basename "$arg")
+    if [[ -z "${safe_files[$base]}" ]]; then
+      rm_abort
+      return $?
+    fi
+  done
+
+  # 実行
+  command rm -i --preserve-root "$@"
+}
+
 # https://zenn.dev/kgmyshin/articles/git-worktrees
 # Git worktree cd - sourceで実行する必要があるため関数として定義
 wtc() {
