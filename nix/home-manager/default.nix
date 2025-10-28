@@ -274,6 +274,7 @@ in
   };
 
   imports = [
+    ./programs/bash.nix
     ./programs/direnv.nix
     ./programs/eza.nix
     ./programs/fzf.nix
