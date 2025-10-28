@@ -27,67 +27,6 @@ autoload -Uz colors && colors
 # -----------------
 # alias zmv='noglob zmv -W'
 
-# # ref: https://grml.org/zsh/zsh-lovers.html
-# # `|&` is shorthand for `2>&1 |`, this connects not only stdout, but also stderr.
-# alias -g C='| wc -l'
-# alias -g CP='| tee >(pbcopy)'
-# alias -g D='DISPLAY=:0.0'
-# alias -g DN=/dev/null
-# alias -g ED='export DISPLAY=:0.0'
-# alias -g EG='|& egrep'
-# alias -g EH='|& head'
-# alias -g EL='|& less'
-# alias -g ELS='|& less -S'
-# alias -g ET='|& tail'
-# alias -g ETL='|& tail -20'
-# alias -g F='| fzf'
-# alias -g FMT='| fmt -'
-# alias -g G='| egrep'
-# alias -g H='| head'
-# alias -g HL='|& head -20'
-# alias -g J='| jq'
-# alias -g L='| less -R'
-# alias -g LL='2>&1 | less'
-# alias -g LS='| less -S'
-# alias -g M='| more'
-# alias -g MM='| most'
-# alias -g NE='2> /dev/null'
-# alias -g NS='| sort -n'
-# alias -g NUL='> /dev/null 2>&1'
-# alias -g PIPE='|'
-# alias -g R=' > /c/aaa/tee.txt'
-# alias -g RNS='| sort -nr'
-# alias -g S='| sort'
-# alias -g Sk='*~(*.bz2|*.gz|*.tgz|*.zip|*.z)'
-# alias -g T='| tail'
-# alias -g TL='| tail -20'
-# alias -g US='| sort -u'
-# alias -g V='| view'
-# alias -g VM=/var/log/messages
-# alias -g X0='| xargs -0'
-# alias -g X0G='| xargs -0 egrep'
-# alias -g X='| xargs'
-# alias -g XG='| xargs egrep'
-
-# # 独自コマンド
-# # findで明らかに検索しなくて良さそうなものを対象から外す
-# fnd () {
-#   find "$1" -mindepth 1 -type d \( -name 'node_modules' -o -name '.*' \) -prune -o -type f -not -name '.DS_Store' "${@:2}" -print
-# }
-# # json format
-# jf () {
-#   jq < "$1" > "pretty-$1"
-#   mv "pretty-$1" "$1"
-# }
-# # json lint (need specific file input)
-# jl () {
-#   docker container run --rm -v "${PWD}:/data" cytopia/jsonlint "$1"
-# }
-# # yaml lint (all files in current directory)
-# yl () {
-#   docker container run --rm -it -v "${PWD}:/data" cytopia/yamllint .
-# }
-
 # -----------------
 #  Zstyles
 # -----------------
@@ -162,26 +101,6 @@ zshaddhistory() {
   # コマンド存在確認を入れていたがサブコマンドの存在までは確認されないのでやめた
   # [["$(command -v $cmd)" != '']]
 }
-
-# -----------------
-#  prompt
-# -----------------
-# if has "starship"; then
-#   # [zsh の起動速度を改善した](https://zenn.dev/ktakayama/articles/27b9d6218ed2f0ee9992)
-#   if [ ! -f /tmp/zsh_starship.cache ]; then
-#     starship init zsh > /tmp/zsh_starship.cache
-#     zcompile /tmp/zsh_starship.cache
-#   fi
-#   source /tmp/zsh_starship.cache
-# else
-#   __ps_git_br() {
-#     local exit=$?
-#     echo $(git current-branch 2>/dev/null)
-#     return $exit
-#   }
-#   nl=$'\n'
-#   PROMPT="${nl}%c %{${fg[green]}%}$(__ps_git_br)%{${reset_color}%}${nl}%{%(?.${fg[cyan]}.${fg[red]})%}%#%{${reset_color}%} "
-# fi
 
 # Set tab name of kitty https://github.com/kovidgoyal/kitty/issues/930
 precmd () { print -Pn "\e]0;%~\a" }
