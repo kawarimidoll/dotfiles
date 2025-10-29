@@ -70,7 +70,7 @@
       {
         name = "fast-syntax-highlighting";
         src = pkgs.zsh-fast-syntax-highlighting;
-        file = "share/zsh/site-functions/fast-syntax-highlighting.plugin.zsh";
+        file = "share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh";
       }
     ];
     # evaluation warning: `programs.zsh.initExtra` is deprecated, use `programs.zsh.initContent` instead.
