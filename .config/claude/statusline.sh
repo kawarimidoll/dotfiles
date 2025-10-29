@@ -30,7 +30,7 @@ if [ -z "$TRANSCRIPT_PATH" ] || [ ! -f "$TRANSCRIPT_PATH" ]; then
   TOKEN_COUNT="_ tkns. (_%)"
 else
   # Get last assistant message with usage data using jq
-  total_tokens=$(tail -n 100 "$TRANSCRIPT_PATH" 2>/dev/null | \
+  total_tokens=$(cat "$TRANSCRIPT_PATH" 2>/dev/null | tail -n 10 | \
       jq -s 'map(select(.type == "assistant" and .message.usage)) |
     last |
     .message.usage |
