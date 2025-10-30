@@ -4,9 +4,6 @@
 __source() {
   [ -s $1 ] && source $1
 }
-# __add_fpath() {
-#   [ -e $1 ] && fpath=($1 $fpath)
-# }
 
 export DOT_DIR="${HOME}/dotfiles"
 shell_rc="${ZDOTDIR:-HOME}/.zshrc"
@@ -15,12 +12,7 @@ __source "${DOT_DIR}/.config/sh/settings.sh"
 # -----------------
 #  Modules
 # -----------------
-# __add_fpath "~/.zsh/completion"
-# autoload -Uz compinit
-# compinit -u
-#
 # autoload -Uz zmv
-autoload -Uz colors && colors
 
 # -----------------
 #  Alias
@@ -43,19 +35,6 @@ zstyle ':completion:*' ignore-parents parent pwd ..
 zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
   /usr/sbin /usr/bin /sbin /bin
 
-# https://tech-blog.sgr-ksmt.org/2016/12/10/smart_fzf_history/
-__get_histories() {
-  history -n -r 1 | \
-    fzf --no-sort +m --query "$LBUFFER" --prompt="History > "
-}
-
-select-history() {
-  BUFFER=$(__get_histories) || return 1
-  CURSOR="${#BUFFER}"
-  zle redisplay
-}
-zle -N select-history
-bindkey '^r' select-history
 
 # -----------------
 #  Functions
