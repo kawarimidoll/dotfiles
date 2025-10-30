@@ -9,6 +9,10 @@ snippets:
     keyword: gcim
     snippet: git commit -m '{{commit_message}}'
 
+  - name: Make directory and move into that
+    keyword: mkcd
+    snippet: mkdir -p '{{dir_name}}' && cd "$_"
+
   - name: "null"
     keyword: "null"
     snippet: ">/dev/null 2>&1"
