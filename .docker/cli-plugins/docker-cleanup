@@ -1,0 +1,102 @@
+#!/bin/bash
+# docker-cleanup - Docker CLI Plugin
+
+set -e
+
+# Docker CLIプラグインのメタデータ応答
+if [ "$1" = "docker-cli-plugin-metadata" ]; then
+  cat <<METADATA
+{
+  "SchemaVersion": "0.1.0",
+  "Vendor": "kawarimidoll",
+  "Version": "1.0.0",
+  "ShortDescription": "Cleanup Docker resources",
+  "URL": "https://github.com/kawarimidoll/dotfiles"
+}
+METADATA
+  exit 0
+fi
+
+# echo "0 $0" /Users/kawarimidoll/.docker/cli-plugins/docker-cleanup
+# echo "1 $1" cleanup
+# echo "2 $2" オプション
+
+# 使用方法を表示
+show_usage() {
+  cat <<USAGE
+Usage: docker cleanup [OPTIONS]
+
+Docker リソースのクリーンアップツール
+
+Options:
+  --project    現在のDocker Composeプロジェクトのみをクリーンアップ
+                (コンテナ、ネットワーク、ボリュームを削除)
+                docker compose down -v --remove-orphans
+
+  --unused     未使用のDockerリソースのみを削除
+                (停止中のコンテナ、未使用のイメージ、ボリューム、ネットワーク)
+                docker system prune -a --volumes -f
+
+  --all        すべてのDockerリソースを強制削除
+                (実行中のコンテナも停止・削除、確認プロンプトあり)
+                docker system prune -a --volumes -f
+                docker volume ls -q | xargs docker volume rm 2>/dev/null || true
+
+  --help       このヘルプメッセージを表示
+
+Examples:
+  docker cleanup --project    # プロジェクトのリセット（日常的に使用）
+  docker cleanup --unused     # 未使用リソースの削除（週次メンテナンス）
+  docker cleanup --all        # 完全クリーンアップ（緊急時のみ）
+USAGE
+}
+
+# メインロジック
+case "${2:-}" in
+  --project)
+    echo "🧹 現在のプロジェクトをクリーンアップ中..."
+    docker compose down -v --remove-orphans
+    echo "✅ プロジェクトのクリーンアップが完了しました"
+    ;;
+
+  --unused)
+    echo "🧹 未使用リソースをクリーンアップ中..."
+    docker system prune -a --volumes -f
+    echo "✅ 未使用リソースのクリーンアップが完了しました"
+    ;;
+
+  --all)
+    echo "⚠️  警告: すべてのDockerリソースを削除します"
+    echo "実行中のコンテナも停止・削除されます。"
+    echo "続行しますか？ (y/N)"
+    read -r response
+    if [[ "$response" =~ ^[Yy]$ ]]; then
+      echo "🛑 すべてのコンテナを停止中..."
+      docker ps -q | xargs -r docker stop 2>/dev/null || true
+
+      echo "🧹 すべてのリソースを削除中..."
+      docker system prune -a --volumes -f
+
+      # 残っているボリュームも削除
+      if [ "$(docker volume ls -q)" ]; then
+        docker volume ls -q | xargs docker volume rm 2>/dev/null || true
+      fi
+
+      echo "✅ 完全クリーンアップが完了しました"
+    else
+      echo "キャンセルしました"
+      exit 0
+    fi
+    ;;
+
+  --help|"")
+    show_usage
+    ;;
+
+  *)
+    echo "エラー: 不明なオプション '$1'" >&2
+    echo "" >&2
+    show_usage
+    exit 1
+    ;;
+esac

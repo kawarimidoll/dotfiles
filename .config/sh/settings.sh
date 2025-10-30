@@ -192,17 +192,6 @@ silica() {
   echo "silicon saved: $fname"
 }
 
-docker-all-delete() {
-  # https://gist.github.com/yheihei/656bb221d4d51c5614123c23b1ce5898
-  docker system prune
-  docker container prune
-  docker rm -f "$(docker ps -a -q)"
-  docker image prune
-  docker rmi "$(docker images -a -q)"
-  docker volume prune
-  docker network prune
-}
-
 # fuzzy edit gist
 fest() {
   gh gist list "$@" | fzf --with-nth=-2,-4,-3,2..-5 | awk '{print $1}' \
