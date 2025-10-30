@@ -40,9 +40,8 @@
       # Oneliners function with keybinding
       oneliners() {
         local oneliner=$(__get_oneliners) || return 1
-        local cursol="''${oneliner%%@*}"
-        READLINE_LINE="''${oneliner/@/}"
-        READLINE_POINT="''${#cursol}"
+        READLINE_LINE="''${oneliner//__CURSOR__/}"
+        READLINE_POINT=''${#''${oneliner%%__CURSOR__*}}
       }
       bind -x '"^x":"oneliners"'
     '';

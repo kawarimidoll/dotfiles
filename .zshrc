@@ -73,8 +73,8 @@ bindkey '^x^e' edit_current_line
 
 oneliners() {
   local oneliner=$(__get_oneliners) || return 1
-  local cursol="${oneliner%%@*}"
-  BUFFER="${oneliner/@/}"
+  local cursol="${oneliner%%__CURSOR__*}"
+  BUFFER="${oneliner//__CURSOR__/}"
   CURSOR="${#cursol}"
   zle redisplay
 }

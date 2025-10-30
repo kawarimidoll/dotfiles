@@ -289,8 +289,8 @@ cdf() {
 }
 
 __get_oneliners() {
-  fzf --header="@ becomes the cursor position" < "${DOT_DIR}/etc/oneliners.txt"  |  \
-    sed 's/\[.*\]//'
+  fzf --header="__CURSOR__ becomes the cursor position" < "${DOT_DIR}/etc/oneliners.txt"  |  \
+    perl -pe 's/\[.*?\]//'
 }
 
 # -----------------
