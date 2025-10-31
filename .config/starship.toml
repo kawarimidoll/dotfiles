@@ -23,6 +23,14 @@ disabled = false
 disabled = false
 symbol = "󰰡 "
 
+[shell]
+disabled = false
+format = "[$indicator]($style)"
+style = "bold cyan"
+zsh_indicator = ""
+fish_indicator = "󰈺 "
+nu_indicator = "󰟆 "
+
 [aws]
 symbol = " "
 disabled = true
