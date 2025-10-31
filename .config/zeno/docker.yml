@@ -1,0 +1,30 @@
+snippets:
+  - keyword: d
+    snippet: docker
+
+  - keyword: dp
+    snippet: docker compose
+
+  - keyword: dpu
+    snippet: docker compose up
+
+  - keyword: dpd
+    snippet: docker compose down
+
+  - name: docker p
+    keyword: p
+    snippet: compose
+    context:
+      lbuffer: '^docker\s+'
+
+  - name: docker compose u
+    keyword: u
+    snippet: up
+    context:
+      lbuffer: '^docker\s+compose\s+'
+
+  - name: docker compose d
+    keyword: d
+    snippet: down
+    context:
+      lbuffer: '^docker\s+compose\s+'

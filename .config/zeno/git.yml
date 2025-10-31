@@ -1,0 +1,48 @@
+snippets:
+  - name: git status
+    keyword: gs
+    snippet: git status --short --branch
+
+  - keyword: gco
+    snippet: git checkout
+
+  - name: git commit message
+    keyword: gcim
+    snippet: git commit -m '{{commit_message}}'
+
+  - name: current branch
+    keyword: BB
+    snippet: git branch --show-current
+    context:
+      lbuffer: '^git\s+.*'
+    evaluate: true # eval snippet
+
+  - keyword: g
+    snippet: git
+
+  - keyword: g-
+    snippet: git switch -
+
+  - name: git switch previous
+    keyword: "-"
+    snippet: switch "$(git last-branch)"
+    context:
+      lbuffer: '^git\s+'
+
+  - name: git d
+    keyword: d
+    snippet: dead
+    context:
+      lbuffer: '^git\s+'
+
+  - name: git f
+    keyword: f
+    snippet: fuse
+    context:
+      lbuffer: '^git\s+'
+
+  - name: git n
+    keyword: n
+    snippet: new
+    context:
+      lbuffer: '^git\s+'

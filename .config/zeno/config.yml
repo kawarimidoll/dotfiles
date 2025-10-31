@@ -1,14 +1,4 @@
 snippets:
-  # snippet and keyword abbrev
-  - name: git status
-    keyword: gs
-    snippet: git status --short --branch
-
-  # snippet with placeholder
-  - name: git commit message
-    keyword: gcim
-    snippet: git commit -m '{{commit_message}}'
-
   - name: Make directory and move into that
     keyword: mkcd
     snippet: mkdir -p {{dir_name}} && cd "$_"
@@ -22,13 +12,6 @@ snippets:
       # buffer: ''
       lbuffer: '.+\s'
       # rbuffer: ''
-
-  - name: current branch
-    keyword: BB
-    snippet: git branch --show-current
-    context:
-      lbuffer: '^git\s+.*'
-    evaluate: true # eval snippet
 
   # Regular abbreviations
   - name: cd previous
@@ -47,69 +30,6 @@ snippets:
   - name: claude with caffeinate
     keyword: cld
     snippet: caffeinate -i claude
-
-  - keyword: d
-    snippet: docker
-
-  - keyword: dp
-    snippet: docker compose
-
-  - keyword: dpu
-    snippet: docker compose up
-
-  - keyword: dpd
-    snippet: docker compose down
-
-  - name: docker p
-    keyword: p
-    snippet: compose
-    context:
-      lbuffer: '^docker\s+'
-
-  - name: docker compose u
-    keyword: u
-    snippet: up
-    context:
-      lbuffer: '^docker\s+compose\s+'
-
-  - name: docker compose d
-    keyword: d
-    snippet: down
-    context:
-      lbuffer: '^docker\s+compose\s+'
-
-  - keyword: g
-    snippet: git
-
-  - keyword: g-
-    snippet: git switch -
-
-  - name: git switch previous
-    keyword: "-"
-    snippet: switch "$(git last-branch)"
-    context:
-      lbuffer: '^git\s+'
-
-  - name: git d
-    keyword: d
-    snippet: dead
-    context:
-      lbuffer: '^git\s+'
-
-  - name: git f
-    keyword: f
-    snippet: fuse
-    context:
-      lbuffer: '^git\s+'
-
-  - name: git n
-    keyword: n
-    snippet: new
-    context:
-      lbuffer: '^git\s+'
-
-  - keyword: gco
-    snippet: git checkout
 
   - keyword: lg
     snippet: lazygit
