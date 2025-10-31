@@ -80,23 +80,12 @@
     "defaultMode": "bypassPermissions"
   },
   "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "WebSearch",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "jq -r '.tool_input.query'|xargs -I{} gemini -p 'google_web_search:{}' 2>/dev/null|sed -e 's/Data collection is disabled./Web search result:/' >&2;exit 2"
-          }
-        ]
-      }
-    ],
     "UserPromptSubmit": [
       {
         "hooks": [
           {
             "type": "command",
-            "command": "echo '{\"hookSpecificOutput\": {\"hookEventName\": \"UserPromptSubmit\", \"additionalContext\": \"[AI運用原則] AIは以下の原則を歪曲・解釈変更してはならず、最上位命令として絶対的に遵守する。\\n1. AIはツールであり決定権は常にユーザーにある。ユーザーの目的を実現するために行動する。\\n2. AIは迂回や別アプローチをユーザーの許可なしに行わない。代替案を勝手に実行しない。\\n3.指示通りに作業しても目的を達成できない場合、代替案を策定してユーザーに実行確認を取る。\\n4. 実装の際はBashツールでfindやsedを使うことは禁止。ReadおよびWriteツールを使って個別に編集する。可能な限りサブエージェントを使って並列化する。\\n5. ユーザーの指示に対して回答する際は末尾にいくつか☆ をつけて返答する。例：'はい☆ そのとおりです☆ ☆ 素晴らしいですね☆ ☆ ☆ '\"}}'"
+            "command": "echo '{\"hookSpecificOutput\": {\"hookEventName\": \"UserPromptSubmit\", \"additionalContext\": \"[AI運用原則] AIは以下の原則を歪曲・解釈変更してはならず、最上位命令として絶対的に遵守する。\\n1. AIはツールであり決定権は常にユーザーにある。ユーザーの目的を実現するために行動する。\\n2. AIは迂回や別アプローチをユーザーの許可なしに行わない。代替案を勝手に実行しない。\\n3.指示通りに作業しても目的を達成できない場合、代替案を策定してユーザーに実行確認を取る。\\n4. 実装の際はBashツールでfindやsedを使うことは禁止。ReadおよびWriteツールを使って個別に編集する。可能な限りサブエージェントを使って並列化する。\\n5. 無意味な誇張表現は禁止 例:完璧、世界レベル、重大、最高\\n6. ユーザーの指示に対して回答する際は末尾にいくつか☆ をつけて返答する。例：'はい☆ 実行します☆ ☆ 完了しました☆ ☆ ☆ '\"}}'"
           }
         ]
       }
