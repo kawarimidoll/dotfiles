@@ -30,6 +30,10 @@ in
     username = username;
     homeDirectory = "/Users/${username}";
 
+    sessionVariables = {
+      DOT_DIR = "${config.home.homeDirectory}/dotfiles";
+    };
+
     # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
     stateVersion = "24.11";
 
@@ -304,7 +308,12 @@ in
   # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.lsd.enable
   programs.lsd.enable = true;
 
+  # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.nushell.enable
+  programs.nushell.enable = true;
+
   # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.gitui.enable
   # programs.gitui.enable = true;
 
+  # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.starship.enable
+  programs.starship.enable = true;
 }

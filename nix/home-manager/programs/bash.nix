@@ -20,7 +20,6 @@
 
     # Environment variables needed for settings.sh
     sessionVariables = {
-      DOT_DIR = "${config.home.homeDirectory}/dotfiles";
       shell_rc = "${config.home.homeDirectory}/.bashrc";
     };
 

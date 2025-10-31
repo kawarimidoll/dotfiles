@@ -4,9 +4,6 @@
   # https://zenn.dev/arjef/scraps/703608a91fe38e
   # https://scrapbox.io/r-hanafusa/zsh%2Fprezto_%E9%AB%98%E9%80%9F%E5%8C%96%E3%83%A1%E3%83%A2
 
-  # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.starship.enable
-  programs.starship.enable = true;
-
   programs.zsh = {
     dotDir = "${config.xdg.configHome}/zsh";
     enable = true;
