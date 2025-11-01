@@ -44,10 +44,18 @@ bindkey '^x^e' edit_current_line
 
 oneliners() {
   local oneliner=$(__get_oneliners) || return 1
-  local cursol="${oneliner%%__CURSOR__*}"
-  BUFFER="${oneliner//__CURSOR__/}"
-  CURSOR="${#cursol}"
-  zle redisplay
+
+  # ZLEコンテキストかどうかを判定
+  if zle; then
+    # ZLEウィジェットとして動作：現在のバッファに挿入
+    local before_cursor="${oneliner%%__CURSOR__*}"
+    BUFFER="${oneliner//__CURSOR__/}"
+    CURSOR="${#before_cursor}"
+    zle redisplay
+  else
+    # 通常コマンドとして動作：次のプロンプトに挿入
+    print -z "${oneliner//__CURSOR__/}"
+  fi
 }
 zle -N oneliners
 bindkey '^xo' oneliners
