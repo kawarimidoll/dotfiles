@@ -62,23 +62,13 @@ bindkey '^xo' oneliners
 bindkey '^x^o' oneliners
 
 # [zshで特定のコマンドをヒストリに追加しない条件を柔軟に設定する - mollifier delta blog](https://mollifier.hatenablog.com/entry/20090728/p1)
-# [zshのhistoryに実行に失敗したコマンドを残さない](https://zenn.dev/shinespark/articles/33271e065af623)
 zshaddhistory() {
-  local cmd=${line%% *}
+  local line=${1%%$'\n'}  # 末尾の改行を削除
+  local cmd=${line%% *}   # 最初の単語（コマンド名）を取得
 
-  # 以下の条件をすべて満たすものだけをヒストリに追加する
-  # 成功した
-  # 特定のコマンドではない
-  [[ "$?" == 0
-    && ${cmd} != (man|cd|mv|cp|rm|brew|rgf|nv|nvim|vi|vim|ma)
-  ]]
-
-  # 文字数で制限を持たせていたがやめた
-  # local line=${1%%$'\n'}
-  # [[ ${#line} -ge 5 ]]
-
-  # コマンド存在確認を入れていたがサブコマンドの存在までは確認されないのでやめた
-  # [["$(command -v $cmd)" != '']]
+  # 存在しないコマンドをヒストリに追加しない（サブコマンドの存在までは確認されない）
+  # 指定したコマンドをヒストリに追加しない
+  [[ "$(command -v $cmd)" != '' && ${cmd} != (man|cd|mv|cp|rm|brew|rgf|nv|nvim|vi|vim) ]]
 }
 
 # Set tab name of kitty https://github.com/kovidgoyal/kitty/issues/930
