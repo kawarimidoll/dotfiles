@@ -302,7 +302,7 @@ later(function()
       todo = hi_words({ 'TODO', 'Todo', 'todo' }, 'MiniHipatternsTodo'),
       wip = hi_words({ 'WIP', 'Wip', 'wip' }, 'MiniHipatternsTodo'),
       note = hi_words({ 'NOTE', 'Note', 'note' }, 'MiniHipatternsNote'),
-      -- Highlight hex color strings (`#rrggbb`) using that color
+      -- Highlight hex color strings (`#123456`) using that color
       hex_color = hipatterns.gen_highlighter.hex_color(),
     },
   })
@@ -620,6 +620,7 @@ now(function()
   vim.filetype.add({
     pattern = {
       ['compose.*%.ya?ml'] = 'yaml.docker-compose',
+      ['compose/.*%.ya?ml'] = 'yaml.docker-compose',
       ['docker%-compose.*%.ya?ml'] = 'yaml.docker-compose',
       ['.*/%.github/workflows/.*%.ya?ml'] = 'yaml.github-actions',
       ['%.env.*'] = 'sh.env',
@@ -654,14 +655,14 @@ later(function()
     'minisnippets_next',
     'minisnippets_expand',
     'pmenu_next',
-    'jump_after_tsnode',
+    -- 'jump_after_tsnode',
     'jump_after_close',
   }
   map_multistep('i', '<tab>', tab_steps)
   local shifttab_steps = {
     'minisnippets_prev',
     'pmenu_prev',
-    'jump_before_tsnode',
+    -- 'jump_before_tsnode',
     'jump_before_open',
   }
   map_multistep('i', '<s-tab>', shifttab_steps)
