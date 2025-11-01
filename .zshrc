@@ -9,15 +9,9 @@ export DOT_DIR="${HOME}/dotfiles"
 shell_rc="${ZDOTDIR:-HOME}/.zshrc"
 __source "${DOT_DIR}/.config/sh/settings.sh"
 
-# -----------------
-#  Modules
-# -----------------
-# autoload -Uz zmv
-
-# -----------------
-#  Alias
-# -----------------
-# alias zmv='noglob zmv -W'
+# zmv with noglob and -W option
+autoload -Uz zmv
+alias zmv='noglob zmv -W'
 
 # -----------------
 #  Zstyles
@@ -35,7 +29,6 @@ zstyle ':completion:*' ignore-parents parent pwd ..
 zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
   /usr/sbin /usr/bin /sbin /bin
 
-
 # -----------------
 #  Functions
 # -----------------
@@ -43,8 +36,7 @@ zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
 autoload -Uz edit-command-line
 zle -N edit-command-line
 edit_current_line() {
-  EDITOR="vim -c 'norm! G$' -c 'setl awa' -c 'setf zsh'" \
-    zle edit-command-line
+  EDITOR="vim -c 'norm! G$' -c 'setl awa'" zle edit-command-line
 }
 zle -N edit_current_line
 bindkey '^xe' edit_current_line
