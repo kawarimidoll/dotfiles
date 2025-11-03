@@ -30,6 +30,9 @@
       "nonomatch" # 引数の#とかをファイル名として認識するのを防止
       "print_eight_bit" # 日本語ファイル名を表示する
       "globdots" # 補完時にドットファイルも候補に表示
+      "extended_glob" # 拡張グロブを有効化
+      "complete_in_word" # 単語の途中でも補完を行う
+      "multios" # 複数のリダイレクトを有効化（例: cmd > file1 > file2）
       # setopt ksh_arrays # 配列の添字を0から開始 むしろなんでzshは1から始まる設定なの…
     ];
     autosuggestion.enable = true;
