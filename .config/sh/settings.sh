@@ -299,13 +299,14 @@ __source "${DOT_DIR}/etc/xd.sh"
 OS='unknown'
 if [ "$(uname)" = 'Darwin' ]; then
   OS='mac'
+  source "${DOT_DIR}/.config/sh/${OS}.sh"
 elif [ "$(uname)" = 'Linux' ]; then
   OS='linux'
+  source "${DOT_DIR}/.config/sh/${OS}.sh"
 elif [ "$(uname -s | cut -c-5)" = 'MINGW' ]; then
   OS='windows'
+  # currently no windows settings
 fi
-export DOT_OS_DIR="${DOT_DIR}/etc/${OS}"
-__source "${DOT_DIR}/.config/sh/${OS}.sh"
 
 browse() {
   # [git-extras/git-browse](https://github.com/tj/git-extras/blob/master/bin/git-browse)

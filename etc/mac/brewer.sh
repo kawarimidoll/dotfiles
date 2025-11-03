@@ -23,5 +23,5 @@ echo 'log list...'
   brew leaves      | sed 's/^/brew: /'
   brew list --cask | sed 's/^/cask: /'
   mas-list | sort             | sed 's/^/mas: /'
-} > "${DOT_OS_DIR}/brew-list.log"
+} > "$(dirname "$0")/brew-list.log"
 echo 'done.'

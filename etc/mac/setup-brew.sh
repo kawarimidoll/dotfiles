@@ -5,7 +5,7 @@ die() {
   echo "  terminated."
   exit 1
 }
-brew_list="${DOT_OS_DIR}/brew-list.log"
+brew_list="$(dirname "$0")/brew-list.log"
 
 which curl >> /dev/null || die "curl is required."
 which brew >> /dev/null || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"

@@ -6,7 +6,7 @@
 alias pbcopy='xsel --clipboard --input'
 alias pbpaste='xsel --clipboard --output'
 
-alias arwer="yay -Qeq > ${DOT_OS_DIR}/yay-list.log"
+alias arwer="yay -Qeq > ${DOT_DIR}/etc/linux/yay-list.log"
 
 # https://github.com/keybase/keybase-issues/issues/2798
 export GPG_TTY=$(tty)
