@@ -76,6 +76,7 @@
 	party = shortlog -nse
 	pull-with-check = __pull-with-check
 	push-with-check = __push-with-check
+	quicksave = __quicksave
 	refresh = fetch --all --prune
 	remember = __remember
 	remote-head = symbolic-ref refs/remotes/origin/HEAD

@@ -46,3 +46,9 @@ snippets:
     snippet: new
     context:
       lbuffer: '^git\s+'
+
+  - name: git qs
+    keyword: qs
+    snippet: quicksave
+    context:
+      lbuffer: '^git\s+'

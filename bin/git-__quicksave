@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+# https://zenn.dev/studio/articles/git-quicksave
+
+set -e
+
+timestamp=$(date +%Y%m%d_%H%M%S)
+git add --all
+git commit --quiet -m "quicksave-${timestamp}" --no-verify
+git reset --quiet HEAD~
+echo "quicksave: ${timestamp}"
