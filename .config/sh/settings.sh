@@ -187,11 +187,6 @@ cdg() {
   cd "$(git rev-parse --show-toplevel)" || return
 }
 
-silica() {
-  fname="${HOME}/Downloads/silicon-$(date +%Y%m%d-%H%M%S).png"
-  silicon --font 'UDEV Gothic 35JPDOC' --output "$fname" "$@"
-  echo "silicon saved: $fname"
-}
 
 # fuzzy edit gist
 fest() {

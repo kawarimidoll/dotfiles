@@ -1,3 +1,4 @@
 [Convert svg files in current directory to png files] ls -1 *.svg__CURSOR__ | xargs inkscape --pipe --export-width=40 --export-type='png'
 [Convert png files in current directory to webp files] ls -1 *.png__CURSOR__ | xargs -I_ cwebp _ -o _".webp" >/dev/null 2>&1
-[Ripgrep with useful options] rg --hidden --glob '!**/.git/*' __CURSOR__
+[Ripgrep with useful options] rg --hidden --glob '!**/.git/*'
+[Generate code image] silicon --font 'UDEV Gothic 35JPDOC' --output "${HOME}/Downloads/silicon-$(date +%Y%m%d-%H%M%S).png"
