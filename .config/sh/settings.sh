@@ -1,7 +1,3 @@
-has() {
-  type "$1" > /dev/null 2>&1
-}
-
 # -----------------
 #  XDG Environments
 # -----------------
@@ -107,16 +103,8 @@ alias nvf='fffe --editor nvim'
 alias vif='fffe --editor vim'
 alias hxf='fffe --editor hx'
 
-if has 'lsd'; then
-  alias ls='lsd'
-  alias lsf='lsd -FAl --blocks=permission,size,date,name --date="+%F %R"'
-  alias tree='lsd --tree'
-fi
-
-if has 'eza'; then
-  alias lsf='eza -F -alh --no-user --time-style=long-iso --icons --git'
-  alias tree='eza --all --git-ignore --tree --icons --ignore-glob=.git'
-fi
+alias lsf='eza -F -alh --no-user --time-style=long-iso --icons --git'
+alias tree='eza --all --git-ignore --tree --icons --ignore-glob=.git'
 
 # -----------------
 #  Functions
@@ -187,25 +175,6 @@ cdg() {
   cd "$(git rev-parse --show-toplevel)" || return
 }
 
-
-# fuzzy edit gist
-fest() {
-  gh gist list "$@" | fzf --with-nth=-2,-4,-3,2..-5 | awk '{print $1}' \
-    | xargs --no-run-if-empty --open-tty gh gist edit
-}
-
-# view web gist
-vest() {
-  gh gist list "$@" | fzf --with-nth=-2,-4,-3,2..-5 | awk '{print $1}' \
-    | xargs --no-run-if-empty gh gist view --web
-}
-
-if has 'walk'; then
-  lk() {
-    cd "$(walk "$@")" || return
-  }
-fi
-
 img_to_webp() {
   find . -maxdepth 1 \( -name \*.png -or -name \*.jpg -or -name \*.jpeg \) \
     | xargs -I_ sh -c 'printf _" -> "_".webp ..."; cwebp _ -o _".webp" >/dev/null 2>&1; echo " done."'
@@ -245,7 +214,6 @@ pushf() {
 }
 
 clone() {
-  has 'ghq' || return 1
   ghq get --partial blobless "$1"
   local target=""
   target=$(echo "$1" | sed -r 's;https?://[^/]+|\.git$;;')
@@ -261,7 +229,6 @@ stash() {
 }
 
 cgh() {
-  has 'ghq' || return 1
   local dir
   dir=$(ghq list | fzf --no-multi --exit-0 --query="$*" --preview="ls -FA1 $(ghq root)/{}")
   [ -n "$dir" ] && cd "$(ghq root)/$dir" || return
@@ -281,7 +248,7 @@ __get_oneliners() {
 # -----------------
 #  xd - extended cd
 # -----------------
-__source "${DOT_DIR}/etc/xd.sh"
+# __source "${DOT_DIR}/etc/xd.sh"
 
 # -----------------
 #  broot
