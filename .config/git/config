@@ -71,6 +71,7 @@
 	it = __it
 	inside = !git rev-parse &>/dev/null
 	latest-tag = describe --tags --abbrev=0
+	last-branch = !git branch --sort=-committerdate | grep -v '^\\*' | head -n1 | cut -c3-
 	list-branch = __list-branch
 	body = __body
 	party = shortlog -nse
@@ -116,6 +117,7 @@
 [commit]
 	template = ~/.config/git/message
 	verbose = true
+	gpgsign = true
 [merge]
 	tool = vimdiff
 	conflictStyle = zdiff3
@@ -127,3 +129,5 @@
 	layout = "@LOCAL,REMOTE"
 [worktree]
 	useRelativePaths = true
+[pager]
+	diff = diffnav
