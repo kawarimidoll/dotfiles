@@ -28,11 +28,7 @@
     neovim-nightly-overlay = {
       url = "github:nix-community/neovim-nightly-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-compat.follows = "flake-compat";
-      inputs.git-hooks.follows = "git-hooks";
-      inputs.hercules-ci-effects.follows = "hercules-ci-effects";
       inputs.flake-parts.follows = "flake-parts";
-      inputs.treefmt-nix.follows = "treefmt-nix";
     };
     vim-overlay = {
       url = "github:kawarimidoll/vim-overlay";
