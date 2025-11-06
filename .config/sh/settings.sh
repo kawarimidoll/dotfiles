@@ -258,16 +258,17 @@ __get_oneliners() {
 # -----------------
 #  OS Setting
 # -----------------
-OS='unknown'
+# OS='unknown'
 if [ "$(uname)" = 'Darwin' ]; then
-  OS='mac'
-  source "${DOT_DIR}/.config/sh/${OS}.sh"
+  # OS='mac'
+  source "${DOT_DIR}/.config/sh/mac.sh"
 elif [ "$(uname)" = 'Linux' ]; then
-  OS='linux'
-  source "${DOT_DIR}/.config/sh/${OS}.sh"
+  # OS='linux'
+  source "${DOT_DIR}/.config/sh/linux.sh"
 elif [ "$(uname -s | cut -c-5)" = 'MINGW' ]; then
-  OS='windows'
+  # OS='windows'
   # currently no windows settings
+  :
 fi
 
 browse() {
