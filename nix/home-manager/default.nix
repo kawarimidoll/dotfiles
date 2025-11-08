@@ -64,6 +64,8 @@ in
         chawan
         clang-tools # clang-format
         cmatrix
+        codex
+        container # apple-container
         coreutils
         cowsay
         croc
@@ -97,6 +99,7 @@ in
         git-recent
         git-trim
         git-workspace
+        github-copilot-cli
         gleam
         globe-cli
         glsl_analyzer
@@ -115,6 +118,7 @@ in
         gum
         helix
         highlight
+        hyperfine
         imagemagick
         jid
         jnv
@@ -134,6 +138,7 @@ in
         ltex-ls
         lua-language-server
         macchina
+        mcat
         mcfly
         moreutils
         nano
@@ -152,14 +157,17 @@ in
         nyancat
         pnpm
         procs
+        presenterm
         qq
         rainfrog
         rebar3
+        restman
         ripgrep
         rustup
         sampler
         screenfetch
         serie
+        sheldon
         sig
         silicon
         sl
@@ -179,6 +187,7 @@ in
         tombi
         treefmt
         ttyper
+        typescript-go
         typos-lsp
         tz
         unzip
