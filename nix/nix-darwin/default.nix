@@ -18,6 +18,9 @@
 
   # services.nix-daemon.enable = true;
 
+  # Disable /etc/zshrc and /etc/zshenv generation
+  programs.zsh.enable = false;
+
   # fonts = {
   #   packages = with pkgs; [
   #     hackgen-nf-font

@@ -1,2 +1,4 @@
 wallpapers/*
 !wallpapers/README.md
+
+*.zwc

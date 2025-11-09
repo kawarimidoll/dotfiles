@@ -1,0 +1,74 @@
+# Sheldon plugin configuration
+# https://sheldon.cli.rs/Examples.html
+
+shell = 'zsh'
+
+[plugins.zsh-defer]
+github = 'romkatv/zsh-defer'
+hooks.post = '''
+zsh-defer source $ZSHRC_DIR/lazy.zsh
+zsh-defer -t 0.001 autoload -Uz compinit
+zsh-defer -t 0.001 compinit
+'''
+
+[templates]
+defer = "{{ hooks?.pre | nl }}{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}{{ hooks?.post | nl }}"
+
+[plugins.zsh-autosuggestions]
+github = "zsh-users/zsh-autosuggestions"
+use = ['{{ name }}.zsh']
+apply = ['defer']
+
+[plugins.zsh-completions]
+github = "zsh-users/zsh-completions"
+apply = ['defer']
+
+[plugins.zsh-history-substring-search]
+github = "zsh-users/zsh-history-substring-search"
+use = ['{{ name }}.zsh']
+apply = ['defer']
+hooks.post = '''
+bindkey "^P" history-substring-search-up
+bindkey "^N" history-substring-search-down
+'''
+
+[plugins.zsh-syntax-highlighting]
+github = 'zdharma-continuum/fast-syntax-highlighting'
+apply = ['defer']
+
+[plugins.zsh-autopair]
+github = 'hlissner/zsh-autopair'
+apply = ['defer']
+hooks.pre = '''
+export AUTOPAIR_INHIBIT_INIT=1
+'''
+# remove space from AUTOPAIR_PAIRS to avoid conflict with zeno.zsh
+hooks.post = '''
+unset 'AUTOPAIR_PAIRS[ ]'
+zsh-defer autopair-init
+unset AUTOPAIR_INHIBIT_INIT
+'''
+
+[plugins.zeno]
+github = 'yuki-yano/zeno.zsh'
+apply = ['defer']
+hooks.post = '''
+bindkey ' '      zeno-auto-snippet
+bindkey '^m'     zeno-auto-snippet-and-accept-line
+bindkey '^i'     zeno-completion
+bindkey '^x '    zeno-insert-space
+bindkey '^x^m'   accept-line
+bindkey '^x^z'   zeno-toggle-auto-snippet
+bindkey '^r'     zeno-history-selection
+bindkey '^x^s'   zeno-insert-snippet
+bindkey '^x^f'   zeno-ghq-cd
+'''
+
+# starship cache technique
+[plugins.starship]
+inline = '''
+if [ ! -f /tmp/zsh_starship.cache ]; then
+  starship init zsh > /tmp/zsh_starship.cache
+fi
+source /tmp/zsh_starship.cache
+'''
