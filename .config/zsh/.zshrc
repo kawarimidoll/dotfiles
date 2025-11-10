@@ -16,6 +16,27 @@ function ensure_zcompiled {
 }
 # ensure_zcompiled ~/.zshrc
 
+# eval_source: execute command, cache output, compile and source it
+# Usage: eval_source some_command
+# Cache file name is automatically generated from command name
+# Example: eval_source starship init zsh → /tmp/zsh_starship.cache
+# Example: eval_source /opt/homebrew/bin/brew shellenv → /tmp/zsh_brew.cache
+function eval_source {
+  local command="$1"
+  # Extract command name: first word, basename if path
+  local cache_name=$(basename "${command%% *}")
+  local cache_file="/tmp/zsh_${cache_name}.cache"
+
+  # Execute command and save output to cache file only if cache doesn't exist
+  if [[ ! -f "$cache_file" ]]; then
+    eval "$@" > "$cache_file"
+    zcompile "$cache_file"
+  fi
+
+  # Source the cached file
+  builtin source "$cache_file"
+}
+
 source $ZSHRC_DIR/eager.zsh
 # 存在するかわからないファイルの読み込み
 # source FILENAME 2>/dev/null || :

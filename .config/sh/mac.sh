@@ -4,13 +4,7 @@
 
 # if running zsh
 if [ -n "$ZSH_VERSION" ]; then
-  # apple silicon
-  if [ ! -f /tmp/zsh_brew.cache ]; then
-    /opt/homebrew/bin/brew shellenv > /tmp/zsh_brew.cache
-    zcompile /tmp/zsh_brew.cache
-  fi
-  # eval $(/opt/homebrew/bin/brew shellenv)
-  source /tmp/zsh_brew.cache
+  eval_source /opt/homebrew/bin/brew shellenv
 
   alias -g NOTIFY="&& notify"
 fi
