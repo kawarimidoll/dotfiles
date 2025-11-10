@@ -35,7 +35,7 @@ bindkey '^x^f'   zeno-ghq-cd
 autoload -Uz edit-command-line
 zle -N edit-command-line
 edit_current_line() {
-  EDITOR="vim -c 'norm! G$' -c 'setl awa'" zle edit-command-line
+  EDITOR="vim -c 'setl awa|norm!G$'" zle edit-command-line
 }
 zle -N edit_current_line
 bindkey '^xe' edit_current_line
