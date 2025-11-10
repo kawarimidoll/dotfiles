@@ -36,5 +36,5 @@ zshaddhistory() {
 
   # 存在しないコマンドをヒストリに追加しない（サブコマンドの存在までは確認されない）
   # 指定したコマンドをヒストリに追加しない
-  [[ "$(command -v $cmd)" != '' && ${cmd} != (man|cd|mv|cp|rm|brew|rgf|nv|nvim|vi|vim) ]]
+  [[ "$(command -v $cmd)" != '' && ${cmd} != (man|brew|rgf|nv|nvim|vi|vim) ]]
 }
