@@ -27,10 +27,6 @@ apply = ['defer']
 github = "zsh-users/zsh-history-substring-search"
 use = ['{{ name }}.zsh']
 apply = ['defer']
-hooks.post = '''
-bindkey "^P" history-substring-search-up
-bindkey "^N" history-substring-search-down
-'''
 
 [plugins.zsh-syntax-highlighting]
 github = 'zdharma-continuum/fast-syntax-highlighting'
@@ -51,18 +47,8 @@ unset AUTOPAIR_INHIBIT_INIT
 
 [plugins.zeno]
 github = 'yuki-yano/zeno.zsh'
+use = ['zeno.zsh']
 apply = ['defer']
-hooks.post = '''
-bindkey ' '      zeno-auto-snippet
-bindkey '^m'     zeno-auto-snippet-and-accept-line
-bindkey '^i'     zeno-completion
-bindkey '^x '    zeno-insert-space
-bindkey '^x^m'   accept-line
-bindkey '^x^z'   zeno-toggle-auto-snippet
-bindkey '^r'     zeno-history-selection
-bindkey '^x^s'   zeno-insert-snippet
-bindkey '^x^f'   zeno-ghq-cd
-'''
 
 # starship cache technique
 [plugins.starship]

@@ -16,6 +16,20 @@ zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
   /usr/sbin /usr/bin /sbin /bin
 
 bindkey -e
+bindkey "^[[Z" reverse-menu-complete # Shift-Tabで補完候補を逆順
+
+bindkey "^P" history-substring-search-up
+bindkey "^N" history-substring-search-down
+
+bindkey ' '      zeno-auto-snippet
+bindkey '^m'     zeno-auto-snippet-and-accept-line
+bindkey '^i'     zeno-completion
+bindkey '^x '    zeno-insert-space
+bindkey '^x^m'   accept-line
+bindkey '^x^z'   zeno-toggle-auto-snippet
+bindkey '^r'     zeno-history-selection
+bindkey '^x^s'   zeno-insert-snippet
+bindkey '^x^f'   zeno-ghq-cd
 
 # [zshのコマンドラインを任意のテキストエディタで編集する - Qiita](https://qiita.com/mollifier/items/7b1cfe609a7911a69706)
 autoload -Uz edit-command-line
