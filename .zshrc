@@ -6,7 +6,7 @@ __source() {
 }
 
 export DOT_DIR="${HOME}/dotfiles"
-shell_rc="${ZDOTDIR:-HOME}/.zshrc"
+shell_rc="${ZDOTDIR:-$HOME}/.zshrc"
 __source "${DOT_DIR}/.config/sh/settings.sh"
 
 # zmv with noglob and -W option

@@ -12,7 +12,7 @@
     # https://gist.github.com/ctechols/ca1035271ad134841284?permalink_comment_id=3994613#gistcomment-3994613
     completionInit = ''
       autoload -Uz compinit
-      for dump in ${"ZDOTDIR:-$HOME"}/.zcompdump(N.mh+24); do
+      for dump in ''${ZDOTDIR:-$HOME}/.zcompdump(N.mh+24); do
         echo "Run compinit. Wait for a while."
         compinit
       done
