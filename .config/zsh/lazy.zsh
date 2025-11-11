@@ -21,6 +21,10 @@ bindkey "^[[Z" reverse-menu-complete # Shift-Tabで補完候補を逆順
 bindkey "^P" history-substring-search-up
 bindkey "^N" history-substring-search-down
 
+# c-[/c-]でvimのf/Fのように文字検索
+bindkey '^]' vi-find-next-char
+bindkey '^[' vi-find-prev-char
+
 bindkey ' '      zeno-auto-snippet
 bindkey '^m'     zeno-auto-snippet-and-accept-line
 bindkey '^i'     zeno-completion

@@ -1,4 +1,5 @@
 # 基本設定
+setopt always_last_prompt   # 補完候補が表示されるときにプロンプトを移動させない
 setopt auto_cd              # ディレクトリ名だけでcd
 setopt auto_list            # 補完候補を一覧表示に
 setopt auto_menu            # 補完候補をtabで選択
@@ -8,13 +9,14 @@ setopt correct              # コマンドのスペルミスを指摘
 setopt extended_glob        # 拡張グロブを有効化
 setopt globdots             # 補完時にドットファイルも候補に表示
 setopt interactive_comments # コンソールでも#をコメントと解釈
+setopt mark_dirs            # dirs/d*<tab> → dirs/d1/ dirs/d2/ のように補完結果のディレクトリ末尾に/をつける
 setopt multios              # 複数のリダイレクトを有効化（例: cmd > file1 > file2）
 setopt nonomatch            # 引数の#とかをファイル名として認識するのを防止
 setopt print_eight_bit      # 日本語ファイル名を表示する
 # setopt ksh_arrays # 配列の添字を0から開始 むしろなんでzshは1から始まる設定なの…
 
 # History設定
-HISTFILE="${XDG_DATA_HOME:-$HOME/.local/share}/zsh-sheldon/history"
+HISTFILE="${XDG_DATA_HOME:-$HOME/.local/share}/zsh/history"
 HISTSIZE=10000
 SAVEHIST=10000
 setopt append_history       # 履歴を追記
