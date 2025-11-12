@@ -3,19 +3,19 @@
   programs.fzf = {
     enable = true;
 
+    defaultCommand = "fd --type f";
     defaultOptions = [
       "--height=40%"
       "--reverse"
       "--border"
     ];
 
-    fileWidgetCommand = "fd --type f";
-    fileWidgetOptions = [
-      "--preview 'bat --line-range :50 {}'"
-    ];
+    fileWidgetCommand = "fffe -f";
+    fileWidgetOptions = [ "--preview 'bat --line-range :30 {}'" ];
 
-    historyWidgetOptions = [
-      "--reverse"
-    ];
+    changeDirWidgetCommand = "fd --type d";
+    changeDirWidgetOptions = [ "--preview 'tree {} | head -30'" ];
+
+    historyWidgetOptions = [ "--reverse" ];
   };
 }
