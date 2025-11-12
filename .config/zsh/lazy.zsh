@@ -1,3 +1,7 @@
+source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
+
+HELPDIR="${HOME}/.nix-profile/share/zsh/${ZSH_VERSION}/help"
+
 # zmv with noglob and -W option
 autoload -Uz zmv
 alias zmv='noglob zmv -W'

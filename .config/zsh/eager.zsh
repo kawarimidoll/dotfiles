@@ -40,3 +40,6 @@ zshaddhistory() {
   # 指定したコマンドをヒストリに追加しない
   [[ "$(command -v $cmd)" != '' && ${cmd} != (man|brew|rgf|nv|nvim|vi|vim) ]]
 }
+
+# Set tab name of kitty https://github.com/kovidgoyal/kitty/issues/930
+precmd () { print -Pn "\e]0;%~\a" }

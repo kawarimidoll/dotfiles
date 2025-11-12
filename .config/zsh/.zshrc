@@ -44,6 +44,11 @@ export DOT_DIR="${HOME}/dotfiles"
 source "${DOT_DIR}/.config/sh/settings.sh" 2>/dev/null || :
 source "${HOME}/.zshrc.local" 2>/dev/null || :
 
+typeset -U path cdpath fpath manpath
+for profile in ${(z)NIX_PROFILES}; do
+ fpath+=($profile/share/zsh/site-functions $profile/share/zsh/$ZSH_VERSION/functions $profile/share/zsh/vendor-completions)
+done
+
 # sheldon cache technique
 export SHELDON_CONFIG_DIR="$ZDOTDIR"
 # export SHELDON_CONFIG_DIR="$ZSHRC_DIR/sheldon"
