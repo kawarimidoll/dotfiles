@@ -3,7 +3,7 @@
   programs.fzf = {
     enable = true;
 
-    defaultCommand = "fd --type f";
+    defaultCommand = "fd --type f --hidden --exclude '.git/'";
     defaultOptions = [
       "--height=40%"
       "--reverse"

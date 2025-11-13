@@ -58,13 +58,17 @@ eval_source starship init zsh
 [plugins.fzf]
 inline = '''
 export FZF_COMPLETION_TRIGGER=',,'
-export FZF_DEFAULT_COMMAND='fd --type f'
+# default options
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude '.git/''
 export FZF_DEFAULT_OPTS='--height=40% --reverse --border'
-export FZF_ALT_C_COMMAND='fd --type d'
-export FZF_ALT_C_OPTS="--preview 'tree {} | head -30'"
-export FZF_CTRL_R_OPTS='--reverse'
+# file widget
 export FZF_CTRL_T_COMMAND='fffe -f'
 export FZF_CTRL_T_OPTS="--preview 'bat --line-range :30 {}'"
-
+# change dir widget
+export FZF_ALT_C_COMMAND='fd --type d'
+export FZF_ALT_C_OPTS="--preview 'tree {} | head -30'"
+# history widget
+export FZF_CTRL_R_OPTS='--reverse'
+# initialize
 eval_source fzf --zsh
 '''
