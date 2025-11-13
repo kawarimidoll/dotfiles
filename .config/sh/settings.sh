@@ -114,6 +114,7 @@ alias tree='eza --all --git-ignore --tree --icons --ignore-glob=.git'
 rm() {
   rm_abort() {
     echo "'rm' is dangerous command! Use 'trash' instead."
+    echo "For symlinks, use 'unlink'. For empty directories, use 'rmdir'."
     echo "AI Agents are not permitted to use 'trash' command too. Request the user to delete the files."
     return 1
   }
@@ -141,6 +142,12 @@ rm() {
   # 全ての引数が安全か判定
   local base
   for arg in "${args[@]}"; do
+    # /tmp以下またはTMPDIR以下のファイルは許可
+    if [[ "$arg" == /tmp/* ]] || [[ -n "$TMPDIR" && "$arg" == "$TMPDIR"* ]]; then
+      continue
+    fi
+
+    # safe_filesに登録されているファイル名は許可
     base=$(basename "$arg")
     if [[ -z "${safe_files[$base]}" ]]; then
       rm_abort
