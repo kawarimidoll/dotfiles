@@ -7,6 +7,7 @@ shell = 'zsh'
 github = 'romkatv/zsh-defer'
 hooks.post = '''
 zsh-defer source $ZSHRC_DIR/lazy.zsh
+FPATH="$HOME/.docker/completions:$FPATH"
 zsh-defer -t 0.001 autoload -Uz compinit
 zsh-defer -t 0.001 compinit
 '''
