@@ -35,6 +35,12 @@ snippets:
     context:
       lbuffer: '^git\s+'
 
+  - name: git g
+    keyword: g
+    snippet: gone
+    context:
+      lbuffer: '^git\s+'
+
   - name: git f
     keyword: f
     snippet: fuse
