@@ -35,9 +35,24 @@ bindkey '^i'     zeno-completion
 bindkey '^x '    zeno-insert-space
 bindkey '^x^m'   accept-line
 bindkey '^x^z'   zeno-toggle-auto-snippet
-bindkey '^r'     zeno-history-selection
-bindkey '^x^s'   zeno-insert-snippet
-bindkey '^x^f'   zeno-ghq-cd
+bindkey '^r'     zeno-smart-history-selection
+bindkey '^x^a'   zeno-insert-snippet
+# bindkey '^x^f'   zeno-ghq-cd
+
+# ghq + fzf でリポジトリに移動
+ghq-cd-widget() {
+local dir
+dir=$(ghq list | fzf --no-multi --exit-0 --preview="ls -FA1 $(ghq root)/{}")
+if [ -n "$dir" ]; then
+  BUFFER="cd $(ghq root)/$dir"
+  zle redisplay
+  zle accept-line
+else
+  zle redisplay
+fi
+}
+zle -N ghq-cd-widget
+bindkey '^x^f' ghq-cd-widget
 
 # [zshのコマンドラインを任意のテキストエディタで編集する - Qiita](https://qiita.com/mollifier/items/7b1cfe609a7911a69706)
 autoload -Uz edit-command-line
@@ -66,3 +81,73 @@ oneliners() {
 zle -N oneliners
 bindkey '^xo' oneliners
 bindkey '^x^o' oneliners
+
+# カスタムZLEウィジェット
+# 参考: zshで範囲選択・削除・コピー・切り取りする - Qiita
+# https://qiita.com/takc923/items/35d9fe81f61436c867a8
+
+# quote-word: カーソル位置の単語をクォート
+quote-word() {
+  zle select-a-word
+  zle quote-region
+}
+zle -N quote-word
+
+# backward-delete-char-or-region: 選択中は範囲削除、通常時はautopair-delete
+backward-delete-char-or-region() {
+  if [ $REGION_ACTIVE -eq 0 ]; then
+    zle autopair-delete
+  else
+    zle kill-region
+  fi
+}
+zle -N backward-delete-char-or-region
+
+# autopairプラグインの後で上書きする必要があるため、zsh-deferで遅延バインド
+zsh-defer bindkey '^h' backward-delete-char-or-region
+
+# delete-char-or-region: 選択中は範囲削除、通常時は直後の1文字削除
+delete-char-or-region() {
+  if [ $REGION_ACTIVE -eq 0 ]; then
+    zle delete-char
+  else
+    zle kill-region
+  fi
+}
+zle -N delete-char-or-region
+bindkey '^d' delete-char-or-region
+
+# backward-kill-word-or-region: 選択中は範囲切り取り、通常時は単語切り取り
+backward-kill-word-or-region() {
+  if [ $REGION_ACTIVE -eq 0 ]; then
+    zle autopair-delete-word
+  else
+    zle kill-region
+  fi
+}
+zle -N backward-kill-word-or-region
+
+# autopairプラグインの後で上書きする必要があるため、zsh-deferで遅延バインド
+zsh-defer bindkey '^w' backward-kill-word-or-region
+
+# copy-region-and-deactivate: 範囲コピーして選択終了
+copy-region-and-deactivate() {
+  if [ $REGION_ACTIVE -ne 0 ]; then
+    zle copy-region-as-kill
+    REGION_ACTIVE=0
+  fi
+}
+zle -N copy-region-and-deactivate
+bindkey '^[W' copy-region-and-deactivate
+bindkey '^[w' copy-region-and-deactivate
+
+# quote-word-or-region: 選択中はquote-region、通常時はquote-word
+quote-word-or-region() {
+  if [ $REGION_ACTIVE -eq 0 ]; then
+    zle quote-word
+  else
+    zle quote-region
+  fi
+}
+zle -N quote-word-or-region
+bindkey '^[[39;5u' quote-word-or-region  # Ctrl+'
