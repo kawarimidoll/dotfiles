@@ -55,6 +55,7 @@ in
         bash-language-server
         beautysh
         binutils
+        blesh
         bottom
         broot
         buf
@@ -110,6 +111,7 @@ in
         gnused
         gnutar
         go
+        gonzo
         gopls
         graphqurl
         grex
@@ -120,12 +122,14 @@ in
         highlight
         hyperfine
         imagemagick
+        intelli-shell
         jid
         jnv
         jq
         jqp
         just
         just-lsp
+        kew
         lavat
         lazydocker
         lazygit
@@ -156,8 +160,9 @@ in
         nurl
         nyancat
         pnpm
-        procs
+        posting
         presenterm
+        procs
         qq
         rainfrog
         rebar3
