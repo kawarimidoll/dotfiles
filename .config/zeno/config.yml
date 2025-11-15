@@ -18,6 +18,14 @@ snippets:
     keyword: "-"
     snippet: cd -
 
+  - name: list path
+    keyword: path
+    snippet: echo $PATH | tr ':' '\n'
+
+  - name: list fpath
+    keyword: fpath
+    snippet: echo $FPATH | tr ':' '\n'
+
   - name: bun list packages
     keyword: list
     snippet: pm ls
@@ -184,3 +192,10 @@ completions:
       --preview: "eza -1a --icons --color=always {}"
     callback: "cut -z -c 3-"
     callbackZero: true # null termination is used in `callback` I/O
+
+  - name: env
+    patterns:
+      - "\\$$"
+    sourceCommand: "printenv | sed -e 's/=.*//'"
+    options:
+      --prompt: "'Env> '"
