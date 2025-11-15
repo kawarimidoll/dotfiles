@@ -1,0 +1,10 @@
+shell = "bash"
+
+[plugins.intelli-shell]
+inline = '''
+export INTELLI_SEARCH_HOTKEY=$'\es'
+export INTELLI_BOOKMARK_HOTKEY=$'\ek'
+export INTELLI_VARIABLE_HOTKEY=$'\ev'
+export INTELLI_FIX_HOTKEY=$'\er'
+eval "$(intelli-shell init bash)"
+'''
