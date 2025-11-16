@@ -56,6 +56,20 @@ inline = '''
 eval_source starship init zsh
 '''
 
+[plugins.direnv]
+inline = '''
+eval_source direnv hook zsh
+'''
+
+[plugins.intelli-shell]
+inline = '''
+export INTELLI_SEARCH_HOTKEY='\es'
+export INTELLI_BOOKMARK_HOTKEY='\ek'
+export INTELLI_VARIABLE_HOTKEY='\ev'
+export INTELLI_FIX_HOTKEY='\er'
+eval_source intelli-shell init zsh
+'''
+
 [plugins.fzf]
 inline = '''
 export FZF_COMPLETION_TRIGGER=',,'
