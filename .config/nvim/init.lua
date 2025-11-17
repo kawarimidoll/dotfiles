@@ -765,6 +765,13 @@ later(function()
   vim.keymap.set('n', '<space>h', function()
     require('mini.extra').pickers.visit_paths()
   end, { desc = 'mini.extra.visit_paths' })
+  if vim.g.open_latest_path_on_startup then
+    local latest_path = require('mini.visits').list_paths()[1]
+    if latest_path then
+      vim.cmd.edit(latest_path)
+    end
+    vim.g.open_latest_path_on_startup = false
+  end
 
   vim.keymap.set('c', 'h', function()
     if vim.fn.getcmdtype() .. vim.fn.getcmdline() == ':h' then

@@ -76,7 +76,7 @@ alias nv='nvim'
 alias nvimprofile='nvim --cmd "profile start profile.txt" --cmd "profile file ~/.config/nvim/init.vim" -c quit'
 # alias nvinit='nvim ~/.config/nvim/init.vim'
 # alias nvp="nvim -c 'put *'"
-alias nvr="nvim -c 'call EditProjectMru()'"
+alias nvr="nv -c 'let g:open_latest_path_on_startup=1'"
 alias pull='git pull-with-check'
 alias push='git push-with-check'
 # alias rm='rm -i --preserve-root'
