@@ -37,6 +37,13 @@ function eval_source {
   builtin source "$cache_file"
 }
 
+nix_daemon_cache='/tmp/zsh_nix-daemon.cache'
+if [[ ! -f "$nix_daemon_cache" ]]; then
+  cp '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' "$nix_daemon_cache"
+fi
+source "$nix_daemon_cache"
+unset nix_daemon_cache
+
 source $ZSHRC_DIR/eager.zsh
 # 存在するかわからないファイルの読み込み
 # source FILENAME 2>/dev/null || :
