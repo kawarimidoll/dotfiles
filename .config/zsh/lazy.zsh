@@ -19,6 +19,11 @@ zstyle ':completion:*' ignore-parents parent pwd ..
 zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
   /usr/sbin /usr/bin /sbin /bin
 
+# 区切り文字としたい記号をWORDCHARSから除く
+# vimでいうiskeywordの逆
+# M-f, M-b, ^w などの動作に影響する
+typeset -g WORDCHARS="${WORDCHARS//[\/=]/}"
+
 bindkey -e
 bindkey "^[[Z" reverse-menu-complete # Shift-Tabで補完候補を逆順
 
