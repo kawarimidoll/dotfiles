@@ -39,8 +39,8 @@ in
 
     packages =
       let
-        koi = inputs.koi.packages.${pkgs.system}.default;
-        cage = inputs.cage.packages.${pkgs.system}.default;
+        koi = inputs.koi.packages.${pkgs.stdenv.hostPlatform.system}.default;
+        cage = inputs.cage.packages.${pkgs.stdenv.hostPlatform.system}.default;
       in
       with pkgs;
       [
