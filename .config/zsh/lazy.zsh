@@ -135,6 +135,16 @@ zle -N backward-kill-word-or-region
 # autopairプラグインの後で上書きする必要があるため、zsh-deferで遅延バインド
 zsh-defer bindkey '^w' backward-kill-word-or-region
 
+# backward-kill-to-space: 直前の空白まで削除（Vimの WORD 削除に相当）
+backward-kill-to-space() {
+  # 末尾の空白文字を全て削除（## = 1回以上の最長マッチ）
+  LBUFFER=${LBUFFER%%[[:space:]]##}
+  # 末尾の非空白文字を全て削除
+  LBUFFER=${LBUFFER%%[^[:space:]]##}
+}
+zle -N backward-kill-to-space
+bindkey '^[[119;6u' backward-kill-to-space  # Ctrl+Shift+w
+
 # copy-region-and-deactivate: 範囲コピーして選択終了
 copy-region-and-deactivate() {
   if [ $REGION_ACTIVE -ne 0 ]; then
