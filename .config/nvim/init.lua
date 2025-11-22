@@ -207,6 +207,7 @@ now(function()
   })
   vim.opt.number = false
   vim.opt.cursorline = false
+  vim.opt.winborder = 'rounded'
 end)
 
 later(function()
