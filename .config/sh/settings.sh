@@ -122,6 +122,7 @@ rm() {
   # 安全に削除できるファイル名を連想配列で定義
   local -A safe_files=(
     [".DS_Store"]=1
+    [".direnv"]=1
     ["node_modules"]=1
     ["_gen"]=1
   )
