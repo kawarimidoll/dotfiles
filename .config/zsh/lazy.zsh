@@ -166,3 +166,11 @@ quote-word-or-region() {
 }
 zle -N quote-word-or-region
 bindkey '^[[39;5u' quote-word-or-region  # Ctrl+'
+
+autoload -Uz add-zsh-hook
+
+# Set tab name of kitty https://github.com/kovidgoyal/kitty/issues/930
+__kitty_tab_title_precmd() {
+  print -Pn "\e]0;%~\a"
+}
+add-zsh-hook precmd __kitty_tab_title_precmd
