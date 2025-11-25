@@ -1,14 +1,21 @@
 #!/usr/bin/env bash
 
-if git current-branch | grep -i "wip"; then
-  # display error message in red
-  echo -e "\n\033[31mError: Found 'wip' in branch name. Please fix before pushing.\033[0m"
-  exit 1
+set -euo pipefail
+
+RED='\033[31m'
+RESET='\033[0m'
+
+error() { echo -e "\n${RED}Error: $1${RESET}" >&2; exit 1; }
+
+current_branch=$(git branch --show-current)
+
+if grep --ignore-case "wip" <<< "$current_branch"; then
+  error "Found 'wip' in branch name. Please fix before pushing."
 fi
-if git log "origin/$(git rev-parse --abbrev-ref HEAD)..HEAD" --oneline | grep -i "wip"; then
-  # display error message in red
-  echo -e "\n\033[31mError: Found 'wip' in local commit. Please fix before pushing.\033[0m"
-  exit 1
+if git log --oneline refs/remotes/origin/HEAD..HEAD 2>/dev/null | grep --ignore-case "wip"; then
+  error "Found 'wip' in local commit. Please fix before pushing."
 fi
 
-git push -u origin "${1:-$(git current-branch)}"
+push_opts=(--set-upstream origin "$current_branch")
+
+git push "${push_opts[@]}"
