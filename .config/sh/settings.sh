@@ -178,6 +178,18 @@ nix() {
   return $exit_code
 }
 
+direnv() {
+  command direnv "$@"
+  local exit_code=$?
+  if [[ $exit_code -ne 0 ]]; then
+    echo ""
+    echo "direnv command failed!"
+    echo "Did you forget to create .envrc?"
+    echo "to use nix direnv, run \"echo 'use flake' > .envrc\""
+  fi
+  return $exit_code
+}
+
 # aliasにすると定義したところで評価されてしまうので関数にする必要がある
 cdg() {
   cd "$(git rev-parse --show-toplevel)" || return
