@@ -9,6 +9,14 @@ error() { echo -e "\n${RED}Error: $1${RESET}" >&2; exit 1; }
 
 current_branch=$(git branch --show-current)
 
+force_push=false
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -f|--force) force_push=true ;;
+  esac
+  shift
+done
+
 if grep --ignore-case "wip" <<< "$current_branch"; then
   error "Found 'wip' in branch name. Please fix before pushing."
 fi
@@ -17,5 +25,8 @@ if git log --oneline refs/remotes/origin/HEAD..HEAD 2>/dev/null | grep --ignore-
 fi
 
 push_opts=(--set-upstream origin "$current_branch")
+if [[ "$force_push" == true ]]; then
+  push_opts+=(--force-with-lease --force-if-includes)
+fi
 
 git push "${push_opts[@]}"
