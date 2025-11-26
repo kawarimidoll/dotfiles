@@ -79,6 +79,7 @@ alias nvimprofile='nvim --cmd "profile start profile.txt" --cmd "profile file ~/
 alias nvr="nv -c 'let g:open_latest_path_on_startup=1'"
 alias pull='git pull-with-check'
 alias push='git push-with-check'
+alias pushf='git push-with-check --force'
 # alias rm='rm -i --preserve-root'
 alias she="nvim ${shell_rc}"
 alias shl="nvim ${shell_rc}.local"
@@ -227,10 +228,6 @@ fpull() {
   else
     pull
   fi
-}
-
-pushf() {
-  git push --force-with-lease --force-if-includes -u origin "${1:-$(git current-branch)}"
 }
 
 clone() {
