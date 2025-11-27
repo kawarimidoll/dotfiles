@@ -33,6 +33,7 @@ export MANPAGER='sh -c "sed -E '\''s/\x1B\[[0-9;]*[mGKH]//g'\'' | vim -RMn --not
 # export EDITOR="vim"
 export EDITOR="nvim"
 # export GOPATH="${HOME}/go"
+PATH="${PATH}:/usr/local/bin"
 PATH="${HOME}/bin:${PATH}"
 PATH="${CARGO_HOME}/bin:${PATH}"
 PATH="${HOME}/.deno/bin:${PATH}"
