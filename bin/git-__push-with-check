@@ -3,9 +3,11 @@
 set -euo pipefail
 
 RED='\033[31m'
+YELLOW='\033[33m'
 RESET='\033[0m'
 
 error() { echo -e "\n${RED}Error: $1${RESET}" >&2; exit 1; }
+warn() { echo -e "${YELLOW}Warning: $1${RESET}"; }
 
 current_branch=$(git branch --show-current)
 
@@ -17,11 +19,23 @@ while [[ $# -gt 0 ]]; do
   shift
 done
 
+# git 範囲指定の A..B は「Aには含まれないがBには含まれるコミット」を意味する
+
 if grep --ignore-case "wip" <<< "$current_branch"; then
   error "Found 'wip' in branch name. Please fix before pushing."
 fi
 if git log --oneline refs/remotes/origin/HEAD..HEAD 2>/dev/null | grep --ignore-case "wip"; then
   error "Found 'wip' in local commit. Please fix before pushing."
+fi
+
+ahead_count=$(git rev-list --count HEAD..refs/remotes/origin/HEAD 2>/dev/null || echo "0")
+if [[ "$ahead_count" -gt 0 ]]; then
+  warn "refs/remotes/origin/HEAD is $ahead_count commit(s) ahead. Rebase may be needed."
+  read -r -p "Continue with push anyway? [y/N]: " answer
+  if [[ ! "$answer" =~ ^[Yy]$ ]]; then
+    echo "Push cancelled."
+    exit 0
+  fi
 fi
 
 push_opts=(--set-upstream origin "$current_branch")
