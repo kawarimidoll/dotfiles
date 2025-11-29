@@ -1,0 +1,21 @@
+KeyBind:
+  down:
+      - "Enter"
+      - "Down"
+      - "ctrl+N"
+      - "j"
+  up:
+      - "Up"
+      - "ctrl+p"
+      - "k"
+  jump_target:
+      - "J"
+  page_down:
+      - "PageDown"
+      - "ctrl+f"
+  follow_mode:
+      - "ctrl+v"
+  next_section:
+      - "Tab"
+  previous_section:
+      - "Backtab"
