@@ -39,8 +39,9 @@ in
 
     packages =
       let
-        koi = inputs.koi.packages.${pkgs.stdenv.hostPlatform.system}.default;
-        cage = inputs.cage.packages.${pkgs.stdenv.hostPlatform.system}.default;
+        system = pkgs.stdenv.hostPlatform.system;
+        koi = inputs.koi.packages.${system}.default;
+        cage = inputs.cage.packages.${system}.default;
       in
       with pkgs;
       [
@@ -48,6 +49,7 @@ in
         cage
 
         act
+        ad
         asciiquarium
         ast-grep
         astroterm
@@ -80,6 +82,7 @@ in
         diffnav
         diffutils
         djlint
+        doxx
         dprint
         dust
         efm-langserver
@@ -144,6 +147,7 @@ in
         macchina
         mcat
         mcfly
+        mdfried
         moreutils
         nano
         nb
@@ -159,11 +163,13 @@ in
         nodejs_22
         nurl
         nyancat
+        ov
         pnpm
         posting
         presenterm
         procs
         qq
+        qrtool
         rainfrog
         rebar3
         restman
@@ -206,6 +212,7 @@ in
         wget
         wtfutil
         xh
+        xleak
         xplr
         yarn
         yazi
