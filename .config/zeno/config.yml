@@ -199,3 +199,11 @@ completions:
     sourceCommand: "printenv | sed -e 's/=.*//'"
     options:
       --prompt: "'Env> '"
+
+  - name: jobs
+    patterns:
+      - "^fg $"
+    sourceCommand: "jobs"
+    callback: "awk -F'[][]' '{print \"%\" $2}'"
+    options:
+      --prompt: "'Jobs> '"
