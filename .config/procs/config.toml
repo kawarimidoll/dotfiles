@@ -1,0 +1,72 @@
+[[columns]]
+kind = "Pid"
+style = "BrightYellow|Yellow"
+numeric_search = true
+nonnumeric_search = false
+align = "Left"
+
+[[columns]]
+kind = "User"
+style = "BrightGreen|Green"
+numeric_search = false
+nonnumeric_search = true
+align = "Left"
+
+[[columns]]
+kind = "Separator"
+style = "White|BrightBlack"
+numeric_search = false
+nonnumeric_search = false
+align = "Left"
+
+[[columns]]
+kind = "Tty"
+style = "BrightWhite|Black"
+numeric_search = false
+nonnumeric_search = false
+align = "Left"
+
+[[columns]]
+kind = "UsageCpu"
+style = "ByPercentage"
+numeric_search = false
+nonnumeric_search = false
+align = "Right"
+
+[[columns]]
+kind = "UsageMem"
+style = "ByPercentage"
+numeric_search = false
+nonnumeric_search = false
+align = "Right"
+
+[[columns]]
+kind = "CpuTime"
+style = "BrightCyan|Cyan"
+numeric_search = false
+nonnumeric_search = false
+align = "Left"
+
+[[columns]]
+kind = "MultiSlot"
+style = "ByUnit"
+numeric_search = false
+nonnumeric_search = false
+align = "Right"
+
+[[columns]]
+kind = "Separator"
+style = "White|BrightBlack"
+numeric_search = false
+nonnumeric_search = false
+align = "Left"
+
+[[columns]]
+kind = "Command"
+style = "BrightWhite|Black"
+numeric_search = false
+nonnumeric_search = true
+align = "Left"
+
+[pager]
+command = "ov --header=2 --wrap=false --column-delimiter=│"
