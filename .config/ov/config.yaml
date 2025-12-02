@@ -8,6 +8,15 @@ KeyBind:
       - "Up"
       - "ctrl+p"
       - "k"
+  left:
+      - "left"
+      - "h"
+  right:
+      - "right"
+      - "l"
+  top:
+      - "Home"
+      - "0"
   jump_target:
       - "J"
   page_down:
@@ -19,3 +28,7 @@ KeyBind:
       - "Tab"
   previous_section:
       - "Backtab"
+  help:
+      - "?"
+      - "ctrl+alt+c"
+      - "ctrl+f1"
