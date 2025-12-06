@@ -165,6 +165,19 @@ later(function()
 end)
 
 later(function()
+  -- quickfixだけが残る場合は一緒に閉じる
+  create_autocmd('QuitPre', {
+    callback = function()
+      if vim.fn.winnr('$') == 2 then
+        vim.cmd.cclose()
+        vim.cmd.lclose()
+      end
+    end,
+    desc = 'Quit Vim if only quickfix remains',
+  })
+end)
+
+later(function()
   local eager_cabbrev = require('mi.eager_cabbrev')
   eager_cabbrev('yep', 'echo "yeah"')
   eager_cabbrev('ec', 'echo')
