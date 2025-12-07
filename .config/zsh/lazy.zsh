@@ -156,6 +156,18 @@ zle -N copy-region-and-deactivate
 bindkey '^[W' copy-region-and-deactivate
 bindkey '^[w' copy-region-and-deactivate
 
+# delete-last-argument: コマンドラインの最後の引数を削除
+# https://eiji.page/blog/zsh-delete-last-argument/
+function delete_last_argument() {
+  # コマンドラインをシェルのパースに基づいて配列化
+  local tokens=("${(z)BUFFER}")
+  (( ${#tokens} > 1 )) || return
+  # 最後の引数を除いて結合
+  BUFFER="${(j: :)${tokens[1,-2]}}"
+}
+zle -N delete_last_argument
+bindkey "^Xw" delete_last_argument
+
 # quote-word-or-region: 選択中はquote-region、通常時はquote-word
 quote-word-or-region() {
   if [ $REGION_ACTIVE -eq 0 ]; then
