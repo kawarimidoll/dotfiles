@@ -9,8 +9,8 @@
 # [optional body]
 
 # [optional footer]
-# Co-Authored-By: username <id+username@users.noreply.github.com>
-# to search github id: https://api.github.com/users/[username]
+# To add Co-Authored-By GitHub user, uncomment below line, rename {username}, and type `!!sh<cr>` on the line
+# u={username}; gh api users/$u --jq '"Co-Authored-By: \(.name // .login) <\(.id)+\(.login)@users.noreply.github.com>"'
 
 # ==========
 # - https://zenn.dev/mnonamer/articles/co-author-email
