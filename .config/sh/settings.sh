@@ -145,8 +145,10 @@ rm() {
   # 全ての引数が安全か判定
   local base
   for arg in "${args[@]}"; do
-    # /tmp以下またはTMPDIR以下のファイルは許可
-    if [[ "$arg" == /tmp/* ]] || [[ -n "$TMPDIR" && "$arg" == "$TMPDIR"* ]]; then
+    # /tmp以下、TMPDIR以下、.cache以下のファイルは許可
+    if [[ "$arg" == /tmp/* ]] \
+      || [[ -n "$TMPDIR" && "$arg" == "$TMPDIR"* ]] \
+      || [[ "$arg" == */.cache/* ]]; then
       continue
     fi
 
