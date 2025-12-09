@@ -207,3 +207,14 @@ completions:
     callback: "awk -F'[][]' '{print \"%\" $2}'"
     options:
       --prompt: "'Jobs> '"
+
+  - name: difit
+    patterns:
+      - "^difit $"
+    sourceCommand: "git --no-pager log --oneline"
+    callback: "sed 's/ .*//'"
+    options:
+      --prompt: "'Commits> '"
+      --no-sort: true
+      --no-multi: true
+      --preview: "echo {} | sed 's/ .*//' | xargs --no-run-if-empty git show --color=always"
