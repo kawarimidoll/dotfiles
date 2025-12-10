@@ -35,6 +35,7 @@ bindkey '^]' vi-find-next-char
 bindkey '^[' vi-find-prev-char
 
 bindkey '^X^R' redo
+bindkey '^[[61;5u' redo # Ctrl+=
 
 bindkey ' '      zeno-auto-snippet
 bindkey '^m'     zeno-auto-snippet-and-accept-line
