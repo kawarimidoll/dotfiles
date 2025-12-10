@@ -185,13 +185,16 @@ k.writeToProfile(profileName, [
   ]),
 
   k.rule(
-    "⌘z to ⌃_ in terminal apps",
-    k.ifApp("^com\\.mitchellh\\.ghostty$"),
+    "⌘z/⌘⇧z to undo/redo in terminal apps",
+    k.ifApp(["^com\\.mitchellh\\.ghostty$"]),
   ).manipulators([
+    // undo ⌃_
     k.map("z", "⌘").to("-", "⌃⇧"),
+    // redo ⌃=
+    k.map("z", "⌘⇧").to("=", "⌃"),
   ]),
 
-  k.rule("Hyper+↑ to cicle window size using Raycast").manipulators([
+  k.rule("Hyper+↑ to cycle window size using Raycast").manipulators([
     // to run this, allow permission to use external call in Raycast
     (() => {
       const varName = "var_window_cycle";
