@@ -35,12 +35,16 @@ local function add_co_authored_by()
   end)
 end
 
+local function startinsert_with_commit_prefix(prefix, col)
+  vim.api.nvim_buf_set_lines(0, 0, 0, false, { prefix })
+  vim.api.nvim_win_set_cursor(0, { 1, col })
+  vim.cmd('startinsert!')
+end
+
 vim.keymap.set('n', 'i', function()
   local key = get_conventional_key()
   if key then
-    vim.api.nvim_buf_set_lines(0, 0, 0, false, { key .. ': ' })
-    vim.api.nvim_win_set_cursor(0, { 1, #key + 2 })
-    vim.cmd('startinsert!')
+    startinsert_with_commit_prefix(key .. ': ', #key + 1)
   elseif is_co_authored_by_line() then
     add_co_authored_by()
   else
@@ -48,16 +52,32 @@ vim.keymap.set('n', 'i', function()
   end
 end, { buffer = true })
 
+vim.keymap.set('n', 'I', function()
+  local key = get_conventional_key()
+  if key then
+    startinsert_with_commit_prefix(key .. '!: ', #key + 2)
+  else
+    vim.api.nvim_feedkeys('I', 'n', false)
+  end
+end, { buffer = true })
+
 vim.keymap.set('n', 'a', function()
   local key = get_conventional_key()
   if key then
-    vim.api.nvim_buf_set_lines(0, 0, 0, false, { key .. '(): ' })
-    vim.api.nvim_win_set_cursor(0, { 1, #key + 1 })
-    vim.cmd('startinsert')
+    startinsert_with_commit_prefix(key .. '(): ', #key)
   elseif is_co_authored_by_line() then
     add_co_authored_by()
   else
     vim.api.nvim_feedkeys('a', 'n', false)
+  end
+end, { buffer = true })
+
+vim.keymap.set('n', 'A', function()
+  local key = get_conventional_key()
+  if key then
+    startinsert_with_commit_prefix(key .. '()!: ', #key)
+  else
+    vim.api.nvim_feedkeys('A', 'n', false)
   end
 end, { buffer = true })
 
