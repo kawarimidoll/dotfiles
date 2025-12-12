@@ -119,14 +119,14 @@
 	verbose = true
 	gpgsign = true
 [merge]
-	tool = vimdiff
-	conflictStyle = zdiff3
+	tool = vimdiff2
+	; conflictStyle = zdiff3
 [mergetool]
 	prompt = false
 	keepBackup = false
 	trustExitCode = true
-[mergetool.vimdiff]
-	layout = "@LOCAL,REMOTE"
+; [mergetool.vimdiff]
+; 	layout = "@LOCAL,REMOTE"
 [worktree]
 	useRelativePaths = true
 [pager]
