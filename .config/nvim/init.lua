@@ -244,6 +244,9 @@ now(function()
       if last_key ~= '' then
         mode = mode .. ' ' .. last_key
       end
+      if vim.env.IN_LAZYGIT ~= nil then
+        mode = '[LG] ' .. mode
+      end
       local rec = vim.fn.reg_recording()
       if rec == '' then
         return mode, hl

@@ -14,6 +14,13 @@ customCommands:
   - key: "P"
     context: "global"
     command: "git push-with-check"
+# https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md#configuring-file-editing
+os:
+  edit: 'IN_LAZYGIT=1 nvim -- {{filename}}'
+  editAtLine: 'IN_LAZYGIT=1 nvim +{{line}} -- {{filename}}'
+  editAtLineAndWait: 'IN_LAZYGIT=1 nvim +{{line}} -- {{filename}}'
+  editInTerminal: true
+  openDirInEditor: 'IN_LAZYGIT=1 nvim -- {{dir}}'
 # there is blinking bug https://github.com/jesseduffield/lazygit/issues/1302
 git:
   overrideGpg: true
