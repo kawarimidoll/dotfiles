@@ -3,18 +3,16 @@
 
 set -e
 
-brew_with_echo() {
-  echo "brew $*"
-  brew "$@"
-}
-
 date -Iseconds
 
-brew_with_echo doctor
-brew_with_echo update
-brew_with_echo upgrade --fetch-HEAD
-brew_with_echo upgrade --cask
-brew_with_echo cleanup -s
+(
+  set -x
+  brew doctor
+  brew update
+  brew upgrade --fetch-HEAD
+  brew upgrade --cask
+  brew cleanup -s
+)
 
 echo 'log list...'
 {
