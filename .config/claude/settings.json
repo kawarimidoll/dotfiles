@@ -1,5 +1,6 @@
 {
   "env": {
+    "EDITOR": "nvim -n +'set awa' +'startinsert'",
     "CLAUDE_CODE_AUTO_CONNECT_IDE": "0",
     "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
     "CLAUDE_CODE_ENABLE_TELEMETRY": "0",
