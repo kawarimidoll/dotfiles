@@ -9,6 +9,11 @@ extend-exclude = [
 
 [type.vimscript.extend-words]
 enew = "enew"
+matchend = "matchend"
 
 [type.lua.extend-words]
 enew = "enew"
+matchend = "matchend"
+
+[type.rust.extend-words]
+ratatui = "ratatui"
