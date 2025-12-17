@@ -182,6 +182,20 @@ quote-word-or-region() {
 zle -N quote-word-or-region
 bindkey '^[[39;5u' quote-word-or-region  # Ctrl+'
 
+# https://github.com/mdumitru/fancy-ctrl-z/blob/master/fancy-ctrl-z.zsh
+# https://gist.github.com/yuki-yano/f1f0d11db6d1d49180bca7e282599932
+fancy-ctrl-z () {
+  if [[ $#BUFFER -eq 0 ]]; then
+    BUFFER=" fg"
+    zle accept-line
+  else
+    zle push-input
+    zle clear-screen
+  fi
+}
+zle -N fancy-ctrl-z
+bindkey '^Z' fancy-ctrl-z
+
 autoload -Uz add-zsh-hook
 
 # Set tab name of kitty https://github.com/kovidgoyal/kitty/issues/930
