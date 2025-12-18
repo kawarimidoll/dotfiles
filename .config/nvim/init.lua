@@ -150,6 +150,11 @@ later(function()
 end)
 
 later(function()
+  local operator_join = require('mi.operator_join')
+  vim.keymap.set('n', 'J', operator_join, { expr = true, silent = true, desc = 'Join lines' })
+end)
+
+later(function()
   vim.ui.input = require('mi.ui_input').ui_input
 end)
 
@@ -1081,23 +1086,6 @@ later(function()
       -- vim.opt_local.foldcolumn = '0'
     end,
   })
-end)
-
-later(function()
-  -- @param mode string|nil One of `nil`, `'char'`, `'line'`, `'block'`, `'visual'`.
-  _G.OperatorJoin = function(mode)
-    if U.blank(mode) then
-      vim.o.operatorfunc = 'v:lua.OperatorJoin'
-      return 'g@'
-    end
-    vim.cmd('normal! `[v`]J')
-  end
-  vim.keymap.set(
-    'n',
-    'J',
-    'v:lua.OperatorJoin()',
-    { expr = true, silent = true, replace_keycodes = false, desc = 'Join lines' }
-  )
 end)
 
 later(function()
