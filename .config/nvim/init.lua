@@ -1153,22 +1153,18 @@ end)
 
 later(function()
   add('https://github.com/y3owk1n/undo-glow.nvim')
-  _G.UndoGlow = require('undo-glow')
-  UndoGlow.setup()
-  vim.keymap.set('n', 'u', UndoGlow.undo, { desc = 'Undo with highlight' })
-  vim.keymap.set('n', 'U', UndoGlow.redo, { desc = 'Redo with highlight' })
-  vim.keymap.set(
-    'n',
-    'p',
-    '<cmd>lua UndoGlow.paste_below()<cr>`]',
-    { desc = 'Paste below with highlight' }
-  )
-  vim.keymap.set(
-    'n',
-    'P',
-    '<cmd>lua UndoGlow.paste_above()<cr>`]',
-    { desc = 'Paste above with highlight' }
-  )
+  local undo_glow = require('undo-glow')
+  undo_glow.setup()
+  vim.keymap.set('n', 'u', undo_glow.undo, { desc = 'Undo with highlight' })
+  vim.keymap.set('n', 'U', undo_glow.redo, { desc = 'Redo with highlight' })
+  vim.keymap.set('n', 'p', function()
+    undo_glow.paste_below()
+    vim.api.nvim_feedkeys('`]', 'n', false)
+  end, { desc = 'Paste below with highlight' })
+  vim.keymap.set('n', 'P', function()
+    undo_glow.paste_above()
+    vim.api.nvim_feedkeys('`]', 'n', false)
+  end, { desc = 'Paste above with highlight' })
 end)
 
 later(function()
