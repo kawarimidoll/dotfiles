@@ -132,7 +132,8 @@ if not vim.uv.fs_stat(mini_path) then
 end
 
 -- Set up 'mini.deps' (customize to your liking)
-require('mini.deps').setup({ path = { package = path_package } })
+local MiniDeps = require('mini.deps')
+MiniDeps.setup({ path = { package = path_package } })
 
 local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later
 
@@ -235,7 +236,8 @@ later(function()
 end)
 
 now(function()
-  require('mini.statusline').setup()
+  local MiniStatusline = require('mini.statusline')
+  MiniStatusline.setup()
 
   MiniStatusline.section_mode = (function(wrapped)
     return function(args)
@@ -260,7 +262,8 @@ now(function()
 end)
 
 now(function()
-  require('mini.misc').setup()
+  local MiniMisc = require('mini.misc')
+  MiniMisc.setup()
 
   MiniMisc.setup_restore_cursor()
 
@@ -271,9 +274,10 @@ now(function()
 end)
 
 now(function()
-  require('mini.notify').setup()
+  local MiniNotify = require('mini.notify')
+  MiniNotify.setup()
 
-  vim.notify = require('mini.notify').make_notify({})
+  vim.notify = MiniNotify.make_notify({})
 
   vim.api.nvim_create_user_command('NotifyHistory', function()
     MiniNotify.show_history()
@@ -335,7 +339,8 @@ later(function()
 end)
 
 later(function()
-  require('mini.trailspace').setup()
+  local MiniTrailspace = require('mini.trailspace')
+  MiniTrailspace.setup()
 
   vim.api.nvim_create_user_command('Trim', function()
     MiniTrailspace.trim()
@@ -344,7 +349,8 @@ later(function()
 end)
 
 now(function()
-  require('mini.sessions').setup()
+  local MiniSessions = require('mini.sessions')
+  MiniSessions.setup()
 
   local function get_sessions(lead)
     -- ref: https://qiita.com/delphinus/items/2c993527df40c9ebaea7
@@ -649,7 +655,8 @@ now(function()
 end)
 
 later(function()
-  require('mini.fuzzy').setup()
+  local MiniFuzzy = require('mini.fuzzy')
+  MiniFuzzy.setup()
   require('mini.completion').setup({
     lsp_completion = {
       process_items = MiniFuzzy.process_lsp_items,
@@ -740,7 +747,8 @@ later(function()
 end)
 
 later(function()
-  require('mini.bufremove').setup()
+  local MiniBufremove = require('mini.bufremove')
+  MiniBufremove.setup()
 
   vim.api.nvim_create_user_command('Bufdelete', function()
     MiniBufremove.delete()
@@ -751,7 +759,8 @@ later(function()
 end)
 
 now(function()
-  require('mini.files').setup()
+  local MiniFiles = require('mini.files')
+  MiniFiles.setup()
 
   vim.api.nvim_create_user_command('Files', function()
     MiniFiles.open()
@@ -760,7 +769,8 @@ now(function()
 end)
 
 later(function()
-  require('mini.pick').setup()
+  local MiniPick = require('mini.pick')
+  MiniPick.setup()
 
   vim.ui.select = MiniPick.ui_select
 
@@ -808,7 +818,8 @@ later(function()
 end)
 
 later(function()
-  require('mini.git').setup()
+  local MiniGit = require('mini.git')
+  MiniGit.setup()
 
   vim.keymap.set({ 'n', 'x' }, '<space>gs', MiniGit.show_at_cursor, { desc = 'Show at cursor' })
 end)
@@ -879,12 +890,12 @@ later(function()
 end)
 
 later(function()
-  local map = require('mini.map')
-  map.setup({
+  local MiniMap = require('mini.map')
+  MiniMap.setup({
     integrations = {
-      map.gen_integration.builtin_search(),
-      map.gen_integration.diff(),
-      map.gen_integration.diagnostic(),
+      MiniMap.gen_integration.builtin_search(),
+      MiniMap.gen_integration.diff(),
+      MiniMap.gen_integration.diagnostic(),
     },
     symbols = {
       scroll_line = '▶',
