@@ -198,11 +198,6 @@ function! mi#qf#fit_window(size = {}) abort
   execute 'resize' min([max([size_min, getqflist({ 'size': 1 }).size]), size_max])
 endfunction
 
-function! mi#qf#quit_if_last_buf() abort
-  if winnr('$') == 1 && mi#qf#is_qf_buf()
-    quit
-  endif
-endfunction
 
 function! mi#qf#get_current_item() abort
   try

@@ -171,15 +171,21 @@ later(function()
 end)
 
 later(function()
-  -- quickfixだけが残る場合は一緒に閉じる
+  -- 残りが特殊windowだけの場合は一緒に閉じる
   create_autocmd('QuitPre', {
     callback = function()
-      if vim.fn.winnr('$') == 2 then
-        vim.cmd.cclose()
-        vim.cmd.lclose()
+      local current_win = vim.api.nvim_get_current_win()
+      for _, win in ipairs(vim.api.nvim_list_wins()) do
+        if win ~= current_win then
+          local buf = vim.api.nvim_win_get_buf(win)
+          if vim.bo[buf].buftype == '' then
+            return
+          end
+        end
       end
+      vim.cmd.only({ bang = true })
     end,
-    desc = 'Quit Vim if only quickfix remains',
+    desc = 'Quit Vim if only non-normal buffer remains',
   })
 end)
 

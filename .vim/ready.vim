@@ -95,7 +95,19 @@ else
   autocmd CursorMoved * call mi#highlight#cursorword('Underlined')
   autocmd CursorMoved,CursorMovedI * call mi#highlight#match_paren('Underlined')
   autocmd TextYankPost * silent! call mi#highlight#on_yank({'timeout': 500})
-  autocmd WinEnter * call mi#qf#quit_if_last_buf()
+  function! s:close_special_windows() abort
+    let current_win = winnr()
+    for winnr in range(1, winnr('$'))
+      if winnr != current_win
+        let buftype = getbufvar(winbufnr(winnr), '&buftype')
+        if buftype ==# ''
+          return
+        endif
+      endif
+    endfor
+    only!
+  endfunction
+  autocmd QuitPre * call s:close_special_windows()
   autocmd FileType qf call mi#qf#fit_window({'min': 3, 'max': 10})
 
   source ~/dotfiles/.vim/autoload/mi/searchprop.vim
