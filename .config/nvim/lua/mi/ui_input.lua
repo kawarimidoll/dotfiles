@@ -39,7 +39,7 @@ M.ui_input = function(opts, on_confirm)
   vim.api.nvim_buf_set_text(buffer, 0, 0, 0, 0, { default })
 
   -- Start insert from the end of the line
-  vim.cmd('startinsert!')
+  vim.cmd.startinsert({ bang = true })
 
   -- Function to close the window
   local close_win = function()

@@ -4,7 +4,7 @@ _G.OperatorJoin = function(mode)
     vim.o.operatorfunc = 'v:lua.OperatorJoin'
     return 'g@'
   end
-  vim.cmd('normal! `[v`]J')
+  vim.cmd.normal({ args = { '`[v`]J' }, bang = true })
 end
 
 return _G.OperatorJoin

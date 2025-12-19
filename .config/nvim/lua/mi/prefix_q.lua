@@ -8,7 +8,7 @@ vim.api.nvim_create_autocmd('RecordingEnter', {
   callback = function()
     -- q以外のマクロは使わないので即終了
     if vim.fn.reg_recording() ~= 'q' then
-      vim.cmd('normal! q')
+      vim.cmd.normal({ args = { 'q' }, bang = true })
       return
     end
 
@@ -31,7 +31,7 @@ vim.api.nvim_create_autocmd('RecordingEnter', {
       once = true,
       group = augroup_inner,
       callback = function()
-        vim.cmd('normal! q')
+        vim.cmd.normal({ args = { 'q' }, bang = true })
         vim.notify('stop recording', vim.log.levels.INFO)
       end,
       desc = 'stop recording when leaving buffer',

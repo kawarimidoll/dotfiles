@@ -42,7 +42,7 @@ vim.api.nvim_create_user_command('Ni', function()
   vim.print(result)
 
   -- cd back to the old directory
-  vim.cmd('cd ' .. old_dir)
+  vim.cmd.cd(old_dir)
 end, { desc = 'npm install' })
 
 vim.api.nvim_create_user_command('Confetti', function()
@@ -51,7 +51,7 @@ end, { desc = 'Confetti' })
 vim.keymap.set('n', '<space>0', '<cmd>Confetti<cr>', { desc = 'Confetti' })
 
 vim.api.nvim_create_user_command('BufDiff', function(arg)
-  vim.cmd('vertical diffsplit ' .. (arg.nargs == 1 and arg.args or '#'))
+  vim.cmd.diffsplit({ mods = { vertical = true }, args = (arg.nargs == 1 and arg.args or { '#' }) })
 end, { nargs = '?', complete = 'file', desc = 'Show diff with current buffer' })
 vim.api.nvim_create_user_command('DiffOff', function()
   vim.cmd.diffoff()
@@ -106,7 +106,7 @@ end, { nargs = '?', complete = 'file', bang = true, desc = 'Save using sudo' })
 vim.api.nvim_create_user_command('Saveas', function(arg)
   vim.cmd.saveas({ bang = arg.bang, args = arg.fargs })
   vim.schedule(function()
-    vim.cmd('edit!')
+    vim.cmd.edit({ bang = true })
   end)
 end, { nargs = 1, bang = true, complete = 'file', desc = 'Wrapped saveas' })
 
@@ -154,8 +154,7 @@ vim.api.nvim_create_user_command('CopyFileName', function(opts)
 end, { range = true, desc = 'Copy the file name of the current file to the clipboard' })
 
 vim.api.nvim_create_user_command('SearchToQf', function(opts)
-  local cmd = opts.bang and 'vimgrepadd' or 'vimgrep'
-  vim.cmd(cmd .. '//gj %')
+  vim.cmd({ cmd = opts.bang and 'vimgrepadd' or 'vimgrep', args = { '//gj %' } })
   vim.cmd.cwindow()
 end, { bang = true })
 
@@ -175,8 +174,8 @@ local function memo()
   -- 現在のバッファがメモのバッファであれば、保存して閉じる
   local current_buf = vim.api.nvim_get_current_buf()
   if current_buf == memo_bufnr then
-    vim.cmd('silent update')
-    vim.cmd('bdelete')
+    vim.cmd.update({ mods = { silent = true } })
+    vim.cmd.bdelete()
     return
   end
 
@@ -192,14 +191,14 @@ local function memo()
   -- したがってここまで来た場合は、メモのバッファが存在しないことになる
 
   -- メモのバッファを新規作成
-  vim.cmd('12split')
-  vim.cmd('edit ' .. vim.fn.fnameescape(memo_path))
+  vim.cmd.split({ args = { vim.fn.fnameescape(memo_path) } })
+  vim.api.nvim_win_set_height(0, 12)
   vim.opt_local.bufhidden = 'wipe'
   vim.opt_local.swapfile = false
   vim.api.nvim_create_autocmd({ 'InsertLeave', 'BufLeave', 'BufWinLeave' }, {
     buffer = 0,
     callback = function()
-      vim.cmd('silent update')
+      vim.cmd.update({ mods = { silent = true } })
     end,
     group = memoaugroup,
   })

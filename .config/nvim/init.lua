@@ -106,7 +106,7 @@ create_autocmd('BufNewFile', {
     end)
     vim.schedule(function()
       vim.cmd.edit(possible[1])
-      vim.cmd('bwipeout! #')
+      vim.cmd.bwipeout({ args = { '#' }, bang = true })
       if #possible > 1 then
         vim.notify('There are ' .. #possible .. ' files that match ' .. fname, vim.log.levels.INFO)
       end
@@ -1217,7 +1217,7 @@ later(function()
       float_opts = { border = 'rounded' },
       -- function to run on opening the terminal
       on_open = function(term)
-        vim.cmd('startinsert!')
+        vim.cmd.startinsert({ bang = true })
         local bufnr = term.bufnr
         ---@cast bufnr integer
         vim.keymap.set('n', 'q', function()
@@ -1226,7 +1226,7 @@ later(function()
       end,
       -- function to run on closing the terminal
       on_close = function(_term)
-        vim.cmd('startinsert!')
+        vim.cmd.startinsert({ bang = true })
       end,
     })
     vim.api.nvim_create_user_command(ex_command, function()

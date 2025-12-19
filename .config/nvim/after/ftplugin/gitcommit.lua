@@ -38,7 +38,7 @@ end
 local function startinsert_with_commit_prefix(prefix, col)
   vim.api.nvim_buf_set_lines(0, 0, 0, false, { prefix })
   vim.api.nvim_win_set_cursor(0, { 1, col })
-  vim.cmd('startinsert!')
+  vim.cmd.startinsert({ bang = true })
 end
 
 vim.keymap.set('n', 'i', function()
