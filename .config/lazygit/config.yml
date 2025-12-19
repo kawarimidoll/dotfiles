@@ -4,7 +4,6 @@ gui:
       # - default
       - reverse
   showFileTree: false
-  useHunkModeInStagingView: false
 keybinding:
   files:
     # swap default bindings
