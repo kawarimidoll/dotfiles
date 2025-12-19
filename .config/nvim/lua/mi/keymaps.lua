@@ -4,6 +4,8 @@ local U = require('mi.utils')
 -- vim.keymap.set('n', 'p', 'p`]', { desc = 'Paste and move the end' })
 -- vim.keymap.set('n', 'P', 'P`]', { desc = 'Paste and move the end' })
 
+vim.keymap.set('n', 'gf', 'gF', { desc = 'Open file under cursor including line number' })
+
 vim.keymap.set('x', 'p', 'P', { desc = 'Paste without change register' })
 vim.keymap.set('x', 'P', 'p', { desc = 'Paste with change register' })
 
