@@ -1,5 +1,3 @@
----@diagnostic disable: param-type-not-match
-
 -- cache init.lua
 vim.loader.enable()
 
@@ -805,6 +803,7 @@ later(function()
     require('mini.extra').pickers.visit_paths()
   end, { desc = 'mini.extra.visit_paths' })
   if vim.g.open_latest_path_on_startup then
+    ---@type string?
     local latest_path = require('mini.visits').list_paths()[1]
     if latest_path then
       vim.cmd.edit(latest_path)
@@ -932,12 +931,13 @@ later(function()
       post_checkout = U.noarg(vim.cmd.TSUpdate),
     },
   })
-  ---@diagnostic disable-next-line: missing-fields
-  require('nvim-treesitter.configs').setup({
+  local ts_config = {
     -- auto-install parsers
     ensure_installed = { 'lua', 'vim', 'tsx' },
     highlight = { enable = true },
-  })
+  }
+  ---@cast ts_config TSConfig
+  require('nvim-treesitter.configs').setup(ts_config)
 end)
 
 now(function()
@@ -1135,14 +1135,15 @@ end)
 
 later(function()
   add('https://github.com/windwp/nvim-ts-autotag')
-  ---@diagnostic disable-next-line: missing-fields
-  require('nvim-ts-autotag').setup({
+  local plugin_setup = {
     opts = {
       enable_close = false, -- Auto close tags
       enable_rename = false, -- Auto rename pairs of tags
       enable_close_on_slash = true, -- Auto close on trailing </
     },
-  })
+  }
+  ---@cast plugin_setup nvim-ts-autotag.PluginSetup
+  require('nvim-ts-autotag').setup(plugin_setup)
 end)
 
 later(function()
@@ -1292,7 +1293,7 @@ later(function()
     formatters_by_ft[target] = get_web_formatters
   end
 
-  require('conform').setup({
+  local setup_opts = {
     formatters = {
       dprint = {
         command = 'dprint',
@@ -1306,7 +1307,9 @@ later(function()
       },
     },
     formatters_by_ft = formatters_by_ft,
-  })
+  }
+  ---@cast setup_opts conform.setupOpts
+  require('conform').setup(setup_opts)
 
   vim.keymap.set('n', '<space>i', require('conform').format, { desc = 'format buffer' })
 end)
