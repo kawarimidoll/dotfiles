@@ -91,6 +91,18 @@ else
 
   command! -bang SearchToQf execute (<bang>0 ? 'vimgrepadd' : 'vimgrep') '//gj %' | cwindow
 
+  command! Restart silent call s:restart()
+  function! s:restart() abort
+    let session = $VIM_RESTART_SESSION
+    if empty(session)
+      echomsg 'VIM_RESTART_SESSION is not set'
+      return
+    endif
+    call mkdir(fnamemodify(session, ':h'), 'p')
+    execute 'mksession!' session
+    cquit 42
+  endfunction
+
   " https://www.statox.fr/posts/2020/07/vim_flash_yanked_text/
   autocmd CursorMoved * call mi#highlight#cursorword('Underlined')
   autocmd CursorMoved,CursorMovedI * call mi#highlight#match_paren('Underlined')

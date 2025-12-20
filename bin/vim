@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+session="/tmp/vim/restart_session.vim"
+real_vim="/Users/kawarimidoll/.nix-profile/bin/vim"
+
+args=("$@")
+while true; do
+  VIM_RESTART_SESSION="${session}" "$real_vim" "${args[@]}"
+  [ $? -ne 42 ] && break
+  args=(-S "$session")
+done

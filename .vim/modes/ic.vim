@@ -118,6 +118,7 @@ AbbrevCmd ed edit
 AbbrevCmd en enew
 AbbrevCmd plgs PlugSync
 AbbrevCmd plugs PlugSync
+AbbrevCmd rst Restart
 AbbrevCmd! sv 'saveas ' .. @% .. repeat('<left>', {v -> v>0 ? v+1 : 0}(expand('%:e')->strlen()))
 AbbrevCmd! rn 'Rename ' .. @% .. repeat('<left>', {v -> v>0 ? v+1 : 0}(expand('%:e')->strlen()))
 AbbrevCmd! ss '%s/' .. @/ .. '//g<Left><Left>'
