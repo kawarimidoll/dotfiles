@@ -1,0 +1,110 @@
+# timestamp: 2025-12-21 14:56:30 JST
+tap "dannystewart/apps"
+tap "dhth/tap"
+tap "felixkratz/formulae"
+tap "lambdalisue/arto"
+tap "pakerwreah/calendr"
+brew "container-compose"
+brew "deck"
+brew "dnsmasq"
+brew "fresh-editor"
+brew "gemini-cli"
+brew "git-now"
+brew "lazycontainer"
+brew "lolcrab"
+brew "mas"
+brew "ollama", restart_service: :changed
+brew "pinentry-mac"
+brew "resterm"
+brew "sleepwatcher"
+brew "stormy"
+brew "youtubedr"
+brew "dhth/tap/act3"
+brew "felixkratz/formulae/borders"
+cask "alt-tab"
+cask "anki"
+cask "aqua-voice"
+cask "arto"
+cask "azookey"
+cask "battery-buddy"
+cask "brave-browser"
+cask "calendr"
+cask "charmstone"
+cask "chatgpt"
+cask "claude"
+cask "claude-code"
+cask "clickup"
+cask "clop"
+cask "cloudflare-warp"
+cask "coderabbit"
+cask "container"
+cask "cursor"
+cask "deckset"
+cask "figma"
+cask "filen"
+cask "flux-app"
+cask "folder-colorizer"
+cask "font-departure-mono"
+cask "font-moralerspace-hw"
+cask "font-scientifica"
+cask "font-symbols-only-nerd-font"
+cask "font-udev-gothic-nf"
+cask "ghostty"
+cask "google-japanese-ime"
+cask "iina"
+cask "itsycal"
+cask "jordanbaird-ice@beta"
+cask "karabiner-elements"
+cask "keycastr"
+cask "kitty"
+cask "knockknock"
+cask "lm-studio"
+cask "lulu"
+cask "meetingbar"
+cask "menuwhere"
+cask "music-decoy"
+cask "notion"
+cask "obsidian"
+cask "oversight"
+cask "pixieditor"
+cask "postman"
+cask "pronotes"
+cask "raycast"
+cask "rustrover"
+cask "shottr"
+cask "slack"
+cask "superwhisper"
+cask "suspicious-package"
+cask "swift-shift"
+cask "tableplus"
+cask "tailscale-app"
+cask "timemachinestatus"
+cask "tiny-player"
+cask "trex"
+cask "vibetunnel"
+cask "visual-studio-code"
+cask "volumehud"
+cask "wezterm@nightly"
+cask "whodb"
+cask "zen"
+mas "Battery Line", id: 6462894357
+mas "Bitwarden", id: 1352778147
+mas "CenterMouse", id: 6444685140
+mas "Color Picker", id: 1545870783
+mas "Command X", id: 6448461551
+mas "Folder Quick Look", id: 6753110395
+mas "Gifski", id: 1351639930
+mas "Googly Eyes", id: 6743048714
+mas "Grila", id: 6444335028
+mas "Hand Mirror", id: 1502839586
+mas "MenubarX", id: 1575588022
+mas "Microsoft Excel", id: 462058435
+mas "Microsoft Word", id: 462054704
+mas "On Air Mode", id: 6747852819
+mas "Plash", id: 1494023538
+mas "Pure Paste", id: 1611378436
+mas "RunCat", id: 1429033973
+mas "Shareful", id: 1522267256
+mas "stts", id: 1187772509
+mas "WebSSH", id: 497714887
+mas "Xcode", id: 497799835
