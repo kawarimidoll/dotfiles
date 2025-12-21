@@ -59,7 +59,7 @@ command! -nargs=+ -bang Keymap call s:keymap(<bang>0, <f-args>)
 " endfunction
 " inoremap <c-x><c-k> <c-r>=<sid>look_completefunc()<cr>
 
-" " alc represents auto look completeion
+" " alc represents auto look completion
 " let s:alc_enable = v:false
 " function! s:toggle_alc() abort
 "   let s:alc_enable = !s:alc_enable
@@ -685,7 +685,7 @@ endfunction
 
 " function! s:dprint(line1, line2)
 "   if &filetype !~ '\v^%(%(type|java)script(react)?|markdown|jsonc?|toml|dockerfile)$'
-"     echo '[dprint] filetype ' .. &filetype .. ' is not suppported'
+"     echo '[dprint] filetype ' .. &filetype .. ' is not supported'
 "     return
 "   endif
 "   let curpos = getpos('.')[1:2]
