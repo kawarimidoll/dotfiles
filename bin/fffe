@@ -106,8 +106,12 @@ case "$mode" in
     _preview "$preview_file"
     ;;
   normal)
-    _find | \
-      fzf --multi --exit-0 --query="${query_args[*]}" --preview="$preview_cmd {}" --prompt="Edit with ${editor} > " --cycle | \
-      xargs --no-run-if-empty --open-tty "$editor"
+    files=$(_find | fzf --multi --exit-0 \
+      --query="${query_args[*]}" --preview="$preview_cmd {}" \
+      --prompt="Edit with ${editor} > " --cycle)
+    if [ -n "$files" ]; then
+      IFS=$'\n' read -rd '' -a file_array <<<"$files"
+      "$editor" "${file_array[@]}"
+    fi
     ;;
 esac
