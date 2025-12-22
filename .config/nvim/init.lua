@@ -1062,6 +1062,7 @@ later(function()
   local default_prompts = require('CopilotChat.config.prompts')
   local in_japanese = 'なお、説明は日本語でお願いします。'
   require('CopilotChat').setup({
+    ---@type table<string, CopilotChat.config.prompts.Prompt|string>
     prompts = vim.tbl_deep_extend('force', default_prompts, {
       Explain = { prompt = default_prompts.Explain.prompt .. in_japanese },
       Review = { prompt = default_prompts.Review.prompt .. in_japanese },
@@ -1257,7 +1258,6 @@ later(function()
     return { 'deno_fmt' }
   end
 
-  ---@type table<string, string[]|(fun(bufnr: integer): string[])|table>
   local formatters_by_ft = {
     bash = { 'beautysh' },
     sh = { 'beautysh' },
@@ -1293,7 +1293,7 @@ later(function()
     formatters_by_ft[target] = get_web_formatters
   end
 
-  local setup_opts = {
+  require('conform').setup({
     formatters = {
       dprint = {
         command = 'dprint',
@@ -1303,13 +1303,13 @@ later(function()
         end,
       },
       beautysh = {
+        command = 'beautysh',
         args = { '--indent-size', '2', '-' },
       },
     },
+    ---@type table<string, conform.FiletypeFormatter>
     formatters_by_ft = formatters_by_ft,
-  }
-  ---@cast setup_opts conform.setupOpts
-  require('conform').setup(setup_opts)
+  })
 
   vim.keymap.set('n', '<space>i', require('conform').format, { desc = 'format buffer' })
 end)
