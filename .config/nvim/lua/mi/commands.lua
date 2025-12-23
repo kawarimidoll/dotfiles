@@ -272,12 +272,21 @@ end, { desc = 'Tsgo' })
 -- respect: https://blog.atusy.net/2025/12/02/nvim-restart/
 vim.api.nvim_create_user_command('Restart', function()
   -- cleanup non-normal buffers
-  local bufs = vim.api.nvim_list_bufs()
-  for _, buf in ipairs(bufs) do
-    if vim.bo[buf].buftype ~= '' then
-      vim.api.nvim_buf_delete(buf, { force = true })
+  for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.bo[bufnr].buftype ~= '' then
+      vim.api.nvim_buf_delete(bufnr, { force = true })
     end
   end
-  local session_file = vim.fs.joinpath(tostring(vim.fn.stdpath('state')), 'restart_session.vim')
-  vim.cmd('mksession! ' .. session_file .. ' | restart source ' .. session_file)
+
+  local has_session = vim.v.this_session ~= nil and vim.v.this_session ~= ''
+  local session = has_session and vim.v.this_session
+    or vim.fs.joinpath(tostring(vim.fn.stdpath('state')), 'restart_session.vim')
+
+  vim.fn.mkdir(vim.fs.dirname(session), 'p')
+  vim.cmd.mksession({ args = { session }, bang = true })
+  if not has_session then
+    local session_x = string.gsub(session, '%.vim$', 'x.vim')
+    vim.fn.writefile({ 'let v:this_session = ""' }, session_x)
+  end
+  vim.cmd.restart({ args = { 'source', session } })
 end, { desc = 'Restart current Neovim session' })

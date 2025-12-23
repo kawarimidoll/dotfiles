@@ -93,13 +93,29 @@ else
 
   command! Restart silent call s:restart()
   function! s:restart() abort
-    let session = $VIM_RESTART_SESSION
-    if empty(session)
+    " cleanup non-normal buffers
+    for buf in getbufinfo()
+      if getbufvar(buf.bufnr, '&buftype') !=# ''
+        execute 'bwipeout!' buf.bufnr
+      endif
+    endfor
+
+    let restart_session_file = $VIM_RESTART_SESSION
+    if empty(restart_session_file) || restart_session_file !~# '\.vim$'
       echomsg 'VIM_RESTART_SESSION is not set'
       return
     endif
+
+    let has_session = !empty(v:this_session)
+    let session = has_session ? v:this_session : restart_session_file
     call mkdir(fnamemodify(session, ':h'), 'p')
     execute 'mksession!' session
+    if has_session
+      call writefile([ 'source ' .. v:this_session ], restart_session_file)
+    else
+      call writefile([ 'let v:this_session = ""' ], substitute(restart_session_file, '\.vim$', 'x.vim', ''))
+    endif
+
     cquit 42
   endfunction
 
