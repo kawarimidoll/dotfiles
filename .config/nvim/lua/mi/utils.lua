@@ -109,6 +109,13 @@ function M.skip_hit_enter(fn, opts)
   end
 end
 
+---@param mark string
+function M.set_mark_here(mark)
+  local pos = vim.api.nvim_win_get_cursor(0)
+  vim.api.nvim_buf_set_mark(0, mark:lower(), pos[1], pos[2], {})
+  vim.api.nvim_buf_set_mark(0, mark:upper(), pos[1], pos[2], {})
+end
+
 -- 微妙にうまくいかない
 -- vim.api.nvim_create_user_command(
 --   'SkipHitEnter',
