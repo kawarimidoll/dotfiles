@@ -188,6 +188,27 @@ later(function()
 end)
 
 later(function()
+  -- c/y/dで変更したときにマークする
+  -- https://blog.atusy.net/2025/06/03/vim-contextful-mark/
+  create_autocmd('TextYankPost', {
+    callback = function(ctx)
+      local op = vim.v.event.operator
+      if not op then
+        return
+      end
+      vim.schedule(function()
+        -- Do lazily to avoid occasional failure on setting the mark.
+        -- The issue typically occurs with `dd`.
+        if vim.api.nvim_get_current_buf() == ctx.buf then
+          U.set_mark_here(op)
+        end
+      end)
+    end,
+    desc = 'Set mark on change/yank/delete',
+  })
+end)
+
+later(function()
   local eager_cabbrev = require('mi.eager_cabbrev')
   eager_cabbrev('yep', 'echo "yeah"')
   eager_cabbrev('ec', 'echo')
@@ -1151,15 +1172,23 @@ later(function()
   add('https://github.com/y3owk1n/undo-glow.nvim')
   local undo_glow = require('undo-glow')
   undo_glow.setup()
-  vim.keymap.set('n', 'u', undo_glow.undo, { desc = 'Undo with highlight' })
-  vim.keymap.set('n', 'U', undo_glow.redo, { desc = 'Redo with highlight' })
+  vim.keymap.set('n', 'u', function()
+    undo_glow.undo()
+    U.set_mark_here('u')
+  end, { desc = 'Undo with highlight' })
+  vim.keymap.set('n', 'U', function()
+    undo_glow.redo()
+    U.set_mark_here('u')
+  end, { desc = 'Redo with highlight' })
   vim.keymap.set('n', 'p', function()
     undo_glow.paste_below()
-    vim.api.nvim_feedkeys('`]', 'n', false)
+    vim.cmd.normal({ args = { '`]' }, bang = true })
+    U.set_mark_here('p')
   end, { desc = 'Paste below with highlight' })
   vim.keymap.set('n', 'P', function()
     undo_glow.paste_above()
-    vim.api.nvim_feedkeys('`]', 'n', false)
+    vim.cmd.normal({ args = { '`]' }, bang = true })
+    U.set_mark_here('p')
   end, { desc = 'Paste above with highlight' })
 end)
 

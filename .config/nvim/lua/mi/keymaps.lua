@@ -6,8 +6,9 @@ local U = require('mi.utils')
 
 vim.keymap.set('n', 'gf', 'gF', { desc = 'Open file under cursor including line number' })
 
-vim.keymap.set('x', 'p', 'P', { desc = 'Paste without change register' })
-vim.keymap.set('x', 'P', 'p', { desc = 'Paste with change register' })
+-- intentionally swap p and P
+vim.keymap.set('x', 'p', 'PmpmP', { desc = 'Paste with mark p' })
+vim.keymap.set('x', 'P', 'pmpmP', { desc = 'Paste with mark p' })
 
 vim.keymap.set({ 'n', 'x' }, 'x', '"_d', { desc = 'Delete into blackhole' })
 vim.keymap.set('n', 'X', '"_D', { desc = 'Delete into blackhole' })
