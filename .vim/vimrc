@@ -15,7 +15,7 @@ else
   set encoding=utf-8
   scriptencoding utf-8
   filetype plugin indent on
-  packadd matchit
+
   " syntax enable
   autocmd FileType * ++once ++nested syntax enable
   let g:qf_disable_statusline = 1
@@ -166,8 +166,8 @@ else
 
   command! LazyGit tab terminal ++close ++norestore lazygit
 
-  Keymap nx <expr> gc mi#comment#operator_toggle()
-  nnoremap <expr> gcc mi#comment#operator_toggle() .. '_'
+  " Keymap nx <expr> gc mi#comment#operator_toggle()
+  " nnoremap <expr> gcc mi#comment#operator_toggle() .. '_'
 
   " Keymap nx <expr> sa mi#surround#add()
   Keymap nx <expr> sa mi#surround#operator('add')

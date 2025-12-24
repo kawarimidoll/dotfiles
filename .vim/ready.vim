@@ -84,6 +84,10 @@ if has('nvim')
   " in nvim, remove cwindow since fzf-lua is used instead
   command! -bang SearchToQf execute (<bang>0 ? 'vimgrepadd' : 'vimgrep') '//gj %'
 else
+  packadd matchit
+  packadd comment
+  packadd hlyank
+
   autocmd BufReadPost quickfix call mi#qed#start()
 
   command! -nargs=* -range=% -complete=custom,mi#common#__compl_trim Trim <line1>,<line2>call mi#common#trim([<f-args>])
@@ -122,7 +126,7 @@ else
   " https://www.statox.fr/posts/2020/07/vim_flash_yanked_text/
   autocmd CursorMoved * call mi#highlight#cursorword('Underlined')
   autocmd CursorMoved,CursorMovedI * call mi#highlight#match_paren('Underlined')
-  autocmd TextYankPost * silent! call mi#highlight#on_yank({'timeout': 500})
+  " autocmd TextYankPost * silent! call mi#highlight#on_yank({'timeout': 500})
   function! s:close_special_windows() abort
     let current_win = winnr()
     for winnr in range(1, winnr('$'))
