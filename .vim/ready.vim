@@ -10,7 +10,6 @@ call mi#register#clear()
 
 autocmd TextYankPost * call mi#register#collect_yank_history(10)
 autocmd BufEnter,BufReadPost * call mi#mru#save()
-" autocmd FileType qf ++once packadd cfilter
 
 " nnoremap <right> <cmd>let @* = @"<cr>
 " nnoremap <left> <cmd>let @" = @*<cr>
@@ -87,6 +86,8 @@ else
   packadd matchit
   packadd comment
   packadd hlyank
+  packadd helptoc
+  packadd cfilter
 
   autocmd BufReadPost quickfix call mi#qed#start()
 
