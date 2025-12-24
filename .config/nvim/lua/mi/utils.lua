@@ -68,6 +68,10 @@ end
 
 -- 現在の選択範囲を取得
 function M.get_current_selection()
+  -- return empty array if not in visual mode
+  if not vim.api.nvim_get_mode().mode:match('[vV\x16]') then
+    return {}
+  end
   return vim.fn.getregion(
     vim.fn.getpos('v'),
     vim.fn.getpos('.'),
