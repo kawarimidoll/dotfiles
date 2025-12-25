@@ -9,6 +9,7 @@ tags
 .direnv
 .envrc
 .nvim.lua
+.nvimlog
 .aider*
 .serena*
 **/.well-known/appspecific/com.chrome.devtools.json
