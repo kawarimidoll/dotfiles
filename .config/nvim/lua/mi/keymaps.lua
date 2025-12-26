@@ -4,7 +4,33 @@ local U = require('mi.utils')
 -- vim.keymap.set('n', 'p', 'p`]', { desc = 'Paste and move the end' })
 -- vim.keymap.set('n', 'P', 'P`]', { desc = 'Paste and move the end' })
 
-vim.keymap.set('n', 'gf', 'gF', { desc = 'Open file under cursor including line number' })
+function is_url(str)
+  return vim.regex([[^https\?:\/\/]]):match_str(str) ~= nil
+end
+vim.keymap.set({ 'n', 'x' }, 'gf', function()
+  local selection = vim.fn.join(U.get_current_selection(), '')
+  if U.blank(selection) then
+    selection = vim.fn.expand('<cfile>')
+  end
+  if is_url(selection) then
+    vim.cmd.normal('gx')
+    return
+  end
+
+  if pcall(vim.cmd.normal, { args = { 'gF' }, bang = true }) then
+    return
+  end
+
+  local isfname_save = vim.o.isfname
+  vim.opt.isfname:remove('#')
+
+  local ok, err = pcall(vim.cmd.normal, { args = { 'gF' }, bang = true })
+  vim.o.isfname = isfname_save
+
+  if not ok then
+    vim.api.nvim_echo({ { tostring(err) } }, true, { err = true })
+  end
+end, { desc = 'Open file under cursor including line number' })
 
 -- intentionally swap p and P
 vim.keymap.set('x', 'p', 'PmpmP', { desc = 'Paste with mark p' })
