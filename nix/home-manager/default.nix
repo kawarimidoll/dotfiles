@@ -69,7 +69,7 @@ in
         cmatrix
         codex
         container # apple-container
-        coreutils
+        # coreutils
         cowsay
         croc
         csview
@@ -80,7 +80,7 @@ in
         deno
         diff-so-fancy
         diffnav
-        diffutils
+        # diffutils
         djlint
         doxx
         dprint
@@ -139,6 +139,7 @@ in
         lazyssh
         libcaca
         libsixel
+        libwebp
         lnav
         logdy
         lolcat
@@ -183,26 +184,32 @@ in
         silicon
         sl
         slides
+        sqlit-tui
         sttr
         stylua
         superfile
         superhtml
+        tailspin
         termbg
         termdown
         terminaltexteffects
         termshot
         termsnap
         termsvg
-        termusic
+        # termusic
         tokei
         tombi
         treefmt
         ttyper
+        tuios
         typescript-go
         typos-lsp
         tz
+        unixtools.procps # watch ps sysctl top
         unzip
         usql
+        uutils-coreutils-noprefix
+        uutils-diffutils
         uv
         vhs
         vim # latest
