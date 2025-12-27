@@ -38,7 +38,6 @@
       "mcp__serena"
     ],
     "deny": [
-      "Bash(awk)",
       "Bash(chmod 777:*)",
       "Bash(do)",
       "Bash(for)",
@@ -55,7 +54,6 @@
       "Bash(psql:*)",
       "Bash(push:*)",
       "Bash(pushf:*)",
-      "Bash(sed)",
       "Bash(sudo:*)",
       "Bash(wget:*)",
       "Read(**/*key*)",
@@ -82,6 +80,17 @@
     "defaultMode": "bypassPermissions"
   },
   "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/dotfiles/.config/claude/hooks/validate-bash.sh"
+          }
+        ]
+      }
+    ],
     "SessionStart": [
       {
         "matcher": "startup|clear",
