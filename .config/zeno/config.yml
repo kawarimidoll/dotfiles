@@ -3,6 +3,10 @@ snippets:
     keyword: mkcd
     snippet: mkdir -p {{dir_name}} && cd "$_"
 
+  - name: Make tmp directory, move into that and git init
+    keyword: cds
+    snippet: cd "$(mktemp -d)" && git init
+
   - name: "null"
     keyword: "null"
     snippet: ">/dev/null 2>&1"
