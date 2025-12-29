@@ -264,7 +264,6 @@ in
     ./programs/fzf.nix
     ./programs/gh.nix
     ./programs/nnn.nix
-    # ./programs/zsh.nix
   ];
 
   # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.bun.enable
