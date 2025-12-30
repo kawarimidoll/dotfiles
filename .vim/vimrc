@@ -423,35 +423,49 @@ function s:reg_edit() abort
   call setreg(reg, result)
 endfunction
 
+function s:stop_recording() abort
+  if empty(reg_recording())
+    return
+  endif
+  normal! q
+  silent! nunmap q
+  autocmd! prefix-q-inner
+endfunction
+
+function s:start_recording() abort
+  normal! qq
+  nnoremap <nowait> q <cmd>call <sid>stop_recording()<cr>
+  augroup prefix-q-inner
+    autocmd!
+    autocmd BufLeave,WinLeave * ++once call s:stop_recording()
+  augroup END
+endfunction
+
+nnoremap qq <cmd>call <sid>start_recording()<cr>
+
 " https://thinca.hatenablog.com/entry/q-as-prefix-key-in-vim
-nnoremap <script><expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
-nnoremap <sid>(q)q qq
+"nnoremap <script><expr> q empty(reg_recording()) ? '<sid>(q)' : 'q'
+"nnoremap <sid>(q)q qq
 nnoremap <script><expr> Q empty(reg_recording()) ? '@q' : 'q@q'
 xnoremap <expr> Q ':global/^/normal Q' .. repeat('<left>', 9)
 
-nnoremap <sid>(q)/ q/
-nnoremap <sid>(q): q:
-nnoremap <sid>(q)a <Cmd>call mi#qf#add_curpos()<CR>
-nnoremap <sid>(q)c <Cmd>call mi#qf#toggle()<CR>
-nnoremap <sid>(q)d <Cmd>quit<CR>
-nnoremap <sid>(q)D <Cmd>quitall!<CR>
-nnoremap <sid>(q)g :<C-u>global/^/normal<Space>
-nnoremap <sid>(q)h <Cmd>call mi#common#half_move('left', v:count1)<CR>
-nnoremap <sid>(q)i <Cmd>call mi#common#half_move('center', v:count1)<CR>
-nnoremap <sid>(q)j <Cmd>call mi#common#half_move('down', v:count1)<CR>
-nnoremap <sid>(q)k <Cmd>call mi#common#half_move('up', v:count1)<CR>
-nnoremap <sid>(q)l <Cmd>call mi#common#half_move('right', v:count1)<CR>
-nnoremap <sid>(q)o <Cmd>only!<CR>
-nnoremap <sid>(q)t <C-^>
-nnoremap <sid>(q)r <Cmd>call <sid>reg_edit()<cr>
-nnoremap <sid>(q)x <Cmd>call mi#qf#clear()<CR>
-nnoremap <sid>(q)w <Cmd>write<CR>
-" reserve for neovim
-if has('nvim')
-  for c in ['d', 'z']
-    execute printf('nnoremap <sid>(q)%s <Plug>(rc-q-%s)', c, c)
-  endfor
-endif
+nnoremap q/ q/
+nnoremap q: q:
+nnoremap qa <Cmd>call mi#qf#add_curpos()<CR>
+nnoremap qc <Cmd>call mi#qf#toggle()<CR>
+nnoremap qc <Cmd>quit<CR>
+nnoremap qD <Cmd>quitall!<CR>
+nnoremap qg :<C-u>global/^/normal<Space>
+nnoremap qh <Cmd>call mi#common#half_move('left', v:count1)<CR>
+nnoremap qi <Cmd>call mi#common#half_move('center', v:count1)<CR>
+nnoremap qj <Cmd>call mi#common#half_move('down', v:count1)<CR>
+nnoremap qk <Cmd>call mi#common#half_move('up', v:count1)<CR>
+nnoremap ql <Cmd>call mi#common#half_move('right', v:count1)<CR>
+nnoremap qo <Cmd>only!<CR>
+nnoremap qt <C-^>
+nnoremap qr <Cmd>call <sid>reg_edit()<cr>
+nnoremap qx <Cmd>call mi#qf#clear()<CR>
+nnoremap qw <Cmd>write<CR>
 
 " function! s:sync_unnamed() abort
 "   if empty(@")
