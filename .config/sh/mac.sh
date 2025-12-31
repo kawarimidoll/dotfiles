@@ -2,13 +2,6 @@
 #  settings.sh for mac
 # -----------------
 
-# if running zsh
-if [ -n "$ZSH_VERSION" ]; then
-  eval_source /opt/homebrew/bin/brew shellenv
-
-  alias -g NOTIFY="&& notify"
-fi
-
 # export HOMEBREW_UPDATE_REPORT_ALL_FORMULAE=1
 export OBSIDIAN_VAULT="${HOME}/Dropbox/Obsidian"
 

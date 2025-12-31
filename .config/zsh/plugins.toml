@@ -51,6 +51,11 @@ github = 'yuki-yano/zeno.zsh'
 use = ['zeno.zsh']
 apply = ['defer']
 
+[plugins.brew]
+inline = '''
+[[ $OSTYPE == darwin* ]] && zsh-defer eval_source /opt/homebrew/bin/brew shellenv
+'''
+
 [plugins.starship]
 inline = '''
 eval_source starship init zsh
@@ -58,7 +63,7 @@ eval_source starship init zsh
 
 [plugins.direnv]
 inline = '''
-eval_source direnv hook zsh
+zsh-defer eval_source direnv hook zsh
 '''
 
 [plugins.intelli-shell]
@@ -67,7 +72,7 @@ export INTELLI_SEARCH_HOTKEY='\es'
 export INTELLI_BOOKMARK_HOTKEY='\ek'
 export INTELLI_VARIABLE_HOTKEY='\ev'
 export INTELLI_FIX_HOTKEY='\er'
-eval_source intelli-shell init zsh
+zsh-defer eval_source intelli-shell init zsh
 '''
 
 [plugins.fzf]
@@ -85,5 +90,5 @@ export FZF_ALT_C_OPTS="--preview 'tree {} | head -30'"
 # history widget
 export FZF_CTRL_R_OPTS='--reverse'
 # initialize
-eval_source fzf --zsh
+zsh-defer eval_source fzf --zsh
 '''

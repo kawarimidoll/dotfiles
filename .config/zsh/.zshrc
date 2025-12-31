@@ -44,13 +44,6 @@ fi
 source "$nix_daemon_cache"
 unset nix_daemon_cache
 
-source $ZSHRC_DIR/eager.zsh
-# 存在するかわからないファイルの読み込み
-# source FILENAME 2>/dev/null || :
-export DOT_DIR="${HOME}/dotfiles"
-source "${DOT_DIR}/.config/sh/settings.sh" 2>/dev/null || :
-source "${HOME}/.zshrc.local" 2>/dev/null || :
-
 typeset -U path cdpath fpath manpath
 for profile in ${(z)NIX_PROFILES}; do
  fpath+=($profile/share/zsh/site-functions $profile/share/zsh/$ZSH_VERSION/functions $profile/share/zsh/vendor-completions)
@@ -66,5 +59,12 @@ if [[ ! -r "$sheldon_cache" || "$sheldon_toml" -nt "$sheldon_cache" ]]; then
 fi
 source "$sheldon_cache"
 unset sheldon_cache sheldon_toml
+
+source $ZSHRC_DIR/eager.zsh
+# 存在するかわからないファイルの読み込み
+# source FILENAME 2>/dev/null || :
+export DOT_DIR="${HOME}/dotfiles"
+zsh-defer source "${DOT_DIR}/.config/sh/settings.sh" 2>/dev/null || :
+zsh-defer source "${HOME}/.zshrc.local" 2>/dev/null || :
 
 zsh-defer zsh-defer unfunction source

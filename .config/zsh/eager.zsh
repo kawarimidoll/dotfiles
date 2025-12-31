@@ -29,7 +29,7 @@ setopt hist_verify          # 履歴使用時に編集
 setopt share_history        # セッション間で履歴を共有
 
 # Historyディレクトリ作成
-mkdir -p "$(dirname "$HISTFILE")"
+[[ -d "${HISTFILE:h}" ]] || mkdir -p "${HISTFILE:h}"
 
 # [zshで特定のコマンドをヒストリに追加しない条件を柔軟に設定する - mollifier delta blog](https://mollifier.hatenablog.com/entry/20090728/p1)
 zshaddhistory() {
