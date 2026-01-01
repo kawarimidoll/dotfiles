@@ -90,5 +90,5 @@ export FZF_ALT_C_OPTS="--preview 'tree {} | head -30'"
 # history widget
 export FZF_CTRL_R_OPTS='--reverse'
 # initialize
-zsh-defer eval_source fzf --zsh
+eval_source fzf --zsh
 '''
