@@ -78,6 +78,24 @@ vim.keymap.set('x', '<space>3', [[:copy'>+0<cr>gv]], { desc = 'duplicate line to
 vim.keymap.set('x', '<', '<gv', { desc = 'Change indent with keeping selection' })
 vim.keymap.set('x', '>', '>gv', { desc = 'Change indent with keeping selection' })
 
+-- " ref: https://github.com/kana/vim-niceblock
+-- " ref: https://sgur.tumblr.com/post/64100696722/ビジュアル選択後のrによる置換のアレを改善する
+local function get_niceblock(map_v, map_V, fallback)
+  return ({ v = map_v, V = map_V })[vim.fn.mode()] or fallback
+end
+vim.keymap.set('x', 'I', function()
+  return get_niceblock('<C-v>I', '<C-v>^o^I', 'I')
+end, { expr = true, desc = 'Visual block insert at selection start' })
+vim.keymap.set('x', 'A', function()
+  return get_niceblock('<C-v>A', '<C-v>0o$A', 'A')
+end, { expr = true, desc = 'Visual block append at selection end' })
+vim.keymap.set('x', 'gI', function()
+  return get_niceblock('<C-v>0I', '<C-v>0o$I', '0I')
+end, { expr = true, desc = 'Visual block insert at line start' })
+vim.keymap.set('x', 'r', function()
+  return get_niceblock('<C-v>r', '<C-v>0o$r', 'r')
+end, { expr = true, desc = 'Visual block replace at selection' })
+
 vim.keymap.set('n', '<space>w', '<cmd>write<cr>', { desc = 'Write' })
 
 vim.keymap.set({ 'n', 'x' }, 'so', ':source<cr>', { silent = true, desc = 'Source current script' })
