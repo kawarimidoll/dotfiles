@@ -1,0 +1,2 @@
+---@meta
+---@alias osdate std.osdate
