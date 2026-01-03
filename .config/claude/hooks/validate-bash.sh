@@ -26,9 +26,9 @@ if echo "$command" | grep -qE '\bsed\b'; then
   exit 2
 fi
 
-if echo "$command" | grep -qE '\bcat\b'; then
-  echo "Use of 'cat' is prohibited. Use the Read tool to read files." >&2
-  exit 2
-fi
+# if echo "$command" | grep -qE '\bcat\b'; then
+#   echo "Use of 'cat' is prohibited. Use the Read tool to read files." >&2
+#   exit 2
+# fi
 
 exit 0
