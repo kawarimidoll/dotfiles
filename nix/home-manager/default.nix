@@ -42,11 +42,18 @@ in
         system = pkgs.stdenv.hostPlatform.system;
         koi = inputs.koi.packages.${system}.default;
         cage = inputs.cage.packages.${system}.default;
+        nur = inputs.nur-packages.packages.${system};
       in
       with pkgs;
       [
         koi
         cage
+
+        nur.difit
+        nur.ghost
+        nur.jsmigemo
+        nur.rustmigemo
+        nur.treesitter-ls
 
         act
         ad
