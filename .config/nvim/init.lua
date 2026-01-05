@@ -937,28 +937,20 @@ later(function()
   vim.keymap.set('n', 'mmt', MiniMap.toggle, { desc = 'MiniMap.toggle' })
 end)
 
-later(function()
+now(function()
   -- avoid error
   vim.treesitter.start = (function(wrapped)
     return function(bufnr, lang)
-      lang = lang or vim.fn.getbufvar(bufnr or '', '&filetype')
+      lang = lang or vim.api.nvim_get_option_value('filetype', {})
       pcall(wrapped, bufnr, lang)
     end
   end)(vim.treesitter.start)
-
   add({
     source = 'https://github.com/nvim-treesitter/nvim-treesitter',
     hooks = {
       post_checkout = U.noarg(vim.cmd.TSUpdate),
     },
   })
-  local ts_config = {
-    -- auto-install parsers
-    ensure_installed = { 'lua', 'vim', 'tsx' },
-    highlight = { enable = true },
-  }
-  ---@cast ts_config TSConfig
-  require('nvim-treesitter.configs').setup(ts_config)
 end)
 
 now(function()
