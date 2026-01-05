@@ -959,10 +959,10 @@ end)
 
 later(function()
   add({
-    source = 'https://github.com/JoosepAlviste/nvim-ts-context-commentstring',
+    source = 'https://github.com/folke/ts-comments.nvim',
     depends = { 'nvim-treesitter/nvim-treesitter' },
   })
-  require('ts_context_commentstring').setup({})
+  require('ts-comments').setup()
 end)
 
 later(function()
