@@ -760,6 +760,7 @@ local function close_extui_wins()
 end
 later(function()
   local map_combo = require('mini.keymap').map_combo
+  map_combo({ 'n' }, 'uu', '<cmd>Undotree<cr>')
   map_combo({ 'n', 'x' }, 'ww', '}')
   map_combo({ 'n', 'x' }, 'bb', '{')
   map_combo({ 'n', 'i', 'x', 'c' }, '<esc><esc>', function()
@@ -1337,6 +1338,10 @@ end)
 
 later(function()
   add('https://github.com/AndrewRadev/linediff.vim')
+end)
+
+later(function()
+  vim.cmd.packadd('nvim.undotree')
 end)
 
 later(function()
