@@ -96,6 +96,7 @@ else
 
   command! -bang SearchToQf execute (<bang>0 ? 'vimgrepadd' : 'vimgrep') '//gj %' | cwindow
 
+  " https://zenn.dev/vim_jp/articles/2308d5e7db8bc7
   command! Restart silent call s:restart()
   function! s:restart() abort
     " cleanup non-normal buffers
@@ -127,7 +128,7 @@ else
   " https://www.statox.fr/posts/2020/07/vim_flash_yanked_text/
   autocmd CursorMoved * call mi#highlight#cursorword('Underlined')
   autocmd CursorMoved,CursorMovedI * call mi#highlight#match_paren('Underlined')
-  " autocmd TextYankPost * silent! call mi#highlight#on_yank({'timeout': 500})
+  " https://zenn.dev/vim_jp/articles/ff6cd224fab0c7
   function! s:close_special_windows() abort
     let current_win = winnr()
     for winnr in range(1, winnr('$'))

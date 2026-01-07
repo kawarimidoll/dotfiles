@@ -170,6 +170,7 @@ end)
 
 later(function()
   -- 残りが特殊windowだけの場合は一緒に閉じる
+  -- https://zenn.dev/vim_jp/articles/ff6cd224fab0c7
   create_autocmd('QuitPre', {
     callback = function()
       local current_win = vim.api.nvim_get_current_win()

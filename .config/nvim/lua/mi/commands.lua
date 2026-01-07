@@ -269,7 +269,7 @@ vim.api.nvim_create_user_command('Tsgo', function()
   )
 end, { desc = 'Tsgo' })
 
--- respect: https://blog.atusy.net/2025/12/02/nvim-restart/
+-- https://zenn.dev/vim_jp/articles/2308d5e7db8bc7
 vim.api.nvim_create_user_command('Restart', function()
   -- cleanup non-normal buffers
   for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
