@@ -63,7 +63,7 @@ eval_source starship init zsh
 
 [plugins.direnv]
 inline = '''
-zsh-defer eval_source direnv hook zsh
+eval_source direnv hook zsh
 '''
 
 [plugins.intelli-shell]
