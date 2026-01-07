@@ -956,6 +956,29 @@ end)
 
 now(function()
   add('https://github.com/andymass/vim-matchup')
+  vim.keymap.set({ 'n', 'x', 'o' }, 'M', function()
+    return vim.fn.expand('<cword>'):match('end') and '<plug>(matchup-%)' or '<plug>(matchup-g%)'
+  end, { desc = 'jump matched keyword', expr = true })
+  vim.keymap.set({ 'x', 'o' }, 'iM', '<plug>(matchup-i%)', { desc = 'Select inside of a block' })
+  vim.keymap.set({ 'x', 'o' }, 'aM', '<plug>(matchup-a%)', { desc = 'Select a block' })
+  vim.keymap.set(
+    { 'n', 'x', 'o' },
+    '[M',
+    '<plug>(matchup-[%)',
+    { desc = 'Go to previous outer open word' }
+  )
+  vim.keymap.set(
+    { 'n', 'x', 'o' },
+    ']M',
+    '<plug>(matchup-]%)',
+    { desc = 'Go to next outer open word' }
+  )
+  vim.keymap.set(
+    { 'n', 'x', 'o' },
+    'zM',
+    '<plug>(matchup-z%)',
+    { desc = 'Go to inside nearest block' }
+  )
 end)
 
 later(function()

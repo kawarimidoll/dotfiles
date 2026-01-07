@@ -145,9 +145,6 @@ vim.keymap.set('n', '<ScrollWheelDown>', function()
   return string.format('%dj', scroll_step)
 end, { expr = true, silent = true })
 
-vim.keymap.set({ 'n', 'x', 'o' }, 'M', function()
-  return vim.fn.expand('<cword>'):match('end') and '%' or 'g%'
-end, { desc = 'jump matched keyword', remap = true, expr = true })
 vim.keymap.set('n', 'i', function()
   return vim.api.nvim_get_current_line() == '' and '"_cc' or 'i'
 end, { expr = true, desc = 'i keeping indent' })
