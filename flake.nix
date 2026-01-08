@@ -69,6 +69,10 @@
       url = "github:kawarimidoll/nur-packages";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    arto = {
+      url = "github:arto-app/Arto";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
