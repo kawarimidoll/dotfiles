@@ -74,15 +74,7 @@ command! GitDiff call <sid>git_diff()
 "       \ | wincmd w
 "       \ | call mi#window#fit()
 
-if has('nvim')
-  call mi#cmdline#proxy_let('L[spInfo]', 'LspInfo')
-  call mi#cmdline#proxy_let('P[lugSync]', 'PlugSync')
-  call mi#cmdline#proxy_let('p[lugsync]', 'PlugSync')
-
-  " https://zenn.dev/vim_jp/articles/7cc48a1df6aba5
-  " in nvim, remove cwindow since fzf-lua is used instead
-  command! -bang SearchToQf execute (<bang>0 ? 'vimgrepadd' : 'vimgrep') '//gj %'
-else
+if !has('nvim')
   packadd matchit
   packadd comment
   packadd hlyank
@@ -94,6 +86,7 @@ else
   command! -nargs=* -range=% -complete=custom,mi#common#__compl_trim Trim <line1>,<line2>call mi#common#trim([<f-args>])
   command! -range=% DeleteBlankLines <line1>,<line2>call mi#common#delete_blank_lines()
 
+  " https://zenn.dev/vim_jp/articles/7cc48a1df6aba5
   command! -bang SearchToQf execute (<bang>0 ? 'vimgrepadd' : 'vimgrep') '//gj %' | cwindow
 
   " https://zenn.dev/vim_jp/articles/2308d5e7db8bc7
