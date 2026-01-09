@@ -26,6 +26,11 @@ if echo "$command" | grep -qE '\bsed\b'; then
   exit 2
 fi
 
+if echo "$command" | grep -qE '\bpush\b'; then
+  echo "Do not execute 'git push'. Please ask the user to execute it." >&2
+  exit 2
+fi
+
 # if echo "$command" | grep -qE '\bcat\b'; then
 #   echo "Use of 'cat' is prohibited. Use the Read tool to read files." >&2
 #   exit 2
