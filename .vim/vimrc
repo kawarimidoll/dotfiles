@@ -8,9 +8,7 @@
 " https://twitter.com/kawarimidoll
 " https://github.com/kawarimidoll
 
-if has('nvim')
-  lua if vim.loader then vim.loader.enable() end
-else
+if !has('nvim')
   set nocompatible
   set encoding=utf-8
   scriptencoding utf-8
@@ -132,10 +130,8 @@ if executable('rg')
   set grepformat=%f:%l:%c:%m
 endif
 
-if has('nvim')
-  set scrollback=2000
-  cnoreabbrev lup lua<space>=
-else
+if !has('nvim')
+  " see help in neovim
   " :h vim-differences
   " :h nvim-defaults
   set autoindent
@@ -383,10 +379,7 @@ nnoremap <sid>(cg)C <cmd>CopyLastCmd!<cr>
 nmap <sid>(cg) <nop>
 
 nnoremap s <NOP>
-if has('nvim')
-  " in neovim, :source can read lua file
-  nnoremap so <Cmd>execute 'source' (filereadable(@%) ? @% : '')<Bar>nohlsearch<CR>
-else
+if !has('nvim')
   function s:source() abort
     let fname = filereadable(@%) ? @% : ''
     let is_lua = &filetype == 'lua' || fname =~ 'lua$'
@@ -613,9 +606,7 @@ function! s:apply_user_highlight() abort
   " highlight PmenuThumb ctermbg=255 guibg=#f8f8f2
   highlight Underlined ctermfg=NONE cterm=underline guifg=NONE gui=underline
   highlight ExtraWhitespace ctermbg=darkmagenta guibg=darkmagenta
-  if has('nvim')
-    highlight! link WinSeparator Comment
-  else
+  if !has('nvim')
     highlight! link StatusLine Comment
     highlight! link StatusLineNC Comment
     highlight! link VertSplit Comment
@@ -831,14 +822,7 @@ augroup vimrc
   autocmd ModeChanged *:[ic]* ++once source ~/dotfiles/.vim/modes/ic.vim
   autocmd ModeChanged *:*[ovV\x16]* ++once source ~/dotfiles/.vim/modes/ov.vim
 
-  if has('nvim')
-    " https://jdhao.github.io/2020/05/22/highlight_yank_region_nvim/
-    autocmd TextYankPost * silent! lua vim.highlight.on_yank({ timeout=500 })
-    autocmd TermOpen * if exists('w:highlight_extra_whitespace') && exists('b:terminal_job_id')
-          \ | silent! call matchdelete(w:highlight_extra_whitespace)
-          \ | endif
-    autocmd TermOpen * ++once source ~/dotfiles/.vim/modes/t.vim
-  else
+  if !has('nvim')
     autocmd TerminalOpen * ++once source ~/dotfiles/.vim/modes/t.vim
     " https://github.com/NI57721/dotfiles/blob/a695ab1d29465dc54254c933f13ac46911a07afd/.vimrc#L255-L260
     autocmd Filetype xml,html inoremap <buffer><expr> </
