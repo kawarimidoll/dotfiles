@@ -1,12 +1,3 @@
-function! mi#common#dot_repeat() abort
-  try
-    let g:mi#dot_repeating = 1
-    normal! .
-  finally
-    unlet! g:mi#dot_repeating
-  endtry
-endfunction
-
 function! mi#common#__compl_trim(_a, cmdline, _p) abort
   const list = filter(['ignore_trailing_white_spaces', 'ignore_multiple_blank_line', 'ignore_blank_line_eof'],
         \ {_,val -> stridx(a:cmdline, val) == -1})

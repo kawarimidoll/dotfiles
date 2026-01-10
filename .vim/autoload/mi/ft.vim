@@ -126,60 +126,54 @@ function! mi#ft#repeat(key) abort
   call cursor(lnum, col)
 endfunction
 
-function! s:echo_one(...) abort
-  echo a:1
-  let s:message_enable = 1
+function! s:getchar() abort
+  let timer_id = timer_start(1000, {-> execute("echo '[ft] input search char:'", '')})
+  let char = nr2char(getchar())
+  call timer_stop(timer_id)
+
+  if char == get(g:, 'mi#ft#digraph_marker', s:defaults.digraph_marker)
+    redraw
+    echo '[ft] input digraph:'
+    let d1 = nr2char(getchar())
+    redraw
+    if d1 !~ '\p'
+      return ''
+    endif
+    echo '[ft] input digraph:' d1
+    let d2 = nr2char(getchar())
+    redraw
+    if d2 !~ '\p'
+      return ''
+    endif
+    let char = get(split(digraph_get(d1 .. d2)), 0, '')
+    echo '[ft] input digraph:' d1 d2 '->' char
+  endif
+
+  return char
 endfunction
 
-function! mi#ft#smart(key) abort
-  if a:key !=? 'f' && a:key !=? 't'
-    return
-  endif
-
-  if !exists('g:mi#dot_repeating')
-    let timer_id = timer_start(1000, funcref('s:echo_one', ['[ft] input search char:']))
-    let char = nr2char(getchar())
-    call timer_stop(timer_id)
-    if char == get(g:, 'mi#ft#digraph_marker', s:defaults.digraph_marker)
-      unlet! s:message_enable
-      redraw
-      echo '[ft] input digraph:'
-      let d1 = nr2char(getchar())
-      redraw
-      if d1 !~ '\p'
-        return
-      endif
-      echo '[ft] input digraph:' d1
-      let d2 = nr2char(getchar())
-      redraw
-      if d2 !~ '\p'
-        return
-      endif
-      let char = get(split(digraph_get(d1 .. d2)), 0, '')
-      echo '[ft] input digraph:' d1 d2 '->' char
-    endif
-    if char !~ '\p'
-      return
-    endif
-    if exists('s:message_enable')
-      redraw
-      echo '[ft] input search char:' char
-      unlet! s:message_enable
-    endif
-
-    call setcharsearch({'char': ''})
-    call setcharsearch({'char': char, 'forward': a:key =~# '\l', 'until': a:key ==? 't'})
-    let s:lastchar = char
-  endif
-
-  call mi#ft#repeat(';')
+function! s:omap_prefix() abort
+  " operator-pending mode の時だけ v を付ける (characterwise)
+  return mode(1) =~# '^no' ? 'v' : ''
 endfunction
 
 function! mi#ft#smart_expr(key) abort
-  return $"v\<cmd>call mi#ft#smart('{a:key}')\<CR>"
+  if a:key !=? 'f' && a:key !=? 't'
+    return ''
+  endif
+
+  let char = s:getchar()
+  if char !~ '\p'
+    return ''
+  endif
+
+  call setcharsearch({'char': char, 'forward': a:key =~# '\l', 'until': a:key ==? 't'})
+
+  return s:omap_prefix() .. $"\<cmd>call mi#ft#repeat(';')\<CR>"
 endfunction
+
 function! mi#ft#repeat_expr(key) abort
-  return $"v\<cmd>call mi#ft#repeat('{a:key}')\<CR>"
+  return s:omap_prefix() .. $"\<cmd>call mi#ft#repeat('{a:key}')\<CR>"
 endfunction
 
 " :h getchar()

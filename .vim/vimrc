@@ -175,26 +175,18 @@ nnoremap [<space> <cmd>call append(line('.')-1, '')<cr>
 nnoremap ]<space> <cmd>call append('.', '')<cr>
 
 let g:mi#ft#multiline = 1
-Keymap nx f <cmd>call mi#ft#smart('f')<CR>
-Keymap nx F <cmd>call mi#ft#smart('F')<CR>
-Keymap nx t <cmd>call mi#ft#smart('t')<CR>
-Keymap nx T <cmd>call mi#ft#smart('T')<CR>
-Keymap nx ; <cmd>call mi#ft#repeat(';')<CR>
-Keymap nx , <cmd>call mi#ft#repeat(',')<CR>
-onoremap <expr> f mi#ft#smart_expr('f')
-onoremap <expr> F mi#ft#smart_expr('F')
-onoremap <expr> t mi#ft#smart_expr('t')
-onoremap <expr> T mi#ft#smart_expr('T')
-onoremap <expr> ; mi#ft#repeat_expr(';')
-onoremap <expr> , mi#ft#repeat_expr(',')
+Keymap nxo <expr> f mi#ft#smart_expr('f')
+Keymap nxo <expr> F mi#ft#smart_expr('F')
+Keymap nxo <expr> t mi#ft#smart_expr('t')
+Keymap nxo <expr> T mi#ft#smart_expr('T')
+Keymap nxo <expr> ; mi#ft#repeat_expr(';')
+Keymap nxo <expr> , mi#ft#repeat_expr(',')
 noremap sf f
 noremap sF F
 noremap st t
 noremap sT T
 noremap s; ;
 noremap s, ,
-
-nnoremap . <cmd>call mi#common#dot_repeat()<cr>
 
 nnoremap <c-e> <cmd>call mi#window#resize()<cr>
 
