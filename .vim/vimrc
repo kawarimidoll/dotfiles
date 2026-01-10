@@ -8,16 +8,18 @@
 " https://twitter.com/kawarimidoll
 " https://github.com/kawarimidoll
 
-if !has('nvim')
-  set nocompatible
-  set encoding=utf-8
-  scriptencoding utf-8
-  filetype plugin indent on
-
-  " syntax enable
-  autocmd FileType * ++once ++nested syntax enable
-  let g:qf_disable_statusline = 1
+if has('nvim')
+  echoerr 'This setting is not for Neovim!'
 endif
+
+set nocompatible
+set encoding=utf-8
+scriptencoding utf-8
+filetype plugin indent on
+
+" syntax enable
+autocmd FileType * ++once ++nested syntax enable
+let g:qf_disable_statusline = 1
 " language ja_JP.UTF-8
 
 " avoid to set expandtab in default ftplugin
@@ -130,126 +132,123 @@ if executable('rg')
   set grepformat=%f:%l:%c:%m
 endif
 
-if !has('nvim')
-  " see help in neovim
-  " :h vim-differences
-  " :h nvim-defaults
-  set autoindent
-  set autoread
-  set autocomplete
-  "set background=dark
-  set belloff=all
-  set display=lastline
-  set hidden
-  set nojoinspaces
-  set noruler
-  set nostartofline
-  set showcmd
-  set smarttab
-  set ttyfast
-  set viminfo='20,<50,s10,h
-  set viminfofile=~/.vim/viminfo
+" see help in neovim
+" :h vim-differences
+" :h nvim-defaults
+set autoindent
+set autoread
+set autocomplete
+"set background=dark
+set belloff=all
+set display=lastline
+set hidden
+set nojoinspaces
+set noruler
+set nostartofline
+set showcmd
+set smarttab
+set ttyfast
+set viminfo='20,<50,s10,h
+set viminfofile=~/.vim/viminfo
 
-  " use vim as GIT_EDITOR while using vim
-  let $GIT_EDITOR="vim"
+" use vim as GIT_EDITOR while using vim
+let $GIT_EDITOR="vim"
 
-  nnoremap Y y$
-  nnoremap <C-l> <Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-l><CR>
-  nnoremap & :&&<CR>
+nnoremap Y y$
+nnoremap <C-l> <Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-l><CR>
+nnoremap & :&&<CR>
 
-  nnoremap <C-a> <Cmd>call mi#dial#increment(v:count1)<CR>
-  nnoremap <C-x> <Cmd>call mi#dial#decrement(v:count1)<CR>
+nnoremap <C-a> <Cmd>call mi#dial#increment(v:count1)<CR>
+nnoremap <C-x> <Cmd>call mi#dial#decrement(v:count1)<CR>
 
-  command! LazyGit tab terminal ++close ++norestore lazygit
+command! LazyGit tab terminal ++close ++norestore lazygit
 
-  " Keymap nx <expr> gc mi#comment#operator_toggle()
-  " nnoremap <expr> gcc mi#comment#operator_toggle() .. '_'
+" Keymap nx <expr> gc mi#comment#operator_toggle()
+" nnoremap <expr> gcc mi#comment#operator_toggle() .. '_'
 
-  " Keymap nx <expr> sa mi#surround#add()
-  Keymap nx <expr> sa mi#surround#operator('add')
-  nnoremap <expr> sd mi#surround#operator('delete') .. ' '
-  nnoremap <expr> sr mi#surround#operator('replace') .. ' '
+" Keymap nx <expr> sa mi#surround#add()
+Keymap nx <expr> sa mi#surround#operator('add')
+nnoremap <expr> sd mi#surround#operator('delete') .. ' '
+nnoremap <expr> sr mi#surround#operator('replace') .. ' '
 
-  nnoremap [<space> <cmd>call append(line('.')-1, '')<cr>
-  nnoremap ]<space> <cmd>call append('.', '')<cr>
+nnoremap [<space> <cmd>call append(line('.')-1, '')<cr>
+nnoremap ]<space> <cmd>call append('.', '')<cr>
 
-  let g:mi#ft#multiline = 1
-  Keymap nx f <cmd>call mi#ft#smart('f')<CR>
-  Keymap nx F <cmd>call mi#ft#smart('F')<CR>
-  Keymap nx t <cmd>call mi#ft#smart('t')<CR>
-  Keymap nx T <cmd>call mi#ft#smart('T')<CR>
-  Keymap nx ; <cmd>call mi#ft#repeat(';')<CR>
-  Keymap nx , <cmd>call mi#ft#repeat(',')<CR>
-  onoremap <expr> f mi#ft#smart_expr('f')
-  onoremap <expr> F mi#ft#smart_expr('F')
-  onoremap <expr> t mi#ft#smart_expr('t')
-  onoremap <expr> T mi#ft#smart_expr('T')
-  onoremap <expr> ; mi#ft#repeat_expr(';')
-  onoremap <expr> , mi#ft#repeat_expr(',')
-  noremap sf f
-  noremap sF F
-  noremap st t
-  noremap sT T
-  noremap s; ;
-  noremap s, ,
+let g:mi#ft#multiline = 1
+Keymap nx f <cmd>call mi#ft#smart('f')<CR>
+Keymap nx F <cmd>call mi#ft#smart('F')<CR>
+Keymap nx t <cmd>call mi#ft#smart('t')<CR>
+Keymap nx T <cmd>call mi#ft#smart('T')<CR>
+Keymap nx ; <cmd>call mi#ft#repeat(';')<CR>
+Keymap nx , <cmd>call mi#ft#repeat(',')<CR>
+onoremap <expr> f mi#ft#smart_expr('f')
+onoremap <expr> F mi#ft#smart_expr('F')
+onoremap <expr> t mi#ft#smart_expr('t')
+onoremap <expr> T mi#ft#smart_expr('T')
+onoremap <expr> ; mi#ft#repeat_expr(';')
+onoremap <expr> , mi#ft#repeat_expr(',')
+noremap sf f
+noremap sF F
+noremap st t
+noremap sT T
+noremap s; ;
+noremap s, ,
 
-  nnoremap . <cmd>call mi#common#dot_repeat()<cr>
+nnoremap . <cmd>call mi#common#dot_repeat()<cr>
 
-  nnoremap <c-e> <cmd>call mi#window#resize()<cr>
+nnoremap <c-e> <cmd>call mi#window#resize()<cr>
 
-  " let s:help_dir = expand('~/.vim/vimdoc-ja')
-  " execute 'set runtimepath+=' .. s:help_dir
-  " function! s:ja_doc_update() abort
-  "   if isdirectory(s:help_dir)
-  "     echo '[ja_doc] pull latest version...'
-  "     echo system(printf('git -C %s reset --hard', s:help_dir))
-  "     echo system(printf('git -C %s pull --rebase', s:help_dir))
-  "     echo system(printf('git -C %s gc --prune=now', s:help_dir))
-  "   else
-  "     echo '[ja_doc] clone latest version...'
-  "     echo system(printf('git clone --depth 1 https://github.com/vim-jp/vimdoc-ja.git %s', s:help_dir))
-  "   endif
-  "   execute 'helptags' s:help_dir .. '/doc'
-  "   echo '[ja_doc] successfully updated.'
-  " endfunction
-  " command! JaDocUpdate call s:ja_doc_update()
+" let s:help_dir = expand('~/.vim/vimdoc-ja')
+" execute 'set runtimepath+=' .. s:help_dir
+" function! s:ja_doc_update() abort
+"   if isdirectory(s:help_dir)
+"     echo '[ja_doc] pull latest version...'
+"     echo system(printf('git -C %s reset --hard', s:help_dir))
+"     echo system(printf('git -C %s pull --rebase', s:help_dir))
+"     echo system(printf('git -C %s gc --prune=now', s:help_dir))
+"   else
+"     echo '[ja_doc] clone latest version...'
+"     echo system(printf('git clone --depth 1 https://github.com/vim-jp/vimdoc-ja.git %s', s:help_dir))
+"   endif
+"   execute 'helptags' s:help_dir .. '/doc'
+"   echo '[ja_doc] successfully updated.'
+" endfunction
+" command! JaDocUpdate call s:ja_doc_update()
 
-  " prev/next use
-  nnoremap [u #<cmd>nohlsearch<cr>
-  nnoremap ]u *<cmd>nohlsearch<cr>
+" prev/next use
+nnoremap [u #<cmd>nohlsearch<cr>
+nnoremap ]u *<cmd>nohlsearch<cr>
 
-  " word search with keep positions
-  " https://twitter.com/Bakudankun/status/1207057884581900289
-  " `doautocmd CursorMoved` is required to show searchprop
-  nnoremap <silent><expr> * v:count ? '*' :
-        \ '<cmd>silent execute "keepjump normal! *" <bar> call winrestview('
-        \ .. string(winsaveview()) .. ')<cr><cmd>doautocmd CursorMoved<cr>'
-  nnoremap <silent><expr> # v:count ? '#' :
-        \ '<cmd>silent execute "keepjump normal! #" <bar> call winrestview('
-        \ .. string(winsaveview()) .. ')<cr><cmd>doautocmd CursorMoved<cr>'
+" word search with keep positions
+" https://twitter.com/Bakudankun/status/1207057884581900289
+" `doautocmd CursorMoved` is required to show searchprop
+nnoremap <silent><expr> * v:count ? '*' :
+      \ '<cmd>silent execute "keepjump normal! *" <bar> call winrestview('
+      \ .. string(winsaveview()) .. ')<cr><cmd>doautocmd CursorMoved<cr>'
+nnoremap <silent><expr> # v:count ? '#' :
+      \ '<cmd>silent execute "keepjump normal! #" <bar> call winrestview('
+      \ .. string(winsaveview()) .. ')<cr><cmd>doautocmd CursorMoved<cr>'
 
-  " :h termcap-cursor-shape@en
-  " https://vim.fandom.com/wiki/Change_cursor_shape_in_different_modes
-  if &term =~ 'xterm' || &term == 'win32'
-    " Use DECSCUSR escape sequences
-    " vertical bar in insert mode
-    let &t_SI = "\e[5 q"
-    " underline in replace mode
-    let &t_SR = "\e[3 q"
-    " block in normal mode
-    let &t_EI = "\e[1 q"
-    " change shape enter / escape termcap
-    let &t_ti ..= "\e[1 q"
-    let &t_te ..= "\e[0 q"
-    "  0 -> default (depends on terminal, normally blinking block)
-    "  1 -> blinking block
-    "  2 -> solid block
-    "  3 -> blinking underscore
-    "  4 -> solid underscore
-    "  5 -> blinking vertical bar
-    "  6 -> solid vertical bar
-  endif
-
+" :h termcap-cursor-shape@en
+" https://vim.fandom.com/wiki/Change_cursor_shape_in_different_modes
+if &term =~ 'xterm' || &term == 'win32'
+  " Use DECSCUSR escape sequences
+  " vertical bar in insert mode
+  let &t_SI = "\e[5 q"
+  " underline in replace mode
+  let &t_SR = "\e[3 q"
+  " block in normal mode
+  let &t_EI = "\e[1 q"
+  " change shape enter / escape termcap
+  let &t_ti ..= "\e[1 q"
+  let &t_te ..= "\e[0 q"
+  "  0 -> default (depends on terminal, normally blinking block)
+  "  1 -> blinking block
+  "  2 -> solid block
+  "  3 -> blinking underscore
+  "  4 -> solid underscore
+  "  5 -> blinking vertical bar
+  "  6 -> solid vertical bar
 endif
 
 let g:my_vimrc = $MYVIMRC
@@ -379,21 +378,19 @@ nnoremap <sid>(cg)C <cmd>CopyLastCmd!<cr>
 nmap <sid>(cg) <nop>
 
 nnoremap s <NOP>
-if !has('nvim')
-  function s:source() abort
-    let fname = filereadable(@%) ? @% : ''
-    let is_lua = &filetype == 'lua' || fname =~ 'lua$'
-    if !is_lua
-      execute 'source' fname
-    elseif !empty(fname)
-      execute 'luafile' fname
-    else
-      execute 'lua' getline(1, '$')->join(' ')
-    endif
-    " nohlsearch
-  endfunction
-  nnoremap so <Cmd>call <sid>source()<Bar>nohlsearch<CR>
-endif
+function s:source() abort
+  let fname = filereadable(@%) ? @% : ''
+  let is_lua = &filetype == 'lua' || fname =~ 'lua$'
+  if !is_lua
+    execute 'source' fname
+  elseif !empty(fname)
+    execute 'luafile' fname
+  else
+    execute 'lua' getline(1, '$')->join(' ')
+  endif
+  " nohlsearch
+endfunction
+nnoremap so <Cmd>call <sid>source()<Bar>nohlsearch<CR>
 nnoremap s/ :%s/\v
 nnoremap s? :%s/\V
 nnoremap S :%s/\V\<<C-r><C-w>\>//g<Left><Left>
@@ -606,11 +603,9 @@ function! s:apply_user_highlight() abort
   " highlight PmenuThumb ctermbg=255 guibg=#f8f8f2
   highlight Underlined ctermfg=NONE cterm=underline guifg=NONE gui=underline
   highlight ExtraWhitespace ctermbg=darkmagenta guibg=darkmagenta
-  if !has('nvim')
-    highlight! link StatusLine Comment
-    highlight! link StatusLineNC Comment
-    highlight! link VertSplit Comment
-  endif
+  highlight! link StatusLine Comment
+  highlight! link StatusLineNC Comment
+  highlight! link VertSplit Comment
 
   " make background transparent
   highlight Normal ctermfg=NONE guibg=NONE
@@ -724,38 +719,36 @@ endfunction
 command! Memo call s:memo()
 nnoremap mo <Cmd>Memo<CR>
 
-if !has('nvim')
-  function! s:silicon(line1, line2, args, highlight_lines)
-    let cmd = ['silicon']
-    if &filetype != ''
-      call add(cmd, '--language')
-      call add(cmd, &filetype)
-    endif
+function! s:silicon(line1, line2, args, highlight_lines)
+  let cmd = ['silicon']
+  if &filetype != ''
+    call add(cmd, '--language')
+    call add(cmd, &filetype)
+  endif
 
-    " TODO: use args
-    let output = $'~/Downloads/silicon-{strftime("%Y%m%d-%H%M%S")}.png'
-    call add(cmd, '--font')
-    call add(cmd, 'UDEV Gothic 35NF')
-    call add(cmd, '--output')
-    call add(cmd, output)
+  " TODO: use args
+  let output = $'~/Downloads/silicon-{strftime("%Y%m%d-%H%M%S")}.png'
+  call add(cmd, '--font')
+  call add(cmd, 'UDEV Gothic 35NF')
+  call add(cmd, '--output')
+  call add(cmd, output)
 
-    let in_opts =  { 'buf': bufnr() }
-    if a:highlight_lines
-      call add(cmd, '--highlight-lines')
-      call add(cmd, a:line1 .. '-' .. a:line2)
-    else
-      let in_opts['top'] = a:line1
-      let in_opts['bot'] = a:line2
-    endif
+  let in_opts =  { 'buf': bufnr() }
+  if a:highlight_lines
+    call add(cmd, '--highlight-lines')
+    call add(cmd, a:line1 .. '-' .. a:line2)
+  else
+    let in_opts['top'] = a:line1
+    let in_opts['bot'] = a:line2
+  endif
 
-    let opts = {
-          \ 'in': in_opts,
-          \ 'exit': {_->execute($'echo "[silicon] output to {output}"', '')}
-          \ }
-    call mi#job#start(cmd, opts)
-  endfunction
-  command! -range=% -bang Silicon call s:silicon(<line1>, <line2>, <q-args>, <bang>0)
-endif
+  let opts = {
+        \ 'in': in_opts,
+        \ 'exit': {_->execute($'echo "[silicon] output to {output}"', '')}
+        \ }
+  call mi#job#start(cmd, opts)
+endfunction
+command! -range=% -bang Silicon call s:silicon(<line1>, <line2>, <q-args>, <bang>0)
 
 " skip autocmds after vim is started
 if !has('vim_starting')
@@ -822,59 +815,57 @@ augroup vimrc
   autocmd ModeChanged *:[ic]* ++once source ~/dotfiles/.vim/modes/ic.vim
   autocmd ModeChanged *:*[ovV\x16]* ++once source ~/dotfiles/.vim/modes/ov.vim
 
-  if !has('nvim')
-    autocmd TerminalOpen * ++once source ~/dotfiles/.vim/modes/t.vim
-    " https://github.com/NI57721/dotfiles/blob/a695ab1d29465dc54254c933f13ac46911a07afd/.vimrc#L255-L260
-    autocmd Filetype xml,html inoremap <buffer><expr> </
-          \ &completeopt=~'noinsert\\|noselect' ? '</<c-x><c-o><c-n><c-y>' : '</<c-x><c-o><c-y>'
+  autocmd TerminalOpen * ++once source ~/dotfiles/.vim/modes/t.vim
+  " https://github.com/NI57721/dotfiles/blob/a695ab1d29465dc54254c933f13ac46911a07afd/.vimrc#L255-L260
+  autocmd Filetype xml,html inoremap <buffer><expr> </
+        \ &completeopt=~'noinsert\\|noselect' ? '</<c-x><c-o><c-n><c-y>' : '</<c-x><c-o><c-y>'
 
-    autocmd CmdlineChanged [:/?] call wildtrigger()
+  autocmd CmdlineChanged [:/?] call wildtrigger()
 
-    " autocmd WinEnter,BufEnter * setlocal statusline=%!mi#statusline#active()
-    " autocmd WinLeave,BufLeave * setlocal statusline=%!mi#statusline#inactive()
-    " set statusline=%!mi#statusline#horizontal_line()
-    set statusline=─
-    set fillchars+=stl:─,stlnc:─
-    set laststatus=0
+  " autocmd WinEnter,BufEnter * setlocal statusline=%!mi#statusline#active()
+  " autocmd WinLeave,BufLeave * setlocal statusline=%!mi#statusline#inactive()
+  " set statusline=%!mi#statusline#horizontal_line()
+  set statusline=─
+  set fillchars+=stl:─,stlnc:─
+  set laststatus=0
 
-    let g:color_schemes = &background == "dark"
-    \ ? ['slate', 'habamax', 'lunaperche', 'sorbet', 'murphy', 'retrobox', 'wildcharm', 'zaibatsu']
-    \ : ['shine', 'morning', 'default', 'delek', 'peachpuff', 'zellner']
-    autocmd Filetype * ++once
-          \ execute 'colorscheme' mi#utils#pick_one(g:color_schemes)
-          \ | doautocmd ColorScheme
-    autocmd Filetype typescript,typescriptreact,javascript,javascriptreact,markdown,json,jsonc,css,scss,sass,less,html,yml,yaml
-          \  let b:fmt_cmd = $'deno fmt --ext {expand("%:e")} -'
-    autocmd Filetype svelte,vue,astro
-          \  let b:fmt_cmd = $'deno fmt --unstable-component --ext {expand("%:e")} -'
-    autocmd Filetype sql
-          \  let b:fmt_cmd = $'deno fmt --unstable-sql --ext sql -'
-    autocmd Filetype c let b:fmt_cmd = 'clang-format -Werror --style=Chromium'
-    autocmd Filetype nix let b:fmt_cmd = 'nixfmt'
-    autocmd Filetype rust let b:fmt_cmd = 'rustfmt --edition 2021'
-    autocmd Filetype gleam let b:fmt_cmd = 'gleam format --stdin'
-    autocmd Filetype erlang let b:fmt_cmd = 'rebar3 fmt -'
-    autocmd Filetype lua let b:fmt_cmd = $'stylua --stdin-filepath {expand("%")} --config-path ~/.config/stylua/stylua.toml -'
+  let g:color_schemes = &background == "dark"
+        \ ? ['slate', 'habamax', 'lunaperche', 'sorbet', 'murphy', 'retrobox', 'wildcharm', 'zaibatsu']
+        \ : ['shine', 'morning', 'default', 'delek', 'peachpuff', 'zellner']
+  autocmd Filetype * ++once
+        \ execute 'colorscheme' mi#utils#pick_one(g:color_schemes)
+        \ | doautocmd ColorScheme
+  autocmd Filetype typescript,typescriptreact,javascript,javascriptreact,markdown,json,jsonc,css,scss,sass,less,html,yml,yaml
+        \  let b:fmt_cmd = $'deno fmt --ext {expand("%:e")} -'
+  autocmd Filetype svelte,vue,astro
+        \  let b:fmt_cmd = $'deno fmt --unstable-component --ext {expand("%:e")} -'
+  autocmd Filetype sql
+        \  let b:fmt_cmd = $'deno fmt --unstable-sql --ext sql -'
+  autocmd Filetype c let b:fmt_cmd = 'clang-format -Werror --style=Chromium'
+  autocmd Filetype nix let b:fmt_cmd = 'nixfmt'
+  autocmd Filetype rust let b:fmt_cmd = 'rustfmt --edition 2021'
+  autocmd Filetype gleam let b:fmt_cmd = 'gleam format --stdin'
+  autocmd Filetype erlang let b:fmt_cmd = 'rebar3 fmt -'
+  autocmd Filetype lua let b:fmt_cmd = $'stylua --stdin-filepath {expand("%")} --config-path ~/.config/stylua/stylua.toml -'
 
-    autocmd Filetype vim let b:symbol_list = [
-          \ '..=', '=>', '<=', '==', '->',
-          \ '==#', '==?', '!=#', '!=?', '>#', '>?', '>=#', '>=?',
-          \ '<#', '<?', '<=#', '<=?', '=~#', '=~?', '!~#', '!~?',
-          \]
-    autocmd Filetype typescript,typescriptreact,javascript,javascriptreact let b:symbol_list = ['=>', '===']
-    autocmd Filetype gleam let b:symbol_list = ['->', '|>', '<>', '<-', '_ ->']
-    autocmd Filetype rust let b:symbol_list = ['->', '=>', '<>']
+  autocmd Filetype vim let b:symbol_list = [
+        \ '..=', '=>', '<=', '==', '->',
+        \ '==#', '==?', '!=#', '!=?', '>#', '>?', '>=#', '>=?',
+        \ '<#', '<?', '<=#', '<=?', '=~#', '=~?', '!~#', '!~?',
+        \]
+  autocmd Filetype typescript,typescriptreact,javascript,javascriptreact let b:symbol_list = ['=>', '===']
+  autocmd Filetype gleam let b:symbol_list = ['->', '|>', '<>', '<-', '_ ->']
+  autocmd Filetype rust let b:symbol_list = ['->', '=>', '<>']
 
-    autocmd FileType * call mi#cmp#apply_syn_keywords_dict()
+  autocmd FileType * call mi#cmp#apply_syn_keywords_dict()
 
-    " {{{ restore-cursor
-    " :h restore-cursor
-    autocmd BufReadPost *
-          \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
-          \ |   execute 'normal! g`"zz'
-          \ | endif
-    " }}}
-  endif
+  " {{{ restore-cursor
+  " :h restore-cursor
+  autocmd BufReadPost *
+        \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+        \ |   execute 'normal! g`"zz'
+        \ | endif
+  " }}}
 
   " {{{ ensure_dir
   " https://vim-jp.org/vim-users-jp/2011/02/20/Hack-202.html
@@ -942,9 +933,7 @@ augroup END
 
 call timer_start(100, {->execute('source ~/dotfiles/.vim/ready.vim')})
 
-if !has('nvim')
-  " ref: https://zenn.dev/vim_jp/articles/20240304_ekiden_disable_plugin
-  let s:save_rtp = &runtimepath
-  set runtimepath-=$VIMRUNTIME
-  autocmd SourcePre */plugin/* ++once let &runtimepath = s:save_rtp
-endif
+" ref: https://zenn.dev/vim_jp/articles/20240304_ekiden_disable_plugin
+let s:save_rtp = &runtimepath
+set runtimepath-=$VIMRUNTIME
+autocmd SourcePre */plugin/* ++once let &runtimepath = s:save_rtp
