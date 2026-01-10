@@ -381,24 +381,14 @@ if &diff
   set laststatus=2
   windo call <sid>diff_stl()
   colorscheme delek
-"  function s:conflict_jump(is_forward) abort
-"    let flags = 'cw' .. (a:is_forward ? '' : 'b')
-"    let found = searchpair('^<<<<<<< HEAD$', '^=======$', '^>>>>>>>', 'cw')
-"    if !found
-"      echo 'no more hunks!'
-"      return
-"    endif
-"    call search('=======$')
-"    normal! zz
-"  endfunction
-"  nnoremap [[ <cmd>call <sid>conflict_jump(v:false)<cr>
-"  nnoremap ]] <cmd>call <sid>conflict_jump(v:true)<cr>
-"  nnoremap 1<cr> 1do
-"  nnoremap 2<cr> 2do
-"  nnoremap 3<cr> 3do
+
+  nnoremap [x <cmd>call mi#conflict#Jump(v:false)<cr>
+  nnoremap ]x <cmd>call mi#conflict#Jump(v:true)<cr>
+
+  command! -nargs=1 -complete=customlist,mi#conflict#UseComplete ConflictUse call mi#conflict#Use(<q-args>)
+  cnoreabbrev cu ConflictUse
+
   nnoremap <cr><cr> <cmd>xa<cr>
-"  command! Mergetool call mi#mergetool#better_vimdiff()
-"  " call mi#mergetool#better_vimdiff()
 endif
 set diffopt+=algorithm:histogram
 set diffopt+=hiddenoff
