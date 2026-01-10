@@ -367,13 +367,13 @@ if &diff
   function s:diff_stl() abort
     let name = bufname()
     if name =~ 'LOCAL'
-      let &l:statusline = '[@LOCAL]'
+      let &l:statusline = '[OURS]'
     elseif name =~ 'BASE'
-      let &l:statusline = '[BASE]'
+      let &l:statusline = '[ANCESTOR]'
     elseif name =~ 'REMOTE'
-      let &l:statusline = '[REMOTE]'
+      let &l:statusline = '[THEIRS]'
     else
-      let &l:statusline='%f [[/]] to move, <cr><cr> to finish (:cq to abort)'
+      let &l:statusline = '%f'
     endif
   endfunction
   set laststatus=2
