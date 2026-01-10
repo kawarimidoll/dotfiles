@@ -383,6 +383,13 @@ if &diff
   nnoremap [x <cmd>call mi#conflict#Jump(v:false)<cr>
   nnoremap ]x <cmd>call mi#conflict#Jump(v:true)<cr>
 
+  nnoremap cuo <cmd>call mi#conflict#Use('ours')<cr>
+  nnoremap cut <cmd>call mi#conflict#Use('theirs')<cr>
+  nnoremap cub <cmd>call mi#conflict#Use('both')<cr>
+  nnoremap cur <cmd>call mi#conflict#Use('both_reverse')<cr>
+  nnoremap cua <cmd>call mi#conflict#Use('ancestor')<cr>
+  nnoremap cun <cmd>call mi#conflict#Use('none')<cr>
+
   command! -nargs=1 -complete=customlist,mi#conflict#UseComplete ConflictUse call mi#conflict#Use(<q-args>)
   cnoreabbrev cu ConflictUse
 
