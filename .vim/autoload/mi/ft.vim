@@ -67,11 +67,9 @@ let s:defaults = {
 " the key to use digraph
 " let g:mi#ft#digraph_marker = "\<C-k>"
 
-function! mi#ft#repeat(key) abort
-  if a:key != ';' && a:key != ','
-    return
-  endif
+let s:sid = expand('<SID>')
 
+function! s:repeat(same_direction) abort
   let charsearch = getcharsearch()
 
   let char = charsearch.char
@@ -79,34 +77,30 @@ function! mi#ft#repeat(key) abort
     return
   endif
 
-  if get(g:, 'mi#ft#fix_direction', s:defaults.fix_direction)
-    let direction = a:key == ';' ? 1 : -1
-  else
-    let direction = (charsearch.forward && a:key == ';') ||
-          \ (!charsearch.forward && a:key == ',') ? 1 : -1
-  endif
+  let forward = get(g:, 'mi#ft#fix_direction', s:defaults.fix_direction)
+        \ ? a:same_direction
+        \ : charsearch.forward == a:same_direction
 
-  let pattern = escape(char, '$^*~\')
-  if has_key(g:mi#ft#key_table, char)
-    let pattern = '[' .. char .. g:mi#ft#key_table[char] .. ']'
-  endif
+  let pattern = has_key(g:mi#ft#key_table, char)
+        \ ? $'[{char}{g:mi#ft#key_table[char]}]'
+        \ : escape(char, '$^*~\')
 
-  if direction > 0
+  if forward
     let flag = 'W'
     if charsearch.until
-      let pattern = '\_.\ze' .. pattern
+      let pattern = $'\_.\ze{pattern}'
     endif
   else
     let flag = 'beW'
     if charsearch.until
-      let pattern = pattern .. '\@<=\_.'
+      let pattern = $'{pattern}\@<=\_.'
     endif
   endif
 
   if !get(g:, 'mi#ft#multiline', s:defaults.multiline)
     " in current line
     let stopline = line('.')
-  elseif direction > 0
+  elseif forward
     " to visible bottom
     let stopline = line('w$')
   else
@@ -147,6 +141,8 @@ function! s:getchar() abort
     endif
     let char = get(split(digraph_get(d1 .. d2)), 0, '')
     echo '[ft] input digraph:' d1 d2 '->' char
+  else
+    echo '[ft] input search char:' char
   endif
 
   return char
@@ -157,23 +153,24 @@ function! s:omap_prefix() abort
   return mode(1) =~# '^no' ? 'v' : ''
 endfunction
 
-function! mi#ft#smart_expr(key) abort
-  if a:key !=? 'f' && a:key !=? 't'
+function! mi#ft#expr(key) abort
+  if a:key =~? '[ft]'
+    let char = s:getchar()
+    if char !~ '\p'
+      return ''
+    endif
+    call setcharsearch({'char': char, 'forward': a:key =~# '\l', 'until': a:key ==? 't'})
+    let same_direction = v:true
+  elseif a:key == ';'
+    let same_direction = v:true
+  elseif a:key == ','
+    let same_direction = v:false
+  else
+    echoerr 'mi#ft#expr: invalid key:' a:key
     return ''
   endif
 
-  let char = s:getchar()
-  if char !~ '\p'
-    return ''
-  endif
-
-  call setcharsearch({'char': char, 'forward': a:key =~# '\l', 'until': a:key ==? 't'})
-
-  return s:omap_prefix() .. $"\<cmd>call mi#ft#repeat(';')\<CR>"
-endfunction
-
-function! mi#ft#repeat_expr(key) abort
-  return s:omap_prefix() .. $"\<cmd>call mi#ft#repeat('{a:key}')\<CR>"
+  return s:omap_prefix() .. $"\<cmd>call {s:sid}repeat({same_direction})\<CR>"
 endfunction
 
 " :h getchar()

@@ -175,12 +175,12 @@ nnoremap [<space> <cmd>call append(line('.')-1, '')<cr>
 nnoremap ]<space> <cmd>call append('.', '')<cr>
 
 let g:mi#ft#multiline = 1
-Keymap nxo <expr> f mi#ft#smart_expr('f')
-Keymap nxo <expr> F mi#ft#smart_expr('F')
-Keymap nxo <expr> t mi#ft#smart_expr('t')
-Keymap nxo <expr> T mi#ft#smart_expr('T')
-Keymap nxo <expr> ; mi#ft#repeat_expr(';')
-Keymap nxo <expr> , mi#ft#repeat_expr(',')
+Keymap nxo <expr> f mi#ft#expr('f')
+Keymap nxo <expr> F mi#ft#expr('F')
+Keymap nxo <expr> t mi#ft#expr('t')
+Keymap nxo <expr> T mi#ft#expr('T')
+Keymap nxo <expr> ; mi#ft#expr(';')
+Keymap nxo <expr> , mi#ft#expr(',')
 noremap sf f
 noremap sF F
 noremap st t
