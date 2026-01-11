@@ -1,3 +1,5 @@
+" deprecated
+" Use vim's official hlyank plugin instead
 " https://github.com/statox/FYT.vim/blob/master/autoload/FYT.vim
 function! mi#highlight#on_yank(options = {}) abort
   if len(get(v:event, 'regtype', [])) == 0 || v:event.operator != 'y'

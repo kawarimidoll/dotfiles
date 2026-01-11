@@ -1,3 +1,6 @@
+" deprecated all this file
+" Use vim's official comment plugin instead
+
 function! s:get_comment_pair() abort
   let pair = split(&commentstring, '%s')
   return [pair[0], get(pair, 1, '')]
