@@ -262,3 +262,48 @@ vim.keymap.set('n', '*', function()
   vim.fn.winrestview(winview)
   vim.cmd.doautocmd('CursorMoved')
 end, { silent = true, desc = 'star-search without jump' })
+
+-- Shift+Enter: コマンドの ! をトグルして実行
+local function toggle_bang(cmdline)
+  local i = 1
+  local len = #cmdline
+
+  -- rangeをスキップ
+  while i <= len do
+    local c = cmdline:sub(i, i)
+    if c:match('[%d.%%$,;+%-]') then
+      i = i + 1
+    elseif c == "'" then
+      i = i + 2 -- 'x（マーク）
+    elseif c == '/' or c == '?' then
+      -- /pattern/ または ?pattern?
+      local close = cmdline:find(c, i + 1, true)
+      i = close and (close + 1) or (i + 1)
+    elseif c:match('%s') then
+      i = i + 1
+    else
+      break -- コマンド名の開始
+    end
+  end
+
+  -- コマンド名の終わりを見つける
+  local cmd_end = i
+  while cmd_end <= len and cmdline:sub(cmd_end, cmd_end):match('%a') do
+    cmd_end = cmd_end + 1
+  end
+
+  -- !をトグル
+  if cmdline:sub(cmd_end, cmd_end) == '!' then
+    return cmdline:sub(1, cmd_end - 1) .. cmdline:sub(cmd_end + 1)
+  else
+    return cmdline:sub(1, cmd_end - 1) .. '!' .. cmdline:sub(cmd_end)
+  end
+end
+
+vim.keymap.set('c', '<S-CR>', function()
+  if vim.fn.getcmdtype() == ':' then
+    local modified = toggle_bang(vim.fn.getcmdline())
+    return '<C-u>' .. modified .. '<CR>'
+  end
+  return '<CR>'
+end, { expr = true, desc = 'Toggle bang and execute' })
