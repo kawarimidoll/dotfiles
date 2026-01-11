@@ -104,6 +104,8 @@ function! s:restart() abort
     return
   endif
 
+  set operatorfunc&
+
   let has_session = !empty(v:this_session)
   let session = has_session ? v:this_session : restart_session_file
   call mkdir(fnamemodify(session, ':h'), 'p')
