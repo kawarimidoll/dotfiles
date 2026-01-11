@@ -74,7 +74,6 @@ command! GitDiff call <sid>git_diff()
 "       \ | wincmd w
 "       \ | call mi#window#fit()
 
-packadd matchit
 packadd comment
 packadd hlyank
 packadd helptoc
