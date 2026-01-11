@@ -59,7 +59,7 @@ function! s:get_wrapper() abort
   endif
 
   if !has_key(s:surround_specs, char)
-    let s:cache.add = [char, char]
+    let s:cache.add = [char, char, '']
     return s:cache.add
   endif
 
@@ -73,11 +73,9 @@ function! s:get_wrapper() abort
     let close = substitute(close, replace_mark, user_input, '')
   endfor
 
-  if has_key(s:surround_specs[char], 'after_wrap')
-    let s:after_wrap = s:surround_specs[char]['after_wrap']
-  endif
+  let after_wrap = get(s:surround_specs[char], 'after_wrap', '')
 
-  let s:cache.add = [open, close]
+  let s:cache.add = [open, close, after_wrap]
   return s:cache.add
 endfunction
 
@@ -102,14 +100,18 @@ function! s:get_finder() abort
 endfunction
 
 function! mi#surround#operator(task) abort
+  if index(['add', 'delete', 'replace'], a:task) < 0
+    echoerr '[surround] invalid task: ' .. a:task
+    return ''
+  endif
   let s:cache = {}
-  execute "set operatorfunc=function('mi#surround#" .. a:task .. "')"
+  let &operatorfunc = function('s:' .. a:task)
   return 'g@'
 endfunction
 
-function! mi#surround#add(type = '') abort
+function! s:add(type = '') abort
   if a:type == ''
-    set operatorfunc=function('mi#surround#add')
+    let &operatorfunc = function('s:add')
     return 'g@'
   endif
 
@@ -117,7 +119,7 @@ function! mi#surround#add(type = '') abort
   if empty(wrapper)
     return "\<esc>"
   endif
-  let [open, close] = wrapper
+  let [open, close, after_wrap] = wrapper
 
   let [head_lnum, head_col] = getcharpos("'[")[1:2]
   let [tail_lnum, tail_col] = getcharpos("']")[1:2]
@@ -143,16 +145,36 @@ function! mi#surround#add(type = '') abort
 
   call setcursorcharpos(c_lnum, c_col)
 
-  if exists('s:after_wrap')
-    execute s:after_wrap
-    unlet! s:after_wrap
+  if !empty(after_wrap)
+    execute after_wrap
   endif
 endfunction
 
-function! mi#surround#find_pair() abort
-  " debug
-  " let s:cache.find = []
+function! mi#surround#find(open, close) abort
+  if a:open ==# a:close
+    let open_from = searchpos(a:open, 'nbW', line('w0'))
+    let close_from = searchpos(a:close, 'nW', line('w$'))
+  else
+    let open_from = searchpairpos(a:open, '', a:close, 'nbW', '', line('w0'))
+    let close_from = searchpairpos(a:open, '', a:close, 'nW', '', line('w$'))
+  endif
 
+  if open_from == [0, 0] || close_from == [0, 0]
+    return []
+  endif
+
+  " use cursor() and searchpos() because searchpairpos() doesn't have 'e' flag
+  let cursorpos = getpos('.')[1:2]
+  call cursor(open_from[0], open_from[1])
+  let open_to = searchpos(a:open, 'ceW', line('w$'))
+  call cursor(close_from[0], close_from[1])
+  let close_to = searchpos(a:close, 'ceW', line('w$'))
+  call cursor(cursorpos[0], cursorpos[1])
+
+  return [open_from, open_to, close_from, close_to]
+endfunction
+
+function! s:find_pair() abort
   let result = []
   let finder = s:get_finder()
   while v:true
@@ -164,46 +186,30 @@ function! mi#surround#find_pair() abort
     let close = finder[1]
     let finder = finder[2:]
 
-    if open ==# close
-      let open_from = searchpos(open, 'nbW', line('w0'))
-      let close_from = searchpos(close, 'nW', line('w$'))
-    else
-      let open_from = searchpairpos(open, '', close, 'nbW', '', line('w0'))
-      let close_from = searchpairpos(open, '', close, 'nW', '', line('w$'))
-    endif
-
-    if open_from == [0, 0] || close_from == [0, 0]
+    let found = mi#surround#find(open, close)
+    if empty(found)
       continue
     endif
 
-    " use cursor() and searchpos() because searchpairpos() doesn't have 'e' flag
-    let cursorpos = getpos('.')[1:2]
-    call cursor(open_from[0], open_from[1])
-    let open_to = searchpos(open, 'ceW', line('w$'))
-    call cursor(close_from[0], close_from[1])
-    let close_to = searchpos(close, 'ceW', line('w$'))
-    call cursor(cursorpos[0], cursorpos[1])
-
-    " choose the last open_to
-    if empty(result) || (result[1][0] <= open_to[0] && result[1][1] < open_to[1])
-      let result = [open_from, open_to, close_from, close_to]
+    " choose the last open_to (= innermost pair)
+    if empty(result) || (result[1][0] <= found[1][0] && result[1][1] < found[1][1])
+      let result = found
     endif
   endwhile
 
   return result
 endfunction
 
-function! mi#surround#delete(type = '') abort
+function! s:delete(type = '') abort
   if a:type == ''
-    set operatorfunc=function('mi#surround#delete')
+    let &operatorfunc = function('s:delete')
     return 'g@'
   endif
 
-  let find_pair = mi#surround#find_pair()
+  let find_pair = s:find_pair()
   if empty(find_pair)
     return "\<esc>"
   endif
-  echo find_pair
 
   let [open_from, open_to, close_from, close_to] = find_pair
   call s:removestr(close_from, close_to)
@@ -212,13 +218,13 @@ function! mi#surround#delete(type = '') abort
   call cursor(open_from[0], open_from[1])
 endfunction
 
-function! mi#surround#replace(type = '') abort
+function! s:replace(type = '') abort
   if a:type == ''
-    set operatorfunc=function('mi#surround#replace')
+    let &operatorfunc = function('s:replace')
     return 'g@'
   endif
 
-  let find_pair = mi#surround#find_pair()
+  let find_pair = s:find_pair()
   if empty(find_pair)
     return "\<esc>"
   endif
@@ -234,6 +240,5 @@ function! mi#surround#replace(type = '') abort
   call s:removestr(open_from, open_to)
   call s:putstr(open_from[0], open_from[1], wrapper[0])
 
-  " TODO set cursor on new close pos
   call cursor(open_from[0], open_from[1])
 endfunction

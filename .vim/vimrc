@@ -164,7 +164,6 @@ nnoremap <C-x> <Cmd>call mi#dial#decrement(v:count1)<CR>
 
 command! LazyGit tab terminal ++close ++norestore lazygit
 
-" Keymap nx <expr> sa mi#surround#add()
 Keymap nx <expr> sa mi#surround#operator('add')
 nnoremap <expr> sd mi#surround#operator('delete') .. ' '
 nnoremap <expr> sr mi#surround#operator('replace') .. ' '
