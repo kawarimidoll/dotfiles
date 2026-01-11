@@ -135,6 +135,8 @@ function! mi#highlight#syn_attr(expr = '.', trans = 1)
         \ }
 endfunction
 
+" deprecated
+" Use vim's official matchparen plugin instead
 " :h match-parens
 function! mi#highlight#match_paren(hlgroup) abort
   call s:clear_hl_paren()

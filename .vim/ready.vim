@@ -79,6 +79,7 @@ packadd comment
 packadd hlyank
 packadd helptoc
 packadd cfilter
+runtime plugin/matchparen.vim
 
 autocmd BufReadPost quickfix call mi#qed#start()
 
@@ -119,7 +120,6 @@ endfunction
 
 " https://www.statox.fr/posts/2020/07/vim_flash_yanked_text/
 autocmd CursorMoved * call mi#highlight#cursorword('Underlined')
-autocmd CursorMoved,CursorMovedI * call mi#highlight#match_paren('Underlined')
 " https://zenn.dev/vim_jp/articles/ff6cd224fab0c7
 function! s:close_special_windows() abort
   let current_win = winnr()
