@@ -365,6 +365,12 @@ function! s:auto_cmp_close() abort
 endfunction
 " autocmd TextChangedP * call s:auto_cmp_close()
 
+function! s:open_url_from_bufname() abort
+  let url = expand('<amatch>')
+  bwipeout
+  execute 'URLOpen' url
+endfunction
+autocmd BufNewFile http://*,https://* call s:open_url_from_bufname()
 nnoremap gX <cmd>execute $"URLOpen https://google.com/search?q={expand('<cword>')}"<cr>
 xnoremap gX "zy<cmd>execute $"URLOpen https://google.com/search?q={getreg('z')}"<cr>
 
