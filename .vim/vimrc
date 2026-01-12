@@ -501,10 +501,7 @@ nmap <BS> [
 nmap ' ]
 
 " https://twitter.com/mo_naqa/status/1467626946293284865
-" nnoremap gf gFzz
-" nnoremap gx :<C-u>!open <C-r><C-a>
-command! -nargs=* SmartOpen call mi#open#smart_open(<q-args>)
-Keymap nx gf <Cmd>call mi#open#smart_open()<CR>
+nnoremap gf gF
 
 "for c in g:mi#const#alpha_all->split('\zs')
 "  execute 'nnoremap <Space>' .. c '<NOP>'

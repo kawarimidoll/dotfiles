@@ -79,6 +79,7 @@ packadd hlyank
 packadd helptoc
 packadd cfilter
 runtime plugin/matchparen.vim
+runtime plugin/openPlugin.vim
 
 autocmd BufReadPost quickfix call mi#qed#start()
 
@@ -363,6 +364,9 @@ function! s:auto_cmp_close() abort
   endif
 endfunction
 " autocmd TextChangedP * call s:auto_cmp_close()
+
+nnoremap gX <cmd>execute $"URLOpen https://google.com/search?q={expand('<cword>')}"<cr>
+xnoremap gX "zy<cmd>execute $"URLOpen https://google.com/search?q={getreg('z')}"<cr>
 
 if &diff
   function s:diff_stl() abort

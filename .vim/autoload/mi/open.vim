@@ -1,3 +1,5 @@
+" deprecated
+" Use vim's official open plugin instead
 " {{{ mi#open#smart_open
 function! mi#open#smart_open(query = '') abort
   " get query
