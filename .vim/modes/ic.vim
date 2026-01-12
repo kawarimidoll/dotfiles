@@ -1,25 +1,21 @@
 " opts
-set complete=.,w,k,b,u
+set autocomplete
+set backspace=indent,eol,start
+set complete=.^9,w^5,k^7,b^5,u^5
+set completeopt+=popuphidden
 set completeopt=menuone,noselect,fuzzy
-set infercase
+set hlsearch
 set ignorecase
+set incsearch
+set infercase
 set smartcase
-set wildoptions=exacttext,fuzzy,pum,tagfile
+set ttimeout
+set ttimeoutlen=50
+set wildmenu
 set wildmode=noselect:lastused,full
-
-if has('nvim')
-  set inccommand=split
-else
-  set backspace=indent,eol,start
-  set completeopt+=popuphidden
-  set hlsearch
-  set incsearch
-  set ttimeout
-  set ttimeoutlen=50
-  set wildmenu
-  inoremap <C-u> <C-g>u<C-u>
-  inoremap <C-w> <C-g>u<C-w>
-endif
+set wildoptions=exacttext,fuzzy,pum,tagfile
+inoremap <C-u> <C-g>u<C-u>
+inoremap <C-w> <C-g>u<C-w>
 
 " perl -e 'print sort { length($a) <=> length($b) } <>' /usr/share/dict/words > ~/.cache/vim/sorted_words
 set dictionary+=~/.cache/vim/sorted_words
@@ -224,10 +220,6 @@ endfunction
 noremap! <expr> ; <sid>sticky_shift()
 
 function s:caps() abort
-  if has('nvim')
-    lua vim.notify("caps mode doesn't work on neovim")
-    return
-  endif
   if exists('#capslock#KeyInputPre')
     autocmd! capslock
     return
@@ -294,11 +286,9 @@ inoremap <expr> , exists('b:symbol_list')
 "   call setbufline(0, line('.'), getline(line('.')+1))
 "   call deletebufline(0, line('.')+1)
 " endfunction
-" if !has('nvim')
-"   inoremap <c-l> <c-@>
-"   inoremap <up> <cmd>call <sid>imap_up()<cr>
-"   inoremap <down> <cmd>call <sid>imap_down()<cr>
-" endif
+" inoremap <c-l> <c-@>
+" inoremap <up> <cmd>call <sid>imap_up()<cr>
+" inoremap <down> <cmd>call <sid>imap_down()<cr>
 
 let s:ft_expand_targets = {
       \ 'javascript': {
