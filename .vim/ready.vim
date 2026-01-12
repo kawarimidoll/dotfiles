@@ -39,7 +39,6 @@ endif
 
 call mi#cmdline#proxy_let('trim', 'Trim')
 call mi#cmdline#proxy_let('cfilter', 'Cfilter')
-" call mi#cmdline#proxy_let('s[ubstitute]', 'Substitute')
 source ~/dotfiles/.vim/autoload/mi/subs.vim
 " source ~/dotfiles/.vim/autoload/mi/neighbor.vim
 

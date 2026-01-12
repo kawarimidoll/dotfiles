@@ -112,8 +112,6 @@ AbbrevCmd mec messages clear
 AbbrevCmd ec echo
 AbbrevCmd ed edit
 AbbrevCmd en enew
-AbbrevCmd plgs PlugSync
-AbbrevCmd plugs PlugSync
 AbbrevCmd rst Restart
 AbbrevCmd! sv 'saveas ' .. @% .. repeat('<left>', {v -> v>0 ? v+1 : 0}(expand('%:e')->strlen()))
 AbbrevCmd! rn 'Rename ' .. @% .. repeat('<left>', {v -> v>0 ? v+1 : 0}(expand('%:e')->strlen()))
@@ -121,9 +119,6 @@ AbbrevCmd! ss '%s/' .. @/ .. '//g<Left><Left>'
 " AbbrevCmd! ss '%s/' .. @/ .. "//g\<Left>\<Left>" olso ok
 AbbrevCmd! gld 'global //d_<left><left><left>'
 
-" cnoremap <expr> v getcmdtype() == ':' && getcmdline() == 's' ? '<c-u>saveas ' .. @% : 'v'
-" cnoremap <expr> n getcmdtype() == ':' && getcmdline() == 'r' ? '<c-u>Rename ' .. @% : 'n'
-" cnoremap <expr> s getcmdtype() == ':' && getcmdline() =~ '^plu\?g$' ? '<c-u>PlugSync' : 's'
 cnoremap <expr> . getcmdtype() == '/' && getcmdpos() > 2 && getcmdline()[getcmdpos()-2] == ',' ?
       \ '<c-u>\<' .. substitute(getcmdline()[:-2], '\\v', '', 'gi') .. '\>' : '.'
 
