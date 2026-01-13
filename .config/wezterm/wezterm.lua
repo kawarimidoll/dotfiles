@@ -164,6 +164,9 @@ return {
     -- https://zenn.dev/yuys13/articles/wezterm-settings-trivia
     -- https://github.com/wez/wezterm/issues/2630#issuecomment-1323626076
     { key = 'q', mods = 'CTRL', action = wezterm.action({ SendString = '\x11' }) },
+
+    -- Shift+Enter: CSI u エンコーディング
+    { key = 'Enter', mods = 'SHIFT', action = act.SendString('\x1b[13;2u') },
   },
 
   key_tables = {

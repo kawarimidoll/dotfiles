@@ -85,8 +85,8 @@ keybind = super+down=scroll_page_lines:4
 keybind = super+shift+up=scroll_page_fractional:-0.5
 keybind = super+shift+down=scroll_page_fractional:0.5
 
-#### claude code newline
-keybind = shift+enter=text:\n
+#### shift+enter: CSI u エンコーディング
+keybind = shift+enter=text:\x1b[13;2u
 
 ### macos-specific
 
