@@ -229,31 +229,15 @@ const use_funcs: dict<func> = {
 }
 
 var last_target: string = ''
-var is_repeating: bool = false
 
 export def Use(target: string)
   if index(use_targets, target) < 0
     echo 'invalid target: ' .. target .. ' (valid: ' .. join(use_targets, ', ') .. ')'
     return
   endif
-  use_funcs[target]()
-
-  # ドットリピート用
-  if !is_repeating
-    last_target = target
-    &operatorfunc = Repeat
-    var save_pos = getcurpos()
-    normal! g@l
-    setcursorcharpos(save_pos[1], save_pos[2])
-  endif
-enddef
-
-def Repeat(_: string)
-  if last_target != ''
-    is_repeating = true
-    Use(last_target)
-    is_repeating = false
-  endif
+  last_target = target
+  &operatorfunc = (_) => use_funcs[last_target]()
+  feedkeys('g@_', 'n')
 enddef
 
 export def UseComplete(ArgLead: string, CmdLine: string, CursorPos: number): list<string>
