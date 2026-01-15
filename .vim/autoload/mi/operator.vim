@@ -1,3 +1,6 @@
+" deprecated
+" Use inline style instead
+" <cmd>let &opfunc={->execute('norm!`[v`]P')}<cr>g@
 " {{{ mi#operator#replace
 function! mi#operator#replace(type = '') abort
   if a:type == ''
