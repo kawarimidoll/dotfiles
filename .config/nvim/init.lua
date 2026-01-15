@@ -803,7 +803,91 @@ end)
 
 later(function()
   local MiniPick = require('mini.pick')
-  MiniPick.setup()
+
+  -- キーエミュレート用ヘルパー: from を押すと to が発行される (to は関数も可)
+  local function key_emulate(from, to)
+    return {
+      char = from,
+      func = function()
+        local keys = type(to) == 'function' and to() or to
+        if keys and keys ~= '' then
+          vim.schedule(function()
+            vim.api.nvim_feedkeys(vim.keycode(keys), 'n', false)
+          end)
+        end
+      end,
+    }
+  end
+
+  -- カスタムマッピング (デフォルト値: caret_left=<Left>, caret_right=<Right>,
+  --   delete_char=<BS>, delete_char_right=<Del>, mark=<C-x>, toggle_preview=<Tab>,
+  --   scroll_up=<C-b>, scroll_down=<C-f>, scroll_left=<C-h>)
+  local pick_mappings = {
+    -- <C-b>/<C-f>/<C-h> を別用途で使うため scroll 系を無効化
+    scroll_up = '',
+    scroll_down = '',
+    scroll_left = '',
+    -- カーソル移動 (シェルライク): <C-b>/<C-f>/<C-a>/<C-e> を追加
+    ctrl_b = key_emulate('<C-b>', '<Left>'),
+    ctrl_f = key_emulate('<C-f>', '<Right>'),
+    -- 関数にして実行時に query 長を取得する
+    caret_to_start = key_emulate('<C-a>', function()
+      return string.rep('<Left>', #(MiniPick.get_picker_query() or {}))
+    end),
+    caret_to_end = {
+      char = '<C-e>',
+      func = function()
+        local query = MiniPick.get_picker_query()
+        if query then
+          MiniPick.set_picker_query(query)
+        end
+      end,
+    },
+    -- 削除 (シェルライク): <C-h>/<C-d> を追加
+    ctrl_h = key_emulate('<C-h>', '<BS>'),
+    ctrl_d = key_emulate('<C-d>', '<Del>'),
+    -- マーク: <Tab> に変更, プレビュー: <C-l> に変更
+    toggle_preview = '<C-l>',
+    mark = '<Tab>',
+    -- 組み込みの choose を無効化
+    choose = '',
+    -- スマート選択: マークがあればマークを開く、なければ通常選択
+    smart_choose = {
+      char = '<CR>',
+      func = function()
+        local matches = MiniPick.get_picker_matches()
+        if not matches then
+          return true
+        end
+        if matches.marked and #matches.marked > 0 then
+          -- マークされたアイテムを直接バッファに追加
+          local files = {}
+          for _, item in ipairs(matches.marked) do
+            local path = type(item) == 'string' and item or (item.path or item.text)
+            if path then
+              table.insert(files, path)
+            end
+          end
+          if #files > 0 then
+            vim.schedule(function()
+              for _, file in ipairs(files) do
+                vim.cmd.badd(vim.fn.fnameescape(file))
+              end
+              vim.cmd.buffer(vim.fn.fnameescape(files[1]))
+            end)
+          end
+        else
+          -- 通常の choose
+          MiniPick.default_choose(matches.current)
+        end
+        return true
+      end,
+    },
+  }
+
+  MiniPick.setup({
+    mappings = pick_mappings,
+  })
 
   vim.ui.select = MiniPick.ui_select
 
