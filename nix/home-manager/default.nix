@@ -54,9 +54,12 @@ in
         nur.difit
         nur.ghost
         nur.jsmigemo
+        nur.lolcrab
         nur.plamo-translate
-        nur.rustmigemo-wrapped
-        nur.treesitter-ls
+        nur.rustmigemo
+        nur.rxpipes
+        nur.stormy
+        nur.tree-sitter-ls
 
         act
         ad
@@ -103,6 +106,7 @@ in
         findutils
         fx
         gawk
+        gemini-cli
         genact
         ghq
         gifsicle
@@ -166,11 +170,11 @@ in
         neovim # nightly
         nh
         ni
-        nil
         nim
         nix-output-monitor
         nix-search-cli
-        nixfmt-rfc-style
+        nixd
+        nixfmt
         nodejs_22
         nurl
         nyancat
@@ -183,6 +187,7 @@ in
         qrtool
         rainfrog
         rebar3
+        resterm
         restman
         ripgrep
         rustup
