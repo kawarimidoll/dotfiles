@@ -537,8 +537,12 @@ nnoremap <expr> <C-j> $'<Cmd>move+{v:count1}<CR>=l'
 nnoremap <Space>L <Cmd>LazyGit<CR>
 
 " https://zenn.dev/kawarimidoll/articles/17dad86545cbb4
-nnoremap <C-f> <Cmd>set scroll=0<CR><Cmd>execute 'normal!' repeat('<C-d>', v:count1 * 2)<CR>
-nnoremap <C-b> <Cmd>set scroll=0<CR><Cmd>execute 'normal!' repeat('<C-u>', v:count1 * 2)<CR>
+nnoremap <expr> <c-f> '<cmd>set scroll=0<cr>' .. repeat('<c-d>', v:count1 * 2)
+nnoremap <expr> <c-b> '<cmd>set scroll=0<cr>' .. repeat('<c-u>', v:count1 * 2)
+" ref: https://zenn.dev/vim_jp/articles/custom-winline-with-args
+" 変数は使えないぽいので3をベタ書き
+nnoremap <ScrollWheelUp> 3<c-u><cmd>set scroll=0<cr>
+nnoremap <ScrollWheelDown> 3<c-d><cmd>set scroll=0<cr>
 
 " https://blog.atusy.net/2024/09/06/linewise-zf/
 nnoremap zf zfV

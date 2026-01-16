@@ -126,24 +126,9 @@ vim.keymap.set('n', '<c-b>', function()
 end, { desc = 'better paging', expr = true })
 
 -- ref: https://zenn.dev/vim_jp/articles/custom-winline-with-args
--- default scroll step is 3
 local scroll_step = 3
-vim.keymap.set('n', '<ScrollWheelUp>', function()
-  if vim.fn.line('w0') > 1 then
-    vim.opt.scroll = scroll_step
-    return '<c-u>'
-  end
-  return string.format('%dk', scroll_step)
-end, { expr = true, silent = true })
-vim.keymap.set('n', '<ScrollWheelDown>', function()
-  local visible_last = vim.fn.line('w$')
-  local buffer_last = vim.fn.line('$')
-  if visible_last < buffer_last then
-    vim.opt.scroll = scroll_step
-    return '<c-d>'
-  end
-  return string.format('%dj', scroll_step)
-end, { expr = true, silent = true })
+vim.keymap.set('n', '<ScrollWheelUp>', scroll_step .. '<c-u><cmd>set scroll=0<cr>', { desc = 'better scrolling' })
+vim.keymap.set('n', '<ScrollWheelDown>', scroll_step .. '<c-d><cmd>set scroll=0<cr>', { desc = 'better scrolling' })
 
 vim.keymap.set('n', 'i', function()
   return vim.api.nvim_get_current_line() == '' and '"_cc' or 'i'
