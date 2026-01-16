@@ -130,6 +130,14 @@ local scroll_step = 3
 vim.keymap.set('n', '<ScrollWheelUp>', scroll_step .. '<c-u><cmd>set scroll=0<cr>', { desc = 'better scrolling' })
 vim.keymap.set('n', '<ScrollWheelDown>', scroll_step .. '<c-d><cmd>set scroll=0<cr>', { desc = 'better scrolling' })
 
+-- jump to the end of search pos
+vim.keymap.set('n', 'gn', function()
+  return '<cmd><cr>' .. string.rep('lgn<esc>', vim.v.count1)
+end, { expr = true })
+vim.keymap.set('n', 'gN', function()
+  return '<cmd><cr>' .. string.rep('hNgn<esc>', vim.v.count1)
+end, { expr = true })
+
 vim.keymap.set('n', 'i', function()
   return vim.api.nvim_get_current_line() == '' and '"_cc' or 'i'
 end, { expr = true, desc = 'i keeping indent' })

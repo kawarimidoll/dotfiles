@@ -286,9 +286,9 @@ nnoremap <expr> J mi#operator#join()
 nnoremap <expr> JJ mi#operator#join() .. 'j'
 xnoremap <expr> J mi#operator#join()
 
-" gn/gN keep normal mode
-nnoremap gn gn<esc>
-nnoremap gN gN<esc>
+" jump to the end of search pos
+nnoremap <expr> gn '<cmd><cr>' .. repeat('lgn<esc>', v:count1)
+nnoremap <expr> gN '<cmd><cr>' .. repeat('hNgn<esc>', v:count1)
 
 " like helix
 nnoremap U <c-r>
