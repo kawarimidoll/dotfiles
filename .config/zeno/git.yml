@@ -29,6 +29,12 @@ snippets:
     context:
       lbuffer: '^git\s+'
 
+  - name: git sign last commit
+    keyword: sign-last
+    snippet: commit --amend --no-edit -S
+    context:
+      lbuffer: '^git\s+'
+
   - name: git d
     keyword: d
     snippet: dead
