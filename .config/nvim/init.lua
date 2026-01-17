@@ -1292,6 +1292,18 @@ later(function()
     vim.cmd.normal({ args = { '`]' }, bang = true })
     U.set_mark_here('p')
   end, { desc = 'Paste above with highlight' })
+
+  create_autocmd('CmdlineLeave', {
+    desc = 'Highlight when search cmdline leave',
+    callback = function()
+      undo_glow.search_cmd({
+        animation = {
+          ---@type UndoGlow.AnimationTypeString
+          animation_type = 'fade',
+        },
+      })
+    end,
+  })
 end)
 
 later(function()
