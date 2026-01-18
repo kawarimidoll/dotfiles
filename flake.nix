@@ -10,7 +10,6 @@
     git-hooks = {
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
-      # inputs.nixpkgs-stable.follows = "nixpkgs";
       inputs.flake-compat.follows = "flake-compat";
     };
     flake-parts = {
@@ -69,9 +68,19 @@
       url = "github:kawarimidoll/nur-packages";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    crane = {
+      url = "github:ipetkov/crane";
+    };
     arto = {
       url = "github:arto-app/Arto";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.crane.follows = "crane";
+    };
+    version-lsp = {
+      url = "github:skanehira/version-lsp";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-parts.follows = "flake-parts";
+      inputs.crane.follows = "crane";
     };
   };
 

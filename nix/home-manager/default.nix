@@ -43,6 +43,7 @@ in
         koi = inputs.koi.packages.${system}.default;
         cage = inputs.cage.packages.${system}.default;
         arto = inputs.arto.packages.${system}.default;
+        version-lsp = inputs.version-lsp.packages.${system}.default;
         nur = inputs.nur-packages.packages.${system};
       in
       with pkgs;
@@ -50,16 +51,17 @@ in
         koi
         cage
         arto
+        version-lsp
 
         nur.difit
         nur.ghost
         nur.jsmigemo
+        nur.kakehashi
         nur.lolcrab
         nur.plamo-translate
         nur.rustmigemo
         nur.rxpipes
         nur.stormy
-        nur.tree-sitter-ls
 
         act
         ad
