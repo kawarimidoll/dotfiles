@@ -75,6 +75,13 @@ vim.lsp.config('*', {
   capabilities = require('mini.completion').get_lsp_capabilities(),
 })
 
+vim.lsp.config('version_lsp', {
+  cmd = { 'version-lsp' },
+  filetypes = { 'json', 'jsonc', 'toml', 'gomod', 'yaml', 'yaml.github-actions' },
+  root_markers = { '.git' },
+  settings = {},
+})
+
 local lsp_names = {
   'bashls',
   'buf_ls',
@@ -97,6 +104,7 @@ local lsp_names = {
   'tombi',
   'tsgo',
   'typos_lsp',
+  'version_lsp',
   'yamlls',
   'zls',
   -- 'lua_ls',
