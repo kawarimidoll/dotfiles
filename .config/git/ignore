@@ -12,6 +12,8 @@ tags
 .nvimlog
 .aider*
 .serena*
+.codanna*
+.fastembed_cache
 **/.well-known/appspecific/com.chrome.devtools.json
 **/z-ai/
 **/.claude/settings.local.json
