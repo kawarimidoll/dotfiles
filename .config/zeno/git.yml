@@ -6,6 +6,9 @@ snippets:
   - keyword: gco
     snippet: git checkout
 
+  - keyword: forkpush
+    snippet: gh repo fork --remote && push
+
   - name: git commit message
     keyword: gcim
     snippet: git commit -m '{{commit_message}}'
