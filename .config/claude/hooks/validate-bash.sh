@@ -31,9 +31,9 @@ if echo "$command" | grep -qE '\bpush\b'; then
   exit 2
 fi
 
-# if echo "$command" | grep -qE '\bcat\b'; then
-#   echo "Use of 'cat' is prohibited. Use the Read tool to read files." >&2
-#   exit 2
-# fi
+if echo "$command" | grep -qE '\bgit add (-A|--all|\.($|[ ;|&]))'; then
+  echo "Do not git-add all files. Specify the file name(s) to add." >&2
+  exit 2
+fi
 
 exit 0

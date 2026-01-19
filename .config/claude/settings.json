@@ -36,12 +36,6 @@
       "Bash(do)",
       "Bash(for)",
       "Bash(gh repo delete:*)",
-      "Bash(git add -A)",
-      "Bash(git checkout:*)",
-      "Bash(git config:*)",
-      "Bash(git push:*)",
-      "Bash(git reset:*)",
-      "Bash(git switch:*)",
       "Bash(mongod:*)",
       "Bash(mysql:*)",
       "Bash(nc:*)",
@@ -68,8 +62,13 @@
     ],
     "ask": [
       "Bash(curl:*)",
+      "Bash(git checkout:*)",
+      "Bash(git config:*)",
+      "Bash(git push:*)",
       "Bash(git rebase:*)",
-      "Bash(git rm:*)"
+      "Bash(git reset:*)",
+      "Bash(git rm:*)",
+      "Bash(git switch:*)"
     ],
     "defaultMode": "bypassPermissions"
   },
