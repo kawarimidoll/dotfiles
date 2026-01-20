@@ -53,7 +53,7 @@ apply = ['defer']
 
 [plugins.brew]
 inline = '''
-[[ $OSTYPE == darwin* ]] && zsh-defer eval_source /opt/homebrew/bin/brew shellenv
+[[ $OSTYPE == darwin* ]] && eval_source /opt/homebrew/bin/brew shellenv
 '''
 
 [plugins.starship]

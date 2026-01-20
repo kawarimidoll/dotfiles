@@ -64,7 +64,7 @@ source $ZSHRC_DIR/eager.zsh
 # 存在するかわからないファイルの読み込み
 # source FILENAME 2>/dev/null || :
 export DOT_DIR="${HOME}/dotfiles"
-zsh-defer source "${DOT_DIR}/.config/sh/settings.sh" 2>/dev/null || :
-zsh-defer source "${HOME}/.zshrc.local" 2>/dev/null || :
+source "${DOT_DIR}/.config/sh/settings.sh" 2>/dev/null || :
+source "${HOME}/.zshrc.local" 2>/dev/null || :
 
 zsh-defer zsh-defer unfunction source
