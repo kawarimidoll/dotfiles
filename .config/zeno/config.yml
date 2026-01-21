@@ -36,6 +36,9 @@ snippets:
     context:
       lbuffer: '^bun\s+'
 
+  - keyword: arto
+    snippet: open -a Arto
+
   - keyword: cala
     snippet: cage claude
 
