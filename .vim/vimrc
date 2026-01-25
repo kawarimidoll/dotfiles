@@ -344,6 +344,8 @@ nnoremap <expr> A empty(getline('.')) ? '"_cc' : 'A'
 noremap L $
 map <expr> M expand('<cword>') =~# 'end' ? '%' : 'g%'
 noremap gm gM
+map [s [%
+map ]s ]%
 nnoremap / /\v
 nnoremap ? /\V
 

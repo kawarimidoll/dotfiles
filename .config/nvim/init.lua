@@ -1049,13 +1049,13 @@ now(function()
   vim.keymap.set({ 'x', 'o' }, 'aM', '<plug>(matchup-a%)', { desc = 'Select a block' })
   vim.keymap.set(
     { 'n', 'x', 'o' },
-    '[M',
+    '[s',
     '<plug>(matchup-[%)',
     { desc = 'Go to previous outer open word' }
   )
   vim.keymap.set(
     { 'n', 'x', 'o' },
-    ']M',
+    ']s',
     '<plug>(matchup-]%)',
     { desc = 'Go to next outer open word' }
   )
