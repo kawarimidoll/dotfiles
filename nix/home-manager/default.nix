@@ -44,6 +44,7 @@ in
         cage = inputs.cage.packages.${system}.default;
         arto = inputs.arto.packages.${system}.default;
         version-lsp = inputs.version-lsp.packages.${system}.default;
+        hjkls = inputs.hjkls.packages.${system}.default;
         nur = inputs.nur-packages.packages.${system};
       in
       with pkgs;
@@ -51,6 +52,7 @@ in
         koi
         cage
         arto
+        hjkls
         version-lsp
 
         nur.difit
@@ -85,7 +87,6 @@ in
         codex
         container # apple-container
         # coreutils
-        cowsay
         croc
         csview
         csvlens
@@ -96,7 +97,6 @@ in
         diff-so-fancy
         diffnav
         # diffutils
-        djlint
         doxx
         dprint
         dust
@@ -164,7 +164,6 @@ in
         macchina
         mcat
         mcfly
-        mdfried
         moreutils
         nano
         nb
@@ -265,7 +264,6 @@ in
         # lazyjj
         # oxker
         # rmw
-        # vim-language-server
       ];
   };
 
@@ -274,6 +272,7 @@ in
   programs.home-manager.enable = true;
 
   imports = [
+    inputs.nix-index-database.hmModules.nix-index
     ./programs/bash.nix
     ./programs/bat.nix
     ./programs/direnv.nix
@@ -282,6 +281,9 @@ in
     ./programs/gh.nix
     ./programs/nnn.nix
   ];
+
+  # https://github.com/nix-community/nix-index-database
+  programs.nix-index-database.comma.enable = true;
 
   # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.bun.enable
   programs.bun.enable = true;

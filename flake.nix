@@ -68,6 +68,11 @@
       url = "github:kawarimidoll/nur-packages";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hjkls = {
+      url = "github:kawarimidoll/hjkls";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.git-hooks.follows = "git-hooks";
+    };
     crane = {
       url = "github:ipetkov/crane";
     };
@@ -81,6 +86,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-parts.follows = "flake-parts";
       inputs.crane.follows = "crane";
+    };
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
