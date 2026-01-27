@@ -75,6 +75,12 @@ vim.lsp.config('*', {
   capabilities = require('mini.completion').get_lsp_capabilities(),
 })
 
+vim.lsp.config('hjkls', {
+  cmd = { 'hjkls' },
+  filetypes = { 'vim' },
+  root_markers = { '.git' },
+})
+
 vim.lsp.config('version_lsp', {
   cmd = { 'version-lsp' },
   filetypes = { 'json', 'jsonc', 'toml', 'gomod', 'yaml', 'yaml.github-actions' },
@@ -95,6 +101,7 @@ local lsp_names = {
   'gleam',
   'glsl_analyzer',
   'gopls',
+  'hjkls',
   'just',
   'nil_ls',
   'oxlint',
