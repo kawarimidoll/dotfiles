@@ -263,29 +263,40 @@ local function toggle_bang(cmdline)
 
   -- rangeをスキップ
   while i <= len do
-    local c = cmdline:sub(i, i)
-    if c:match('[%d.%%$,;+%-]') then
-      i = i + 1
-    elseif c == "'" then
-      i = i + 2 -- 'x（マーク）
-    elseif c == '/' or c == '?' then
-      -- /pattern/ または ?pattern?
-      local close = cmdline:find(c, i + 1, true)
-      i = close and (close + 1) or (i + 1)
-    elseif c:match('%s') then
-      i = i + 1
-    else
-      break -- コマンド名の開始
+    -- 単純な文字列は一気にスキップ
+    local _, e = cmdline:sub(i):find('^[%s%d.$%%*,;+-]+')
+    if e then
+      i = i + e
+      goto continue
     end
+
+    -- '{mark} または \/ \? \&
+    if cmdline:sub(i):match("^'.") or cmdline:sub(i):match('^\\[/?&]') then
+      i = i + 2
+      goto continue
+    end
+
+    -- /pattern/ または ?pattern? (エスケープ対応)
+    local c = cmdline:sub(i, i)
+    if c == '/' or c == '?' then
+      local pat = c == '/'
+        and [[^/\%(\\.\|[^/\\]\)*/]]
+        or  [[^?\%(\\.\|[^?\\]\)*?]]
+      local _, pe = vim.regex(pat):match_str(cmdline:sub(i))
+      if pe then
+        i = i + pe
+      end
+      goto continue
+    end
+
+    do break end -- rangeに該当しない → コマンドの開始
+    ::continue::
   end
 
-  -- コマンド名の終わりを見つける
-  local cmd_end = i
-  while cmd_end <= len and cmdline:sub(cmd_end, cmd_end):match('%a') do
-    cmd_end = cmd_end + 1
-  end
+  -- コマンド名を見つけて!をトグル
+  local cmd = cmdline:sub(i):match('^%a*') or ''
+  local cmd_end = i + #cmd
 
-  -- !をトグル
   if cmdline:sub(cmd_end, cmd_end) == '!' then
     return cmdline:sub(1, cmd_end - 1) .. cmdline:sub(cmd_end + 1)
   else
