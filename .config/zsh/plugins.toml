@@ -92,3 +92,8 @@ export FZF_CTRL_R_OPTS='--reverse'
 # initialize
 eval_source fzf --zsh
 '''
+
+[plugins.by-binds-yourself]
+github = 'atusy/by-binds-yourself'
+use = ['by.zsh']
+apply = ['defer']
