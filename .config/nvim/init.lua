@@ -159,14 +159,44 @@ end)
 later(function()
   vim.opt.wildoptions = { 'exacttext', 'fuzzy', 'pum', 'tagfile' }
   vim.opt.wildmode = { 'noselect:lastused', 'full' }
-  create_autocmd('CmdlineChanged', {
-    pattern = '[:/?]',
-    callback = function()
-      vim.fn.wildtrigger()
-    end,
-    desc = 'Auto trigger command-line completion',
+  require('mini.cmdline').setup({
+    autocomplete = {
+      enable = true,
+      delay = 0, -- 補完表示までの遅延(ms)
+      -- カスタム条件関数
+      predicate = function()
+        -- 遅い補完タイプをブロック
+        return not vim.tbl_contains({ 'shellcmd' }, vim.fn.getcmdcompltype())
+      end,
+      map_arrows = true, -- 矢印キーマッピング
+    },
+    autocorrect = {
+      enable = true,
+      func = nil, -- カスタム修正関数
+    },
+    autopeek = {
+      enable = true,
+      n_context = 1, -- 範囲の前後に表示する行数
+      predicate = nil,
+      window = {
+        config = {}, -- ウィンドウ設定
+        statuscolumn = nil,
+      },
+    },
   })
 end)
+
+-- later(function()
+--   vim.opt.wildoptions = { 'exacttext', 'fuzzy', 'pum', 'tagfile' }
+--   vim.opt.wildmode = { 'noselect:lastused', 'full' }
+--   create_autocmd('CmdlineChanged', {
+--     pattern = '[:/?]',
+--     callback = function()
+--       vim.fn.wildtrigger()
+--     end,
+--     desc = 'Auto trigger command-line completion',
+--   })
+-- end)
 
 later(function()
   -- 残りが特殊windowだけの場合は一緒に閉じる
