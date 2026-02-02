@@ -29,3 +29,10 @@
 - Do NOT use subagents for open-ended tasks. Instead, **continue open-ended
   tasks in the main context** so you can track progress.
 - Use subagents in parallel for simple parallelize-able tasks.
+
+## z-ai/ directory
+
+- `z-ai/` is globally gitignored.
+- This directory is used for local AI documents such as plans and progress
+  tracking.
+- Do NOT ask whether `z-ai/` is gitignored — it always is.
