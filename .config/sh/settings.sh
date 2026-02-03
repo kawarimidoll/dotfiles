@@ -170,6 +170,9 @@ wtc() {
   source "/Users/kawarimidoll/dotfiles/bin/_wtc"
 }
 
+# Git worktree helper functions
+source "${DOT_DIR}/.config/sh/ha.sh"
+
 # https://zenn.dev/kawarimidoll/articles/cf3c48589adb71
 nix() {
   command nix "$@"

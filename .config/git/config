@@ -127,8 +127,6 @@
 	trustExitCode = true
 ; [mergetool.vimdiff]
 ; 	layout = "@LOCAL,REMOTE"
-[worktree]
-	useRelativePaths = true
 [pager]
 	diff = diffnav
 	show = delta --pager='ov -F --header 3 --section-delimiter "^(commit|added:|removed:|renamed:|Δ)" --section-header'

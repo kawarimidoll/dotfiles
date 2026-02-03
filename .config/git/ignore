@@ -18,3 +18,4 @@ tags
 **/z-ai/
 **/.claude/settings.local.json
 *.zwc
+**/.ha/
