@@ -41,22 +41,26 @@ ha() {
   local cmd="$1"
   shift 2>/dev/null
   case "$cmd" in
-    new)    ha-new "$@" ;;
-    mv)     ha-mv "$@" ;;
-    del)    ha-del "$@" ;;
-    cd)     ha-cd "$@" ;;
-    home)   ha-home "$@" ;;
-    use)    ha-use "$@" ;;
-    gone)   ha-gone "$@" ;;
-    ls)     ha-ls "$@" ;;
-    copy)   ha-copy "$@" ;;
-    link)   ha-link "$@" ;;
+    new)     ha-new "$@" ;;
+    get)     ha-get "$@" ;;
+    extract) ha-extract "$@" ;;
+    mv)      ha-mv "$@" ;;
+    del)     ha-del "$@" ;;
+    cd)      ha-cd "$@" ;;
+    home)    ha-home "$@" ;;
+    use)     ha-use "$@" ;;
+    gone)    ha-gone "$@" ;;
+    ls)      ha-ls "$@" ;;
+    copy)    ha-copy "$@" ;;
+    link)    ha-link "$@" ;;
     *)
       cat <<'EOF'
 Usage: ha <command> [args]
 
 Commands:
   new [name]    Create new worktree + branch and cd (default: wip-$RANDOM)
+  get <branch>  Checkout remote branch as worktree
+  extract       Extract current branch to worktree
   mv <name>     Rename current worktree + branch
   del [-f]      Delete current worktree + branch
   cd            Select worktree with fzf and cd
@@ -75,6 +79,55 @@ EOF
 # List worktrees
 ha-ls() {
   git worktree list "$@"
+}
+
+# Checkout remote branch as worktree
+ha-get() {
+  local branch_name="$1"
+  if [[ -z "$branch_name" ]]; then
+    echo "Usage: ha get <branch>" >&2
+    return 1
+  fi
+
+  local worktree_path="$(_ha_worktree_path "$branch_name")"
+
+  _ha_fetch || return 1
+
+  # Check if remote branch exists
+  if ! git show-ref --verify --quiet "refs/remotes/origin/$branch_name"; then
+    echo "Error: Remote branch 'origin/$branch_name' does not exist" >&2
+    return 1
+  fi
+
+  # Create worktree tracking remote branch
+  git worktree add "$worktree_path" "$branch_name" || return 1
+
+  cd "$worktree_path" || return 1
+
+  _ha_exec_hook post-new
+}
+
+# Extract current branch to worktree (from base only)
+ha-extract() {
+  _ha_is_worktree && { echo "Error: Already in a worktree" >&2; return 1; }
+
+  local branch_name="$(git branch --show-current)"
+  if [[ -z "$branch_name" ]]; then
+    echo "Error: Not on a branch (detached HEAD)" >&2
+    return 1
+  fi
+
+  local worktree_path="$(_ha_worktree_path "$branch_name")"
+
+  # Move branch to worktree
+  git worktree add "$worktree_path" "$branch_name" || return 1
+
+  # Detach base to remote HEAD
+  git checkout --detach "$(_ha_remote_head)" || return 1
+
+  cd "$worktree_path" || return 1
+
+  _ha_exec_hook post-new
 }
 
 # Create new worktree + branch from remote-head
