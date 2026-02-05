@@ -26,9 +26,17 @@ xnoremap <Space>3 :copy'>+0<CR>gv
 
 " ref: https://github.com/kana/vim-niceblock
 " ref: https://sgur.tumblr.com/post/64100696722/ビジュアル選択後のrによる置換のアレを改善する
-xnoremap <expr> I get({'v': "\<C-v>I", 'V': "\<C-v>^o^I"}, mode(), 'I')
-xnoremap <expr> gI get({'v': "\<C-v>0I", 'V': "\<C-v>0o$I"}, mode(), '0I')
-xnoremap <expr> r get({'v': "\<C-v>r", 'V': "\<C-v>0o$r"}, mode(), 'r')
+function s:niceblock(charwise, linewise) abort
+  let m = mode()
+  return m ==# 'v' ? $'<c-v>{a:charwise}'
+        \ : m ==# 'V' ? $'<c-v>{a:linewise}'
+        \ : a:charwise
+endfunction
+xnoremap <expr> I <sid>niceblock('I', '^o^I')
+xnoremap <expr> I get({'v': '<C-v>I', 'V': '<C-v>^o^I'}, mode(), 'I')
+xnoremap <expr> A get({'v': '<C-v>A', 'V': '<C-v>0o$A'}, mode(), 'A')
+xnoremap <expr> gI get({'v': '<C-v>0I', 'V': '<C-v>0o$I'}, mode(), '0I')
+xnoremap <expr> r get({'v': '<C-v>r', 'V': '<C-v>0o$r'}, mode(), 'r')
 
 " operator
 onoremap x d
