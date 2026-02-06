@@ -879,40 +879,40 @@ later(function()
     -- マーク: <Tab> に変更, プレビュー: <C-l> に変更
     toggle_preview = '<C-l>',
     mark = '<Tab>',
-    -- 組み込みの choose を無効化
-    choose = '',
-    -- スマート選択: マークがあればマークを開く、なければ通常選択
-    smart_choose = {
-      char = '<CR>',
-      func = function()
-        local matches = MiniPick.get_picker_matches()
-        if not matches then
-          return true
-        end
-        if matches.marked and #matches.marked > 0 then
-          -- マークされたアイテムを直接バッファに追加
-          local files = {}
-          for _, item in ipairs(matches.marked) do
-            local path = type(item) == 'string' and item or (item.path or item.text)
-            if path then
-              table.insert(files, path)
-            end
-          end
-          if #files > 0 then
-            vim.schedule(function()
-              for _, file in ipairs(files) do
-                vim.cmd.badd(vim.fn.fnameescape(file))
-              end
-              vim.cmd.buffer(vim.fn.fnameescape(files[1]))
-            end)
-          end
-        else
-          -- 通常の choose
-          MiniPick.default_choose(matches.current)
-        end
-        return true
-      end,
-    },
+    -- -- 組み込みの choose を無効化
+    -- choose = '',
+    -- -- スマート選択: マークがあればマークを開く、なければ通常選択
+    -- smart_choose = {
+    --   char = '<CR>',
+    --   func = function()
+    --     local matches = MiniPick.get_picker_matches()
+    --     if not matches then
+    --       return true
+    --     end
+    --     if matches.marked and #matches.marked > 0 then
+    --       -- マークされたアイテムを直接バッファに追加
+    --       local files = {}
+    --       for _, item in ipairs(matches.marked) do
+    --         local path = type(item) == 'string' and item or (item.path or item.text)
+    --         if path then
+    --           table.insert(files, path)
+    --         end
+    --       end
+    --       if #files > 0 then
+    --         vim.schedule(function()
+    --           for _, file in ipairs(files) do
+    --             vim.cmd.badd(vim.fn.fnameescape(file))
+    --           end
+    --           vim.cmd.buffer(vim.fn.fnameescape(files[1]))
+    --         end)
+    --       end
+    --     else
+    --       -- 通常の choose
+    --       MiniPick.default_choose(matches.current)
+    --     end
+    --     return true
+    --   end,
+    -- },
   }
 
   MiniPick.setup({
