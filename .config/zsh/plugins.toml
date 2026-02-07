@@ -97,3 +97,12 @@ eval_source fzf --zsh
 github = 'atusy/by-binds-yourself'
 use = ['by.zsh']
 apply = ['defer']
+
+[plugins.ha]
+local = '/Users/kawarimidoll/ghq/github.com/kawarimidoll/ha'
+# github = 'kawarimidoll/ha'
+use = ['ha.sh']
+apply = ['defer']
+hooks.post = '''
+zsh-defer compdef _ha ha
+'''
