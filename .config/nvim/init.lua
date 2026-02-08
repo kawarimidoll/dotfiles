@@ -778,7 +778,7 @@ later(function()
 end)
 
 local function close_extui_wins()
-  local ok, extui_shared = pcall(require, 'vim._extui.shared')
+  local ok, extui_shared = pcall(require, 'vim._core.ui2.shared')
   if not ok or type(extui_shared.wins) ~= 'table' then
     return
   end
@@ -1501,7 +1501,7 @@ later(function()
 end)
 
 now(function()
-  require('vim._extui').enable({
+  require('vim._core.ui2').enable({
     enable = true, -- Whether to enable or disable the UI.
     msg = { -- Options related to the message module.
       ---@type 'cmd'|'msg' Where to place regular messages, either in the
