@@ -21,10 +21,10 @@ done
 
 # git 範囲指定の A..B は「Aには含まれないがBには含まれるコミット」を意味する
 
-if grep --ignore-case -w "wip" <<< "$current_branch"; then
+if grep --ignore-case -E '^wip\b' <<< "$current_branch"; then
   error "Found 'wip' in branch name. Please fix before pushing."
 fi
-if git log --oneline refs/remotes/origin/HEAD..HEAD 2>/dev/null | grep --ignore-case -w "wip"; then
+if git log --format='%s' refs/remotes/origin/HEAD..HEAD 2>/dev/null | grep --ignore-case -E '^wip\b'; then
   error "Found 'wip' in local commit. Please fix before pushing."
 fi
 
