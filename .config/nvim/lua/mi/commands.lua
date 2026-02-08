@@ -153,6 +153,11 @@ vim.api.nvim_create_user_command('CopyFileName', function(opts)
   copy_path(opts, 'file name')
 end, { range = true, desc = 'Copy the file name of the current file to the clipboard' })
 
+vim.api.nvim_create_user_command('Arto', function(opts)
+  local path = opts.args ~= '' and vim.fn.fnamemodify(opts.args, ':p') or vim.fn.expand('%:p')
+  vim.system({ 'open', '-a', 'Arto', path })
+end, { nargs = '?', complete = 'file', desc = 'Open file in Arto' })
+
 vim.api.nvim_create_user_command('SearchToQf', function(opts)
   vim.cmd({ cmd = opts.bang and 'vimgrepadd' or 'vimgrep', args = { '//gj %' } })
   vim.cmd.cwindow()

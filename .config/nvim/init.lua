@@ -631,6 +631,14 @@ now(function()
     end,
     desc = 'Local setting for js-like filetypes',
   })
+
+  create_autocmd('FileType', {
+    pattern = 'markdown',
+    callback = function()
+      vim.keymap.set({ 'n' }, 'so', '<Cmd>Arto<CR>', { buffer = true, desc = 'Open file in Arto' })
+    end,
+    desc = 'Open file in Arto',
+  })
 end)
 
 later(function()

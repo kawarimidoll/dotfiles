@@ -115,6 +115,7 @@ function! s:markdown_open_wikilink() abort
 endfunction
 
 nnoremap <buffer> gf <Cmd>call <sid>markdown_open_wikilink()<CR>
+nnoremap <buffer> so <Cmd>Arto<CR>
 
 if exists('b:undo_ftplugin')
   let b:undo_ftplugin ..= '|'

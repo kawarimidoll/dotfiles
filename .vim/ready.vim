@@ -88,6 +88,8 @@ command! -range=% DeleteBlankLines <line1>,<line2>call mi#common#delete_blank_li
 " https://zenn.dev/vim_jp/articles/7cc48a1df6aba5
 command! -bang SearchToQf execute (<bang>0 ? 'vimgrepadd' : 'vimgrep') '//gj %' | cwindow
 
+command! -nargs=? -complete=file Arto call job_start(['open', '-a', 'Arto', empty(<q-args>) ? expand('%:p') : fnamemodify(<q-args>, ':p')])
+
 " https://zenn.dev/vim_jp/articles/2308d5e7db8bc7
 command! Restart silent call s:restart()
 function! s:restart() abort
