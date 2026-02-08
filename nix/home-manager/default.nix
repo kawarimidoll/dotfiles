@@ -22,7 +22,13 @@ in
       inputs.neovim-nightly-overlay.overlays.default
     ];
     config = {
-      allowUnfree = true;
+      allowUnfreePredicate =
+        pkg:
+        builtins.elem (lib.getName pkg) [
+          "claude-code"
+          "coderabbit-cli"
+          "copilot-cli"
+        ];
     };
   };
 
@@ -46,6 +52,7 @@ in
         version-lsp = inputs.version-lsp.packages.${system}.default;
         hjkls = inputs.hjkls.packages.${system}.default;
         nur = inputs.nur-packages.packages.${system};
+        llm-agents = inputs.llm-agents.packages.${system};
       in
       with pkgs;
       [
@@ -54,6 +61,14 @@ in
         arto
         hjkls
         version-lsp
+
+        llm-agents.agent-browser
+        llm-agents.claude-code
+        llm-agents.codex
+        llm-agents.coderabbit-cli
+        llm-agents.copilot-cli
+        llm-agents.copilot-language-server
+        llm-agents.happy-coder
 
         nur.difit
         nur.ghost
@@ -84,7 +99,6 @@ in
         chawan
         clang-tools # clang-format
         cmatrix
-        codex
         container # apple-container
         # coreutils
         croc
@@ -119,7 +133,6 @@ in
         git-recent
         git-trim
         git-workspace
-        github-copilot-cli
         gleam
         globe-cli
         glsl_analyzer
@@ -184,7 +197,6 @@ in
         posting
         presenterm
         procs
-        qq
         qrtool
         rainfrog
         rebar3
