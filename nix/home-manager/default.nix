@@ -272,7 +272,7 @@ in
   programs.home-manager.enable = true;
 
   imports = [
-    inputs.nix-index-database.hmModules.nix-index
+    inputs.nix-index-database.homeModules.nix-index
     ./programs/bash.nix
     ./programs/bat.nix
     ./programs/direnv.nix

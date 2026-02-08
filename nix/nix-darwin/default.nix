@@ -13,6 +13,7 @@
     settings = {
       experimental-features = "nix-command flakes";
       max-jobs = 8;
+      download-buffer-size = 134217728; # 128MiB
     };
   };
 
