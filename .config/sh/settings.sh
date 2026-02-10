@@ -111,6 +111,29 @@ alias tree='eza --all --git-ignore --tree --icons --ignore-glob=.git'
 # -----------------
 #  Functions
 # -----------------
+# Ghosttyのスクロールバックから最後のコマンド出力を抽出してコピー
+copy_last_command_output_from_ghostty_scrollback() {
+  local file
+  file="$(pbpaste)"
+  if [[ ! -f "$file" ]]; then
+    echo "Error: File not found: $file" >&2
+    return 1
+  fi
+  perl -ne '
+    push @lines, $_;
+    END {
+      pop @lines; pop @lines;
+      for ($i = $#lines; $i >= 0; $i--) {
+        if ($lines[$i] =~ /❯/) {
+          print @lines[$i..$#lines];
+          last;
+        }
+      }
+    }
+  ' "$file" | pbcopy
+  echo "Copied last command output!"
+}
+
 # 事前に許可したファイルしかrmしないようにする
 # https://zenn.dev/kawarimidoll/articles/70e473a198badf
 rm() {

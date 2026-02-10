@@ -38,6 +38,8 @@ keybind = clear
 
 keybind = global:super+grave_accent=toggle_quick_terminal
 keybind = super+shift+a=write_screen_file:paste
+keybind = super+shift+y=write_screen_file:copy
+keybind = super+y=text:copy_last_command_output_from_ghostty_scrollback\n
 keybind = super+shift+p=toggle_command_palette
 
 #### basic

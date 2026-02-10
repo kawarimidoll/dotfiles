@@ -171,6 +171,12 @@ k.writeToProfile(profileName, [
       .toAfterKeyUp("⏎")
       .description("⌘⇧A → ' vim ' + ⌘⇧A + ⏎"),
 
+    k.map("y", "⌘⇧")
+      .to(EISUU)
+      .to("y", "⌘⇧")
+      .toAfterKeyUp("y", "⌘")
+      .description("⌘⇧y → ⌘⇧y then ⌘y"),
+
     k.map("[", "⌘⇧")
       .to(EISUU)
       .to("[", "⌘")
