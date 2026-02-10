@@ -42,6 +42,9 @@ snippets:
   - keyword: cala
     snippet: cage claude
 
+  - keyword: caha
+    snippet: cage happy
+
   - name: claude with caffeinate
     keyword: cld
     snippet: caffeinate -i claude
