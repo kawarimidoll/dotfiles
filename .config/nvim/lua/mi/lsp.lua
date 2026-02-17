@@ -89,6 +89,7 @@ vim.lsp.config('version_lsp', {
 })
 
 local lsp_names = {
+  'actions_ls',
   'bashls',
   'buf_ls',
   'copilot',
@@ -97,7 +98,6 @@ local lsp_names = {
   'docker_compose_language_service',
   'dockerls',
   'emmylua_ls',
-  'gh_actions_ls',
   'gleam',
   'glsl_analyzer',
   'gopls',
