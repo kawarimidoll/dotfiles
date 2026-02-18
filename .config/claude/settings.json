@@ -44,18 +44,20 @@
       "Bash(pushf:*)",
       "Bash(sudo:*)",
       "Bash(wget:*)",
-      "Read(**/*key*)",
-      "Read(**/*token*)",
       "Read(**/*.env*)",
+      "Read(**/*aws*)",
+      "Read(**/*key)",
+      "Read(**/*token*)",
       "Read(**/*secrets*)",
       "Read(**/*production*)",
       "Read(id_ed25519)",
       "Read(id_rsa)",
-      "Write(**/*key*)",
-      "Write(**/*token*)",
       "Write(**/*.env*)",
-      "Write(**/*secrets*)",
+      "Write(**/*aws*)",
+      "Write(**/*key)",
       "Write(**/*production*)",
+      "Write(**/*secrets*)",
+      "Write(**/*token*)",
       "Write(id_ed25519)",
       "Write(id_rsa)",
       "mcp__supabase__execute_sql"
@@ -122,5 +124,6 @@
   "outputStyle": "Explanatory",
   "alwaysThinkingEnabled": true,
   "autoCompactEnabled": false,
-  "autoUpdates": false
+  "autoUpdates": false,
+  "skipDangerousModePermissionPrompt": true
 }
