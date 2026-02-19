@@ -22,6 +22,8 @@ presets:
     allow:
       - "$CLAUDE_CONFIG_DIR"
       - "$HOME/.serena"
+      - "$HOME/.agent-browser"
+      - "$HOME/.browser-profile"
       - "$HOME/.codex"
       - ".serena"
 
