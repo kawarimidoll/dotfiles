@@ -84,6 +84,15 @@
             "command": "~/dotfiles/.config/claude/hooks/validate-bash.sh"
           }
         ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/rtk-rewrite.sh"
+          }
+        ]
       }
     ],
     "SessionStart": [
