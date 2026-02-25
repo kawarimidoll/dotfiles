@@ -3,7 +3,6 @@
 **Always respect the contents of this file.**
 
 - Respond in Japanese.
-- Use sub-agents whenever possible.
 - Document at the right layer: Code → How, Tests → What, Commits → Why, Comments
   → Why not
 - Keep documentation up to date with code changes
@@ -12,15 +11,6 @@
 
 - Prefer **simple** solutions over easy ones.
 - Prefer **systematic problem solving** over rabbit hole of configurations.
-
-## Shell commands
-
-- Use `rg` instead of `grep` unless there is a specific reason.
-- Use `fd` instead of `find` unless there is a specific reason.
-
-## File editing
-
-- Ensure files end with a newline.
 
 ## Using Subagents (Task tool)
 
