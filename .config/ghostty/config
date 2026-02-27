@@ -37,9 +37,23 @@ quick-terminal-position = bottom
 keybind = clear
 
 keybind = global:super+grave_accent=toggle_quick_terminal
-keybind = super+shift+a=write_screen_file:paste
+# keybind = super+shift+a=write_screen_file:paste
+# keybind = super+shift+a=text:vim\x20
+# keybind = chain=write_screen_file:paste
+# keybind = chain=text:\n
+
+# keybind = super+shift+a=text:vim -c 'ter cat\x20
+# keybind = chain=write_screen_file:paste,vt
+# keybind = chain=text:' -c 'se awa titlestring=ghostty-screen lcs+=trail:\\ |on!|norm!G'\n
+
+keybind = super+shift+a=text:vim --clean '+se titlestring=ghostty-screen tgc ls=0 nolist|ter++curwin cat\x20
+keybind = chain=write_screen_file:paste,vt
+keybind = chain=text:'\n
+# keybind = chain=text:' '+se titlestring=ghostty-screen tgc ls=0 lcs+=trail:\\ |norm!G'\n
+
 keybind = super+shift+y=write_screen_file:copy
-keybind = super+y=text:copy_last_command_output_from_ghostty_scrollback\n
+keybind = chain=text:copy_last_command_output_from_ghostty_scrollback\n
+# keybind = super+y=text:copy_last_command_output_from_ghostty_scrollback\n
 keybind = super+shift+p=toggle_command_palette
 
 #### basic
@@ -70,6 +84,12 @@ keybind = super+d=new_split:right
 keybind = super+shift+d=new_split:down
 keybind = super+left_bracket=goto_split:previous
 keybind = super+right_bracket=goto_split:next
+
+keybind = super+shift+left_bracket=goto_split:previous
+keybind = chain=toggle_split_zoom
+keybind = super+shift+right_bracket=goto_split:next
+keybind = chain=toggle_split_zoom
+
 keybind = super+ctrl+equal=equalize_splits
 keybind = super+ctrl+k=resize_split:up,10
 keybind = super+ctrl+j=resize_split:down,10
@@ -121,6 +141,10 @@ window-padding-y = 0,10
 window-save-state = default
 window-step-resize = false
 # window-theme = ghostty
+
+### update
+
+auto-update = off
 
 ### memo
 # check log:
