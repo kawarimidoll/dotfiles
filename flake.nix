@@ -149,7 +149,7 @@
               echo "Updating flake..."
               nix flake update
               echo "Updating nix-darwin..."
-              sudo darwin-rebuild switch --flake .#kawarimidoll-darwin
+              sudo /run/current-system/sw/bin/darwin-rebuild switch --flake .#kawarimidoll-darwin
               echo "Update complete!"
             ''
           );
