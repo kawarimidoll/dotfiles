@@ -1,5 +1,15 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
+  # デフォルトの ca-bundle.crt は TRUSTED CERTIFICATE 形式(trust/reject属性付き)を
+  # 含むため、OpenSSL 3.x が一部のルートCAを reject しcurlのSSL検証が失敗する。
+  # no-trust-rules版(標準PEM形式のみ)に切り替え、Mozilla バンドルにないルートCAを
+  # macOS システム証明書で補完する。
+  # ref: NixOS の security.pki.useCompatibleBundle 相当 (nix-darwin には未実装)
+  security.pki.certificateFiles = lib.mkForce [
+    "${pkgs.cacert}/etc/ssl/certs/ca-no-trust-rules-bundle.crt"
+    "/etc/ssl/cert.pem" # macOS system CA store
+  ];
+
   nix = {
     gc = {
       automatic = true;
