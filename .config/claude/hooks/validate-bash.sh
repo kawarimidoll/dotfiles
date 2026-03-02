@@ -42,4 +42,8 @@ if echo "$command" | grep -qE '\bgit add (-A|--all|\.($|[ ;|&]))'; then
   deny "Do not git-add all files. Specify the file name(s) to add."
 fi
 
+if echo "$command" | grep -qE '\bgit checkout\b'; then
+  deny "Use of 'git checkout' is prohibited. Use 'git switch' for branch switching and 'git restore' for file restoration instead."
+fi
+
 exit 0
