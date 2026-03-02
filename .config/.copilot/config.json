@@ -1,5 +1,6 @@
 {
   "banner": "always",
-  "model": "claude-sonnet-4.5",
-  "theme": "auto"
+  "model": "gpt-4.1",
+  "theme": "auto",
+  "render_markdown": true
 }
