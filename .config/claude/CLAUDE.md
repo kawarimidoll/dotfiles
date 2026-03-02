@@ -2,7 +2,6 @@
 
 **Always respect the contents of this file.**
 
-- Respond in Japanese.
 - Document at the right layer: Code → How, Tests → What, Commits → Why, Comments
   → Why not
 - Keep documentation up to date with code changes
