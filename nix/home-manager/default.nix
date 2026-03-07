@@ -64,11 +64,12 @@ in
 
         llm-agents.agent-browser
         llm-agents.claude-code
-        llm-agents.codex
         llm-agents.coderabbit-cli
+        llm-agents.codex
         llm-agents.copilot-cli
         llm-agents.copilot-language-server
         llm-agents.happy-coder
+        llm-agents.rtk
 
         nur.difit
         nur.ghost
@@ -101,6 +102,7 @@ in
         cmatrix
         container # apple-container
         # coreutils
+        clock-rs
         croc
         csview
         csvlens
@@ -128,6 +130,7 @@ in
         gifsicle
         git
         git-extras
+        git-filter-repo
         git-interactive-rebase-tool
         git-quick-stats
         git-recent
@@ -192,6 +195,7 @@ in
         nodejs_22
         nurl
         nyancat
+        ollama
         ov
         pnpm
         posting

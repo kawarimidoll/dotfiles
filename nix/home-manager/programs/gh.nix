@@ -1,6 +1,9 @@
 # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.gh.enable
 { pkgs, inputs, ... }:
 {
+  imports = [ inputs.gh-prism.homeManagerModules.default ];
+  programs.gh-prism.enable = true;
+
   programs.gh = {
     enable = true;
     settings = {
