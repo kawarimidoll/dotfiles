@@ -49,4 +49,21 @@ agent-browser screenshot z-ai/screenshot.png
 agent-browser open <url> --profile ~/.browser-profile --allow-private
 ```
 
-@RTK.md
+## RTK - Rust Token Killer
+
+`rtk` is token-optimized CLI proxy for AI coding agents.
+
+### Hook-Based Usage
+
+All general commands are automatically rewritten by the Claude Code hook.
+
+Example: `git status` → `rtk git status` (transparent, 0 tokens overhead)
+
+### Meta Commands (always use rtk directly)
+
+```bash
+rtk gain              # Show token savings analytics
+rtk discover          # Analyze Claude Code history for missed opportunities
+rtk proxy <cmd>       # Execute raw command without filtering (for debugging)
+rtk --version         # Verify rtk is installed
+```

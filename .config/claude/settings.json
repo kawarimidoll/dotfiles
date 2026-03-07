@@ -138,7 +138,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.config/claude/hooks/rtk-rewrite.sh"
+            "command": "~/.nix-profile/libexec/rtk/hooks/rtk-rewrite.sh"
           }
         ]
       }
