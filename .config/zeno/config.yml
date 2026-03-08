@@ -39,6 +39,10 @@ snippets:
   - keyword: arto
     snippet: open -a Arto
 
+  - name: translate clipboard contents
+    keyword: pbt
+    snippet: pbpaste | plamo-translate
+
   - keyword: cala
     snippet: cage claude
 
@@ -48,6 +52,10 @@ snippets:
   - name: claude with caffeinate
     keyword: cld
     snippet: caffeinate -i claude
+
+  - name: ghq get from clipboard and cd into it
+    keyword: ghg
+    snippet: ghq get $(pbpaste) && cd "$(ghq list -p -e $(pbpaste))"
 
   - keyword: lg
     snippet: lazygit
@@ -115,6 +123,19 @@ snippets:
       lbuffer: '.+\s'
 
 completions:
+  - name: open markdown in arto
+    patterns:
+      - "^arto?( .*)? $"
+      - "^open -a Arto?( .*)? $"
+    sourceCommand: "fd --no-ignore -e md -tf -tl"
+    options:
+      --height: 40%
+      --cycle: true
+      --select-1: true
+      --multi: true
+      --prompt: "'file> '"
+      --preview: "fffe -p {}"
+
   # just command recipes
   - name: just recipes
     patterns:
