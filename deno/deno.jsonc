@@ -1,5 +1,6 @@
 {
   "tasks": {
-    "websoc": "deno run --allow-net=0.0.0.0:54321 --allow-read=./websoc.html --watch websoc.js"
+    "websoc": "deno run --allow-net=0.0.0.0:54321 --allow-read=./websoc.html --watch websoc.js",
+    "wtr": "deno run --allow-net=www.accuweather.com --allow-env=HOME --allow-read=$HOME/Dropbox/Obsidian --allow-write=$HOME/Dropbox/Obsidian wtr.ts"
   }
 }
