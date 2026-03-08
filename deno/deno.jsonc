@@ -1,6 +1,5 @@
 {
   "tasks": {
-    "translate": "deno run --allow-net=api.openai.com --allow-env=OPENAI_BASE_URL,OPENAI_API_KEY,OPENAI_ORG_ID,OPENAI_PROJECT_ID gpt_translate.ts",
     "websoc": "deno run --allow-net=0.0.0.0:54321 --allow-read=./websoc.html --watch websoc.js"
   }
 }
