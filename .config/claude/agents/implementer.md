@@ -1,5 +1,5 @@
 ---
-name: sonnet-implementer
+name: implementer
 description: 基本的な実装作業を実施するサブエージェント。Opusが設計・判断した内容をSonnetが実行する。
 model: sonnet
 tools: Bash, Read, Write, Edit, Glob, Grep, LS, NotebookEdit
