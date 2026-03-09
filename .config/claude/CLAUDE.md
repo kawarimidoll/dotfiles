@@ -49,6 +49,10 @@ agent-browser screenshot z-ai/screenshot.png
 agent-browser open <url> --profile ~/.browser-profile --allow-private
 ```
 
+## Agent Delegation
+
+- Commit rewriting (fixup, rebase, squash) → use `rebaser` agent.
+
 ## RTK - Rust Token Killer
 
 `rtk` is token-optimized CLI proxy for AI coding agents.
