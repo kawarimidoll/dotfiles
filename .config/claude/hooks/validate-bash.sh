@@ -46,4 +46,24 @@ if echo "$command" | grep -qE '\bgit checkout\b'; then
   deny "Use of 'git checkout' is prohibited. Use 'git switch' for branch switching and 'git restore' for file restoration instead."
 fi
 
+if echo "$command" | grep -qE '\bgit clean\b.*-[a-zA-Z]*f'; then
+  deny "Use of 'git clean -f' is prohibited. It deletes untracked files irreversibly. Ask the user to execute it."
+fi
+
+if echo "$command" | grep -qE '\bgit branch\b.*\s-D\b'; then
+  deny "Use of 'git branch -D' is prohibited. Use 'git branch -d' for safe deletion, or ask the user to force-delete."
+fi
+
+if echo "$command" | grep -qE '\bgit stash\b.*(drop|clear)\b'; then
+  deny "Use of 'git stash drop/clear' is prohibited. Ask the user to execute it."
+fi
+
+if echo "$command" | grep -qiE '\bDROP\s+(TABLE|DATABASE)\b|\bTRUNCATE\b'; then
+  deny "Destructive SQL (DROP/TRUNCATE) is prohibited. Ask the user to execute it."
+fi
+
+if echo "$command" | grep -qE '\b(env|printenv|export)\b'; then
+  deny "Accessing environment variables is prohibited. Ask the user to check or set environment variables on your behalf."
+fi
+
 exit 0
