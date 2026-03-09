@@ -4,6 +4,12 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     systems.url = "github:nix-systems/default";
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    crane.url = "github:ipetkov/crane";
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     flake-compat = {
       url = "github:edolstra/flake-compat";
       flake = false;
@@ -12,9 +18,6 @@
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-compat.follows = "flake-compat";
-    };
-    flake-parts = {
-      url = "github:hercules-ci/flake-parts";
     };
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
@@ -33,7 +36,7 @@
     vim-overlay = {
       url = "github:kawarimidoll/vim-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.pre-commit-hooks.follows = "git-hooks";
+      inputs.git-hooks.follows = "git-hooks";
     };
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -79,9 +82,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.git-hooks.follows = "git-hooks";
     };
-    crane = {
-      url = "github:ipetkov/crane";
-    };
     arto = {
       url = "github:arto-app/Arto";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -92,6 +92,17 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-parts.follows = "flake-parts";
       inputs.crane.follows = "crane";
+      inputs.rust-overlay.follows = "rust-overlay";
+    };
+    flake-utils = {
+      url = "github:numtide/flake-utils";
+      inputs.systems.follows = "systems";
+    };
+    kakehashi = {
+      url = "github:atusy/kakehashi";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.rust-overlay.follows = "rust-overlay";
+      inputs.flake-utils.follows = "flake-utils";
     };
     nix-index-database = {
       url = "github:nix-community/nix-index-database";

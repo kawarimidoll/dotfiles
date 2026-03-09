@@ -11,7 +11,7 @@ in
 {
   nixpkgs = {
     overlays = [
-      (inputs.vim-overlay.overlays.features {
+      (inputs.vim-overlay.lib.features {
         compiledby = "kawarimidoll-nix";
         lua = true;
         cscope = true;
@@ -50,6 +50,9 @@ in
         cage = inputs.cage.packages.${system}.default;
         arto = inputs.arto.packages.${system}.default;
         version-lsp = inputs.version-lsp.packages.${system}.default;
+        kakehashi = inputs.kakehashi.packages.${system}.default.overrideAttrs (old: {
+          doCheck = false;
+        });
         hjkls = inputs.hjkls.packages.${system}.default;
         nur = inputs.nur-packages.packages.${system};
         llm-agents = inputs.llm-agents.packages.${system};
@@ -61,6 +64,7 @@ in
         arto
         hjkls
         version-lsp
+        kakehashi
 
         llm-agents.agent-browser
         llm-agents.claude-code
@@ -70,11 +74,11 @@ in
         llm-agents.copilot-language-server
         llm-agents.happy-coder
         llm-agents.rtk
+        llm-agents.spec-kit
 
         nur.difit
         nur.ghost
         nur.jsmigemo
-        nur.kakehashi
         nur.lolcrab
         nur.plamo-translate
         nur.rustmigemo
