@@ -52,6 +52,7 @@ agent-browser open <url> --profile ~/.browser-profile --allow-private
 ## Agent Delegation
 
 - Commit rewriting (fixup, rebase, squash) → use `rebaser` agent.
+- Commit message rewriting (reword) → use `reworder` agent.
 
 ## RTK - Rust Token Killer
 
