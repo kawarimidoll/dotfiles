@@ -121,7 +121,7 @@
 	gpgsign = true
 [merge]
 	tool = vimdiff2
-	; conflictStyle = zdiff3
+	conflictStyle = diff3
 [mergetool]
 	prompt = false
 	keepBackup = false
@@ -133,3 +133,6 @@
 	show = delta --pager='ov -F --header 3 --section-delimiter "^(commit|added:|removed:|renamed:|Δ)" --section-header'
 	blame = delta --pager='ov'
 	log = ov -F --section-delimiter '^commit' --section-header-num 3 --jump-target 'section'
+[merge "mergiraf"]
+	name = mergiraf
+	driver = mergiraf merge --git %O %A %B -s %S -x %X -y %Y -p %P -l %L
