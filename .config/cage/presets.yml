@@ -27,6 +27,14 @@ presets:
       - "$HOME/.codex"
       - ".serena"
 
+  codex:
+    allow:
+      - "$HOME/.serena"
+      - "$HOME/.agent-browser"
+      - "$HOME/.browser-profile"
+      - "$HOME/.codex"
+      - ".serena"
+
   happy:
     allow:
       - "$HOME/.happy"
