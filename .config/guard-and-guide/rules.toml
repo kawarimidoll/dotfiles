@@ -1,0 +1,102 @@
+version = 1
+
+# --- File access rules ("File" is an alias for "Read|Write|Edit") ---
+
+[[rules]]
+matcher = "File"
+regex = '/\.env($|[^r])'
+message = "Access to .env files is prohibited. Ask the user to check or provide the values you need."
+
+[[rules]]
+matcher = "File"
+regex = '\.ssh/'
+message = "Access to SSH keys is prohibited. Ask the user to handle SSH-related operations."
+
+[[rules]]
+matcher = "File"
+regex = '\.aws/'
+message = "Access to AWS credentials is prohibited. Ask the user to check or provide AWS configuration."
+
+[[rules]]
+matcher = "File"
+regex = '\.git-credentials$|\.netrc$|\.npmrc$'
+message = "Access to credential files is prohibited. Ask the user to handle credentials."
+
+[[rules]]
+matcher = "File"
+regex = 'id_rsa|id_ed25519'
+message = "Access to private keys is prohibited. Ask the user to handle key-related operations."
+
+[[rules]]
+matcher = "File"
+regex = 'secrets|token'
+message = "Access to files containing secrets/tokens is prohibited. Ask the user to provide the values you need."
+
+# --- Readonly file rules (Write|Edit) ---
+
+[[rules]]
+matcher = "Write|Edit"
+regex = 'Makefile$'
+message = "Makefile is read-only. Ask the user to modify it."
+
+[[rules]]
+matcher = "Write|Edit"
+regex = '\.lock$'
+message = "Lock files are read-only. Do not modify them directly."
+
+# --- Bash command rules ---
+
+[[rules]]
+matcher = "Bash"
+regex = '(/usr)?/(s?bin|local/bin)/'
+message = "Do not use absolute paths to system binaries. Use the command name directly."
+
+[[rules]]
+matcher = "Bash"
+regex = '\bawk\b'
+message = "Use of 'awk' is prohibited. Use 'perl' instead. Example: perl -lane 'print $F[0]' file.txt"
+
+[[rules]]
+matcher = "Bash"
+regex = '\bsed\b'
+message = "Use of 'sed' is prohibited. Use 'perl' instead. Example: perl -pi -e 's/old/new/g' file.txt"
+
+[[rules]]
+matcher = "Bash"
+regex = '\bgit\s+push\b'
+message = "Use of 'git push' is prohibited. Ask the user to execute it."
+
+[[rules]]
+matcher = "Bash"
+regex = '\bgit\s+add\s+(-A|--all|\.($|[ ;|&]))'
+message = "Do not git-add all files. Specify the files to add."
+
+[[rules]]
+matcher = "Bash"
+regex = '\bgit\s+checkout\b'
+message = "Use of 'git checkout' is prohibited. Use 'git switch' for branch switching and 'git restore' for file restoration instead."
+
+[[rules]]
+matcher = "Bash"
+regex = '\bgit\s+clean\b.*-[a-zA-Z]*f'
+message = "Use of 'git clean -f' is prohibited. It deletes untracked files irreversibly. Ask the user to execute it."
+
+[[rules]]
+matcher = "Bash"
+regex = '\bgit\s+branch\b.*\s-D\b'
+message = "Use of 'git branch -D' is prohibited. Use 'git branch -d' for safe deletion, or ask the user to force-delete."
+
+[[rules]]
+matcher = "Bash"
+regex = '\bgit\s+stash\b.*(drop|clear)\b'
+message = "Use of 'git stash drop/clear' is prohibited. Ask the user to execute it."
+
+[[rules]]
+matcher = "Bash"
+regex = '\b(env|printenv|export)\b'
+message = "Accessing environment variables is prohibited. Ask the user to check or set environment variables."
+
+[[rules]]
+matcher = "Bash"
+regex = '(?i)\bDROP\s+(TABLE|DATABASE)\b|(?i)\bTRUNCATE\b'
+message = "Destructive SQL (DROP/TRUNCATE) is prohibited. Ask the user to execute it."
