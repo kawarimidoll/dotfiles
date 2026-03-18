@@ -10,6 +10,7 @@ tags
 .envrc
 .nvim.lua
 .nvimlog
+nvim.log
 .aider*
 .serena*
 .codanna*
