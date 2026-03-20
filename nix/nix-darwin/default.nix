@@ -24,11 +24,13 @@
       experimental-features = "nix-command flakes";
       max-jobs = 8;
       download-buffer-size = 134217728; # 128MiB
+      trusted-users = [ "root" "kawarimidoll" ];
       extra-substituters = [ "https://kawarimidoll.cachix.org" ];
       extra-trusted-public-keys = [
         "kawarimidoll.cachix.org-1:43W5G98mVTyDaMeG7ZGzx4h/be5u4ULUGV/9svLjKJY="
       ];
     };
+    linux-builder.enable = true;
   };
 
   # services.nix-daemon.enable = true;
