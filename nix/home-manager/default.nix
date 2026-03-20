@@ -53,12 +53,14 @@ in
         kakehashi = inputs.kakehashi.packages.${system}.default.overrideAttrs (old: {
           doCheck = false;
         });
+        guard-and-guide = inputs.guard-and-guide.packages.${system}.default;
         hjkls = inputs.hjkls.packages.${system}.default;
         nur = inputs.nur-packages.packages.${system};
         llm-agents = inputs.llm-agents.packages.${system};
       in
       with pkgs;
       [
+        guard-and-guide
         koi
         cage
         arto
@@ -184,11 +186,13 @@ in
         macchina
         mcat
         mcfly
+        mergiraf
         moreutils
         nano
         nb
         neo
         neovim # nightly
+        nono
         nh
         ni
         nim
@@ -243,6 +247,7 @@ in
         tz
         unixtools.procps # watch ps sysctl top
         unzip
+        upterm
         usql
         uutils-coreutils-noprefix
         uutils-diffutils
