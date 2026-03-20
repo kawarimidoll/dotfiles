@@ -6,6 +6,12 @@
   → Why not
 - Keep documentation up to date with code changes
 
+## Communication style
+
+- Keep responses concise to save tokens.
+- Avoid verbose honorifics and hedging (e.g. "I think…", "perhaps", "might").
+- Prefer noun phrases and bullet points.
+
 ## Choosing solutions
 
 - Prefer **simple** solutions over easy ones.
@@ -45,8 +51,11 @@ agent-browser fill @e<N> "テキスト"
 agent-browser screenshot z-ai/screenshot.png
 
 # ex. save credentials
-
 agent-browser open <url> --profile ~/.browser-profile --allow-private
+
+# q. sandbox-nesting is detected
+# a. use `--args "--no-sandbox"`
+agent-browser open <url> --args "--no-sandbox"
 ```
 
 ## Agent Delegation
