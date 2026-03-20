@@ -52,6 +52,17 @@
   #   ];
   # };
 
+  # to enable/disable borders temporary, run:
+  # launchctl stop/start org.nixos.jankyborders
+  services.jankyborders = {
+    enable = true;
+    style = "round";
+    width = 8.0;
+    hidpi = true;
+    active_color = "0xc0ff00f2";
+    inactive_color = "0xff0080ff";
+  };
+
   system = {
     primaryUser = "kawarimidoll";
     stateVersion = 5;
