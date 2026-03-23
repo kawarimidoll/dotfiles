@@ -1,5 +1,7 @@
-#!/usr/bin/env -S deno run --allow-run=git
+#!/usr/bin/env -S deno run --allow-run
 // Claude Code statusline script (Deno)
+// --allow-run (not --allow-run=git): nix develop injects LD_* env vars,
+// which Deno blocks when spawning subprocesses with restricted --allow-run=<cmd>.
 
 const ICON = {
   robot: "\u{F06A9}",
@@ -48,30 +50,25 @@ function formatRemaining(resetAt: number | null): string {
   return `${Math.floor(remaining / 86400)}d`;
 }
 
-async function getGitBranch(): Promise<string> {
+async function getGitBranch(cwd?: string): Promise<string> {
+  const opts = { stderr: "null" as const, stdout: "null" as const, ...(cwd && { cwd }) };
   try {
-    const check = new Deno.Command("git", {
+    const { success } = await new Deno.Command("git", {
+      ...opts,
       args: ["rev-parse", "--git-dir"],
-      stderr: "null",
-      stdout: "null",
-    });
-    const { success } = await check.output();
+    }).output();
     if (!success) return "";
 
-    const branchCmd = new Deno.Command("git", {
-      args: ["branch", "--show-current"],
-      stderr: "null",
-      stdout: "piped",
-    });
-    const branch = new TextDecoder().decode((await branchCmd.output()).stdout).trim();
+    const pipeOpts = { ...opts, stdout: "piped" as const };
+
+    const branch = new TextDecoder().decode(
+      (await new Deno.Command("git", { ...pipeOpts, args: ["branch", "--show-current"] }).output()).stdout,
+    ).trim();
     if (branch) return ` | ${ICON.gitBranch} ${branch}`;
 
-    const hashCmd = new Deno.Command("git", {
-      args: ["rev-parse", "--short", "HEAD"],
-      stderr: "null",
-      stdout: "piped",
-    });
-    const hash = new TextDecoder().decode((await hashCmd.output()).stdout).trim();
+    const hash = new TextDecoder().decode(
+      (await new Deno.Command("git", { ...pipeOpts, args: ["rev-parse", "--short", "HEAD"] }).output()).stdout,
+    ).trim();
     if (hash) return ` | ${ICON.gitBranch} HEAD (${hash})`;
   } catch {
     // not a git repo
@@ -93,7 +90,7 @@ const weekReset = input.rate_limits?.seven_day?.resets_at ?? null;
 
 const dirName = currentDir.split("/").pop() ?? "";
 const dirSymbol = currentDir !== projectDir ? ICON.folderChanged : ICON.folder;
-const gitBranch = await getGitBranch();
+const gitBranch = await getGitBranch(currentDir || undefined);
 const weekResetDisplay = formatRemaining(weekReset);
 
 const R = COLOR.reset;
