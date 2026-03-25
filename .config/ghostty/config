@@ -34,7 +34,7 @@ quick-terminal-position = bottom
 
 ### keybindings
 
-keybind = clear
+# keybind = clear
 
 keybind = global:super+grave_accent=toggle_quick_terminal
 # keybind = super+shift+a=write_screen_file:paste
@@ -65,6 +65,7 @@ keybind = super+w=close_surface
 keybind = ctrl+shift+tab=previous_tab
 keybind = ctrl+tab=next_tab
 keybind = super+c=copy_to_clipboard
+# keybind = super+c=copy_to_clipboard:vt
 keybind = super+v=paste_from_clipboard
 
 #### font
@@ -96,6 +97,15 @@ keybind = super+ctrl+j=resize_split:down,10
 keybind = super+ctrl+l=resize_split:right,10
 keybind = super+ctrl+h=resize_split:left,10
 keybind = super+shift+enter=toggle_split_zoom
+
+# resize mode
+keybind = resize/arrow_up=resize_split:up,10
+keybind = resize/arrow_down=resize_split:down,10
+keybind = resize/arrow_left=resize_split:left,10
+keybind = resize/arrow_right=resize_split:right,10
+keybind = resize/escape=deactivate_key_table
+keybind = resize/catch_all=ignore
+keybind = super+shift+r=activate_key_table:resize
 
 #### scroll
 keybind = super+home=scroll_to_top
