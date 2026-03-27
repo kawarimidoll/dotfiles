@@ -6,13 +6,16 @@ presets:
       - "$XDG_DATA_HOME" # ~/.local/share
       - "/private/tmp" # macos tmp directory
       - "/var/folders" # macos mktemp
+      - "/private/var/folders" # macos mktemp
       - "/Library/Caches" # macos app caches
       - "$HOME/Library/Caches" # macos app caches
+      - "/dev" # pty
 
   npm:
     allow:
       - "$HOME/.npm"
       - "$HOME/.npmrc"
+      - "$HOME/.config/.wrangler"
 
   git-enabled:
     allow-git: true
