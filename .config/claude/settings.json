@@ -1,16 +1,72 @@
 {
-  "env": {
-    "EDITOR": "nvim -n +'set awa' +'startinsert'",
-    "ENABLE_TOOL_SEARCH": "true",
-    "DISABLE_NON_ESSENTIAL_MODEL_CALLS": "1",
-    "CLAUDE_CODE_HIDE_ACCOUNT_INFO": "1",
-    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
-    "CLAUDE_CODE_AUTO_CONNECT_IDE": "0",
-    "CLAUDE_CODE_IDE_SKIP_AUTO_INSTALL": "1",
-    "CLAUDE_CODE_IDE_SKIP_VALID_CHECK": "1"
+  "alwaysThinkingEnabled": true,
+  "autoUpdatesChannel": "stable",
+  "enabledPlugins": {
+    "agent-browser@agent-browser": true,
+    "code-review@claude-plugins-official": true,
+    "context7@claude-plugins-official": true,
+    "feature-dev@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true,
+    "playground@claude-plugins-official": true,
+    "pr-review-toolkit@claude-plugins-official": true
   },
+  "env": {
+    "CLAUDE_CODE_AUTO_CONNECT_IDE": "0",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CLAUDE_CODE_HIDE_ACCOUNT_INFO": "1",
+    "CLAUDE_CODE_IDE_SKIP_AUTO_INSTALL": "1",
+    "CLAUDE_CODE_IDE_SKIP_VALID_CHECK": "1",
+    "DISABLE_NON_ESSENTIAL_MODEL_CALLS": "1",
+    "EDITOR": "nvim -n +'set awa' +'startinsert'",
+    "ENABLE_TOOL_SEARCH": "true"
+  },
+  "hooks": {
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "command": "~/dotfiles/.config/claude/hooks/notification.sh",
+            "type": "command"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "command": "guard-and-guide",
+            "type": "command"
+          }
+        ],
+        "matcher": ""
+      },
+      {
+        "hooks": [
+          {
+            "command": "~/.nix-profile/libexec/rtk/hooks/rtk-rewrite.sh",
+            "type": "command"
+          }
+        ],
+        "matcher": "Bash"
+      }
+    ]
+  },
+  "language": "japanese",
+  "outputStyle": "Explanatory",
   "permissions": {
     "allow": [],
+    "ask": [
+      "Bash(curl:*)",
+      "Bash(git config:*)",
+      "Bash(git push:*)",
+      "Bash(git rebase:*)",
+      "Bash(git reset:*)",
+      "Bash(git restore:*)",
+      "Bash(git rm:*)",
+      "Bash(git switch:*)"
+    ],
+    "defaultMode": "bypassPermissions",
     "deny": [
       "Bash(* .env*)",
       "Bash(* ~/.aws/*)",
@@ -80,63 +136,12 @@
       "Write(id_ed25519)",
       "Write(id_rsa)",
       "mcp__supabase__execute_sql"
-    ],
-    "ask": [
-      "Bash(curl:*)",
-      "Bash(git config:*)",
-      "Bash(git push:*)",
-      "Bash(git rebase:*)",
-      "Bash(git reset:*)",
-      "Bash(git restore:*)",
-      "Bash(git rm:*)",
-      "Bash(git switch:*)"
-    ],
-    "defaultMode": "bypassPermissions"
-  },
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "guard-and-guide"
-          }
-        ]
-      },
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.nix-profile/libexec/rtk/hooks/rtk-rewrite.sh"
-          }
-        ]
-      }
-    ],
-    "Notification": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/dotfiles/.config/claude/hooks/notification.sh"
-          }
-        ]
-      }
     ]
   },
-  "statusLine": {
-    "type": "command",
-    "command": "~/dotfiles/.config/claude/statusline.ts"
-  },
-  "enabledPlugins": {
-    "frontend-design@claude-plugins-official": true,
-    "context7@claude-plugins-official": true
-  },
-  "outputStyle": "Explanatory",
-  "language": "japanese",
-  "alwaysThinkingEnabled": true,
-  "autoUpdatesChannel": "stable",
   "showTurnDuration": true,
-  "skipDangerousModePermissionPrompt": true
+  "skipDangerousModePermissionPrompt": true,
+  "statusLine": {
+    "command": "~/dotfiles/.config/claude/statusline.ts",
+    "type": "command"
+  }
 }
