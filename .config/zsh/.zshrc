@@ -67,4 +67,6 @@ export DOT_DIR="${HOME}/dotfiles"
 source "${DOT_DIR}/.config/sh/settings.sh" 2>/dev/null || :
 source "${HOME}/.zshrc.local" 2>/dev/null || :
 
+zsh-defer source "$HOME/.vite-plus/env"
+
 zsh-defer zsh-defer unfunction source
