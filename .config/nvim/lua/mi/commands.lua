@@ -288,6 +288,7 @@ vim.api.nvim_create_user_command('Restart', function()
     or vim.fs.joinpath(tostring(vim.fn.stdpath('state')), 'restart_session.vim')
 
   vim.fn.mkdir(vim.fs.dirname(session), 'p')
+  vim.cmd.argdelete('*')
   vim.cmd.mksession({ args = { session }, bang = true })
   if not has_session then
     local session_x = string.gsub(session, '%.vim$', 'x.vim')

@@ -111,6 +111,7 @@ function! s:restart() abort
   let has_session = !empty(v:this_session)
   let session = has_session ? v:this_session : restart_session_file
   call mkdir(fnamemodify(session, ':h'), 'p')
+  argdelete *
   execute 'mksession!' session
   if has_session
     call writefile([ 'source ' .. v:this_session ], restart_session_file)
