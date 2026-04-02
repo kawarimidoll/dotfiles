@@ -13,6 +13,7 @@
     # workaround
     # https://github.com/nix-community/home-manager/issues/8170#issuecomment-3542413378
     package = pkgs.direnv.overrideAttrs (oldAttrs: {
+      env = (oldAttrs.env or { }) // { CGO_ENABLED = "1"; };
       nativeCheckInputs = builtins.filter (pkg: pkg != pkgs.fish) (oldAttrs.nativeCheckInputs);
       checkPhase = ''
         runHook preCheck
