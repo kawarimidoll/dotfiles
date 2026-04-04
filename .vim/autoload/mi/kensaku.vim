@@ -20,7 +20,7 @@ function! s:convert_query(query) abort
     return ''
   endif
   let args = get(g:, 'kensaku#args', '')
-  let query = system($'jsmigemo --vim --nonewline {args} --word {a:query}')
+  let query = system($'rustmigemo-cli --vim --nonewline {args} --word {a:query}')
 
   " fix output of jsmigemo-cli for vim
   let query = query
