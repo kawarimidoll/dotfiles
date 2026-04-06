@@ -1377,8 +1377,17 @@ later(function()
   create_autocmd({ 'TermOpen' }, {
     pattern = 'term://*',
     callback = function()
-      vim.keymap.set('t', '<esc><esc>', '<c-\\><c-n>', { desc = 'Easy escape', buffer = true })
-      vim.keymap.set('t', '<c-[><c-[>', '<c-\\><c-n>', { desc = 'Easy escape', buffer = true })
+      local tmap_buf = function(lhs, rhs, opts)
+        opts = opts or {}
+        opts.buffer = 0
+        opts.silent = true
+        vim.keymap.set('t', lhs, rhs, opts)
+      end
+      tmap_buf('<c-g><c-c>', '<c-\\><c-n>', { desc = 'Easy escape' })
+      tmap_buf('<c-g><c-[>', '<c-\\><c-n>', { desc = 'Easy escape' })
+      tmap_buf('<c-g><c-w>', '<c-w>', { desc = 'ctrl-w in terminal' })
+      tmap_buf('<c-w>', [[<c-\><c-n><c-w>]], { remap = true, desc = 'Window command' })
+
       local keys = { 'i', 'a', 'A', 'o', 'O' }
       for _, k in ipairs(keys) do
         vim.keymap.set('n', k, 'I', { desc = 'Enter terminal mode', buffer = true })
