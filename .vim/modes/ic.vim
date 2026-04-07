@@ -183,14 +183,12 @@ inoremap <expr> <c-g><c-f> &completeopt =~ 'fuzzy'
       \    : '<cmd>set completeopt+=fuzzy<cr>a<bs>'
 
 " https://zenn.dev/kawarimidoll/articles/54e38aa7f55aff
-inoremap <expr> /
-      \ complete_info(['mode']).mode == 'files' && complete_info(['selected']).selected >= 0
-      \   ? '<c-x><c-f>'
-      \   : '/'
-inoremap <expr> .
-      \ complete_info(['mode']).mode == 'files' && complete_info(['selected']).selected >= 0
-      \   ? '.<c-x><c-f>'
-      \   : '.'
+function s:files_completing() abort
+  let info = complete_info(['mode', 'selected'])
+  return info.mode  == 'files' && info.selected >= 0
+endfunction
+inoremap <expr> / <sid>files_completing() ?  '<c-x><c-f>' : '/'
+inoremap <expr> . <sid>files_completing() ? '.<c-x><c-f>' : '.'
 
 function s:insert_jump() abort
   if getline('.')->len() != col('.')
