@@ -48,7 +48,14 @@ in
         system = pkgs.stdenv.hostPlatform.system;
         koi = inputs.koi.packages.${system}.default;
         cage = inputs.cage.packages.${system}.default;
-        arto = inputs.arto.packages.${system}.default;
+        arto = inputs.arto.packages.${system}.default.overrideAttrs (old: {
+          # Workaround: dioxus-cli outputs to bundle/macos/macos/Arto.app
+          # but upstream installPhase expects bundle/macos/bundle/macos/Arto.app.
+          preInstall = (old.preInstall or "") + ''
+            mkdir -p target/dx/arto/bundle/macos/bundle
+            ln -sfn ../macos target/dx/arto/bundle/macos/bundle/macos
+          '';
+        });
         version-lsp = inputs.version-lsp.packages.${system}.default;
         kakehashi = inputs.kakehashi.packages.${system}.default.overrideAttrs (old: {
           doCheck = false;
