@@ -220,6 +220,16 @@ k.writeToProfile(profileName, [
   ]),
 
   k.rule(
+    "⌘. to open current Finder directory in Ghostty",
+    k.ifApp("^com\\.apple\\.finder$"),
+  ).manipulators([
+    k.map(".", "⌘").to({
+      shell_command:
+        "osascript -e 'tell application \"Finder\" to set cwd to POSIX path of (target of front window as alias)' -e 'tell application \"Ghostty\"' -e 'activate' -e 'set conf to new surface configuration' -e 'set initial working directory of conf to cwd' -e 'new window with configuration conf' -e 'end tell'",
+    }),
+  ]),
+
+  k.rule(
     "Emacs-like ctrl key settings for Slack, Notion and Figma",
     k.ifApp([
       "^com\.tinyspeck\.slackmacgap$",
