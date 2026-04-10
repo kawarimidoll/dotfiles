@@ -159,23 +159,23 @@ k.writeToProfile(profileName, [
     k.ifApp("^com\\.mitchellh\\.ghostty$"),
   ).manipulators([
     // toPaste(" vim ") はtoAfterKeyUpよりあとになることがあるので採用を断念
-    k.map("a", "⌘⇧")
-      .to(EISUU)
-      .to("q", "l⌥")
-      .to("␣")
-      .to("v")
-      .to("i")
-      .to("m")
-      .to("␣")
-      .toAfterKeyUp("a", "⌘⇧")
-      .toAfterKeyUp("⏎")
-      .description("⌘⇧A → ' vim ' + ⌘⇧A + ⏎"),
+    // k.map("a", "⌘⇧")
+    //   .to(EISUU)
+    //   .to("q", "l⌥")
+    //   .to("␣")
+    //   .to("v")
+    //   .to("i")
+    //   .to("m")
+    //   .to("␣")
+    //   .toAfterKeyUp("a", "⌘⇧")
+    //   .toAfterKeyUp("⏎")
+    //   .description("⌘⇧A → ' vim ' + ⌘⇧A + ⏎"),
 
-    k.map("y", "⌘⇧")
-      .to(EISUU)
-      .to("y", "⌘⇧")
-      .toAfterKeyUp("y", "⌘")
-      .description("⌘⇧y → ⌘⇧y then ⌘y"),
+    // k.map("y", "⌘⇧")
+    //   .to(EISUU)
+    //   .to("y", "⌘⇧")
+    //   .toAfterKeyUp("y", "⌘")
+    //   .description("⌘⇧y → ⌘⇧y then ⌘y"),
 
     k.map("[", "⌘⇧")
       .to(EISUU)
