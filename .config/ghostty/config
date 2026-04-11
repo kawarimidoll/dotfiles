@@ -46,7 +46,7 @@ keybind = global:super+grave_accent=toggle_quick_terminal
 # keybind = chain=write_screen_file:paste,vt
 # keybind = chain=text:' -c 'se awa titlestring=ghostty-screen lcs+=trail:\\ |on!|norm!G'\n
 
-keybind = super+shift+a=text:vim --clean '+se titlestring=ghostty-screen tgc ls=0 nolist|ter++curwin cat\x20
+keybind = super+shift+a=text:vim '+se titlestring=ghostty-screen tgc ls=0 nolist|ter++curwin cat\x20
 keybind = chain=write_screen_file:paste,vt
 keybind = chain=text:'\n
 # keybind = chain=text:' '+se titlestring=ghostty-screen tgc ls=0 lcs+=trail:\\ |norm!G'\n
