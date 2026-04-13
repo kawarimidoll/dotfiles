@@ -44,7 +44,7 @@
       {
         "hooks": [
           {
-            "command": "~/.nix-profile/libexec/rtk/hooks/rtk-rewrite.sh",
+            "command": "~/.nix-profile/libexec/rtk/hooks/claude/rtk-rewrite.sh",
             "type": "command"
           }
         ],
