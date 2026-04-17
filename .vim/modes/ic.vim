@@ -191,10 +191,16 @@ inoremap <expr> / <sid>files_completing() ?  '<c-x><c-f>' : '/'
 inoremap <expr> . <sid>files_completing() ? '.<c-x><c-f>' : '.'
 
 function s:insert_jump() abort
-  if getline('.')->len() != col('.')
-    call search('\k\+\|[({\[\]})=]', 'cWe')
+  let line = getline('.')
+  let col = col('.')
+  if col > len(line)
+    " 行末なら次の行以降のkeyword末尾に飛ぶ
+    call search('\k\+\|[^[:space:][:keyword:]]', 'eW')
+  elseif line[col-1] =~# '\s\|\k'
+    " 現在の文字が空白かkeyword文字ならkeyword末尾に飛ぶ
+    call search('\k\+\|[^[:space:][:keyword:]]', 'ceW')
   endif
-  call feedkeys("\<right>", 'ni')
+  call feedkeys("\<c-o>a", 'ni')
 endfunction
 inoremap <s-cr> <cmd>call <sid>insert_jump()<cr>
 
