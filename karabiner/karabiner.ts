@@ -204,18 +204,20 @@ k.writeToProfile(profileName, [
     // to run this, allow permission to use external call in Raycast
     (() => {
       const varName = "var_window_cycle";
-      const windowActions = [
-        "maximize",
-        "reasonable-size",
-        "almost-maximize",
-      ] as const;
-      return k.withMapper(windowActions)((action, index) => {
-        const nextIndex = (index + 1) % windowActions.length;
-        return k.map("↑", HYPER)
-          .to(raycastWindowAction(action))
-          .condition(k.ifVar(varName, index))
-          .toAfterKeyUp(k.toSetVar(varName, nextIndex));
-      });
+      return [
+        k.map("↑", HYPER)
+          .to(raycastWindowAction("reasonable-size"))
+          .condition(k.ifVar(varName, 1))
+          .toAfterKeyUp(k.toSetVar(varName, 2)),
+        k.map("↑", HYPER)
+          .to(raycastWindowAction("almost-maximize"))
+          .condition(k.ifVar(varName, 2))
+          .toAfterKeyUp(k.toSetVar(varName, 0)),
+        // fallback: value 0 or any unexpected value → maximize
+        k.map("↑", HYPER)
+          .to(raycastWindowAction("maximize"))
+          .toAfterKeyUp(k.toSetVar(varName, 1)),
+      ];
     })(),
   ]),
 
