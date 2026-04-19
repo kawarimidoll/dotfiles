@@ -85,7 +85,6 @@ in
         llm-agents.rtk
         llm-agents.spec-kit
 
-        nur.difit
         nur.ghost
         nur.jsmigemo
         nur.lolcrab
@@ -287,7 +286,6 @@ in
         nerd-fonts.departure-mono
         nerd-fonts.symbols-only
         noto-fonts-color-emoji
-        scientifica
         twitter-color-emoji
         udev-gothic-nf
 
