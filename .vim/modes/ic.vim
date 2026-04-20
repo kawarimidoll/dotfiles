@@ -119,8 +119,10 @@ AbbrevCmd! ss '%s/' .. @/ .. '//g<Left><Left>'
 " AbbrevCmd! ss '%s/' .. @/ .. "//g\<Left>\<Left>" olso ok
 AbbrevCmd! gld 'global //d_<left><left><left>'
 
-cnoremap <expr> . getcmdtype() == '/' && getcmdpos() > 2 && getcmdline()[getcmdpos()-2] == ',' ?
-      \ '<c-u>\<' .. substitute(getcmdline()[:-2], '\\v', '', 'gi') .. '\>' : '.'
+" cnoremap <expr> . getcmdtype() == '/' && getcmdpos() > 2 && getcmdline()[getcmdpos()-2] == ',' ?
+"       \ '<c-u>\<' .. substitute(getcmdline()[:-2], '\\v', '', 'gi') .. '\>' : '.'
+cnoremap <expr> . getcmdtype() == '/' && getcmdline()[getcmdpos()-2] == ',' ? '<bs>\<' : '.'
+cnoremap <expr> , getcmdtype() == '/' && getcmdline()[getcmdpos()-2] == '.' ? '<bs>\>' : ','
 
 " https://zenn.dev/monaqa/articles/2020-12-22-vim-abbrev
 cnoreabbrev <expr> w getcmdtype() .. getcmdline() ==# ":'<,'>w" ? "\<C-u>w" : 'w'
