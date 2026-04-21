@@ -128,8 +128,10 @@ return {
   window_background_gradient = {
     orientation = 'Vertical',
     colors = {
-      '#e1e2e7',
-      '#e0ebee',
+      -- '#e1e2e7',
+      -- '#e0ebee',
+      '#f5f5f6',
+      '#eaebef',
       -- '#e0e0fb',
     },
   },
