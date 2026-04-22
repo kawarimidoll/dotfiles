@@ -67,3 +67,7 @@ snippets:
     snippet: quicksave
     context:
       lbuffer: '^git\s+'
+
+  - name: gh prism
+    keyword: ghp
+    snippet: gh prism "$(gh pr list | fzf --preview 'gh pr view {1}' | awk '{print $1}')"
