@@ -1077,6 +1077,27 @@ now(function()
       post_checkout = U.noarg(vim.cmd.TSUpdate),
     },
   })
+
+  vim.filetype.add({
+    pattern = {
+      ['.*%.vim'] = {
+        priority = 10,
+        function(_path, bufnr)
+          local first_line = vim.api.nvim_buf_get_lines(bufnr, 0, 1, false)[1] or ''
+          if first_line:match('^vim9script') then
+            return 'vim.vim9'
+          end
+        end,
+      },
+    },
+  })
+  vim.treesitter.language.register('vim9', 'vim.vim9')
+  vim.api.nvim_create_autocmd('FileType', {
+    pattern = 'vim.vim9',
+    callback = function(args)
+      vim.treesitter.start(args.buf, 'vim9')
+    end,
+  })
 end)
 
 now(function()
