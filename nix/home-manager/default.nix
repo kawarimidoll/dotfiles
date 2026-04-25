@@ -96,7 +96,7 @@ in
         act
         ad
         asciiquarium
-        ast-grep
+        # ast-grep
         astroterm
         atuin
         bash-language-server
@@ -125,6 +125,7 @@ in
         diff-so-fancy
         diffnav
         # diffutils
+        dnsmasq
         doxx
         dprint
         dust
@@ -132,8 +133,10 @@ in
         emmylua-check
         emmylua-ls
         erlang_27
-        ffmpeg_7-full
+        evans
+        ffmpeg_7
         findutils
+        figlet
         fx
         gawk
         gemini-cli
@@ -223,6 +226,7 @@ in
         ripgrep
         rustup
         sampler
+        sccache
         screenfetch
         serie
         sheldon
@@ -234,7 +238,7 @@ in
         sttr
         stylua
         superfile
-        superhtml
+        # superhtml
         tailspin
         termbg
         termdown
@@ -254,7 +258,7 @@ in
         unixtools.procps # watch ps sysctl top
         unzip
         upterm
-        usql
+        # usql
         uutils-coreutils-noprefix
         uutils-diffutils
         uv
@@ -271,15 +275,15 @@ in
         yarn
         yazi
         zig
-        zls
+        # zls
 
         zsh
 
         pokemonsay
         kittysay
 
-        jj-fzf
-        jjui
+        # jj-fzf
+        # jjui
 
         hackgen-nf-font
         moralerspace
@@ -335,7 +339,7 @@ in
   programs.lsd.enable = true;
 
   # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.nushell.enable
-  programs.nushell.enable = true;
+  # programs.nushell.enable = true;
 
   # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.gitui.enable
   # programs.gitui.enable = true;
