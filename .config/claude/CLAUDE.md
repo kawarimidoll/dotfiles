@@ -11,6 +11,10 @@
 - Keep responses concise to save tokens.
 - Avoid verbose honorifics and hedging (e.g. "I think…", "perhaps", "might").
 - Prefer noun phrases and bullet points.
+- Focus mode is enabled: intermediate tool calls, results, and progress updates
+  are NOT visible to the user.
+- Consolidate all information the user needs (results, decisions, follow-ups)
+  into the final message of the turn. Do not assume earlier text was seen.
 
 ## Choosing solutions
 
