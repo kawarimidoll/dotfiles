@@ -80,7 +80,12 @@ const buf = new Uint8Array(1024 * 64);
 const n = await Deno.stdin.read(buf);
 const input = JSON.parse(new TextDecoder().decode(buf.subarray(0, n ?? 0)));
 
-const model = input.model?.display_name ?? "";
+const model = (input.model?.display_name ?? "").replace(
+  /\s*\(1M context\)/,
+  " 1M",
+);
+const effort = input.effort?.level ?? "";
+const modelDisplay = effort ? `${model} ${effort}` : model;
 const currentDir = input.workspace?.current_dir ?? "";
 const projectDir = input.workspace?.project_dir ?? "";
 const ctxPct = Math.floor(input.context_window?.used_percentage ?? 0);
@@ -96,7 +101,7 @@ const weekResetDisplay = formatRemaining(weekReset);
 
 const R = COLOR.reset;
 const segments = [
-  `${ICON.robo} ${model}`,
+  `${ICON.robo} ${modelDisplay}`,
   `${dirSymbol} ${dirName}${gitBranch}`,
   `ctx ${colorByPct(ctxPct)}${symbolByPct(ctxPct)} ${ctxPct}%${R}`,
   `5h ${colorByPct(fivePct)}${symbolByPct(fivePct)} ${fivePct}%${R}`,
