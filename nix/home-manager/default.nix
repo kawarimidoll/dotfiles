@@ -20,6 +20,11 @@ in
         python3 = true;
       })
       inputs.neovim-nightly-overlay.overlays.default
+      # FIXME: nixpkgs#511900 — deno 2.7.13 の cli テストが Hydra/sandbox 双方で落ちる
+      # 修正が入ったら削除する
+      (_: prev: {
+        deno = prev.deno.overrideAttrs (_: { doCheck = false; });
+      })
     ];
     config = {
       allowUnfreePredicate =
