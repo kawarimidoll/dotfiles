@@ -9,6 +9,11 @@ message = "Access to .env files is prohibited. Ask the user to check or provide 
 
 [[rules]]
 matcher = "File"
+regex = '/\.dev\.vars($|\.)'
+message = "Access to .dev.vars files (Cloudflare Wrangler env vars) is prohibited. Ask the user to check or provide the values you need."
+
+[[rules]]
+matcher = "File"
 regex = '\.ssh/'
 message = "Access to SSH keys is prohibited. Ask the user to handle SSH-related operations."
 
