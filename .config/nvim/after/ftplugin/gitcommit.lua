@@ -82,8 +82,8 @@ vim.keymap.set('n', 'A', function()
   end
 end, { buffer = true })
 
-vim.api.nvim_win_set_cursor(0, { 1, 0 })
 vim.cmd([[
 silent! /=====/,/with '#' will/fold
 silent! /Changes not staged for commit:\|Untracked files:/,/--- >8 ---/fold
 ]])
+vim.api.nvim_win_set_cursor(0, { 1, 0 })
