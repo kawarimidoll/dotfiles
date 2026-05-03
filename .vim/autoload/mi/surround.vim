@@ -28,6 +28,19 @@ function! s:invert(obj) abort
   return result
 endfunction
 
+" searchpos() / searchpairpos() return byte-based col, but the string
+" manipulation below is character-based. Convert before exposing positions.
+function! s:byte_to_char_col(lnum, byte_col) abort
+  if a:byte_col <= 1
+    return a:byte_col
+  endif
+  let char_idx = charidx(getline(a:lnum), a:byte_col - 1)
+  if char_idx < 0
+    return strchars(getline(a:lnum)) + 1
+  endif
+  return char_idx + 1
+endfunction
+
 function! s:removestr(from_pos, to_pos) abort
   let from_pos = a:from_pos
   let to_pos = a:to_pos
@@ -171,6 +184,10 @@ function! mi#surround#find(open, close) abort
   let close_to = searchpos(a:close, 'ceW', line('w$'))
   call cursor(cursorpos[0], cursorpos[1])
 
+  for pos in [open_from, open_to, close_from, close_to]
+    let pos[1] = s:byte_to_char_col(pos[0], pos[1])
+  endfor
+
   return [open_from, open_to, close_from, close_to]
 endfunction
 
@@ -215,7 +232,7 @@ function! s:delete(type = '') abort
   call s:removestr(close_from, close_to)
   call s:removestr(open_from, open_to)
 
-  call cursor(open_from[0], open_from[1])
+  call setcursorcharpos(open_from[0], open_from[1])
 endfunction
 
 function! s:replace(type = '') abort
@@ -240,5 +257,5 @@ function! s:replace(type = '') abort
   call s:removestr(open_from, open_to)
   call s:putstr(open_from[0], open_from[1], wrapper[0])
 
-  call cursor(open_from[0], open_from[1])
+  call setcursorcharpos(open_from[0], open_from[1])
 endfunction
