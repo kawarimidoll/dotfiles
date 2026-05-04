@@ -19,6 +19,19 @@ zstyle ':completion:*' ignore-parents parent pwd ..
 zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
   /usr/sbin /usr/bin /sbin /bin
 
+# メニュー選択を有効化（矢印キーで候補を選択可能）
+# zstyle ':completion:*' menu select
+
+zstyle ':completion:*:descriptions' format "%U%F{blue}%d%f%u"
+zstyle ':completion:*:messages' format "%F{green}%d%f"
+
+zstyle ':completion:*' group-name ''
+
+zstyle ':completion:*' list-separator '->'
+zstyle ':completion:*:manuals' separate-sections true
+
+# zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+
 # 区切り文字としたい記号をWORDCHARSから除く
 # vimでいうiskeywordの逆
 # M-f, M-b, ^w などの動作に影響する
