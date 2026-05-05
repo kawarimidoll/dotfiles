@@ -68,32 +68,32 @@ message = "Use of 'sed' is prohibited. Use 'perl' instead. Example: perl -pi -e 
 
 [[rules]]
 matcher = "Bash"
-regex = '\bgit\s+push\b'
+regex = '\bgit\b[^;|&\n]*\bpush\b'
 message = "Use of 'git push' is prohibited. Ask the user to execute it."
 
 [[rules]]
 matcher = "Bash"
-regex = '\bgit\s+add\s+(-A|--all|\.($|[ ;|&]))'
+regex = '\bgit\b[^;|&\n]*\badd\s+(-A|--all|\.($|[ ;|&]))'
 message = "Do not git-add all files. Specify the files to add."
 
 [[rules]]
 matcher = "Bash"
-regex = '\bgit\s+checkout\b'
+regex = '\bgit\b[^;|&\n]*\bcheckout\b'
 message = "Use of 'git checkout' is prohibited. Use 'git switch' for branch switching and 'git restore' for file restoration instead."
 
 [[rules]]
 matcher = "Bash"
-regex = '\bgit\s+clean\b.*-[a-zA-Z]*f'
+regex = '\bgit\b[^;|&\n]*\bclean\b[^;|&\n]*-[a-zA-Z]*f'
 message = "Use of 'git clean -f' is prohibited. It deletes untracked files irreversibly. Ask the user to execute it."
 
 [[rules]]
 matcher = "Bash"
-regex = '\bgit\s+branch\b.*\s-D\b'
+regex = '\bgit\b[^;|&\n]*\bbranch\b[^;|&\n]*\s-D\b'
 message = "Use of 'git branch -D' is prohibited. Use 'git branch -d' for safe deletion, or ask the user to force-delete."
 
 [[rules]]
 matcher = "Bash"
-regex = '\bgit\s+stash\b.*(drop|clear)\b'
+regex = '\bgit\b[^;|&\n]*\bstash\b[^;|&\n]*(drop|clear)\b'
 message = "Use of 'git stash drop/clear' is prohibited. Ask the user to execute it."
 
 [[rules]]
