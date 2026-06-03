@@ -72,6 +72,15 @@ const ROYUAN_GAMING_KEYBOARD = {
   is_keyboard: true,
 } as const satisfies k.DeviceIdentifier;
 
+// 8BitDo Zero 2 gamepad (No manufacturer name) in keyboard mode.
+// vendor 0x2dc8 / product 0x3230. Each button emits a hardware-fixed letter:
+//   A:g B:j X:h Y:i R:m L:k ↑:c ↓:d ←:e →:f Start:o Select:n
+const EIGHT_BITDO_ZERO2 = {
+  product_id: 12848,
+  vendor_id: 11720,
+  is_keyboard: true,
+} as const satisfies k.DeviceIdentifier;
+
 // const LUNAKEY_PICO = {
 //   product_id: 3,
 //   vendor_id: 22868,
@@ -106,6 +115,16 @@ const HYPER = "⌘⌥⌃⇧";
 
 const TO_IF_MILLISECONDS =
   "basic.to_if_held_down_threshold_milliseconds" as const;
+
+// Build manipulators that remap a gamepad's emitted letter to a target key.
+// A plain string is a key (alias); a tuple adds modifiers, e.g. ["⇥", "l⌃"].
+type ToSpec = k.ToKeyParam | [k.ToKeyParam, k.ModifierParam];
+function gamepadMap(map: Record<string, ToSpec>) {
+  return Object.entries(map).map(([from, spec]) => {
+    const m = k.map(from as k.FromKeyParam);
+    return Array.isArray(spec) ? m.to(spec[0], spec[1]) : m.to(spec);
+  });
+}
 
 const profileName = "Karabiner-TS";
 
@@ -258,6 +277,63 @@ k.writeToProfile(profileName, [
           .to(toKey)
       ),
     ),
+
+  // 8BitDo Zero 2: app-specific overrides come BEFORE the base rule so they
+  // win (first matching manipulator wins); unlisted buttons fall back to base.
+  k.rule(
+    "8BitDo Zero 2 in Anki",
+    // Anki's frontmost bundle id varies by version (classic vs. launcher);
+    // match both. Confirm via Karabiner EventViewer if it ever stops matching.
+    k.ifApp(["^net\\.ankiweb\\.dtop$", "^net\\.ankiweb\\.launcher$"]),
+    k.ifDevice(EIGHT_BITDO_ZERO2),
+  ).manipulators(
+    gamepadMap({
+      g: "⏎", // A
+      j: "2", // B
+      h: "1", // X
+      i: "d", // Y
+      m: "u", // R
+      k: "y", // L
+      o: "s", // Start
+    }),
+  ),
+
+  k.rule(
+    "8BitDo Zero 2 in Ghostty",
+    k.ifApp("^com\\.mitchellh\\.ghostty$"),
+    k.ifDevice(EIGHT_BITDO_ZERO2),
+  ).manipulators(
+    gamepadMap({
+      g: "⏎", // A
+      j: "⎋", // B
+      h: "⌫", // X → backspace
+      m: ["⇥", "l⌃"], // R → ⌃⇥
+      k: ["⇥", "l⌃⇧"], // L → ⌃⇧⇥
+      o: ["-", "l⌃⇧"], // Start → ⌃⇧-
+      n: ["v", "l⌘⌥⌃⇧"], // Select → ⌘⌃⌥⇧v
+    }),
+  ),
+
+  // Base mapping: each button emits the key printed on it.
+  k.rule(
+    "8BitDo Zero 2 buttons to printed labels",
+    k.ifDevice(EIGHT_BITDO_ZERO2),
+  ).manipulators(
+    gamepadMap({
+      g: "a", // A
+      j: "b", // B
+      h: "x", // X
+      i: "y", // Y
+      m: "r", // R
+      k: "l", // L
+      c: "↑",
+      d: "↓",
+      e: "←",
+      f: "→",
+      o: "home", // Start
+      n: "end", // Select
+    }),
+  ),
 ]);
 
 // ここからはsimple_modificationsの設定 独自追加
@@ -297,6 +373,14 @@ applySimpleModifications(
   profile,
   REALFORCE_HYBRID_US_FULL,
   [...swapCapsCtrl, ...swapCmdOpt],
+);
+// 8BitDo Zero 2 is fully handled by the complex modifications above; clear any
+// device-level simple_modifications (e.g. left over from Karabiner GUI setup)
+// so they don't double-map or conflict with the complex rules.
+applySimpleModifications(
+  profile,
+  EIGHT_BITDO_ZERO2,
+  [],
 );
 
 const json = JSON.stringify(config, null, 2);
