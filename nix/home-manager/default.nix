@@ -177,7 +177,7 @@ in
         highlight
         hyperfine
         imagemagick
-        intelli-shell
+        # intelli-shell
         jid
         jnv
         jq
@@ -206,7 +206,7 @@ in
         nb
         neo
         neovim # nightly
-        nono
+        # nono
         nh
         ni
         nim
