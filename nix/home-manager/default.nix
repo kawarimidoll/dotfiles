@@ -20,10 +20,10 @@ in
         python3 = true;
       })
       inputs.neovim-nightly-overlay.overlays.default
-      # FIXME: nixpkgs#511900 — deno 2.7.13 の cli テストが Hydra/sandbox 双方で落ちる
-      # 修正が入ったら削除する
+      # FIXME: highlight 4.20 で shellscript-crash-fix.patch が upstream に取り込み済みとなり
+      # 二重適用で patchPhase が失敗する。nixpkgs 側修正後に削除する
       (_: prev: {
-        deno = prev.deno.overrideAttrs (_: { doCheck = false; });
+        highlight = prev.highlight.overrideAttrs (_: { patches = [ ]; });
       })
     ];
     config = {

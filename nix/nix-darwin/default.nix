@@ -25,9 +25,16 @@
       max-jobs = 8;
       download-buffer-size = 134217728; # 128MiB
       trusted-users = [ "root" "kawarimidoll" ];
-      extra-substituters = [ "https://kawarimidoll.cachix.org" ];
+      extra-substituters = [
+        "https://kawarimidoll.cachix.org"
+        # llm-agents (agent-browser 等) のビルド済みバイナリ取得元。flake の nixConfig
+        # で宣言されているが非対話ビルドでは無視されるため明示追加する。無いと pnpm 11 の
+        # ローカルビルドにフォールバックし darwin で SIGKILL (exit 137) する
+        "https://cache.numtide.com"
+      ];
       extra-trusted-public-keys = [
         "kawarimidoll.cachix.org-1:43W5G98mVTyDaMeG7ZGzx4h/be5u4ULUGV/9svLjKJY="
+        "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
       ];
     };
     linux-builder.enable = true;
