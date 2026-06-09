@@ -221,7 +221,7 @@ k.writeToProfile(profileName, [
 
   k.rule("Hyper+↑ to cycle window size using Raycast").manipulators([
     // to run this, allow permission to use external call in Raycast
-    (() => {
+    ...(() => {
       const varName = "var_window_cycle";
       return [
         k.map("↑", HYPER)
