@@ -126,9 +126,8 @@ function gamepadMap(map: Record<string, ToSpec>) {
   });
 }
 
-const profileName = "Karabiner-TS";
+const profileName = "Default profile";
 
-// k.writeToProfile("Default profile", [
 k.writeToProfile(profileName, [
   k.rule(`Caps Lock to Hyper Key (${HYPER}), escape if alone`).manipulators([
     k.map("⇪")
