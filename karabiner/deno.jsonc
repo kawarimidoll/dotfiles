@@ -2,6 +2,9 @@
   "tasks": {
     "ci": "deno check && deno lint && deno fmt",
 
+    // compile the window placement CLI used by the Hyper+arrow rules
+    "build-resizer": "swiftc -O window-resize.swift -o window-resize",
+
     // general permissions
     "run": "deno run --allow-env=HOME --allow-read=$HOME/.config/karabiner/karabiner.json --allow-write=$HOME/.config/karabiner/karabiner.json",
 

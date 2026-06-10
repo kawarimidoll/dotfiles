@@ -15,6 +15,13 @@ or watch build
 deno task watch
 ```
 
+The Hyper+arrow window placement rules call a compiled CLI (`window-resize`,
+gitignored). Build it once with:
+
+```bash
+deno task build-resizer
+```
+
 ## Ref
 
 - [ryoppippi's dotfiles](https://github.com/ryoppippi/dotfiles/blob/65dc955a4187c9c375793a99271b8af4c2014d3e/karabiner/README.md)

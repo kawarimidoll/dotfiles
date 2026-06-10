@@ -91,17 +91,32 @@ const APPLE_INTERNAL_KEYBOARD = {
   is_keyboard: true,
 } as const satisfies k.DeviceIdentifier;
 
-type RaycastWindowAction =
-  | "maximize"
-  | "almost-maximize"
-  | "reasonable-size"
-  | "next-display"
-  | "previous-display";
+// Cycle the frontmost window through placements via the compiled CLI in this
+// repo (build: deno task build-resizer). It matches the window's current
+// frame against the placement rects to pick the next one, so a newly targeted
+// window always starts the cycle from placements[0] — no cycle state is kept
+// in karabiner variables.
+// Requires Accessibility permission for karabiner_console_user_server.
+type WindowAnchor = "left" | "center" | "right";
+// [anchor, w, h] ratios, optionally capped at [maxW, maxH] pixels
+type WindowPlacement =
+  | [WindowAnchor, number, number]
+  | [WindowAnchor, number, number, number, number];
 
-function raycastWindowAction(name: RaycastWindowAction) {
+function windowCycle(placements: WindowPlacement[]): k.ToEvent {
+  const bin = "$HOME/dotfiles/karabiner/window-resize";
+  const spec = placements
+    .map(([anchor, w, h, maxW, maxH]) =>
+      [
+        anchor,
+        w.toFixed(3),
+        h.toFixed(3),
+        ...(maxW !== undefined ? [maxW, maxH] : []),
+      ].join(",")
+    )
+    .join(";");
   return {
-    "shell_command":
-      `open -g raycast://extensions/raycast/window-management/${name}`,
+    shell_command: `${bin} "${spec}"`,
   };
 }
 
@@ -218,25 +233,27 @@ k.writeToProfile(profileName, [
     k.map("z", "⌘⇧").to("=", "⌃"),
   ]),
 
-  k.rule("Hyper+↑ to cycle window size using Raycast").manipulators([
-    // to run this, allow permission to use external call in Raycast
-    ...(() => {
-      const varName = "var_window_cycle";
-      return [
-        k.map("↑", HYPER)
-          .to(raycastWindowAction("reasonable-size"))
-          .condition(k.ifVar(varName, 1))
-          .toAfterKeyUp(k.toSetVar(varName, 2)),
-        k.map("↑", HYPER)
-          .to(raycastWindowAction("almost-maximize"))
-          .condition(k.ifVar(varName, 2))
-          .toAfterKeyUp(k.toSetVar(varName, 0)),
-        // fallback: value 0 or any unexpected value → maximize
-        k.map("↑", HYPER)
-          .to(raycastWindowAction("maximize"))
-          .toAfterKeyUp(k.toSetVar(varName, 1)),
-      ];
-    })(),
+  k.rule("Hyper+arrows to cycle window placement").manipulators([
+    k.map("↑", HYPER).to(windowCycle([
+      ["center", 1, 1], // maximize
+      ["center", 0.6, 0.6, 1024, 900], // reasonable-size
+      ["center", 0.9, 0.9], // almost-maximize
+    ])),
+    k.map("←", HYPER).to(windowCycle([
+      ["left", 1 / 2, 1],
+      ["left", 2 / 3, 1],
+      ["left", 1 / 3, 1],
+    ])),
+    k.map("↓", HYPER).to(windowCycle([
+      ["center", 1 / 2, 1],
+      ["center", 2 / 3, 1],
+      ["center", 1 / 3, 1],
+    ])),
+    k.map("→", HYPER).to(windowCycle([
+      ["right", 1 / 2, 1],
+      ["right", 2 / 3, 1],
+      ["right", 1 / 3, 1],
+    ])),
   ]),
 
   k.rule(
