@@ -1,4 +1,9 @@
-{ pkgs, lib, ... }:
+{
+  inputs,
+  pkgs,
+  lib,
+  ...
+}:
 {
   # デフォルトの ca-bundle.crt は TRUSTED CERTIFICATE 形式(trust/reject属性付き)を
   # 含むため、OpenSSL 3.x が一部のルートCAを reject しcurlのSSL検証が失敗する。
@@ -37,7 +42,11 @@
         "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
       ];
     };
-    linux-builder.enable = true;
+    linux-builder = {
+      enable = true;
+      package =
+        inputs.nixpkgs-stable.legacyPackages.${pkgs.stdenv.hostPlatform.system}.darwin.linux-builder;
+    };
   };
 
   # services.nix-daemon.enable = true;

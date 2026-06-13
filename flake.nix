@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-26.05";
     systems.url = "github:nix-systems/default";
     flake-parts.url = "github:hercules-ci/flake-parts";
     crane.url = "github:ipetkov/crane";
@@ -190,6 +191,9 @@
 
       darwinConfigurations.kawarimidoll-darwin = nix-darwin.lib.darwinSystem {
         system = system;
+        specialArgs = {
+          inherit inputs;
+        };
         modules = [ ./nix/nix-darwin/default.nix ];
       };
 
