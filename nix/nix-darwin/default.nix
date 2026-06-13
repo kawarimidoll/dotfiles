@@ -125,17 +125,46 @@
         ${disableCmds}
         # 再ログインせずにショートカット設定を反映する
         ${asUser} /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+        # メニューバー項目 (CustomUserPreferences の controlcenter 設定) を反映する
+        ${asUser} killall ControlCenter || true
       '';
     defaults = {
-      NSGlobalDomain.AppleShowAllExtensions = true;
+      NSGlobalDomain = {
+        AppleShowAllExtensions = true;
+        KeyRepeat = 1; # リピート速度: 最速
+        InitialKeyRepeat = 12; # リピート開始までの時間: 最速
+        "com.apple.trackpad.scaling" = 1.0; # 軌跡の速さ (0-3)
+      };
+      # 書き込みには darwin-rebuild を実行するターミナルにフルディスクアクセスが必要
+      universalaccess.mouseDriverCursorSize = 2.0;
+      menuExtraClock.IsAnalog = true;
+      trackpad = {
+        Clicking = true; # タップでクリック
+        FirstClickThreshold = 0; # クリックの強さ: 軽い (0/1/2)
+        SecondClickThreshold = 0; # 強めのクリックの強さ: 軽い (0/1/2)
+      };
       finder = {
         AppleShowAllFiles = true;
         AppleShowAllExtensions = true;
+        # デフォルトの表示形式 ("Nlsv"=リスト, "icnv"=アイコン, "clmv"=カラム, "Flwv"=ギャラリー)
+        FXPreferredViewStyle = "Nlsv";
       };
       dock = {
         autohide = true;
         show-recents = false;
         orientation = "bottom";
+        show-process-indicators = false; # 起動済みアプリのインジケータを非表示
+        # Dock にアプリを常駐させない (起動中のアプリとゴミ箱のみ表示)
+        persistent-apps = [ ];
+      };
+      # メニューバー項目の表示設定 (18 = 表示, 24 = 非表示)
+      # Battery / WiFi は system.defaults.controlcenter に未実装のため、
+      # controlcenter モジュールと同じ ByHost ドメインへ直接書き込む
+      CustomUserPreferences = {
+        "~kawarimidoll/Library/Preferences/ByHost/com.apple.controlcenter" = {
+          Battery = 24;
+          WiFi = 24;
+        };
       };
     };
   };
