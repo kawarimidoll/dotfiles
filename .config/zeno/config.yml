@@ -30,6 +30,10 @@ snippets:
     keyword: fpath
     snippet: echo $FPATH | tr ':' '\n'
 
+  - name: print pwd and copy it without newline
+    keyword: pwe
+    snippet: pwd | tee >(tr -d '\n' | pbcopy)
+
   - name: bun list packages
     keyword: list
     snippet: pm ls
