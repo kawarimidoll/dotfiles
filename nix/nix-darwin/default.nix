@@ -29,7 +29,10 @@
       experimental-features = "nix-command flakes";
       max-jobs = 8;
       download-buffer-size = 134217728; # 128MiB
-      trusted-users = [ "root" "kawarimidoll" ];
+      trusted-users = [
+        "root"
+        "kawarimidoll"
+      ];
       extra-substituters = [
         "https://kawarimidoll.cachix.org"
         # llm-agents (agent-browser 等) のビルド済みバイナリ取得元。flake の nixConfig
