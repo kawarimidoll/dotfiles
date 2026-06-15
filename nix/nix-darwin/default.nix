@@ -4,6 +4,10 @@
   lib,
   ...
 }:
+let
+  # sleepwatcher 代替の常駐バイナリ (github:kawarimidoll/neoki)
+  neoki = inputs.neoki.packages.${pkgs.system}.default;
+in
 {
   # デフォルトの ca-bundle.crt は TRUSTED CERTIFICATE 形式(trust/reject属性付き)を
   # 含むため、OpenSSL 3.x が一部のルートCAを reject しcurlのSSL検証が失敗する。
@@ -172,6 +176,16 @@
     };
   };
 
+  # sleepwatcher 代替 (neoki)。~/.sleep ~/.wakeup ~/.lock ~/.unlock 等を対応イベントで実行。
+  # lock/unlock は loginwindow が配信する通知のため、GUI セッションで動く user agent にする。
+  launchd.user.agents.neoki = {
+    command = lib.getExe neoki;
+    serviceConfig = {
+      RunAtLoad = true;
+      KeepAlive = true;
+    };
+  };
+
   homebrew = {
     enable = true;
     onActivation = {
@@ -182,7 +196,6 @@
     };
     brews = [
       "pinentry-mac"
-      # "sleepwatcher" how to create brew services in nix?
     ];
     casks = [
       # "sublime-text"

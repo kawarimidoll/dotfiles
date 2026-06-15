@@ -78,6 +78,11 @@
       url = "github:kawarimidoll/nur-packages";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    neoki = {
+      url = "github:kawarimidoll/neoki";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.git-hooks.follows = "git-hooks";
+    };
     hjkls = {
       url = "github:kawarimidoll/hjkls";
       inputs.nixpkgs.follows = "nixpkgs";

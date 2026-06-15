@@ -460,6 +460,29 @@
         "type": "github"
       }
     },
+    "neoki": {
+      "inputs": {
+        "git-hooks": [
+          "git-hooks"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1781484527,
+        "narHash": "sha256-osh6tPin46ZL6SCLfFquEXVrlolZbc0xiopIMal+KD4=",
+        "owner": "kawarimidoll",
+        "repo": "neoki",
+        "rev": "eed6d085d74f38c31eb0621d3c603e0816a15e25",
+        "type": "github"
+      },
+      "original": {
+        "owner": "kawarimidoll",
+        "repo": "neoki",
+        "type": "github"
+      }
+    },
     "neovim-nightly-overlay": {
       "inputs": {
         "flake-parts": [
@@ -627,6 +650,7 @@
         "kakehashi": "kakehashi",
         "koi": "koi",
         "llm-agents": "llm-agents",
+        "neoki": "neoki",
         "neovim-nightly-overlay": "neovim-nightly-overlay",
         "nix-darwin": "nix-darwin",
         "nix-index-database": "nix-index-database",
