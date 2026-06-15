@@ -66,14 +66,15 @@ inline = '''
 eval_source direnv hook zsh
 '''
 
-[plugins.intelli-shell]
-inline = '''
-export INTELLI_SEARCH_HOTKEY='\es'
-export INTELLI_BOOKMARK_HOTKEY='\ek'
-export INTELLI_VARIABLE_HOTKEY='\ev'
-export INTELLI_FIX_HOTKEY='\er'
-zsh-defer eval_source intelli-shell init zsh
-'''
+# intelli-shell is currently disabled in nix (see nix/home-manager)
+# [plugins.intelli-shell]
+# inline = '''
+# export INTELLI_SEARCH_HOTKEY='\es'
+# export INTELLI_BOOKMARK_HOTKEY='\ek'
+# export INTELLI_VARIABLE_HOTKEY='\ev'
+# export INTELLI_FIX_HOTKEY='\er'
+# zsh-defer eval_source intelli-shell init zsh
+# '''
 
 [plugins.fzf]
 inline = '''
@@ -99,8 +100,8 @@ use = ['by.zsh']
 apply = ['defer']
 
 [plugins.ha]
-local = '/Users/kawarimidoll/ghq/github.com/kawarimidoll/ha'
-# github = 'kawarimidoll/ha'
+# local = '/Users/kawarimidoll/ghq/github.com/kawarimidoll/ha'
+github = 'kawarimidoll/ha'
 use = ['ha.sh']
 apply = ['defer']
 hooks.post = '''
