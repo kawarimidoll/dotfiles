@@ -31,8 +31,10 @@ tools: Bash, Read, Grep, LS, TodoWrite
 ## コミットメッセージ末尾
 
 ```
-🤖 Generated with Claude Code
-Co-Authored-By: Claude <noreply@anthropic.com>
+Co-Authored-By: Claude {model} <noreply@anthropic.com>
+
+# for instance:
+# Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
 ```
 
 ## 重要な原則
