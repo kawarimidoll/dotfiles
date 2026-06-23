@@ -11,8 +11,12 @@
 import Cocoa
 import ApplicationServices
 
-// gap in px around screen edges and between left/right tiled windows
+// gap in pt at the screen edges; the seam between tiled windows is derived
+// from this in placementRect so the *visible* gap matches once borders draw
 let GAP: CGFloat = 8
+// JankyBorders (~/.config/borders/bordersrc) draws a border this wide straddling
+// each window's frame, so it reaches BORDER_WIDTH/2 past the frame — keep in sync
+let BORDER_WIDTH: CGFloat = 8
 // apps may snap their size to an internal grid (terminal cell size etc.),
 // so match the current frame against placement rects with this tolerance
 let TOLERANCE: CGFloat = 25
@@ -91,23 +95,50 @@ let screen = NSScreen.screens.first { $0.frame.contains(centerCocoa) } ?? NSScre
 let vf = screen.visibleFrame
 
 func placementRect(_ p: Placement) -> CGRect {
-  // left/right anchors reserve 3 gaps (both edges + the middle seam) so that
-  // complementary ratios (e.g. left 1/3 + right 2/3) tile with a GAP between;
-  // centered windows only need the edge gaps
-  let availW = p.anchor == "center" ? vf.width - GAP * 2 : vf.width - GAP * 3
-  let availH = vf.height - GAP * 2
-  let w = min((availW * p.w).rounded(), p.maxW ?? .infinity)
-  let h = min((availH * p.h).rounded(), p.maxH ?? .infinity)
-  let x: CGFloat
+  // Inset every window edge from its fractional boundary on the visible frame:
+  // a full GAP where the edge meets the screen, a wider INNER inset where it
+  // borders another tiled window. A window border reaches BORDER_WIDTH/2 past
+  // the frame; at the screen edge only one border spends that reach, but at a
+  // seam both windows' borders do — so widen the inner inset to make the seam's
+  // visible gap (2*inner − both reaches) equal the edge's (GAP − one reach).
+  let inner = (GAP + BORDER_WIDTH / 2) / 2
+
+  // fractional horizontal span [x0, x1] of the visible frame for this anchor
+  let x0: CGFloat, x1: CGFloat
   switch p.anchor {
-  case "left": x = vf.minX + GAP
-  case "right": x = vf.maxX - GAP - w
-  default: x = vf.minX + (vf.width - w) / 2
+  case "left": x0 = 0; x1 = p.w
+  case "right": x0 = 1 - p.w; x1 = 1
+  default: x0 = (1 - p.w) / 2; x1 = (1 + p.w) / 2  // centered
   }
-  // vertically centered
-  let yCocoa = vf.minY + (vf.height - h) / 2
-  let y = primaryH - (yCocoa + h)
-  return CGRect(x: x.rounded(), y: y.rounded(), width: w, height: h)
+  // vertical span is always centered
+  let y0 = (1 - p.h) / 2, y1 = (1 + p.h) / 2
+
+  // an edge at fraction 0 or 1 touches the screen (full GAP); otherwise it
+  // borders another window (GAP/2)
+  var left = vf.minX + x0 * vf.width + (x0 <= 0 ? GAP : inner)
+  let right = vf.minX + x1 * vf.width - (x1 >= 1 ? GAP : inner)
+  var bottom = vf.minY + y0 * vf.height + (y0 <= 0 ? GAP : inner)  // Cocoa y
+  let top = vf.minY + y1 * vf.height - (y1 >= 1 ? GAP : inner)
+  var w = right - left
+  var h = top - bottom
+
+  // cap the size, keeping the anchored edge fixed (left/right) or staying centered
+  if let maxW = p.maxW, w > maxW {
+    switch p.anchor {
+    case "left": break
+    case "right": left += w - maxW
+    default: left += (w - maxW) / 2
+    }
+    w = maxW
+  }
+  if let maxH = p.maxH, h > maxH {
+    bottom += (h - maxH) / 2  // vertically centered
+    h = maxH
+  }
+
+  // Accessibility uses a top-left origin, so flip the Cocoa top edge
+  let y = primaryH - (bottom + h)
+  return CGRect(x: left.rounded(), y: y.rounded(), width: w.rounded(), height: h.rounded())
 }
 let rects = placements.map(placementRect)
 
