@@ -1,0 +1,12 @@
+#!/usr/bin/env swift
+
+// neoki lock フック: 画面ロック時にマウスカーソルをメインディスプレイの
+// 中央へ移動する。
+// CGWarpMouseCursorPosition はイベント合成ではなく純粋な座標移動なので、
+// アクセシビリティ/オートメーション権限は不要。
+import CoreGraphics
+
+let bounds = CGDisplayBounds(CGMainDisplayID())
+CGWarpMouseCursorPosition(CGPoint(x: bounds.midX, y: bounds.midY))
+// ワープ直後の入力抑制を解いてハードウェアマウスへ即座に制御を戻す
+CGAssociateMouseAndMouseCursorPosition(1)
