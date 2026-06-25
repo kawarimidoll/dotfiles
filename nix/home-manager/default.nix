@@ -67,7 +67,6 @@ in
         kakehashi
 
         llm-agents.agent-browser
-        llm-agents.claude-code
         llm-agents.coderabbit-cli
         llm-agents.codex
         llm-agents.copilot-cli
@@ -76,6 +75,7 @@ in
         llm-agents.rtk
         llm-agents.spec-kit
 
+        nur.fff-mcp
         nur.ghost
         nur.jsmigemo
         nur.lolcrab
@@ -295,6 +295,19 @@ in
   # environment.pathsToLink = [ "/share/zsh" ];
 
   programs.home-manager.enable = true;
+
+  # claude-code 本体 + MCP サーバー。
+  # mcpServers は .mcp.json を内包する home-manager プラグインとして生成され、
+  # claude が --plugin-dir 付きでラップされる → 全プロジェクトで有効（global / 宣言的）。
+  # settings/agents 等は ~/.claude/ に書かれ symlink 管理の ~/.config/claude/ と衝突するため設定しない。
+  programs.claude-code = {
+    enable = true;
+    package = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code;
+    mcpServers.fff = {
+      type = "stdio";
+      command = "fff-mcp";
+    };
+  };
 
   imports = [
     inputs.nix-index-database.homeModules.nix-index

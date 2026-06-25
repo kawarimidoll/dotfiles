@@ -67,21 +67,8 @@ agent-browser open <url> --args "--no-sandbox"
 - Commit rewriting (fixup, rebase, squash) → use `rebaser` agent.
 - Commit message rewriting (reword) → use `reworder` agent.
 
-## RTK - Rust Token Killer
+## File Search
 
-`rtk` is token-optimized CLI proxy for AI coding agents.
-
-### Hook-Based Usage
-
-All general commands are automatically rewritten by the Claude Code hook.
-
-Example: `git status` → `rtk git status` (transparent, 0 tokens overhead)
-
-### Meta Commands (always use rtk directly)
-
-```bash
-rtk gain              # Show token savings analytics
-rtk discover          # Analyze Claude Code history for missed opportunities
-rtk proxy <cmd>       # Execute raw command without filtering (for debugging)
-rtk --version         # Verify rtk is installed
-```
+We have `fff-mcp`, a fast and token-efficient search server.
+For any file search or grep in the current git-indexed directory, use fff tools.
+For details, run `fff-mcp --help`.
