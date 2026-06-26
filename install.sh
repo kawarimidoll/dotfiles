@@ -37,6 +37,15 @@ DIALOG="
 has() {
   type "$1" > /dev/null 2>&1
 }
+# bootstrap 用 git ラッパー: ローカル git が無ければ nix 経由で実行する
+# (公式インストーラの nix は nix-command/flakes が無効なため明示的に有効化する)
+git_cmd() {
+  if has git; then
+    git "$@"
+  else
+    nix --extra-experimental-features "nix-command flakes" run nixpkgs#git -- "$@"
+  fi
+}
 die() {
   echo "$1"
   echo "  terminated."
@@ -46,6 +55,17 @@ die_if_error() {
   if [ $? -ne 0 ]; then
     die "Error occurred during $1"
   fi
+}
+# nix 未導入なら公式インストーラで導入し、現在のシェルに反映する
+# (setup の home-manager switch で git 等がグローバルに入るまでの bootstrap 用)
+ensure_nix() {
+  has nix && return
+  echo "  installing nix (official installer)..."
+  sh <(curl -L https://nixos.org/nix/install) --daemon
+  die_if_error "nix install"
+  nix_profile="/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
+  [ -e "$nix_profile" ] && . "$nix_profile"
+  has nix || die "nix is required."
 }
 
 OS='unknown'
@@ -61,29 +81,16 @@ download_dotfiles() {
   if [ -d "$DOT_DIR" ]; then
     echo "$DOT_DIR is already exist"
   else
-    if has "git"; then
-      git clone --recursive "$GITHUB_URL" "$DOT_DIR"
-      die_if_error "git clone"
-    elif has "curl" || has "wget"; then
-      local tarball_url="${GITHUB_URL}/archive/master.tar.gz"
-      if has "curl"; then
-        curl -L "$tarball_url"
-      else
-        wget -O - "$tarball_url"
-      fi | tar xv
-      die_if_error "download and extract"
-      mv -f dotfiles-master "$DOT_DIR"
-      die_if_error "move directory"
-    else
-      die "cannot download dotfiles."
-    fi
+    git_cmd clone --recursive "$GITHUB_URL" "$DOT_DIR"
+    die_if_error "git clone"
   fi
 }
 
 link_dotfiles() {
   cd "$DOT_DIR" || die "cannot cd to $DOT_DIR"
   local skipped_files=()
-  for f in $( (git ls-files; git untracked) | grep -E '^\.' | grep -vE 'deprecated|\.git')
+  # untracked は .config/git/config のエイリアス。bootstrap 時は効かないため直接展開する
+  for f in $( (git_cmd ls-files; git_cmd ls-files --others --exclude-standard) | grep -E '^\.' | grep -vE 'deprecated|\.git')
   do
     mkdir -p "$HOME/$(dirname "$f")"
     die_if_error "create directory $f"
@@ -110,6 +117,12 @@ link_dotfiles() {
 
 echo "$LOGO" "$DIALOG"
 read -r selection
+
+# download / link は git を使うため、先に nix を保証する
+if [[ "$selection" = *"a"* ]] || [[ "$selection" = *"d"* ]] || [[ "$selection" = *"l"* ]]; then
+  ensure_nix
+fi
+
 if [[ "$selection" = *"a"* ]] || [[ "$selection" = *"d"* ]]; then
   echo "  begin download dotfiles."
   download_dotfiles
