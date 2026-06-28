@@ -26,7 +26,6 @@ in
         pkg:
         builtins.elem (lib.getName pkg) [
           "claude-code"
-          "coderabbit-cli"
           "copilot-cli"
         ];
     };
@@ -66,72 +65,45 @@ in
         version-lsp
         kakehashi
 
-        llm-agents.agent-browser
-        llm-agents.coderabbit-cli
         llm-agents.codex
         llm-agents.copilot-cli
         llm-agents.copilot-language-server
-        llm-agents.happy-coder
-        llm-agents.rtk
-        llm-agents.spec-kit
 
         nur.fff-mcp
         nur.ghost
         nur.jsmigemo
-        nur.lolcrab
         nur.plamo-translate
         nur.rustmigemo
         nur.rxpipes
         nur.stormy
+        nur.zmx
 
-        act
-        ad
-        asciiquarium
+        act3
+        agent-browser
         # ast-grep
-        astroterm
-        atuin
+        # atuin
         bash-language-server
         beautysh
         binutils
-        blesh
         bottom
-        broot
-        buf
         carl
-        cbonsai
-        cfonts
-        chawan
-        clang-tools # clang-format
-        cmatrix
         container # apple-container
-        # coreutils
         clock-rs
         croc
-        csview
-        csvlens
-        csvq
         curl
         delta
         deno
         diff-so-fancy
         diffnav
-        # diffutils
-        dnsmasq
-        doxx
         dprint
         dust
         efm-langserver
         emmylua-check
         emmylua-ls
-        erlang_27
-        evans
         ffmpeg_7
         findutils
-        figlet
-        fx
         gawk
         gemini-cli
-        genact
         ghq
         gifsicle
         git
@@ -142,8 +114,8 @@ in
         git-recent
         git-trim
         git-workspace
+        gitleaks
         gleam
-        globe-cli
         glsl_analyzer
         glslang
         gnugrep
@@ -152,9 +124,7 @@ in
         gnused
         gnutar
         go
-        gonzo
         gopls
-        graphqurl
         grex
         grpcui
         grpcurl
@@ -163,19 +133,12 @@ in
         highlight
         hyperfine
         imagemagick
-        # intelli-shell
-        jid
-        jnv
         jq
-        jqp
         just
         just-lsp
         kew
-        lavat
         lazydocker
         lazygit
-        lazyssh
-        libcaca
         libsixel
         libwebp
         lnav
@@ -190,7 +153,6 @@ in
         moreutils
         nano
         nb
-        neo
         neovim # nightly
         # nono
         nh
@@ -238,18 +200,16 @@ in
         termsnap
         termsvg
         # termusic
+        tirith
         tokei
         tombi
         treefmt
-        ttyper
-        tuios
         typescript-go
         typos-lsp
         tz
         unixtools.procps # watch ps sysctl top
         unzip
         upterm
-        # usql
         uutils-coreutils-noprefix
         uutils-diffutils
         uv
@@ -261,20 +221,11 @@ in
         wget
         wtfutil
         xh
-        xleak
         xplr
-        yarn
         yazi
         zig
-        # zls
 
         zsh
-
-        pokemonsay
-        kittysay
-
-        # jj-fzf
-        # jjui
 
         hackgen-nf-font
         moralerspace
@@ -283,12 +234,6 @@ in
         noto-fonts-color-emoji
         twitter-color-emoji
         udev-gothic-nf
-
-        # emacs
-        # gg-jj
-        # lazyjj
-        # oxker
-        # rmw
       ];
   };
 
