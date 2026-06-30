@@ -81,6 +81,15 @@ const EIGHT_BITDO_ZERO2 = {
   is_keyboard: true,
 } as const satisfies k.DeviceIdentifier;
 
+// 8BitDo Micro (No manufacturer name) in keyboard mode.
+// vendor 0x2dc8 / product 0x9021. Each button emits a hardware-fixed letter:
+//   A:g B:j X:h Y:i R1:m L1:k R2:r L2:l ↑:c ↓:d ←:e →:f Plus:o Minus:n Star:s
+const EIGHT_BITDO_MICRO = {
+  product_id: 36897,
+  vendor_id: 11720,
+  is_keyboard: true,
+} as const satisfies k.DeviceIdentifier;
+
 // const LUNAKEY_PICO = {
 //   product_id: 3,
 //   vendor_id: 22868,
@@ -350,6 +359,65 @@ k.writeToProfile(profileName, [
       n: "end", // Select
     }),
   ),
+
+  // 8BitDo Micro: same letter-emitting layout as the Zero 2 plus R2(r), L2(l)
+  // and Star(s). App-specific overrides come BEFORE the base rule so they win;
+  // unlisted buttons fall back to base.
+  k.rule(
+    "8BitDo Micro in Anki",
+    k.ifApp(["^net\\.ankiweb\\.dtop$", "^net\\.ankiweb\\.launcher$"]),
+    k.ifDevice(EIGHT_BITDO_MICRO),
+  ).manipulators(
+    gamepadMap({
+      g: "⏎", // A
+      j: "2", // B
+      h: "1", // X
+      i: "d", // Y
+      m: "u", // R1
+      k: "y", // L1
+      o: "s", // Plus
+    }),
+  ),
+
+  k.rule(
+    "8BitDo Micro in Ghostty",
+    k.ifApp("^com\\.mitchellh\\.ghostty$"),
+    k.ifDevice(EIGHT_BITDO_MICRO),
+  ).manipulators(
+    gamepadMap({
+      g: "⏎", // A
+      j: "⎋", // B
+      h: "⌫", // X → backspace
+      m: ["⇥", "l⌃"], // R1 → ⌃⇥
+      k: ["⇥", "l⌃⇧"], // L1 → ⌃⇧⇥
+      o: ["-", "l⌃⇧"], // Plus → ⌃⇧-
+      n: ["v", "l⌘⌥⌃⇧"], // Minus → ⌘⌃⌥⇧v
+    }),
+  ),
+
+  // Base mapping: each button emits the key printed on it.
+  k.rule(
+    "8BitDo Micro buttons to printed labels",
+    k.ifDevice(EIGHT_BITDO_MICRO),
+  ).manipulators(
+    gamepadMap({
+      g: "a", // A
+      j: "b", // B
+      h: "x", // X
+      i: "y", // Y
+      m: "r", // R1
+      k: "l", // L1
+      r: "v", // R2
+      l: "w", // L2
+      c: "↑",
+      d: "↓",
+      e: "←",
+      f: "→",
+      o: ["=", "⇧"], // Plus → +
+      n: "-", // Minus → -
+      s: "s", // Star
+    }),
+  ),
 ]);
 
 // ここからはsimple_modificationsの設定 独自追加
@@ -396,6 +464,13 @@ applySimpleModifications(
 applySimpleModifications(
   profile,
   EIGHT_BITDO_ZERO2,
+  [],
+);
+// 8BitDo Micro is likewise fully handled by the complex modifications above;
+// clear any device-level simple_modifications so they don't conflict.
+applySimpleModifications(
+  profile,
+  EIGHT_BITDO_MICRO,
   [],
 );
 
