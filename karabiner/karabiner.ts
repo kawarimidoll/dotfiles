@@ -307,9 +307,14 @@ k.writeToProfile(profileName, [
   // win (first matching manipulator wins); unlisted buttons fall back to base.
   k.rule(
     "8BitDo Zero 2 in Anki",
-    // Anki's frontmost bundle id varies by version (classic vs. launcher);
-    // match both. Confirm via Karabiner EventViewer if it ever stops matching.
-    k.ifApp(["^net\\.ankiweb\\.dtop$", "^net\\.ankiweb\\.launcher$"]),
+    // Anki's frontmost bundle id varies by version (classic net.ankiweb.dtop,
+    // launcher net.ankiweb.launcher, current net.ankiweb.anki); list each one
+    // explicitly. Confirm via Karabiner EventViewer if it ever stops matching.
+    k.ifApp([
+      "^net\\.ankiweb\\.dtop$",
+      "^net\\.ankiweb\\.launcher$",
+      "^net\\.ankiweb\\.anki$",
+    ]),
     k.ifDevice(EIGHT_BITDO_ZERO2),
   ).manipulators(
     gamepadMap({
@@ -365,7 +370,12 @@ k.writeToProfile(profileName, [
   // unlisted buttons fall back to base.
   k.rule(
     "8BitDo Micro in Anki",
-    k.ifApp(["^net\\.ankiweb\\.dtop$", "^net\\.ankiweb\\.launcher$"]),
+    // See the Zero 2 rule above for the Anki bundle-id list.
+    k.ifApp([
+      "^net\\.ankiweb\\.dtop$",
+      "^net\\.ankiweb\\.launcher$",
+      "^net\\.ankiweb\\.anki$",
+    ]),
     k.ifDevice(EIGHT_BITDO_MICRO),
   ).manipulators(
     gamepadMap({
