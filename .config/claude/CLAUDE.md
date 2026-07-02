@@ -67,6 +67,12 @@ agent-browser open <url> --args "--no-sandbox"
 - Commit rewriting (fixup, rebase, squash) → use `rebaser` agent.
 - Commit message rewriting (reword) → use `reworder` agent.
 
+## Shell environment
+
+- `coreutils` is uutils (GNU-style), not BSD/macOS. BSD-only flags fail.
+  - Use `stat -c '%a %U %n'` (BSD `stat -f '%Sf...'` fails).
+  - Do not pass BSD-only flags to `ls` (e.g. `-O`).
+
 ## File Search
 
 We have `fff-mcp`, a fast and token-efficient search server.
