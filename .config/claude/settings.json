@@ -112,15 +112,6 @@
             "command": "guard-and-guide"
           }
         ]
-      },
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.nix-profile/libexec/rtk/hooks/claude/rtk-rewrite.sh"
-          }
-        ]
       }
     ]
   },
@@ -135,16 +126,18 @@
     "feature-dev@claude-plugins-official": true,
     "frontend-design@claude-plugins-official": true,
     "playground@claude-plugins-official": true,
-    "pr-review-toolkit@claude-plugins-official": true
+    "pr-review-toolkit@claude-plugins-official": true,
+    "swift-lsp@claude-plugins-official": true
   },
   "viewMode": "focus",
   "language": "japanese",
   "alwaysThinkingEnabled": true,
   "effortLevel": "xhigh",
+  "advisorModel": "opus",
   "autoUpdatesChannel": "stable",
   "skipDangerousModePermissionPrompt": true,
+  "theme": "auto",
+  "verbose": true,
   "showTurnDuration": true,
-  "skipAutoPermissionPrompt": true,
-  "theme": "light-daltonized",
-  "verbose": true
+  "skipAutoPermissionPrompt": true
 }
