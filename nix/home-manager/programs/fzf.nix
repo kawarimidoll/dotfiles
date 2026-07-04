@@ -10,12 +10,16 @@
       "--border"
     ];
 
-    fileWidgetCommand = "fffe -f";
-    fileWidgetOptions = [ "--preview 'bat --line-range :30 {}'" ];
+    fileWidget = {
+      command = "fffe -f";
+      options = [ "--preview 'bat --line-range :30 {}'" ];
+    };
 
-    changeDirWidgetCommand = "fd --type d";
-    changeDirWidgetOptions = [ "--preview 'tree {} | head -30'" ];
+    changeDirWidget = {
+      command = "fd --type d";
+      options = [ "--preview 'tree {} | head -30'" ];
+    };
 
-    historyWidgetOptions = [ "--reverse" ];
+    historyWidget.options = [ "--reverse" ];
   };
 }
