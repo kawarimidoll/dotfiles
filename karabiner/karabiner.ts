@@ -385,6 +385,8 @@ k.writeToProfile(profileName, [
       i: "d", // Y
       m: "u", // R1
       k: "y", // L1
+      r: ["1", "l⌘"], // R2 → ⌘1
+      l: ["d", "l⌘⇧"], // L2 → ⌘⇧d
       o: "s", // Plus
     }),
   ),
