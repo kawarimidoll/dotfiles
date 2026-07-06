@@ -147,6 +147,27 @@
     let
       system = "aarch64-darwin";
       pkgs = import nixpkgs { inherit system; };
+      # neovim-nightly は flake update で最新コミット(= CI の cachix push 前)を掴むと
+      # ローカルビルドになる。aarch64-darwin もキャッシュ対象だが数コミット分ラグがある。
+      # nix-community.cachix.org に実在する最新コミットを探して pin し、常に「最新の cache」を使う。
+      pinNeovim = ''
+        echo "Pinning neovim-nightly to latest cached build..."
+        nvim_rev=""
+        revs=$(${pkgs.gh}/bin/gh api "repos/nix-community/neovim-nightly-overlay/commits?per_page=20" --jq '.[].sha' 2>/dev/null || true)
+        for rev in $revs; do
+          out=$(nix eval --raw "github:nix-community/neovim-nightly-overlay/$rev#packages.${system}.default.outPath" 2>/dev/null) || continue
+          if nix path-info --store https://nix-community.cachix.org "$out" >/dev/null 2>&1; then
+            nvim_rev="$rev"
+            break
+          fi
+        done
+        if [ -n "$nvim_rev" ]; then
+          echo "  neovim-nightly -> $nvim_rev (cached)"
+          nix flake lock --override-input neovim-nightly-overlay "github:nix-community/neovim-nightly-overlay/$nvim_rev"
+        else
+          echo "  no cached neovim-nightly found in recent commits; keeping latest (local build)"
+        fi
+      '';
     in
     {
       apps.${system} = {
@@ -157,6 +178,7 @@
               set -e
               echo "Updating flake..."
               nix flake update
+              ${pinNeovim}
               echo "Updating home-manager..."
               nix run nixpkgs#home-manager -- switch --flake .#myHomeConfig
               echo "Updating nix-darwin..."
@@ -173,6 +195,7 @@
               set -e
               echo "Updating flake..."
               nix flake update
+              ${pinNeovim}
               echo "Updating home-manager..."
               nix run nixpkgs#home-manager -- switch --flake .#myHomeConfig
               echo "Update complete!"
