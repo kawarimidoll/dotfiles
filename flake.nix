@@ -179,10 +179,12 @@
               echo "Updating flake..."
               nix flake update
               ${pinNeovim}
-              echo "Updating home-manager..."
-              nix run nixpkgs#home-manager -- switch --flake .#myHomeConfig
+              # nix-darwin を先に。/etc/nix/nix.conf(substituters, trusted-users,
+              # max-jobs 等)を先に反映させ、home-manager のビルドがその設定下で走るようにする。
               echo "Updating nix-darwin..."
               nix run nix-darwin -- switch --flake .#kawarimidoll-darwin
+              echo "Updating home-manager..."
+              nix run nixpkgs#home-manager -- switch --flake .#myHomeConfig
               echo "Update complete!"
             ''
           );
