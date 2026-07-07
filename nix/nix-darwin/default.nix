@@ -19,6 +19,15 @@ in
     "/etc/ssl/cert.pem" # macOS system CA store
   ];
 
+  # unstable nixpkgs の nixos-render-docs が --toc-depth を廃止(→ --sidebar-depth)
+  # したが、現行 nix-darwin(最新 HEAD)が未追随で option manual のビルドが失敗する。
+  # 上流 nix-darwin が対応したら両方削除して戻す。
+  #   - documentation.enable: 自 system の darwin-help/manual を無効化
+  #   - darwin-uninstaller: 内部で別 darwin-system を評価し(docs 既定 on)同じ manual を
+  #     引き込むため無効化(why-depends で確認)
+  documentation.enable = false;
+  system.tools.darwin-uninstaller.enable = false;
+
   nix = {
     gc = {
       automatic = true;
