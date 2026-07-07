@@ -148,7 +148,12 @@ in
       in
       ''
         ${disableCmds}
-        # 再ログインせずにショートカット設定を反映する
+        # タップでクリック。com.apple.mouse.tapBehavior は ByHost(currentHost)設定で、
+        # nix-darwin の system.defaults は -currentHost を使わない(一般ドメインにしか
+        # 書けない)ため、UI トグルが読む currentHost 値をここで書く。
+        # trackpad.Clicking だけではこの値が 0 のままで有効にならない。
+        ${asUser} defaults -currentHost write -g com.apple.mouse.tapBehavior -int 1
+        # 再ログインせずに設定を反映する
         ${asUser} /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
         # メニューバー項目 (CustomUserPreferences の controlcenter 設定) を反映する
         ${asUser} killall ControlCenter || true
