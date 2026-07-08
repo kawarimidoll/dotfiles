@@ -3,10 +3,10 @@
     "arto": {
       "inputs": {
         "crane": [
-          "crane"
+          "arto-crane"
         ],
         "nixpkgs": [
-          "nixpkgs"
+          "arto-nixpkgs"
         ]
       },
       "locked": {
@@ -20,6 +20,38 @@
       "original": {
         "owner": "arto-app",
         "repo": "Arto",
+        "type": "github"
+      }
+    },
+    "arto-crane": {
+      "locked": {
+        "lastModified": 1781825982,
+        "narHash": "sha256-SlXKwIRIhrOSAcTjCB3ftPLzJWZStQIPS7J1FlZPnKk=",
+        "owner": "ipetkov",
+        "repo": "crane",
+        "rev": "469fd08d0bcf6926321fa973c6777fbc87785dd7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ipetkov",
+        "repo": "crane",
+        "rev": "469fd08d0bcf6926321fa973c6777fbc87785dd7",
+        "type": "github"
+      }
+    },
+    "arto-nixpkgs": {
+      "locked": {
+        "lastModified": 1782821651,
+        "narHash": "sha256-D5jO0ME1lA9bDHnd5kVawBwItG/N4oZr3FlXmMzLec8=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "e52c192be9d7b2c4bd4aed326c8731b35f8bb75c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "e52c192be9d7b2c4bd4aed326c8731b35f8bb75c",
         "type": "github"
       }
     },
@@ -611,6 +643,8 @@
     "root": {
       "inputs": {
         "arto": "arto",
+        "arto-crane": "arto-crane",
+        "arto-nixpkgs": "arto-nixpkgs",
         "bun2nix": "bun2nix",
         "cage": "cage",
         "crane": "crane",

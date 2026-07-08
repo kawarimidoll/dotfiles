@@ -88,10 +88,16 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.git-hooks.follows = "git-hooks";
     };
+    # arto は自前 nixpkgs+crane でビルドしたバイナリを arto.cachix.org に push している。
+    # follows=nixpkgs/crane だとハッシュがずれ Rust 部分が cache に当たらずローカルビルドに
+    # なるため、arto の CI と同じ rev に固定して follows させる。rev は nix run .#update{,-home}
+    # の pinArto が arto の flake.lock から自動同期する(下記 url は初期値)。
+    arto-nixpkgs.url = "github:NixOS/nixpkgs/e52c192be9d7b2c4bd4aed326c8731b35f8bb75c";
+    arto-crane.url = "github:ipetkov/crane/469fd08d0bcf6926321fa973c6777fbc87785dd7";
     arto = {
       url = "github:arto-app/Arto";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.crane.follows = "crane";
+      inputs.nixpkgs.follows = "arto-nixpkgs";
+      inputs.crane.follows = "arto-crane";
     };
     version-lsp = {
       url = "github:skanehira/version-lsp";
@@ -168,6 +174,30 @@
           echo "  no cached neovim-nightly found in recent commits; keeping latest (local build)"
         fi
       '';
+      # arto-nixpkgs/arto-crane を arto 自身の flake.lock の rev に同期し、arto を CI と同一
+      # ハッシュ = arto.cachix.org のキャッシュ経由でビルドさせる(Rust 部分のローカルビルド回避)。
+      pinArto = ''
+        echo "Pinning arto nixpkgs/crane to arto's own lock (for arto.cachix.org)..."
+        arto_src=$(nix eval --raw --impure --expr 'let f = builtins.getFlake (builtins.toString ./.); in f.inputs.arto.outPath' 2>/dev/null || true)
+        lock="$arto_src/flake.lock"
+        if [ -n "$arto_src" ] && [ -f "$lock" ]; then
+          np_node=$(${pkgs.jq}/bin/jq -r '.nodes[.root].inputs.nixpkgs' "$lock")
+          np_rev=$(${pkgs.jq}/bin/jq -r --arg n "$np_node" '.nodes[$n].locked.rev' "$lock")
+          cr_node=$(${pkgs.jq}/bin/jq -r '.nodes[.root].inputs.crane' "$lock")
+          cr_rev=$(${pkgs.jq}/bin/jq -r --arg n "$cr_node" '.nodes[$n].locked.rev' "$lock")
+          if [ -n "$np_rev" ] && [ "$np_rev" != null ] && [ -n "$cr_rev" ] && [ "$cr_rev" != null ]; then
+            echo "  arto-nixpkgs -> $np_rev"
+            echo "  arto-crane   -> $cr_rev"
+            nix flake lock \
+              --override-input arto-nixpkgs "github:NixOS/nixpkgs/$np_rev" \
+              --override-input arto-crane "github:ipetkov/crane/$cr_rev"
+          else
+            echo "  could not read arto lock revs; keeping current pins"
+          fi
+        else
+          echo "  arto source not found; keeping current pins"
+        fi
+      '';
     in
     {
       apps.${system} = {
@@ -179,6 +209,7 @@
               echo "Updating flake..."
               nix flake update
               ${pinNeovim}
+              ${pinArto}
               # nix-darwin を先に。/etc/nix/nix.conf(substituters, trusted-users,
               # max-jobs 等)を先に反映させ、home-manager のビルドがその設定下で走るようにする。
               echo "Updating nix-darwin..."
@@ -198,6 +229,7 @@
               echo "Updating flake..."
               nix flake update
               ${pinNeovim}
+              ${pinArto}
               echo "Updating home-manager..."
               nix run nixpkgs#home-manager -- switch --flake .#myHomeConfig
               echo "Update complete!"
