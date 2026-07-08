@@ -54,6 +54,9 @@ in
         hjkls = inputs.hjkls.packages.${system}.default;
         nur = inputs.nur-packages.packages.${system};
         llm-agents = inputs.llm-agents.packages.${system};
+        # unstableでビルド不可になった場合の修正用
+        # stablePkgs.appの形式で呼ぶことでビルドできるようにする
+        # stablePkgs = inputs.nixpkgs-stable.legacyPackages.${system};
       in
       with pkgs;
       [
@@ -89,7 +92,6 @@ in
         carl
         container # apple-container
         clock-rs
-        croc
         curl
         delta
         deno
@@ -168,7 +170,6 @@ in
         ollama
         ov
         pnpm
-        posting
         presenterm
         procs
         qrtool
