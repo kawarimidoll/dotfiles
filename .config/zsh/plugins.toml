@@ -107,3 +107,13 @@ apply = ['defer']
 hooks.post = '''
 zsh-defer compdef _ha ha
 '''
+
+[plugins.tirith]
+# accept-line/bracketed-paste ウィジェットを上書きして
+# コマンド実行・ペースト前に危険な URL・パイプを検査する。
+# 他のbracketed-pasteを再ラップするプラグインより「後」にロードしないと、
+# tirithのウィジェットがorphan化し、"No such widget" 警告が出る。
+# そのため全プラグインの末尾に置き、遅延キューの最後尾で読む。
+inline = '''
+command -v tirith >/dev/null && zsh-defer eval_source tirith init --shell zsh
+'''
