@@ -1,6 +1,8 @@
 #!/bin/bash
 # homebrew update script
 
+BREWFILE="$(dirname "$0")/Brewfile"
+
 set -ex
 
 date -Iseconds
@@ -14,6 +16,6 @@ brew cleanup -s
 {
   date "+# timestamp: %F %T %Z"
   brew bundle dump --no-vscode --no-go --no-cargo --no-flatpak --no-uv --no-describe --file=-
-} > "$(dirname "$0")/Brewfile"
-wc -l "$(dirname "$0")/Brewfile"
+} > "$BREWFILE"
+wc -l "$BREWFILE"
 echo 'done.'
