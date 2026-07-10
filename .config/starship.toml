@@ -3,6 +3,13 @@
 command = "echo Vim"
 when = """ test -n "$VIMRUNTIME" """
 
+# zmx セッション内では $ZMX_SESSION が設定される。セッション名をプロンプトに表示。
+[custom.zmx]
+command = "echo $ZMX_SESSION"
+when = """ test -n "$ZMX_SESSION" """
+format = "[󰆍 $output]($style) "
+style = "bold purple"
+
 [custom.svelte]
 # https://zenn.dev/kawarimidoll/articles/523a6b2446ef09
 command = """

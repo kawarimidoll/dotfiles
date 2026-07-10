@@ -338,4 +338,49 @@ browse() {
   esac
 }
 
+# cwd(git repo ならそのルート)から一意で短い zmx セッション名を導出。
+# 例: ~/dotfiles → dotfiles / ~/ghq/github.com/foo/bar → foo-bar
+# session 名はソケットのファイル名になるため /(スラッシュ)不可 → - に置換。
+__zmx_session_name() {
+  local dir
+  dir=$(git -C "${1:-$PWD}" rev-parse --show-toplevel 2>/dev/null || printf '%s' "${1:-$PWD}")
+  dir=${dir#"$HOME"/}          # /Users/kawarimidoll/ を除去
+  dir=${dir#ghq/github.com/}   # ghq/github.com/ を除去
+  dir=${dir#/}                 # 先頭の / を除去(home外の絶対パスで先頭-を防ぐ)
+  printf '%s' "${dir//\//-}"   # 残りの / を - に
+}
+
+# zmx セッションを fzf で選んで attach。一覧に無い名前を入力すればそのまま新規作成。
+# 引数なしなら cwd 由来の名前を初期クエリに入れる。
+# 選択=そのセッション / 未マッチのクエリ=新規作成 / ESC=何もしない (bash/zsh 共通)
+zmf() {
+  local out
+  out=$(zmx list --short 2>/dev/null | fzf \
+    --no-multi --print-query --query "${1:-$(__zmx_session_name)}" \
+    --prompt 'zmx> ' \
+    --header 'Enter: attach / New name: create / Esc: cancel' --header-first \
+    --preview 'zmx history {} 2>/dev/null | tail -200')
+  case $? in 0|1) ;; *) return ;; esac  # 0=選択 / 1=新規クエリ / それ以外(ESC等)は中断
+  local name=${out##*$'\n'}
+  [[ -n "$name" ]] && zmx attach "$name"
+}
+
+# Claude Code を zmx portal モードで起動。全シェルコマンドを zmx run <session> 経由にさせ、
+# ユーザーは別ターミナルの `zmx attach <session>` で観察できる (skills/zmx と同じ指示を注入)。
+# 第1引数がセッション名(- 始まりでなければ)。省略時は cwd 由来名。残りは claude にそのまま渡す。
+zmc() {
+  local session
+  if [ -n "$1" ] && [ "${1#-}" = "$1" ]; then
+    session=$1; shift
+  else
+    session=$(__zmx_session_name)
+  fi
+  echo "zmx portal session: ${session}  (observe: zmx attach ${session})"
+  # 普段の `cage claude` と同じサンドボックスで起動 (cage が無ければ素の claude)。
+  # cage の auto-presets は command 名 claude で解決されるため presets はそのまま効く。
+  local -a runner=(claude)
+  command -v cage >/dev/null 2>&1 && runner=(cage claude)
+  "${runner[@]}" --append-system-prompt "Run ALL shell commands through zmx instead of locally, so the user can observe and audit them via 'zmx attach ${session}'. Use 'zmx run ${session} <cmd>' (synchronous: tails until the command exits and returns its exit code; pass the command unquoted, one at a time). For long-running processes such as dev servers or watchers, add -d so it does not block: 'zmx run ${session} -d <cmd>' (do not wait on it; observe via 'zmx tail ${session}'). Transfer files with 'cat <local> | zmx write ${session} <path>'. Do NOT run commands locally and do NOT use 'zmx attach' (that is for the user). Session name: ${session}." "$@"
+}
+
 PATH="${DOT_DIR}/bin:${PATH}"

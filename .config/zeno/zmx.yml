@@ -1,0 +1,13 @@
+# zmx セッション名の fuzzy 補完。session 名を引数に取るサブコマンドの直後で発火し、
+# `zmx list --short` の一覧から選択・挿入する。プレビューはそのセッションの履歴末尾。
+completions:
+  - name: zmx session name
+    patterns:
+      - "^zmx (?:a|attach|t|tail|k|kill|hi|history|w|wait|s|send|p|print|r|run|wr|write) $"
+    sourceCommand: "zmx list --short"
+    options:
+      --prompt: "'zmx session> '"
+      --height: 40%
+      --cycle: true
+      --preview: "zmx history {} 2>/dev/null | tail -200"
+      --preview-window: "down"

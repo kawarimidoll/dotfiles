@@ -58,6 +58,9 @@
       __source "$DOT_DIR/.config/bash/.bashrc"
       __source ~/.bashrc.local
 
+      # zmx completions (末尾で `complete` を自己登録するため source でOK)
+      command -v zmx >/dev/null && eval "$(zmx completions bash)"
+
       # Attach ble.sh after all other configurations
       [[ ! ''${BLE_VERSION-} ]] || ble-attach
     '';
