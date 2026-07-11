@@ -365,6 +365,10 @@ zmf() {
   [[ -n "$name" ]] && zmx attach "$name"
 }
 
+# cage サンドボックス下で claude を起動する際に注入する注意文 (zmc / cala 共有)。
+# write 制限を「自分では直せない境界」と認識させ、無駄な回避・リトライを防ぐ。
+__CAGE_SANDBOX_NOTE="You are running under the cage macOS sandbox: file writes are allowed only in the project directory, caches, and temp dirs. A write denial outside those is expected — do not retry with sudo/chmod or try to work around the sandbox; work within the writable paths."
+
 # Claude Code を zmx portal モードで起動。全シェルコマンドを zmx run <session> 経由にさせ、
 # ユーザーは別ターミナルの `zmx attach <session>` で観察できる (skills/zmx と同じ指示を注入)。
 # 第1引数がセッション名(- 始まりでなければ)。省略時は cwd 由来名。残りは claude にそのまま渡す。
@@ -376,11 +380,16 @@ zmc() {
     session=$(__zmx_session_name)
   fi
   echo "zmx portal session: ${session}  (observe: zmx attach ${session})"
+  local portal="Run ALL shell commands through zmx instead of locally, so the user can observe and audit them via 'zmx attach ${session}'. Use 'zmx run ${session} <cmd>' (synchronous: tails until the command exits and returns its exit code; pass the command unquoted, one at a time). For long-running processes such as dev servers or watchers, add -d so it does not block: 'zmx run ${session} -d <cmd>' (do not wait on it; observe via 'zmx tail ${session}'). Transfer files with 'cat <local> | zmx write ${session} <path>'. Do NOT run commands locally and do NOT use 'zmx attach' (that is for the user). Session name: ${session}."
   # 普段の `cage claude` と同じサンドボックスで起動 (cage が無ければ素の claude)。
-  # cage の auto-presets は command 名 claude で解決されるため presets はそのまま効く。
-  local -a runner=(claude)
-  command -v cage >/dev/null 2>&1 && runner=(cage claude)
-  "${runner[@]}" --append-system-prompt "Run ALL shell commands through zmx instead of locally, so the user can observe and audit them via 'zmx attach ${session}'. Use 'zmx run ${session} <cmd>' (synchronous: tails until the command exits and returns its exit code; pass the command unquoted, one at a time). For long-running processes such as dev servers or watchers, add -d so it does not block: 'zmx run ${session} -d <cmd>' (do not wait on it; observe via 'zmx tail ${session}'). Transfer files with 'cat <local> | zmx write ${session} <path>'. Do NOT run commands locally and do NOT use 'zmx attach' (that is for the user). Session name: ${session}." "$@"
+  # cage の auto-presets は command 名 claude で解決される。cage 時はサンドボックス注意文も注入。
+  if command -v cage >/dev/null 2>&1; then
+    cage claude --append-system-prompt "${__CAGE_SANDBOX_NOTE}
+
+${portal}" "$@"
+  else
+    claude --append-system-prompt "${portal}" "$@"
+  fi
 }
 
 PATH="${DOT_DIR}/bin:${PATH}"

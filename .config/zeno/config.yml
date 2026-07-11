@@ -48,7 +48,7 @@ snippets:
     snippet: pbpaste | plamo-translate
 
   - keyword: cala
-    snippet: cage claude
+    snippet: 'cage claude --append-system-prompt "${__CAGE_SANDBOX_NOTE}"'
 
   - keyword: caha
     snippet: cage happy
