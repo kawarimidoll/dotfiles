@@ -7,8 +7,18 @@ shell = 'zsh'
 github = 'romkatv/zsh-defer'
 hooks.post = '''
 FPATH="$HOME/.docker/completions:$FPATH"
+
+# zsh-defer は既定で各遅延タスク後に precmd フック(m)と reset-prompt(p) を毎回走らせる。
+# starship(静的プロンプト)ではこれが無駄で、direnv フック再実行や starship 再描画が
+# 遅延タスク数(約20)ぶん積み重なり、起動直後に約0.8秒 入力をブロックしていた(zprof 実測)。
+# 以降の全 zsh-defer 呼び出しで m/p を無効化。s/z(autosuggest/highlight の無効化)は残す。
+(( $+functions[_zsh-defer-orig] )) || functions[_zsh-defer-orig]=$functions[zsh-defer]
+zsh-defer() { _zsh-defer-orig -mp "$@" }
 zsh-defer autoload -Uz compinit
-zsh-defer compinit
+# -C: skip compaudit (fpath security scan, ~300ms every shell) and dump staleness
+# check; load the existing dump as-is. After installing new completions, run
+# `rm ~/.config/zsh/.zcompdump` (or `compinit` manually) to regenerate.
+zsh-defer compinit -C
 zsh-defer source $ZSHRC_DIR/lazy.zsh
 '''
 
