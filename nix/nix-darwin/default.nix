@@ -195,6 +195,8 @@ in
           Battery = 24;
           WiFi = 24;
         };
+        # ネットワーク共有 (SMB/AFP) 上に .DS_Store を書き込まない
+        "com.apple.desktopservices".DSDontWriteNetworkStores = true;
       };
     };
   };
