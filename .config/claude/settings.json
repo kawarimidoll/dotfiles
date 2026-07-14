@@ -101,6 +101,58 @@
             "command": "~/dotfiles/.config/claude/hooks/notification.sh"
           }
         ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude"
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude",
+            "timeout": 86400
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude"
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "matcher": "auto",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude"
+          }
+        ]
+      },
+      {
+        "matcher": "manual",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude"
+          }
+        ]
       }
     ],
     "PreToolUse": [
@@ -110,6 +162,65 @@
           {
             "type": "command",
             "command": "guard-and-guide"
+          }
+        ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude"
           }
         ]
       }
