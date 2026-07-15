@@ -73,6 +73,19 @@ agent-browser open <url> --args "--no-sandbox"
   - Use `stat -c '%a %U %n'` (BSD `stat -f '%Sf...'` fails).
   - Do not pass BSD-only flags to `ls` (e.g. `-O`).
 
+## Long-running processes (zmx)
+
+- Run long-running processes (dev servers, watchers, port-forwards) through
+  `zmx`, not native background bash, so they persist and the user can attach to
+  observe them. Only when `zmx` is on PATH; otherwise fall back to background
+  bash.
+- Session name: git repo root basename (cwd basename if not a repo). Run
+  `zmx list` first and pick a non-colliding name. Start detached with
+  `zmx run <name> -d <cmd>`; follow output via `zmx tail <name>`.
+- Tell the user the session name and `zmx attach <name>` so they can watch.
+- Quick/one-shot commands (git, ls, build) run locally — do NOT route them
+  through zmx.
+
 ## File Search
 
 We have `fff-mcp`, a fast and token-efficient search server.
