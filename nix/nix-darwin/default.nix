@@ -210,20 +210,4 @@ in
       KeepAlive = true;
     };
   };
-
-  homebrew = {
-    enable = true;
-    onActivation = {
-      autoUpdate = true;
-
-      # dangerous option!!!
-      # cleanup = "uninstall";
-    };
-    brews = [
-      "pinentry-mac"
-    ];
-    casks = [
-      # "sublime-text"
-    ];
-  };
 }
