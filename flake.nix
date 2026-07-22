@@ -201,6 +201,7 @@
     in
     {
       apps.${system} = {
+        # lock 更新のみ(cache pin も適用)。反映は switch-* を明示的に叩く。
         update = {
           type = "app";
           program = toString (
@@ -210,42 +211,32 @@
               nix flake update
               ${pinNeovim}
               ${pinArto}
-              # nix-darwin を先に。/etc/nix/nix.conf(substituters, trusted-users,
-              # max-jobs 等)を先に反映させ、home-manager のビルドがその設定下で走るようにする。
-              echo "Updating nix-darwin..."
-              nix run nix-darwin -- switch --flake .#kawarimidoll-darwin
-              echo "Updating home-manager..."
-              nix run nixpkgs#home-manager -- switch --flake .#myHomeConfig
-              echo "Update complete!"
+              echo "flake.lock updated. Apply with: nix run .#switch-darwin && nix run .#switch-home"
             ''
           );
         };
 
-        update-home = {
+        # commit 済み lock をそのまま適用(update しない)。
+        switch-home = {
           type = "app";
           program = toString (
-            pkgs.writeShellScript "update-script" ''
+            pkgs.writeShellScript "switch-home" ''
               set -e
-              echo "Updating flake..."
-              nix flake update
-              ${pinNeovim}
-              ${pinArto}
-              echo "Updating home-manager..."
+              echo "Switching home-manager..."
               nix run nixpkgs#home-manager -- switch --flake .#myHomeConfig
-              echo "Update complete!"
+              echo "Done!"
             ''
           );
         };
-        update-darwin = {
+        # home より先に適用推奨(/etc/nix/nix.conf を反映してから home をビルドさせる)。
+        switch-darwin = {
           type = "app";
           program = toString (
-            pkgs.writeShellScript "update-script" ''
+            pkgs.writeShellScript "switch-darwin" ''
               set -e
-              echo "Updating flake..."
-              nix flake update
-              echo "Updating nix-darwin..."
+              echo "Switching nix-darwin..."
               sudo /run/current-system/sw/bin/darwin-rebuild switch --flake .#kawarimidoll-darwin
-              echo "Update complete!"
+              echo "Done!"
             ''
           );
         };
@@ -270,7 +261,5 @@
       };
     };
 }
-# update:
-#   nix run .#update (all)
-#   nix run .#update-home
-#   nix run .#update-darwin
+# update lock: nix run .#update
+# apply:       nix run .#switch-darwin && nix run .#switch-home
