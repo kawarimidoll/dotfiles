@@ -116,6 +116,26 @@
             "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude"
           }
         ]
+      },
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pixtuoid-hook"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" Notification",
+            "timeout": 5,
+            "async": true
+          }
+        ]
       }
     ],
     "PermissionRequest": [
@@ -139,6 +159,26 @@
             "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude"
           }
         ]
+      },
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pixtuoid-hook"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" PostToolUse",
+            "timeout": 5,
+            "async": true
+          }
+        ]
       }
     ],
     "PreCompact": [
@@ -157,6 +197,17 @@
           {
             "type": "command",
             "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" PreCompact",
+            "timeout": 5,
+            "async": true
           }
         ]
       }
@@ -179,6 +230,26 @@
             "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude"
           }
         ]
+      },
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pixtuoid-hook"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" PreToolUse",
+            "timeout": 5,
+            "async": true
+          }
+        ]
       }
     ],
     "SessionEnd": [
@@ -189,6 +260,26 @@
             "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude"
           }
         ]
+      },
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pixtuoid-hook"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" SessionEnd",
+            "timeout": 5,
+            "async": true
+          }
+        ]
       }
     ],
     "SessionStart": [
@@ -197,6 +288,26 @@
           {
             "type": "command",
             "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude"
+          }
+        ]
+      },
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pixtuoid-hook"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" SessionStart",
+            "timeout": 5,
+            "async": true
           }
         ]
       }
@@ -217,6 +328,17 @@
             "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude"
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" Stop",
+            "timeout": 5,
+            "async": true
+          }
+        ]
       }
     ],
     "SubagentStart": [
@@ -225,6 +347,26 @@
           {
             "type": "command",
             "command": "/Applications/Adrafinil.app/Contents/Helpers/adrafinil acquire --tool claude-code --subagent"
+          }
+        ]
+      },
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pixtuoid-hook"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" SubagentStart",
+            "timeout": 5,
+            "async": true
           }
         ]
       }
@@ -245,6 +387,26 @@
             "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude"
           }
         ]
+      },
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pixtuoid-hook"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" SubagentStop",
+            "timeout": 5,
+            "async": true
+          }
+        ]
       }
     ],
     "UserPromptSubmit": [
@@ -261,6 +423,69 @@
           {
             "type": "command",
             "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude"
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" UserPromptSubmit",
+            "timeout": 5,
+            "async": true
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" PostToolUseFailure",
+            "timeout": 5,
+            "async": true
+          }
+        ]
+      }
+    ],
+    "Elicitation": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" Elicitation",
+            "timeout": 5,
+            "async": true
+          }
+        ]
+      }
+    ],
+    "PostCompact": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" PostCompact",
+            "timeout": 5,
+            "async": true
+          }
+        ]
+      }
+    ],
+    "StopFailure": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" StopFailure",
+            "timeout": 5,
+            "async": true
           }
         ]
       }
