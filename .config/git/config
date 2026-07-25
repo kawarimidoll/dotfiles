@@ -134,7 +134,14 @@
 	blame = delta --pager='ov'
 	log = ov -F --section-delimiter '^commit' --section-header-num 3 --jump-target 'section'
 [credential "https://github.com"]
+	; system gitconfig の osxkeychain を打ち消す
+	; 先に応答されると古いキャッシュが返り gh の認証情報が使われない
+	helper =
 	helper = !gh auth git-credential
 [merge "mergiraf"]
 	name = mergiraf
 	driver = mergiraf merge --git %O %A %B -s %S -x %X -y %Y -p %P -l %L
+; 業務向け設定。ファイルが無ければ黙って無視される
+; credential の上書きを含むため credential セクションより後に置く
+[include]
+	path = config-local
