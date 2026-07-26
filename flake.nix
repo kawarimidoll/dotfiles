@@ -88,6 +88,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.git-hooks.follows = "git-hooks";
     };
+    agtlog = {
+      url = "github:motoki317/agtlog";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+      inputs.git-hooks.follows = "git-hooks";
+    };
     # arto は自前 nixpkgs+crane でビルドしたバイナリを arto.cachix.org に push している。
     # follows=nixpkgs/crane だとハッシュがずれ Rust 部分が cache に当たらずローカルビルドに
     # なるため、arto の CI と同じ rev に固定して follows させる。rev は nix run .#update{,-home}

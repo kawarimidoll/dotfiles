@@ -51,6 +51,7 @@ in
         version-lsp = inputs.version-lsp.packages.${system}.default;
         kakehashi = inputs.kakehashi.packages.${system}.default;
         guard-and-guide = inputs.guard-and-guide.packages.${system}.default;
+        agtlog = inputs.agtlog.packages.${system}.default;
         hjkls = inputs.hjkls.packages.${system}.default;
         nur = inputs.nur-packages.packages.${system};
         llm-agents = inputs.llm-agents.packages.${system};
@@ -64,6 +65,7 @@ in
         koi
         cage
         arto
+        agtlog
         hjkls
         version-lsp
         kakehashi
