@@ -519,7 +519,7 @@
   "language": "japanese",
   "alwaysThinkingEnabled": true,
   "effortLevel": "xhigh",
-  "advisorModel": "opus",
+  "advisorModel": "fable",
   "autoUpdatesChannel": "stable",
   "skipDangerousModePermissionPrompt": true,
   "theme": "auto",
