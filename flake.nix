@@ -88,6 +88,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.git-hooks.follows = "git-hooks";
     };
+    edgeneon = {
+      url = "github:kawarimidoll/edgeneon";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     agtlog = {
       url = "github:motoki317/agtlog";
       inputs.nixpkgs.follows = "nixpkgs";

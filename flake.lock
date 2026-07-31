@@ -154,6 +154,26 @@
         "type": "github"
       }
     },
+    "edgeneon": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1785403021,
+        "narHash": "sha256-x/P6LyOYEEjfTMGKlk6WnsianV3eKxgdbyfo4kkMAGA=",
+        "owner": "kawarimidoll",
+        "repo": "edgeneon",
+        "rev": "6ef31acee187b967e85d13b5c2827d451a8df9f5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "kawarimidoll",
+        "repo": "edgeneon",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -649,6 +669,7 @@
         "bun2nix": "bun2nix",
         "cage": "cage",
         "crane": "crane",
+        "edgeneon": "edgeneon",
         "flake-compat": "flake-compat",
         "flake-parts": "flake-parts",
         "flake-utils": "flake-utils",

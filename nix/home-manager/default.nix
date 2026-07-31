@@ -53,6 +53,7 @@ in
         guard-and-guide = inputs.guard-and-guide.packages.${system}.default;
         agtlog = inputs.agtlog.packages.${system}.default;
         hjkls = inputs.hjkls.packages.${system}.default;
+        edgeneon = inputs.edgeneon.packages.${system}.default;
         nur = inputs.nur-packages.packages.${system};
         llm-agents = inputs.llm-agents.packages.${system};
         # unstableでビルド不可になった場合の修正用
@@ -67,6 +68,7 @@ in
         arto
         agtlog
         hjkls
+        edgeneon
         version-lsp
         kakehashi
 
