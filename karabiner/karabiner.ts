@@ -265,6 +265,13 @@ k.writeToProfile(profileName, [
     ])),
   ]),
 
+  k.rule("Hyper+key to launch/focus apps").manipulators([
+    k.map("t", HYPER).to({ shell_command: 'open -a "Ghostty"' }),
+    k.map("s", HYPER).to({ shell_command: 'open -a "Slack"' }),
+    k.map("b", HYPER).to({ shell_command: 'open -a "Brave Browser"' }),
+    k.map("f", HYPER).to({ shell_command: 'open -a "Sheru"' }),
+  ]),
+
   k.rule(
     "⌘. to open current Finder directory in Ghostty",
     k.ifApp("^com\\.apple\\.finder$"),
