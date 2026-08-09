@@ -22,4 +22,7 @@
 
     historyWidget.options = [ "--reverse" ];
   };
+
+  # programs.fzf には対応するオプションがないため sessionVariables で設定する
+  home.sessionVariables.FZF_COMPLETION_TRIGGER = ",,";
 }
