@@ -34,18 +34,6 @@
 
     # Shell initialization
     initExtra = ''
-      # Ensure macOS native stty is used for ble.sh compatibility
-      # Temporarily prepend /bin to PATH so ble.sh uses native stty (issue #63)
-      _ble_init_saved_path=$PATH
-      export PATH="/bin:$PATH"
-
-      # Load ble.sh (Bash Line Editor)
-      source "$(blesh-share)"/ble.sh --noattach
-
-      # Restore original PATH
-      export PATH=$_ble_init_saved_path
-      unset _ble_init_saved_path
-
       # Helper function for safe sourcing
       __source() {
         [ -f "$1" ] && source "$1"
@@ -60,9 +48,6 @@
 
       # zmx completions (末尾で `complete` を自己登録するため source でOK)
       command -v zmx >/dev/null && eval "$(zmx completions bash)"
-
-      # Attach ble.sh after all other configurations
-      [[ ! ''${BLE_VERSION-} ]] || ble-attach
     '';
   };
 }

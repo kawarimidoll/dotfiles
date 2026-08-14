@@ -6,22 +6,11 @@ PROMPT_COMMAND='echo -ne "\033]0;${PWD/#$HOME/~}\007"'
 # Oneliners function with keybinding
 oneliners() {
   local oneliner=$(__get_oneliners) || return 1
-  READLINE_LINE="''${oneliner//__CURSOR__/}"
-  READLINE_POINT=''${#${oneliner%%__CURSOR__*}}
+  local prefix="${oneliner%%__CURSOR__*}"
+  READLINE_LINE="${oneliner//__CURSOR__/}"
+  READLINE_POINT=${#prefix}
 }
 bind -x '"^x":"oneliners"'
-
-# ghq + fzf でリポジトリに移動
-ghq-cd-widget() {
-  local dir
-  dir=$(ghq list | fzf --no-multi --exit-0 --preview="ls -FA1 $(ghq root)/{}")
-  if [ -n "$dir" ]; then
-    cd "$(ghq root)/$dir"
-    READLINE_LINE=""
-    READLINE_POINT=0
-  fi
-}
-bind -x '"\C-x\C-f": ghq-cd-widget'
 
 export SHELDON_CONFIG_DIR="$DOT_DIR/.config/bash"
 sheldon_cache="$SHELDON_CONFIG_DIR/sheldon.bash"
@@ -31,3 +20,11 @@ if [[ ! -r "$sheldon_cache" || "$sheldon_toml" -nt "$sheldon_cache" ]]; then
 fi
 source "$sheldon_cache"
 unset sheldon_cache sheldon_toml
+
+# flyline (readline 置き換え): nixpkgs にないため Homebrew から読み込む
+# flyline 下では readline の bind -x が効かないのでキーバインドを貼り直す
+flyline_lib="/opt/homebrew/lib/bash/flyline"
+if [[ -r "$flyline_lib" ]] && enable -f "$flyline_lib" flyline; then
+  flyline key bind Ctrl+x 'always=runBashCommand(oneliners)'
+fi
+unset flyline_lib
