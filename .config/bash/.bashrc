@@ -12,15 +12,6 @@ oneliners() {
 }
 bind -x '"^x":"oneliners"'
 
-export SHELDON_CONFIG_DIR="$DOT_DIR/.config/bash"
-sheldon_cache="$SHELDON_CONFIG_DIR/sheldon.bash"
-sheldon_toml="$SHELDON_CONFIG_DIR/plugins.toml"
-if [[ ! -r "$sheldon_cache" || "$sheldon_toml" -nt "$sheldon_cache" ]]; then
-  sheldon source > $sheldon_cache
-fi
-source "$sheldon_cache"
-unset sheldon_cache sheldon_toml
-
 # flyline (readline 置き換え): nixpkgs にないため Homebrew から読み込む
 # flyline 下では readline の bind -x が効かないのでキーバインドを貼り直す
 flyline_lib="/opt/homebrew/lib/bash/flyline"
