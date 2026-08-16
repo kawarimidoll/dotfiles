@@ -6,7 +6,7 @@
 }:
 let
   # sleepwatcher 代替の常駐バイナリ (github:kawarimidoll/neoki)
-  neoki = inputs.neoki.packages.${pkgs.system}.default;
+  neoki = inputs.neoki.packages.${pkgs.stdenv.hostPlatform.system}.default;
 in
 {
   # デフォルトの ca-bundle.crt は TRUSTED CERTIFICATE 形式(trust/reject属性付き)を
