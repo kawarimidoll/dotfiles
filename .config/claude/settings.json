@@ -20,7 +20,6 @@
       "Bash(* ~/.npmrc)",
       "Bash(* ~/.ssh/*)",
       "Bash(chmod 777:*)",
-      "Bash(curl *)",
       "Bash(do)",
       "Bash(find * -delete*)",
       "Bash(for)",
@@ -80,12 +79,9 @@
     ],
     "ask": [
       "Bash(curl:*)",
-      "Bash(git config:*)",
       "Bash(git push:*)",
       "Bash(git reset:*)",
-      "Bash(git restore:*)",
-      "Bash(git rm:*)",
-      "Bash(git switch:*)"
+      "Bash(git rm:*)"
     ],
     "defaultMode": "auto"
   },
