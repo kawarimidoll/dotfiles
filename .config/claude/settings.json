@@ -219,6 +219,15 @@
         ]
       },
       {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "TIRITH_BIN=\"$HOME/.nix-profile/bin/tirith\" python3 \"$HOME/.config/claude/hooks/tirith-check.py\""
+          }
+        ]
+      },
+      {
         "matcher": "*",
         "hooks": [
           {
