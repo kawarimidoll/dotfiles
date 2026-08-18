@@ -132,6 +132,15 @@
             "async": true
           }
         ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true"
+          }
+        ]
       }
     ],
     "PermissionRequest": [
@@ -151,6 +160,15 @@
           {
             "type": "command",
             "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' awaiting \"$PPID\" ctx"
+          }
+        ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true"
           }
         ]
       }
@@ -193,6 +211,15 @@
             "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' processing \"$PPID\""
           }
         ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true"
+          }
+        ]
       }
     ],
     "PreCompact": [
@@ -222,6 +249,15 @@
             "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" PreCompact",
             "timeout": 5,
             "async": true
+          }
+        ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true"
           }
         ]
       }
@@ -282,6 +318,15 @@
             "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' processing \"$PPID\""
           }
         ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true"
+          }
+        ]
       }
     ],
     "SessionEnd": [
@@ -310,6 +355,15 @@
             "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" SessionEnd",
             "timeout": 5,
             "async": true
+          }
+        ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true"
           }
         ]
       }
@@ -351,6 +405,15 @@
             "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' idle \"$PPID\""
           }
         ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true"
+          }
+        ]
       }
     ],
     "Stop": [
@@ -387,6 +450,15 @@
           {
             "type": "command",
             "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' idle \"$PPID\""
+          }
+        ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true"
           }
         ]
       }
@@ -457,6 +529,15 @@
             "async": true
           }
         ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true"
+          }
+        ]
       }
     ],
     "UserPromptSubmit": [
@@ -495,6 +576,15 @@
             "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' processing \"$PPID\""
           }
         ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true"
+          }
+        ]
       }
     ],
     "PostToolUseFailure": [
@@ -506,6 +596,15 @@
             "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" PostToolUseFailure",
             "timeout": 5,
             "async": true
+          }
+        ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true"
           }
         ]
       }
@@ -532,6 +631,15 @@
             "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" PostCompact",
             "timeout": 5,
             "async": true
+          }
+        ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true"
           }
         ]
       }
