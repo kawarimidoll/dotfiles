@@ -28,6 +28,7 @@ presets:
       - "$HOME/.agent-browser"
       - "$HOME/.browser-profile"
       - "$HOME/.codex"
+      - "$HOME/.local/state/sprout/"
       - ".serena"
 
   codex:
@@ -38,10 +39,6 @@ presets:
       - "$HOME/.codex"
       - ".serena"
 
-  happy:
-    allow:
-      - "$HOME/.happy"
-
 auto-presets:
   - command: claude
     presets:
@@ -49,14 +46,6 @@ auto-presets:
       - git-enabled
       - npm
       - claude-code
-
-  - command: happy
-    presets:
-      - base
-      - git-enabled
-      - npm
-      - claude-code
-      - happy
 
   - command: git
     presets:
