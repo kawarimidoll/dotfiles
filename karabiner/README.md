@@ -15,12 +15,8 @@ or watch build
 deno task watch
 ```
 
-The Hyper+arrow window placement rules call a compiled CLI (`window-resize`,
-gitignored). Build it once with:
-
-```bash
-deno task build-resizer
-```
+The Hyper+arrow window placement rules call [`magiwa`](../magiwa). Build it
+once with `magiwa/build.sh`.
 
 ## Ref
 

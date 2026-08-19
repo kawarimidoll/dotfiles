@@ -100,12 +100,12 @@ const APPLE_INTERNAL_KEYBOARD = {
   is_keyboard: true,
 } as const satisfies k.DeviceIdentifier;
 
-// Cycle the frontmost window through placements via the compiled CLI in this
-// repo (build: deno task build-resizer). It matches the window's current
-// frame against the placement rects to pick the next one, so a newly targeted
-// window always starts the cycle from placements[0] — no cycle state is kept
-// in karabiner variables.
-// Requires Accessibility permission for karabiner_console_user_server.
+// Cycle the frontmost window through placements via magiwa (build:
+// magiwa/build.sh). It matches the window's current frame against the
+// placement rects to pick the next one, so a newly targeted window always
+// starts the cycle from placements[0] — no cycle state is kept in karabiner
+// variables.
+// Magiwa.app holds its own Accessibility permission.
 type WindowAnchor = "left" | "center" | "right";
 // [anchor, w, h] ratios, optionally capped at [maxW, maxH] pixels
 type WindowPlacement =
@@ -113,7 +113,7 @@ type WindowPlacement =
   | [WindowAnchor, number, number, number, number];
 
 function windowCycle(placements: WindowPlacement[]): k.ToEvent {
-  const bin = "$HOME/dotfiles/karabiner/window-resize";
+  const bin = "$HOME/dotfiles/magiwa/Magiwa.app/Contents/MacOS/magiwa";
   const spec = placements
     .map(([anchor, w, h, maxW, maxH]) =>
       [

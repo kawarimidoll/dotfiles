@@ -259,6 +259,23 @@ in
     };
   };
 
+  # magiwa: 信号機ボタンの緑を「独立 Space 送り」から「現デスクトップで gap 付き
+  # 最大化」に差し替える常駐プロセス。実体は magiwa/build.sh でビルドする
+  # Magiwa.app（gitignore 済み）で、アクセシビリティ権限は初回に一度承認する。
+  launchd.agents.magiwa = {
+    enable = true;
+    config = {
+      ProgramArguments = [
+        "${config.home.homeDirectory}/dotfiles/magiwa/Magiwa.app/Contents/MacOS/magiwa"
+      ];
+      RunAtLoad = true;
+      # 権限が未承認でも magiwa 自身が待機するので、これはクラッシュ時の保険
+      KeepAlive = true;
+      ThrottleInterval = 60;
+      StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/magiwa.log";
+    };
+  };
+
   imports = [
     inputs.nix-index-database.homeModules.nix-index
     ./programs/bash.nix

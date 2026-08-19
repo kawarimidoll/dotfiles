@@ -1,0 +1,72 @@
+# magiwa
+
+間際 — the **間** (gap) between tiled windows and the **際** (edge) you drag them to.
+
+Window placement for macOS, in two modes sharing one gap model
+([`placement.swift`](placement.swift)):
+
+- **CLI** — cycle the frontmost window through placements. Driven by the
+  Hyper+arrow rules in [`../karabiner`](../karabiner).
+- **daemon** — the green button maximizes with a gap on the current desktop
+  instead of moving the window to its own Space. Click it again to restore.
+  The resize eases over ~0.18s; since each frame is a synchronous AX write, an
+  app that relayouts slowly will drop frames. Set `animationDuration` in
+  `main.swift` to 0 for a single instant write.
+
+The gap accounts for [JankyBorders](https://github.com/FelixKratz/JankyBorders)
+drawing a border astride each window frame, so the seam between two tiled
+windows *looks* the same width as the gap at the screen edge. Keep
+`BORDER_WIDTH` in sync with `~/.config/borders/bordersrc`.
+
+## Build
+
+```bash
+./build.sh   # → Magiwa.app (gitignored), runs the self-test, restarts the agent
+```
+
+## Permission
+
+Both modes need Accessibility. Add **Magiwa.app** in System Settings → Privacy
+& Security → Accessibility. The daemon polls every 2s, so it picks the grant up
+without a restart — it never prompts and never exits while waiting, because a
+launchd agent that exits on a missing grant gets restarted straight back into
+the same state, and each restart pops another focus-stealing dialog.
+
+**Magiwa is only ad-hoc signed, so every rebuild changes its cdhash and can
+invalidate the existing TCC record.** The symptom is unmistakable: System
+Settings still shows the checkbox on, but the daemon is denied anyway. Clear
+the stale record and add it again:
+
+```bash
+tccutil reset Accessibility com.kawarimidoll.magiwa
+```
+
+Signing with an Apple Development certificate instead would key the grant to
+Team ID + Bundle ID and survive rebuilds — `security find-identity -v -p codesigning`
+lists what is available.
+
+The CLI is spawned by Karabiner-Elements, which TCC likely treats as the
+responsible process, so `karabiner_console_user_server`'s existing grant should
+cover it. If the Hyper+arrow shortcuts stop working, approve Magiwa there too.
+
+## Usage
+
+```bash
+bin=Magiwa.app/Contents/MacOS/magiwa
+$bin "left,0.5,1;left,0.62,1"   # cycle the frontmost window
+$bin                            # run the daemon in the foreground
+$bin --selftest                 # check the gap math
+```
+
+The daemon normally runs from the launchd agent declared in
+`nix/home-manager/default.nix`, logging to `~/Library/Logs/magiwa.log`.
+`build.sh` restarts it, but after `launchctl bootout` it needs a bootstrap:
+
+```bash
+launchctl bootstrap gui/$UID ~/Library/LaunchAgents/org.nix-community.home.magiwa.plist
+launchctl kickstart -k gui/$UID/org.nix-community.home.magiwa   # just to restart
+```
+
+Placement syntax: `<anchor>,<wRatio>,<hRatio>[,<maxW>,<maxH>];...` where anchor
+is `left`, `center`, or `right`, and the optional pair caps the size in pixels.
+Vertical placement is always centered.

@@ -1,4 +1,4 @@
 wallpapers/*
 !wallpapers/README.md
-# compiled by `deno task build-resizer` in karabiner/
-karabiner/window-resize
+# built by magiwa/build.sh
+magiwa/Magiwa.app
