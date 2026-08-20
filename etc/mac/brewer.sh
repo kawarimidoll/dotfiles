@@ -15,7 +15,7 @@ brew cleanup -s
 
 {
   date "+# timestamp: %F %T %Z"
-  brew bundle dump --no-vscode --no-go --no-cargo --no-flatpak --no-uv --no-describe --file=-
+  brew bundle dump --no-vscode --no-go --no-cargo --no-flatpak --no-uv --no-npm --no-describe --file=-
 } > "$BREWFILE"
 wc -l "$BREWFILE"
 echo 'done.'
