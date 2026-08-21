@@ -1,0 +1,2 @@
+# 外部ツールが書き戻す整形の揺れを吸収する
+.config/claude/settings.json filter=jsonsort

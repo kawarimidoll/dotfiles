@@ -1,4 +1,20 @@
 {
+  "advisorModel": "fable",
+  "alwaysThinkingEnabled": true,
+  "autoUpdatesChannel": "stable",
+  "effortLevel": "xhigh",
+  "enabledPlugins": {
+    "agent-browser@agent-browser": true,
+    "code-review@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": true,
+    "context7@claude-plugins-official": true,
+    "feature-dev@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true,
+    "playground@claude-plugins-official": true,
+    "ponytail@ponytail": true,
+    "pr-review-toolkit@claude-plugins-official": true,
+    "swift-lsp@claude-plugins-official": true
+  },
   "env": {
     "CLAUDE_CODE_AUTO_CONNECT_IDE": "0",
     "CLAUDE_CODE_HIDE_ACCOUNT_INFO": "1",
@@ -9,8 +25,597 @@
     "EDITOR": "nvim -n +'set awa' +'startinsert'",
     "ENABLE_TOOL_SEARCH": "true"
   },
+  "extraKnownMarketplaces": {
+    "ponytail": {
+      "source": {
+        "repo": "DietrichGebert/ponytail",
+        "source": "github"
+      }
+    }
+  },
+  "hooks": {
+    "Elicitation": [
+      {
+        "hooks": [
+          {
+            "async": true,
+            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" Elicitation",
+            "timeout": 5,
+            "type": "command"
+          }
+        ],
+        "matcher": ""
+      }
+    ],
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "command": "~/dotfiles/.config/claude/hooks/notification.sh",
+            "type": "command"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "command": "/Applications/Adrafinil.app/Contents/Helpers/adrafinil release $CLAUDE_CODE_SESSION_ID --tool claude-code",
+            "type": "command"
+          }
+        ],
+        "matcher": "idle_prompt"
+      },
+      {
+        "hooks": [
+          {
+            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude",
+            "type": "command"
+          }
+        ],
+        "matcher": "*"
+      },
+      {
+        "hooks": [
+          {
+            "command": "pixtuoid-hook",
+            "type": "command"
+          }
+        ],
+        "matcher": ".*"
+      },
+      {
+        "hooks": [
+          {
+            "async": true,
+            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" Notification",
+            "timeout": 5,
+            "type": "command"
+          }
+        ],
+        "matcher": ""
+      },
+      {
+        "hooks": [
+          {
+            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true",
+            "type": "command"
+          }
+        ],
+        "matcher": "*"
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "hooks": [
+          {
+            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude",
+            "timeout": 86400,
+            "type": "command"
+          }
+        ],
+        "matcher": "*"
+      },
+      {
+        "_otty": true,
+        "hooks": [
+          {
+            "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' awaiting \"$PPID\" ctx",
+            "type": "command"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true",
+            "type": "command"
+          }
+        ],
+        "matcher": "*"
+      }
+    ],
+    "PostCompact": [
+      {
+        "hooks": [
+          {
+            "async": true,
+            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" PostCompact",
+            "timeout": 5,
+            "type": "command"
+          }
+        ],
+        "matcher": ""
+      },
+      {
+        "hooks": [
+          {
+            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true",
+            "type": "command"
+          }
+        ],
+        "matcher": "*"
+      }
+    ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude",
+            "type": "command"
+          }
+        ],
+        "matcher": "*"
+      },
+      {
+        "hooks": [
+          {
+            "command": "pixtuoid-hook",
+            "type": "command"
+          }
+        ],
+        "matcher": ".*"
+      },
+      {
+        "hooks": [
+          {
+            "async": true,
+            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" PostToolUse",
+            "timeout": 5,
+            "type": "command"
+          }
+        ],
+        "matcher": ""
+      },
+      {
+        "_otty": true,
+        "hooks": [
+          {
+            "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' processing \"$PPID\"",
+            "type": "command"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true",
+            "type": "command"
+          }
+        ],
+        "matcher": "*"
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "hooks": [
+          {
+            "async": true,
+            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" PostToolUseFailure",
+            "timeout": 5,
+            "type": "command"
+          }
+        ],
+        "matcher": ""
+      },
+      {
+        "hooks": [
+          {
+            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true",
+            "type": "command"
+          }
+        ],
+        "matcher": "*"
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude",
+            "type": "command"
+          }
+        ],
+        "matcher": "auto"
+      },
+      {
+        "hooks": [
+          {
+            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude",
+            "type": "command"
+          }
+        ],
+        "matcher": "manual"
+      },
+      {
+        "hooks": [
+          {
+            "async": true,
+            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" PreCompact",
+            "timeout": 5,
+            "type": "command"
+          }
+        ],
+        "matcher": ""
+      },
+      {
+        "hooks": [
+          {
+            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true",
+            "type": "command"
+          }
+        ],
+        "matcher": "*"
+      }
+    ],
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "command": "guard-and-guide",
+            "type": "command"
+          }
+        ],
+        "matcher": ""
+      },
+      {
+        "hooks": [
+          {
+            "command": "TIRITH_BIN=\"$HOME/.nix-profile/bin/tirith\" python3 \"$HOME/.config/claude/hooks/tirith-check.py\"",
+            "type": "command"
+          }
+        ],
+        "matcher": "Bash"
+      },
+      {
+        "hooks": [
+          {
+            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude",
+            "type": "command"
+          }
+        ],
+        "matcher": "*"
+      },
+      {
+        "hooks": [
+          {
+            "command": "pixtuoid-hook",
+            "type": "command"
+          }
+        ],
+        "matcher": ".*"
+      },
+      {
+        "hooks": [
+          {
+            "async": true,
+            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" PreToolUse",
+            "timeout": 5,
+            "type": "command"
+          }
+        ],
+        "matcher": ""
+      },
+      {
+        "_otty": true,
+        "hooks": [
+          {
+            "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' processing \"$PPID\"",
+            "type": "command"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true",
+            "type": "command"
+          }
+        ],
+        "matcher": "*"
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude",
+            "type": "command"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "command": "pixtuoid-hook",
+            "type": "command"
+          }
+        ],
+        "matcher": ".*"
+      },
+      {
+        "hooks": [
+          {
+            "async": true,
+            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" SessionEnd",
+            "timeout": 5,
+            "type": "command"
+          }
+        ],
+        "matcher": ""
+      },
+      {
+        "hooks": [
+          {
+            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true",
+            "type": "command"
+          }
+        ],
+        "matcher": "*"
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude",
+            "type": "command"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "command": "pixtuoid-hook",
+            "type": "command"
+          }
+        ],
+        "matcher": ".*"
+      },
+      {
+        "hooks": [
+          {
+            "async": true,
+            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" SessionStart",
+            "timeout": 5,
+            "type": "command"
+          }
+        ],
+        "matcher": ""
+      },
+      {
+        "_otty": true,
+        "hooks": [
+          {
+            "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' idle \"$PPID\"",
+            "type": "command"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true",
+            "type": "command"
+          }
+        ],
+        "matcher": "*"
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "command": "/Applications/Adrafinil.app/Contents/Helpers/adrafinil release $CLAUDE_CODE_SESSION_ID --tool claude-code",
+            "type": "command"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude",
+            "type": "command"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "async": true,
+            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" Stop",
+            "timeout": 5,
+            "type": "command"
+          }
+        ],
+        "matcher": ""
+      },
+      {
+        "_otty": true,
+        "hooks": [
+          {
+            "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' idle \"$PPID\"",
+            "type": "command"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true",
+            "type": "command"
+          }
+        ],
+        "matcher": "*"
+      }
+    ],
+    "StopFailure": [
+      {
+        "hooks": [
+          {
+            "async": true,
+            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" StopFailure",
+            "timeout": 5,
+            "type": "command"
+          }
+        ],
+        "matcher": ""
+      }
+    ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "command": "/Applications/Adrafinil.app/Contents/Helpers/adrafinil acquire --tool claude-code --subagent",
+            "type": "command"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "command": "pixtuoid-hook",
+            "type": "command"
+          }
+        ],
+        "matcher": ".*"
+      },
+      {
+        "hooks": [
+          {
+            "async": true,
+            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" SubagentStart",
+            "timeout": 5,
+            "type": "command"
+          }
+        ],
+        "matcher": ""
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "command": "/Applications/Adrafinil.app/Contents/Helpers/adrafinil release --tool claude-code --subagent",
+            "type": "command"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude",
+            "type": "command"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "command": "pixtuoid-hook",
+            "type": "command"
+          }
+        ],
+        "matcher": ".*"
+      },
+      {
+        "hooks": [
+          {
+            "async": true,
+            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" SubagentStop",
+            "timeout": 5,
+            "type": "command"
+          }
+        ],
+        "matcher": ""
+      },
+      {
+        "hooks": [
+          {
+            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true",
+            "type": "command"
+          }
+        ],
+        "matcher": "*"
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "command": "/Applications/Adrafinil.app/Contents/Helpers/adrafinil acquire $CLAUDE_CODE_SESSION_ID --tool claude-code",
+            "type": "command"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude",
+            "type": "command"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "async": true,
+            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" UserPromptSubmit",
+            "timeout": 5,
+            "type": "command"
+          }
+        ],
+        "matcher": ""
+      },
+      {
+        "_otty": true,
+        "hooks": [
+          {
+            "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' processing \"$PPID\"",
+            "type": "command"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true",
+            "type": "command"
+          }
+        ],
+        "matcher": "*"
+      }
+    ]
+  },
+  "language": "japanese",
   "permissions": {
     "allow": [],
+    "ask": [
+      "Bash(curl:*)",
+      "Bash(git push:*)",
+      "Bash(git reset:*)",
+      "Bash(git rm:*)"
+    ],
+    "defaultMode": "auto",
     "deny": [
       "Bash(* .env*)",
       "Bash(* ~/.aws/*)",
@@ -76,621 +681,16 @@
       "Read(~/.npmrc)",
       "Read(~/.ssh/**)",
       "mcp__supabase__execute_sql"
-    ],
-    "ask": [
-      "Bash(curl:*)",
-      "Bash(git push:*)",
-      "Bash(git reset:*)",
-      "Bash(git rm:*)"
-    ],
-    "defaultMode": "auto"
-  },
-  "hooks": {
-    "Notification": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/dotfiles/.config/claude/hooks/notification.sh"
-          }
-        ]
-      },
-      {
-        "matcher": "idle_prompt",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Applications/Adrafinil.app/Contents/Helpers/adrafinil release $CLAUDE_CODE_SESSION_ID --tool claude-code"
-          }
-        ]
-      },
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude"
-          }
-        ]
-      },
-      {
-        "matcher": ".*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "pixtuoid-hook"
-          }
-        ]
-      },
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" Notification",
-            "timeout": 5,
-            "async": true
-          }
-        ]
-      },
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true"
-          }
-        ]
-      }
-    ],
-    "PermissionRequest": [
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude",
-            "timeout": 86400
-          }
-        ]
-      },
-      {
-        "_otty": true,
-        "hooks": [
-          {
-            "type": "command",
-            "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' awaiting \"$PPID\" ctx"
-          }
-        ]
-      },
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true"
-          }
-        ]
-      }
-    ],
-    "PostToolUse": [
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude"
-          }
-        ]
-      },
-      {
-        "matcher": ".*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "pixtuoid-hook"
-          }
-        ]
-      },
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" PostToolUse",
-            "timeout": 5,
-            "async": true
-          }
-        ]
-      },
-      {
-        "_otty": true,
-        "hooks": [
-          {
-            "type": "command",
-            "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' processing \"$PPID\""
-          }
-        ]
-      },
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true"
-          }
-        ]
-      }
-    ],
-    "PreCompact": [
-      {
-        "matcher": "auto",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude"
-          }
-        ]
-      },
-      {
-        "matcher": "manual",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude"
-          }
-        ]
-      },
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" PreCompact",
-            "timeout": 5,
-            "async": true
-          }
-        ]
-      },
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true"
-          }
-        ]
-      }
-    ],
-    "PreToolUse": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "guard-and-guide"
-          }
-        ]
-      },
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "TIRITH_BIN=\"$HOME/.nix-profile/bin/tirith\" python3 \"$HOME/.config/claude/hooks/tirith-check.py\""
-          }
-        ]
-      },
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude"
-          }
-        ]
-      },
-      {
-        "matcher": ".*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "pixtuoid-hook"
-          }
-        ]
-      },
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" PreToolUse",
-            "timeout": 5,
-            "async": true
-          }
-        ]
-      },
-      {
-        "_otty": true,
-        "hooks": [
-          {
-            "type": "command",
-            "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' processing \"$PPID\""
-          }
-        ]
-      },
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true"
-          }
-        ]
-      }
-    ],
-    "SessionEnd": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude"
-          }
-        ]
-      },
-      {
-        "matcher": ".*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "pixtuoid-hook"
-          }
-        ]
-      },
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" SessionEnd",
-            "timeout": 5,
-            "async": true
-          }
-        ]
-      },
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true"
-          }
-        ]
-      }
-    ],
-    "SessionStart": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude"
-          }
-        ]
-      },
-      {
-        "matcher": ".*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "pixtuoid-hook"
-          }
-        ]
-      },
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" SessionStart",
-            "timeout": 5,
-            "async": true
-          }
-        ]
-      },
-      {
-        "_otty": true,
-        "hooks": [
-          {
-            "type": "command",
-            "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' idle \"$PPID\""
-          }
-        ]
-      },
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true"
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Applications/Adrafinil.app/Contents/Helpers/adrafinil release $CLAUDE_CODE_SESSION_ID --tool claude-code"
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude"
-          }
-        ]
-      },
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" Stop",
-            "timeout": 5,
-            "async": true
-          }
-        ]
-      },
-      {
-        "_otty": true,
-        "hooks": [
-          {
-            "type": "command",
-            "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' idle \"$PPID\""
-          }
-        ]
-      },
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true"
-          }
-        ]
-      }
-    ],
-    "SubagentStart": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Applications/Adrafinil.app/Contents/Helpers/adrafinil acquire --tool claude-code --subagent"
-          }
-        ]
-      },
-      {
-        "matcher": ".*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "pixtuoid-hook"
-          }
-        ]
-      },
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" SubagentStart",
-            "timeout": 5,
-            "async": true
-          }
-        ]
-      }
-    ],
-    "SubagentStop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Applications/Adrafinil.app/Contents/Helpers/adrafinil release --tool claude-code --subagent"
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude"
-          }
-        ]
-      },
-      {
-        "matcher": ".*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "pixtuoid-hook"
-          }
-        ]
-      },
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" SubagentStop",
-            "timeout": 5,
-            "async": true
-          }
-        ]
-      },
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true"
-          }
-        ]
-      }
-    ],
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Applications/Adrafinil.app/Contents/Helpers/adrafinil acquire $CLAUDE_CODE_SESSION_ID --tool claude-code"
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude"
-          }
-        ]
-      },
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" UserPromptSubmit",
-            "timeout": 5,
-            "async": true
-          }
-        ]
-      },
-      {
-        "_otty": true,
-        "hooks": [
-          {
-            "type": "command",
-            "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' processing \"$PPID\""
-          }
-        ]
-      },
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true"
-          }
-        ]
-      }
-    ],
-    "PostToolUseFailure": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" PostToolUseFailure",
-            "timeout": 5,
-            "async": true
-          }
-        ]
-      },
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true"
-          }
-        ]
-      }
-    ],
-    "Elicitation": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" Elicitation",
-            "timeout": 5,
-            "async": true
-          }
-        ]
-      }
-    ],
-    "PostCompact": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" PostCompact",
-            "timeout": 5,
-            "async": true
-          }
-        ]
-      },
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true"
-          }
-        ]
-      }
-    ],
-    "StopFailure": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" StopFailure",
-            "timeout": 5,
-            "async": true
-          }
-        ]
-      }
     ]
   },
-  "statusLine": {
-    "type": "command",
-    "command": "~/dotfiles/.config/claude/statusline.ts"
-  },
-  "enabledPlugins": {
-    "agent-browser@agent-browser": true,
-    "code-review@claude-plugins-official": true,
-    "context7@claude-plugins-official": true,
-    "feature-dev@claude-plugins-official": true,
-    "frontend-design@claude-plugins-official": true,
-    "playground@claude-plugins-official": true,
-    "ponytail@ponytail": true,
-    "pr-review-toolkit@claude-plugins-official": true,
-    "swift-lsp@claude-plugins-official": true,
-    "code-simplifier@claude-plugins-official": true
-  },
-  "extraKnownMarketplaces": {
-    "ponytail": {
-      "source": {
-        "source": "github",
-        "repo": "DietrichGebert/ponytail"
-      }
-    }
-  },
-  "viewMode": "focus",
-  "language": "japanese",
-  "alwaysThinkingEnabled": true,
-  "effortLevel": "xhigh",
-  "advisorModel": "fable",
-  "autoUpdatesChannel": "stable",
+  "showTurnDuration": true,
+  "skipAutoPermissionPrompt": true,
   "skipDangerousModePermissionPrompt": true,
+  "statusLine": {
+    "command": "~/dotfiles/.config/claude/statusline.ts",
+    "type": "command"
+  },
   "theme": "auto",
   "verbose": true,
-  "showTurnDuration": true,
-  "skipAutoPermissionPrompt": true
+  "viewMode": "focus"
 }
