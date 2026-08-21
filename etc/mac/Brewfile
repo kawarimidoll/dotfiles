@@ -1,13 +1,17 @@
-# timestamp: 2026-07-05 08:24:05 JST
+# timestamp: 2026-08-21 08:21:32 JST
+tap "clipory/tap"
 tap "dannystewart/apps"
 tap "darrylmorley/whatcable"
 tap "pakerwreah/calendr"
 tap "productdevbook/tap"
-brew "leaf-md"
+brew "flyline"
+brew "leaf-markdown-viewer"
 brew "mas"
 brew "pinentry-mac"
+brew "pixtuoid"
 brew "zig@0.15"
 cask "1password"
+cask "adrafinil"
 cask "affinity"
 cask "alt-tab"
 cask "anki"
@@ -17,9 +21,11 @@ cask "battery-buddy"
 cask "bitwarden"
 cask "brave-browser"
 cask "pakerwreah/calendr/calendr", trusted: true
+cask "canario"
 cask "chatgpt"
 cask "claude"
 cask "claude-devtools"
+cask "clipory/tap/clipory", trusted: true
 cask "cloudflare-warp"
 cask "cmux"
 cask "docker-desktop"
@@ -41,10 +47,12 @@ cask "knockknock"
 cask "lm-studio"
 cask "lulu"
 cask "macshot"
+cask "markdown-preview"
 cask "meetingbar"
 cask "menuwhere"
 cask "music-decoy"
 cask "obsidian"
+cask "otty"
 cask "ping-island"
 cask "pixieditor"
 cask "productdevbook/tap/portkiller", trusted: true
@@ -52,6 +60,7 @@ cask "raycast"
 cask "shottr"
 cask "slack"
 cask "snapzy"
+cask "space-rabbit"
 cask "suspicious-package"
 cask "swift-shift"
 cask "tablepro"
@@ -62,6 +71,7 @@ cask "tiny-player"
 cask "trex"
 cask "tuna"
 cask "dannystewart/apps/volumehud", trusted: true
+cask "vorssaint"
 cask "wezterm@nightly"
 cask "darrylmorley/whatcable/whatcable", trusted: true
 cask "zen"
@@ -70,8 +80,9 @@ mas "Color Picker", id: 1545870783
 mas "Dockitty", id: 6743999434
 mas "DS_Store Inspector", id: 6758286374
 mas "Folder Quick Look", id: 6753110395
+mas "Free Ruler", id: 1483172210
 mas "Gifski", id: 1351639930
 mas "Pure Paste", id: 1611378436
-mas "RunCat", id: 1429033973
+mas "RunCatNeo", id: 6757801838
 mas "Shareful", id: 1522267256
 mas "Xcode", id: 497799835
