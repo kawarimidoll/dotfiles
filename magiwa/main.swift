@@ -2,10 +2,12 @@
 //
 //   magiwa "<anchor>,<wRatio>,<hRatio>[,<maxW>,<maxH>];..."
 //        cycle the frontmost window through placements on its display
-//        (anchor: left|center|right; maxW/maxH cap the size in pixels)
+//        (anchor: hyphen-joined edges, e.g. left or top-right; maxW/maxH
+//        cap the size in pixels)
 //   magiwa
-//        run as a daemon: the green button maximizes with a gap on the current
-//        desktop instead of moving the window to its own Space
+//        run as a daemon: the green button maximizes with a gap on the
+//        current desktop instead of moving the window to its own Space, and
+//        dragging a window to a screen edge snaps it there with the same gap
 //   magiwa --selftest
 //        check the gap math
 //
@@ -51,6 +53,59 @@ struct WindowKey: Hashable {
   func hash(into hasher: inout Hasher) { hasher.combine(CFHash(el)) }
 }
 
+
+// The translucent rectangle shown while a drag hovers a snap target. Without
+// it the gesture is guesswork: the pointer has to reach the screen edge, and
+// nothing tells you when it got there.
+final class SnapPreview {
+  // NSVisualEffectView exposes no blur radius — the material fixes it, so
+  // fading the whole panel is the one knob left: the blurred layer turns
+  // translucent and what is really behind shows through under it.
+  private static let alpha: CGFloat = 0.7
+
+  private lazy var panel: NSPanel = {
+    let panel = NSPanel(
+      contentRect: .zero, styleMask: [.borderless, .nonactivatingPanel],
+      backing: .buffered, defer: false)
+    panel.isOpaque = false
+    panel.backgroundColor = .clear
+    panel.alphaValue = Self.alpha
+    panel.hasShadow = false
+    // above the window being dragged, and present on every Space so the panel
+    // survives a drag that pushes the pointer into a screen edge
+    panel.level = .statusBar
+    panel.ignoresMouseEvents = true
+    panel.collectionBehavior = [.canJoinAllSpaces, .stationary, .ignoresCycle]
+
+    let effect = NSVisualEffectView()
+    effect.material = .hudWindow
+    effect.blendingMode = .behindWindow
+    effect.state = .active
+    effect.wantsLayer = true
+    effect.layer?.cornerRadius = 12
+    effect.layer?.borderWidth = 2  // thin lines vanish once the panel is faded
+    effect.layer?.borderColor = NSColor.white.withAlphaComponent(0.9).cgColor
+    effect.layer?.masksToBounds = true
+    panel.contentView = effect
+    return panel
+  }()
+
+  private var shown: CGRect?
+
+  func show(_ cocoaFrame: CGRect) {
+    guard shown != cocoaFrame else { return }
+    shown = cocoaFrame
+    panel.setFrame(cocoaFrame, display: true)
+    panel.orderFront(nil)
+  }
+
+  func hide() {
+    guard shown != nil else { return }
+    shown = nil
+    panel.orderOut(nil)
+  }
+}
+
 final class Daemon {
   private struct Target {
     let app: AXUIElement
@@ -82,6 +137,16 @@ final class Daemon {
   private var tap: CFMachPort?
   private var pending = false
   private var animation: Animation?
+
+  private struct Drag {
+    let app: AXUIElement
+    let win: AXUIElement
+  }
+
+  private var dragOrigin: CGPoint?  // press position, before the slop check
+  private var drag: Drag?  // set once the gesture is known to be a title-bar drag
+  private var dragRejected = false  // this gesture moves content, not a window
+  private let preview = SnapPreview()
   // ponytail: entries for windows closed while maximized are never reaped —
   // a few dozen bytes each. Add an AXObserver on kAXUIElementDestroyedNotification
   // if a long-lived daemon ever shows up in memory.
@@ -92,6 +157,11 @@ final class Daemon {
   // and every restart pops another focus-stealing dialog. Wait quietly instead,
   // and pick the grant up whenever it arrives.
   func run() {
+    // NSApplication rather than a bare CFRunLoop: the snap preview is an
+    // NSPanel, and AppKit wants its app object even in a windowless agent
+    let app = NSApplication.shared
+    app.setActivationPolicy(.accessory)
+
     if !start() {
       note("waiting for Accessibility permission — add Magiwa.app in")
       note("System Settings > Privacy & Security > Accessibility")
@@ -99,7 +169,7 @@ final class Daemon {
         if self?.start() == true { timer.invalidate() }
       }
     }
-    CFRunLoopRun()
+    app.run()
   }
 
   private func start() -> Bool {
@@ -107,6 +177,7 @@ final class Daemon {
 
     let mask =
       (1 << CGEventType.leftMouseDown.rawValue) | (1 << CGEventType.leftMouseUp.rawValue)
+      | (1 << CGEventType.leftMouseDragged.rawValue)
     guard
       let tap = CGEvent.tapCreate(
         tap: .cgSessionEventTap, place: .headInsertEventTap,
@@ -137,23 +208,32 @@ final class Daemon {
       return pass
 
     case .leftMouseDown:
+      drag = nil
+      dragRejected = false
       // leave modified clicks to the system: Option+green is its own
       // Space-less zoom, and the rest belong to the app
-      guard event.flags.intersection([.maskCommand, .maskAlternate, .maskControl, .maskShift])
-        .isEmpty,
-        let target = zoomTarget(at: event.location)
-      else {
-        pending = false
-        return pass
+      if event.flags.intersection([.maskCommand, .maskAlternate, .maskControl, .maskShift])
+        .isEmpty, let target = zoomTarget(at: event.location)
+      {
+        // acted on here rather than on mouse-up: during an animation the button
+        // moves under the pointer, so a release-still-over-the-button check would
+        // reject the very clicks the swept hit test below exists to catch
+        dragOrigin = nil  // dragging off the button is not a window drag
+        pending = true
+        toggle(target)
+        return nil  // swallowed, so the system never starts its full-screen transition
       }
-      // acted on here rather than on mouse-up: during an animation the button
-      // moves under the pointer, so a release-still-over-the-button check would
-      // reject the very clicks the swept hit test below exists to catch
-      pending = true
-      toggle(target)
-      return nil  // swallowed, so the system never starts its full-screen transition
+      dragOrigin = event.location
+      pending = false
+      return pass
+
+    case .leftMouseDragged:
+      trackDrag(to: event.location)
+      return pass  // never swallowed — the system moves the window itself
 
     case .leftMouseUp:
+      endDrag(at: event.location)
+      dragOrigin = nil
       guard pending else { return pass }
       pending = false
       return nil  // the release belongs to a press we took
@@ -183,19 +263,65 @@ final class Daemon {
       }
     }
 
+    guard let focused = focusedWindow(),
+      // AXZoomButton and AXFullScreenButton resolve to the same element, but apps
+      // without full-screen support expose only the former
+      let button = copyElement(focused.win, kAXZoomButtonAttribute),
+      let rect = axFrame(of: button),
+      rect.insetBy(dx: -3, dy: -3).contains(point)
+    else { return nil }
+    return Target(app: focused.app, win: focused.win, button: rect)
+  }
+
+  private func focusedWindow() -> (app: AXUIElement, win: AXUIElement)? {
     guard let app = NSWorkspace.shared.frontmostApplication else { return nil }
     let appEl = AXUIElementCreateApplication(app.processIdentifier)
     // AX calls are synchronous IPC; a hung app would stall this callback past
     // the tap's own timeout and get the tap disabled
     AXUIElementSetMessagingTimeout(appEl, 0.1)
-    // AXZoomButton and AXFullScreenButton resolve to the same element, but apps
-    // without full-screen support expose only the former
-    guard let win = copyElement(appEl, kAXFocusedWindowAttribute),
-      let button = copyElement(win, kAXZoomButtonAttribute),
-      let rect = axFrame(of: button),
-      rect.insetBy(dx: -3, dy: -3).contains(point)
-    else { return nil }
-    return Target(app: appEl, win: win, button: rect)
+    guard let win = copyElement(appEl, kAXFocusedWindowAttribute) else { return nil }
+    return (appEl, win)
+  }
+
+  // The window is resolved on the first real movement rather than on mouse-down:
+  // every click pays for whatever runs there, and most clicks become no drag.
+  private func trackDrag(to point: CGPoint) {
+    if drag == nil {
+      guard !dragRejected, let origin = dragOrigin else { return }
+      guard abs(point.x - origin.x) > DRAG_SLOP || abs(point.y - origin.y) > DRAG_SLOP
+      else { return }
+
+      guard let focused = focusedWindow(), let frame = axFrame(of: focused.win),
+        CGRect(x: frame.minX, y: frame.minY, width: frame.width, height: TITLE_BAR_HEIGHT)
+          .contains(origin)
+      else {
+        dragRejected = true  // content drag: selecting text, moving a file, ...
+        return
+      }
+      drag = Drag(app: focused.app, win: focused.win)
+    }
+
+    // pure geometry from here on: this runs on every drag event, so it must not
+    // reach for AX
+    if let hit = screen(containing: point), let placement = snapPlacement(at: point, on: hit) {
+      preview.show(cocoaRect(fromAX: placementRect(placement, on: hit)))
+    } else {
+      preview.hide()
+    }
+  }
+
+  private func endDrag(at point: CGPoint) {
+    preview.hide()
+    guard let drag else { return }
+    self.drag = nil
+    guard let hit = screen(containing: point),
+      let placement = snapPlacement(at: point, on: hit)
+    else {
+      // kept as the one hook for tuning the thresholds above
+      note("drop \(point) — no snap")
+      return
+    }
+    setFrame(placementRect(placement, on: hit), of: drag.win, in: drag.app)
   }
 
   private func toggle(_ target: Target) {
@@ -277,6 +403,19 @@ func selfTest() {
   precondition(capped.maxX == 1000 - GAP, "capped right edge: \(capped)")
   precondition(capped.midY == 500, "capped not vertically centered: \(capped)")
 
+
+  // a quarter: the seam between stacked windows has to match the side seam
+  let topLeft = rect(Placement(anchor: "top-left", w: 0.5, h: 0.5))
+  let bottomLeft = rect(Placement(anchor: "bottom-left", w: 0.5, h: 0.5))
+  precondition(topLeft.origin == CGPoint(x: GAP, y: GAP), "top-left: \(topLeft)")
+  precondition(topLeft.size == bottomLeft.size, "quarters differ: \(topLeft) \(bottomLeft)")
+  precondition(
+    bottomLeft.minY - topLeft.maxY == right.minX - left.maxX,
+    "vertical seam \(bottomLeft.minY - topLeft.maxY) vs horizontal \(right.minX - left.maxX)")
+
+  // an anchor naming no vertical edge still centers, so the old "left,0.5,1"
+  // spec keeps meaning exactly what it did
+  precondition(left.minY == GAP && left.height == 1000 - 2 * GAP, "left half: \(left)")
   print("ok")
 }
 

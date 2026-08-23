@@ -17,6 +17,8 @@ let BORDER_WIDTH: CGFloat = 8
 let TOLERANCE: CGFloat = 25
 
 struct Placement {
+  // hyphen-joined screen edges the window is pinned to: "left", "top-right",
+  // "center". An axis with no edge named stays centered.
   let anchor: String
   let w: CGFloat
   let h: CGFloat
@@ -123,15 +125,16 @@ func placementRect(_ p: Placement, in vf: CGRect, primaryHeight: CGFloat) -> CGR
   // visible gap (2*inner − both reaches) equal the edge's (GAP − one reach).
   let inner = (GAP + BORDER_WIDTH / 2) / 2
 
-  // fractional horizontal span [x0, x1] of the visible frame for this anchor
-  let x0: CGFloat, x1: CGFloat
-  switch p.anchor {
-  case "left": x0 = 0; x1 = p.w
-  case "right": x0 = 1 - p.w; x1 = 1
-  default: x0 = (1 - p.w) / 2; x1 = (1 + p.w) / 2  // centered
+  // fractional span of the visible frame on each axis. An axis with no edge
+  // named in the anchor stays centered, so "left" is still a full-height half.
+  let edges = Set(p.anchor.split(separator: "-").map(String.init))
+  func span(_ ratio: CGFloat, _ low: String, _ high: String) -> (CGFloat, CGFloat) {
+    if edges.contains(low) { return (0, ratio) }
+    if edges.contains(high) { return (1 - ratio, 1) }
+    return ((1 - ratio) / 2, (1 + ratio) / 2)
   }
-  // vertical span is always centered
-  let y0 = (1 - p.h) / 2, y1 = (1 + p.h) / 2
+  let (x0, x1) = span(p.w, "left", "right")
+  let (y0, y1) = span(p.h, "bottom", "top")  // Cocoa y grows upward
 
   // an edge at fraction 0 or 1 touches the screen (full GAP); otherwise it
   // borders another window (GAP/2)
@@ -142,17 +145,13 @@ func placementRect(_ p: Placement, in vf: CGRect, primaryHeight: CGFloat) -> CGR
   var w = right - left
   var h = top - bottom
 
-  // cap the size, keeping the anchored edge fixed (left/right) or staying centered
+  // cap the size, keeping any anchored edge fixed and centering the rest
   if let maxW = p.maxW, w > maxW {
-    switch p.anchor {
-    case "left": break
-    case "right": left += w - maxW
-    default: left += (w - maxW) / 2
-    }
+    if !edges.contains("left") { left += edges.contains("right") ? w - maxW : (w - maxW) / 2 }
     w = maxW
   }
   if let maxH = p.maxH, h > maxH {
-    bottom += (h - maxH) / 2  // vertically centered
+    if !edges.contains("bottom") { bottom += edges.contains("top") ? h - maxH : (h - maxH) / 2 }
     h = maxH
   }
 
@@ -170,4 +169,65 @@ func near(_ a: CGFloat, _ b: CGFloat) -> Bool { abs(a - b) <= TOLERANCE }
 func near(_ a: CGRect, _ b: CGRect) -> Bool {
   near(a.minX, b.minX) && near(a.minY, b.minY)
     && near(a.width, b.width) && near(a.height, b.height)
+}
+
+// MARK: - Edge snapping
+
+// how close to a screen edge a drag has to end for the window to snap there.
+// The system effectively requires the pointer to reach the edge and stop there,
+// so anything above zero is already looser than the native gesture.
+let SNAP_EDGE: CGFloat = 12
+// band at the top and bottom of a side that snaps to a quarter rather than a
+// half, as a fraction of the screen height
+let SNAP_CORNER: CGFloat = 0.25
+// pointer travel before a press counts as a drag rather than a click
+let DRAG_SLOP: CGFloat = 6
+// band at the top of a window frame treated as its title bar. AX exposes no
+// rect for it and apps vary — 28pt is standard, unified toolbars are taller.
+let TITLE_BAR_HEIGHT: CGFloat = 30
+
+// screen rect in Accessibility (top-left) coordinates. Unlike visibleFrame this
+// includes the menu bar, which is itself a snap target.
+func axScreenFrame(_ screen: NSScreen) -> CGRect {
+  let f = screen.frame
+  return CGRect(x: f.minX, y: primaryHeight() - f.maxY, width: f.width, height: f.height)
+}
+
+func screen(containing axPoint: CGPoint) -> NSScreen? {
+  let cocoa = CGPoint(x: axPoint.x, y: primaryHeight() - axPoint.y)
+  // grown by a point because CGRect.contains excludes maxX/maxY: a pointer at
+  // the menu bar reads y == 0 in AX coordinates, which maps exactly onto the
+  // screen top and would otherwise match no screen at all — losing the very
+  // gesture that snaps a window to fill
+  return NSScreen.screens.first { $0.frame.insetBy(dx: -1, dy: -1).contains(cocoa) }
+}
+
+// Where a drag released at `point` should land, mirroring macOS's own edge
+// tiling: the sides give halves, the corners give quarters, the menu bar gives
+// fill, and the bottom edge on its own does nothing.
+func snapPlacement(at point: CGPoint, on screen: NSScreen) -> Placement? {
+  let s = axScreenFrame(screen)
+  let corner = s.height * SNAP_CORNER
+  let atLeft = point.x - s.minX <= SNAP_EDGE
+  let atRight = s.maxX - point.x <= SNAP_EDGE
+  // the whole menu bar is the fill target, matching the system: a drag fills
+  // when it reaches the menu bar, not when it reaches the top row of pixels
+  let menuBar = max(SNAP_EDGE, screen.frame.maxY - screen.visibleFrame.maxY)
+  let atTop = point.y - s.minY <= menuBar
+
+  // corners take precedence: the top-left corner is a quarter, not a fill
+  if atLeft || atRight {
+    let side = atLeft ? "left" : "right"
+    if point.y - s.minY <= corner { return Placement(anchor: "top-\(side)", w: 0.5, h: 0.5) }
+    if s.maxY - point.y <= corner { return Placement(anchor: "bottom-\(side)", w: 0.5, h: 0.5) }
+    return Placement(anchor: side, w: 0.5, h: 1)
+  }
+  if atTop { return .full }
+  return nil
+}
+
+// AX (top-left) rect back to Cocoa (bottom-left), for handing a placement to
+// AppKit — the snap preview panel is positioned in Cocoa coordinates
+func cocoaRect(fromAX r: CGRect) -> CGRect {
+  CGRect(x: r.minX, y: primaryHeight() - r.maxY, width: r.width, height: r.height)
 }

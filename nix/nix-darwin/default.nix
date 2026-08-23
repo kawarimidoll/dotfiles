@@ -187,6 +187,13 @@ in
         # Dock にアプリを常駐させない (起動中のアプリとゴミ箱のみ表示)
         persistent-apps = [ ];
       };
+      # 純正のドラッグタイリングは magiwa のエッジスナップと二重に発火するため切る。
+      # Option アクセラレータ (画面端に届かなくてもタイル候補を出す) も同様。
+      WindowManager = {
+        EnableTilingByEdgeDrag = false;
+        EnableTopTilingByEdgeDrag = false;
+        EnableTilingOptionAccelerator = false;
+      };
       # メニューバー項目の表示設定 (18 = 表示, 24 = 非表示)
       # Battery / WiFi は system.defaults.controlcenter に未実装のため、
       # controlcenter モジュールと同じ ByHost ドメインへ直接書き込む

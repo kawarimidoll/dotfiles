@@ -7,11 +7,16 @@ Window placement for macOS, in two modes sharing one gap model
 
 - **CLI** — cycle the frontmost window through placements. Driven by the
   Hyper+arrow rules in [`../karabiner`](../karabiner).
-- **daemon** — the green button maximizes with a gap on the current desktop
-  instead of moving the window to its own Space. Click it again to restore.
-  The resize eases over ~0.18s; since each frame is a synchronous AX write, an
-  app that relayouts slowly will drop frames. Set `animationDuration` in
-  `main.swift` to 0 for a single instant write.
+- **daemon** — two things the system does differently:
+  - The green button maximizes with a gap on the current desktop instead of
+    moving the window to its own Space. Click it again to restore. The resize
+    eases over ~0.18s; since each frame is a synchronous AX write, an app that
+    relayouts slowly will drop frames. Set `animationDuration` in `main.swift`
+    to 0 for a single instant write.
+  - Dragging a window by its title bar to a screen edge snaps it there with the
+    same gap: sides give halves, corners give quarters, the menu bar gives fill.
+    This replaces the built-in edge tiling, which `nix/nix-darwin/default.nix`
+    turns off so both do not fire at once.
 
 The gap accounts for [JankyBorders](https://github.com/FelixKratz/JankyBorders)
 drawing a border astride each window frame, so the seam between two tiled
@@ -68,5 +73,6 @@ launchctl kickstart -k gui/$UID/org.nix-community.home.magiwa   # just to restar
 ```
 
 Placement syntax: `<anchor>,<wRatio>,<hRatio>[,<maxW>,<maxH>];...` where anchor
-is `left`, `center`, or `right`, and the optional pair caps the size in pixels.
-Vertical placement is always centered.
+is a hyphen-joined set of edges (`left`, `right`, `top`, `bottom`, `center`, and
+combinations like `top-left`), and the optional pair caps the size in pixels. An
+axis with no edge named stays centered, so `left` means a full-height half.
