@@ -147,7 +147,7 @@ final class Daemon {
   private var drag: Drag?  // set once the gesture is known to be a title-bar drag
   private var dragRejected = false  // this gesture moves content, not a window
   private let preview = SnapPreview()
-  // ponytail: entries for windows closed while maximized are never reaped —
+  // LIMITATION: entries for windows closed while maximized are never reaped —
   // a few dozen bytes each. Add an AXObserver on kAXUIElementDestroyedNotification
   // if a long-lived daemon ever shows up in memory.
   private var restore: [WindowKey: CGRect] = [:]
@@ -246,9 +246,10 @@ final class Daemon {
   // Only the frontmost app's focused window is claimed. Clicking the green
   // button of any other window falls through to the system, which keeps the
   // focus change that swallowing the click would otherwise eat.
-  // ponytail: so a green button on a background window still goes full-screen.
-  // To cover those, hit-test the click against CGWindowListCopyWindowInfo,
-  // resolve the owning pid, and raise the window before applying the frame.
+  // LIMITATION: a green button on a background window therefore still goes
+  // full-screen. To cover those, hit-test the click against
+  // CGWindowListCopyWindowInfo, resolve the owning pid, and raise the window
+  // before applying the frame.
   private func zoomTarget(at point: CGPoint) -> Target? {
     // While our own animation is running, the app's AX server is busy serving
     // the frame writes and the queries below hit their 0.1s timeout — and a
