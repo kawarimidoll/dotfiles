@@ -5,6 +5,9 @@
 - Document at the right layer: Code → How, Tests → What, Commits → Why, Comments
   → Why not
 - Keep documentation up to date with code changes
+- Never leave tool-specific markers in code comments (e.g. `ponytail:`). The
+  tool is optional and the marker turns into noise the moment it is gone. Use
+  `LIMITATION:` for a deliberate simplification with a known ceiling.
 
 ## Communication style
 
