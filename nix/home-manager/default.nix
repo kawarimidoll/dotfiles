@@ -257,6 +257,11 @@ in
       type = "stdio";
       command = "fff-mcp";
     };
+    mcpServers.tirith = {
+      type = "stdio";
+      command = "tirith";
+      args = [ "mcp-server" ];
+    };
   };
 
   # magiwa: 信号機ボタンの緑を「独立 Space 送り」から「現デスクトップで gap 付き
