@@ -95,6 +95,9 @@ in
 
   # to enable/disable borders temporary, run:
   # launchctl stop/start org.nixos.jankyborders
+  # width は magiwa/placement.swift の BORDER_WIDTH と揃える。枠はウィンドウの
+  # frame を跨いで描かれるので、magiwa 側の gap 計算がこの値を差し引いて
+  # 継ぎ目の見た目を画面端と一致させている。
   services.jankyborders = {
     enable = true;
     style = "round";

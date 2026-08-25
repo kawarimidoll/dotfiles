@@ -9,8 +9,9 @@ import ApplicationServices
 // gap in pt at the screen edges; the seam between tiled windows is derived
 // from this in placementRect so the *visible* gap matches once borders draw
 let GAP: CGFloat = 8
-// JankyBorders (~/.config/borders/bordersrc) draws a border this wide straddling
-// each window's frame, so it reaches BORDER_WIDTH/2 past the frame — keep in sync
+// JankyBorders draws a border this wide straddling each window's frame, so it
+// reaches BORDER_WIDTH/2 past the frame. Keep in sync with
+// services.jankyborders.width in nix/nix-darwin/default.nix.
 let BORDER_WIDTH: CGFloat = 8
 // apps may snap their size to an internal grid (terminal cell size etc.),
 // so match the current frame against placement rects with this tolerance

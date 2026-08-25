@@ -21,7 +21,8 @@ Window placement for macOS, in two modes sharing one gap model
 The gap accounts for [JankyBorders](https://github.com/FelixKratz/JankyBorders)
 drawing a border astride each window frame, so the seam between two tiled
 windows *looks* the same width as the gap at the screen edge. Keep
-`BORDER_WIDTH` in sync with `~/.config/borders/bordersrc`.
+`BORDER_WIDTH` in sync with `services.jankyborders.width` in
+`nix/nix-darwin/default.nix`.
 
 ## Build
 
