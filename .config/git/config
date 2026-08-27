@@ -142,8 +142,8 @@
 	name = mergiraf
 	driver = mergiraf merge --git %O %A %B -s %S -x %X -y %Y -p %P -l %L
 [filter "jsonsort"]
-	; 外部ツールが整形を書き換えても差分が出ないよう index 側を正規化する
-	clean = jq -S .
+	; 外部ツールが整形や配列順を書き換えても差分が出ないよう index 側を正規化する
+	clean = jq -S 'walk(if type==\"array\" then sort else . end)'
 ; 業務向け設定。ファイルが無ければ黙って無視される
 ; credential の上書きを含むため credential セクションより後に置く
 [include]

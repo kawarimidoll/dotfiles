@@ -69,24 +69,6 @@
       {
         "hooks": [
           {
-            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude",
-            "type": "command"
-          }
-        ],
-        "matcher": "*"
-      },
-      {
-        "hooks": [
-          {
-            "command": "pixtuoid-hook",
-            "type": "command"
-          }
-        ],
-        "matcher": ".*"
-      },
-      {
-        "hooks": [
-          {
             "async": true,
             "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" Notification",
             "timeout": 5,
@@ -103,9 +85,36 @@
           }
         ],
         "matcher": "*"
+      },
+      {
+        "hooks": [
+          {
+            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude",
+            "type": "command"
+          }
+        ],
+        "matcher": "*"
+      },
+      {
+        "hooks": [
+          {
+            "command": "pixtuoid-hook",
+            "type": "command"
+          }
+        ],
+        "matcher": ".*"
       }
     ],
     "PermissionRequest": [
+      {
+        "_otty": true,
+        "hooks": [
+          {
+            "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' awaiting \"$PPID\" ctx",
+            "type": "command"
+          }
+        ]
+      },
       {
         "hooks": [
           {
@@ -115,15 +124,6 @@
           }
         ],
         "matcher": "*"
-      },
-      {
-        "_otty": true,
-        "hooks": [
-          {
-            "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' awaiting \"$PPID\" ctx",
-            "type": "command"
-          }
-        ]
       },
       {
         "hooks": [
@@ -159,6 +159,35 @@
     ],
     "PostToolUse": [
       {
+        "_otty": true,
+        "hooks": [
+          {
+            "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' processing \"$PPID\"",
+            "type": "command"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "async": true,
+            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" PostToolUse",
+            "timeout": 5,
+            "type": "command"
+          }
+        ],
+        "matcher": ""
+      },
+      {
+        "hooks": [
+          {
+            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true",
+            "type": "command"
+          }
+        ],
+        "matcher": "*"
+      },
+      {
         "hooks": [
           {
             "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude",
@@ -175,35 +204,6 @@
           }
         ],
         "matcher": ".*"
-      },
-      {
-        "hooks": [
-          {
-            "async": true,
-            "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" PostToolUse",
-            "timeout": 5,
-            "type": "command"
-          }
-        ],
-        "matcher": ""
-      },
-      {
-        "_otty": true,
-        "hooks": [
-          {
-            "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' processing \"$PPID\"",
-            "type": "command"
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true",
-            "type": "command"
-          }
-        ],
-        "matcher": "*"
       }
     ],
     "PostToolUseFailure": [
@@ -232,24 +232,6 @@
       {
         "hooks": [
           {
-            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude",
-            "type": "command"
-          }
-        ],
-        "matcher": "auto"
-      },
-      {
-        "hooks": [
-          {
-            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude",
-            "type": "command"
-          }
-        ],
-        "matcher": "manual"
-      },
-      {
-        "hooks": [
-          {
             "async": true,
             "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" PreCompact",
             "timeout": 5,
@@ -266,26 +248,6 @@
           }
         ],
         "matcher": "*"
-      }
-    ],
-    "PreToolUse": [
-      {
-        "hooks": [
-          {
-            "command": "guard-and-guide",
-            "type": "command"
-          }
-        ],
-        "matcher": ""
-      },
-      {
-        "hooks": [
-          {
-            "command": "TIRITH_BIN=\"$HOME/.nix-profile/bin/tirith\" python3 \"$HOME/.config/claude/hooks/tirith-check.py\"",
-            "type": "command"
-          }
-        ],
-        "matcher": "Bash"
       },
       {
         "hooks": [
@@ -294,16 +256,27 @@
             "type": "command"
           }
         ],
-        "matcher": "*"
+        "matcher": "auto"
       },
       {
         "hooks": [
           {
-            "command": "pixtuoid-hook",
+            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude",
             "type": "command"
           }
         ],
-        "matcher": ".*"
+        "matcher": "manual"
+      }
+    ],
+    "PreToolUse": [
+      {
+        "_otty": true,
+        "hooks": [
+          {
+            "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' processing \"$PPID\"",
+            "type": "command"
+          }
+        ]
       },
       {
         "hooks": [
@@ -317,15 +290,6 @@
         "matcher": ""
       },
       {
-        "_otty": true,
-        "hooks": [
-          {
-            "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' processing \"$PPID\"",
-            "type": "command"
-          }
-        ]
-      },
-      {
         "hooks": [
           {
             "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true",
@@ -333,16 +297,33 @@
           }
         ],
         "matcher": "*"
-      }
-    ],
-    "SessionEnd": [
+      },
       {
         "hooks": [
           {
             "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude",
             "type": "command"
           }
-        ]
+        ],
+        "matcher": "*"
+      },
+      {
+        "hooks": [
+          {
+            "command": "TIRITH_BIN=\"$HOME/.nix-profile/bin/tirith\" python3 \"$HOME/.config/claude/hooks/tirith-check.py\"",
+            "type": "command"
+          }
+        ],
+        "matcher": "Bash"
+      },
+      {
+        "hooks": [
+          {
+            "command": "guard-and-guide",
+            "type": "command"
+          }
+        ],
+        "matcher": ""
       },
       {
         "hooks": [
@@ -352,6 +333,25 @@
           }
         ],
         "matcher": ".*"
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "_adrafinil": true,
+            "command": "/Applications/Adrafinil.app/Contents/Helpers/adrafinil release $CLAUDE_CODE_SESSION_ID --tool claude-code",
+            "type": "command"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude",
+            "type": "command"
+          }
+        ]
       },
       {
         "hooks": [
@@ -376,14 +376,23 @@
       {
         "hooks": [
           {
-            "_adrafinil": true,
-            "command": "/Applications/Adrafinil.app/Contents/Helpers/adrafinil release $CLAUDE_CODE_SESSION_ID --tool claude-code",
+            "command": "pixtuoid-hook",
             "type": "command"
           }
-        ]
+        ],
+        "matcher": ".*"
       }
     ],
     "SessionStart": [
+      {
+        "_otty": true,
+        "hooks": [
+          {
+            "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' idle \"$PPID\"",
+            "type": "command"
+          }
+        ]
+      },
       {
         "hooks": [
           {
@@ -395,11 +404,12 @@
       {
         "hooks": [
           {
-            "command": "pixtuoid-hook",
+            "_adrafinil": true,
+            "command": "/Applications/Adrafinil.app/Contents/Helpers/adrafinil acquire $CLAUDE_CODE_SESSION_ID --tool claude-code",
             "type": "command"
           }
         ],
-        "matcher": ".*"
+        "matcher": "clear"
       },
       {
         "hooks": [
@@ -413,15 +423,6 @@
         "matcher": ""
       },
       {
-        "_otty": true,
-        "hooks": [
-          {
-            "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' idle \"$PPID\"",
-            "type": "command"
-          }
-        ]
-      },
-      {
         "hooks": [
           {
             "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true",
@@ -433,15 +434,23 @@
       {
         "hooks": [
           {
-            "_adrafinil": true,
-            "command": "/Applications/Adrafinil.app/Contents/Helpers/adrafinil acquire $CLAUDE_CODE_SESSION_ID --tool claude-code",
+            "command": "pixtuoid-hook",
             "type": "command"
           }
         ],
-        "matcher": "clear"
+        "matcher": ".*"
       }
     ],
     "Stop": [
+      {
+        "_otty": true,
+        "hooks": [
+          {
+            "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' idle \"$PPID\"",
+            "type": "command"
+          }
+        ]
+      },
       {
         "hooks": [
           {
@@ -469,15 +478,6 @@
           }
         ],
         "matcher": ""
-      },
-      {
-        "_otty": true,
-        "hooks": [
-          {
-            "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' idle \"$PPID\"",
-            "type": "command"
-          }
-        ]
       },
       {
         "hooks": [
@@ -515,15 +515,6 @@
       {
         "hooks": [
           {
-            "command": "pixtuoid-hook",
-            "type": "command"
-          }
-        ],
-        "matcher": ".*"
-      },
-      {
-        "hooks": [
-          {
             "async": true,
             "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" SubagentStart",
             "timeout": 5,
@@ -531,6 +522,15 @@
           }
         ],
         "matcher": ""
+      },
+      {
+        "hooks": [
+          {
+            "command": "pixtuoid-hook",
+            "type": "command"
+          }
+        ],
+        "matcher": ".*"
       }
     ],
     "SubagentStop": [
@@ -554,15 +554,6 @@
       {
         "hooks": [
           {
-            "command": "pixtuoid-hook",
-            "type": "command"
-          }
-        ],
-        "matcher": ".*"
-      },
-      {
-        "hooks": [
-          {
             "async": true,
             "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" SubagentStop",
             "timeout": 5,
@@ -579,9 +570,27 @@
           }
         ],
         "matcher": "*"
+      },
+      {
+        "hooks": [
+          {
+            "command": "pixtuoid-hook",
+            "type": "command"
+          }
+        ],
+        "matcher": ".*"
       }
     ],
     "UserPromptSubmit": [
+      {
+        "_otty": true,
+        "hooks": [
+          {
+            "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' processing \"$PPID\"",
+            "type": "command"
+          }
+        ]
+      },
       {
         "hooks": [
           {
@@ -609,15 +618,6 @@
           }
         ],
         "matcher": ""
-      },
-      {
-        "_otty": true,
-        "hooks": [
-          {
-            "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' processing \"$PPID\"",
-            "type": "command"
-          }
-        ]
       },
       {
         "hooks": [

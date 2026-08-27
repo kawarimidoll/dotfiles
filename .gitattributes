@@ -1,2 +1,2 @@
-# 外部ツールが書き戻す整形の揺れを吸収する
+# 外部ツールが書き戻す整形と配列順の揺れを吸収する
 .config/claude/settings.json filter=jsonsort
