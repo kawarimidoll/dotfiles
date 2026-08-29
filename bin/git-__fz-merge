@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-
-git list-branch "$@" | xargs --no-run-if-empty -I_ git merge _
