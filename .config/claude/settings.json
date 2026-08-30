@@ -1,6 +1,9 @@
 {
   "advisorModel": "fable",
   "alwaysThinkingEnabled": true,
+  "attribution": {
+    "sessionUrl": false
+  },
   "autoUpdatesChannel": "stable",
   "effortLevel": "xhigh",
   "enabledPlugins": {
