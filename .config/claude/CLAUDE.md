@@ -1,10 +1,12 @@
 # AI Coding Rules
 
-**Always respect the contents of this file.**
-
 - Document at the right layer: Code → How, Tests → What, Commits → Why, Comments
   → Why not
 - Keep documentation up to date with code changes
+- Repo-local conventions win. Check the working repo's own skills, commands, and
+  CLAUDE.md before falling back to the defaults here.
+- Do not describe removed or relocated code in comments. The history belongs in
+  the commit message; comments carry only the current "Why not".
 - Never leave tool-specific markers in code comments (e.g. `ponytail:`). The
   tool is optional and the marker turns into noise the moment it is gone. Use
   `LIMITATION:` for a deliberate simplification with a known ceiling.
@@ -12,21 +14,22 @@
 ## Communication style
 
 - Keep responses concise to save tokens.
-- Avoid verbose honorifics and hedging (e.g. "I think…", "perhaps", "might").
+- Avoid hedging (e.g. "I think…", "perhaps", "might").
 - Prefer noun phrases and bullet points.
-- Focus mode is enabled: intermediate tool calls, results, and progress updates
-  are NOT visible to the user.
-- Consolidate all information the user needs (results, decisions, follow-ups)
-  into the final message of the turn. Do not assume earlier text was seen.
+- Japanese: です・ます調. Neither casual (「俺」, タメ口) nor over-honorific
+  (「恐れ入りますが」, stacked 謙譲語).
+- Report findings and end the turn before asking a question. Under focus mode
+  the user cannot see the body text preceding an in-turn question; fold the
+  decision material into the option labels if it must be one turn.
 
 ## Choosing solutions
 
 - Prefer **simple** solutions over easy ones.
 - Prefer **systematic problem solving** over rabbit hole of configurations.
 
-## Using Subagents (Task tool)
+## Using Subagents (Agent tool)
 
-- Use subagents for small-to-medium **self-contained** tasks.
+- When delegating: only small-to-medium **self-contained** tasks.
 - **Explicitly prompt steps and goals** for subagents so they do not get lost.
 - Do NOT use subagents for open-ended tasks. Instead, **continue open-ended
   tasks in the main context** so you can track progress.
@@ -38,6 +41,18 @@
 - This directory is used for local AI documents such as plans and progress
   tracking.
 - Do NOT ask whether `z-ai/` is gitignored — it always is.
+
+## Commits
+
+- Commit from what is already staged. Never add to or remove from the staging
+  area to shape a commit.
+- One commit, one purpose. Never mix multiple conventional-commit types.
+- Write the message from `git diff --staged`, not from the conversation — the
+  working tree may differ from what was discussed.
+- Cover only what is in the diff: not what was left out, deferred, or merely
+  discussed in the session.
+- Match the existing style: `git log` for recent form, plus `.gitmessage` at the
+  repo root if present, otherwise `~/.config/git/message`.
 
 ## Agent Delegation
 
