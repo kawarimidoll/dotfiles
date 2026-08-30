@@ -39,32 +39,6 @@
   tracking.
 - Do NOT ask whether `z-ai/` is gitignored — it always is.
 
-## Browser Automation (agent-browser)
-
-`agent-browser` is available to check on the browser.
-
-```bash
-# 1. Open page (`--allow-private` is required to open localhost)
-agent-browser open <url> --allow-private
-
-# 2. Get element reference
-agent-browser snapshot -i
-
-# 3. Operate
-agent-browser click @e<N>
-agent-browser fill @e<N> "テキスト"
-
-# 4. Save screenshot
-agent-browser screenshot z-ai/screenshot.png
-
-# ex. save credentials
-agent-browser open <url> --profile ~/.browser-profile --allow-private
-
-# q. sandbox-nesting is detected
-# a. use `--args "--no-sandbox"`
-agent-browser open <url> --args "--no-sandbox"
-```
-
 ## Agent Delegation
 
 - Commit rewriting (fixup, rebase, squash) → use `rebaser` agent.
@@ -76,21 +50,27 @@ agent-browser open <url> --args "--no-sandbox"
   - Use `stat -c '%a %U %n'` (BSD `stat -f '%Sf...'` fails).
   - Do not pass BSD-only flags to `ls` (e.g. `-O`).
 
-## Long-running processes (zmx)
+## Tooling
 
-- Run long-running processes (dev servers, watchers, port-forwards) through
-  `zmx`, not native background bash, so they persist and the user can attach to
-  observe them. Only when `zmx` is on PATH; otherwise fall back to background
-  bash.
-- Session name: git repo root basename (cwd basename if not a repo). Run
-  `zmx list` first and pick a non-colliding name. Start detached with
-  `zmx run <name> -d <cmd>`; follow output via `zmx tail <name>`.
-- Tell the user the session name and `zmx attach <name>` so they can watch.
-- Quick/one-shot commands (git, ls, build) run locally — do NOT route them
-  through zmx.
+Default reflexes to override — reach for the right column, not the left.
+Load the reference before first use in a session.
 
-## File Search
+| Instead of | Use | Reference |
+| --- | --- | --- |
+| `curl` + throwaway parsing | `ax` | `ax agent-context` |
+| background bash (servers, watchers) | `zmx` | `zmx --help` |
+| piping stdin to a TUI (vim, htop) | `tu` | `tu usage` |
+| curl-ing a JS-rendered page | `agent-browser` | `agent-browser --help` |
+| reading a whole file to locate a symbol | `zat` | — |
 
-We have `fff-mcp`, a fast and token-efficient search server.
-For any file search or grep in the current git-indexed directory, use fff tools.
-For details, run `fff-mcp --help`.
+Not in any `--help`:
+
+- `zat <file>` prints an outline of symbols with line numbers; it has no
+  `--help` and takes a file, not a directory. Read the ranges it reports
+  instead of the whole file.
+- `agent-browser open <url> --allow-private` — required for localhost.
+- `agent-browser open <url> --profile ~/.browser-profile` — saved credentials.
+- `zmx` session name: git repo root basename (cwd basename if not a repo).
+  `zmx list` first to avoid a collision; `zmx run <name> -d <cmd>`; tell the
+  user `zmx attach <name>` so they can watch.
+- Quick one-shot commands (git, ls, build) run locally, NOT through `zmx`.
