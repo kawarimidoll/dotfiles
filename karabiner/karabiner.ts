@@ -272,6 +272,16 @@ k.writeToProfile(profileName, [
     k.map("f", HYPER).to({ shell_command: 'open -a "Sheru"' }),
   ]),
 
+  // Ghostty has no keybind action that runs a shell command, so the hotkey
+  // lives here instead. The script resolves the repositories itself from the
+  // running agent sessions, so no project has to be named in advance.
+  k.rule("Hyper+q to quicksave every repo with a live agent session")
+    .manipulators([
+      k.map("q", HYPER).to({
+        shell_command: "$HOME/dotfiles/bin/quicksave-sessions",
+      }),
+    ]),
+
   k.rule(
     "⌘. to open current Finder directory in Ghostty",
     k.ifApp("^com\\.apple\\.finder$"),

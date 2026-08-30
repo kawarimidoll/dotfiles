@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+# Checkpoint every repository that has a Claude Code session open, so one
+# hotkey covers whatever project is in front without being told which.
+# Karabiner spawns with a minimal PATH, so git quicksave has to be findable.
+
+PATH="$HOME/dotfiles/bin:$PATH"
+
+checkpoint() {
+  before=$(git -C "$1" rev-parse --verify --quiet refs/quicksave || :)
+  git -C "$1" quicksave || return
+  after=$(git -C "$1" rev-parse --verify --quiet refs/quicksave || :)
+  [ "$before" != "$after" ] && basename "$1"
+}
+
+saved=$(
+  for pid in $(pgrep -x claude); do
+    cwd=$(lsof -a -p "$pid" -d cwd -Fn 2>/dev/null | sed -n 's/^n//p')
+    [ -n "$cwd" ] && git -C "$cwd" rev-parse --show-toplevel 2>/dev/null
+  done | sort -u | while read -r root; do
+    checkpoint "$root"
+  done | paste -sd' ' -
+)
+
+osascript -e "display notification \"${saved:-no changes}\" with title \"quicksave\""

@@ -1,11 +1,39 @@
 #!/usr/bin/env sh
 
-# https://zenn.dev/studio/articles/git-quicksave
+# inspired: https://zenn.dev/studio/articles/git-quicksave
 
 set -e
 
-timestamp=$(date +%Y%m%d_%H%M%S)
+# A checkpoint that is thrown away again has nothing to prove to a hook.
+git() { command git -c core.hooksPath=/dev/null "$@"; }
+
+# Build the checkpoint in a scratch index. The repository's own index, HEAD and
+# working tree are never written, so this stays safe to fire while something
+# else is working in the same repository.
+GIT_INDEX_FILE=$(mktemp -u)
+export GIT_INDEX_FILE
+trap 'rm -f "$GIT_INDEX_FILE"' EXIT
+
+git read-tree HEAD
 git add --all
-git commit --quiet -m "quicksave-${timestamp}" --no-verify
-git reset --quiet HEAD~
-echo "quicksave: ${timestamp}"
+tree=$(git write-tree)
+
+previous=$(git rev-parse --verify --quiet refs/quicksave^{tree} || :)
+[ "$tree" = "$previous" ] && exit 0
+[ "$tree" = "$(git rev-parse HEAD^{tree})" ] && exit 0
+
+# Checkpoints get their own reflog rather than HEAD's, where they would bury
+# the history that reflog exists to show.
+timestamp=$(date +%Y%m%d_%H%M%S)
+commit=$(git commit-tree "$tree" -p HEAD -m "quicksave-${timestamp}")
+git update-ref --create-reflog -m "quicksave-${timestamp}" refs/quicksave "$commit"
+
+# Getting a checkpoint back:
+#   git log -g --format='%gd %gs' refs/quicksave              list them
+#   git show refs/quicksave                                   inspect the newest
+#   git restore --source=refs/quicksave -- <path>             one file
+#   git restore --source=refs/quicksave --worktree -- .       everything
+#   git restore --source='refs/quicksave@{2}' -- <path>       three checkpoints back
+#
+# Restoring overwrites the working tree and does not bring the staging back:
+# everything returns unstaged, and files created since the checkpoint stay.
