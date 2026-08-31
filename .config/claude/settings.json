@@ -184,6 +184,16 @@
       {
         "hooks": [
           {
+            "command": "/opt/homebrew/Cellar/deja-vu/0.19.1/bin/deja hook-tool-after",
+            "statusMessage": "Checking what fixed this before…",
+            "type": "command"
+          }
+        ],
+        "matcher": "Bash"
+      },
+      {
+        "hooks": [
+          {
             "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true",
             "type": "command"
           }
@@ -246,6 +256,16 @@
       {
         "hooks": [
           {
+            "command": "/opt/homebrew/Cellar/deja-vu/0.19.1/bin/deja hook-precompact",
+            "statusMessage": "Saving this session to memory…",
+            "type": "command"
+          }
+        ],
+        "matcher": "manual|auto"
+      },
+      {
+        "hooks": [
+          {
             "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true",
             "type": "command"
           }
@@ -291,6 +311,16 @@
           }
         ],
         "matcher": ""
+      },
+      {
+        "hooks": [
+          {
+            "command": "/opt/homebrew/Cellar/deja-vu/0.19.1/bin/deja hook-tool",
+            "statusMessage": "Checking what this touches…",
+            "type": "command"
+          }
+        ],
+        "matcher": "Bash|Edit|Write|MultiEdit|NotebookEdit|Task|Agent"
       },
       {
         "hooks": [
@@ -392,6 +422,15 @@
         "hooks": [
           {
             "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' idle \"$PPID\"",
+            "type": "command"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "command": "/opt/homebrew/Cellar/deja-vu/0.19.1/bin/deja hook-context",
+            "statusMessage": "Recalling past sessions…",
             "type": "command"
           }
         ]
@@ -599,6 +638,15 @@
           {
             "_adrafinil": true,
             "command": "/Applications/Adrafinil.app/Contents/Helpers/adrafinil acquire $CLAUDE_CODE_SESSION_ID --tool claude-code",
+            "type": "command"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "command": "/opt/homebrew/Cellar/deja-vu/0.19.1/bin/deja hook-prompt",
+            "statusMessage": "Searching past sessions…",
             "type": "command"
           }
         ]
