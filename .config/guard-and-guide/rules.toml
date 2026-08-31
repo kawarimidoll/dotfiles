@@ -53,7 +53,7 @@ message = "Lock files are read-only. Do not modify them directly."
 
 [[rules]]
 matcher = "Bash"
-regex = '(/usr)?/(s?bin|local/bin)/'
+regex = '(?m)(^|[;&|(]\s*)(/usr)?/(s?bin|local/bin)/'
 message = "Do not use absolute paths to system binaries. Use the command name directly."
 
 [[rules]]
@@ -98,7 +98,7 @@ message = "Use of 'git stash drop/clear' is prohibited. Ask the user to execute 
 
 [[rules]]
 matcher = "Bash"
-regex = '\b(env|printenv|export)\b'
+regex = '(?m)(^|[;&|(]\s*)(env|printenv|export)\b'
 message = "Accessing environment variables is prohibited. Ask the user to check or set environment variables."
 
 [[rules]]
