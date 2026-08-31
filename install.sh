@@ -105,6 +105,19 @@ link_dotfiles() {
     fi
     ln -sniv "$DOT_DIR/$f" "$HOME/$f" || { skipped_files+=("$f"); }
   done
+
+  # ~/.claude は dotfiles 内のパスではないため上のループの対象にならない。
+  # home-manager の claude-code などが CLAUDE_CONFIG_DIR を見ずにここへ直接書くので、
+  # このリンクが無いと設定が ~/.claude と ~/.config/claude に分裂する。
+  if [ -L "$HOME/.claude" ] && [ "$(readlink "$HOME/.claude")" = "$HOME/.config/claude" ]; then
+    echo "skip (already exists): .claude"
+  elif [ -e "$HOME/.claude" ] || [ -L "$HOME/.claude" ]; then
+    echo "  .claude exists but does not point at ~/.config/claude. Move it aside and re-run."
+    skipped_files+=(".claude")
+  else
+    ln -sniv "$HOME/.config/claude" "$HOME/.claude" || skipped_files+=(".claude")
+  fi
+
   if [ ${#skipped_files[@]} -gt 0 ]; then
     echo ''
     echo "Skipped files:"
