@@ -4,3 +4,4 @@
 [Generate code image] silicon --font 'UDEV Gothic 35JPDOC' --output "${HOME}/Downloads/silicon-$(date +%Y%m%d-%H%M%S).png"
 [Create fork and push] gh repo fork --remote
 [Create renamed-fork and push] gh repo fork --remote --fork-name __CURSOR__
+[Delete dead-link in cwd] find . -maxdepth 1 -xtype l -exec unlink {} \;
