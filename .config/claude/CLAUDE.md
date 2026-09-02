@@ -39,7 +39,8 @@
 
 - `z-ai/` is globally gitignored.
 - This directory is used for local AI documents such as plans and progress
-  tracking.
+  tracking, and for throwaway artifacts like screenshots
+  (`agent-browser screenshot z-ai/shot.png`).
 - Do NOT ask whether `z-ai/` is gitignored — it always is.
 
 ## Commits
@@ -77,6 +78,7 @@ Load the reference before first use in a session.
 | piping stdin to a TUI (vim, htop) | `tu` | `tu usage` |
 | curl-ing a JS-rendered page | `agent-browser` | `agent-browser --help` |
 | reading a whole file to locate a symbol | `zat` | — |
+| built-in Grep / Glob in a git repo | `fff` MCP tools | injected on connect |
 
 Not in any `--help`:
 
@@ -85,6 +87,8 @@ Not in any `--help`:
   instead of the whole file.
 - `agent-browser open <url> --allow-private` — required for localhost.
 - `agent-browser open <url> --profile ~/.browser-profile` — saved credentials.
+- `agent-browser open <url> --args "--no-sandbox"` — required when it reports
+  sandbox nesting.
 - `zmx` session name: git repo root basename (cwd basename if not a repo).
   `zmx list` first to avoid a collision; `zmx run <name> -d <cmd>`; tell the
   user `zmx attach <name>` so they can watch.
