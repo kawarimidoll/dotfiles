@@ -20,9 +20,9 @@ Window placement for macOS, in two modes sharing one gap model
 
 The gap accounts for [JankyBorders](https://github.com/FelixKratz/JankyBorders)
 drawing a border astride each window frame, so the seam between two tiled
-windows *looks* the same width as the gap at the screen edge. Keep
-`BORDER_WIDTH` in sync with `services.jankyborders.width` in
-`nix/nix-darwin/default.nix`.
+windows *looks* the same width as the gap at the screen edge. Both magiwa and
+`services.jankyborders` read that width from `nix/magiwa.nix`, so the two
+cannot drift apart.
 
 ## Build
 
@@ -54,6 +54,27 @@ lists what is available.
 The CLI is spawned by Karabiner-Elements, which TCC likely treats as the
 responsible process, so `karabiner_console_user_server`'s existing grant should
 cover it. If the Hyper+arrow shortcuts stop working, approve Magiwa there too.
+
+## Tuning
+
+Values are read from `~/.config/magiwa/config.json` at startup. home-manager
+generates that file from `nix/magiwa.nix`; a missing file, an unreadable one,
+or an absent key each fall back to the default compiled in.
+
+| key | default | meaning |
+|---|---|---|
+| `gap` | 8 | margin at the screen edges |
+| `borderWidth` | 8 | JankyBorders border width — shared with `services.jankyborders.width` |
+| `snapEdge` | 12 | how close to an edge a drag has to end to snap |
+| `snapCorner` | 0.25 | top/bottom band that snaps to a quarter, as a height fraction |
+| `dragSlop` | 6 | pointer travel before a press counts as a drag |
+| `titleBarHeight` | 30 | band at the top of a window treated as its title bar |
+| `animationDuration` | 0.18 | seconds the green button takes to resize, 0 for instant |
+| `previewAlpha` | 0.7 | snap preview opacity, lower shows more of what is behind |
+
+Changing one takes a `home-manager switch` and a `launchctl kickstart -k`, but
+no rebuild — so the Accessibility grant is never disturbed. The daemon logs the
+values it ended up with on startup.
 
 ## Usage
 

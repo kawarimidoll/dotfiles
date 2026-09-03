@@ -264,6 +264,10 @@ in
     };
   };
 
+  # magiwa tunables, shared with services.jankyborders in nix-darwin. Passed as
+  # a file rather than baked in so a change needs no rebuild of the app bundle.
+  home.file.".config/magiwa/config.json".text = builtins.toJSON (import ../magiwa.nix);
+
   # magiwa: 信号機ボタンの緑を「独立 Space 送り」から「現デスクトップで gap 付き
   # 最大化」に差し替える常駐プロセス。実体は magiwa/build.sh でビルドする
   # Magiwa.app（gitignore 済み）で、アクセシビリティ権限は初回に一度承認する。

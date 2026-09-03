@@ -9,7 +9,7 @@
 //        current desktop instead of moving the window to its own Space, and
 //        dragging a window to a screen edge snaps it there with the same gap
 //   magiwa --selftest
-//        check the gap math
+//        check the gap and anchor math
 //
 // Build: magiwa/build.sh
 // Both modes need Accessibility permission. The daemon holds its own, granted
@@ -53,23 +53,17 @@ struct WindowKey: Hashable {
   func hash(into hasher: inout Hasher) { hasher.combine(CFHash(el)) }
 }
 
-
 // The translucent rectangle shown while a drag hovers a snap target. Without
 // it the gesture is guesswork: the pointer has to reach the screen edge, and
 // nothing tells you when it got there.
 final class SnapPreview {
-  // NSVisualEffectView exposes no blur radius — the material fixes it, so
-  // fading the whole panel is the one knob left: the blurred layer turns
-  // translucent and what is really behind shows through under it.
-  private static let alpha: CGFloat = 0.7
-
   private lazy var panel: NSPanel = {
     let panel = NSPanel(
       contentRect: .zero, styleMask: [.borderless, .nonactivatingPanel],
       backing: .buffered, defer: false)
     panel.isOpaque = false
     panel.backgroundColor = .clear
-    panel.alphaValue = Self.alpha
+    panel.alphaValue = PREVIEW_ALPHA
     panel.hasShadow = false
     // above the window being dragged, and present on every Space so the panel
     // survives a drag that pushes the pointer into a screen edge
@@ -112,11 +106,6 @@ final class Daemon {
     let win: AXUIElement
     let button: CGRect
   }
-
-  // Roughly how long Cocoa takes to animate its own window frames. AX writes
-  // are synchronous IPC, so an app that relayouts slowly drops frames here —
-  // set to 0 to go back to a single instant write.
-  private static let animationDuration: TimeInterval = 0.18
 
   private struct Animation {
     let timer: Timer
@@ -161,6 +150,12 @@ final class Daemon {
     // NSPanel, and AppKit wants its app object even in a windowless agent
     let app = NSApplication.shared
     app.setActivationPolicy(.accessory)
+
+    // the effective values, so a config change can be confirmed from the log
+    note(
+      "config gap=\(GAP) border=\(BORDER_WIDTH) snap=\(SNAP_EDGE)/\(SNAP_CORNER) "
+        + "slop=\(DRAG_SLOP) titleBar=\(TITLE_BAR_HEIGHT) "
+        + "anim=\(ANIMATION_DURATION) alpha=\(PREVIEW_ALPHA)")
 
     if !start() {
       note("waiting for Accessibility permission — add Magiwa.app in")
@@ -317,11 +312,7 @@ final class Daemon {
     self.drag = nil
     guard let hit = screen(containing: point),
       let placement = snapPlacement(at: point, on: hit)
-    else {
-      // kept as the one hook for tuning the thresholds above
-      note("drop \(point) — no snap")
-      return
-    }
+    else { return }
     setFrame(placementRect(placement, on: hit), of: drag.win, in: drag.app)
   }
 
@@ -353,13 +344,13 @@ final class Daemon {
       if previous.key != WindowKey(target.win) { writeFrame(previous.to, of: previous.key.el) }
       animation = nil
     }
-    guard Self.animationDuration > 0 else { return setFrame(to, of: target.win, in: target.app) }
+    guard ANIMATION_DURATION > 0 else { return setFrame(to, of: target.win, in: target.app) }
 
     disableEnhancedUI(target.app)  // once, not per frame
     let start = CACurrentMediaTime()
     let timer = Timer.scheduledTimer(withTimeInterval: 1.0 / 60, repeats: true) {
       [weak self] timer in
-      let progress = min((CACurrentMediaTime() - start) / Self.animationDuration, 1)
+      let progress = min((CACurrentMediaTime() - start) / ANIMATION_DURATION, 1)
       // ease-out cubic: most of the travel up front, like Cocoa's own moves
       let eased = 1 - pow(1 - progress, 3)
       let frame = progress >= 1 ? to : lerp(from, to, CGFloat(eased))
@@ -421,6 +412,8 @@ func selfTest() {
 }
 
 // MARK: - Entry
+
+loadConfig()
 
 switch CommandLine.arguments.dropFirst().first {
 case .none: Daemon().run()

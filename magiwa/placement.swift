@@ -1,18 +1,19 @@
-// Window placement geometry, shared by the CLI and the daemon in main.swift.
-// Talks to the Accessibility API directly so position/size updates land
-// back-to-back with no visible staging — unlike System Events scripting,
-// where each step is a separate Apple Event round trip.
+// Tunables, the window placement geometry they feed, and the Accessibility
+// primitives that apply it — all shared by the CLI and the daemon in
+// main.swift. AX is driven directly so position/size updates land back-to-back
+// with no visible staging, unlike System Events scripting where each step is a
+// separate Apple Event round trip.
 
 import Cocoa
 import ApplicationServices
 
 // gap in pt at the screen edges; the seam between tiled windows is derived
 // from this in placementRect so the *visible* gap matches once borders draw
-let GAP: CGFloat = 8
+var GAP: CGFloat = 8
 // JankyBorders draws a border this wide straddling each window's frame, so it
-// reaches BORDER_WIDTH/2 past the frame. Keep in sync with
-// services.jankyborders.width in nix/nix-darwin/default.nix.
-let BORDER_WIDTH: CGFloat = 8
+// reaches BORDER_WIDTH/2 past the frame. nix/magiwa.nix feeds this value and
+// services.jankyborders.width from the same place, so they cannot drift.
+var BORDER_WIDTH: CGFloat = 8
 // apps may snap their size to an internal grid (terminal cell size etc.),
 // so match the current frame against placement rects with this tolerance
 let TOLERANCE: CGFloat = 25
@@ -177,15 +178,23 @@ func near(_ a: CGRect, _ b: CGRect) -> Bool {
 // how close to a screen edge a drag has to end for the window to snap there.
 // The system effectively requires the pointer to reach the edge and stop there,
 // so anything above zero is already looser than the native gesture.
-let SNAP_EDGE: CGFloat = 12
+var SNAP_EDGE: CGFloat = 12
 // band at the top and bottom of a side that snaps to a quarter rather than a
 // half, as a fraction of the screen height
-let SNAP_CORNER: CGFloat = 0.25
+var SNAP_CORNER: CGFloat = 0.25
 // pointer travel before a press counts as a drag rather than a click
-let DRAG_SLOP: CGFloat = 6
+var DRAG_SLOP: CGFloat = 6
 // band at the top of a window frame treated as its title bar. AX exposes no
 // rect for it and apps vary — 28pt is standard, unified toolbars are taller.
-let TITLE_BAR_HEIGHT: CGFloat = 30
+var TITLE_BAR_HEIGHT: CGFloat = 30
+// roughly how long Cocoa takes to animate its own window frames. AX writes are
+// synchronous IPC, so an app that relayouts slowly drops frames here — set to 0
+// to go back to a single instant write.
+var ANIMATION_DURATION: TimeInterval = 0.18
+// NSVisualEffectView exposes no blur radius — the material fixes it, so fading
+// the whole snap preview is the one knob left: the blurred layer turns
+// translucent and what is really behind shows through under it.
+var PREVIEW_ALPHA: CGFloat = 0.7
 
 // screen rect in Accessibility (top-left) coordinates. Unlike visibleFrame this
 // includes the menu bar, which is itself a snap target.
@@ -231,4 +240,30 @@ func snapPlacement(at point: CGPoint, on screen: NSScreen) -> Placement? {
 // AppKit — the snap preview panel is positioned in Cocoa coordinates
 func cocoaRect(fromAX r: CGRect) -> CGRect {
   CGRect(x: r.minX, y: primaryHeight() - r.maxY, width: r.width, height: r.height)
+}
+
+// MARK: - Config
+
+// Tunables come from ~/.config/magiwa/config.json so they can be changed
+// without a rebuild — rebuilding re-signs the bundle and restarts the agent,
+// which is a slow loop for values that only get settled by feel. A missing
+// file, an unreadable one, or an absent key each keep the default above.
+func loadConfig() {
+  let path = FileManager.default.homeDirectoryForCurrentUser
+    .appendingPathComponent(".config/magiwa/config.json")
+  guard let data = try? Data(contentsOf: path),
+    let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any]
+  else { return }
+
+  func number(_ key: String) -> CGFloat? {
+    (json[key] as? NSNumber).map { CGFloat($0.doubleValue) }
+  }
+  if let v = number("gap") { GAP = v }
+  if let v = number("borderWidth") { BORDER_WIDTH = v }
+  if let v = number("snapEdge") { SNAP_EDGE = v }
+  if let v = number("snapCorner") { SNAP_CORNER = v }
+  if let v = number("dragSlop") { DRAG_SLOP = v }
+  if let v = number("titleBarHeight") { TITLE_BAR_HEIGHT = v }
+  if let v = number("animationDuration") { ANIMATION_DURATION = TimeInterval(v) }
+  if let v = number("previewAlpha") { PREVIEW_ALPHA = v }
 }
