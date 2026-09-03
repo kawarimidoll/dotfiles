@@ -72,6 +72,7 @@ in
         version-lsp
         kakehashi
 
+        llm-agents.ax
         llm-agents.codex
         llm-agents.copilot-cli
         llm-agents.copilot-language-server
@@ -109,7 +110,6 @@ in
         ffmpeg_7
         findutils
         gawk
-        gemini-cli
         ghq
         gifsicle
         git
@@ -228,6 +228,7 @@ in
         xh
         xplr
         yazi
+        zat
         zig
 
         zsh
