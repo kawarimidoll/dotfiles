@@ -62,16 +62,6 @@
       {
         "hooks": [
           {
-            "_adrafinil": true,
-            "command": "/Applications/Adrafinil.app/Contents/Helpers/adrafinil release $CLAUDE_CODE_SESSION_ID --tool claude-code",
-            "type": "command"
-          }
-        ],
-        "matcher": "idle_prompt"
-      },
-      {
-        "hooks": [
-          {
             "async": true,
             "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" Notification",
             "timeout": 5,
@@ -79,6 +69,15 @@
           }
         ],
         "matcher": ""
+      },
+      {
+        "hooks": [
+          {
+            "command": "/Applications/Adrafinil.app/Contents/Helpers/adrafinil release $CLAUDE_CODE_SESSION_ID --tool claude-code",
+            "type": "command"
+          }
+        ],
+        "matcher": "idle_prompt"
       },
       {
         "hooks": [
@@ -110,7 +109,6 @@
     ],
     "PermissionRequest": [
       {
-        "_otty": true,
         "hooks": [
           {
             "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' awaiting \"$PPID\" ctx",
@@ -162,7 +160,6 @@
     ],
     "PostToolUse": [
       {
-        "_otty": true,
         "hooks": [
           {
             "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' processing \"$PPID\"",
@@ -184,7 +181,7 @@
       {
         "hooks": [
           {
-            "command": "/opt/homebrew/Cellar/deja-vu/0.19.1/bin/deja hook-tool-after",
+            "command": "/opt/homebrew/Cellar/deja-vu/0.19.2/bin/deja hook-tool-after",
             "statusMessage": "Checking what fixed this before…",
             "type": "command"
           }
@@ -256,7 +253,7 @@
       {
         "hooks": [
           {
-            "command": "/opt/homebrew/Cellar/deja-vu/0.19.1/bin/deja hook-precompact",
+            "command": "/opt/homebrew/Cellar/deja-vu/0.19.2/bin/deja hook-precompact",
             "statusMessage": "Saving this session to memory…",
             "type": "command"
           }
@@ -293,7 +290,6 @@
     ],
     "PreToolUse": [
       {
-        "_otty": true,
         "hooks": [
           {
             "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' processing \"$PPID\"",
@@ -315,7 +311,7 @@
       {
         "hooks": [
           {
-            "command": "/opt/homebrew/Cellar/deja-vu/0.19.1/bin/deja hook-tool",
+            "command": "/opt/homebrew/Cellar/deja-vu/0.19.2/bin/deja hook-tool",
             "statusMessage": "Checking what this touches…",
             "type": "command"
           }
@@ -372,7 +368,6 @@
       {
         "hooks": [
           {
-            "_adrafinil": true,
             "command": "/Applications/Adrafinil.app/Contents/Helpers/adrafinil release $CLAUDE_CODE_SESSION_ID --tool claude-code",
             "type": "command"
           }
@@ -418,18 +413,9 @@
     ],
     "SessionStart": [
       {
-        "_otty": true,
         "hooks": [
           {
-            "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' idle \"$PPID\"",
-            "type": "command"
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "command": "/opt/homebrew/Cellar/deja-vu/0.19.1/bin/deja hook-context",
+            "command": "/opt/homebrew/Cellar/deja-vu/0.19.2/bin/deja hook-context",
             "statusMessage": "Recalling past sessions…",
             "type": "command"
           }
@@ -446,12 +432,10 @@
       {
         "hooks": [
           {
-            "_adrafinil": true,
-            "command": "/Applications/Adrafinil.app/Contents/Helpers/adrafinil acquire $CLAUDE_CODE_SESSION_ID --tool claude-code",
+            "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' idle \"$PPID\"",
             "type": "command"
           }
-        ],
-        "matcher": "clear"
+        ]
       },
       {
         "hooks": [
@@ -463,6 +447,15 @@
           }
         ],
         "matcher": ""
+      },
+      {
+        "hooks": [
+          {
+            "command": "/Applications/Adrafinil.app/Contents/Helpers/adrafinil acquire $CLAUDE_CODE_SESSION_ID --tool claude-code",
+            "type": "command"
+          }
+        ],
+        "matcher": "clear"
       },
       {
         "hooks": [
@@ -485,18 +478,8 @@
     ],
     "Stop": [
       {
-        "_otty": true,
         "hooks": [
           {
-            "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' idle \"$PPID\"",
-            "type": "command"
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "_adrafinil": true,
             "command": "/Applications/Adrafinil.app/Contents/Helpers/adrafinil release $CLAUDE_CODE_SESSION_ID --tool claude-code",
             "type": "command"
           }
@@ -506,6 +489,14 @@
         "hooks": [
           {
             "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude",
+            "type": "command"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' idle \"$PPID\"",
             "type": "command"
           }
         ]
@@ -548,7 +539,6 @@
       {
         "hooks": [
           {
-            "_adrafinil": true,
             "command": "/Applications/Adrafinil.app/Contents/Helpers/adrafinil acquire --tool claude-code --subagent",
             "type": "command"
           }
@@ -579,7 +569,6 @@
       {
         "hooks": [
           {
-            "_adrafinil": true,
             "command": "/Applications/Adrafinil.app/Contents/Helpers/adrafinil release --tool claude-code --subagent",
             "type": "command"
           }
@@ -625,27 +614,9 @@
     ],
     "UserPromptSubmit": [
       {
-        "_otty": true,
         "hooks": [
           {
-            "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' processing \"$PPID\"",
-            "type": "command"
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "_adrafinil": true,
-            "command": "/Applications/Adrafinil.app/Contents/Helpers/adrafinil acquire $CLAUDE_CODE_SESSION_ID --tool claude-code",
-            "type": "command"
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "command": "/opt/homebrew/Cellar/deja-vu/0.19.1/bin/deja hook-prompt",
+            "command": "/opt/homebrew/Cellar/deja-vu/0.19.2/bin/deja hook-prompt",
             "statusMessage": "Searching past sessions…",
             "type": "command"
           }
@@ -654,7 +625,23 @@
       {
         "hooks": [
           {
+            "command": "/Applications/Adrafinil.app/Contents/Helpers/adrafinil acquire $CLAUDE_CODE_SESSION_ID --tool claude-code",
+            "type": "command"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
             "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude",
+            "type": "command"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "command": "OTTY_CLI='/Applications/Otty.app/Contents/MacOS/otty-cli' '/Applications/Otty.app/Contents/Resources/agent-integration/claude/otty-hook.sh' processing \"$PPID\"",
             "type": "command"
           }
         ]
