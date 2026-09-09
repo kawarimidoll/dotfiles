@@ -45,9 +45,8 @@
 
 ## Commits
 
-- Commit from what is already staged. Never add to or remove from the staging
-  area to shape a commit.
-- One commit, one purpose. Never mix multiple conventional-commit types.
+- One commit, one purpose. Never mix multiple conventional-commit types. Stage
+  by purpose instead of staging everything and describing it as one.
 - Write the message from `git diff --staged`, not from the conversation — the
   working tree may differ from what was discussed.
 - Cover only what is in the diff: not what was left out, deferred, or merely
@@ -79,6 +78,7 @@ Load the reference before first use in a session.
 | curl-ing a JS-rendered page | `agent-browser` | `agent-browser --help` |
 | reading a whole file to locate a symbol | `zat` | — |
 | built-in Grep / Glob in a git repo | `fff` MCP tools | injected on connect |
+| `git add -p` / `git rebase -i` for hunk-level work | `git-surgeon` | `git-surgeon --help` |
 
 Not in any `--help`:
 
