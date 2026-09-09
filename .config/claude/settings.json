@@ -182,7 +182,7 @@
       {
         "hooks": [
           {
-            "command": "/opt/homebrew/Cellar/deja-vu/0.19.2/bin/deja hook-tool-after",
+            "command": "/opt/homebrew/bin/deja hook-tool-after",
             "statusMessage": "Checking what fixed this before…",
             "type": "command"
           }
@@ -254,7 +254,7 @@
       {
         "hooks": [
           {
-            "command": "/opt/homebrew/Cellar/deja-vu/0.19.2/bin/deja hook-precompact",
+            "command": "/opt/homebrew/bin/deja hook-precompact",
             "statusMessage": "Saving this session to memory…",
             "type": "command"
           }
@@ -312,7 +312,7 @@
       {
         "hooks": [
           {
-            "command": "/opt/homebrew/Cellar/deja-vu/0.19.2/bin/deja hook-tool",
+            "command": "/opt/homebrew/bin/deja hook-tool",
             "statusMessage": "Checking what this touches…",
             "type": "command"
           }
@@ -416,7 +416,7 @@
       {
         "hooks": [
           {
-            "command": "/opt/homebrew/Cellar/deja-vu/0.19.2/bin/deja hook-context",
+            "command": "/opt/homebrew/bin/deja hook-context",
             "statusMessage": "Recalling past sessions…",
             "type": "command"
           }
@@ -617,7 +617,7 @@
       {
         "hooks": [
           {
-            "command": "/opt/homebrew/Cellar/deja-vu/0.19.2/bin/deja hook-prompt",
+            "command": "/opt/homebrew/bin/deja hook-prompt",
             "statusMessage": "Searching past sessions…",
             "type": "command"
           }
