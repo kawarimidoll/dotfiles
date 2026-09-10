@@ -92,15 +92,6 @@
       {
         "hooks": [
           {
-            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude",
-            "type": "command"
-          }
-        ],
-        "matcher": "*"
-      },
-      {
-        "hooks": [
-          {
             "command": "pixtuoid-hook",
             "type": "command"
           }
@@ -116,16 +107,6 @@
             "type": "command"
           }
         ]
-      },
-      {
-        "hooks": [
-          {
-            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude",
-            "timeout": 86400,
-            "type": "command"
-          }
-        ],
-        "matcher": "*"
       },
       {
         "hooks": [
@@ -201,15 +182,6 @@
       {
         "hooks": [
           {
-            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude",
-            "type": "command"
-          }
-        ],
-        "matcher": "*"
-      },
-      {
-        "hooks": [
-          {
             "command": "pixtuoid-hook",
             "type": "command"
           }
@@ -269,24 +241,6 @@
           }
         ],
         "matcher": "*"
-      },
-      {
-        "hooks": [
-          {
-            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude",
-            "type": "command"
-          }
-        ],
-        "matcher": "auto"
-      },
-      {
-        "hooks": [
-          {
-            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude",
-            "type": "command"
-          }
-        ],
-        "matcher": "manual"
       }
     ],
     "PreToolUse": [
@@ -323,15 +277,6 @@
         "hooks": [
           {
             "command": "/Users/kawarimidoll/.local/share/uv/tools/sidepulse/bin/python /Users/kawarimidoll/.local/share/uv/tools/sidepulse/lib/python3.13/site-packages/sidepulse/hook_entry.py --provider claude --log /Users/kawarimidoll/.local/state/sidepulse/agent-monitor/claude.jsonl ; true",
-            "type": "command"
-          }
-        ],
-        "matcher": "*"
-      },
-      {
-        "hooks": [
-          {
-            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude",
             "type": "command"
           }
         ],
@@ -377,14 +322,6 @@
       {
         "hooks": [
           {
-            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude",
-            "type": "command"
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
             "async": true,
             "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" SessionEnd",
             "timeout": 5,
@@ -418,14 +355,6 @@
           {
             "command": "/opt/homebrew/bin/deja hook-context",
             "statusMessage": "Recalling past sessions…",
-            "type": "command"
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude",
             "type": "command"
           }
         ]
@@ -482,14 +411,6 @@
         "hooks": [
           {
             "command": "/Applications/Adrafinil.app/Contents/Helpers/adrafinil release $CLAUDE_CODE_SESSION_ID --tool claude-code",
-            "type": "command"
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude",
             "type": "command"
           }
         ]
@@ -578,14 +499,6 @@
       {
         "hooks": [
           {
-            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude",
-            "type": "command"
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
             "async": true,
             "command": "\"/Users/kawarimidoll/.nix-profile/bin/node\" \"/Applications/Clawd on Desk.app/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js\" SubagentStop",
             "timeout": 5,
@@ -627,14 +540,6 @@
         "hooks": [
           {
             "command": "/Applications/Adrafinil.app/Contents/Helpers/adrafinil acquire $CLAUDE_CODE_SESSION_ID --tool claude-code",
-            "type": "command"
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "command": "/Users/kawarimidoll/.ping-island/bin/ping-island-bridge --source claude",
             "type": "command"
           }
         ]
