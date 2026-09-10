@@ -76,6 +76,10 @@ in
         llm-agents.codex
         llm-agents.copilot-cli
         llm-agents.copilot-language-server
+        llm-agents.git-surgeon
+        llm-agents.officecli
+        llm-agents.pdfvision
+        llm-agents.plannotator
 
         nur.fff-mcp
         nur.ghost
@@ -192,7 +196,7 @@ in
         silicon
         sl
         slides
-        sqlit-tui
+        # sqlit-tui
         sttr
         stylua
         superfile
@@ -209,7 +213,7 @@ in
         tokei
         tombi
         treefmt
-        typescript-go
+        typescript
         typos-lsp
         tz
         unixtools.procps # watch ps sysctl top
