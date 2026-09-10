@@ -1,0 +1,17 @@
+# tirith のユーザースコープポリシー (~/.config/tirith/policy.yaml)。
+#
+# Why not repo scope: リポジトリ内の .tirith/policy.yaml は tightening-only で、
+# severity_overrides のような緩和フィールドは黙って無視される。緩和は user スコープでしか効かない。
+#
+# Why not LOW: MEDIUM は warn (exit 2) 止まりで、Claude Code の PreToolUse フックは
+# TIRITH_HOOK_WARN_ACTION の既定値 allow により警告テキスト付きで通す。
+# LOW にすると検出そのものが見えなくなるため、可視性を残す MEDIUM を採る。
+severity_overrides:
+  # 「。」(U+3002) を ASCII の "." と紛らわしい文字として HIGH 判定する。
+  # 日本語ドキュメントを heredoc で書くたびにブロックされ、エージェントが
+  # 回避のため一時スクリプト経由の書き込みに逃げるので warn に落とす。
+  confusable_text: MEDIUM
+
+  # ローカル出力を sh / perl -ne / node -e / python3 - に渡すだけで HIGH 判定する。
+  # 実際に危険な curl | bash は別ルール curl_pipe_shell が HIGH のまま担当する。
+  pipe_to_interpreter: MEDIUM

@@ -90,7 +90,7 @@ link_dotfiles() {
   cd "$DOT_DIR" || die "cannot cd to $DOT_DIR"
   local skipped_files=()
   # untracked は .config/git/config のエイリアス。bootstrap 時は効かないため直接展開する
-  for f in $( (git_cmd ls-files; git_cmd ls-files --others --exclude-standard) | grep -E '^\.' | grep -vE 'deprecated|\.git')
+  for f in $( (git_cmd ls-files; git_cmd ls-files --others --exclude-standard) | grep -E '^\.' | grep -vE 'deprecated|\.git|^\.config/tirith/')
   do
     mkdir -p "$HOME/$(dirname "$f")"
     die_if_error "create directory $f"
@@ -116,6 +116,18 @@ link_dotfiles() {
     skipped_files+=(".claude")
   else
     ln -sniv "$HOME/.config/claude" "$HOME/.claude" || skipped_files+=(".claude")
+  fi
+
+  # tirith は policy.yaml が symlink だと NotRegularFile として読み込みを拒否し、
+  # 読めないポリシーは fail-closed 扱いになって全ルールが block に倒れる。
+  # ファイル単位ではなくディレクトリごとリンクし、policy.yaml を実ファイルとして見せる。
+  if [ -L "$HOME/.config/tirith" ] && [ "$(readlink "$HOME/.config/tirith")" = "$DOT_DIR/.config/tirith" ]; then
+    echo "skip (already exists): .config/tirith"
+  elif [ -e "$HOME/.config/tirith" ] || [ -L "$HOME/.config/tirith" ]; then
+    echo "  .config/tirith exists but does not point at $DOT_DIR/.config/tirith. Move it aside and re-run."
+    skipped_files+=(".config/tirith")
+  else
+    ln -sniv "$DOT_DIR/.config/tirith" "$HOME/.config/tirith" || skipped_files+=(".config/tirith")
   fi
 
   if [ ${#skipped_files[@]} -gt 0 ]; then
