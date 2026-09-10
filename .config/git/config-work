@@ -1,7 +1,7 @@
 ; 業務リポジトリ配下でのみ読み込まれる (読み込み条件は config-local の includeIf)
 [credential "https://github.com"]
 	; direnv の GH_CONFIG_DIR ではなく gitdir で判定するため、
-	; direnv が走らない文脈 (GUI エディタ、cron、他所からの git -C) でも効く
+	; .envrc を読んでいないシェルから叩かれても効く (ghq get や他所からの git -C)
 	; 空エントリは必須: helper は追記式で、先に応答したものが採用される
 	helper =
 	helper = !GH_CONFIG_DIR=$HOME/.config/gh-work gh auth git-credential
