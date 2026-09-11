@@ -163,7 +163,7 @@
       {
         "hooks": [
           {
-            "command": "/opt/homebrew/bin/deja hook-tool-after",
+            "command": "/Users/kawarimidoll/.config/deja/bin/deja-hook hook-tool-after",
             "statusMessage": "Checking what fixed this before…",
             "type": "command"
           }
@@ -226,7 +226,7 @@
       {
         "hooks": [
           {
-            "command": "/opt/homebrew/bin/deja hook-precompact",
+            "command": "/Users/kawarimidoll/.config/deja/bin/deja-hook hook-precompact",
             "statusMessage": "Saving this session to memory…",
             "type": "command"
           }
@@ -266,7 +266,7 @@
       {
         "hooks": [
           {
-            "command": "/opt/homebrew/bin/deja hook-tool",
+            "command": "/Users/kawarimidoll/.config/deja/bin/deja-hook hook-tool",
             "statusMessage": "Checking what this touches…",
             "type": "command"
           }
@@ -353,7 +353,7 @@
       {
         "hooks": [
           {
-            "command": "/opt/homebrew/bin/deja hook-context",
+            "command": "/Users/kawarimidoll/.config/deja/bin/deja-hook hook-context",
             "statusMessage": "Recalling past sessions…",
             "type": "command"
           }
@@ -530,7 +530,7 @@
       {
         "hooks": [
           {
-            "command": "/opt/homebrew/bin/deja hook-prompt",
+            "command": "/Users/kawarimidoll/.config/deja/bin/deja-hook hook-prompt",
             "statusMessage": "Searching past sessions…",
             "type": "command"
           }
