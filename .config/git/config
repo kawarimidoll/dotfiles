@@ -111,6 +111,8 @@
 	template = ~/.config/git/message
 	verbose = true
 	gpgsign = true
+[user]
+	useConfigOnly = true
 [merge]
 	tool = vimdiff2
 	conflictStyle = diff3
