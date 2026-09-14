@@ -262,11 +262,6 @@ in
       type = "stdio";
       command = "fff-mcp";
     };
-    mcpServers.tirith = {
-      type = "stdio";
-      command = "tirith";
-      args = [ "mcp-server" ];
-    };
   };
 
   # magiwa tunables, shared with services.jankyborders in nix-darwin. Passed as
