@@ -77,7 +77,7 @@ Load the reference before first use in a session.
 | piping stdin to a TUI (vim, htop) | `tu` | `tu usage` |
 | curl-ing a JS-rendered page | `agent-browser` | `agent-browser --help` |
 | reading a whole file to locate a symbol | `zat` | — |
-| built-in Grep / Glob in a git repo | `fff` MCP tools | injected on connect |
+| `rg` / `grep` / `find` via Bash in a git repo | `fff` MCP tools | injected on connect |
 | `git add -p` / `git rebase -i` for hunk-level work | `git-surgeon` | `git-surgeon --help` |
 
 Not in any `--help`:
