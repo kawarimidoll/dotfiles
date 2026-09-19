@@ -1,13 +1,13 @@
-# timestamp: 2026-08-21 08:21:32 JST
+# timestamp: 2026-09-19 07:41:21 JST
 tap "clipory/tap"
 tap "dannystewart/apps"
-tap "darrylmorley/whatcable"
+tap "darrylmorley/whatcable", trusted: { casks: ["whatcable"] }
 tap "pakerwreah/calendr"
 tap "productdevbook/tap"
+brew "deja-vu"
 brew "flyline"
 brew "leaf-markdown-viewer"
 brew "mas"
-brew "pinentry-mac"
 brew "pixtuoid"
 brew "zig@0.15"
 cask "1password"
@@ -42,6 +42,7 @@ cask "google-japanese-ime"
 cask "itsycal"
 cask "karabiner-elements"
 cask "keycastr"
+cask "keyty"
 cask "kitty"
 cask "knockknock"
 cask "lm-studio"
@@ -52,8 +53,9 @@ cask "meetingbar"
 cask "menuwhere"
 cask "music-decoy"
 cask "obsidian"
+cask "opendisplay"
 cask "otty"
-cask "ping-island"
+cask "pairpods"
 cask "pixieditor"
 cask "productdevbook/tap/portkiller", trusted: true
 cask "raycast"
@@ -73,7 +75,7 @@ cask "tuna"
 cask "dannystewart/apps/volumehud", trusted: true
 cask "vorssaint"
 cask "wezterm@nightly"
-cask "darrylmorley/whatcable/whatcable", trusted: true
+cask "whatcable"
 cask "zen"
 mas "Battery Line", id: 6462894357
 mas "Color Picker", id: 1545870783
