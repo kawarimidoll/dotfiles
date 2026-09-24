@@ -19,6 +19,10 @@ in
     "/etc/ssl/cert.pem" # macOS system CA store
   ];
 
+  # sudo を Touch ID (と Apple Watch) で認証する。/etc/pam.d/sudo_local に
+  # pam_tid.so を書き出す。OS アップデートで消えない側のファイルなので再設定不要。
+  security.pam.services.sudo_local.touchIdAuth = true;
+
   # unstable nixpkgs の nixos-render-docs が --toc-depth を廃止(→ --sidebar-depth)
   # したが、現行 nix-darwin(最新 HEAD)が未追随で option manual のビルドが失敗する。
   # 上流 nix-darwin が対応したら両方削除して戻す。
