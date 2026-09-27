@@ -63,12 +63,15 @@ in
         # 無いとキャッシュ済み nightly も取得できずローカルビルドになる。ただし最新 nightly は
         # CI の push より先行するとヒットしない(flake update 直後は数時間〜1日ラグあり)。
         "https://nix-community.cachix.org"
+        # felis のビルド済みバイナリ取得元。flake の nixConfig は input 側には反映されない。
+        "https://nix-cache.natsukium.com"
       ];
       extra-trusted-public-keys = [
         "kawarimidoll.cachix.org-1:43W5G98mVTyDaMeG7ZGzx4h/be5u4ULUGV/9svLjKJY="
         "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
         "arto.cachix.org-1:yaH0JQomRJTosIcTh2xZPKBEny41D7h6QUePYQzWYqc="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        "niks3-1:SoIFTPtiPoCW3/OzUkIBKlLG5znMZfbihlr11XAOles="
       ];
     };
     linux-builder = {

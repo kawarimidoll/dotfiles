@@ -285,7 +285,16 @@ in
     };
   };
 
+  # https://github.com/felis-terminal/felis
+  # モジュール既定の package は本 flake の nixpkgs でビルドされ natsukium cache に当たらないため、
+  # felis flake 自身の packages を使う。
+  programs.felis = {
+    enable = true;
+    package = inputs.felis.packages.${pkgs.stdenv.hostPlatform.system}.felis;
+  };
+
   imports = [
+    inputs.felis.homeManagerModules.felis
     inputs.nix-index-database.homeModules.nix-index
     ./programs/bash.nix
     ./programs/bat.nix

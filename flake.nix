@@ -150,6 +150,9 @@
       inputs.bun2nix.follows = "bun2nix";
       inputs.systems.follows = "systems";
     };
+    # felis は自前 nixpkgs+crane でビルドしたバイナリを nix-cache.natsukium.com に push している。
+    # follows=nixpkgs/crane だとハッシュがずれ Rust のローカルビルドになるため follows させない。
+    felis.url = "github:felis-terminal/felis";
   };
 
   outputs =
