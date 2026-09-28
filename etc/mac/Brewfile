@@ -1,4 +1,4 @@
-# timestamp: 2026-09-19 07:41:21 JST
+# timestamp: 2026-09-28 07:18:22 JST
 tap "clipory/tap"
 tap "dannystewart/apps"
 tap "darrylmorley/whatcable", trusted: { casks: ["whatcable"] }
@@ -28,6 +28,7 @@ cask "claude-devtools"
 cask "clipory/tap/clipory", trusted: true
 cask "cloudflare-warp"
 cask "cmux"
+cask "creality-print"
 cask "docker-desktop"
 cask "filen"
 cask "flux-app"
@@ -67,6 +68,7 @@ cask "suspicious-package"
 cask "swift-shift"
 cask "tablepro"
 cask "tailscale-app"
+cask "terminal-browser"
 cask "thaw"
 cask "timemachinestatus"
 cask "tiny-player"
