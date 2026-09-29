@@ -182,6 +182,7 @@ in
         procs
         qrtool
         rainfrog
+        rclone
         rebar3
         resterm
         restman
