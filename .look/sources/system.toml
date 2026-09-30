@@ -1,0 +1,5 @@
+[sleep-displays]
+name    = "Sleep Displays"
+aliases = ["display sleep"]
+icon    = "moon.fill"
+do      = ["pmset displaysleepnow"]
