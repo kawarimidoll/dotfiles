@@ -592,7 +592,6 @@
   "permissions": {
     "allow": [],
     "ask": [
-      "Bash(curl:*)",
       "Bash(git push:*)",
       "Bash(git reset:*)",
       "Bash(git rm:*)"

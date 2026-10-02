@@ -68,6 +68,21 @@ message = "Use of 'sed' is prohibited. Use 'perl' instead. Example: perl -pi -e 
 
 [[rules]]
 matcher = "Bash"
+regex = '(?m)(^|[;&|(]\s*|\b(command|exec|xargs)\s+(-\S+\s+)*)\\?rm\b'
+message = "Use of 'rm' is prohibited. Ask the user to delete the files."
+
+[[rules]]
+matcher = "Bash"
+regex = '(?m)(^|[;&|(]\s*)(pip3?|pipx|poetry)\b|\bpython3?\s+-m\s+pip\b'
+message = "Use of pip/pipx/poetry is prohibited. Use 'uv' instead. Example: uv add <pkg>, uv run <cmd>, uvx <tool>"
+
+[[rules]]
+matcher = "Bash"
+regex = '(?m)(^|[;&|(]\s*)curl\b'
+message = "Use of 'curl' is prohibited. Use 'ax' instead. Run 'ax agent-context' first to learn its usage."
+
+[[rules]]
+matcher = "Bash"
 regex = '\bgit\b[^;|&\n]*\bpush\b'
 message = "Use of 'git push' is prohibited. Ask the user to execute it."
 
