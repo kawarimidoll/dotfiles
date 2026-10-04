@@ -182,7 +182,7 @@
             "type": "command"
           }
         ],
-        "matcher": "Bash"
+        "matcher": "Bash|PowerShell"
       },
       {
         "hooks": [
@@ -214,6 +214,16 @@
           }
         ],
         "matcher": ""
+      },
+      {
+        "hooks": [
+          {
+            "command": "/Users/kawarimidoll/.config/deja/bin/deja-hook hook-tool-after",
+            "statusMessage": "Checking what fixed this before…",
+            "type": "command"
+          }
+        ],
+        "matcher": "Bash|PowerShell"
       },
       {
         "hooks": [
@@ -285,7 +295,7 @@
             "type": "command"
           }
         ],
-        "matcher": "Bash|Edit|Write|MultiEdit|NotebookEdit|Task|Agent"
+        "matcher": "Bash|PowerShell|Edit|Write|MultiEdit|NotebookEdit|Task|Agent"
       },
       {
         "hooks": [
@@ -325,6 +335,15 @@
       }
     ],
     "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "command": "/Users/kawarimidoll/.config/deja/bin/deja-hook hook-session-end",
+            "statusMessage": "Marking this session as ended…",
+            "type": "command"
+          }
+        ]
+      },
       {
         "hooks": [
           {
