@@ -217,7 +217,7 @@ in
         typescript
         typos-lsp
         tz
-        unixtools.procps # watch ps sysctl top
+        unixtools.watch # procps' ps/top lack the task-port entitlement on macOS
         unzip
         upterm
         uutils-coreutils-noprefix
