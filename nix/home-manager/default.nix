@@ -54,6 +54,7 @@ in
         agtlog = inputs.agtlog.packages.${system}.default;
         hjkls = inputs.hjkls.packages.${system}.default;
         edgeneon = inputs.edgeneon.packages.${system}.default;
+        mmdr = inputs.mermaid-rs-renderer.packages.${system}.default;
         nur = inputs.nur-packages.packages.${system};
         llm-agents = inputs.llm-agents.packages.${system};
         # unstableでビルド不可になった場合の修正用
@@ -71,6 +72,7 @@ in
         edgeneon
         version-lsp
         kakehashi
+        mmdr
 
         llm-agents.ax
         llm-agents.codex
@@ -186,6 +188,7 @@ in
         rebar3
         resterm
         restman
+        resvg
         ripgrep
         rustup
         sampler

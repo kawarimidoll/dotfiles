@@ -543,6 +543,29 @@
         "type": "github"
       }
     },
+    "mermaid-rs-renderer": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1788747976,
+        "narHash": "sha256-Qt+s2mLyywVRHcFA0hxIxqsd/UafCcJq1FSFd4Cev0I=",
+        "owner": "1jehuang",
+        "repo": "mermaid-rs-renderer",
+        "rev": "3726ccbffe0e8032361eb9668694b24f77858060",
+        "type": "github"
+      },
+      "original": {
+        "owner": "1jehuang",
+        "repo": "mermaid-rs-renderer",
+        "type": "github"
+      }
+    },
     "neoki": {
       "inputs": {
         "git-hooks": [
@@ -769,6 +792,7 @@
         "kakehashi": "kakehashi",
         "koi": "koi",
         "llm-agents": "llm-agents",
+        "mermaid-rs-renderer": "mermaid-rs-renderer",
         "neoki": "neoki",
         "neovim-nightly-overlay": "neovim-nightly-overlay",
         "nix-darwin": "nix-darwin",
