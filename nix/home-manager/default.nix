@@ -57,6 +57,24 @@ in
         mmdr = inputs.mermaid-rs-renderer.packages.${system}.default;
         nur = inputs.nur-packages.packages.${system};
         llm-agents = inputs.llm-agents.packages.${system};
+        zsh-head = pkgs.zsh.overrideAttrs (old: {
+          # postInstall が bin/zsh-${version} を消すため upstream の VERSION と一致させる
+          version = builtins.head (
+            builtins.match ".*VERSION=([^\n]+).*" (builtins.readFile "${inputs.zsh-src}/Config/version.mk")
+          );
+          src = inputs.zsh-src;
+          # git ソースの docs 生成には yodl が要るが nixpkgs の yodl は Linux 専用
+          outputs = [ "out" ];
+          installTargets = [
+            "install.bin"
+            "install.modules"
+            "install.fns"
+          ];
+          postInstall =
+            builtins.replaceStrings [ "make install.info install.html" "mv $out/share/zsh/htmldoc" ] [ "" "# " ]
+              old.postInstall;
+          doCheck = false;
+        });
         # unstableでビルド不可になった場合の修正用
         # stablePkgs.appの形式で呼ぶことでビルドできるようにする
         # stablePkgs = inputs.nixpkgs-stable.legacyPackages.${system};
@@ -239,7 +257,7 @@ in
         zat
         zig
 
-        zsh
+        zsh-head
 
         hackgen-nf-font
         moralerspace
