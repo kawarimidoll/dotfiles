@@ -307,6 +307,13 @@ in
     };
   };
 
+  # symlink の .app は Spotlight やランチャーの検索に出ないため実体をコピーする。
+  # copyApps は配置先を rsync --delete で同期するので directory は既定の専用サブディレクトリのままにする。
+  targets.darwin = {
+    linkApps.enable = false;
+    copyApps.enable = true;
+  };
+
   # https://github.com/felis-terminal/felis
   # モジュール既定の package は本 flake の nixpkgs でビルドされ natsukium cache に当たらないため、
   # felis flake 自身の packages を使う。
