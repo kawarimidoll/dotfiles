@@ -185,7 +185,6 @@ in
         nb
         neovim # nightly
         # nono
-        nh
         ni
         nim
         nix-output-monitor
@@ -355,6 +354,25 @@ in
 
   # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.lsd.enable
   programs.lsd.enable = true;
+
+  # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.nh.enable
+  # nix-darwin の nix.gc は root で動き home-manager の世代を消さないため、こちらで掃除する。
+  # extraArgs は Darwin では文字列だと 1 引数として渡されるのでリストで書く。
+  # --keep-one: direnv プロジェクトごとに最新の gcroot を残し、再入時の再ビルドを避ける。
+  programs.nh = {
+    enable = true;
+    clean = {
+      enable = true;
+      dates = "weekly";
+      extraArgs = [
+        "--keep-since"
+        "30d"
+        "--keep"
+        "3"
+        "--keep-one"
+      ];
+    };
+  };
 
   # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.nushell.enable
   # programs.nushell.enable = true;
