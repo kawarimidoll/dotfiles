@@ -245,9 +245,7 @@
           program = toString (
             pkgs.writeShellScript "switch-home" ''
               set -e
-              echo "Switching home-manager..."
-              nix run nixpkgs#home-manager -- switch --flake .#myHomeConfig
-              echo "Done!"
+              ${pkgs.nh}/bin/nh home switch . -c myHomeConfig
             ''
           );
         };
