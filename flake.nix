@@ -255,9 +255,7 @@
           program = toString (
             pkgs.writeShellScript "switch-darwin" ''
               set -e
-              echo "Switching nix-darwin..."
-              sudo /run/current-system/sw/bin/darwin-rebuild switch --flake .#kawarimidoll-darwin
-              echo "Done!"
+              ${pkgs.nh}/bin/nh darwin switch . -H kawarimidoll-darwin
             ''
           );
         };
