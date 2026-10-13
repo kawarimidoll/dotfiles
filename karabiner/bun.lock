@@ -4,7 +4,7 @@
   "workspaces": {
     "": {
       "dependencies": {
-        "karabiner.ts": "1.35.1",
+        "karabiner.ts": "1.38.0",
       },
       "devDependencies": {
         "@types/bun": "1.4.2",
@@ -18,7 +18,7 @@
 
     "bun-types": ["bun-types@1.4.2", "", { "dependencies": { "@types/node": "*" } }, "sha512-bxV1FgK7yBIzjRe5zBozIM4Bem11ZJcCXSrjWRG3YWLt8yFDePu4cLjpebO8OvPeIE9trbyPF4fuj3Cia4Fj3w=="],
 
-    "karabiner.ts": ["karabiner.ts@1.35.1", "", {}, "sha512-ndykub6ifouFN6Mz4C6e6VWtCH70rBFmts7ci1QPWXUBOnbBV+aWUPKUcwttHxaLOdGCDlsBsqTSkMKVSUVmMA=="],
+    "karabiner.ts": ["karabiner.ts@1.38.0", "", {}, "sha512-ZF9fXZWoHuTbwasBj6LDUy4TP447x+onlWrjp5AMYMdJFXac+u832ut1tlhSDrpoy6n4sQzoOaS+3aytByzPRg=="],
 
     "undici-types": ["undici-types@8.9.0", "", {}, "sha512-KTDyRTYX8sWmKXAikPHHSyc63CRPETMctyjKFupcC6OBLXT3xsN0e9aF7m+mIXutFWpUXuedtowG7iLOzp0kQg=="],
   }
