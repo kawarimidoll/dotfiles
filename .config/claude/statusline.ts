@@ -1,7 +1,5 @@
-#!/usr/bin/env -S deno run --allow-run
-// Claude Code statusline script (Deno)
-// --allow-run (not --allow-run=git): nix develop injects LD_* env vars,
-// which Deno blocks when spawning subprocesses with restricted --allow-run=<cmd>.
+#!/usr/bin/env bun
+// Claude Code statusline script (Bun)
 
 const ICON = {
   robo: "\u{F06A9}",
@@ -50,35 +48,27 @@ function formatRemaining(resetAt: number | null): string {
   return `${Math.floor(remaining / 86400)}d`;
 }
 
-async function getGitBranch(cwd?: string): Promise<string> {
-  const opts = { stderr: "null" as const, stdout: "null" as const, ...(cwd && { cwd }) };
+function git(args: string[], cwd?: string) {
+  const { success, stdout } = Bun.spawnSync(["git", ...args], { cwd, stderr: "ignore" });
+  return { success, out: stdout.toString().trim() };
+}
+
+function getGitBranch(cwd?: string): string {
   try {
-    const { success } = await new Deno.Command("git", {
-      ...opts,
-      args: ["rev-parse", "--git-dir"],
-    }).output();
-    if (!success) return "";
+    if (!git(["rev-parse", "--git-dir"], cwd).success) return "";
 
-    const pipeOpts = { ...opts, stdout: "piped" as const };
-
-    const branch = new TextDecoder().decode(
-      (await new Deno.Command("git", { ...pipeOpts, args: ["branch", "--show-current"] }).output()).stdout,
-    ).trim();
+    const branch = git(["branch", "--show-current"], cwd).out;
     if (branch) return ` | ${ICON.gitBranch} ${branch}`;
 
-    const hash = new TextDecoder().decode(
-      (await new Deno.Command("git", { ...pipeOpts, args: ["rev-parse", "--short", "HEAD"] }).output()).stdout,
-    ).trim();
+    const hash = git(["rev-parse", "--short", "HEAD"], cwd).out;
     if (hash) return ` | ${ICON.gitBranch} HEAD (${hash})`;
   } catch {
-    // not a git repo
+    // cwd missing or git not found
   }
   return "";
 }
 
-const buf = new Uint8Array(1024 * 64);
-const n = await Deno.stdin.read(buf);
-const input = JSON.parse(new TextDecoder().decode(buf.subarray(0, n ?? 0)));
+const input = await Bun.stdin.json();
 
 const model = (input.model?.display_name ?? "").replace(
   /\s*\(1M context\)/,
@@ -96,7 +86,7 @@ const weekReset = input.rate_limits?.seven_day?.resets_at ?? null;
 const dirName = currentDir.split("/").pop() ?? "";
 const dirSymbol = currentDir !== projectDir ? ICON.folderChanged : ICON.folder;
 
-const gitBranch = await getGitBranch(currentDir || undefined);
+const gitBranch = getGitBranch(currentDir || undefined);
 const weekResetDisplay = formatRemaining(weekReset);
 
 const R = COLOR.reset;
