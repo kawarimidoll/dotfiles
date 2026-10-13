@@ -1,0 +1,148 @@
+[[snippets]]
+name = "Make directory and move into that"
+trigger = "mkcd"
+snippet = 'mkdir -p {} && cd "$_"'
+
+[[snippets]]
+name = "Make tmp directory, move into that and git init"
+trigger = "cds"
+snippet = 'cd "$(mktemp -d)" && git init'
+
+[[snippets]]
+name = "cd previous"
+trigger = "-"
+snippet = "cd -"
+
+[[snippets]]
+name = "list path"
+trigger = "path"
+snippet = "echo $PATH | tr ':' '\\n'"
+
+[[snippets]]
+name = "list fpath"
+trigger = "fpath"
+snippet = "echo $FPATH | tr ':' '\\n'"
+
+[[snippets]]
+name = "print pwd and copy it without newline"
+trigger = "pwe"
+snippet = "pwd | tee >(tr -d '\\n' | pbcopy)"
+
+[[snippets]]
+name = "bun list packages"
+trigger = "list"
+snippet = "pm ls"
+global = true
+context = '^bun\s+'
+
+[[snippets]]
+trigger = "arto"
+snippet = "open -a Arto"
+
+[[snippets]]
+name = "translate clipboard contents"
+trigger = "pbt"
+snippet = "pbpaste | plamo-translate"
+
+[[snippets]]
+trigger = "cala"
+snippet = 'cage claude --append-system-prompt "${__CAGE_SANDBOX_NOTE}"'
+
+[[snippets]]
+trigger = "caha"
+snippet = "cage happy"
+
+[[snippets]]
+name = "claude with caffeinate"
+trigger = "cld"
+snippet = "caffeinate -i claude"
+
+[[snippets]]
+name = "ghq get from clipboard and cd into it"
+trigger = "ghg"
+snippet = 'ghq get $(pbpaste) && cd "$(ghq list -p -e $(pbpaste))"'
+
+[[snippets]]
+trigger = "lg"
+snippet = "lazygit"
+
+[[snippets]]
+trigger = "ld"
+snippet = "lazydocker"
+
+[[snippets]]
+name = "difit"
+trigger = "prit"
+snippet = "difit HEAD origin/main"
+
+# Global abbreviations: context keeps them from firing at the line start
+
+[[snippets]]
+name = "null"
+trigger = "null"
+snippet = ">/dev/null 2>&1"
+global = true
+context = '.+\s'
+
+[[snippets]]
+name = "pipe ripgrep"
+trigger = "G"
+snippet = "| rg"
+global = true
+context = '.+\s'
+
+[[snippets]]
+name = "pipe less"
+trigger = "L"
+snippet = "| less"
+global = true
+context = '.+\s'
+
+[[snippets]]
+name = "pipe tee pbcopy with stderr"
+trigger = "CP"
+snippet = "|& tee >(pbcopy)"
+global = true
+context = '.+\s'
+
+[[snippets]]
+name = "pipe ripgrep with stderr"
+trigger = "EG"
+snippet = "|& rg"
+global = true
+context = '.+\s'
+
+[[snippets]]
+name = "pipe less with stderr"
+trigger = "EL"
+snippet = "|& less"
+global = true
+context = '.+\s'
+
+[[snippets]]
+name = "pipe tee pbcopy"
+trigger = "ECP"
+snippet = "| tee >(pbcopy)"
+global = true
+context = '.+\s'
+
+[[snippets]]
+name = "redirect stderr to null"
+trigger = "NE"
+snippet = "2> /dev/null"
+global = true
+context = '.+\s'
+
+[[snippets]]
+name = "redirect all to null"
+trigger = "NL"
+snippet = "> /dev/null 2>&1"
+global = true
+context = '.+\s'
+
+[[snippets]]
+name = "dev null path"
+trigger = "/dn"
+snippet = "/dev/null 2>&1"
+global = true
+context = '.+\s'

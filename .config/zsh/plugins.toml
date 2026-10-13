@@ -49,17 +49,18 @@ apply = ['defer']
 hooks.pre = '''
 export AUTOPAIR_INHIBIT_INIT=1
 '''
-# remove space from AUTOPAIR_PAIRS to avoid conflict with zeno.zsh
+# remove space from AUTOPAIR_PAIRS to avoid conflict with zabrze
 hooks.post = '''
 unset 'AUTOPAIR_PAIRS[ ]'
 zsh-defer autopair-init
 unset AUTOPAIR_INHIBIT_INIT
 '''
 
-[plugins.zeno]
-github = 'yuki-yano/zeno.zsh'
-use = ['zeno.zsh']
-apply = ['defer']
+[plugins.zabrze]
+# キー割り当ては他の bindkey と同じく lazy.zsh に置くため --bind-keys は使わない
+inline = '''
+zsh-defer eval_source zabrze init
+'''
 
 [plugins.brew]
 inline = '''

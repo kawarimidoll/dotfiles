@@ -50,14 +50,10 @@ bindkey '^[' vi-find-prev-char
 bindkey '^X^R' redo
 bindkey '^[[61;5u' redo # Ctrl+=
 
-bindkey ' '      zeno-auto-snippet
-bindkey '^m'     zeno-auto-snippet-and-accept-line
-bindkey '^i'     zeno-completion
-bindkey '^x '    zeno-insert-space
+bindkey ' '      __zabrze::expand-and-self-insert
+bindkey '^m'     __zabrze::expand-and-accept-line
+bindkey '^x '    __zabrze::insert-space
 bindkey '^x^m'   accept-line
-bindkey '^x^z'   zeno-toggle-auto-snippet
-bindkey '^x^a'   zeno-insert-snippet
-# bindkey '^x^f'   zeno-ghq-cd
 
 # ghq + fzf でリポジトリに移動
 ghq-cd-widget() {

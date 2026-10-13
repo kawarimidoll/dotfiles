@@ -1,0 +1,36 @@
+[[snippets]]
+trigger = "d"
+snippet = "docker"
+
+[[snippets]]
+trigger = "dp"
+snippet = "docker compose"
+
+[[snippets]]
+trigger = "dpu"
+snippet = "docker compose up"
+
+[[snippets]]
+trigger = "dpd"
+snippet = "docker compose down"
+
+[[snippets]]
+name = "docker p"
+trigger = "p"
+snippet = "compose"
+global = true
+context = '^docker\s+'
+
+[[snippets]]
+name = "docker compose u"
+trigger = "u"
+snippet = "up"
+global = true
+context = '^docker\s+compose\s+'
+
+[[snippets]]
+name = "docker compose d"
+trigger = "d"
+snippet = "down"
+global = true
+context = '^docker\s+compose\s+'

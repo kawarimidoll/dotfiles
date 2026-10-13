@@ -1,0 +1,87 @@
+[[snippets]]
+name = "git status"
+trigger = "gs"
+snippet = "git status --short --branch"
+
+[[snippets]]
+trigger = "gco"
+snippet = "git checkout"
+
+[[snippets]]
+trigger = "forkpush"
+snippet = "gh repo fork --remote && push"
+
+[[snippets]]
+name = "git commit message"
+trigger = "gcim"
+snippet = "git commit -m '{}'"
+
+[[snippets]]
+name = "current branch"
+trigger = "BB"
+snippet = "$(git branch --show-current)"
+evaluate = true
+global = true
+context = '^git\s+'
+
+[[snippets]]
+trigger = "g"
+snippet = "git"
+
+[[snippets]]
+trigger = "g-"
+snippet = "git switch -"
+
+[[snippets]]
+name = "git switch previous"
+trigger = "-"
+snippet = 'switch "$(git last-branch)"'
+global = true
+context = '^git\s+'
+
+[[snippets]]
+name = "git sign last commit"
+trigger = "sign-last"
+snippet = "commit --amend --no-edit -S"
+global = true
+context = '^git\s+'
+
+[[snippets]]
+name = "git d"
+trigger = "d"
+snippet = "dead"
+global = true
+context = '^git\s+'
+
+[[snippets]]
+name = "git g"
+trigger = "g"
+snippet = "gone"
+global = true
+context = '^git\s+'
+
+[[snippets]]
+name = "git f"
+trigger = "f"
+snippet = "fuse"
+global = true
+context = '^git\s+'
+
+[[snippets]]
+name = "git n"
+trigger = "n"
+snippet = "new"
+global = true
+context = '^git\s+'
+
+[[snippets]]
+name = "git qs"
+trigger = "qs"
+snippet = "quicksave"
+global = true
+context = '^git\s+'
+
+[[snippets]]
+name = "gh prism"
+trigger = "ghp"
+snippet = '''gh prism "$(gh pr list | fzf --preview 'gh pr view {1}' | awk '{print $1}')"'''
