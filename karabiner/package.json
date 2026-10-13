@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "bun karabiner.ts",
+    "watch": "bun --watch karabiner.ts",
+    "check": "tsc --noEmit --strict --module preserve --target esnext --types bun karabiner.ts"
+  },
+  "dependencies": {
+    "karabiner.ts": "1.35.1"
+  },
+  "devDependencies": {
+    "@types/bun": "1.4.2"
+  }
+}

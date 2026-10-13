@@ -1,4 +1,5 @@
-import * as k from "karabiner_ts";
+import { readFileSync, writeFileSync } from "node:fs";
+import * as k from "karabiner.ts";
 
 type SimpleModification = {
   from: { key_code: string };
@@ -47,17 +48,6 @@ function applySimpleModifications(
       { identifiers, simple_modifications },
     ];
   }
-}
-
-function exitWithError(err: unknown): never {
-  if (err) {
-    if (typeof err == "string") {
-      console.error(err);
-    } else {
-      console.error((err as Error).message || err);
-    }
-  }
-  Deno.exit(1);
 }
 
 const REALFORCE_HYBRID_US_FULL = {
@@ -462,10 +452,10 @@ const swapCmdOpt = simpleModifications([
   { from: "r⌥", to: "r⌘" },
 ]);
 
-const fn = [Deno.env.get("HOME")!, ".config", "karabiner", "karabiner.json"]
+const fn = [process.env.HOME!, ".config", "karabiner", "karabiner.json"]
   .join("/");
 
-const config = JSON.parse(Deno.readTextFileSync(fn)) as k.KarabinerConfig;
+const config = JSON.parse(readFileSync(fn, "utf8")) as k.KarabinerConfig;
 
 // karabiner.tsのほうで存在判定されているのでこの段階で落ちることは無いはず
 const profile = config?.profiles.find((v) =>
@@ -504,6 +494,6 @@ applySimpleModifications(
 );
 
 const json = JSON.stringify(config, null, 2);
-Deno.writeTextFile(fn, json).catch(exitWithError);
+writeFileSync(fn, json);
 
 console.log(`✓ Profile ${profileName} simple_modifications updated.`);

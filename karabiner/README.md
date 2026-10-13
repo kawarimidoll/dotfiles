@@ -5,14 +5,16 @@ My personal karabiner config built with
 
 ## Build
 
+Install dependencies once with `bun install`.
+
 ```bash
-deno task build
+bun run build
 ```
 
 or watch build
 
 ```bash
-deno task watch
+bun run watch
 ```
 
 The Hyper+arrow window placement rules call [`magiwa`](../magiwa). Build it
