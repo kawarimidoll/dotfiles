@@ -105,7 +105,7 @@ in
   # the value itself lives in ../magiwa.nix, which magiwa's gap math depends on
   services.jankyborders = {
     enable = true;
-    style = "round";
+    style = "square"; # NSConvolutionOverride で直角にしたウィンドウ角に合わせる
     width = (import ../magiwa.nix).borderWidth;
     hidpi = true;
     active_color = "0xc0ff00f2";
@@ -212,6 +212,12 @@ in
         };
         # ネットワーク共有 (SMB/AFP) 上に .DS_Store を書き込まない
         "com.apple.desktopservices".DSDontWriteNetworkStores = true;
+        # ウィンドウ角丸の半径 (macOS 26.4+, 1 = 標準ウィンドウ / 2 = パネル)。
+        # 直角は OmniWM に倣い 0 でなく 0.01。反映にはアプリの再起動が必要
+        NSGlobalDomain = {
+          NSConvolutionOverride1 = 0.01;
+          NSConvolutionOverride2 = 0.01;
+        };
       };
     };
   };
