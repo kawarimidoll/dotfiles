@@ -28,7 +28,6 @@ presets:
       - "$HOME/.agent-browser"
       - "$HOME/.browser-profile"
       - "$HOME/.codex"
-      - "$HOME/.config/deja"
       - "$HOME/.local/state/sprout/"
       - ".serena"
 
@@ -38,7 +37,6 @@ presets:
       - "$HOME/.agent-browser"
       - "$HOME/.browser-profile"
       - "$HOME/.codex"
-      - "$HOME/.config/deja"
       - ".serena"
 
 auto-presets:
