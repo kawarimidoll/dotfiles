@@ -1,4 +1,5 @@
-import { DOMParser, Element } from "jsr:@b-fuze/deno-dom";
+import { readFileSync, writeFileSync } from "node:fs";
+import { DOMParser } from "linkedom";
 
 // --- Types ---
 
@@ -397,25 +398,25 @@ function renderWeather(summary: WeatherSummary, tomorrow: Date): string {
 
 function writeToObsidian(result: string, tomorrow: Date): void {
   const { dateStr } = formatDate(tomorrow);
-  const obsidianHome = `${Deno.env.get("HOME")}/Dropbox/Obsidian`;
+  const obsidianHome = `${process.env.HOME}/Dropbox/Obsidian`;
   const filename = `${obsidianHome}/daily/${dateStr}.md`;
   const logname = `${obsidianHome}/scripts/weather.log`;
   const timestamp = new Date().toISOString();
 
   try {
-    const contents = Deno.readTextFileSync(filename);
+    const contents = readFileSync(filename, "utf8");
     const placeholder = "{{weather}}";
     if (contents.includes(placeholder)) {
-      Deno.writeTextFileSync(filename, contents.replace(placeholder, result));
+      writeFileSync(filename, contents.replace(placeholder, result));
       console.log(`Weather written to the file ${filename}`);
-      Deno.writeTextFileSync(logname, `${timestamp}\nWeather written to the file`);
+      writeFileSync(logname, `${timestamp}\nWeather written to the file`);
     } else {
       console.log(`Weather is ALREADY written to the file ${filename}`);
     }
   } catch (error) {
     console.error(error);
     try {
-      Deno.writeTextFileSync(logname, `${timestamp}\n${error}`);
+      writeFileSync(logname, `${timestamp}\n${error}`);
     } catch {
       // write permission may not be available
     }

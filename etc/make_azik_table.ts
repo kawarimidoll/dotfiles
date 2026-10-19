@@ -1,5 +1,7 @@
-// deno run --allow-write make_azik_table.ts
+// node make_azik_table.ts
 // https://zenn.dev/vim_jp/articles/neo-azik-for-you
+
+import { writeFileSync } from "node:fs";
 
 const rows = {
   "-": ["あ", "い", "う", "え", "お"],
@@ -220,7 +222,7 @@ result[";,"] = "ん";
 //   console.log(`${k}\t${j}`);
 // }
 
-await Deno.writeTextFile(
+writeFileSync(
   "romtable.txt",
   Object.entries(result).map(([k, j]) => `${k}\t${j}`).join("\n"),
 );

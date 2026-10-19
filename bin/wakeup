@@ -20,6 +20,6 @@ if [ `date '+%w'` = '0' ]; then
 fi
 
 echo 'run daily script'
-/opt/homebrew/bin/deno run --allow-net=www.accuweather.com --allow-read=/Users/kawarimidoll/Dropbox/Obsidian --allow-write=/Users/kawarimidoll/Dropbox/Obsidian --allow-env=HOME ~/dotfiles/deno/wtr.ts
+~/.nix-profile/bin/node ~/dotfiles/etc/wtr/wtr.ts
 
 date -Idate > $LAST_EXEC_DATE_FILE_PATH
