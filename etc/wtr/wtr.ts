@@ -313,8 +313,11 @@ async function fetchWeatherPage(): Promise<string> {
 function parseWeatherCard(card: Element): [string, WeatherData] {
   const title = card.querySelector(".title")!.textContent as TimeOfDay;
   const temp = extractNumber(card.querySelector(".temperature")!.firstChild!.textContent);
-  const iconSrc = (card.querySelector(".icon") as Element)?.dataset?.src || "";
-  const icon = extractNumber(iconSrc);
+  const iconEl = card.querySelector(".icon");
+  const iconSrc = iconEl?.getAttribute("data-src") || iconEl?.getAttribute("src") || "";
+  // "/images/weathericons/v2a/04.svg": the path has digits too, and the table keys are unpadded
+  const iconNum = iconSrc.match(/(\d+)\.svg/)?.[1];
+  const icon = iconNum ? String(Number(iconNum)) : "";
   const name = ICON_TO_NAME[icon] || "Unknown";
 
   const partial: Record<string, string> = {};
