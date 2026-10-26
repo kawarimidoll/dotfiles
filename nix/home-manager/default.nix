@@ -97,7 +97,6 @@ in
         llm-agents.git-surgeon
         llm-agents.officecli
         llm-agents.pdfvision
-        llm-agents.plannotator
 
         nur.fff-mcp
         nur.ghost

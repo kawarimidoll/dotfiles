@@ -15,7 +15,6 @@
     "figures@figures": true,
     "frontend-design@claude-plugins-official": true,
     "git-surgeon@git-surgeon": true,
-    "plannotator@plannotator": true,
     "playground@claude-plugins-official": true,
     "ponytail@ponytail": true,
     "pr-review-toolkit@claude-plugins-official": true,
@@ -44,12 +43,6 @@
     "git-surgeon": {
       "source": {
         "repo": "raine/git-surgeon",
-        "source": "github"
-      }
-    },
-    "plannotator": {
-      "source": {
-        "repo": "backnotprop/plannotator",
         "source": "github"
       }
     },
