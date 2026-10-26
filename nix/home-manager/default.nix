@@ -49,7 +49,6 @@ in
         cage = inputs.cage.packages.${system}.default;
         arto = inputs.arto.packages.${system}.default;
         version-lsp = inputs.version-lsp.packages.${system}.default;
-        kakehashi = inputs.kakehashi.packages.${system}.default;
         guard-and-guide = inputs.guard-and-guide.packages.${system}.default;
         agtlog = inputs.agtlog.packages.${system}.default;
         hjkls = inputs.hjkls.packages.${system}.default;
@@ -89,7 +88,6 @@ in
         hjkls
         edgeneon
         version-lsp
-        kakehashi
         mmdr
 
         llm-agents.ax
@@ -104,6 +102,7 @@ in
         nur.fff-mcp
         nur.ghost
         nur.jsmigemo
+        nur.kakehashi
         nur.plamo-translate
         nur.rustmigemo
         nur.rxpipes

@@ -120,12 +120,6 @@
       url = "github:numtide/flake-utils";
       inputs.systems.follows = "systems";
     };
-    kakehashi = {
-      url = "github:atusy/kakehashi";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.rust-overlay.follows = "rust-overlay";
-      inputs.flake-utils.follows = "flake-utils";
-    };
     mermaid-rs-renderer = {
       url = "github:1jehuang/mermaid-rs-renderer";
       inputs.nixpkgs.follows = "nixpkgs";

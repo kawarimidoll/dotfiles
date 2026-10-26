@@ -490,32 +490,6 @@
         "type": "github"
       }
     },
-    "kakehashi": {
-      "inputs": {
-        "flake-utils": [
-          "flake-utils"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "rust-overlay": [
-          "rust-overlay"
-        ]
-      },
-      "locked": {
-        "lastModified": 1792541842,
-        "narHash": "sha256-9Ld2i084AlXuHg7uAenIWRXSg1G/474Po517FNyaWaY=",
-        "owner": "atusy",
-        "repo": "kakehashi",
-        "rev": "2e0e0dbb31e7299779a29d268e8dd7468745df2b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "atusy",
-        "repo": "kakehashi",
-        "type": "github"
-      }
-    },
     "koi": {
       "inputs": {
         "git-hooks": [
@@ -810,11 +784,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792904987,
-        "narHash": "sha256-SDtSkqx4gOq3pdxTjpTScNC870keo2n97MAePFg+SOY=",
+        "lastModified": 1792982356,
+        "narHash": "sha256-zcxsy5+8KwdmIcMcxbhMlmw7P7UbW6z5bVT8SEQvZ4E=",
         "owner": "kawarimidoll",
         "repo": "nur-packages",
-        "rev": "ecddcc16dcf8c2bb7152cc38050969354949e32c",
+        "rev": "845dd988cad310faacc3b642d7611b3585c7246c",
         "type": "github"
       },
       "original": {
@@ -844,7 +818,6 @@
         "hercules-ci-effects": "hercules-ci-effects",
         "hjkls": "hjkls",
         "home-manager": "home-manager",
-        "kakehashi": "kakehashi",
         "koi": "koi",
         "llm-agents": "llm-agents",
         "mermaid-rs-renderer": "mermaid-rs-renderer",
