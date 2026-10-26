@@ -135,26 +135,14 @@
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    bun2nix = {
-      url = "github:nix-community/bun2nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-parts.follows = "flake-parts";
-      inputs.treefmt-nix.follows = "treefmt-nix";
-      inputs.systems.follows = "systems";
-    };
     guard-and-guide = {
       url = "github:kawarimidoll/guard-and-guide";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.git-hooks.follows = "git-hooks";
     };
-    llm-agents = {
-      url = "github:numtide/llm-agents.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-parts.follows = "flake-parts";
-      inputs.treefmt-nix.follows = "treefmt-nix";
-      inputs.bun2nix.follows = "bun2nix";
-      inputs.systems.follows = "systems";
-    };
+    # llm-agents は自前 nixpkgs でビルドしたバイナリを cache.numtide.com に push している。
+    # follows させるとハッシュがずれ codex 等がローカルビルドになるため follows させない。
+    llm-agents.url = "github:numtide/llm-agents.nix";
     # felis は自前 nixpkgs+crane でビルドしたバイナリを nix-cache.natsukium.com に push している。
     # follows=nixpkgs/crane だとハッシュがずれ Rust のローカルビルドになるため follows させない。
     felis.url = "github:felis-terminal/felis";
