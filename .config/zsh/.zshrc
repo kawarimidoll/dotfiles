@@ -27,9 +27,15 @@ function eval_source {
   local cache_name=$(basename "${command%% *}")
   local cache_file="/tmp/zsh_${cache_name}.cache"
 
-  # Execute command and save output to cache file only if cache doesn't exist
-  if [[ ! -f "$cache_file" ]]; then
-    eval "$@" > "$cache_file"
+  # Execute command and save output to cache file only if cache is missing or empty
+  # 失敗・空出力をキャッシュすると、以後ずっと壊れた初期化が source され続けるため
+  # 一時ファイルに書いて成功時だけ置き換える
+  if [[ ! -s "$cache_file" ]]; then
+    if ! eval "$@" >| "$cache_file.tmp" || [[ ! -s "$cache_file.tmp" ]]; then
+      print -u2 "eval_source: '$*' failed or printed nothing; not cached"
+      return 1
+    fi
+    mv -f "$cache_file.tmp" "$cache_file"
     zcompile "$cache_file"
   fi
 
