@@ -114,3 +114,11 @@ zsh-defer compdef _ha ha
 inline = '''
 command -v tirith >/dev/null && zsh-defer eval_source tirith init --shell zsh
 '''
+
+[plugins.zsh-autosuggestions-start]
+# autosuggestions はウィジェットの割り当てを「次の precmd」で行う。zsh-defer の -m で
+# 遅延タスク後の precmd を止めているため、最初のプロンプトでは割り当てが起きず候補が出ない。
+# 毎 precmd の再割り当てと同じく全プラグインより後に効くよう、遅延キューの最後尾で呼ぶ。
+inline = '''
+zsh-defer _zsh_autosuggest_start
+'''
