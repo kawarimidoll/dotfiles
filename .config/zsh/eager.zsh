@@ -41,5 +41,32 @@ zshaddhistory() {
 
   # 存在しないコマンドをヒストリに追加しない（サブコマンドの存在までは確認されない）
   # 指定したコマンドをヒストリに追加しない
-  [[ "$(command -v $cmd)" != '' && ${cmd} != (man|brew|rgf|nv|nvim|vi|vim) ]]
+  [[ "$(command -v $cmd)" != '' && ${cmd} != (man|brew|rgf|nv|nvim|vi|vim) ]] || return 1
+
+  # 複数行は「1行1件」のディレクトリ別履歴に載らないため残さない
+  [[ $line == *$'\n'* ]] && return 0
+  _dir_history+=("$PWD"$'\t'"$line")
+  print -r -- "$PWD"$'\t'"$line" >>| $_dir_histfile
 }
+
+# ディレクトリ別履歴: $history は実行場所を持たないため、zshaddhistory を通った
+# コマンドだけを "dir<TAB>command" で別ファイルに残し、autosuggest の strategy で引く。
+# LIMITATION: 他のセッションで追記した分は、そのセッションを開き直すまで候補に出ない。
+_dir_histfile="${HISTFILE:h}/dir_history"
+typeset -ga _dir_history
+[[ -r $_dir_histfile ]] && _dir_history=("${(@f)$(<$_dir_histfile)}")
+if (( $#_dir_history > SAVEHIST )); then
+  _dir_history=("${(@)_dir_history[-SAVEHIST,-1]}")
+  print -rl -- $_dir_history >| $_dir_histfile
+fi
+
+_zsh_autosuggest_strategy_dir_history() {
+  emulate -L zsh
+  setopt extended_glob
+  # $'\t' は添字の中では展開されないため変数で渡す
+  local tab=$'\t'
+  local i=${_dir_history[(I)${(b)PWD}${tab}${(b)1}*]}
+  (( i )) && typeset -g suggestion=${_dir_history[i]#*${tab}}
+}
+# 今いるディレクトリで打ったものを優先し、無ければ通常の履歴から出す
+ZSH_AUTOSUGGEST_STRATEGY=(dir_history history)
