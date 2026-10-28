@@ -29,6 +29,7 @@ presets:
       - "$HOME/.browser-profile"
       - "$HOME/.codex"
       - "$HOME/.local/state/sprout/"
+      - "$HOME/.local/state/zmx/"
       - ".serena"
 
   codex:
