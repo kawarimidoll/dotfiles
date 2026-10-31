@@ -22,14 +22,12 @@ disable log  # /usr/bin/log (unified logging) を優先
 HISTFILE="${XDG_DATA_HOME:-$HOME/.local/share}/zsh/history"
 HISTSIZE=10000
 SAVEHIST=10000
-setopt append_history       # 履歴を追記
-setopt hist_ignore_all_dups # 重複を記録しない
-setopt hist_ignore_dups     # 重複を記録しない
-setopt hist_save_no_dups    # 重複を記録しない
+setopt hist_ignore_all_dups # 重複を記録しない（古い方を消す）
+setopt hist_save_no_dups    # 重複を記録しない（ファイル保存時）
 setopt hist_reduce_blanks   # 余分なスペースを削除
 setopt hist_ignore_space    # スペースで開始したコマンドを記録しない
 setopt hist_verify          # 履歴使用時に編集
-setopt share_history        # セッション間で履歴を共有
+setopt share_history        # セッション間で履歴を共有（追記も兼ねる）
 
 # Historyディレクトリ作成
 [[ -d "${HISTFILE:h}" ]] || mkdir -p "${HISTFILE:h}"

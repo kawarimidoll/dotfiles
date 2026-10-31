@@ -67,9 +67,11 @@ source "$sheldon_cache"
 unset sheldon_cache sheldon_toml
 
 source $ZSHRC_DIR/eager.zsh
+# DOT_DIR など settings.sh が使う環境変数は home-manager が定義する。
+# nix store は書込不可で zcompile できないため builtin で読む。
+builtin source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
 # 存在するかわからないファイルの読み込み
 # source FILENAME 2>/dev/null || :
-export DOT_DIR="${HOME}/dotfiles"
 source "${DOT_DIR}/.config/sh/settings.sh" 2>/dev/null || :
 source "${HOME}/.zshrc.local" 2>/dev/null || :
 

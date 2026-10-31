@@ -1,13 +1,8 @@
-source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
-
 HELPDIR="${HOME}/.nix-profile/share/zsh/${ZSH_VERSION}/help"
 
 # zmv with noglob and -W option
 autoload -Uz zmv
 alias zmv='noglob zmv -W'
-
-# キャッシュファイルの場所
-zstyle ':completion:*' cache-path "${XDG_CACHE_HOME}/zsh/zcompcache"
 
 # 補完時に大文字小文字を区別しない
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
