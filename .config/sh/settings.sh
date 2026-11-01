@@ -303,17 +303,20 @@ __get_oneliners() {
 #  OS Setting
 # -----------------
 # OS='unknown'
-if [ "$(uname)" = 'Darwin' ]; then
+case "$OSTYPE" in
+darwin*)
   # OS='mac'
   source "${DOT_DIR}/.config/sh/mac.sh"
-elif [ "$(uname)" = 'Linux' ]; then
+  ;;
+linux*)
   # OS='linux'
   source "${DOT_DIR}/.config/sh/linux.sh"
-elif [ "$(uname -s | cut -c-5)" = 'MINGW' ]; then
+  ;;
+msys* | cygwin*)
   # OS='windows'
   # currently no windows settings
-  :
-fi
+  ;;
+esac
 
 browse() {
   # [git-extras/git-browse](https://github.com/tj/git-extras/blob/master/bin/git-browse)
