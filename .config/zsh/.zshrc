@@ -75,6 +75,4 @@ builtin source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
 source "${DOT_DIR}/.config/sh/settings.sh" 2>/dev/null || :
 source "${HOME}/.zshrc.local" 2>/dev/null || :
 
-zsh-defer source "$HOME/.vite-plus/env"
-
 zsh-defer zsh-defer unfunction source
