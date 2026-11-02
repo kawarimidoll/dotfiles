@@ -22,6 +22,15 @@ zstyle ':completion:*:messages' format "%F{green}%d%f"
 
 zstyle ':completion:*' group-name ''
 
+# nr (antfu/ni) の package.json スクリプト補完。
+# `nr --completion-zsh` の出力は source した時点で補完関数を実行してしまい、
+# package.json が無い場所では `nr --completion` が対話プロンプトを出すため自前で定義する。
+_nr() {
+  (( CURRENT == 2 )) && [[ -f package.json ]] || return 1
+  compadd -- ${(f)"$(nr --completion)"}
+}
+compdef _nr nr
+
 zstyle ':completion:*' list-separator '->'
 zstyle ':completion:*:manuals' separate-sections true
 
