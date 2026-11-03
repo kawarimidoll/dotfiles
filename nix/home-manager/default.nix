@@ -90,13 +90,16 @@ in
         version-lsp
         mmdr
 
+        llm-agents.auv
         llm-agents.ax
         llm-agents.codex
         llm-agents.copilot-cli
         llm-agents.copilot-language-server
+        llm-agents.funes
         llm-agents.git-surgeon
         llm-agents.officecli
         llm-agents.pdfvision
+        llm-agents.terminal-browser
 
         nur.fff-mcp
         nur.ghost
@@ -172,7 +175,7 @@ in
         lnav
         logdy
         lolcat
-        ltex-ls
+        ltex-ls-plus
         lua-language-server
         macchina
         mcat
@@ -182,14 +185,14 @@ in
         nano
         nb
         neovim # nightly
-        # nono
+        nono
         ni
         nim
         nix-output-monitor
         nix-search-cli
         nixd
         nixfmt
-        nodejs_22
+        nodejs-slim_26
         nurl
         nyancat
         ollama
@@ -239,7 +242,8 @@ in
         unzip
         upterm
         uutils-coreutils-noprefix
-        uutils-diffutils
+        # 0.6.0 の darwin テストが sandbox に無い gpatch を呼んで落ちる
+        (uutils-diffutils.overrideAttrs { doCheck = false; })
         uv
         vhs
         vim # latest
