@@ -4,6 +4,7 @@
     "sessionUrl": false
   },
   "autoUpdatesChannel": "stable",
+  "cleanupPeriodDays": 36500,
   "effortLevel": "xhigh",
   "enabledPlugins": {
     "agent-browser@agent-browser": true,
