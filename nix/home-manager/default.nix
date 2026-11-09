@@ -109,6 +109,7 @@ in
         nur.rustmigemo
         nur.rxpipes
         nur.stormy
+        nur.zabrze
         nur.zmx
 
         act3
