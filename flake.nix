@@ -140,11 +140,6 @@
     # felis は自前 nixpkgs+crane でビルドしたバイナリを nix-cache.natsukium.com に push している。
     # follows=nixpkgs/crane だとハッシュがずれ Rust のローカルビルドになるため follows させない。
     felis.url = "github:felis-terminal/felis";
-    # felis の描画には zsh の未リリースの修正が必要なため master を使う。
-    zsh-src = {
-      url = "github:zsh-users/zsh";
-      flake = false;
-    };
   };
 
   outputs =

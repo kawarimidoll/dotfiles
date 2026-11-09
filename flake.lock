@@ -832,8 +832,7 @@
         "systems": "systems_2",
         "treefmt-nix": "treefmt-nix_2",
         "version-lsp": "version-lsp",
-        "vim-overlay": "vim-overlay",
-        "zsh-src": "zsh-src"
+        "vim-overlay": "vim-overlay"
       }
     },
     "rust-overlay": {
@@ -1015,22 +1014,6 @@
       "original": {
         "owner": "vim",
         "repo": "vim",
-        "type": "github"
-      }
-    },
-    "zsh-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1793569042,
-        "narHash": "sha256-uce+7FdDnVWUeIdS74ogZrQfCk6G/ve6VgTdgMKmXBY=",
-        "owner": "zsh-users",
-        "repo": "zsh",
-        "rev": "30e8be913521523d226789e53a4a2202dabff61c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "zsh-users",
-        "repo": "zsh",
         "type": "github"
       }
     }
