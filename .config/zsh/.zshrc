@@ -74,5 +74,8 @@ builtin source ~/.nix-profile/etc/profile.d/hm-session-vars.sh
 # source FILENAME 2>/dev/null || :
 source "${DOT_DIR}/.config/sh/settings.sh" 2>/dev/null || :
 source "${HOME}/.zshrc.local" 2>/dev/null || :
+# typeset -U は配列 path への代入でしか効かず、上の PATH="...:$PATH" 形式の
+# スカラー代入や親シェルから継承した重複は残るため、配列として再代入して除去する
+path=($path)
 
 zsh-defer zsh-defer unfunction source
