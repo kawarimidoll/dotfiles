@@ -551,6 +551,7 @@
     ]
   },
   "language": "japanese",
+  "model": "opus",
   "permissions": {
     "allow": [],
     "ask": [
