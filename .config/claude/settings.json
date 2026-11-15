@@ -12,6 +12,7 @@
     "code-review@claude-plugins-official": true,
     "code-simplifier@claude-plugins-official": true,
     "context7@claude-plugins-official": true,
+    "e05@e05": true,
     "feature-dev@claude-plugins-official": true,
     "figures@figures": true,
     "frontend-design@claude-plugins-official": true,
@@ -35,6 +36,12 @@
     "GIT_TERMINAL_PROMPT": "0"
   },
   "extraKnownMarketplaces": {
+    "e05": {
+      "source": {
+        "path": "/Users/kawarimidoll/ghq/github.com/kawarimidoll/e05",
+        "source": "directory"
+      }
+    },
     "figures": {
       "source": {
         "repo": "natsukium/claude-code-figures-plugin",
