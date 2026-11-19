@@ -49,6 +49,12 @@ trigger = "cala"
 snippet = 'cage claude --append-system-prompt "${__CAGE_SANDBOX_NOTE}"'
 
 [[snippets]]
+name = "ha pr and review it with cage claude"
+trigger-pattern = '^hr(?<num>\d+)$'
+snippet = '''ha pr $num && cage claude --append-system-prompt "\${__CAGE_SANDBOX_NOTE}" '/review $num''''
+evaluate = true
+
+[[snippets]]
 trigger = "caha"
 snippet = "cage happy"
 
